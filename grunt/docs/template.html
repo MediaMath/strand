@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	{{#docsLocal}}
+	<script language="javascript" src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<link rel="import" href="../output/lib.html"/>
+	{{/docsLocal}}
+	{{^docsLocal}}
+	<script language="javascript" src="//wc.mediamath.com/{{revision}}/webcomponents.min.js"></script>
+	<link rel="import" href="//wc.mediamath.com/{{revision}}/lib.html"/>
+	{{/docsLocal}}
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="docs.css"/>
+	</head>
+	<body unresolved>
+		<div class="site-content">
+			{{> sidebar}}
+			<div class="main-content doc">
+				<div class="top-box">
+					<mm-header size="large">{{name}}</mm-header>
+					<p class="header">{{description}} <a href="https://github.com/MediaMath/ui-design/tree/master/ui-framework-components/{{name}}" target="_blank">View Design Documentation</a></p>
+					<hr/>
+					<section>
+						<mm-header size="small">Example HTML Editor</mm-header>
+						<div class="editor-wrapper">
+							<div id="editor-{{name}}" class="editor">{{example}}</div>
+						</div>
+					</section>
+					<section>
+						<mm-header size="small">Example Output</mm-header>
+						<div class="content-box example" id="content-{{name}}">{{{example}}}</div>
+					</section>
+					<hr/>
+					<section>
+						<mm-header size="small">Attributes</mm-header>
+						<table>
+							<tr>
+								<th>Attribute</th>								
+								<th>Options</th>
+							</tr>
+							{{#attributes}}
+							<tr>
+								<td>
+									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
+									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
+									{{#description}}<span class="desc">{{description}}</span>{{/description}}
+								</td>
+								<td>{{#options}}<span class="option">'{{.}}'</span>{{/options}}{{^options}}none{{/options}}</td>
+							</tr>
+							{{/attributes}}
+						</table>
+					</section>
+					{{#methods.length}}
+					<hr/>
+					<section>
+						<mm-header size="small">Public Methods</mm-header>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							{{#methods}}
+							<tr>
+								<td>
+									<span class="bold">{{name}}</span>(<span>{{#arguments}}<span class="option">{{name}}</span>{{/arguments}}</span>){{#optional}} (Optional){{/optional}}
+									{{#description}}<span class="desc">{{description}}</span>{{/description}}
+								</td>
+								<td>
+									{{#arguments}}
+									<span class="arg">
+										<span class="bold">{{name}}</span> : {{type}}{{#optional}} (Optional){{/optional}}
+										{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
+										{{#description}}<span class="desc">{{description}}</span>{{/description}}
+									</span>
+									{{/arguments}}
+									{{^arguments}}
+									none
+									{{/arguments}}
+								</td>
+							</tr>
+							{{/methods}}
+						</table>
+					</section>
+					{{/methods.length}}
+					{{#properties.length}}
+					<hr/>
+					<section>
+						<mm-header size="small">Public Properties</mm-header>
+						<table>
+							<tr>
+								<th>Properties</th>								
+								<th>Options</th>
+							</tr>
+							{{#properties}}
+							<tr>
+								<td>
+									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
+									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
+									{{#description}}<span class="desc">{{description}}</span>{{/description}}
+								</td>
+								<td>{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</td>
+							</tr>
+							{{/properties}}
+						</table>
+					</section>
+					{{/properties.length}}
+					{{#events.length}}
+					<hr/>
+					<section>
+						<mm-header size="small">Events</mm-header>
+						<table>
+							<tr>
+								<th>Event</th>
+								<th>Event Detail</th>
+							</tr>
+							{{#events}}
+							<tr>
+								<td>
+									<span class="bold">Type</span> : '{{type}}'</span>
+									{{#disclaimer}}<span class="desc italic">{{disclaimer}}</span>{{/disclaimer}}
+								</td>
+								<td>
+									{{#detail}}
+									<span class="arg">
+										<span class="bold">{{name}}</span> : {{type}}
+										{{#description}}<span class="desc">{{description}}</span>{{/description}}
+									</span>
+									{{/detail}}
+								</td>
+							</tr>
+							{{/events}}
+						</table>
+					</section>
+					{{/events.length}}
+					{{#articles.length}}
+					<hr/>
+					<section>
+						<mm-header size="small">Related Articles</mm-header>
+						<table>
+							{{#articles}}
+							<tr>
+								<td>
+									<a href="{{link}}" class="bold">{{name}}</a>
+								</td>
+							</tr>
+							{{/articles}}
+						</table>
+					</section>
+					{{/articles.length}}
+				</div>
+				<footer>
+					<div class="footer-box"></div>
+				</footer>
+			</div>
+		</div>
+		<script>
+		(function() {
+			var $activeItem = $("#" + "{{name}}");
+			$activeItem.addClass("active");
+
+			function update(e) {
+				$("#content-{{name}}").empty().html( editor.session.getValue() );
+
+				// workaround for scripts in examples - know, and was referenced in FWRK-263:
+				window.dispatchEvent(new Event('polymer-ready'));
+			}
+
+			var editor = ace.edit("editor-{{name}}");
+			editor.setTheme("ace/theme/chrome");
+			editor.session.setUseWrapMode(true);
+			editor.session.setMode("ace/mode/html");
+			editor.getSession().on('change', _.debounce(update, 500));
+
+			var copyrightStr = "&copy;" + String(new Date().getFullYear()) + " MediaMath Inc. All Rights Reserved.";
+			$(".footer-box").html(copyrightStr);
+		})();
+		</script>
+	</body>
+</html>

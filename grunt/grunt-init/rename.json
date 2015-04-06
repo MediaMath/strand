@@ -1,0 +1,6 @@
+{
+  "name.js": "{%= name %}.js",
+  "name.html": "{%= name %}.html",
+  "name.scss": "{%= name %}.scss",
+  "name.json": "doc.json"
+}

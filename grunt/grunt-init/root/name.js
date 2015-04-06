@@ -1,0 +1,3 @@
+Polymer('{%= name %}', {
+	ver:"<<version>>",
+});

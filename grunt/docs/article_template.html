@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	{{#docsLocal}}
+	<script language="javascript" src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<link rel="import" href="../output/lib.html"/>
+	{{/docsLocal}}
+	{{^docsLocal}}
+	<script language="javascript" src="//wc.mediamath.com/{{revision}}/webcomponents.min.js"></script>
+	<link rel="import" href="//wc.mediamath.com/{{revision}}/lib.html"/>
+	{{/docsLocal}}
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="docs.css"/>
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	</head>
+	<body unresolved>
+		<div class="site-content">
+			{{> sidebar}}
+			<div class="main-content doc">
+				<div class="top-box">
+					<section class="article-content">
+						{{{article}}}
+					</section>
+				</div>
+				<footer>
+					<div class="footer-box">
+						&copy;2014 MediaMath Inc. All Rights Reserved.
+					</div>
+				</footer>
+			</div>
+		</div>
+		<script>
+		(function() {
+			var $activeItem = $("#" + "{{name}}");
+			$activeItem.addClass("active");
+
+			hljs.initHighlightingOnLoad();
+
+			var copyrightStr = "&copy;" + String(new Date().getFullYear()) + " MediaMath Inc. All Rights Reserved.";
+			$(".footer-box").html(copyrightStr);
+		})();
+		</script>
+	</body>
+</html>
