@@ -23,6 +23,7 @@
     "**/.*",
     "src",
     "build",
+    "grunt",
     "Gruntfile.js",
     "node_modules",
     "bower_components",
