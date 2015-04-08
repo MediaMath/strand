@@ -1,0 +1,91 @@
+@import "_bourbon";
+// fonts.scss 
+$font-url: "../fonts/p/"; // Proxima
+$mono-font-url: "../fonts/i/"; // Interstate
+$font-url-arimo: "../fonts/a/"; // Arimo
+$font-url-icon: "../fonts/icon/"; // Icon 
+
+@mixin font-face-woff($font-family, $file-path, $weight: normal, $style: normal) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+    src: url('#{$file-path}.woff') format('woff');
+    }
+}
+
+@mixin proximaNovaRegular() {
+    @include font-face("ProximaNovaRegular", $font-url + "prwf");
+}
+
+@mixin proximaNovaLtBold() {
+    @include font-face("ProximaNovaLtBold", $font-url + "psbowf");
+}
+
+@mixin proximaNovaBold() {
+    @include font-face("ProximaNovaBold", $font-url + "pbowf");
+}
+
+@mixin proximaNovaSemiBold() {
+    @include font-face("ProximaNovaSemiBold", $font-url + "psbwf");
+}
+
+@mixin proximaNovaRegularItalic() {
+    @include font-face("ProximaNovaRegularItalic", $font-url + "priwf");
+}
+
+@mixin proximaNovaLtBoldItalic() {
+    @include font-face("ProximaNovaLtBoldItalic", $font-url + "psboiwf");
+}
+
+@mixin proximaNovaBoldItalic() {
+    @include font-face("ProximaNovaBoldItalic", $font-url + "pboiwf");
+}
+
+@mixin interstateMonoRegular() {
+    @include font-face("InterstateMonoRegular", $mono-font-url + "fbimr");
+}
+
+@mixin interstateMonoBold() {
+    @include font-face("InterstateMonoBold", $mono-font-url + "fbimbo");
+}
+
+// Arimo fonts
+@mixin arimoRegular() {
+    @include font-face("Arimo", $font-url-arimo + "arimo-regular", normal, normal);
+}
+
+@mixin arimoBold() {
+    @include font-face("Arimo", $font-url-arimo + "arimo-bold", bold, normal);
+}
+
+@mixin arimoBoldItalic() {
+    @include font-face("Arimo", $font-url-arimo + "arimo-bolditalic", bold, italic);
+}
+
+@mixin arimoItalic() {
+    @include font-face("Arimo", $font-url-arimo + "arimo-italic", normal, italic);
+}
+
+// Arimo Woff Only -- modern browsers - http://caniuse.com/#search=woff
+
+@mixin arimoRegularWoff() {
+    @include font-face-woff("Arimo", $font-url-arimo + "arimo-regular", normal, normal);
+}
+
+@mixin arimoBoldWoff() {
+    @include font-face-woff("Arimo", $font-url-arimo + "arimo-bold", bold, normal);
+}
+
+@mixin arimoBoldItalicWoff() {
+    @include font-face-woff("Arimo", $font-url-arimo + "arimo-bolditalic", bold, italic);
+}
+
+@mixin arimoItalicWoff() {
+    @include font-face-woff("Arimo", $font-url-arimo + "arimo-italic", normal, italic);
+}
+
+// Icon Woff
+@mixin iconWoff() {
+    @include font-face-woff("icomoon", $font-url-icon + "icomoon", normal, normal);
+}

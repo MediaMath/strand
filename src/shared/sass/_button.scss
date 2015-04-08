@@ -1,0 +1,171 @@
+@import "_mixins";
+
+.button {
+	box-sizing: border-box;
+	@include user-select(none);
+	@include displayFlex();
+	@include flexVerticalAlign();
+	@include flexJustify(start);
+	border: 1px solid;
+	border-radius: 4px 4px 4px 4px;
+	padding: 0 10px;
+	cursor: pointer;
+	margin: 0;
+	height: 29px;
+	width: auto;
+}
+
+polyfill-next-selector { content: '.button label, .button'; }
+.button ::content label,
+.button {
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-weight: 700;
+	font-size: 13px!important;
+	line-height: 28px !important;
+	text-transform: capitalize;
+}
+
+polyfill-next-selector { content: '.button label'; }
+::content label {
+	pointer-events: none;
+	white-space: nowrap;
+}
+
+polyfill-next-selector { content: '.button mm-icon'; }
+::content mm-icon {
+	display: block;
+	pointer-events: none;
+}
+
+polyfill-next-selector { content: '.button mm-icon + label'; }
+::content mm-icon + label {
+	padding-left: 7px;
+}
+
+.button:focus {
+	outline: none;
+}
+
+.button.fit {
+	@include fitContent();
+}
+
+.button.primary {
+	color: $color-D0;
+	border-color: $color-D4;
+	background: $color-D6;	
+}
+
+.button.invalid,
+.button.primary.invalid,
+.button.secondary.invalid {
+	border-color: $color-C12;
+}
+
+.button.primary:hover {
+	color: $color-D0;
+	background-color: $color-D5;
+}
+
+.button.primary:active {
+	@include buttonSelected($color-D22, $color-D5, $color-D22);
+}
+
+.button.secondary {
+	color: $color-A2;
+	border-color: $color-A8;
+	background: $color-F0;
+	@include background-image(linear-gradient($color-F0, $color-A19));		
+}
+
+.button.secondary:hover {
+	color: $color-A2;
+	background-color: $color-A9;
+	background-image: none;
+}
+
+.button.secondary:active {
+	@include buttonSelected($color-A20, $color-A9, $color-A20);
+}
+
+/* layout modes for button */
+.button.opened.bottom {
+	border-radius: 4px 4px 0px 0px;
+}
+
+.button.opened.top {
+	border-radius: 0px 0px 4px 4px;
+}
+
+/* horizontal */
+:host('[layout=hgroup-left]') {
+	.button  {
+		border-radius: 4px 0px 0px 4px;
+	}
+
+	.button.opened.bottom {
+		border-radius: 4px 0px 0px 0px;
+	}
+
+	.button.opened.top {
+		border-radius: 0px 0px 0px 4px;
+	}
+}
+
+:host('[layout=hgroup-center]') {
+	margin-left: -1px;
+
+	.button,
+	.button.opened.bottom,
+	.button.opened.top {
+		border-radius: 0px 0px 0px 0px;
+	}
+}
+
+:host('[layout=hgroup-right]') {
+	margin-left:-1px;
+
+	.button {
+		border-radius: 0px 4px 4px 0px;
+	}
+
+	.button.opened.bottom {
+		border-radius: 0px 4px 0px 0px;
+	}
+
+	.button.opened.top {
+		border-radius: 0px 0px 4px 0px;
+	}
+}
+
+/* vertical */
+:host('[layout=vgroup-top]'),
+:host('[layout=vgroup-center]'),
+:host('[layout=vgroup-left]') {
+	.button {
+		@include flexJustify(center);
+	}
+}
+
+:host('[layout=vgroup-top]') {
+	.button {
+		border-radius: 4px 4px 0px 0px;
+	}
+}
+
+:host('[layout=vgroup-center]') {
+	margin-top: -1px;
+
+	.button{
+		border-radius: 0px 0px 0px 0px;
+	}
+}
+
+:host('[layout=vgroup-bottom]') {
+	margin-top: -1px;
+	
+	.button {
+		border-radius: 0px 0px 4px 4px;
+	}
+}
