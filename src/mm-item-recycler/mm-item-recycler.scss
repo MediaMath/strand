@@ -1,0 +1,19 @@
+@import "_bourbon";
+
+:host {
+	display: block;
+	@include transform(translate3d(0,0,0));
+	overflow: auto;
+}
+
+#list {
+	overflow: hidden;
+	position: relative;
+	min-width: 100%;
+
+	::content .recycler-panel {
+		min-width: 100%;
+		width: 100%;
+		position: absolute;
+	}
+}

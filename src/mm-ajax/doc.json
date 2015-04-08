@@ -1,0 +1,228 @@
+{
+	"name":"mm-ajax",
+	"description":"A simple non rendered XMLHttpRequest wrapper api.",
+	"attributes": [
+		{
+			"name":"contentType",
+			"type":"String",
+			"description":"Content type header to send to server",
+			"optional":true,
+			"default":"application/x-www-form-urlencoded",
+			"options":[]
+		},
+		{
+			"name":"method",
+			"type":"String",
+			"description":"http request method to use for XHR call. Note that the component exposes constants for dev usage.",
+			"optional":true,
+			"default":"GET",
+			"options":["GET", "POST", "PUT", "DELETE"]
+		},
+		{
+			"name":"auto",
+			"type":"Boolean",
+			"description":"when auto is true exec() is called whenever the body changes",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"debug",
+			"type":"Boolean",
+			"description":"Show debugging information inline instead of hiding the component.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"body",
+			"type":"Object",
+			"description":"The request body to pass to the server for POST or PUT calls",
+			"optional":true
+		},
+		{
+			"name":"response",
+			"type":"Object (or any primitive)",
+			"description":"The response from the server"
+		},
+		{
+			"name":"withCredentials",
+			"type":"Boolean",
+			"description":"Passes the withCredentials param to the XHR needed for some secure CORS scenarios.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"timeout",
+			"type":"Boolean",
+			"description":"XHR timeout in milliseconds",
+			"optional":true,
+			"default":"10000",
+			"options":[]
+		},
+		{
+			"name":"status",
+			"type":"String (readonly)",
+			"description":"Readonly XHR object status string",
+			"options":["true", "false"]
+		},
+		{
+			"name":"state",
+			"type":"Boolean (readonly)",
+			"description":"",
+			"options":["true", "false"]
+		},
+		{
+			"name":"xhr",
+			"type":"Object (readonly)",
+			"description":"A reference to the XHR object created for this call if needed",
+			"optional":true
+		},
+		{
+			"name":"promise",
+			"type":"Object (readonly)",
+			"description":"returns an A+ compatible promise (pinkyswear) that may be used for request chaining"
+		}
+	],
+	"methods": [
+		{
+			"name":"reset",
+			"description":"creates a new XHR and promise object so that a 2nd call can be made. Also clears all settings.",
+			"arguments":[]
+		},
+		{
+			"name":"exec",
+			"description":"Triggers the XHR call.",
+			"arguments":[]
+		},
+		{
+			"name":"abort",
+			"description":"Cancels an in progres XHR call.",
+			"arguments":[]
+		},
+		{
+			"name":"addHeader",
+			"description":"Adds a header name/value pair to the headers array.",
+			"arguments":[
+				{				
+					"name":"name",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the header eg: X-Requested-By"
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The value of the header"
+				}
+				]
+		},
+		{
+			"name":"addParam",
+			"description":"Adds a queryString name/value pair to the params array.",
+			"arguments":[				
+				{				
+					"name":"name",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the query param"
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The value of the query param"
+				}
+			]
+		},
+		{
+			"name":"addUrlParam",
+			"description":"Adds a url chunk to the urlParams array. Useful for ids or other dynamic url parts. / is added automatically.",
+			"arguments":[				
+				{				
+					"name":"name",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the url chunk to add."
+				}
+			]
+		}
+	],
+	"events": [
+		{
+			"type": "data-abort",
+			"detail": [
+			]
+		},
+		{
+			"type": "data-progress",
+			"detail": [
+				{
+					"name":"percent",
+					"type":"Number",
+					"description":"Decimal percentage of the progress. From 0 to 1."
+				},
+				{
+					"name":"total",
+					"type":"Number",
+					"description":"The total size in bytes of the request."
+				},
+				{
+					"name":"current",
+					"type":"Number",
+					"description":"The current number of bytes loaded."
+				}
+			]
+		},
+		{
+			"type": "data-error",
+			"detail": [
+				{
+					"name":"error",
+					"type":"String",
+					"description":"A message about what has failed"
+				},
+				{
+					"name":"instance",
+					"type":"Object",
+					"description":"A reference to the mm-ajax instance that failed"
+				},
+				{
+					"name":"response",
+					"type":"Object (optional)",
+					"description":"In cases where the response has actually been recieved before the error this will contain the API response if any."
+				}
+			]
+		},
+		{
+			"type":"data-result",
+			"disclaimer":"This is fired when the server responds but before JSON or blob parsing has occured."
+		},
+		{
+			"type":"data-ready",
+			"disclaimer":"This is fired when the data is parsed and available on the response property",
+			"detail":[
+				{
+					"name":"response",
+					"type":"Object",
+					"description":"The parsed response from the server"
+				},
+				{
+					"name":"instance",
+					"type":"Object",
+					"description":"A reference to the mm-ajax component that requested the response"
+				}
+			]
+		}
+	],
+	"articles":[
+		"data_comps_using_ajax"
+	]
+}

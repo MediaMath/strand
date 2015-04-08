@@ -1,0 +1,11 @@
+::content {
+	display:none;
+}
+
+:host {
+	display:none;
+}
+
+:host([debug]) {
+	display:block;
+}

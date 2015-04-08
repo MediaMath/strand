@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/js/pinkyswear.html">
+<link rel="import" href="../shared/js/datautils.html">
+<polymer-element name="mm-ajax" attributes="url method headers params responseType response contentType auto withCredentials debug" constructor="MMAjax">
+	<template>
+		<link href="mm-ajax.css" rel="stylesheet" type="text/css"/>
+		<template if="{{debug}}">
+			<div>method:{{method}}</div>
+			<div>url:{{url}}</div>
+			<div>auto:{{auto}}</div>
+			<div>
+			<template repeat="{{headers}}">
+			Headers:
+				<div>{{name}}:{{value}}</div>
+			</template>
+			<template repeat="{{params}}">
+			Headers:
+				<div>{{name}}:{{value}}</div>
+			</template>
+			</div>
+			<div>body:{{body}}</div>
+			<div>status:{{status}}</div>
+		</template>
+	</template>
+	<script src="mm-ajax.js"></script>
+</polymer-element>

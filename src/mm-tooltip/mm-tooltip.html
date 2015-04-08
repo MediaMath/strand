@@ -1,0 +1,14 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../mm-close-panel/mm-close-panel.html"/>
+<link rel="import" href="../shared/js/measure.html"/>
+<polymer-element name="mm-tooltip" attributes="tipWidth auto valign" constructor="MMTooltip">
+	<template>
+		<link href="mm-tooltip.css" rel="stylesheet" type="text/css"/>
+		<content select="template"></content>
+		<div id="tipTarget" class="_mm_target" on-mouseover="{{overHandler}}" on-mouseout="{{outHandler}}">
+			<content select="*"></content>
+		</div>
+	</template>
+	<script src="mm-tooltip.js"></script>
+</polymer-element>

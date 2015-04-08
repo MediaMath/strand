@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="mm-grid.html">
+	<link rel="import" href="../mm-input/mm-input.html">
+	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+	<style type="text/css">
+		html, body {
+			padding: 0;
+			margin: 0;
+			background: #eee;
+			width: 100%;
+			height: 100%;
+			min-height: 100%;
+		}
+
+		*[unresolved] {
+			display: none;
+		}
+
+		mm-grid {
+			height: 100%;
+		}
+
+		.container {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- default grid item example -->
+		<mm-grid id="mmTestGrid" itemTemplate="customTemplate" selectable expandable unresolved>
+			<mm-grid-column width="20%" field="name" sort info resize>Name</mm-grid-column>
+			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+			<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
+			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
+			<mm-grid-column width="10%" field="actions"></mm-grid-column>
+			<template id="customTemplate">
+				<mm-grid-item model="{{model}}" scope="{{scope}}">
+					<div field="actions">
+						<mm-icon width="15" height="15" type="actions"></mm-icon>
+					</div>
+					<div field="name">
+						Creative - {{model.name}}
+					</div>
+					<div class="expansion">
+						<div class="expansion-row">
+							<div class="expansion-col">
+								<h4>Expanded Content</h4>
+								{{model.name}}
+							</div>
+							<div class="expansion-col">
+								<h4>Expanded Advertiser</h4>
+								{{model.advertiser}}
+							</div>
+							<div class="expansion-col">
+								<h4>Expanded Concept</h4>
+								{{model.concept}}
+							</div>
+						</div>
+						<div class="expansion-row">
+							<div class="expansion-col">Expanded Content - {{model.content}}</div>
+						</div>
+					</div>
+				</mm-grid-item>
+			</template>
+		</mm-grid>
+	</div>
+	<script type="text/javascript">
+		var data = [],
+			columns = [
+				{field: "id", label:"id", width:"10%"},
+				{field: "name", label: "Name Here", width: "25%", resize: true, info: true},
+				{field: "advertiser", label: "Advertiser", width: "20%", resize: true, align:"right"},
+				{field: "concept", label: "Concept", width: "15%", resize: true, align:"right"},
+				{field: "type", label: "Type", width: "15%", resize: true, align:"right"},
+				{field: "dimensions", label: "Dimensions", width: "15%", align:"right"}
+			],
+			mmGrid, 
+			NUM_ITEMS = 163; // a prime number -- definitely not divisible evenly into a number of recycled panels
+
+		for(var i=0; i<NUM_ITEMS; i++) {
+			generateItem();
+		}
+
+		if (data.length) {
+			data[0].content = new Array(100).join(" "+data[0].name);
+			data[0|(data.length / 2)].content = new Array(100).join(" "+data[0|(data.length / 2)].name);
+			data[data.length - 1].content = new Array(100).join(" "+data[data.length - 1].name);
+		}
+
+		function generateItem() {
+			data.push({
+				id: i,
+				name: Math.random().toString(36).substring(7),
+				content: Math.random().toString(36).substring(7),
+				advertiser: "Advertiser No. " + i,
+				concept: "Concept No. " + i,
+				type: "swf",
+				file: "Creative_File_" + i + ".swf",
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300))
+			});
+		}
+
+		window.addEventListener("polymer-ready", function() {
+			mmGrid = document.getElementById("mmTestGrid");
+			mmGrid.data = data;
+		});
+	</script>
+</body>
+</html>

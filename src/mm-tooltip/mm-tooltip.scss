@@ -1,0 +1,15 @@
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+._mm_target {
+	cursor: pointer;
+}

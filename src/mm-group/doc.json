@@ -1,0 +1,100 @@
+{
+	"name":"mm-group",
+	"description":"A mechanism for grouping components - for button bars, search groups, and radio groups",
+	"attributes": [
+		{
+			"name":"align",
+			"type":"Boolean",
+			"description":"Specifies the direction in which the group should be laid out (horizontal or vertical).",
+			"default":"horizontal",
+			"options":["horizontal", "vertical"]
+		},
+		{
+			"name":"fit",
+			"type":"Boolean",
+			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"optional":true,
+			"default":"null",
+			"options":["true", "false"]
+		}
+	],
+	"methods": [		
+		{
+			"name":"bindModel",
+			"description":"Bind a property on the given model to the input's value.",
+			"arguments":[
+				{
+					"name":"model",
+					"type":"Object",
+					"optional":false,
+					"default":"undefined",
+					"description":"The model object to update with value changes.  If the model has a '.set()' method, .set(property, inputValue) will be used (otherwise the property field of the model will be assigned directly)."
+				},
+				{
+					"name":"property",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The property on the model that should be bound to the input's value."
+				}
+			]
+		}
+	],
+	"properties": [
+		{
+			"name":"value",
+			"type":"String",
+			"description":"the current selected radio value or contents as a string",
+			"default":"''"
+		}
+	],
+	"events": [
+		{
+			"type": "changed",
+			"disclaimer": "Applies to mm-radio group only",
+			"detail": [
+				{
+					"name":"checked",
+					"type":"Boolean",
+					"description":"The status of this radio button's selection"
+				},
+				{
+					"name":"item",
+					"type":"Object",
+					"description":"A reference to the item which triggered the event"
+				}
+			]
+		},
+		{
+			"type": "selected",
+			"disclaimer": "Applies to mm-button group only",
+			"detail":[
+				{
+					"name":"active",
+					"type":"Boolean",
+					"description":"The item's active state"
+				},
+				{
+					"name":"index",
+					"type":"int",
+					"description":"The index of the active item"
+				},
+				{
+					"name":"item",
+					"type":"Object",
+					"description":"A reference to the item which triggered the event"
+				},
+				{
+					"name":"selected",
+					"type":"Boolean",
+					"description":"The item's selected state"
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"description":"Value of the selected item, usually it's label"
+				}
+			]
+		}
+	]
+}

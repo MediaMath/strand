@@ -1,0 +1,18 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<polymer-element name="mm-icon" attributes="type width height primaryColor hoverColor" constructor="MMIcon">
+	<template>
+		<link href="mm-icon.css" rel="stylesheet" type="text/css"/>
+		<style no-shim>
+			._mm_icon.{{uid}} {
+				color: {{primaryColor}};
+			}
+			._mm_icon.{{uid}}:hover {
+				color: {{hoverColor}};
+			}
+		</style>
+		<span id="iconGlyph" class="_mm_icon icon-{{type}} {{uid}}" style="{{ iconStyle | styleObject }}"></span>
+	</template>
+	<script src="mm-icon.js"></script>
+</polymer-element>

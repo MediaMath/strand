@@ -1,0 +1,27 @@
+/* mm-dropdown sass */
+@import "_bourbon";
+@import "_color";
+@import "_button";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: block;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+.body-content {
+	margin: 15px;
+}
+
+
+polyfill-next-selector { content: 'mm-checkbox' }
+::content mm-checkbox {
+	display: block;
+}
+
+polyfill-next-selector { content: 'mm-checkbox:not(:last-child)' }
+::content mm-checkbox:not(:last-child) {
+	margin-bottom: 10px;
+}

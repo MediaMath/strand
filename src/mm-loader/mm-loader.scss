@@ -1,0 +1,27 @@
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: absolute;
+	font-size: 0em;
+	line-height: 0em;
+	// display: none;
+}
+
+._mm_loader {
+	display: block;
+	@include displayFlex();
+	@include flexVerticalAlign();
+	@include flexJustify(start);
+}
+
+::content label {
+	@include fontSmoothing();
+	font-size: 13px;
+	line-height: 13px;
+	font-family: "Arimo", sans-serif;
+	color: $color-F0;
+	margin-left: 10px;
+	font-weight: 700;
+}

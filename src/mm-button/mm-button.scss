@@ -1,0 +1,36 @@
+/* mm-button sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+@import "_button";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+:host('[disabled]') {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+polyfill-next-selector { content: ':host[selected] .button.primary'; }
+:host('[selected]') .button.primary {
+	@include buttonSelected($color-D22, $color-D5, $color-D22);
+}
+
+polyfill-next-selector { content: ':host[selected] .button.secondary'; }
+:host('[selected]') .button.secondary {
+	@include buttonSelected($color-A20, $color-A9, $color-A20);
+}
+
+
+@include fit();
+
+.button.fit {
+	@include fitContent();
+	@include flexJustify(center);
+}

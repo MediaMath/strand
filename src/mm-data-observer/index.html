@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="mm-data-observer.html">
+  </head>
+  <body>
+	<polymer-element name="test-observe" extends="mm-data-observer">
+		<template>test</template>
+		<script>
+		Polymer("test-observe", {
+			created: function() {
+				this.super();
+			},
+
+			ready: function() {
+				this.super();
+				console.log("yeah buddy");
+			},
+
+			deepPublish: {
+				data: [],
+				data2: {}
+			}
+		});
+		</script>
+	</polymer-element>
+
+  	<template is="auto-binding">
+    	<test-observe id="test"></test-observe>
+    	<template repeat="{{$.test.data}}">
+    		<b>{{}}</b><br/>
+    	</template>
+    	<template repeat="{{$.test.data2.prop.internal}}">
+    		<i>{{}}</i><br/>
+    	</template>
+    </template>
+
+    <script>
+    window.addEventListener('polymer-ready', function(e) {
+
+    	setInterval(function() {
+    		var test = document.querySelector("#test");
+    		if (test) {
+    			test.data.push(Math.random());
+    			test.data2.prop = test.data2.prop || {};
+    			test.data2.prop.internal = test.data2.prop.internal || [];
+    			test.data2.prop.internal.push("int" + Math.random());
+    		} else { console.log("no test"); }
+    	}, 2000);
+    });
+    </script>
+  </body>
+</html>

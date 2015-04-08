@@ -1,0 +1,13 @@
+<template is="auto-binding">
+	<mm-input value="{{terms}}"></mm-input>
+	<mm-collection id="searchResults" adapter="MMAdapterAdama" pageSize="10" auto>
+		<entity>campaigns</entity>
+		<useLimit>advertiser.agency.organization=100083</useLimit>
+		<sort ascending>name,id</sort>
+		<page size="10">0</page>
+		<search name>{{terms}}</search>
+	</mm-collection>
+	<template repeat="{{$.searchResults.data}}">
+		<div>{{name}}</div>
+	</template>
+</template>

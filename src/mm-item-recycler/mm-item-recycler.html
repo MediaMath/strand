@@ -1,0 +1,11 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<polymer-element name="mm-item-recycler" on-scroll="{{scrollHandler}}">
+	<template>
+		<link href="mm-item-recycler.css" rel="stylesheet" type="text/css"/>
+		<div id="list">
+			<content select=".recycler-panel"></content>
+			<content></content>
+		</div>
+	</template>
+	<script src="mm-item-recycler.js"></script>
+</polymer-element>

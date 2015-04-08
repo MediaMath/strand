@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/js/windownotifier.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../mm-close-panel/mm-close-panel.html"/>
+<polymer-element name="mm-pulldown-button" attributes="type open close disabled overflow fitparent" constructor="MMPulldownButton">
+	<template>
+		<link href="mm-pulldown-button.css" rel="stylesheet" type="text/css"/>
+		<div class="button {{type}} {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', fit:fitparent!=null, invalid:error == true } | tokenList }}" id="buttonMain" on-mousedown="{{toggle}}">
+			<span class="left-items">
+				<content select="mm-icon" id="icon"></content>
+				<content select="label" id="label"></content>
+			</span>
+			<mm-icon id="caratIcon" class="{{state}}" type="carat" width="8" height="8"></mm-icon>
+		</div>
+		<mm-close-panel id="closePanel" fitparent="{{fitparent}}" target="{{$.buttonMain}}" offsetY="-1" auto="true" mode="dropdown" state="{{state}}" scope="{{}}" targetFilter="{{closeFilter}}">
+			<div id="scrollContainer" class="scroll-container {{ { _mm_visible: overflow == 'visible', _mm_hidden: overflow == 'hidden' } | tokenList }}">
+				<mm-list>
+					<content id="items" select="mm-list-item"></content>
+				</mm-list>
+			</div>
+		</mm-close-panel>
+	</template>
+	<script src="mm-pulldown-button.js"></script>
+</polymer-element>

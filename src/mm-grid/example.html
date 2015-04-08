@@ -1,0 +1,21 @@
+<mm-grid id="mmTestGrid" selectable unresolved style="width: 100%">
+	<mm-grid-column field="first_name">First Name</mm-grid-column>
+	<mm-grid-column field="last_name">Last Name</mm-grid-column>
+	<mm-grid-column field="email">Email</mm-grid-column>
+</mm-grid>
+<script>
+	var grid = document.querySelector("#mmTestGrid"),
+		data = [];
+
+	for(var i=0; i<50; i++){
+		data.push({
+			first_name: "First",
+			last_name: "Last",
+			email: "text@example.com"
+		});
+	}
+
+	window.addEventListener("polymer-ready", function() {
+		grid.data = data;
+	});
+</script>

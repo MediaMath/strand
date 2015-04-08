@@ -1,0 +1,22 @@
+<mm-spinner radius="9" id="sp1" fillColor="#333333"></mm-spinner>
+<mm-spinner radius="16" innerRadius="0.8" lineWidth="0.2"  id="sp2" fillColor="#333333"></mm-spinner>
+<mm-spinner radius="24" innerRadius="5"  lineWidth="10" lineWeight="1.5" id="sp3" fillColor="#333333"></mm-spinner>
+<mm-spinner radius="32" id="sp4" fillColor="#333333"></mm-spinner>
+<script>
+	var spinner1,
+		spinner2,
+		spinner3,
+		spinner4;
+
+	window.addEventListener("polymer-ready", function() {
+		spinner1 = document.getElementById("sp1");
+		spinner2 = document.getElementById("sp2");
+		spinner3 = document.getElementById("sp3");
+		spinner4 = document.getElementById("sp4");
+		
+		spinner1.start();
+		spinner2.start();
+		spinner3.start();
+		spinner4.start();
+	});
+</script>

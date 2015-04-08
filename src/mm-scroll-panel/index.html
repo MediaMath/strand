@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="../mm-list/mm-list.html">
+		<link rel="import" href="../mm-list-item/mm-list-item.html">
+		<link rel="import" href="../mm-button/mm-button.html">
+		<link rel="import" href="mm-scroll-panel.html">
+		<style type="text/css">
+			body {
+				background: #eee;
+			}
+
+			.holder {
+				margin: 25px;
+			}
+
+			mm-list-item {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+
+			mm-scroll-panel[unresolved] {
+				display: none;
+			}
+
+			mm-scroll-panel {
+				background: #fff;
+				width: 300px;
+				height: 150px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="holder">
+			<mm-scroll-panel id="sp" unresolved>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+				<mm-list-item>Item here 01</mm-list-item>
+				<mm-list-item>Item here 02</mm-list-item>
+				<mm-list-item>Item here 03</mm-list-item>
+				<mm-list-item>Item here 04</mm-list-item>
+			</mm-scroll-panel>
+		</div>
+		<div class="holder">
+			<mm-button id="addBtn">
+				<label>Add Item</label>
+			</mm-button>
+
+			<mm-button id="removeBtn">
+				<label>Remove Item</label>
+			</mm-button>
+
+			<mm-button id="resetBtn">
+				<label>Reset Scroll</label>
+			</mm-button>
+		</div>
+
+		<script>
+			var sp,
+				addBtn,
+				removeBtn,
+				resetBtn,
+				addedItems = [];
+
+			window.addEventListener("polymer-ready", function() {
+				sp = document.querySelector("#sp");
+				addBtn = document.querySelector("#addBtn");
+				removeBtn = document.querySelector("#removeBtn");
+				resetBtn = document.querySelector("#resetBtn");
+
+				addBtn.addEventListener("click", addItem);
+				removeBtn.addEventListener("click", removeItem);
+				resetBtn.addEventListener("click", reset);
+			}); 
+
+			function addItem(e) {
+				var newItem = document.createElement("mm-list-item");
+
+				newItem.textContent = "new item";
+				sp.appendChild(newItem);
+				addedItems.push(newItem);
+			} 
+
+			function removeItem(e) {
+				var rmItem;
+
+				if (addedItems.length) {
+					var rmItem = addedItems[addedItems.length-1];
+
+					sp.removeChild(rmItem);
+					addedItems.splice(addedItems.length-1, 1);
+					rmItem = null;
+				}
+			}
+
+			function reset(e) {
+				sp.resetScroll();
+			}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,11 @@
+/* mm-header.sass */
+@import "_bourbon";
+@import "_text";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}

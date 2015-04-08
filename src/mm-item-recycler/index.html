@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../mm-input/mm-input.html">
+	<link rel="import" href="mm-item-recycler.html">
+	<style type="text/css">
+		html, body {
+			padding: 0;
+			margin: 0;
+			background: #eee;
+		}
+
+		*[unresolved] {
+			display: none;
+		}
+
+		mm-item-recycler {
+			height: 500px;
+			padding-top: 30px;
+		}
+
+		._mm_item {
+			background: #fff;
+			border-bottom: 1px solid #ccc;
+			padding: 10px;
+		}
+
+		#header {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: #ccc;
+			height: 30px;
+		}
+	</style>
+  </head>
+  <body>
+	<mm-item-recycler id="itemRecycler" itemTemplate="itemTemplate">
+		<template id="itemTemplate">
+			<div class="_mm_item" data-id="{{model.id}}">
+				<mm-input value="{{model.name}}"></mm-input>
+			</div>
+		</template>
+		<div id="header" recycler="header">Header Text</div>
+	</mm-item-recycler>
+	<script type="text/javascript">
+		var data = [],
+			itemRecycler,
+			header,
+			NUM_ITEMS = 100;
+
+		for(var i=0; i<NUM_ITEMS; i++) {
+			generateItem();
+		}
+
+		function generateItem() {
+			data.push({
+				id: i,
+				name: Math.random().toString(36).substring(7),
+				advertiser: "Advertiser No. " + i,
+				concept: "Concept No. " + i,
+				type: "swf",
+				file: "Creative_File_" + i + ".swf",
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300))
+			});
+		}
+
+		window.addEventListener("polymer-ready", function() {
+			itemRecycler = document.querySelector("#itemRecycler");
+			header = document.querySelector("#header");
+			itemRecycler.data = data;
+
+			itemRecycler.onscroll = function(e) {
+				header.style.top = itemRecycler.scrollTop + "px";
+			}
+		});
+	</script>
+  </body>
+</html>

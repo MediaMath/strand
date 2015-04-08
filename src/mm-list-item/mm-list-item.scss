@@ -1,0 +1,46 @@
+/* mm-pulldown-button sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	box-sizing: border-box;
+	display: block;
+	font-family: 'Arimo', sans-serif;
+	@include fontSmoothing();
+	font-weight: 400;
+	font-size: 13px !important;
+	line-height: 15px !important;
+	padding: 6px 10px;
+	// text-transform: capitalize;
+	color: $color-A2;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	@include user-select(none);
+}
+
+:host(':hover') {
+	background: $color-D12;
+	color: $color-F0;
+}
+
+:host(':active') {
+	background: $color-D23;
+	color: $color-D2;
+}
+
+:host(':focus') {
+	outline: none;
+}
+
+:host('[selected]') {
+	background: $color-D23;
+	color: $color-D2;
+}
+
+:host-context('._mm_visible') {
+	white-space: nowrap;
+	overflow: visible;
+}

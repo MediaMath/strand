@@ -1,0 +1,80 @@
+{
+	"name":"mm-grid",
+	"description":"",
+	"attributes": [
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The array of data or mm-collection to render into the grid.",
+			"optional":false,
+			"default":"null"
+		},
+		{
+			"name":"itemTemplate",
+			"type":"String / Object",
+			"description":"A string pointing to a custom item template ID or template DOM fragment",
+			"optional":true,
+			"default":"",
+			"options":[]
+		},
+		{
+			"name":"viewportWidth",
+			"type":"Integer",
+			"description":"The width in pixels of the internal grid viewport. (For grids that expand beyond their container)",
+			"optional":true,
+			"default":"",
+			"options":[]
+		},
+		{
+			"name":"selectable",
+			"type":"Boolean",
+			"description":"Enable selectable grid items.",
+			"optional":true,
+			"default":"false",
+			"options":[]
+		},
+		{
+			"name":"expandable",
+			"type":"Boolean",
+			"description":"Enable expandable grid items.",
+			"optional":true,
+			"default":"false",
+			"options":[]
+		},
+		{
+			"name":"sortField",
+			"type":"String",
+			"description":"Set/Get the current sort data field",
+			"optional":true,
+			"default":"",
+			"options":[]
+		},
+		{
+			"name":"sortOrder",
+			"type":"Integer",
+			"description":"Set/Get the current sort order",
+			"optional":true,
+			"default":"",
+			"options":[]
+		}
+	],
+	"methods": [],
+	"properties":[
+		{
+			"name":"selected",
+			"type":"Array",
+			"description":"Returns array of selected items.",
+			"default":"[]",
+			"options":[]
+		},
+		{
+			"name":"index",
+			"type":"Integer",
+			"description":"The current first item index at the top of the grid",
+			"default":"",
+			"options":[]
+		}
+	],
+	"events": [],
+	"articles": ["grid_intro", "grid_config", "grid_data_integration"]
+}

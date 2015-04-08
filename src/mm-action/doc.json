@@ -1,0 +1,26 @@
+{
+	"name":"mm-action",
+	"description":"A fully-styled inline text link with optional icon.",
+	"attributes": [
+		{
+			"name":"href",
+			"type":"String",
+			"description":"The link to use (if not using a click handler)",
+			"optional":true,
+			"default":"none",
+			"options":[]
+		},
+		{
+			"name":"underline",
+			"type":"Boolean",
+			"description":"Underline action text",
+			"optional":true,
+			"default":"none",
+			"options":[]
+		}
+	],
+	"methods": [],
+	"properties":[],
+	"articles":[
+	]
+}

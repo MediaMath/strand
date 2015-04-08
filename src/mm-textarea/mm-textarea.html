@@ -1,0 +1,9 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<polymer-element name="mm-textarea" attributes="value placeholder validation disabled rows width height mono maxlength fit" constructor="MMTextArea">
+	<template>
+		<link href="mm-textarea.css" rel="stylesheet" type="text/css"/>
+		<textarea id="text" name="textarea" rows="{{rows}}" class="{{ { _mm_text_input: true, monospace: mono!=null, invalid: error == true }|tokenList }}" placeholder="{{placeholder}}" value="{{value}}" maxlength="{{maxlength}}"></textarea>
+	</template>
+	<script src="mm-textarea.js"></script>
+</polymer-element>

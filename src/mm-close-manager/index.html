@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<!-- <link rel="import" href="../../bower_components/polymer/polymer.html"> -->
+		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
+		<link rel="import" href="../mm-pulldown-button/mm-pulldown-button.html">
+		<!-- <link rel="import" href="../mm-list/mm-list.html"> -->
+		<link rel="import" href="../mm-list-item/mm-list-item.html">
+		<link rel="import" href="../mm-icon/mm-icon.html">
+		<!-- <link rel="import" href="mm-close-manager.html"> -->
+		<style>
+			:host {
+				width:200px;
+				height:200px;
+				display:block;
+				background-color: #EEE;
+			};
+
+			mm-dropdown[unresolved],
+			mm-pulldown-button[unresolved] {
+				display: none;
+			}
+
+			mm-dropdown,
+			mm-pulldown-button {
+				
+			}
+
+			mm-list[unresolved],
+			mm-list-item[unresolved] {
+				display: none;
+			}
+
+		</style>
+	</head>
+	<body>
+		<!-- 
+		<polymer-element name="mm-test" on-click="open">
+			<template>
+			<style>
+			:host {
+				width:200px;
+				height:200px;
+				display:block;
+				background-color: #EEE;
+			};
+
+			mm-dropdown[unresolved] {
+				/*opacity: 0;*/
+				display: none;
+			}
+
+			mm-dropdown {
+				/*opacity: 1;
+				transition: opacity 1s;*/
+			}
+
+			</style>
+
+			<mm-close-manager on-close="{{aces}}" target="{{}}"></mm-close-manager>
+				<span>closed:{{closed}}</span>
+			</template>
+			<script type="text/javascript">
+			Polymer("mm-test", {
+				closed:"no",
+				aces: function(e) {
+					this.closed = "yes " + Date.now();
+				},
+				open: function(e) {
+					this.closed = "no";
+				}
+			});
+			</script>
+		</polymer-element>
+		<mm-test></mm-test>
+		<mm-test></mm-test>
+		<mm-test></mm-test>
+		 -->
+		<mm-dropdown placeholder="some longer label" unresolved>
+			<mm-list-item>mm-list-item 01</mm-list-item>
+			<mm-list-item>mm-list-item 02</mm-list-item>
+			<mm-list-item>mm-list-item 03</mm-list-item>
+			<mm-list-item>mm-list-item 04</mm-list-item>
+		</mm-dropdown>
+		<mm-pulldown-button type="primary" unresolved>
+			<mm-list-item unresolved>single 3PAS</mm-list-item>
+			<mm-list-item unresolved>bulk 3PAS</mm-list-item>
+			<mm-list-item unresolved>Upload Assets</mm-list-item>
+			<mm-icon type="plus" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<label>Add Creative</label>
+		</mm-pulldown-button>
+	</body>
+</html>

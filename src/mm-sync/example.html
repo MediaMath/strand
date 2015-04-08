@@ -1,0 +1,16 @@
+<template is="auto-binding">
+	<mm-sync endpoint="http://localhost:8000/ajax">
+	  <input-params>
+	    <queryParam name="q" value="ui.*"></queryParam>
+	    <queryParam name="user">userInnerVal</queryParam>
+	    <urlParam value="123"></urlParam>
+	    <urlParam>innerVal</urlParam>
+	    <urlParam value="settings"></urlParam>
+	    <urlParam>{{autoTest}}</urlParam>
+	  </input-params>
+	  <output-params>
+	    <urlParam>1234</urlParam>
+	    <header name="x-test">acesInner</header>
+	  </output-params>
+	</mm-sync>
+</template>

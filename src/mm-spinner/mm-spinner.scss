@@ -1,0 +1,18 @@
+@import "_bourbon";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	overflow: hidden;
+	@include animation(fadeIn 1s ease);
+}
+
+@include keyframes(spin) {
+	100% { @include transform(rotate(360deg)); }
+}
+
+@include keyframes(fadeIn) {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}

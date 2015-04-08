@@ -1,0 +1,23 @@
+/* mm-textarea sass */
+@import "_bourbon";
+@import "_color";
+@import "_textinput";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+:host('[disabled]') {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+@include fit();
+
+textarea._mm_text_input {
+	overflow: auto;
+}

@@ -1,0 +1,8 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<polymer-element name="mm-spinner" constructor="MMSpinner">
+	<template>
+		<link href="mm-spinner.css" rel="stylesheet" type="text/css"/>
+		<canvas id="spinner" style="{{spinnerAnimation | styleObject }}" width="{{radius*2}}" height="{{radius*2}}"></canvas>
+	</template>
+	<script src="mm-spinner.js"></script>
+</polymer-element>
