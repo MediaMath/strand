@@ -1,6 +1,5 @@
 var SRC_DIR = 'src',
-	TEMPLATE_DIR = 'grunt',
-	BUILD_DIR = 'build',
+	TEMPLATE_DIR = 'grunt/templates',
 	DIST_DIR = 'dist';
 
 var exec = require("child_process").exec;
@@ -11,13 +10,27 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		src_dir: 'src',
+		build_dir: 'build',
+		dist_dir: 'dist',
 		
+		clean: {
+			build: '<%= build_dir %>',
+			dist: '<%= dist_dir %>'
+		},
+
 		copy: {
-			files: {
+			build: {
 				expand: true,
 				cwd: SRC_DIR,
 				src: ['mm-*/+(index|mm-*).+(html|js)', 'shared/fonts/**', 'shared/js/**', '!**/*.scss'],
 				dest: '<%= build_dir %>'
+			},
+			dist: {
+				expand: true,
+				cwd: '<%= build_dir %>',
+				src: ['**/*.html'],
+				dest: '<%= dist_dir %>'
 			}
 		},
 
@@ -52,10 +65,9 @@ module.exports = function(grunt) {
 
 		cssUrlEmbed: {
 			fonts: {
-				files: [{
-					src: '<%= build_dir %>/shared/fonts/fonts.css',
-					dest: '<%= build_dir %>/shared/fonts/fonts.css'
-				}]
+				files: {
+					'<%= build_dir %>/shared/fonts/fonts.css' : '<%= build_dir %>/shared/fonts/fonts.css'
+				}
 			}
 		},
 
@@ -102,16 +114,11 @@ module.exports = function(grunt) {
 				strip:true,
 				'strip-excludes':false,
 			},
-			fontslib:{
-				files: {
-					'<%= build_dir %>/shared/fonts/fonts.html' : '<%= build_dir %>/shared/fonts/fonts.html',
-				}
-			},
-			jslib: {
+			shared: {
 				files: [{
 					expand: true,
 					cwd: '<%= build_dir %>',
-					src: ['shared/js/*.html'],
+					src: ['shared/**/*.html'],
 					dest: '<%= build_dir %>'
 				}]
 			},
@@ -130,7 +137,7 @@ module.exports = function(grunt) {
 			},
 			dist:{
 				files: {
-					'<%= dist_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
+					'<%= build_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
 				}
 			}
 		},
@@ -138,15 +145,10 @@ module.exports = function(grunt) {
 		bump: {
 			options: {
 				files: [ 'package.json', 'bower.json' ],
-				commitFiles: [ 'package.json', 'bower.json', DIST_DIR + '/*' ],
+				commitFiles: [ 'package.json', 'bower.json', '<%= dist_dir =>/*' ],
 				push: true,
 				pushTo: "git@github.com:MediaMath/strand.git",
 			}
-		},
-
-		clean: {
-			build: '<%= build_dir %>',
-			dist: '<%= dist_dir %>/strand.html'
 		}
 
 	});
@@ -197,28 +199,23 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('build:dist', function(arg){
-		grunt.config('build_dir', BUILD_DIR);
-		grunt.config('dist_dir', DIST_DIR);
-
 		grunt.task.run([
-			'clean',
-			'copy',
+			'clean:build',
+			'copy:build',
 			'sass:dist',
 			'sassShadowFix',
 			'cssUrlEmbed', 
 			'hogan_static:lib',
-			// 'vulcanize:fontslib',
-			// 'vulcanize:jslib',
-			// 'vulcanize:modules',
+			'vulcanize:shared',
+			'vulcanize:modules',
 			'vulcanize:dist'
 		]);
 	});
 
 	grunt.registerTask('build:dev', function() {
-		grunt.config('build_dir', BUILD_DIR);
 		grunt.task.run([
 			'clean:build',
-			'copy',
+			'copy:build',
 			'sass:dev',
 			'sassShadowFix',
 			'hogan_static:index',
@@ -235,14 +232,14 @@ module.exports = function(grunt) {
 	}
 
 	grunt.registerTask( "stage-release", "Stage release files.", function() {
-		execCmd( "git add " + DIST_DIR + "/*", this.async() );
+		execCmd( "git add " + grunt.config("dist_dir") + "/*", this.async() );
 	});
 
 	grunt.registerTask('default', ['build:dev']);
 	
 	grunt.registerTask('release', function(version){
 		version = version || "";
-		grunt.task.run( "build:dist", "stage-release", "bump:" + version);
+		grunt.task.run( "clean:dist", "build:dist", "copy:dist", "stage-release", "bump:" + version);
 	});
 
 };
