@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 						res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 						return next();
 					},
-					connect.static('dev'),
+					connect.static('build'),
 					connect().use(connect.query()),
 					connect().use(connect.bodyParser()),
 					connect().use('/bower_components', connect.static('./bower_components')),

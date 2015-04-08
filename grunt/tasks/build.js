@@ -154,7 +154,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('sassShadowFix', function() {
-		var files = grunt.file.expand(grunt.config('build_dir') + 'mm-*/mm-*.css'),
+		var files = grunt.file.expand(grunt.config('build_dir') + '/mm-*/mm-*.css'),
 			css;
 		function stripQuotes(str, arg) {
 			return str.replace(/'/g,'');
