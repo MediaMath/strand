@@ -146,7 +146,7 @@ module.exports = function(grunt) {
 		bump: {
 			options: {
 				files: [ 'package.json', 'bower.json' ],
-				commitFiles: [ 'package.json', 'bower.json', '<%= dist_dir =>/*' ],
+				commitFiles: [ 'package.json', 'bower.json', 'dist/*' ],
 				push: true,
 				pushTo: "git@github.com:MediaMath/strand.git",
 			}
