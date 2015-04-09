@@ -50,6 +50,24 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask("build", ["clean","default","docs", "build_status_check", "deploy_docs", "deploy"]);
+	grunt.registerTask('migrate', function() {
+		grunt.task.run('clean:src');
+
+		var files = grunt.file.expand(['src/mm-*/*.html', 'src/mm-*/*.scss']),
+			content;
+
+		files.forEach(function(file) {
+			content = grunt.file.read(file);
+			content = content.replace(/\"\.\.\/(bower_components)/gi, '"../../$1');
+			content = content.replace(/output\/(mm-[\w-]+)/gi, '$1/$1');
+			content = content.replace(/output\/(fonts)/gi, 'shared/fonts/$1');
+			content = content.replace(/output\/(\w+)/gi, 'shared/js/$1');
+			content = content.replace(/lib\/(\w+)/gi, 'shared/js/$1');
+			content = content.replace(/sass\/(_\w+)|.scss/gi, '$1');
+			grunt.file.write(file, content);
+		});
+
+		grunt.log.ok();
+	});
 
 };

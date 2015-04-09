@@ -210,24 +210,6 @@ module.exports = function(grunt) {
 		grunt.task.run(['hogan_static:colors']);
 	});
 
-	grunt.registerTask('migratePaths', function() {
-		var files = grunt.file.expand(['src/mm-*/*.html', 'src/mm-*/*.scss']),
-			content;
-
-		files.forEach(function(file) {
-			content = grunt.file.read(file);
-			content = content.replace(/..\/(bower_components)/gi, '../../$1');
-			content = content.replace(/output\/(mm-[\w-]+)/gi, '$1/$1');
-			content = content.replace(/output\/(fonts)/gi, 'shared/fonts/$1');
-			content = content.replace(/output\/(\w+)/gi, 'shared/js/$1');
-			content = content.replace(/lib\/(\w+)/gi, 'shared/js/$1');
-			content = content.replace(/sass\/(_\w+)|.scss/gi, '$1');
-			grunt.file.write(file, content);
-		});
-
-		grunt.log.ok();
-	});
-
 	grunt.registerTask('build:dist', function(arg){
 		grunt.task.run([
 			'clean:build',
