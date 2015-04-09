@@ -64,6 +64,17 @@ module.exports = function(grunt) {
 			}
 		},
 
+		uglify: {
+			dist: {
+				files: [{
+					expand: true,
+					cwd: '<%= build_dir %>',
+					src: ['mm-*/*.js', 'shared/js/*.js'],
+					dest: '<%= build_dir %>'
+				}]
+			}
+		},
+
 		cssUrlEmbed: {
 			fonts: {
 				files: {
@@ -222,6 +233,7 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dist',
+			'uglify:dist',
 			'sassShadowFix',
 			'cssUrlEmbed', 
 			'hogan_static:lib',

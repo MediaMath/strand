@@ -11,6 +11,7 @@
     "grunt-contrib-clean": "*",
     "grunt-contrib-connect": "*",
     "grunt-contrib-copy": "*",
+    "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "*",
     "grunt-css-url-embed": "*",
     "grunt-hogan-static": "*",
