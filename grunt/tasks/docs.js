@@ -12,20 +12,17 @@ function lookupArticle(list, key) {
 module.exports = function(grunt) {
 
 	grunt.registerTask('docs', function() {
-		var modules = grunt.file.expand("mm-*/doc.json"),
-			articles = grunt.file.expand("articles/*.md"),
-			articleMap = grunt.file.readJSON("articles/manifest.json"),
-			mcheck = grunt.file.expand("mm-*/"),
+		var modules = grunt.file.expand({cwd: "src"}, "mm-*/doc.json"),
+			articles = grunt.file.expand({cwd: "src"}, "articles/*.md"),
+			articleMap = grunt.file.readJSON("src/articles/manifest.json"),
+			mcheck = grunt.file.expand({cwd: "src"}, "mm-*/"),
 			moduleDoc,
 			moduleConfig,
 			examplePath,
 			moduleList = [],
 			articleList = [],
-			tasks = ["git_tag_parse"];
+			tasks = [];
 
-		if (grunt.config.get("docsLocal") !== true) {
-			grunt.config.set("docsLocal", false);
-		}
 
 		if (mcheck.length !== modules.length) {
 			grunt.log.error("Documentation missing for some modules!!");
@@ -36,7 +33,7 @@ module.exports = function(grunt) {
 		});
 
 		articleList = articles.map(function(article) {
-			var file = grunt.file.read(article),
+			var file = grunt.file.read("src/" + article),
 				first = file.split("\n")[0],
 				tmpPath = article.split("/"),
 				key = tmpPath[tmpPath.length-1].replace(".md",""),
@@ -63,15 +60,15 @@ module.exports = function(grunt) {
 		});
 
 		modules = modules.map(function(doc) {
-			moduleDoc = grunt.file.readJSON(doc);
+			moduleDoc = grunt.file.readJSON("src/" + doc);
 			moduleConfig = {
 				options: {
 					data: {},
-					usePartials:'build/docs/*.html'
+					usePartials:'grunt/templates/docs/*.html'
 				},
 				files: {}
 			};
-			examplePath = doc.split("doc.json").join("example.html");
+			examplePath = "src/" + doc.split("doc.json").join("example.html");
 
 			if (grunt.file.exists(examplePath)) {
 				moduleDoc.example = grunt.file.read(examplePath);
@@ -84,12 +81,11 @@ module.exports = function(grunt) {
 				});
 			}
 
-			moduleDoc.docsLocal = grunt.config.get("docsLocal");
-			moduleDoc.revision = "<%= meta.revision%>";
+			moduleDoc.revision = "<%= pkg.version %>";
 			moduleDoc.modules = moduleList;
 			moduleDoc.articleList = articleList;
 			moduleDoc.articleMap = articleMap;
-			moduleConfig.files['docs/'+moduleDoc.name+'.html'] = 'build/docs/template.html';
+			moduleConfig.files['build/docs/'+moduleDoc.name+'.html'] = 'grunt/templates/docs/template.html';
 			moduleConfig.options.data = moduleDoc;
 
 			grunt.config.set(["hogan_static","docs_"+moduleDoc.name], moduleConfig);
@@ -106,32 +102,31 @@ module.exports = function(grunt) {
 				articleConfig = {
 					options: {
 						data:{},
-						usePartials:'build/docs/*.html'
+						usePartials:'grunt/templates/docs/*.html'
 					},
 					files:{}
 				};
 
-			if (grunt.file.exists(article)) {
-				articleBody = grunt.file.read(article);
+			if (grunt.file.exists("src/" + article)) {
+				articleBody = grunt.file.read("src/" + article);
 				articleBody = marked(articleBody);
 
 				//Special Case for our index page
 				if (article === "articles/getting_started.md") {
-					grunt.config.set("meta.indexContent", articleBody);
+					grunt.config.set("indexContent", articleBody);
 				}
 			}
 
 			articleData = {
 				name: articleName,
-				docsLocal: grunt.config.get("docsLocal"),
-				revision: "<%= meta.revision%>",
+				revision: "<%= pkg.version %>",
 				modules: moduleList,
 				articleList: articleList,
 				articleMap: articleMap,
 				article: articleBody
 			};
 
-			articleConfig.files['docs/'+'article_'+articleName+'.html'] = 'build/docs/article_template.html';
+			articleConfig.files['build/docs/'+'article_'+articleName+'.html'] = 'grunt/templates/docs/article_template.html';
 			articleConfig.options.data = articleData;
 
 			grunt.config.set(["hogan_static","article_" + articleName], articleConfig);
@@ -145,34 +140,18 @@ module.exports = function(grunt) {
 		grunt.task.run(tasks);
 	});
 
-	grunt.registerTask("docs_local", function() {
-		grunt.config.set("docsLocal", true);
-		grunt.task.run(["docs"]);
-	});
-
-	grunt.config.set("sass.docs", {
-		options: {
-			style: 'compressed',
-			includePaths: ["bower_components/bourbon/app/assets/stylesheets/"]
-		},
-		files: {
-			'docs/docs.css':'build/docs/docs.scss'
-		}
-	});
-
 	grunt.config.set("hogan_static.docs", {
 		options: {
 			data: {
 				modules: [],
 				articles: [],
-				docsLocal: "<%= docsLocal %>",
-				revision: "<%= meta.revision%>",
-				article: "<%= meta.indexContent%>"
+				revision: "<%= pkg.version %>",
+				article: "<%= indexContent %>"
 			},
-			usePartials: 'build/docs/*.html',
+			usePartials: 'grunt/templates/docs/*.html',
 		},
 		files: {
-			'docs/index.html':'build/docs/article_template.html'
+			'build/docs/index.html':'grunt/templates/docs/article_template.html'
 		}
 	});
 

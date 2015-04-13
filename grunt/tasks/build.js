@@ -50,6 +50,12 @@ module.exports = function(grunt) {
 				}]
 			},
 
+			docs: {
+				files: {
+					'<%= build_dir %>/docs/docs.css':'grunt/templates/docs/docs.scss'
+				}
+			},
+
 			dist: {
 				options: {
 					outputStyle: 'compressed'
@@ -215,7 +221,6 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dist',
-			'uglify:dist',
 			'sassShadowFix',
 			'cssUrlEmbed', 
 			'hogan_static:lib',
@@ -232,6 +237,7 @@ module.exports = function(grunt) {
 			'sass:dev',
 			'sassShadowFix',
 			'hogan_static:index',
+			'hogan_static:lib'
 		]);
 	});
 
