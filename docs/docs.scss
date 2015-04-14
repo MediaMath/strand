@@ -391,11 +391,49 @@ table {
 }
 /* END example styling */
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
-
+/* ace styling */
 .ace-chrome .ace_gutter {
   background: $bgGray !important;
 }
+/* END ace styling */
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- */
+/* home page styling */
+.hp-header {
+	@include displayFlex();
+	@include flexVerticalAlign(center);
+	@include flexJustify(space-between);
+	width: 100%;
+	background: $mainNavBg;
 
+	.docs-logo {
+		width: 240px;
+		height: 100px;
+		
+		.strand-logo {
+			border-bottom: none;
+		}
+
+		.version {
+			left: 96px;
+			top: 68px;
+		}
+	}
+
+	.docs-btns {
+		padding: 1.25em;
+
+		mm-button:not(:last-of-type) {
+			margin-right: 10px;
+		}
+	}
+}
+
+
+
+
+/* END home page styling */
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- */
+/* media queries */
 @media (min-width: 769px) {
 	h1 {
 		min-height: 4.125em;

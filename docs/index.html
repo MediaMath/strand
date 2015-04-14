@@ -2,73 +2,78 @@
 <html>
 	{{> head}}
 	<body unresolved>
-		<mm-docs-shell id="docsShell" version="{{revision}}" mobileHeader="Strand Docs">
-			{{> sidebar}}
-			<article class="layout-article">
-				<div class="docs-content intro">
-					<div class="intro-block">
-						<div class="intro-content">
-							<h1>A UI Web Components Library</h1>
-							<div class="right">
-								<h2>What is Strand?</h2>
-								<p>Strand is a growing library of common UI widgets built as web components[spec link?]. Strand components are cohesive in look and feel and designed to be interoperable. We've built Strand atop Google's Polymer[link] framework.</p>
-							</div>
-							<h2>Who is Strand For? </h2>
-							<p>Strand is for developers who want to quickly mock up an application, or who want to get an 'out-of-the-box' user interface up and running with minimal effort.</p>
-							<mm-button><label>View Project Source</label></mm-button>
+		<div class="layout-article">
+			<header class="hp-header">
+				<div class="docs-logo">
+					<a href="/docs" target="_self" class="strand-logo"></a>
+					<p class="mini-subhead version">v{{revision}}</p>
+				</div>
+				<div class="docs-btns">
+					<mm-button><label>Project Docs</label></mm-button>
+					<mm-button><label>Project Source</label></mm-button>
+				</div>
+			</header>
+			<div class="docs-content intro">
+				
+				<div class="intro-block">
+					<div class="intro-content">
+						<h1>A UI Web Components Library</h1>
+						<div class="right">
+							<h2>What is Strand?</h2>
+							<p>Strand is a growing library of common UI widgets built as web components[spec link?]. Strand components are cohesive in look and feel and designed to be interoperable. We've built Strand atop Google's Polymer[link] framework.</p>
 						</div>
-					</div>
-					<div class="intro-block">
-						<div class="intro-content">
-							<h2>Why use Strand?</h2>
-							<p>Simply stated, web components are the future if web application development. Web components offer logic and styling encapsulation, which removes boilerplate from your application. Each Strand component is designed with intent to separate component behavior from the underlying data as much as possible.</p>
-						</div>
-					</div>
-					<div class="intro-block">
-						<div class="intro-content">
-							<h2>Why build on Polymer?</h2>
-							<p>Polymer provides essential sugar as well as 2 way binding to increase developer velocity and reduce boilerplate.</p>
-						</div>
+						<h2>Who is Strand For? </h2>
+						<p>Strand is for developers who want to quickly mock up an application, or who want to get an 'out-of-the-box' user interface up and running with minimal effort.</p>
 					</div>
 				</div>
-				<div class="layout-push"></div>
-			</article>
-			{{> footer}}
-		</mm-docs-shell>
+
+				<div class="intro-block">
+					<div class="intro-content">
+						<h2>Why use Strand?</h2>
+						<p>Simply stated, web components are the future if web application development. Web components offer logic and styling encapsulation, which removes boilerplate from your application. Each Strand component is designed with intent to separate component behavior from the underlying data as much as possible.</p>
+					</div>
+				</div>
+
+				<div class="intro-block">
+					<div class="intro-content">
+						<h2>Why build on Polymer?</h2>
+						<p>Polymer provides essential sugar as well as 2 way binding to increase developer velocity and reduce boilerplate.</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="layout-push"></div>
+		</div>
+		{{> footer}}
 		<script>
-			var /*path = "{{path}}",*/
-				name = "{{name}}",
-				articlesNav,
-				componentsNav,
-				docsShell,
-				navItems; 
+			var docsBtn; 
 
 			window.addEventListener("polymer-ready", function(e) {
 				initDoc();
 			});
 
 			function initDoc() {
-				articlesNav = document.querySelector("#articlesNav");
-				componentsNav = document.querySelector("#componentsNav");
-				docsShell = document.querySelector("#docsShell");
-				navItems = document.querySelectorAll("mm-list-item");
+				// articlesNav = document.querySelector("#articlesNav");
+				// componentsNav = document.querySelector("#componentsNav");
+				// docsShell = document.querySelector("#docsShell");
+				// navItems = document.querySelectorAll("mm-list-item");
 
-				// default expanded:
-				articlesNav.expanded = true;
-				componentsNav.expanded = false;
+				// // default expanded:
+				// articlesNav.expanded = true;
+				// componentsNav.expanded = false;
 
-				Array.prototype.slice.call(navItems).forEach(function(item) {
-					if (item.id === name) {
-						item.selected = true;
-						return;
-					}
-				});
+				// Array.prototype.slice.call(navItems).forEach(function(item) {
+				// 	if (item.id === name) {
+				// 		item.selected = true;
+				// 		return;
+				// 	}
+				// });
 
-				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+				// docsShell.addEventListener("docs-nav-selected", navigateToPage);
 			}
 
 			function navigateToPage(e) {
-				window.location = /*path +*/ e.detail.value;
+				window.location = e.detail.value;
 			}
 		</script>
 	</body>

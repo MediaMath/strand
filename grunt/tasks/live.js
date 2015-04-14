@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 			tasks: ['vulcanize:jslib'],
 		},
 		docs: {
-			files: ['build/docs/*'],
+			files: ['docs/*'],
 			tasks: ['docs'],
 			options: {
 				nospawn: true,
