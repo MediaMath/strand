@@ -1,4 +1,5 @@
 var marked = require('marked');
+var path = require('path');
 
 function lookupArticle(list, key) {
 	for(var i=0; i<list.length; i++) {
@@ -13,8 +14,8 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('docs', function() {
 		var modules = grunt.file.expand({cwd: "src"}, "mm-*/doc.json"),
-			articles = grunt.file.expand({cwd: "src"}, "articles/*.md"),
-			articleMap = grunt.file.readJSON("src/articles/manifest.json"),
+			articles = grunt.file.expand("docs/articles/*.md"),
+			articleMap = grunt.file.readJSON("docs/articles/manifest.json"),
 			mcheck = grunt.file.expand({cwd: "src"}, "mm-*/"),
 			moduleDoc,
 			moduleConfig,
@@ -33,14 +34,13 @@ module.exports = function(grunt) {
 		});
 
 		articleList = articles.map(function(article) {
-			var file = grunt.file.read("src/" + article),
-				first = file.split("\n")[0],
-				tmpPath = article.split("/"),
-				key = tmpPath[tmpPath.length-1].replace(".md",""),
-				link = "article_" + tmpPath[tmpPath.length-1].replace(".md",".html");
+			var file = grunt.file.read(article),
+				name = file.split("\n")[0].replace("#",""),
+				key = path.basename(article, '.md'),
+				link = "article_" + key + ".html";
 			return {
 				key: key,
-				name: first.replace("#",""),
+				name: name,
 				link: link
 			};
 		});
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 			moduleConfig = {
 				options: {
 					data: {},
-					usePartials:'grunt/templates/docs/*.html'
+					usePartials:'docs/*.html'
 				},
 				files: {}
 			};
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
 			moduleDoc.modules = moduleList;
 			moduleDoc.articleList = articleList;
 			moduleDoc.articleMap = articleMap;
-			moduleConfig.files['build/docs/'+moduleDoc.name+'.html'] = 'grunt/templates/docs/template.html';
+			moduleConfig.files['build/docs/'+moduleDoc.name+'.html'] = 'docs/template.html';
 			moduleConfig.options.data = moduleDoc;
 
 			grunt.config.set(["hogan_static","docs_"+moduleDoc.name], moduleConfig);
@@ -95,20 +95,19 @@ module.exports = function(grunt) {
 		});
 
 		articles.forEach(function(article) {
-			var s = article.split("/"),
-				articleName= s[s.length-1].replace(".md",""),
+			var articleName = path.basename(article, '.md'),
 				articleBody = "",
 				articleData = {},
 				articleConfig = {
 					options: {
 						data:{},
-						usePartials:'grunt/templates/docs/*.html'
+						usePartials:'docs/*.html'
 					},
 					files:{}
 				};
 
-			if (grunt.file.exists("src/" + article)) {
-				articleBody = grunt.file.read("src/" + article);
+			if (grunt.file.exists(article)) {
+				articleBody = grunt.file.read(article);
 				articleBody = marked(articleBody);
 
 				//Special Case for our index page
@@ -126,7 +125,7 @@ module.exports = function(grunt) {
 				article: articleBody
 			};
 
-			articleConfig.files['build/docs/'+'article_'+articleName+'.html'] = 'grunt/templates/docs/article_template.html';
+			articleConfig.files['build/docs/article_'+articleName+'.html'] = 'docs/article_template.html';
 			articleConfig.options.data = articleData;
 
 			grunt.config.set(["hogan_static","article_" + articleName], articleConfig);
@@ -148,10 +147,10 @@ module.exports = function(grunt) {
 				revision: "<%= pkg.version %>",
 				article: "<%= indexContent %>"
 			},
-			usePartials: 'grunt/templates/docs/*.html',
+			usePartials: 'docs/*.html',
 		},
 		files: {
-			'build/docs/index.html':'grunt/templates/docs/article_template.html'
+			'build/docs/index.html':'docs/article_template.html'
 		}
 	});
 

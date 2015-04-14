@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 
 			docs: {
 				files: {
-					'<%= build_dir %>/docs/docs.css':'grunt/templates/docs/docs.scss'
+					'<%= build_dir %>/docs/docs.css':'docs/docs.scss'
 				}
 			},
 
