@@ -85,7 +85,7 @@ module.exports = function(grunt) {
 			moduleDoc.modules = moduleList;
 			moduleDoc.articleList = articleList;
 			moduleDoc.articleMap = articleMap;
-			moduleConfig.files['build/docs/'+moduleDoc.name+'.html'] = 'docs/template.html';
+			moduleConfig.files['build/docs/'+moduleDoc.name+'.html'] = 'docs/component_template.html';
 			moduleConfig.options.data = moduleDoc;
 
 			grunt.config.set(["hogan_static","docs_"+moduleDoc.name], moduleConfig);
@@ -144,6 +144,7 @@ module.exports = function(grunt) {
 			data: {
 				modules: [],
 				articles: [],
+				name: "getting_started",
 				revision: "<%= pkg.version %>",
 				article: "<%= indexContent %>"
 			},
