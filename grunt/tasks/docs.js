@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 			examplePath,
 			moduleList = [],
 			articleList = [],
-			tasks = [];
+			tasks = ['build:dev'];
 
 
 		if (mcheck.length !== modules.length) {
@@ -111,7 +111,7 @@ module.exports = function(grunt) {
 				articleBody = marked(articleBody);
 
 				//Special Case for our index page
-				if (article === "articles/getting_started.md") {
+				if (articleName === "getting_started") {
 					grunt.config.set("indexContent", articleBody);
 				}
 			}
