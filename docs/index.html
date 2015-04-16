@@ -2,7 +2,6 @@
 <html>
 	{{> head}}
 	<body unresolved>
-
 		<div class="layout-article">
 			<header class="hp-header">
 				<div class="docs-logo">
@@ -12,87 +11,62 @@
 					<!-- <p class="mini-subhead version">v{{revision}}</p> -->
 				</div>
 				<div class="docs-btns">
-					<mm-button><label>Project Docs</label></mm-button>
-					<mm-button><label>Project Source</label></mm-button>
+					<mm-button id="docsBtn"><label>Project Docs</label></mm-button>
+					<mm-button id="sourceBtn"><label>Project Source</label></mm-button>
 				</div>
 			</header>
-
 			<div class="docs-content intro">
-				
 				<div class="intro-block top">
-
 					<div class="intro-content top">
-
 						<img class="hero-image" src="images/strand-logo-only.svg" />
-
 						<div class="hero-text">
 							<h1>Strand: a UI Web Components Library</h1>
 							<p>Strand is a growing library of common UI widgets built as web components. Strand components are cohesive in look and feel and designed to be interoperable. We've built Strand atop Google's Polymer framework.</p>
 						</div>
-
 					</div>
-
 				</div>
-
 				<div class="intro-block">
-
 					<div class="intro-content bottom">
-
 						<div class="hero-block">
-							<img src="" />
+							<img src="images/spot-graphic-01.svg" style="background: #4d99bf;" />
 							<h2>Who is Strand For?</h2>
 							<p>Strand is for developers who want to quickly mock up an application, or who want to get an 'out-of-the-box' user interface up and running with minimal effort.</p>
 						</div>
-
 						<div class="hero-block">
-							<img src="" />
+							<img src="images/spot-graphic-02.svg" style="background: #66ccff;" />
 							<h2>Why use Strand?</h2>
 							<p>Simply stated, web components are the future if web application development. Web components offer logic and styling encapsulation, which removes boilerplate from your application. Each Strand component is designed with intent to separate component behavior from the underlying data as much as possible.</p>
 						</div>
-
 						<div class="hero-block">
-							<img src="" />
+							<img src="images/spot-graphic-03.svg" style="background: #85d6ff;" />
 							<h2>Why build on Polymer?</h2>
 							<p>Polymer provides essential sugar as well as 2 way binding to increase developer velocity and reduce boilerplate.</p>
 						</div>
-
 					</div>
-
 				</div>
-
 			</div>
 			<div class="layout-push"></div>
 		</div>
 		{{> footer}}
 		<script>
-			var docsBtn; 
+			var docsBtns,
+				sourceBtn; 
 
 			window.addEventListener("polymer-ready", function(e) {
 				initDoc();
 			});
 
 			function initDoc() {
-				// articlesNav = document.querySelector("#articlesNav");
-				// componentsNav = document.querySelector("#componentsNav");
-				// docsShell = document.querySelector("#docsShell");
-				// navItems = document.querySelectorAll("mm-list-item");
+				docsBtn = document.querySelector("#docsBtn");
+				sourceBtn = document.querySelector("#sourceBtn");
 
-				// // default expanded:
-				// articlesNav.expanded = true;
-				// componentsNav.expanded = false;
+				docsBtn.addEventListener("click", function(e) {
+					window.location = "/docs/article_getting_started.html";
+				});
 
-				// Array.prototype.slice.call(navItems).forEach(function(item) {
-				// 	if (item.id === name) {
-				// 		item.selected = true;
-				// 		return;
-				// 	}
-				// });
-
-				// docsShell.addEventListener("docs-nav-selected", navigateToPage);
-			}
-
-			function navigateToPage(e) {
-				window.location = e.detail.value;
+				sourceBtn.addEventListener("click", function(e) {
+					window.location = "https://github.com/MediaMath/strand";
+				});
 			}
 		</script>
 	</body>
