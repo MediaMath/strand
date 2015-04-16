@@ -150,7 +150,7 @@ module.exports = function(grunt) {
 			usePartials: 'docs/*.html',
 		},
 		files: {
-			'build/docs/index.html':'docs/article_template.html'
+			'build/docs/index.html':'docs/index.html'
 		}
 	});
 
