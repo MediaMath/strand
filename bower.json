@@ -18,7 +18,7 @@
     "components",
     "ui-framework"
   ],
-  "license": "MIT",
+  "license": "BSD",
   "ignore": [
     "**/.*",
     "src",

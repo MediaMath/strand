@@ -4,7 +4,7 @@
   "description": "MediaMath UI-Framework based on polymer.js",
   "repository": "",
   "author": "dlasky@mediamath.com",
-  "license": "MIT",
+  "license": "BSD",
   "devDependencies": {
     "grunt": "*",
     "grunt-banner": "^0.3.1",
