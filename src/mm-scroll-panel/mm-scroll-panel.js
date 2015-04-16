@@ -1,3 +1,8 @@
+/**
+ * @license
+ * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+*/
 (function() {
 	// Borrowed from MDN & modified - this is the only track pad normalization strategy which worked:
 	// https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
