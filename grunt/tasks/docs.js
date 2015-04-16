@@ -12,7 +12,7 @@ function lookupArticle(list, key) {
 
 module.exports = function(grunt) {
 
-	grunt.registerTask('docs', function() {
+	grunt.registerTask('build:docs', function() {
 		var modules = grunt.file.expand({cwd: "src"}, "mm-*/doc.json"),
 			articles = grunt.file.expand("docs/articles/*.md"),
 			articleMap = grunt.file.readJSON("docs/articles/manifest.json"),
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 			examplePath,
 			moduleList = [],
 			articleList = [],
-			tasks = ['build:dist', 'copy:docs'];
+			tasks = ['copy:docs'];
 
 		if (mcheck.length !== modules.length) {
 			grunt.log.error("Documentation missing for some modules!!");
@@ -158,9 +158,12 @@ module.exports = function(grunt) {
 		files: [ 
 			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= build_dir %>/docs/'},
 			{ src: 'bower_components/webcomponentsjs/webcomponents.min.js', dest: '<%= build_dir %>/docs/bower_components/webcomponentsjs/webcomponents.min.js'},
+			{ src: 'LICENSE.txt', dest: '<%= build_dir %>/docs/LICENSE.txt' },
 			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/<%= pkg.name %>.html' }
 		]
 	});
+
+	grunt.registerTask("docs", ["build:dist", "build:docs"]);
 
 	grunt.config('gh-pages', {
 		options: {

@@ -163,8 +163,9 @@ module.exports = function(grunt) {
 			options: {
 				files: [ 'package.json', 'bower.json' ],
 				commitFiles: [ 'package.json', 'bower.json', 'dist/*' ],
+				updateConfigs: ['pkg'],
 				push: true,
-				pushTo: "git@github.com:MediaMath/strand.git",
+				pushTo: 'origin'
 			}
 		}
 
@@ -254,10 +255,9 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['build:dev']);
-	
-	grunt.registerTask('release', function(version){
-		version = version || "";
-		grunt.task.run( "clean:dist", "build:dist", "copy:dist", "stage-release", "bump:" + version);
-	});
 
+	grunt.registerTask('release', function(version){
+		version = version || "patch";
+		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "copy:dist", "build:docs", "stage-release", "bump-commit");
+	});
 };
