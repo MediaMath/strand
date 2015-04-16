@@ -1,6 +1,5 @@
 var SRC_DIR = 'src',
-	TEMPLATE_DIR = 'grunt/templates',
-	DIST_DIR = 'dist';
+	TEMPLATE_DIR = 'grunt/templates';
 
 var exec = require("child_process").exec;
 

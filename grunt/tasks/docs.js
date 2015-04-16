@@ -22,8 +22,7 @@ module.exports = function(grunt) {
 			examplePath,
 			moduleList = [],
 			articleList = [],
-			tasks = ['build:dev'];
-
+			tasks = ['build:dist', 'copy:docs'];
 
 		if (mcheck.length !== modules.length) {
 			grunt.log.error("Documentation missing for some modules!!");
@@ -153,6 +152,21 @@ module.exports = function(grunt) {
 		files: {
 			'build/docs/index.html':'docs/article_template.html'
 		}
+	});
+
+	grunt.config('copy.docs', {
+		files: [ 
+			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= build_dir %>/docs/'},
+			{ src: 'bower_components/webcomponentsjs/webcomponents.min.js', dest: '<%= build_dir %>/docs/bower_components/webcomponentsjs/webcomponents.min.js'},
+			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/<%= pkg.name %>.html' }
+		]
+	});
+
+	grunt.config('gh-pages', {
+		options: {
+			base: 'build/docs'
+		},
+		src: '**/*'
 	});
 
 };
