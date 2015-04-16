@@ -7,14 +7,14 @@ The Strand Web Components library is built on Google's <a href="https://www.poly
 Install the latest version of Strand Web Components.
 
 ```
-$ bower install <package>
+$ bower install strand
 ```
 
 Add the <a href="http://webcomponents.org/polyfills/" target= "_blank">webcomponentsjs</a> polyfills and the Strand library to your `head` tag. 
 
 ```html
-<script language="javascript" src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
-<link rel="import" href="../output/lib.html"/>
+<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<link rel="import" href="bower_components/strand/dist/strand.html"/>
 ```
 
 Start adding web component tags to your markup or template wherever you would like the component to render (see the specific details for each component). Here's how you would add a mm-button:
@@ -34,7 +34,8 @@ window.addEventListener("polymer-ready", function() {
 	var coolBtn = document.querySelector("#coolBtn");
 	
 	coolBtn.addEventListener("click", function(e) {
-		console.log("coolBtn clicked!");	});
+		console.log("coolBtn clicked!");
+	});
 });
 ```
 
@@ -43,5 +44,5 @@ window.addEventListener("polymer-ready", function() {
 For production applications, we'd recommend using a fixed version of the Strand library.
 
 ```
-$ bower install <package>#<version>
+$ bower install strand#<version>
 ```
