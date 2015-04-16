@@ -12,7 +12,7 @@ Using mm-ajax for a simple get request using markup for configuration.
 ```html
 <mm-ajax id="simpleGet" url="http://example.com/api" method="get"></mm-ajax>
 <script>
-window.on("polymer-ready", function() {
+window.addEventListener("polymer-ready", function() {
 	document.querySelector("#simpleGet").exec();
 });
 </script>
@@ -39,8 +39,10 @@ ajax.url = "http://www.example.com/api";
 ajax.method = ajax.POST;
 ajax.addParam(DataUtils.param("test",1234)); //optionally {name:"test",value:1234}
 ajax.addEventListener("data-ready", function() { 
-	console.log(ajax.result);});
+	console.log(ajax.result);
+});
 //we also expose a promise based callback system
 ajax.promise.then(function() {
-	console.log(ajax.result);});
-```
+	console.log(ajax.result);
+});
+```
