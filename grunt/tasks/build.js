@@ -159,6 +159,27 @@ module.exports = function(grunt) {
 			}
 		},
 
+		banner: grunt.file.read("BANNER.txt"),
+
+		usebanner: {
+			js: {
+				options: {
+					banner: "/**\n<%= banner %>\n*/"
+				},
+				files: {
+					src: [ 'src/**/*.js' ]
+				}
+			},
+			html: {
+				options: {
+					banner: "<!--\n<%= banner %>\n-->"
+				},
+				files: {
+					src: [ 'src/mm-*/mm-*.html' ]
+				}
+			}
+		},
+
 		bump: {
 			options: {
 				files: [ 'package.json', 'bower.json' ],
