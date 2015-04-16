@@ -14,6 +14,9 @@ $mainNavBg: #e4e1ef;
 $footerWideHeight: 200px;
 $footerSkinnyHeight: 400px;
 
+$headerWideHeight: 100px;
+$headerSkinnyHeight: 400px;
+
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* global styling */
 html, body {
@@ -145,7 +148,7 @@ section:last-child {
 	box-sizing: border-box;
 	font-family: "Arimo", Helvetica, arial, sans-serif;
 	padding: 0 2.5em;
-	max-width: 62.5em;
+	max-width: 64.5em;
 	margin: 0 auto;
 }
 
@@ -153,26 +156,50 @@ section:last-child {
 	margin: 0 auto 40px auto;
 }
 
+// .docs-logo {
+// 	position: relative;
+// 	box-sizing: border-box;
+// 	height: 100%;
+
+// 	.strand-logo {
+// 		display: block;
+// 		background: url(http://squareproduct.com/temp/images/strand-logo.svg) no-repeat;
+// 		background-size: 218px 65px;
+// 		background-position: center center;
+// 		width: 100%;
+// 		height: 100%;
+// 		border-bottom: 1px solid $borderColor;
+// 		margin-bottom: -1px;
+// 	}
+
+// 	.version {
+// 		position: absolute;
+// 		left: 110px;
+// 		top: 86px;
+// 	}
+// }
+
 .docs-logo {
+	@include displayFlex();
+	@include flexVerticalAlign(center);
+	@include flexJustify(center);
 	position: relative;
 	box-sizing: border-box;
 	height: 100%;
 
 	.strand-logo {
 		display: block;
-		background: url(http://squareproduct.com/temp/images/strand-logo.svg) no-repeat;
-		background-size: 218px 65px;
-		background-position: center center;
-		width: 100%;
-		height: 100%;
-		border-bottom: 1px solid $borderColor;
-		margin-bottom: -1px;
+
+		img {
+			width: 218px;
+			height: auto;
+		}
 	}
 
 	.version {
 		position: absolute;
-		left: 110px;
-		top: 86px;
+		left: 109px;
+		top: 81px;
 	}
 }
 
@@ -256,28 +283,6 @@ mm-docs-shell::shadow  #mobileHeader {
 }
 
 /* END shell specific styling */
-/* -- -- -- -- -- -- -- -- -- -- -- -- -- */
-/* intro specific styling */
-.docs-content.intro {
-	width: 100%;
-	max-width: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-.intro-block:first-child {
-	padding: 0 0 1.25em 0;	
-}
-
-.intro-content {
-	padding: 0 2.5em;
-}
-
-.intro-content:first-child {
-	padding-top: 0;
-}
-
-/* END intro specific styling */
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* editor styling */
 .editor-wrapper {
@@ -397,46 +402,84 @@ table {
 }
 /* END ace styling */
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
-/* home page styling */
+/* intro specific styling */
 .hp-header {
 	@include displayFlex();
-	@include flexVerticalAlign(center);
-	@include flexJustify(space-between);
 	width: 100%;
 	background: $mainNavBg;
 
 	.docs-logo {
-		width: 240px;
-		height: 100px;
-		
 		.strand-logo {
-			border-bottom: none;
-		}
-
-		.version {
-			left: 96px;
-			top: 68px;
+			margin: 1.25em;
 		}
 	}
 
 	.docs-btns {
-		padding: 1.25em;
-
-		mm-button:not(:last-of-type) {
-			margin-right: 10px;
-		}
+		margin: 1.25em;
 	}
 }
 
+.docs-content.intro {
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
 
+.intro-block {
+	box-sizing: border-box;
 
+	&.top {
+		background: $bgGray;
+	}
 
-/* END home page styling */
+	.intro-content.top {
+		@include displayFlex();
+		@include flexVerticalAlign(center);
+		@include flexDirection(row);
+		box-sizing: border-box;
+
+		.hero-image {
+			width: 45%;
+			height: auto;
+			margin: 40px;
+		}
+
+		.hero-text {
+			width: 55%;
+			margin: 40px;
+
+			h1 {
+				height: auto;
+				line-height: 1.5;
+				border: none;
+			}
+		}
+	}
+
+	.intro-content.bottom {
+		@include displayFlex();
+		@include flexDirection(row);
+		box-sizing: border-box;
+
+		.hero-block {
+			width: 33%;
+			margin: 40px 20px;
+		}
+
+		img {
+			background: #eee;
+			width: 100%;
+			height: 150px;
+		}
+	}
+}
+/* END intro specific styling */
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* media queries */
 @media (min-width: 769px) {
 	h1 {
-		min-height: 4.125em;
+		height: 4.125em;
 		line-height: 4.125em;
 		margin-top: 0;
 		padding-bottom: 0;
@@ -450,14 +493,87 @@ table {
 	.layout-push {
 		height: $footerWideHeight;
 	}
+
+	.hp-header {
+		@include flexVerticalAlign(center);
+		@include flexJustify(space-between);
+		@include flexDirection(row);
+
+		.docs-btns {
+			mm-button {
+				width: 200px;
+
+				&:not(:last-of-type) {
+					margin-right: 10px;
+				}
+			}
+		}
+	}
 }
 
 @media (min-width: 0px) and (max-width: 768px) {
 	h1 {
-		min-height: 0;
+		height: auto;
 		line-height: 1;
 		margin-top: 20px;
 		padding-bottom: 0.625em;
+	}
+
+	.hp-header {
+		@include flexVerticalAlign(center);
+		@include flexJustify(space-between);
+		@include flexDirection(row);
+
+		.docs-btns {
+			mm-button {
+				width: auto;
+
+				&:not(:last-of-type) {
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+
+	.layout-article {
+		margin-bottom: -$footerWideHeight;
+	}
+
+	.intro-block {
+		.intro-content.top {
+			@include flexVerticalAlign(start);
+			@include flexDirection(column);
+
+			.hero-image {
+				width: 45%;
+			}
+
+			.hero-text {
+				width: 100%;
+				margin-top: 0;
+
+				h1 {
+					height: auto;
+					line-height: 1;
+					margin: 0;
+					padding: 0;
+				}
+
+				p { 
+					margin: 20px 0 0 0;
+				}
+			}
+		}
+
+		.intro-content.bottom {
+			@include flexDirection(column);
+
+			.hero-block {
+				width: 100%;
+				margin: 40px 0;
+			}
+		}
+
 	}
 
 	.docs-footer {
@@ -465,9 +581,14 @@ table {
 			@include flexDirection(row);
 		}
 	}
+
+	.footer,
+	.layout-push {
+		height: $footerWideHeight;
+	}
 }
 
-@media (max-width: 480px) {
+@media (min-width: 0px) and (max-width: 549px) {
 	.layout-article {
 		margin-bottom: -$footerSkinnyHeight;
 	}
@@ -475,6 +596,25 @@ table {
 	.footer,
 	.layout-push {
 		height: $footerSkinnyHeight;
+	}
+
+	.hp-header {
+		@include flexVerticalAlign(start);
+		@include flexJustify(center);
+		@include flexDirection(column);
+
+		.docs-btns {
+			margin-top: 0; 
+
+			mm-button {
+				width: 100%;
+				margin: 0;
+
+				&:not(:last-of-type) {
+					margin-bottom: 10px;
+				}
+			}
+		}
 	}
 
 	.docs-footer {
