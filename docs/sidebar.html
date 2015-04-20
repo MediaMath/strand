@@ -1,0 +1,23 @@
+<div class="docs-logo">
+	<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+		<img src="images/strand-logo.svg" />
+	</a>
+	<p class="mini-subhead version">v{{revision}}</p>
+</div>
+<mm-docs-nav id="articlesNav">
+	<mm-header size="medium">Articles</mm-header>
+	{{#articleMap}}
+	<mm-list-item id="{{key}}" value="{{link}}">{{name}}</mm-list-item>
+	{{#children.length}}
+	{{#children}}
+	<mm-list-item id="{{key}}" value="{{link}}" class="child">{{name}}</mm-list-item>
+	{{/children}}
+	{{/children.length}}
+	{{/articleMap}}
+</mm-docs-nav>
+<mm-docs-nav id="componentsNav">
+	<mm-header size="medium">Components</mm-header>
+	{{#modules}}
+	<mm-list-item id="{{name}}" value="{{name}}.html">{{name}}</mm-list-item>
+	{{/modules}}
+</mm-docs-nav>

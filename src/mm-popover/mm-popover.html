@@ -1,0 +1,33 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/js/measure.html"/>
+<link rel="import" href="../mm-close-panel/mm-close-panel.html"/>
+<polymer-element name="mm-popover" attributes="valign align target mode" constructor="MMPopover">
+	<template>
+		<link href="mm-popover.css" rel="stylesheet" type="text/css"/>
+		<mm-close-panel id="closePanel" valign="{{valign}}" align="{{align}}" targetFilter="{{closeFilter}}" scope="{{}}" target="{{target}}" state="{{state}}">
+			<template if="{{mode=='default'}}">
+				<div class="body-content {{mode}}">
+					<content select=".body"></content>
+				</div>
+			</template>
+			<template if="{{mode=='multiselect'}}">
+				<content select="mm-input"></content>
+				<div class="body-content {{mode}}">
+					<!-- TODO: Figure out how we want to actually assemble a multiselect list 
+					for now, leaving the selection of body content as is -->
+					<content select=".body"></content>
+				</div>
+			</template>
+			<content select="mm-footer"></content>
+		</mm-close-panel>
+	</template>
+	<script src="mm-popover.js"></script>
+</polymer-element> 

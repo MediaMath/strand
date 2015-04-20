@@ -1,0 +1,58 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_mixins";
+
+.button {
+	font-weight: 400;
+	display: block;
+	position: relative;
+	padding-right: 32px;
+}
+
+.button label {
+	pointer-events: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-transform: none;
+	display: block;
+	width: 100%;
+	font-weight: 400;
+}
+
+.button mm-icon {
+	pointer-events: none;
+}
+
+.button .left-items {
+	@include displayFlex();
+	@include flexVerticalAlign();
+	@include flexJustify(start);
+	height: 100%;
+}
+
+#caratIcon {
+	padding: 0 10px 0 13px;
+	position: absolute;
+	margin-top: -4px;
+	top: 50%;
+	right:0px;
+	display: block;
+}
+
+#caratIcon.closed {
+	@include transform(scaleY(1));
+}
+
+#caratIcon.opened {
+	@include transform(scaleY(-1));
+}
+
+.scroll-container {
+	overflow-x: hidden;
+	overflow-y: auto;
+}

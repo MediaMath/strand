@@ -1,0 +1,56 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+
+:host {
+	display: block;
+	overflow: hidden;
+	position: relative;
+}
+
+#viewport {
+	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
+	height: 100%;
+}
+
+.scrollbar-y {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 16px;
+	
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	transition: opacity .15s linear;
+	cursor: default;
+}
+
+.scrollbar-y .bar {
+	height: 100%;
+	width: 8px;
+	margin: auto;
+	background-color: #aaa;
+	border-radius: 4px;
+}
+
+:host(':hover') .scrollbar-y {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.scrollbar-y:hover {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.scrollbar-y.scrolling {
+	opacity: 1.0;
+	filter: alpha(opacity = 100);
+}

@@ -1,0 +1,53 @@
+{
+	"name":"mm-button",
+	"description":"A fully-styled primary and secondary button.",
+	"attributes": [
+		{
+			"name":"type",
+			"type":"String",
+			"description":"The type of styling to be applied to the button",
+			"optional":true,
+			"default":"primary",
+			"options":["primary", "secondary"]
+		},
+		{
+			"name":"selected",
+			"type":"Boolean",
+			"description":"Display the selected state of button, for use in a toggle scenario",
+			"optional":true,
+			"default":"null",
+			"options":["true", "false"]
+		},
+		{
+			"name":"fit",
+			"type":"Boolean",
+			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"optional":true,
+			"default":"null",
+			"options":["true", "false"]
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Disable the item",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		}
+	],
+	"methods": [],
+	"properties":[
+		{
+			"name":"type",
+			"type":"String",
+			"description":"The type of the button -- which informs it's style ('primary' for primary, secondary otherwise).",
+			"default":"primary"
+		},
+		{
+			"name":"error",
+			"type":"Boolean",
+			"description":"Triggers the display of invalid visual state.",
+			"default":"false"
+		}
+	]
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 300 250" enable-background="new 0 0 300 250" xml:space="preserve">
+<g>
+	<polygon fill="#303F9F" points="60,125 30,177 60,228.9 90,177 	"/>
+	<polygon fill="#3F51B5" points="240,21.1 210,73 240,125 270,73 	"/>
+	<polygon fill="#7986CB" points="270,73 180,228.9 240,228.9 300,125 	"/>
+	<polygon fill="#FF4081" points="180,21.1 60,228.9 120,228.9 240,21.1 	"/>
+	<polygon fill="#536DFE" points="60,21.1 0,125 30,177 120,21.1 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0.2" points="180,21.1 210,73 240,21.1 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0.1" points="150,73 180,21.1 210,73 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0" points="150,73 180,125 210,73 	"/>
+	<polygon fill-opacity="0.1" points="120,125 150,73 180,125 	"/>
+	<polygon fill-opacity="0.2" points="120,125 150,177 180,125 	"/>
+	<polygon fill-opacity="0.3" points="90,177 120,125 150,177 	"/>
+	<polygon fill-opacity="0.4" points="90,177 120,228.9 150,177 	"/>
+	<polygon fill-opacity="0.5" points="60,228.9 90,177 120,228.9 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0.2" points="60,21.1 90,73 120,21.1 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0.1" points="30,73 60,21.1 90,73 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0" points="30,73 60,125 90,73 	"/>
+	<polygon fill-opacity="0.1" points="0,125 30,73 60,125 	"/>
+	<polygon fill-opacity="0.2" points="0,125 30,177 60,125 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0" points="90,177 60,125 30,177 	"/>
+	<polygon fill-opacity="0.2" points="90,177 60,228.9 30,177 	"/>
+	<polygon fill-opacity="0.2" points="270,73 240,21.1 210,73 	"/>
+	<polygon fill="#FFFFFF" fill-opacity="0" points="270,73 240,125 210,73 	"/>
+	<g>
+		<polygon fill="#FFFFFF" fill-opacity="0.2" points="240,125 270,73 300,125 		"/>
+		<polygon fill="#FFFFFF" fill-opacity="0.1" points="240,125 270,177 300,125 		"/>
+		<polygon fill="#FFFFFF" fill-opacity="0" points="210,177 240,125 270,177 		"/>
+		<polygon fill-opacity="0.1" points="210,177 240,228.9 270,177 		"/>
+		<polygon fill-opacity="0.2" points="180,228.9 210,177 240,228.9 		"/>
+	</g>
+</g>
+</svg>

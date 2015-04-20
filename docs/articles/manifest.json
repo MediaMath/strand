@@ -1,0 +1,13 @@
+[
+	{
+		"key":"getting_started"
+	},
+	{
+		"key":"data_comps_intro",
+		"children":["data_comps_using_ajax","data_comps_using_sync","data_comps_creating_adapters"]
+	},
+	{
+		"key":"grid_intro",
+		"children":["grid_config", "grid_data_integration"]
+	}
+]

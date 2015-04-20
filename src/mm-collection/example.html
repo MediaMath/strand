@@ -1,0 +1,10 @@
+<!-- note this example is intended to show how to use a collection with a data adapter, the example adapter does not exist -->
+<template is="auto-binding">
+	<mm-input value="{{terms}}"></mm-input>
+	<mm-collection id="searchResults" adapter="MMAdapterGithub" auto>
+		<q>{{terms}}</q>
+	</mm-collection>
+	<template repeat="{{$.searchResults.data}}">
+		<div>{{name}}</div>
+	</template>
+</template>

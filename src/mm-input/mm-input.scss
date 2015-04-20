@@ -1,0 +1,112 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* mm-input sass */
+@import "_bourbon";
+@import "_color";
+@import "_dropdown";
+@import "_textinput";
+@import "_mixins";
+
+:host {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+:host('[disabled]') {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+@include fit();
+
+#icon, #clearBtn {
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	display: none;
+	right: 0;
+	top: 50%;
+	margin: -7px 8px 0 0;
+}
+
+#clearBtn {
+	display: none;
+	cursor: pointer;	
+}
+
+._mm_text_input {
+	height: 29px;
+	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
+	padding: 0 10px;
+}
+
+// layout modes for input
+._mm_text_input.opened.top {
+	border-radius: 0px 0px 4px 4px;
+}
+
+._mm_text_input.opened.bottom{
+	border-radius: 4px 4px 0px 0px;
+}
+
+// horizontal
+:host('[layout=hgroup-left]'){
+	._mm_text_input {
+		border-radius: 4px 0px 0px 4px;
+		border-right: none;
+	}
+
+	._mm_text_input.opened.bottom{
+		border-radius: 4px 0px 0px 0px;
+	}
+
+	._mm_text_input.opened.top {
+		border-radius: 0px 0px 0px 4px;
+	}
+}
+
+:host('[layout=hgroup-center]') {
+	._mm_text_input {
+		border-radius: 0 0 0 0;
+		border-left: none;
+		border-right: none;
+	}
+}
+
+:host('[layout=hgroup-right]') {
+	._mm_text_input {
+		border-radius: 0px 4px 4px 0px;
+		border-left: none;
+	}
+
+	._mm_text_input.opened.bottom {
+		border-radius: 0px 4px 0px 0px;
+	}
+
+	._mm_text_input.opened.top {
+		border-radius: 0px 0px 4px 0px;
+	}
+}
+
+// dropdown - mm-input nested in a dropdown
+:host('[layout=dropdown]') {
+	display: block;
+	border-bottom: 1px solid $color-A8;
+
+	._mm_text_input {
+		border:none;
+		box-shadow: none;
+		border-radius: 0 0 0 0;
+	}
+
+	._mm_text_input:focus {
+		box-shadow: none;
+	}
+}

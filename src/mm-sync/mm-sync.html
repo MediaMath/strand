@@ -1,0 +1,21 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mm-ajax/mm-ajax.html">
+<link rel="import" href="../mm-localstore/mm-localstore.html">
+<link rel="import" href="../shared/js/datautils.html">
+
+<polymer-element name="mm-sync" attributes="endpoint" constructor="MMSync">
+	<template>
+		<link href="mm-sync.css" rel="stylesheet" type="text/css"/>
+		<mm-item-notifier subtree="true" characterData="true" watchAttributes="true" target="{{target}}" on-added="{{handleAuto}}" on-removed="{{handleAuto}}" on-modified="{{handleAuto}}"></mm-item-notifier>
+		<content id="content" select="*"></content>
+		<mm-localstore id="csrf" name="csrf"></mm-localstore>
+		<mm-localstore id="globals" name="globals"></mm-localstore>
+	</template>
+	<script src="mm-sync.js"></script>
+</polymer-element>

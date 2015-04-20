@@ -1,0 +1,21 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mm-item-notifier/mm-item-notifier.html">
+<polymer-element name="mm-scroll-panel" attributes="scope" constructor="MMScrollPanel">
+	<template>
+		<link href="mm-scroll-panel.css" rel="stylesheet" type="text/css"/>
+		<mm-item-notifier target="{{scope}}" on-added="{{itemChanged}}" on-removed="{{itemChanged}}"></mm-item-notifier>
+		<div id="viewport" class="container">
+			<content></content>
+		</div>
+		<div id="scrollbarY" class="scrollbar-y" on-down="{{onDown}}" on-track="{{onTrack}}" on-up="{{onUp}}">
+			<div class="bar"></div>
+		</div>
+	</template>
+	<script src="mm-scroll-panel.js"></script>
+</polymer-element>

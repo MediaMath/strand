@@ -1,0 +1,21 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mm-icon/mm-icon.html">
+<polymer-element name="mm-docs-nav" attributes="expanded">
+	<template>
+		<link href="mm-docs-nav.css" rel="stylesheet" type="text/css"/>
+		<div id="labelArea" on-tap="{{labelTap}}">
+			<content select="mm-header"></content>
+			<mm-icon type="carat" width="10" height="10" class="{{ {opened:expanded == true} | tokenList }}"></mm-icon>
+		</div>
+		<div id="expandArea" on-tap={{listTap}}>
+			<content select="mm-list-item"></content>
+		</div>
+	</template>
+	<script src="mm-docs-nav.js"></script>
+</polymer-element>

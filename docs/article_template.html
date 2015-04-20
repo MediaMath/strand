@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	{{> head}}
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="{{revision}}" mobileHeader="Strand Docs">
+			{{> sidebar}}
+			<article class="layout-article">
+				<div class="docs-content article">
+					{{{article}}}
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			{{> footer}}
+		</mm-docs-shell>
+		<script>
+			var name = "{{name}}",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				articlesNav = document.querySelector("#articlesNav");
+				componentsNav = document.querySelector("#componentsNav");
+				docsShell = document.querySelector("#docsShell");
+				navItems = document.querySelectorAll("mm-list-item");
+
+				// default expanded:
+				articlesNav.expanded = true;
+				componentsNav.expanded = false;
+
+				hljs.initHighlighting();
+
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
+
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}
+		</script>
+	</body>
+</html>

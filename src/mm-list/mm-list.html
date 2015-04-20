@@ -1,0 +1,16 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../mm-item-notifier/mm-item-notifier.html"/>
+<polymer-element name="mm-list" attributes="selectedIndex activeIndex valueAttr selectedClass activeAttr itemSelector target model scope" constructor="MMList">
+	<template>
+		<link href="mm-list.css" rel="stylesheet" type="text/css"/>
+		<mm-item-notifier target="{{scope}}" on-added="{{itemAdded}}" on-removed="{{itemRemoved}}"></mm-item-notifier>
+		<content id="content" select="*"></content>
+	</template>
+	<script src="mm-list.js"></script>
+</polymer-element>

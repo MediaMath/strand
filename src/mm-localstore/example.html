@@ -1,0 +1,7 @@
+<template is="auto-binding">
+<mm-input value="{{value}}"></mm-input>
+<mm-localstore key="example" value="{{value}}"></mm-localstore>
+<template if="{{!value}}">
+	<div>After typing a value reload this page to see the value persisted.</div>
+</template>
+</template>

@@ -1,0 +1,27 @@
+<mm-grid id="mmTestGrid" itemTemplate="customTemplate" unresolved style="width: 100%">
+	<mm-grid-column field="first_name" resize sort>First Name</mm-grid-column>
+	<mm-grid-column field="last_name" resize sort>Last Name</mm-grid-column>
+	<mm-grid-column field="actions" sort></mm-grid-column>
+	<template id="customTemplate">
+	    <mm-grid-item model="{{model}}" scope="{{scope}}">
+	        <div field="first_name">Custom Text - {{model.first_name}}</div>
+	        <div field="actions"><mm-icon width="15" height="15" type="actions"></mm-icon></div>
+	    </mm-grid-item>
+	</template>
+</mm-grid> 
+<script>
+	var grid = document.querySelector("#mmTestGrid"),
+		data = [];
+
+	for(var i=0; i<50; i++){
+		data.push({
+			first_name: "First",
+			last_name: "Last",
+			email: "text@example.com"
+		});
+	}
+
+	window.addEventListener("polymer-ready", function() {
+		grid.data = data;
+	});
+</script>

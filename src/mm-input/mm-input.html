@@ -1,0 +1,42 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../mm-close-panel/mm-close-panel.html"/>
+<link rel="import" href="../mm-list/mm-list.html"/>
+<link rel="import" href="../mm-list-item/mm-list-item.html"/>
+<link rel="import" href="../shared/js/measure.html"/>
+<polymer-element name="mm-input" attributes="value overflow placeholder validation disabled search icon clear maxlength autocomplete width layout fitparent maxItems error data type" constructor="MMInput">
+	<template>	
+		<link href="mm-input.css" rel="stylesheet" type="text/css"/>
+		<input id="input" type="{{type}}" class="_mm_text_input {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', invalid:error == true } | tokenList }}" placeholder="{{placeholder}}" value="{{value}}" maxlength="{{maxlength}}" style="width:{{width | getWidth}}; padding-right:{{ paddingRight }}px;" />
+		
+		<span id="icon">
+			<mm-icon type="{{icon}}" width="14" height="14" primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+		</span>
+
+		<span id="clearBtn" class="clear-btn" on-click="{{clearInput}}">
+			<mm-icon type="fail" width="14" height="14" primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+		</span>
+
+		<template if="{{autocomplete}}">
+			<mm-close-panel id="closePanel" fitparent="{{fitparent}}" target="{{$.input}}" offsetY="-1" auto="true" mode="dropdown" state="{{state}}" scope="{{}}" class="{{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP' } | tokenList }}">
+				<content id="search" select="mm-input"></content>
+				<div id="scrollContainer" class="scroll-container {{ { _mm_visible: overflow == 'visible', _mm_hidden: overflow == 'hidden' } | tokenList }}">
+					<mm-list on-selected="{{onSelectItem}}" id="itemList">
+						<template repeat="{{searchItems}}">
+							<mm-list-item value="{{value}}">{{name}}</mm-list-item>
+						</template>
+					</mm-list>
+				</div>
+			</mm-close-panel>
+		</template>
+	</template>
+	<script src="mm-input.js"></script>
+</polymer-element>

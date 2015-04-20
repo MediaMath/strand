@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="mm-collection.html">
+  </head>
+  <body>
+    <mm-collection></mm-collection>
+    <script type="text/javascript">
+    window.addEventListener("polymer-ready", function() {
+    	document.querySelector("mm-collection").addEventListener("data-changed", function(e) {
+    		console.log("test handler - data changed", e);
+    	});
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+	"name":"{{name}}",
+	"description":"",
+	"attributes": [
+		{
+			"name":"",
+			"description":"",
+			"options":[
+
+			]
+		}
+	],
+	"examples":[
+		""
+	]
+}

@@ -1,0 +1,7 @@
+<template is="auto-binding">
+	<mm-sync id="search" endpoint="https://api.github.com/search/code?q=polymer+in:file+language:js+repo:polymer/polymer" auto>
+	</mm-sync>
+	<template repeat="{{$.search.data.items}}">
+		{{name}}
+	</template>
+</template>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<link rel="import" href="../mm-list-item/mm-list-item.html">	
+    <link rel="import" href="mm-list.html">
+  </head>
+  <body unresolved>
+    <mm-list id="test">
+		<mm-list-item>Item here 01</mm-list-item>
+		<mm-list-item>Item here 02</mm-list-item>
+		<mm-list-item>Item here 03</mm-list-item>
+		<mm-list-item>Item here 04</mm-list-item>
+	</mm-list>
+	<mm-list id="test">
+		<a href="">wat</a>
+		<mm-list-item>Item here 01</mm-list-item>
+		<mm-list-item>Item here 02</mm-list-item>
+		<mm-list-item>Item here 03</mm-list-item>
+		<mm-list-item>Item here 04</mm-list-item>
+	</mm-list>
+	<div id="log"></div>
+	<script>
+	window.addEventListener("polymer-ready", function() {
+		var logger = document.getElementById("log");
+		document.getElementById("test").addEventListener("selected", function(e) {
+			logger.innerHTML += Date.now() + " " + e.detail.index + "<br/>";
+		})
+	})
+	</script>
+  </body>
+</html>

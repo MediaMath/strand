@@ -1,0 +1,24 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mm-spinner/mm-spinner.html">
+<polymer-element name="mm-loader" attributes="spinnerRadius spinnerNumTicks spinnerFillColor spinnerLineWidth spinnerLineWeight spinnerNumTicks bgColor bgOpacity paddingTop paddingLeft" constructor="MMLoader">
+	<template>
+		
+		<link href="mm-loader.css" rel="stylesheet" type="text/css"/>
+		
+		<div class="_mm_loader" style="background:{{ bgColor | convertHex }}; border-radius:{{ spinner.radius*2 }}px; padding:{{ paddingTop }}px {{paddingLeft}}px {{paddingTop}}px {{paddingLeft}}px;">
+			<content id="userSpinner" select="mm-spinner"></content>
+			<template if="{{!hasUserSpinner}}">
+				<mm-spinner id="spinner"></mm-spinner>
+			</template>
+			<content select="label"></content>
+		</div>
+
+	</template>
+	<script src="mm-loader.js"></script>
+</polymer-element>

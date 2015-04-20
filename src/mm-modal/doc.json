@@ -1,0 +1,70 @@
+{
+	"name":"mm-modal",
+	"description":"A modal container and semi-transparent blocker view to display developer defined content.",
+	"attributes": [
+		{
+			"name":"visible",
+			"type":"Boolean",
+			"description":"The visible state of the modal and blocker.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"width",
+			"type":"int",
+			"description":"The pixel width of the modal window.",
+			"optional":true,
+			"default":"600",
+			"options":[]
+		},
+		{
+			"name":"noscroll",
+			"type":"Boolean",
+			"description":"Disable page scrolling while modal is open",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"dismiss",
+			"type":"Boolean",
+			"description":"Whether or not the modal can be dismissed by the user.",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"]
+		}
+	],
+	"methods": [
+		{
+			"name":"show",
+			"description":"Shows the modal.",
+			"arguments":[]
+		},
+		{
+			"name":"hide",
+			"description":"Hides the modal.",
+			"arguments":[]
+		}
+	],
+	"properties":[
+		{
+			"name":"visible",
+			"type":"string",
+			"description":"The visible state of the modal and blocker.",
+			"default":"false"
+		},
+		{
+			"name":"width",
+			"type":"int",
+			"description":"The pixel width of the modal window.",
+			"default":"600"
+		},
+		{
+			"name":"dismiss",
+			"type":"string",
+			"description":"Whether or not the modal can be dismissed by the user.",
+			"default":"true"
+		}
+	]
+}
