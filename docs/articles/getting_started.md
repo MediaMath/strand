@@ -25,7 +25,7 @@ Start adding web component tags to your markup or template wherever you would li
 </mm-button>
 ```
 
-To add an event trigger for when all polymer elements on the page have been upgraded and are ready to use, try the following:
+To add an event trigger for when all Polymer elements on the page have been upgraded and are ready to use, try the following:
 
 ```javascript
 window.addEventListener("polymer-ready", function() { 
