@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<div class="layout-article">
+			<header class="hp-header">
+				<div class="docs-logo">
+					<a href="javascript:void(0)" class="strand-logo">
+						<img src="images/strand-logo.svg" />
+					</a>
+					<!-- <p class="mini-subhead version">v1.0.0</p> -->
+				</div>
+				<div class="docs-btns">
+					<!-- 
+					<mm-button id="docsBtn"><label>Project Docs</label></mm-button>
+					<mm-button id="sourceBtn"><label>Project Source</label></mm-button> 
+					-->
+					<mm-action id="docsBtn">
+						<mm-icon type="contextual" width="20" height="20"></mm-icon>
+						<label>Project Docs</label>
+					</mm-action>
+					<mm-action id="sourceBtn">
+						<mm-icon type="tools" width="20" height="20"></mm-icon>
+						<label>Project Source</label>
+					</mm-action>
+				</div>
+			</header>
+			<div class="docs-content intro">
+				<div class="intro-block top">
+					<div class="intro-content top">
+						<img class="hero-image" src="images/strand-logo-only.svg" />
+						<div class="hero-text">
+							<h1>Strand: a UI Web Components Library</h1>
+							<p>Strand is a growing library of common UI widgets built as web components. Strand components are cohesive in look and feel and designed to be interoperable. We've built Strand atop Google's Polymer framework.</p>
+						</div>
+					</div>
+				</div>
+				<div class="intro-block">
+					<div class="intro-content bottom">
+						<div class="hero-block">
+							<!-- 
+							<div class="hero-img">
+								<img src="images/spot-graphic-01.svg" />
+							</div>
+ 							 -->
+							<h2>Who is Strand For?</h2>
+							<p>Strand is for developers who want to quickly mock up an application, or who want to get an 'out-of-the-box' user interface up and running with minimal effort.</p>
+						</div>
+						<div class="hero-block">
+							<!-- 
+							<div class="hero-img">
+								<img src="images/spot-graphic-02.svg" />
+							</div>
+							 -->
+							<h2>Why use Strand?</h2>
+							<p>Web components are the future of web application development. Web components offer logic and styling encapsulation, which removes boilerplate from your application. Each Strand component is designed with intent to separate component behavior from the underlying data as much as possible.</p>
+						</div>
+						<div class="hero-block">
+							<!-- 
+							<div class="hero-img">
+								<img src="images/spot-graphic-03.svg" />
+							</div>
+							 -->
+							<h2>Why build on Polymer?</h2>
+							<p>Polymer provides essential sugar as well as 2 way binding to increase developer velocity and reduce boilerplate.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layout-push"></div>
+		</div>
+		<footer class="footer">
+			<div class="docs-footer">
+				<div class="footer-logo-box">
+					<div class="powered-by">
+						<p class="mini-subhead">Powered By</p>
+						<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+					</div>
+					<div class="mediamath">
+						<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+					</div>
+				</div>
+				<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+			</div>
+		</footer>		<script>
+			var docsBtns,
+				sourceBtn; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				docsBtn = document.querySelector("#docsBtn");
+				sourceBtn = document.querySelector("#sourceBtn");
+
+				docsBtn.addEventListener("click", function(e) {
+					e.preventDefault();
+					window.location = "article_getting_started.html";
+				});
+
+				sourceBtn.addEventListener("click", function(e) {
+					e.preventDefault();
+					window.location = "https://github.com/MediaMath/strand";
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<mm-docs-shell id="docsShell" version="1.0.0" mobileHeader="Strand Docs">
+			<div class="docs-logo">
+				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v1.0.0</p>
+			</div>
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>			<article class="layout-article">
+				<div class="docs-content article">
+					<h1 id="using-mm-ajax">Using MM-Ajax</h1>
+<h2 id="overview">Overview</h2>
+<p>MM-Ajax is an extremely low level wrapper for the base XMLHttpRequest object present in all modern browsers. It exposes this functionality and accounts for some of the more common serialization scenarios in a matter consistent with jQuery&#39;s serialize method. as well as having higher level abstractions for resetting the request and managing raw inputs such as headers. See the <a href="mm-ajax.html">component documentation page</a> for more details.</p>
+<h2 id="examples">Examples</h2>
+<p>It is possible to use mm-ajax in a variety of possible scenarios. Lets walk through 2 of the more common.</p>
+<p>Using mm-ajax for a simple get request using markup for configuration.</p>
+<pre><code class="lang-html">&lt;mm-ajax id=&quot;simpleGet&quot; url=&quot;http://example.com/api&quot; method=&quot;get&quot;&gt;&lt;/mm-ajax&gt;
+&lt;script&gt;
+window.addEventListener(&quot;polymer-ready&quot;, function() {
+    document.querySelector(&quot;#simpleGet&quot;).exec();
+});
+&lt;/script&gt;
+</code></pre>
+<p>the example above is probably the simplest case for an ajax component. It makes a simple get request as soon as the component has loaded and the url and method are configured via markup flags.</p>
+<p>Unfortunately in this example our data is going nowhere.  Lets do something with the data by adding a 2-way bind to an <a href="http://polymer-project.org">auto binding template</a>.</p>
+<pre><code class="lang-html">&lt;template is=&quot;auto-binding&quot;&gt;
+    &lt;mm-ajax id=&quot;simpleGet&quot; url=&quot;http://example.com/api&quot; method=&quot;get&quot; response=&quot;{{response}}&quot;&gt;&lt;/mm-ajax&gt;
+    &lt;div&gt;{{response}}&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+<p>As you can see we are now dumping the response object into a div.  Since this is likely a parsed javascript object (in modern apis) this div will actually render [Object object]. It is possible to observe raw JSON for debugging by piping the result through a <a href="http://polymer-project.org">filter method.</a></p>
+<p>Another common usage scenario for ajax requests is to instantiate them entirely via JS. Because polymer allows exposing component constructors it is possible to create and format the entire request via JS:</p>
+<pre><code class="lang-Javascript">var ajax = new MMAjax();
+ajax.url = &quot;http://www.example.com/api&quot;;
+ajax.method = ajax.POST;
+ajax.addParam(DataUtils.param(&quot;test&quot;,1234)); //optionally {name:&quot;test&quot;,value:1234}
+ajax.addEventListener(&quot;data-ready&quot;, function() { 
+    console.log(ajax.result);
+});
+//we also expose a promise based callback system
+ajax.promise.then(function() {
+    console.log(ajax.result);
+});
+</code></pre>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			<footer class="footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>		</mm-docs-shell>
+		<script>
+			var name = "data_comps_using_ajax",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				articlesNav = document.querySelector("#articlesNav");
+				componentsNav = document.querySelector("#componentsNav");
+				docsShell = document.querySelector("#docsShell");
+				navItems = document.querySelectorAll("mm-list-item");
+
+				// default expanded:
+				articlesNav.expanded = true;
+				componentsNav.expanded = false;
+
+				hljs.initHighlighting();
+
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
+
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<mm-docs-shell id="docsShell" version="1.0.0" mobileHeader="Strand Docs">
+			<div class="docs-logo">
+				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v1.0.0</p>
+			</div>
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-ajax</h1>
+					<p>A simple non rendered XMLHttpRequest wrapper api.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor-mm-ajax" class="editor">&lt;template is=&quot;auto-binding&quot;&gt;
+    &lt;mm-ajax method=&quot;GET&quot; url=&quot;//mediamath.github.io/strand/index.html&quot; response=&quot;{{resp}}&quot; auto&gt;
+    &lt;/mm-ajax&gt;
+    &lt;mm-scroll-panel style=&quot;width:100%; height: 120px&quot;&gt;
+    &lt;mm-header size=&quot;tiny&quot;&gt;data:&lt;/mm-header&gt;
+    {{resp}}
+    &lt;/mm-scroll-panel&gt;
+&lt;/template&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-ajax"><template is="auto-binding">
+    <mm-ajax method="GET" url="//mediamath.github.io/strand/index.html" response="{{resp}}" auto>
+    </mm-ajax>
+    <mm-scroll-panel style="width:100%; height: 120px">
+    <mm-header size="tiny">data:</mm-header>
+    {{resp}}
+    </mm-scroll-panel>
+</template></div>
+					</section>
+					<section>
+						<h3>Attributes</h3>
+						<table>
+							<tr>
+								<th>Attribute</th>								
+								<th>Options</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">contentType : </span>String (Optional)
+									<span class="desc italic">Default value: application/x-www-form-urlencoded</span>
+									<span class="desc">Content type header to send to server</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">method : </span>String (Optional)
+									<span class="desc italic">Default value: GET</span>
+									<span class="desc">http request method to use for XHR call. Note that the component exposes constants for dev usage.</span>
+								</td>
+								<td><span class="option">'GET'</span><span class="option">'POST'</span><span class="option">'PUT'</span><span class="option">'DELETE'</span></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">auto : </span>Boolean (Optional)
+									<span class="desc italic">Default value: false</span>
+									<span class="desc">when auto is true exec() is called whenever the body changes</span>
+								</td>
+								<td><span class="option">'true'</span><span class="option">'false'</span></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">debug : </span>Boolean (Optional)
+									<span class="desc italic">Default value: false</span>
+									<span class="desc">Show debugging information inline instead of hiding the component.</span>
+								</td>
+								<td><span class="option">'true'</span><span class="option">'false'</span></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">body : </span>Object (Optional)
+									
+									<span class="desc">The request body to pass to the server for POST or PUT calls</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">response : </span>Object (or any primitive)
+									
+									<span class="desc">The response from the server</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">withCredentials : </span>Boolean (Optional)
+									<span class="desc italic">Default value: false</span>
+									<span class="desc">Passes the withCredentials param to the XHR needed for some secure CORS scenarios.</span>
+								</td>
+								<td><span class="option">'true'</span><span class="option">'false'</span></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">timeout : </span>Boolean (Optional)
+									<span class="desc italic">Default value: 10000</span>
+									<span class="desc">XHR timeout in milliseconds</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">status : </span>String (readonly)
+									
+									<span class="desc">Readonly XHR object status string</span>
+								</td>
+								<td><span class="option">'true'</span><span class="option">'false'</span></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">state : </span>Boolean (readonly)
+									
+									
+								</td>
+								<td><span class="option">'true'</span><span class="option">'false'</span></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">xhr : </span>Object (readonly) (Optional)
+									
+									<span class="desc">A reference to the XHR object created for this call if needed</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">promise : </span>Object (readonly)
+									
+									<span class="desc">returns an A+ compatible promise (pinkyswear) that may be used for request chaining</span>
+								</td>
+								<td>none</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">reset</span>(<span></span>)
+									<span class="desc">creates a new XHR and promise object so that a 2nd call can be made. Also clears all settings.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">exec</span>(<span></span>)
+									<span class="desc">Triggers the XHR call.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">abort</span>(<span></span>)
+									<span class="desc">Cancels an in progres XHR call.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">addHeader</span>(<span><span class="option">name</span><span class="option">value</span></span>)
+									<span class="desc">Adds a header name/value pair to the headers array.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">name</span> : String
+										<span class="desc italic">Default value: undefined</span>
+										<span class="desc">The name of the header eg: X-Requested-By</span>
+									</span>
+									<span class="arg">
+										<span class="bold">value</span> : String
+										<span class="desc italic">Default value: undefined</span>
+										<span class="desc">The value of the header</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">addParam</span>(<span><span class="option">name</span><span class="option">value</span></span>)
+									<span class="desc">Adds a queryString name/value pair to the params array.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">name</span> : String
+										<span class="desc italic">Default value: undefined</span>
+										<span class="desc">The name of the query param</span>
+									</span>
+									<span class="arg">
+										<span class="bold">value</span> : String
+										<span class="desc italic">Default value: undefined</span>
+										<span class="desc">The value of the query param</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">addUrlParam</span>(<span><span class="option">name</span></span>)
+									<span class="desc">Adds a url chunk to the urlParams array. Useful for ids or other dynamic url parts. / is added automatically.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">name</span> : String
+										<span class="desc italic">Default value: undefined</span>
+										<span class="desc">The name of the url chunk to add.</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Events</h3>
+						<table>
+							<tr>
+								<th>Event</th>
+								<th>Event Detail</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'data-abort'</span>
+									
+								</td>
+								<td>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'data-progress'</span>
+									
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">percent</span> : Number
+										<span class="desc">Decimal percentage of the progress. From 0 to 1.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">total</span> : Number
+										<span class="desc">The total size in bytes of the request.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">current</span> : Number
+										<span class="desc">The current number of bytes loaded.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'data-error'</span>
+									
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">error</span> : String
+										<span class="desc">A message about what has failed</span>
+									</span>
+									<span class="arg">
+										<span class="bold">instance</span> : Object
+										<span class="desc">A reference to the mm-ajax instance that failed</span>
+									</span>
+									<span class="arg">
+										<span class="bold">response</span> : Object (optional)
+										<span class="desc">In cases where the response has actually been recieved before the error this will contain the API response if any.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'data-result'</span>
+									<span class="desc italic">This is fired when the server responds but before JSON or blob parsing has occured.</span>
+								</td>
+								<td>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'data-ready'</span>
+									<span class="desc italic">This is fired when the data is parsed and available on the response property</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">response</span> : Object
+										<span class="desc">The parsed response from the server</span>
+									</span>
+									<span class="arg">
+										<span class="bold">instance</span> : Object
+										<span class="desc">A reference to the mm-ajax component that requested the response</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_data_comps_using_ajax.html"> Using MM-Ajax</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			<footer class="footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>		</mm-docs-shell>
+		<script>
+			var name = "mm-ajax",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav = document.querySelector("#articlesNav");
+					componentsNav = document.querySelector("#componentsNav");
+					docsShell = document.querySelector("#docsShell");
+					navItems = document.querySelectorAll("mm-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor-mm-ajax");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setUseWrapMode(true);
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				$example.empty().html(editor.session.getValue());
+				// hacks to retrigger the scripts in example:
+				window.dispatchEvent(new Event('polymer-ready'));
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}	
+		</script>
+	</body>
+</html>

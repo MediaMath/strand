@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<mm-docs-shell id="docsShell" version="1.0.0" mobileHeader="Strand Docs">
+			<div class="docs-logo">
+				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v1.0.0</p>
+			</div>
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>			<article class="layout-article">
+				<div class="docs-content article">
+					<h1 id="creating-adapters">Creating Adapters</h1>
+<h2 id="overview">Overview</h2>
+<p>Adapters in general should extend mm-sync, or implement an API consistent with sync&#39;s to work with models/collections (notably post, get, etc).  Sync should provide most of the functionality needed to handle a standard RESTful API, but for more complicated use cases there are internal methods designed to be overwritten for marshaling data too and from nonstandard formats. In general adapter design should favor DOM configuration over javascript, but both should be accessible.</p>
+<p>When <code>auto</code> is true on MM-Sync dom changes are watched via the <code>mm-item-notifier</code> component which dispatches change events for child modification (including due to 2way binds). Your adapter should de designed with this in mind. We will get into this a little bit later as we look at <code>getDomParams</code></p>
+<h2 id="publish-block-defaults-">Publish Block (Defaults)</h2>
+<p>MM-Sync exposes a large number of properties that can affect how it consumes and uses data.  In general most of these need to be explicitly set in your adapter to define the behavior you want.</p>
+<p>Some common params that you will want to tweak:</p>
+<pre><code class="lang-javascript">cacheBuster:&quot;nowTime&quot;, //specify the cache buster string if any
+cacheCsrf: true, //store the CSRF header (following mm standard) in localstorage
+cacheGlobals: true, //cache properties saved via setGlobal getGlobal on sync in localstorage
+withCredentials: true, //set this if you are doing any sort of XHR + CORS with ssl
+autoIgnoreNodes:[&quot;sort&quot;,&quot;search&quot;], //tells sync which dom nodes to ignore for automatically updating when auto is true
+</code></pre>
+<h2 id="working-with-dom">Working with DOM</h2>
+<p>Commonly you will want to address any query configuration for your API via dom so that it is 2 way bindable from other components:</p>
+<pre><code class="lang-html">&lt;mm-model&gt;
+    &lt;someConfig conf&gt;things&lt;/someConfig&gt;
+&lt;/mm-model&gt;
+</code></pre>
+<p>this means that someone can easily bind into your data config from user driven components</p>
+<pre><code class="lang-html">&lt;mm-input value=&quot;{{stuff}}&quot;
+&lt;mm-model&gt;
+    &lt;someConfig conf&gt;{{stuff}}&lt;/someConfig&gt;
+&lt;/mm-model&gt;
+</code></pre>
+<h3 id="domready">DomReady</h3>
+<p>First, make sure that you have overloaded the <code>domReady</code> method from sync and are calling <code>this.super()</code> in your overloaded method.  This is necessary due to the vagaries of polymer&#39;s inheritance where lifecycle methods are not passed to the subclass without an overload.</p>
+<pre><code class="lang-javascript">    domReady: function() {
+        this.super();
+    },
+</code></pre>
+<p>Now that we have listeners in place lets look at how to actually work with the user manipulated lightDOM.</p>
+<h3 id="handle-ignored-nodes">Handle Ignored Nodes</h3>
+<p>Configuring the adapter via dom is useful even for JS driven calls to <code>get</code> or <code>post</code></p>
+<p>MM-Sync provides a bare method called <code>handleIgnoredNode</code> which is called whenever the node name of the changed node matches one of the strings found in the <code>autoIgnoreNodes</code> array in the publish block.</p>
+<p>The method is passed a reference to the node itself (or its parent if its a text node) as well as a boolean which is true when the node in question is a text node (useful for filtering out value only changes, but still knowing which param should be updated).</p>
+<p>So far the only actual use case for this type of filtering has been dealing with sorting params changing when in a collection that is using paging. Because the fetching behavior is already triggered by the page being reset to 0, we intentionally ignore these nodes to avoid causing a double call.</p>
+<pre><code class="lang-javascript">handleIgnoredNode:function(node, isTextNode) {
+    //do things about paging
+}
+</code></pre>
+<h3 id="managing-adapter-via-dom-params">Managing adapter via DOM params</h3>
+<p>For ordinary dom param manipulation cases we handle updating our internal params in a single method called <code>getDomParams</code>.  This method is called when the lightDOM params are updated by either binds or modifications via js dom manipulation to any of the config nodes. By default this method will parse <code>&lt;input-params&gt;</code> and <code>&lt;output-params&gt;</code> tags as well as associated header, query and url children.  In general your api wrapper should provide tags that are consistent with the api&#39;s design to ease the overall usage of your adapter.</p>
+<p>As you can see by looking at the mm-sync source, the parent method returns a domProps object that has already been parsed from the lightDom so the only task required in this method is to map the nodes (by name) into their respective input and output arrays of params.  The call method is also provided as a <code>mode</code> string which can be used to ignore some params that are bound to a specific mode of operation.</p>
+<p>A note about the input and output params.  As we saw in <a href="article_data_comps_using_sync.html">mm-sync</a> there are 2 arrays for managing url, query and header params in each &#39;direction&#39; of data traffic. </p>
+<p>We reserve <code>this.inputParams</code> and <code>this.outputParams</code> for direct javascript usage by the developer. This means that we must use an internal property to actually set our combined params.  By convention we define this as <code>this._inputParams</code> and <code>this._outputParams</code>. </p>
+<p>Please avoid tampering with the developer&#39;s JS settings where possible.  If <code>this.super()</code> is called at the beginning of this method, the developer specified params should be merged and available at runtime in the underscored array if any modification is necessary.</p>
+<p>Here is an example of a custom API definition using <code>getDomParams</code></p>
+<pre><code class="lang-javascript">getDomParams: function(mode) {
+    var domProps = this.super();
+    if (mode === &quot;get&quot; &amp;&amp; this.targetType === &quot;collection&quot;) {
+        if (domProps.searchQuery) {
+            domProps.searchQuery.forEach(function(search) {
+                this._inputParams.queryParams.push(DataUtils.param(&quot;search&quot;, search.inner));
+            });
+        }
+    }
+}
+</code></pre>
+<h2 id="working-with-data">Working with Data</h2>
+<p>In simple cases where the api returns a straightforward JSON format with no additional serialization necessary there will be no need for this section. For other use cases where the API returns data in a format that needs to be transformed before it is usable by a client side developer there are a built in set of transform methods that are called on both input and output of data.</p>
+<h3 id="models">Models</h3>
+<p>When deserializing the api data into a usable data format, <code>setModelData</code> should be used.  This is called by sync as part of the response handling so no additional work is required.</p>
+<pre><code class="lang-javascript">setModelData: function(model, result) {
+    //stuff our api respond into model.data here
+    //return is ignored
+},
+</code></pre>
+<p>Conversely if it is necessary to transform the data prior to sending it to the server (in a consistent manner--individual view transforms can be handled by piping a bound dataset through a filter) <code>getModelData</code> may be overloaded and used to generate a new format or ignore certain properties that the server cannot handle.</p>
+<pre><code class="lang-javascript">getModelData: function(model) {
+    //return model.data or marshaled version of model.data as necessary.
+}
+</code></pre>
+<h3 id="collections">Collections</h3>
+<p>Similarly for collections it may be necessary to transform the api format into a nested set of mm-model objects or similar depending on your use case. By default mm-sync will attempt to marshall any objects it finds in an array formatted response into mm-model objects, but additional or more specific work may be required in certain cases. Additionally when paging is enabled the setter method gets an additional paging object that tells this method where to place the data in the collection.</p>
+<pre><code class="lang-javascript">setCollectionData: function(collection, response, paging) {
+    //marshall server response into collection.data using paging.page and paging.pageSize as necessary
+}
+</code></pre>
+<p>When marshaling back to server format it is also necessary to unstack any model.data properties back to plain objects. Similar to <code>getModelData</code>, this method expects the return to be an array of server format marshaled objects or string data.</p>
+<pre><code class="lang-javascript">getCollectionData: function(collection) {
+    //unstack any mm-models into normal objects
+    //return collection.data.map(function(model) {
+        model.toJSON();
+    })
+}
+</code></pre>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			<footer class="footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>		</mm-docs-shell>
+		<script>
+			var name = "data_comps_creating_adapters",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				articlesNav = document.querySelector("#articlesNav");
+				componentsNav = document.querySelector("#componentsNav");
+				docsShell = document.querySelector("#docsShell");
+				navItems = document.querySelectorAll("mm-list-item");
+
+				// default expanded:
+				articlesNav.expanded = true;
+				componentsNav.expanded = false;
+
+				hljs.initHighlighting();
+
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
+
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}
+		</script>
+	</body>
+</html>

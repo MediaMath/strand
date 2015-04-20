@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<mm-docs-shell id="docsShell" version="1.0.0" mobileHeader="Strand Docs">
+			<div class="docs-logo">
+				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v1.0.0</p>
+			</div>
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>			<article class="layout-article">
+				<div class="docs-content article">
+					<h1 id="data-integration-with-mm-grid">Data Integration with mm-grid</h1>
+<h2 id="basic-data-integration">Basic Data Integration</h2>
+<p>It is quite straightforward to get an array of data into the grid. And because of 2-way binding, there are no render or update methods to worry about. Any changes to your data will automatically be reflected in the grid.</p>
+<h3 id="example">Example</h3>
+<p>Given an array of data like this:</p>
+<pre><code class="lang-javascript">    var userData = [{
+        first_name: &quot;First&quot;,
+        last_name: &quot;Last&quot;,
+        email: &quot;test@example.com&quot;
+    }, ... ];
+</code></pre>
+<p>All we have to do is assign the &quot;userData&quot; array to the <code>data</code> property on the grid like so:</p>
+<pre><code class="lang-javascript">    window.addEventListener(&quot;polymer-ready&quot;, function() {
+        document.getElementById(&quot;mm-grid&quot;).data = userData;
+    });
+</code></pre>
+<p>This will kick off the grid lifecycle and generate our item-recycled grid-items!</p>
+<h2 id="data-components">Data Components</h2>
+<p><code>mm-grid</code> plays nicely with our set of <a href="article_data_comps_intro.html">data components</a>. With two-way binding we eliminate the boilerplate code that would be required to wire these components together. All that is required is a bit of up-front configuration. In order to get an understanding of how data components work, please read more about using them <a href="article_data_comps_intro.html">here</a>.</p>
+<h3 id="searchable-grid-example">Searchable Grid Example</h3>
+<p>Let&#39;s imagine that we have a service that provides a collection of &quot;users&quot; that we can retrieve. We can easily set up a searchable grid. We will add an <code>mm-collection</code> - configured to retrieve what we need, our <code>mm-grid</code> - configured to display the data fields we need, and an <code>mm-input</code> with its value bound to our mm-collection&#39;s <code>&lt;search&gt;</code> tag. Changes to the input value will automatically trigger a change in the collection, which will fetch the appropriate results and update the grid - All through two-way binding.</p>
+<pre><code class="lang-html">    &lt;template is=&quot;auto-binding&quot;&gt;
+        &lt;mm-input value=&quot;{{terms}}&quot;&gt;&lt;/mm-input&gt;
+
+        &lt;mm-collection data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; auto&gt;
+            &lt;entity&gt;users&lt;/entity&gt;
+            &lt;search comparison=&quot;equals&quot; field=&quot;first_name&quot;&gt;{{terms}}&lt;/search&gt;
+            &lt;search comparison=&quot;equals&quot; field=&quot;last_name&quot;&gt;{{terms}}&lt;/search&gt;
+        &lt;/mm-collection&gt;
+
+        &lt;mm-grid data=&quot;{{data}}&quot; index=&quot;{{page}}&quot;&gt;
+            &lt;mm-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/mm-grid-column&gt;
+            &lt;mm-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/mm-grid-column&gt;
+            &lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
+        &lt;/mm-grid&gt;
+    &lt;/template&gt;
+</code></pre>
+<p>Data components also have the ability to take care of things like paging in the grid. As a user scrolls down the grid, the collection will automatically fetch the next set of results to display. This is handled by binding the <code>index</code> properties of the collection and grid together (as seen above).</p>
+<h3 id="sortable-grid-example">Sortable Grid Example</h3>
+<p>Another grid use case that ties in nicely with data components is sorting. Like searching, it can be achieved solely by two-way binding. Adding the appropriate binds to the <code>sortOrder</code> and <code>sortField</code> properties on the grid, and enabling the <code>sort</code> flags on the desired grid-columns will get this running. Example below:</p>
+<pre><code class="lang-html">    &lt;template is=&quot;auto-binding&quot;&gt;
+        &lt;mm-collection data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; auto&gt;
+            &lt;entity&gt;users&lt;/entity&gt;
+            &lt;sort descending?=&quot;{{sortOrder == -1}}&quot;&gt;{{sortField}}&lt;/sort&gt;
+        &lt;/mm-collection&gt;
+
+        &lt;mm-grid data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; sortField=&quot;{{sortField}}&quot; sortOrder=&quot;{{sortOrder}}&quot;&gt;
+            &lt;mm-grid-column field=&quot;first_name&quot; sort sortField=&quot;firstName&quot;&gt;First Name&lt;/mm-grid-column&gt;
+            &lt;mm-grid-column field=&quot;last_name&quot; sort&gt;Last Name&lt;/mm-grid-column&gt;
+            &lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
+        &lt;/mm-grid&gt;
+    &lt;/template&gt;
+</code></pre>
+<p>When a user clicks on a sort enabled column, the grid will update its <code>sortField</code> property with that column&#39;s <code>sortField</code> attribute if it exists, or default to the <code>field</code> attribute that was set on it. In the example above clicking on the &quot;First Name&quot; column set the grid&#39;s <code>sortField</code> to &quot;firstName&quot;.</p>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			<footer class="footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>		</mm-docs-shell>
+		<script>
+			var name = "grid_data_integration",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				articlesNav = document.querySelector("#articlesNav");
+				componentsNav = document.querySelector("#componentsNav");
+				docsShell = document.querySelector("#docsShell");
+				navItems = document.querySelectorAll("mm-list-item");
+
+				// default expanded:
+				articlesNav.expanded = true;
+				componentsNav.expanded = false;
+
+				hljs.initHighlighting();
+
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
+
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}
+		</script>
+	</body>
+</html>

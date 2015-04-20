@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<mm-docs-shell id="docsShell" version="1.0.0" mobileHeader="Strand Docs">
+			<div class="docs-logo">
+				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v1.0.0</p>
+			</div>
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>			<article class="layout-article">
+				<div class="docs-content article">
+					<h1 id="using-mm-sync">Using MM-Sync</h1>
+<h2 id="overview">Overview</h2>
+<p>MM-Sync provides a higher level API similar to jQuery or backbone in terms of having pre-configured XHR calls for the most common RESTful scenarios. Sync is designed heavily around 2-way binding so virtually all of the request params can be manipulated via the dom (and thus via 2 way binding) as we will see in the examples.</p>
+<p>Sync is used as the base class for all &#39;adapters&#39; which provide API specific implementations of sync that are usable with mm-model and mm-collection.  For more information on extending mm-sync please see <a href="data_comps_creating_adapters.html">creating adapters</a>.</p>
+<p>Unlike mm-ajax which is designed to handle a single call at a time, mm-sync can handle multiple concurrent calls. The default concurrency setting is 4 simultaneous calls, but if more are desired they can be set via the <code>requestConcurrency</code> param (either markup or js).</p>
+<h2 id="data-configuration">Data Configuration</h2>
+<p>MM-Sync exposes a <code>data</code> property which can be set via JS or bound to to set the request body. This is actually serialized in mm-ajax so if you need to see the serialization code, please check there.</p>
+<p>a <code>url</code> property is also exposed and can be used to set the base or non-changing part of the URL.  Note that the urlParams are then concatenated into that url using &#39;/&#39;&#39;s per element.</p>
+<h3 id="param-configuration">Param configuration</h3>
+<p>Sync&#39;s configuration is divided into 2 sets of operations: input and output.<br>Input params are used for <code>GET</code> requests. Output params are used for <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> requests.</p>
+<p>Params were designed to give the developer full flexibility over crafting the request arguments. With this in mind the param options were divided into:</p>
+<ul>
+<li>queryParam -- name value pair objects used to generate the queryString</li>
+<li>urlParam -- name only strings concatenated with &#39;/&#39; to generate a url</li>
+<li>headers -- name value pairs used to send additional metadata (CSRF, etc) to the webserver</li>
+</ul>
+<p>The &#39;direction&#39; of input or output is relative to the component itself, so when you are pulling data from the server via a get, we consider that &#39;input&#39; to the component, and the reverse is true for saving/deletion operations.</p>
+<h3 id="input-param-example">Input param example</h3>
+<pre><code class="lang-html">&lt;mm-sync url=&quot;http://example.com&quot;&gt;
+    &lt;input-params&gt;
+        &lt;queryParam name=&quot;q&quot; value=&quot;123&quot;/&gt;
+        &lt;urlParam&gt;123&lt;/urlParam&gt;
+        &lt;header name=&quot;X-Some-Header&quot;&gt;HeaderValue&lt;/header&gt;
+    &lt;/input-params&gt;
+&lt;/mm-sync&gt;
+</code></pre>
+<p>This will generate a url for the request of <code>http://example.com/123/?q=123</code> and it will send an X-Some-Header: HeaderValue to the server with the request. Note that it is possible to either use a value attribute or to just place the value inside the body of a named node. These formats may be used interchangeably.</p>
+<h3 id="output-param-example">Output param example</h3>
+<pre><code class="lang-html">&lt;mm-sync url=&quot;http://test.com&quot;&gt;
+    &lt;output-params&gt;
+        &lt;urlParam&gt;campaigns&lt;/urlParam&gt;
+        &lt;urlParam&gt;52312&lt;/urlParam&gt;
+        &lt;header name=&quot;X-CSRF-Header&quot;&gt;48ccbaffbb0675f2a&lt;/header&gt;
+    &lt;/output-params&gt;
+&lt;/mm-sync&gt;
+</code></pre>
+<p>Note that we use the urlParam twice--this may be done for any set of params N number of times as appropriate. Params are parsed top down for api&#39;s where the order matters.</p>
+<p>It is also possible to set both input and output params on the same element to configure it for general I/O by adding both sections at the same level:</p>
+<pre><code class="lang-html">&lt;mm-sync&gt;
+    &lt;input-params&gt;&lt;/input-params&gt;
+    &lt;output-params&gt;&lt;/output-params&gt;
+&lt;/mm-sync&gt;
+</code></pre>
+<h2 id="working-with-2-way-binding">Working with 2-way binding</h2>
+<p>To support 2 way binding in a scenario using mm-sync we have created the <code>auto</code> param. Auto tells mm-sync to respond automatically to data or param changes and make additional requests to sync the data back to the server. Auto may be set via js or via html as an attribute.  Auto has 3 possible values:</p>
+<ul>
+<li>true <code>boolean</code> -- bidirectional sync input/output for any changes</li>
+<li>load <code>string</code>-- only sync data in from server when input params change</li>
+<li>save <code>string</code> -- only sync data in from the server when the data property detects a change-- note that this currently does not pick up sub value changes without an entire object assignment taking place due to limitations in polymer&#39;s binding schema.</li>
+</ul>
+<pre><code class="lang-javascript">var sync = document.querySelector(&quot;mm-sync&quot;);
+sync.data.b = 2; //won&#39;t be picked up
+sync.data = {b:2} //will be picked up by polymer
+</code></pre>
+<h3 id="2-way-binding-on-the-input">2-way binding on the input</h3>
+<p>A fairly common scenario in modern web applications is a user entering search terms into an input and expecting a list of items as output. To accomplish this via mm-sync we would use 2 way binding between the input value and the api specific params.</p>
+<p>The following is an example of the simple input scenario using a self binding template.</p>
+<pre><code class="lang-html">    &lt;template is=&quot;auto-binding&quot;&gt;
+        &lt;input value=&quot;{{search}}&quot;&gt;
+    &lt;/template&gt;
+</code></pre>
+<p>Now bind this to a sync components params from our earlier example:</p>
+<pre><code class="lang-html">    &lt;template is=&quot;auto-binding&quot;&gt;
+        &lt;input value=&quot;{{search}}&quot;&gt;
+        &lt;mm-sync url=&quot;http://example.com&quot; auto=&quot;true&quot;&gt;
+            &lt;input-params&gt;
+                &lt;queryParam name=&quot;q&quot; value=&quot;{{search}}&quot;/&gt;
+                &lt;urlParam&gt;123&lt;/urlParam&gt;
+                &lt;header name=&quot;X-Some-Header&quot;&gt;HeaderValue&lt;/header&gt;
+            &lt;/input-params&gt;
+        &lt;/mm-sync&gt;
+    &lt;/template&gt;
+</code></pre>
+<p>When the lightDOM queryParam values are changed via 2 way binding, the sync component will pick this up and trigger the requisite <code>GET</code> calls to retrieve this query from the server.  Note that this input is automatically debounced against keyboard input. If necessary you may vary this timing via the <code>autoDebounce</code> property. The default is 200ms.</p>
+<h3 id="2-way-binding-on-the-response">2-way binding on the response</h3>
+<p>Unfortunately this example does not provide any feedback to the user, but it is possible to easily output this via 2 way binding as well. As mentioned earlier the sync component exposes a bindable <code>data</code> property which is used for both input and output of bindable data. By binding this to a repeated template we can show the user a list of items (we assume these objects have a name property) matching their search:</p>
+<pre><code class="lang-html">    &lt;template is=&quot;auto-binding&quot;&gt;
+        &lt;input value=&quot;{{search}}&quot;&gt;
+        &lt;mm-sync url=&quot;http://example.com&quot; auto=&quot;true&quot; data=&quot;{{result}}&quot;&gt;
+            &lt;input-params&gt;
+                &lt;queryParam name=&quot;q&quot; value=&quot;{{search}}&quot;/&gt;
+                &lt;urlParam&gt;123&lt;/urlParam&gt;
+                &lt;header name=&quot;X-Some-Header&quot;&gt;HeaderValue&lt;/header&gt;
+            &lt;/input-params&gt;
+        &lt;/mm-sync&gt;
+        &lt;ul&gt;
+            &lt;template repeat=&quot;{{result}}&quot;&gt;
+                &lt;li&gt;{{name}}&lt;/li&gt;
+            &lt;/template&gt;
+        &lt;/ul&gt;        
+    &lt;/template&gt;
+</code></pre>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			<footer class="footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>		</mm-docs-shell>
+		<script>
+			var name = "data_comps_using_sync",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				articlesNav = document.querySelector("#articlesNav");
+				componentsNav = document.querySelector("#componentsNav");
+				docsShell = document.querySelector("#docsShell");
+				navItems = document.querySelectorAll("mm-list-item");
+
+				// default expanded:
+				articlesNav.expanded = true;
+				componentsNav.expanded = false;
+
+				hljs.initHighlighting();
+
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
+
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}
+		</script>
+	</body>
+</html>

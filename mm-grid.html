@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	</head>	<body unresolved>
+		<mm-docs-shell id="docsShell" version="1.0.0" mobileHeader="Strand Docs">
+			<div class="docs-logo">
+				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v1.0.0</p>
+			</div>
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-grid</h1>
+					<p>A fully styled, configurable data grid with item recycling.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor-mm-grid" class="editor">&lt;mm-grid id=&quot;mmTestGrid&quot; selectable unresolved style=&quot;width: 100%&quot;&gt;
+	&lt;mm-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/mm-grid-column&gt;
+	&lt;mm-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/mm-grid-column&gt;
+	&lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
+&lt;/mm-grid&gt;
+&lt;script&gt;
+	var grid = document.querySelector(&quot;#mmTestGrid&quot;),
+		data = [];
+
+	for(var i=0; i&lt;50; i++){
+		data.push({
+			first_name: &quot;First&quot;,
+			last_name: &quot;Last&quot;,
+			email: &quot;text@example.com&quot;,
+			selected: false
+		});
+	}
+
+	window.addEventListener(&quot;polymer-ready&quot;, function() {
+		grid.data = data;
+	});
+&lt;/script&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-grid"><mm-grid id="mmTestGrid" selectable unresolved style="width: 100%">
+	<mm-grid-column field="first_name">First Name</mm-grid-column>
+	<mm-grid-column field="last_name">Last Name</mm-grid-column>
+	<mm-grid-column field="email">Email</mm-grid-column>
+</mm-grid>
+<script>
+	var grid = document.querySelector("#mmTestGrid"),
+		data = [];
+
+	for(var i=0; i<50; i++){
+		data.push({
+			first_name: "First",
+			last_name: "Last",
+			email: "text@example.com",
+			selected: false
+		});
+	}
+
+	window.addEventListener("polymer-ready", function() {
+		grid.data = data;
+	});
+</script></div>
+					</section>
+					<section>
+						<h3>Attributes</h3>
+						<table>
+							<tr>
+								<th>Attribute</th>								
+								<th>Options</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">data : </span>Array
+									<span class="desc italic">Default value: null</span>
+									<span class="desc">The array of data or mm-collection to render into the grid.</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">itemTemplate : </span>String / Object (Optional)
+									
+									<span class="desc">A string pointing to a custom item template ID or template DOM fragment</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">viewportWidth : </span>Integer (Optional)
+									
+									<span class="desc">The width in pixels of the internal grid viewport. (For grids that expand beyond their container)</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">selectable : </span>Boolean (Optional)
+									<span class="desc italic">Default value: false</span>
+									<span class="desc">Enable selectable grid items.</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">expandable : </span>Boolean (Optional)
+									<span class="desc italic">Default value: false</span>
+									<span class="desc">Enable expandable grid items.</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">sortField : </span>String (Optional)
+									
+									<span class="desc">Set/Get the current sort data field</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">sortOrder : </span>Integer (Optional)
+									
+									<span class="desc">Set/Get the current sort order</span>
+								</td>
+								<td>none</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Properties</th>								
+								<th>Options</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">selected : </span>Array
+									<span class="desc italic">Default value: []</span>
+									<span class="desc">Returns array of selected items.</span>
+								</td>
+								<td>none</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">index : </span>Integer
+									
+									<span class="desc">The current first item index at the top of the grid</span>
+								</td>
+								<td>none</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_grid_intro.html"> Introduction to mm-grid</a></li>
+							<li><a href="article_grid_config.html">Configuring mm-grid</a></li>
+							<li><a href="article_grid_data_integration.html">Data Integration with mm-grid</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+			<footer class="footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>		</mm-docs-shell>
+		<script>
+			var name = "mm-grid",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("polymer-ready", function(e) {
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav = document.querySelector("#articlesNav");
+					componentsNav = document.querySelector("#componentsNav");
+					docsShell = document.querySelector("#docsShell");
+					navItems = document.querySelectorAll("mm-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor-mm-grid");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setUseWrapMode(true);
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				$example.empty().html(editor.session.getValue());
+				// hacks to retrigger the scripts in example:
+				window.dispatchEvent(new Event('polymer-ready'));
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}	
+		</script>
+	</body>
+</html>
