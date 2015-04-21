@@ -18,22 +18,21 @@
   ],
   "keywords": [
     "polymer",
-    "web",
-    "components",
+    "web-components",
     "ui-framework"
   ],
   "license": "BSD",
   "ignore": [
     "**/.*",
     "src",
-    "build",
+    "docs",
     "grunt",
     "Gruntfile.js",
     "node_modules",
     "bower_components",
-    "bower.json",
     "package.json",
-    "README.md"
+    "BANNER.txt",
+    "*.md"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#0.5.4",
