@@ -3,7 +3,7 @@
  * Copyright (c) 2015 MediaMath Inc. All rights reserved.
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
---><html><head><link rel="import" href="../../bower_components/polymer/polymer.html"><link rel="import" href="../shared/js/pinkyswear.html"><link rel="import" href="../shared/js/datautils.html"></head><body><polymer-element name="mm-ajax" attributes="url method headers params responseType response contentType auto withCredentials debug" constructor="MMAjax" assetpath=""><template><style type="text/css"></style><template if="{{debug}}"><div>method:{{method}}</div><div>url:{{url}}</div><div>auto:{{auto}}</div><div><template repeat="{{headers}}">
+--><html><head><link rel="import" href="../../../polymer/polymer.html"><link rel="import" href="../shared/js/pinkyswear.html"><link rel="import" href="../shared/js/datautils.html"></head><body><polymer-element name="mm-ajax" attributes="url method headers params responseType response contentType auto withCredentials debug" constructor="MMAjax" assetpath=""><template><style type="text/css"></style><template if="{{debug}}"><div>method:{{method}}</div><div>url:{{url}}</div><div>auto:{{auto}}</div><div><template repeat="{{headers}}">
 			Headers:
 				<div>{{name}}:{{value}}</div></template><template repeat="{{params}}">
 			Headers:
