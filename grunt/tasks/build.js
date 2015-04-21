@@ -159,6 +159,17 @@ module.exports = function(grunt) {
 			}
 		},
 
+		replace: {
+            bower: {
+                src: ['dist/**/*.html'],
+                overwrite: true,
+                replacements: [{
+                    from: 'bower_components',
+                    to: '..'
+                }]
+            }
+        },
+
 		banner: grunt.file.read("BANNER.txt"),
 
 		usebanner: {
@@ -288,6 +299,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('release', function(version){
 		version = version || "patch";
-		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "copy:dist", "build:docs", "stage-release", "bump-commit");
+		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "copy:dist", "replace:bower", "build:docs", "stage-release", "bump-commit");
 	});
 };
