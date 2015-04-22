@@ -153,6 +153,11 @@ module.exports = function(grunt) {
 				}]
 			},
 			dist:{
+				options:{
+					excludes: {
+						imports: ['polymer.html']
+					}
+				},
 				files: {
 					'<%= build_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
 				}

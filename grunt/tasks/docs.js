@@ -157,9 +157,9 @@ module.exports = function(grunt) {
 	grunt.config('copy.docs', {
 		files: [ 
 			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= build_dir %>/docs/'},
-			{ src: 'bower_components/webcomponentsjs/webcomponents.min.js', dest: '<%= build_dir %>/docs/bower_components/webcomponentsjs/webcomponents.min.js'},
-			{ src: 'LICENSE.txt', dest: '<%= build_dir %>/docs/LICENSE.txt' },
-			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/<%= pkg.name %>.html' }
+			{ expand: true, src: ['bower_components/webcomponentsjs/webcomponents.min.js', 'bower_components/polymer/polymer.html'], dest: '<%= build_dir %>/docs/'},
+			{ src: 'LICENSE.txt', dest: '<%= build_dir %>/docs/' },
+			{ src: '<%= dist_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/bower_components/strand/dist/<%= pkg.name %>.html' }
 		]
 	});
 
