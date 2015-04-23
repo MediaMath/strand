@@ -6,7 +6,7 @@
 ###mm-grid-column
 `<mm-grid-column>` has an attribute `field` which maps to the fields or "keys" in our data objects. Defining a grid-column also has the benefit of rendering a human readable title into the header of our grid. This is achieved by adding a column title to the HTML content or "label" attribute of a grid-column.
 
-Lets imagine a dataset of users that has the fields "first_name", "last_name", and "email". We would define our grid like so:
+Let's imagine a dataset of users that has the fields "first_name", "last_name", and "email". We would define our grid like so:
 
 ```html
 	<mm-grid>
