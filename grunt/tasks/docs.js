@@ -157,13 +157,13 @@ module.exports = function(grunt) {
 	grunt.config('copy.docs', {
 		files: [ 
 			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= build_dir %>/docs/'},
-			{ expand: true, src: ['bower_components/webcomponentsjs/webcomponents.min.js', 'bower_components/polymer/polymer.html'], dest: '<%= build_dir %>/docs/'},
+			{ expand: true, src: ['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'], dest: '<%= build_dir %>/docs/'},
 			{ src: 'LICENSE.txt', dest: '<%= build_dir %>/docs/' },
-			{ src: '<%= dist_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/bower_components/strand/dist/<%= pkg.name %>.html' }
+			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/bower_components/strand/dist/<%= pkg.name %>.html' }
 		]
 	});
 
-	grunt.registerTask("docs", ["build:dist", "build:docs"]);
+	grunt.registerTask("docs", ["build:dist", "replace:bower", "build:docs"]);
 
 	grunt.config('gh-pages', {
 		options: {

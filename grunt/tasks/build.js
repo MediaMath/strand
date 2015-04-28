@@ -166,7 +166,7 @@ module.exports = function(grunt) {
 
 		replace: {
             bower: {
-                src: ['dist/**/*.html'],
+                src: ['<%= build_dir %>/**/*.html'],
                 overwrite: true,
                 replacements: [{
                     from: 'bower_components',
@@ -304,6 +304,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('release', function(version){
 		version = version || "patch";
-		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "copy:dist", "replace:bower", "build:docs", "stage-release", "bump-commit");
+		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "replace:bower", "copy:dist", "build:docs", "stage-release", "bump-commit");
 	});
 };
