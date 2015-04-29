@@ -24,7 +24,6 @@
   "license": "BSD",
   "ignore": [
     "**/.*",
-    "src",
     "docs",
     "grunt",
     "Gruntfile.js",
