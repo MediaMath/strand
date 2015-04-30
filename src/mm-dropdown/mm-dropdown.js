@@ -65,7 +65,6 @@ Polymer('mm-dropdown', {
 		this.job("resize", this.updateDisplay, 0);
 	},
 
-
 	updateDisplay: function() {
 		var actualMax,
 			item,
@@ -105,7 +104,7 @@ Polymer('mm-dropdown', {
 		this.$.closePanel.style.width = panelWidth;
 
 		// Truncate the label if necessary:
-		this.updatePlaceholderTitle();
+		this.updateTitle();
 	},
 
 	set btnWidth(i) {		
@@ -150,6 +149,10 @@ Polymer('mm-dropdown', {
 		this.state = this.STATE_CLOSED;
 	},
 
+	reset: function() {
+		this.value = "";
+	},
+
 	// Note: this is called from the scope of the close-manager
 	closeFilter: function(instance, e) {
 		if(Array.prototype.slice.call(e.path).indexOf(this) > -1){
@@ -186,7 +189,6 @@ Polymer('mm-dropdown', {
 
 		if(newItem) {
 			newItem.selected = true;
-			this.placeholder = newItem.label;
 			this.value = newItem.value;
 
 			this.fire("selected", {
@@ -196,6 +198,7 @@ Polymer('mm-dropdown', {
 				selected: newItem.selected
 			});
 		}
+		this.async(this.updateTitle);
 	},
 
 	dataChanged: function() {
@@ -220,9 +223,7 @@ Polymer('mm-dropdown', {
 
 	selectItemByValue: function(value) {
 		var selectedIndex = this.items.map(this.getItemValue).indexOf(value);
-		if(selectedIndex !== -1) {
-			this.selectedItem = this.items[selectedIndex];
-		}
+		this.selectedItem = this.items[selectedIndex];
 	},
 
 	getItemValue: function(item) {
@@ -231,17 +232,17 @@ Polymer('mm-dropdown', {
 
 	// Add a title attr if the new value is longer than the button
 	placeholderChanged: function(oldPlace, newPlace) {
-		this.async(this.updatePlaceholderTitle);
+		this.async(this.updateTitle);
 	},
 
-	updatePlaceholderTitle: function() {
+	updateTitle: function() {
 		var textBounds = Measure.getTextBounds(this.$.labelText),
 			availableTxtArea = (this.btnWidth + this.borderWidth) - this.btnPaddingWidth;
 
 		if(textBounds.width >= availableTxtArea) {
-			this.$.buttonMain.setAttribute('title', this.placeholder);
+			this.displayTitle = this.selectedItem ? this.selectedItem.label : this.placeholder;
 		} else {
-			this.$.buttonMain.removeAttribute('title');
+			this.displayTitle = "";
 		}
 	},
 

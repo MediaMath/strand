@@ -68,6 +68,11 @@
 			"arguments":[]
 		},
 		{
+			"name":"reset",
+			"description":"Reset dropdown to default state.",
+			"arguments":[]
+		},
+		{
 			"name":"bindModel",
 			"description":"Bind a property on the given model to the input's value.",
 			"arguments":[
