@@ -1,9 +1,3 @@
-/**
- * @license
- * Copyright (c) 2015 MediaMath Inc. All rights reserved.
- * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
-
-*/
 (function() {
 	var _instances = [],
 		_currentInstance = null,
@@ -59,7 +53,7 @@
 		}
 
 		var closeIcon = _closePanel.$.closeIcon,
-			closeBound = contains(Measure(_closePanel.$.closeIcon, _closePanel).getBoundingClientRect(), e.clientX, e.clientY);
+			closeBound = contains(Measure.getBoundingClientRect(_closePanel.$.closeIcon), e.clientX, e.clientY);
 
 		if (closeBound) {
 			_currentInstance.close();

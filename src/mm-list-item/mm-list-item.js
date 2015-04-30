@@ -49,16 +49,16 @@ Polymer('mm-list-item', {
 
 	get width() {
 		if (this.$)
-		return Measure(this).getOffsetWidth();
+		return Measure.getOffsetWidth(this);
 	},
 
 	get textBounds() {
 		if (this.$)
-		return Measure(this).getTextBounds();
+		return Measure.getTextBounds(this);
 	},
 
 	get paddingWidth() {
 		if (this.$)
-		return Measure(this).getPaddingWidth();
+		return Measure.getPaddingWidth(this);
 	}
 });

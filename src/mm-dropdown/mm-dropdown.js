@@ -92,7 +92,7 @@ Polymer('mm-dropdown', {
 					item = recycler._physicalPanels[0].items[0];
 				}
 
-				var borderWidth = Measure(this.$.closePanel.$.container).getBorderWidth();
+				var borderWidth = Measure.getBorderWidth(this.$.closePanel.$.container);
 				panelWidth = Math.ceil(item.textBounds.width + this.scrollbarWidth + item.paddingWidth + borderWidth) + "px";
 			} else {
 				panelWidth = "auto";
@@ -114,19 +114,19 @@ Polymer('mm-dropdown', {
 
 	get btnWidth() {
 		if (this.$)
-		return Math.ceil(parseFloat(Measure(this.$.buttonMain, this).getComputedStyle().width));
+		return Math.ceil(parseFloat(Measure.getComputedStyle(this.$.buttonMain).width));
 	},
 
 	get btnPaddingWidth() {
-		return Measure(this.$.buttonMain, this).getPaddingWidth();
+		return Measure.getPaddingWidth(this.$.buttonMain);
 	},
 
 	get borderWidth() {
-		return Measure(this.$.buttonMain, this).getBorderWidth();
+		return Measure.getBorderWidth(this.$.buttonMain);
 	},
 
 	get scrollbarWidth() {
-		return Measure(this).getScrollbarWidth();
+		return Measure.getScrollbarWidth(this);
 	},
 
 	get itemHeight() {
@@ -235,7 +235,7 @@ Polymer('mm-dropdown', {
 	},
 
 	updatePlaceholderTitle: function() {
-		var textBounds = Measure(this.$.labelText, this).getTextBounds(),
+		var textBounds = Measure.getTextBounds(this.$.labelText),
 			availableTxtArea = (this.btnWidth + this.borderWidth) - this.btnPaddingWidth;
 
 		if(textBounds.width >= availableTxtArea) {
