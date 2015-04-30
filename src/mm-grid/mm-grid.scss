@@ -79,4 +79,5 @@
 
 #columnContainer {
 	@include displayFlex();
+	@include flex(1);
 }

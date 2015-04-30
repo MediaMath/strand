@@ -64,10 +64,12 @@
 				this.columnsExist = true;
 				this.columns = Array.prototype.slice.call(this.$.columns.getDistributedNodes());
 				this.columnsMap = arrayToMap(this.columns, "field");
-				this.columnOverrideMap = {};
-				this.columns.forEach(function(column){
-					this.columnOverrideMap[column.field] = this.itemTemplate.content.querySelector('[field="' + column.field + '"]') !== null;
-				}.bind(this));
+
+				var item = this.itemTemplate.createInstance(this);
+				this.columnOverrideMap = this.columns.reduce(function(map, column){
+					map[column.field] = item.querySelector('[field="' + column.field + '"]') !== null;
+					return map;
+				}, {});
 			}
 		},
 		
@@ -111,7 +113,7 @@
 				state = "checked";
 			}
 
-			this.$.selectAll.state = state;
+			this.selectAllState = state;
 		},
 
 		selectAll: function(e, d, sender) {

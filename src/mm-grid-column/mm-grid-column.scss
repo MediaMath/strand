@@ -9,14 +9,13 @@
 @import "_mixins";
 
 :host {
-	display: flex;
+	@include displayFlex();
 	vertical-align: middle;
 	position: relative;
 	padding: 6px 10px;
 	cursor: default;
 	box-sizing: border-box;
 	background: $color-A16;
-	flex: 0 0 auto;
 }
 
 :host(':hover') {
@@ -35,7 +34,6 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 	font-family: "Arimo", sans-serif;
 	font-weight: bold;
 	font-size: 11px;
-	line-height: 11px;
 	margin: auto 0;
 	width: 100%;
 
@@ -59,7 +57,7 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 
 #info, #sort {
 	margin-left: 5px;
-	flex-shrink: 0;
+	@include flex-shrink(0);
 }
 
 #sort {

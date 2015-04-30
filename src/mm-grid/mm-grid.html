@@ -23,7 +23,7 @@
 			<div id="header">
 				<template if="{{selectable}}">
 					<div class="_mm_column checkbox">
-						<mm-checkbox id="selectAll" on-tap="{{selectAll}}"></mm-checkbox>
+						<mm-checkbox id="selectAll" on-tap="{{selectAll}}" state="{{selectAllState}}"></mm-checkbox>
 					</div>
 				</template>
 				<template if="{{expandable}}">
@@ -33,7 +33,7 @@
 						</template>
 					</div>
 				</template>
-				<div id="columnContainer" style="min-width: calc(100% - {{$.columnContainer.offsetLeft}}px);">
+				<div id="columnContainer">
 					<content id="columns" select="mm-grid-column"></content>
 					<template if="{{!columnsExist}}">
 						<template repeat="{{column in columns}}">
