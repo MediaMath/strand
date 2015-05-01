@@ -20,7 +20,7 @@ Polymer('mm-icon', {
 
 	iconStyle: {},
 
-	observe: { "width height type width height" : "updateStyleJob" },
+	observe: { "width height type" : "updateStyleJob" },
 
 	ready: function() {
 		// this was added to allow hover color/state, 
