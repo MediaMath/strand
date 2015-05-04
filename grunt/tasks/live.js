@@ -111,6 +111,8 @@ module.exports = function(grunt) {
 					connect().use(connect.query()),
 					connect().use(connect.bodyParser()),
 					connect().use('/bower_components', connect.static('./bower_components')),
+					connect().use('/test', connect.static('./test')),
+					connect().use('/build', connect.static('./build')),
 					connect().use('/ajax', function(req, res, next) {
 						res.setHeader('Content-Type', 'application/json');
 						if (req.method === "GET") {

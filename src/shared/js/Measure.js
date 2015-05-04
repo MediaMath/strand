@@ -33,6 +33,13 @@
 				borderRight = parseInt(style.borderRightWidth);
 			return borderLeft + borderRight;
 		},
+		// returns the total of border top width + border bottom width
+		getBorderHeight: function(input) {
+			var style = getComputedStyle(input),
+				borderTop = parseInt(style.borderTopWidth),
+				borderBottom = parseInt(style.borderBottomWidth);
+			return borderTop + borderBottom;
+		},
 		// return the total of padding left + padding right
 		getPaddingWidth: function(input) {
 			var style = getComputedStyle(input),

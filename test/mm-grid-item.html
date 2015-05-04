@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/strand.html">
+</head>
+<body>
+  <script>
+describe("mm-grid-item", function() {
+
+  it("should have a loading icon if model is null", function() {
+    var item = document.querySelector("#testitem");
+    should.not.exist(item.model);
+    should.exist(item.shadowRoot.querySelector("mm-spinner"));
+  });
+
+  it("should not have a loading icon if model is defined", function(done) {
+    var item = document.querySelector("#testitem");
+    item.model = {foo: "foo", bar: "bar"};
+    item.async(function(){
+      should.not.exist(item.shadowRoot.querySelector("mm-spinner"));
+      done();
+    });
+  });
+
+  it("should have a checkbox if scope is selectable", function(done) {
+    var item = document.querySelector("#testitem");
+    item.scope = item.scope || {};
+    item.scope.selectable = true;
+    item.async(function(){
+      should.exist(item.shadowRoot.querySelector(".checkbox mm-checkbox"));
+      done();
+    });
+  });
+
+  it("should have a toggle if scope is expandable", function(done) {
+    var item = document.querySelector("#testitem");
+    item.scope = item.scope || {};
+    item.scope.expandable = true;
+    item.async(function(){
+      should.exist(item.shadowRoot.querySelector(".toggle mm-icon"));
+      done();
+    });
+  });
+
+  it("should have columns", function(done) {
+    var item = document.querySelector("#testitem");
+    item.scope = item.scope || {};
+    item.scope.columns = [{field: "foo", width: "50%"}, {field: "bar", width: "50%"}];
+    item.async(function(){
+      var columns = item.shadowRoot.querySelectorAll("#columnContainer ._mm_column");
+      columns.length.should.equal(2);
+      done();
+    });
+  });
+
+});
+</script>
+  <mm-grid-item id="testitem">Foo</mm-grid-item>
+</body>
+</html>

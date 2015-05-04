@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<link rel="import" href="../build/strand.html">
+	<script src="test-mm-stack-manager.js"></script>
+	<style type="text/css">
+		
+		div {
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			opacity: 0.5;
+		}
+
+		#target1 {
+			background: #ff0000;
+			top: 10px;
+			left: 10px;
+		}
+
+		#target2 {
+			background: #00ff00;
+			top: 20px;
+			left: 20px;
+		}
+
+		#target3 {
+			background: #0000ff;
+			top: 30px;
+			left: 30px;
+		}
+
+	</style>
+</head>
+<body>
+
+	<template is="auto-binding">
+
+		<div id="target1"></div>
+		<div id="target2"></div>
+		<div id="target3"></div>
+
+		<mm-stack-manager target="{{$.target1}}" type="modal"></mm-stack-manager>
+		<mm-stack-manager target="{{$.target2}}" type="modal"></mm-stack-manager>
+		<mm-stack-manager id="sm" target="{{$.target3}}" type="modal"></mm-stack-manager>
+
+	</template>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/strand.html">
+</head>
+<body>
+<script>
+
+describe("mm-model", function() {
+
+  it("should get and set model ids", function(done) {
+    var m = document.querySelector("#ids");
+    
+    m.data = {
+      id:"aces"
+    };
+    setTimeout(function() {
+      m.mid.should.equal("aces");
+      m.mid = 1234;
+
+      setTimeout(function() {
+
+        m.mid.should.equal(1234);
+        m.data.id.should.equal(1234);
+        done();
+      }, 200);
+    }, 200)
+
+
+
+  });
+
+});
+</script>
+<mm-model id="ids"></mm-model>
+</body>
+</html>
