@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<link rel="import" href="../build/strand.html">
+	<script src="test-mm-action.js"></script>
+</head>
+<body>
+
+	<mm-action id="label">
+		<label>My Label</label>
+	</mm-action>
+
+	<mm-action id="awesome">
+		<mm-icon type="favorite" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
+		<label>Awesome</label>
+	</mm-action>
+
+	<mm-action id="underline" underline>
+		<mm-icon type="favorite" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
+		<label>Underline Me</label>
+	</mm-action>
+
+</body>
+</html>
