@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="../mm-button/mm-button.html">
+		<link rel="import" href="../shared/js/moment.html">
+		<link rel="import" href="mm-datepicker.html">
+		<style type="text/css">
+
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin: 0;
+				padding: 0;
+				background: #eee;
+				font-family: sans-serif;
+				color: #333;
+			}
+
+			#dpb {
+				position: absolute;
+				top: 50px;
+				left: 50%;
+				margin-left: -65px;
+				margin-top: -15px;
+			}
+
+			mm-datepicker[unresolved],
+			mm-button[unresolved] {
+				display: none;
+			}
+
+			mm-datepicker {}
+
+			.controller {
+				width: 500px;
+				border: 1px dashed #999;
+				margin:10px 10px;
+				padding: 10px 10px;
+			}
+
+			.controller span {
+				padding: 5px 5px;
+				margin-bottom: 10px;
+			}
+
+			.controller mm-dropdown {
+				margin-top: 10px;
+			}
+
+			#show {
+				border: 1px solid #CCC;
+			}
+
+		</style>
+	</head>
+	<body>
+		<mm-button id="dpb" unresolved>
+			<label>datepicker target</label>
+		</mm-button>
+		<mm-datepicker id="dp" unresolved></mm-datepicker>
+		<template id="tmp" is="auto-binding">
+			<div vertical layout class="controller">
+				<span id="show" on-tap="{{op}}"><b>Start:</b>{{$.dp2.start}} <b>End:</b>{{$.dp2.end}}</span>
+				<div layout horizontal>
+					<div>
+						<mm-header>Start Allowed</mm-header>
+						<mm-calendar id="allowedStart" date="{{ast}}"></mm-calendar>
+					</div>
+					<div>
+						<mm-header>End Allowed</mm-header>
+						<mm-calendar id="allowedEnd" date="{{aet}}"></mm-calendar>
+					</div>
+				</div>
+				<mm-dropdown placeholder="Click behavior" value="{{clickType}}">
+					<mm-list-item value="constrainTap">T1 Limited</mm-list-item>
+					<mm-list-item value="lazyTap">Lazy Selection</mm-list-item>
+					<mm-list-item value="selectTap">DoubleTap (alpha)</mm-list-item>
+				</mm-dropdown>
+				<mm-checkbox checked="{{userStartEnabled}}">
+					<label>User Enableable Start</label>
+				</mm-checkbox>
+				<mm-checkbox checked="{{userEndEnabled}}">
+					<label>User Enableable End</label>
+				</mm-checkbox>
+				<mm-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></mm-datepicker>
+			</div>
+		</template>
+		<script>
+			var dp,
+				tmp,
+				rangePresets;
+				// drag = false;
+
+			window.addEventListener("polymer-ready", function() { 
+				rangePresets = [
+					{name:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+					{name:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+					{name:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+					{name:"Month to Date", start:moment().startOf('month'), end:moment()}
+				];
+				dp = document.querySelector("#dp");
+				dp.rangePresets = rangePresets;
+				dp.timezones = [
+					{"label":"(GMT-05:00) Eastern Time (US & Canada)", value:"America/New_York"},
+					{"label":"(GMT-06:00) Central Time (US & Canada)", value:"America/Chicago"}
+				]; 
+				dpb = document.querySelector("#dpb");
+				dp.target = dpb;
+
+				tmp = document.querySelector("#tmp");
+				tmp.op = function() {
+					this.$.dp2.open();
+				};
+
+				init();
+			});
+
+			function init() {
+				dpb.addEventListener("mouseup", handleDpb);
+				dpb.addEventListener("mousedown", handleDpbMouseDown);
+			}
+
+			function handleDpb(e) {
+				dp.open();
+			}
+
+			function handleDpbMouseDown(e) {
+				drag = true;
+				document.addEventListener("mouseup", handleMouseUp);
+				document.addEventListener("mousemove", handleDrag);
+			}
+
+			function handleMouseUp(e) {
+				drag = false;
+				document.removeEventListener("mouseup", handleMouseUp);
+				document.removeEventListener("mousemove", handleDrag);
+			}
+
+			function handleDrag(e) {
+				if (drag === true) {
+					dpb.style.left = e.pageX + "px";
+					dpb.style.top = e.pageY + "px";
+				}
+			}
+		</script>
+	</body>
+</html>

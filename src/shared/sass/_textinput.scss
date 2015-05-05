@@ -41,7 +41,7 @@
 	}
 }
 
-._mm_text_input:focus {
+._mm_text_input:focus, ._mm_text_input[forceFocus] {
 	border-color: $color-D20;
 	outline: none;
 	box-shadow: 0 0 6px rgba(171,210,246,.83);
