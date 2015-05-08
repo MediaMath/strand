@@ -65,6 +65,7 @@
 		STATE_OPENED: "opened",
 		STATE_CLOSED: "closed",
 		publish: {
+			model: null,
 			valign: { value: "top", reflect: true },
 			auto: { value: true, refelct: true },
 			align: "center",
@@ -115,12 +116,12 @@
 			if(_currentInstance !== this) {
 				_setCurrentInstance(this);
 
-				var msgContent = this.querySelector('template').content;
+				var msgContent = this.querySelector('template').createInstance(this);
 				_closePanel.style.width = this.tipWidth ? this.tipWidth + "px" : "auto";
 				_closePanel.valign = this.valign;
 				_closePanel.align = this.align;
 				_closePanel.innerHTML = null;
-				_closePanel.appendChild(document.importNode(msgContent, true));
+				_closePanel.appendChild(msgContent);
 				_closePanel.scope = this;
 				_closePanel.target = this.$.tipTarget;
 			}
