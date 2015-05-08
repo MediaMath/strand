@@ -5,6 +5,7 @@
 	<link rel="import" href="mm-grid.html">
 	<link rel="import" href="../mm-input/mm-input.html">
 	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+	<link rel="import" href="../mm-tooltip/mm-tooltip.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -52,7 +53,12 @@
 			<template id="customTemplate">
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
-						<mm-icon width="15" height="15" type="actions"></mm-icon>
+						<mm-tooltip model="{{model}}" tipWidth="150">
+							<mm-icon width="15" height="15" type="actions"></mm-icon>
+							<template>
+								<label>I'm a tooltip for Creative - {{model.name}}</label>
+							</template>
+						</mm-tooltip>
 					</div>
 					<div field="name">
 						Creative - {{model.name}}
