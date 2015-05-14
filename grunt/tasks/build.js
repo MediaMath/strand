@@ -1,20 +1,21 @@
-var SRC_DIR = 'src',
-	TEMPLATE_DIR = 'grunt/templates';
-
 var exec = require("child_process").exec;
 
 module.exports = function(grunt) {
 
-	var modules = grunt.file.expand({cwd: SRC_DIR}, 'mm-*');
-
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		src_dir: 'src',
+		template_dir: 'grunt/templates',
 		build_dir: 'build',
+		docs_dir: 'build_docs',
 		dist_dir: 'dist',
 		
+		modules: grunt.file.expand({ cwd: 'src' }, 'mm-*'),
+		shared: grunt.file.expand({ cwd: 'src' }, 'shared/**/*.html'),
+
 		clean: {
 			build: '<%= build_dir %>',
+			docs: '<%= docs_dir %>',
 			dist: '<%= dist_dir %>',
 			src: ['src/mm-*/*.+(css|min.js)', 'src/mm-*/template.html']
 		},
@@ -22,8 +23,8 @@ module.exports = function(grunt) {
 		copy: {
 			build: {
 				expand: true,
-				cwd: SRC_DIR,
-				src: ['mm-*/+(index|mm-*).+(html|js)', 'shared/fonts/**', 'shared/js/**', '!**/*.scss'],
+				cwd: '<%= src_dir %>',
+				src: ['**/*.+(html|js|woff)', '!**/example.html'],
 				dest: '<%= build_dir %>'
 			},
 			dist: {
@@ -36,14 +37,14 @@ module.exports = function(grunt) {
 
 		sass: {
 			options: {
-				includePaths: ['bower_components/bourbon/app/assets/stylesheets/', SRC_DIR + '/shared/sass/']
+				includePaths: ['bower_components/bourbon/app/assets/stylesheets/', '<%= src_dir %>/shared/sass/']
 			},
 
 			dev: {
 				files: [{
 					expand: true,
-					cwd: SRC_DIR,
-					src: ['mm-*/*.scss', 'shared/fonts/*.scss'],
+					cwd: '<%= src_dir %>',
+					src: ['**/*.scss'],
 					dest: '<%= build_dir %>',
 					ext: '.css'
 				}]
@@ -51,7 +52,7 @@ module.exports = function(grunt) {
 
 			docs: {
 				files: {
-					'<%= build_dir %>/docs/docs.css':'docs/docs.scss'
+					'<%= docs_dir %>/docs.css':'docs/docs.scss'
 				}
 			},
 
@@ -61,8 +62,8 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: SRC_DIR,
-					src: ['mm-*/*.scss', 'shared/fonts/*.scss'],
+					cwd: '<%= src_dir %>',
+					src: ['**/*.scss'],
 					dest: '<%= build_dir %>',
 					ext: '.css'
 				}]
@@ -92,11 +93,11 @@ module.exports = function(grunt) {
 			index: {
 				options: {
 					data: {
-						modules: modules
+						modules: '<%= modules %>'
 					}
 				},
 				files: [{
-					src: TEMPLATE_DIR + '/index_template.html',
+					src: '<%= template_dir %>/index_template.html',
 					dest: '<%= build_dir %>/index.html'
 				}]
 			},
@@ -108,18 +109,18 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					'src/lib/Colors.js': TEMPLATE_DIR + '/lib_color.js'
+					'src/lib/Colors.js': '<%= template_dir %>/lib_color.js'
 				}
 			},
 			lib: {
 				options:{
 					data: {
-						modules: modules,
-						shared: grunt.file.expand({ cwd: SRC_DIR }, 'shared/**/*.html')
+						modules: '<%= modules %>',
+						shared: '<%= shared %>',
 					}
 				},
 				files: [{
-					src: TEMPLATE_DIR + '/lib_template.html',
+					src: '<%= template_dir %>/lib_template.html',
 					dest: '<%= build_dir %>/<%= pkg.name %>.html'
 				}]
 			}
@@ -199,7 +200,7 @@ module.exports = function(grunt) {
 					banner: "<!--\n<%= banner %>\n-->"
 				},
 				files: {
-					src: [ 'build/strand.html' ]
+					src: [ '<%= build_dir %>/strand.html' ]
 				}
 			},
 		},
@@ -241,7 +242,7 @@ module.exports = function(grunt) {
 
 	//Create HTML imports for JS library
 	grunt.registerTask('jslib:imports', function() {
-		var files = grunt.file.expand({cwd: SRC_DIR + '/shared/js/' }, '*.js');
+		var files = grunt.file.expand({cwd: grunt.config('src_dir') + '/shared/js/' }, '*.js');
 
 		files.forEach(function(file) {
 			var fileName = file.substr(0, file.lastIndexOf('.')) || file;
@@ -252,7 +253,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('color', function() {
-		var path = SRC_DIR + '/shared/sass/_color.scss';
+		var path = grunt.config('src_dir') + '/shared/sass/_color.scss';
 		var color = grunt.file.read(path);
 		color = color.replace(/\$color-(\w\d\d*): (#[\w\d]*);/g, function(a, key, value) {
 			return "\t\"" + key + "\":\"" + value + "\","; 

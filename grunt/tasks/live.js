@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 			hostname: '*'
 		},
 		modules: {
-			files: ['src/mm-*/*'],
+			files: ['src/mm-*/*', '!doc.json', '!example.html'],
 			tasks: ['default'],//['sass:module','sassShadowFixLive','vulcanize:module'],
 			options: {
 				nospawn: true,
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 			tasks: ['vulcanize:jslib'],
 		},
 		docs: {
-			files: ['docs/*'],
+			files: ['docs/*', 'src/mm-*/doc.json', 'src/mm-*/example.html'],
 			tasks: ['docs'],
 			options: {
 				nospawn: true,
@@ -107,12 +107,13 @@ module.exports = function(grunt) {
 						res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 						return next();
 					},
-					connect.static('build'),
+					connect.static(grunt.config('build_dir')),
 					connect().use(connect.query()),
 					connect().use(connect.bodyParser()),
 					connect().use('/bower_components', connect.static('./bower_components')),
+					connect().use('/docs', connect.static(grunt.config('docs_dir'))),
 					connect().use('/test', connect.static('./test')),
-					connect().use('/build', connect.static('./build')),
+					connect().use('/build', connect.static(grunt.config('build_dir'))),
 					connect().use('/ajax', function(req, res, next) {
 						res.setHeader('Content-Type', 'application/json');
 						if (req.method === "GET") {
