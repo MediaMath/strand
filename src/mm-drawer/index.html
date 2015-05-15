@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="mm-drawer.html">
+		<link rel="import" href="../mm-button/mm-button.html">
+		<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+		<style type="text/css">
+			body {
+				margin: 0;
+				background: #fcfcfc;
+			}
+
+			#drawer1 {
+				padding-top: 5px;
+			}
+
+			#drawer2 {
+				margin: 50px 0 10px;
+			}
+
+			.container {
+				padding: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<template is="auto-binding">
+			<mm-drawer id="drawer1" expanded="{{expanded}}" label="{{expanded ? 'Hide' : 'Show'}} Tab Drawer">
+				<div class="container">
+					<h1>Nothing to see here...</h1>
+				</div>
+			</mm-drawer>
+		</template>
+
+		<template is="auto-binding">
+			<mm-drawer id="drawer2" expanded="{{checked}}" closedHeight="44">
+				<div class="container">
+					<mm-checkbox checked="{{checked}}" id="checkbox"><label>Toggle Inset Drawer</label></mm-checkbox>
+					<h1>Well Hello.</h1>
+				</div>
+			</mm-drawer>
+			
+			<mm-button id="toggleBtn"><label>Toggle Inset Drawer</label></mm-button>
+			<mm-button id="hideBtn"><label>Hide Inset Drawer</label></mm-button>
+			<script type="text/javascript">
+				var drawer2 = document.querySelector("#drawer2");
+				var toggleBtn = document.querySelector("#toggleBtn");
+				var hideBtn = document.querySelector("#hideBtn");
+
+				toggleBtn.onclick = function(){
+					drawer2.closedHeight = 44;
+					drawer2.toggle();
+				}
+
+				hideBtn.onclick = function(){
+					drawer2.closedHeight = 0;
+					drawer2.close();
+				}
+			</script>
+		</template>
+	</body>
+</html>
