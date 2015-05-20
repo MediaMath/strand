@@ -38,7 +38,7 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#0.5.4"
   },
   "devDependencies": {
-    "web-component-tester": "~2.0.5",
+    "web-component-tester": "~2.2.6",
     "bourbon": "4.2.1"
   }
 }

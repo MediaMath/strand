@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<link rel="import" href="../build/strand.html">
+	<script src="test-mm-footer.js"></script>
+</head>
+<body>
+
+	<mm-footer id="footerMsg" unresolved message="Hi there!">
+		<mm-action id="closeLink" underline="true">
+			<label>Close</label>
+		</mm-action>
+		<mm-button id="saveAndClose">
+			<label>Save &amp; Close</label>
+		</mm-button>
+		<mm-button id="saveAndAdd">
+			<label>Save &amp; Add Another</label>
+		</mm-button>
+	</mm-footer>
+
+</body>
+</html>

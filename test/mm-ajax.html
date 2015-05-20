@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script>
+    var should = chai.should();
+    var requests = [];
+  </script>
+  <link rel="import" href="../build/strand.html">
+</head>
+<body>
+<script>
+
+describe("mm-ajax", function() {
+
+  before(function() {
+    xhr = sinon.useFakeXMLHttpRequest();
+    requests = requests || [];
+    xhr.onCreate = function (req) { requests.push(req); };
+  });
+
+  it("should make a get call", function() {
+    var ajax = document.querySelector("#ajax1");
+    var spy = sinon.spy();
+    ajax.reset();
+    ajax.exec();
+    ajax.addEventListener("data-ready", spy);
+    requests[0].respond(200);
+    requests[0].url.should.contain("get");
+    spy.calledOnce.should.be.true;
+    
+  });
+
+  it("should make a post call", function() {
+
+    var ajax = document.querySelector("#ajax2");
+    var spy = sinon.spy();
+    ajax.reset();
+    ajax.exec();
+    ajax.addEventListener("data-ready", spy);
+    requests[1].respond(200);
+    requests[1].url.should.contain("post");
+    spy.calledOnce.should.be.true;
+    
+  });
+
+  it("should make a new xhr when reset is called", function() {
+    var ajax = document.querySelector("#ajax2");
+    ajax.reset();
+    requests.should.have.length(3);
+  });
+
+  it("should support adding various properties to the call", function() {
+    var ajax = new MMAjax();
+    var spy = sinon.spy();
+    ajax.reset();
+    ajax.method = "GET";
+    ajax.url = "//test.options";
+    ajax.addUrlParam("aces");
+    ajax.addParam("queryTest", 1);
+    ajax.addHeader("x-test","testface");
+    ajax.exec();
+    ajax.addEventListener("data-ready", spy);
+
+    requests[4].respond(200);
+    requests.should.have.length(5);
+    spy.calledOnce.should.be.true;
+    requests[4].url.should.equal("//test.options/aces?queryTest=1");
+
+  });
+
+});
+</script>
+<mm-ajax id="ajax1" method="GET" url="//test.get"></mm-ajax>
+<mm-ajax id="ajax2" method="POST" url="//test.post"></mm-ajax>
+</body>
+</html>

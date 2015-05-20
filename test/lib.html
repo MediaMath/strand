@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/strand.html">
+</head>
+<body>
+  <script>
+
+describe("Rectangle Library", function() {
+
+  it("should exist", function() {
+    Rectangle.should.be.a("function");
+  });
+
+  it("should reflect left for left overlap with default mode (position)", function() {
+    var rect = Rectangle.SIDE.LEFT | Rectangle.SIDE.TOP;
+    var overlap = Rectangle.SIDE.LEFT;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT);
+
+    output.should.equal(Rectangle.SIDE.RIGHT | Rectangle.SIDE.TOP);
+
+  });
+
+  it ("should reflect right for right overlap with default mode (position)", function() {
+    var rect = Rectangle.SIDE.RIGHT | Rectangle.SIDE.TOP;
+    var overlap = Rectangle.SIDE.RIGHT;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT);
+
+    output.should.equal(Rectangle.SIDE.LEFT | Rectangle.SIDE.TOP);
+  });
+
+  it("should reflect left for right overlap with mode align", function() {
+    var rect = Rectangle.SIDE.LEFT | Rectangle.SIDE.TOP;
+    var overlap = Rectangle.SIDE.RIGHT;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT, "align");
+
+    output.should.equal(Rectangle.SIDE.RIGHT | Rectangle.SIDE.TOP);
+
+  });
+
+  it ("should reflect right for right overlap with mode align", function() {
+    var rect = Rectangle.SIDE.RIGHT | Rectangle.SIDE.TOP;
+    var overlap = Rectangle.SIDE.LEFT;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT, "align");
+
+    output.should.equal(Rectangle.SIDE.LEFT | Rectangle.SIDE.TOP);
+  });
+
+  it ("should reflect vertically for top overlap", function() {
+    var rect = Rectangle.SIDE.LEFT | Rectangle.SIDE.TOP;
+    var overlap = Rectangle.SIDE.TOP;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.TOP | Rectangle.SIDE.BOTTOM);
+
+    output.should.equal(Rectangle.SIDE.LEFT | Rectangle.SIDE.BOTTOM);
+  });
+
+  it ("should reflect vertically for bottom overlap", function() {
+    var rect = Rectangle.SIDE.LEFT | Rectangle.SIDE.BOTTOM;
+    var overlap = Rectangle.SIDE.BOTTOM;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.TOP | Rectangle.SIDE.BOTTOM);
+
+    output.should.equal(Rectangle.SIDE.LEFT | Rectangle.SIDE.TOP);
+  });
+
+  it("should adjust to the left side for right overlap with center align", function() {
+    var rect = Rectangle.SIDE.CENTER;
+    var overlap = Rectangle.SIDE.RIGHT;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT);
+
+    output.should.equal(Rectangle.SIDE.LEFT);
+  });
+
+  it("should adjust to the right side for left overlap with center align", function() {
+    var rect = Rectangle.SIDE.CENTER;
+    var overlap = Rectangle.SIDE.LEFT;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT);
+
+    output.should.equal(Rectangle.SIDE.RIGHT);
+  });
+
+  it("should keep centered for 0 overlap with center align", function() {
+    var rect = Rectangle.SIDE.CENTER;
+    var overlap = 0;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.LEFT | Rectangle.SIDE.RIGHT);
+
+    output.should.equal(Rectangle.SIDE.CENTER);
+  });
+
+  it("should adjust to the bottom side for top overlap with vcenter align", function() {
+    var rect = Rectangle.SIDE.VCENTER;
+    var overlap = Rectangle.SIDE.TOP;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.BOTTOM | Rectangle.SIDE.TOP);
+
+    output.should.equal(Rectangle.SIDE.BOTTOM);
+  });
+
+  it("should adjust to the top side for bottom overlap with vcenter align", function() {
+    var rect = Rectangle.SIDE.VCENTER;
+    var overlap = Rectangle.SIDE.BOTTOM;
+    var output = Rectangle.fixBits(rect, overlap, Rectangle.SIDE.BOTTOM | Rectangle.SIDE.TOP);
+
+    output.should.equal(Rectangle.SIDE.TOP);
+  });
+
+});
+
+describe("Bitmask Library", function() {
+  
+  it("should exist", function() {
+    BitMask.should.be.a("function");
+  });
+
+  it("should create a mask", function() {
+    var m = new BitMask("A","B","C");
+    m.A.should.equal(1);
+    m.B.should.equal(2);
+    m.C.should.equal(4);
+  });
+
+});
+
+describe("Measure Library", function() {
+  it("should exist", function() {
+    Measure.should.be.a("object");
+  });
+});
+
+describe("DataUtils Library", function() {
+
+  it("should exist", function() {
+    DataUtils.should.be.a("object");
+  });
+
+  it("should merge 2 param arrays with the latter arrays 'winning' conflicts", function() {
+    var a = [{name:"a", value:"1"},{name:"b", value:"2"},{name:"c",value:"3"}];
+    var b = [{name:"c",value:"CEE CEE CEE"}];
+    DataUtils.mergeParamLists(a, b).should.eql([{name:"a", value:"1"},{name:"b", value:"2"},{name:"c",value:"CEE CEE CEE"}])
+  });
+
+  it("should merge 2 param arrays with just flat strings instead of param objects", function() {
+    var a = [];
+    var b = ["innerValue", 123];
+    DataUtils.mergeParamLists(a,b).should.eql(b);
+    var a = [1234];
+    DataUtils.mergeParamLists(a,b).should.eql([1234, "innerValue", 123]);
+  });
+
+  it("should support adama style query for serialization fo dom", function() {
+      var expected = {"with":[{"inner":"advertiser, agency"},{"inner":"rpt_margin_management_partial"},{"inner":"budget_flights"}],"full":[{"inner":"*"}],"sort":[{"inner":"status,-updated_on"}],"order":[{"inner":"descending"}],"page":[{"inner":"0"}]},
+          q = document.querySelector("#obj2").children;
+        DataUtils.objectifyDistributedNodes(q).should.eql(expected);
+  });
+
+});
+  </script>
+
+<div id="tests" style="display:none">
+  <div id="noclass"></div>
+  <div id="hasclass" class="fake"></div>
+  <div id="tclass"></div>
+  <div id="css1"></div>
+  <div id="css2"></div>
+  <a id="attr1" href="localhost"></a>
+  <a id="attr2"></a>
+  <div id="parameterize">
+    <div id="params1">
+      <test name="test1">value1</test>
+      <test name="test2" value="value2"></test>
+    </div>
+    <div id="params2">
+      <test value="test1"></test>
+      <test>test2</test>
+    </div>
+    <div id="obj1">
+      <div what="yes" help="computer" class="pretty"></div>
+      <div>inner content</div>
+      <div zappo="true">something</div>
+    </div>
+    <div id="obj2">
+      <with>advertiser, agency</with>
+      <with>rpt_margin_management_partial</with>
+      <with>budget_flights</with>
+      <full>*</full>
+      <sort>status,-updated_on</sort>
+      <order>descending</order>
+      <page>0</page>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
