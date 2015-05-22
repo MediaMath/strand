@@ -76,15 +76,17 @@
 		},
 
 		setInitialColumnWidth: function() {
-			var setInitialWidth = this.columns.every(function(column){
-				return column.width === null || column.width === undefined;
-			});
-
-			if(setInitialWidth) {
-				var initialWidth = 100 / this.columns.length;
-				this.columns.forEach(function(column) {
-					column.width = initialWidth + "%";
+			if(this.$.columns.getDistributedNodes().length > 0) {
+				var setInitialWidth = this.columns.every(function(column){
+					return column.width === null || column.width === undefined;
 				});
+
+				if(setInitialWidth) {
+					var initialWidth = 100 / this.columns.length;
+					this.columns.forEach(function(column) {
+						column.width = initialWidth + "%";
+					});
+				}
 			}
 		},
 
