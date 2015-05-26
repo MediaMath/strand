@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<link rel="import" href="../build/strand.html">
+	<script src="test-mm-item-notifier.js"></script>
+</head>
+<body>
+
+	<polymer-element name="test-notifier">
+		<template>
+			<mm-item-notifier target="{{}}" on-added="{{itemAdded}}" on-removed="{{itemRemoved}}" on-modified="{{itemModified}}"></mm-item-notifier>
+			<content id="content" select="*"></content>
+		</template>
+		<script>
+			Polymer("test-notifier", {
+				publish: {
+					addedEvents: [],
+					removedEvents: [],
+					modifiedEvents: []
+				},
+				itemAdded: function(e) {
+					// console.log("itemAdded: ", e);
+					this.addedEvents.push(e.detail);
+				},
+				itemRemoved: function(e) {
+					// console.log("itemRemoved", e);
+					this.removedEvents.push(e.detail);
+				},
+				itemModified: function(e) {
+					// console.log("itemModified", e);
+					this.modifiedEvents.push(e.detail);
+				}
+			});
+		</script>
+	</polymer-element>
+
+	<test-notifier id="tn"></test-notifier>
+
+</body>
+</html>
