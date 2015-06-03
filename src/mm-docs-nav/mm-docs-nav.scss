@@ -20,9 +20,9 @@
 }
 
 #labelArea {
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(space-between);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(space-between);
 	box-sizing: border-box;
 	padding: 10px 20px;
 

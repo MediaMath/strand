@@ -12,14 +12,13 @@
 	position: absolute;
 	font-size: 0em;
 	line-height: 0em;
-	// display: none;
 }
 
 ._mm_loader {
 	display: block;
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(start);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(start);
 }
 
 ::content label {

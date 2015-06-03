@@ -29,9 +29,9 @@
 }
 
 .button .left-items {
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(start);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(start);
 	height: 100%;
 }
 

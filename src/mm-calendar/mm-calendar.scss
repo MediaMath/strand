@@ -34,7 +34,7 @@
 
 polyfill-next-selector { content: ".calendar, .month-year" }
 .calendar, .month-year {
-	@include box-sizing(border-box);
+	box-sizing: border-box;
 	background: $color-F0;
 	width: 188px;
 	position: relative;
@@ -48,9 +48,9 @@ polyfill-next-selector { content: ".calendar" }
 
 polyfill-next-selector { content: ".month-year" }
 .month-year {
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(space-between);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(space-between);
 	margin-bottom: 4px;
 
 	.left-arrow, .right-arrow {
@@ -70,7 +70,7 @@ polyfill-next-selector { content: ".days, .headings" }
 polyfill-next-selector { content: ".day, .heading" }
 .heading, .day {
 	@include fontSmoothing();
-	@include box-sizing(border-box);
+	box-sizing: border-box;
 	float: left;
 	overflow: visible;
 	position: relative;
@@ -82,7 +82,7 @@ polyfill-next-selector { content: ".day, .heading" }
 
 polyfill-next-selector { content: ".day span, .heading span" }
 .day span, .heading span {
-	@include box-sizing(border-box);
+	box-sizing: border-box;
 	@include fontSmoothing();
 	position: absolute;
 	text-align: center;
@@ -192,4 +192,3 @@ polyfill-next-selector { content: ".heading" }
 		color: $color-A18;
 	}
 }
-

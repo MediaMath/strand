@@ -153,9 +153,9 @@ section:last-child {
 }
 
 .docs-logo {
-	@include displayFlex();
-	@include flexVerticalAlign(center);
-	@include flexJustify(center);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(center);
 	position: relative;
 	box-sizing: border-box;
 	height: 100%;
@@ -185,9 +185,9 @@ section:last-child {
 	height: 100%;
 
 	.footer-logo-box {
-		@include displayFlex();
-		@include flexVerticalAlign(center);
-		@include flexJustify(center);
+		@include display(flex);
+		@include align-items(center);
+		@include justify-content(center);
 	}
 
 	.powered-by,
@@ -334,15 +334,15 @@ table {
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* example styling */
 .example {
-	@include displayFlex(flex);
-	@include flexDirection(column);
-	@include flexJustify(start);
+	@include display(flex);
+	@include flex-direction(column);
+	@include justify-content(flex-start);
 	box-sizing: border-box;
 	padding: 1.25em;
 	background: $bgGray;
 
 	& > * {
-		@include alignSelf(flex-start);
+		@include align-self(flex-start);
 		margin-bottom: 20px;
 
 		&:last-of-type {
@@ -378,10 +378,10 @@ table {
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* intro specific styling */
 .hp-header {
-	@include displayFlex();
-	@include flexVerticalAlign(center);
-	@include flexJustify(space-between);
-	@include flexDirection(row);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(space-between);
+	@include flex-direction(row);
 	width: 100%;
 	background: $mainNavBg;
 
@@ -421,9 +421,9 @@ table {
 	}
 
 	.intro-content.top {
-		@include displayFlex();
-		@include flexVerticalAlign(center);
-		@include flexDirection(row);
+		@include display(flex);
+		@include align-items(center);
+		@include flex-direction(row);
 		box-sizing: border-box;
 
 		.hero-image {
@@ -445,8 +445,8 @@ table {
 	}
 
 	.intro-content.bottom {
-		@include displayFlex();
-		@include flexDirection(row);
+		@include display(flex);
+		@include flex-direction(row);
 		box-sizing: border-box;
 
 		.hero-block {
@@ -515,8 +515,8 @@ table {
 
 	.intro-block {
 		.intro-content.top {
-			@include flexVerticalAlign(start);
-			@include flexDirection(column);
+			@include align-items(flex-start);
+			@include flex-direction(column);
 
 			.hero-image {
 				width: 50%;
@@ -541,7 +541,7 @@ table {
 		}
 
 		.intro-content.bottom {
-			@include flexDirection(column);
+			@include flex-direction(column);
 
 			.hero-block {
 				width: 100%;
@@ -561,7 +561,7 @@ table {
 
 	.docs-footer {
 		.footer-logo-box {
-			@include flexDirection(row);
+			@include flex-direction(row);
 		}
 	}
 }
@@ -577,9 +577,9 @@ table {
 	}
 
 	.hp-header {
-		@include flexVerticalAlign(start);
-		@include flexJustify(center);
-		@include flexDirection(column);
+		@include align-items(flex-start);
+		@include justify-content(center);
+		@include flex-direction(column);
 
 		.docs-logo {
 			display: none;
@@ -588,7 +588,7 @@ table {
 
 	.docs-footer {
 		.footer-logo-box {
-			@include flexDirection(column);
+			@include flex-direction(column);
 		}
 
 		.powered-by,

@@ -41,6 +41,6 @@
     "web-component-tester": "~2.2.6",
     "moment": "~2.9.0",
     "moment-range": "~1.0.5",
-    "bourbon": "4.2.1"
+    "bourbon": "4.2.3"
   }
 }

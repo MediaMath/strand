@@ -9,9 +9,9 @@
 .button {
 	box-sizing: border-box;
 	@include user-select(none);
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(start);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(start);
 	border: 1px solid;
 	border-radius: 4px 4px 4px 4px;
 	padding: 0 10px;
@@ -150,7 +150,7 @@ polyfill-next-selector { content: '.button mm-icon + label'; }
 :host('[layout=vgroup-center]'),
 :host('[layout=vgroup-left]') {
 	.button {
-		@include flexJustify(center);
+		@include justify-content(center);
 	}
 }
 

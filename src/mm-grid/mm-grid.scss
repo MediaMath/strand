@@ -17,7 +17,7 @@
 }
 
 #header, #footer {
-	@include displayFlex();
+	@include display(flex);
 	position: absolute;
 	min-width: 100%;
 	background: $color-A16;
@@ -78,6 +78,6 @@
 }
 
 #columnContainer {
-	@include displayFlex();
+	@include display(flex);
 	@include flex(1);
 }
