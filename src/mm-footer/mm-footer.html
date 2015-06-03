@@ -10,11 +10,14 @@
 	<template>
 		<link href="mm-footer.css" rel="stylesheet" type="text/css"/>
 		<div class="footer">
-			<div class="message-area">
-				<mm-inline-box id="messageBox" type="{{type}}" layout="message">{{message}}</mm-inline-box>
+			<div class="left-box">
+				<template if="{{messageVisible}}">
+					<mm-inline-box id="messageBox" type="{{type}}" layout="message">{{message}}</mm-inline-box>
+				</template>
+				<content select=".left"></content>
 			</div>
-			<div class="button-group">
-				<content select="*"></content>
+			<div class="right-box">
+				<content select=".right, *"></content>
 			</div>
 		</div>
 	</template>

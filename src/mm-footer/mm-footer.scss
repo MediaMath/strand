@@ -18,30 +18,21 @@
 @include fit();
 
 .footer {
+	@include displayFlex();
+	@include flexVerticalAlign(center);
+	@include flexJustify(space-between);
+	box-sizing: border-box;
 	border-top: $color-A9 solid 1px;
 	background-color: $color-A12;
 	padding: 15px;
-	@include clearfix;
 }
 
-.button-group {
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(flex-end);
-	float: right;
+polyfill-next-selector { content: '.right-box *:not(label)'; }
+.right-box ::content *:not(label) {
+	margin-left: 10px;
 }
 
-.message-area {
-	float: left;
-	padding: 6px 0 5px 0;
-}
-
-mm-inline-box {
-	display: none;
-}
-
-polyfill-next-selector { content: 'mm-button:not(:last-child), mm-action:not(:last-child)'; }
-::content mm-button:not(:last-child),
-::content mm-action:not(:last-child) {
+polyfill-next-selector { content: '.left-box *:not(label)'; }
+.left-box ::content *:not(label) {
 	margin-right: 10px;
 }

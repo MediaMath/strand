@@ -6,7 +6,7 @@
 			"name":"message",
 			"type":"String",
 			"description":"The feedback message to display, usually feedback for validation success or failure.",
-			"default":"none",
+			"default":"null",
 			"options":[]
 		},
 		{
@@ -30,7 +30,7 @@
 			"name":"message",
 			"type":"String",
 			"description":"The feedback message to display, usually feedback for validation success or failure.",
-			"default":"none"
+			"default":"null"
 		},
 		{
 			"name":"type",

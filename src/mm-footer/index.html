@@ -4,6 +4,7 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<link rel="import" href="../mm-action/mm-action.html">
 	<link rel="import" href="../mm-button/mm-button.html">
+	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
 	<link rel="import" href="mm-footer.html">
 	<style type="text/css">
 			body, html {
@@ -45,6 +46,10 @@
 
 			.col.c4 {
 				width:49%;
+			}
+
+			.col.cX {
+				width:100%;
 			}
 
 			.col:after {
@@ -92,9 +97,17 @@
 		</style>
 	</head>
 	<body>
-		<div class="col c4">
+
+		<div class="col cX">
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="footer" unresolved>
+				<mm-footer unresolved>
+					<mm-button>
+						<label>Save</label>
+					</mm-button>
+				</mm-footer>
+			<hr/>
+			<p><span class="bold">Footer:</span> Display Message / Multiple Buttons</p>
+				<mm-footer id="tf1" unresolved>
 					<mm-action id="closeLink" underline="true">
 						<label>Close</label>
 					</mm-action>
@@ -106,16 +119,29 @@
 					</mm-button>
 				</mm-footer>
 			<hr/>
+			<p><span class="bold">Footer:</span> Default</p>
+				<mm-footer id="tf2" unresolved>
+					<mm-checkbox class="left">
+						<label>Don't show again</label>
+					</mm-checkbox>
+					<mm-button>
+						<label>Close</label>
+					</mm-button>
+				</mm-footer>
+			<hr/>
 		</div>
+
 		<script>
-			var footer,
+			var tf1,
+				tf2,
 				closeLink,
 				saveAndClose,
 				saveAndAdd;
 
 			window.addEventListener("polymer-ready", function() {
-				console.log("polymer-ready");
-				footer = document.getElementById("footer");
+				tf1 = document.querySelector("#tf1");
+				tf2 = document.querySelector("#tf2");
+
 				closeLink = document.getElementById("closeLink");
 				saveAndClose = document.getElementById("saveAndClose");
 				saveAndAdd = document.getElementById("saveAndAdd");
@@ -123,33 +149,34 @@
 				closeLink.addEventListener("click", closeHandler);
 				saveAndClose.addEventListener("click", saveCloseHandler);
 				saveAndAdd.addEventListener("click", saveAddHandler);
-
-				// set footer message - follows same pattern as mm-inline-box,
-				// because it IS an mm-inline-box:
-				footer.message = "Error some text is here.";
-				footer.type = "error";
-
-				// show the message:
-				// footer.showMessage();
-
-				// hide the message:
-				// footer.hideMessage();
 			});
 
 			function closeHandler(e) {
 				e.preventDefault();
 				console.log("closeHandler");
 				console.log(e);
+				// Test messaging:
+				tf1.message = "This is a neat message.";
+				tf1.type = "success";
+				tf1.showMessage();
 			}
 
 			function saveCloseHandler(e) {
 				console.log("saveCloseHandler");
 				console.log(e);
+				// Test messaging:
+				tf1.message = "This is a super message.";
+				tf1.type = "error";
+				tf1.showMessage();
 			}
 
 			function saveAddHandler(e) {
 				console.log("saveAddHandler");
 				console.log(e);
+				// Test messaging:
+				tf1.message = "This is a test message.";
+				tf1.type = "warning";
+				tf1.showMessage();
 			}
 		</script>
 	</body>
