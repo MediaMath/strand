@@ -1,4 +1,5 @@
 module.exports = {
 	verbose: false,
-	suites: ['test/*.html']
+	suites: ['test/*.html'],
+	root: '.'
 };

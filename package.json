@@ -6,7 +6,12 @@
     "type": "git",
     "url": "git://github.com/MediaMath/strand.git"
   },
-  "author": "dlasky@mediamath.com",
+  "contributors": [
+    "Anthony Koerber <akoerber@mediamath.com>",
+    "Dan Lasky <dlasky@mediamath.com>",
+    "Justin Moore <jmoore@mediamath.com>",
+    "Derek Olson <dolson@mediamath.com>"
+  ],
   "license": "BSD",
   "devDependencies": {
     "grunt": "*",
