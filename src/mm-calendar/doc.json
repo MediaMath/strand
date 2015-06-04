@@ -1,0 +1,68 @@
+{
+	"name":"mm-calendar",
+	"description":"A simple calendar rendering component. Intended for use in mm-datepicker but can be used for stand alone date selection. Note that mm-calendar makes heavy use of moment.js",
+	"attributes": [
+		{
+			"name":"useTapSelect",
+			"type":"boolean",
+			"description":"sets a default tap handler that selects the current date. Generally only set to false for cases where a custom selection behavior is desired",
+			"optional":true,
+			"default":"true",
+			"options":[]
+		}
+	],
+	"properties":[
+		{
+			"name":"date",
+			"type":"Date",
+			"description":"The selected calendar date",
+			"default":"null"
+		},
+		{
+			"name":"pairDate",
+			"type":"Date",
+			"description":"A secondary date used to denote selection ranges for 2 picker scenarios",
+			"default":"null"
+		},
+		{
+			"name":"viewDate",
+			"type":"Date",
+			"description":"The date object that represents the current month being viewed. Allows the viewable area to be altered without changing the selected date (if any).",
+			"default":"today's date"
+		},
+		{
+			"name":"disablePast",
+			"type":"Date or boolean",
+			"description":"If true, dates after today's date will be disabled. If a date is specified dates after that date will be disabled",
+			"default":"false"
+		},
+		{
+			"name":"disableFuture",
+			"type":"Date or boolean",
+			"description":"Behaves similarly to disablePast only for future dates",
+			"default":"false"
+		}
+	],
+	"events": [
+		{
+			"type": "calendar-select",
+			"detail": [
+				{
+					"name":"date",
+					"type":"Date",
+					"description":"The date object that a user has selected"
+				},
+				{
+					"name":"target",
+					"type":"HTMLElement",
+					"description":"the dom node target for the tap that drove the calendar selection"
+				},
+				{
+					"name":"unix",
+					"type":"Number",
+					"description":"unix timestamp (seconds not millis) for the selected date"
+				}
+			]
+		}
+	]
+}

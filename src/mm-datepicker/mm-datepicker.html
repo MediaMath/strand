@@ -1,0 +1,133 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../mm-calendar/mm-calendar.html">
+<link rel="import" href="../mm-header/mm-header.html">
+<link rel="import" href="../mm-input/mm-input.html">
+<link rel="import" href="../mm-input-mask/mm-input-mask.html">
+<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+<link rel="import" href="../mm-footer/mm-footer.html">
+<link rel="import" href="../mm-button/mm-button.html">
+<link rel="import" href="../mm-action/mm-action.html">
+<link rel="import" href="../mm-dropdown/mm-dropdown.html">
+<link rel="import" href="../mm-list-item/mm-list-item.html">
+<link rel="import" href="../mm-footer/mm-footer.html">
+<link rel="import" href="../mm-group/mm-group.html">
+<link rel="import" href="../mm-close-panel/mm-close-panel.html">
+<link rel="import" href="../mm-footer/mm-footer.html">
+
+<link rel="import" href="../shared/js/measure.html">
+<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/moment.html">
+<link rel="import" href="../shared/js/momentrange.html">
+
+<polymer-element name="mm-datepicker" attributes="start end align valign target" constructor="MMDatePicker">
+	<template>
+	
+		<link href="mm-datepicker.css" rel="stylesheet" type="text/css"/>
+
+		<mm-close-panel id="closePanel" valign="{{valign}}" align="{{align}}" targetFilter="{{closeFilter}}" scope="{{}}" target="{{target}}" state="{{state}}">
+			
+			<template if="{{useRange}}">
+				<div class="range-presets">
+					<mm-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" maxitems="{{ranges.presets.length > ranges.max ? ranges.max : ranges.presets.length}}" fitparent value="{{rangeValue | displayRange}}" data="{{_rangePresets}}">
+					</mm-dropdown>
+				</div>
+			</template>
+
+				<div class="_mm-start">
+					<div class="input-top">
+						<mm-header class="header" size="normal">{{startLabel}}</mm-header>
+						<mm-checkbox id="startCheckbox" style="display:{{ startEnabledLabel | displayItem }};" checked="{{startEnabled}}" disabled?="{{!startUserEnabled}}">
+							<label>{{startEnabledLabel}}</label>
+						</mm-checkbox>
+						<mm-input-mask id="startDate" icon="calendar" fitparent value="{{startDate}}" disabled?="{{startEnabled}}" placeholder="MM/DD/YYYY">
+							<group rule="range" restrict="numeric" size="2" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" restrict="numeric" size="2" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" restrict="numeric" size="4"></group>
+						</mm-input-mask>
+					</div>
+					<mm-calendar id="startCalendar" date="{{startDate | calendarFilter}}" pairDate="{{endDate | calendarFilter}}" disablePast="{{allowedStart}}" disableFuture="{{endDate | calendarFilter}}" disabled?="{{startEnabled}}" on-calendar-select="{{handleTap}}"></mm-calendar>
+					<template if="{{useTime}}">
+						<div class="input-bottom">
+							<mm-group>
+								<mm-input-mask id="startTime" icon="clock" value="{{startTime}}" width="119" disabled?="{{startEnabled}}" on-keydown="{{keyHandler}}">
+									<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
+									<sep chars=":"></sep>
+									<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+								</mm-input-mask>
+								<mm-dropdown id="startPeriod" value="{{startTimePeriod}}" fitparent style="width:64px;" disabled?="{{startEnabled}}">
+									<mm-list-item value="am">AM</mm-list-item>
+									<mm-list-item value="pm">PM</mm-list-item>
+								</mm-dropdown>
+							</mm-group>
+						</div>
+					</template>
+				</div>
+
+			<template if="{{dual}}">
+				<div class="_mm-end">
+					<div class="vert-stroke"></div>
+					<div class="input-top">
+						<mm-header class="header" size="normal">{{endLabel}}</mm-header>
+						<mm-checkbox id="endCheckbox" style="display:{{ endEnabledLabel | displayItem }};" checked="{{endEnabled}}" disabled?="{{!endUserEnabled}}">
+							<label>{{endEnabledLabel}}</label>
+						</mm-checkbox>
+						<mm-input-mask id="endDate" icon="calendar" fitparent value="{{endDate}}" disabled?="{{endEnabled}}"  placeholder="MM/DD/YYYY">
+							<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" restrict="numeric" size="4"></group>
+						</mm-input-mask>
+					</div>
+					<mm-calendar id="endCalendar" date="{{endDate | calendarFilter }}" pairDate="{{startDate | calendarFilter}}" disablePast="{{startDate | calendarFilter}}" disableFuture="{{allowedEnd}}" disabled?="{{endEnabled}}" on-calendar-select="{{handleTap}}"></mm-calendar>
+					<template if="{{useTime}}">
+						<div class="input-bottom">
+							<mm-group>
+								<mm-input-mask id="endTime" icon="clock" value="{{endTime}}" width="119" disabled?="{{endEnabled}}" on-keydown="{{keyHandler}}">
+									<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
+									<sep chars=":"></sep>
+									<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+								</mm-input-mask>
+								<mm-dropdown id="endPeriod" value="{{endTimePeriod}}" fitparent style="width:64px;" disabled?="{{endEnabled}}">
+									<mm-list-item value="am">AM</mm-list-item>
+									<mm-list-item value="pm">PM</mm-list-item>
+								</mm-dropdown>
+							</mm-group>
+						</div>
+					</template>
+				</div>
+			</template>
+
+			<template if="{{useTimezone}}">
+				<div class="range-presets">
+					<mm-dropdown id="timezoneDropdown" placeholder="{{timezoneDescription}}" maxitems="{{timezones.length > 10 ? 10 : timezones.length}}" fitparent value="{{timezone}}" data="{{_timezones}}">
+					<mm-input id="timezoneSearch" search clear value="{{timezoneSearch}}"></mm-input>
+					</mm-dropdown>
+				</div>
+			</template>
+			<template if="{{useCommit}}">
+				<mm-footer id="footer" fitparent="true" message="{{duration}}" unresolved>
+					<mm-action underline="true" on-click="{{closeLinkHandler}}">
+						<label>Close</label>
+					</mm-action>
+					<mm-button on-click="{{save}}" disabled?="{{!datesValid}}">
+						<label>Save</label>
+					</mm-button>
+				</mm-footer>
+			</template>
+
+		</mm-close-panel>
+	</template>
+
+	<script src="mm-datepicker.js"></script>
+
+</polymer-element>

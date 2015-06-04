@@ -1,0 +1,14 @@
+<script>
+    window.addEventListener("polymer-ready", function() {
+        document.querySelector("#t").open = function() {
+        	this.$.dp.open();
+    	};
+    });
+</script>
+<template is="auto-binding" id="t">
+	<mm-button id="btn" on-tap="{{open}}">
+		<label>Select a Date</label>
+	</mm-button>
+	<mm-datepicker id="dp" target="{{$.btn}}" useTimezone="false" useRange="false">
+	</mm-datepicker>
+</template>

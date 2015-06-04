@@ -1,0 +1,60 @@
+{
+	"name":"mm-input-mask",
+	"description":"",
+	"attributes": [
+		{
+			"name":"value",
+			"type":"string",
+			"description":"The value of the field (including any separator characters)",
+			"optional":true,
+			"default":""
+		}
+	],
+	"methods": [
+		{
+			"name":"",
+			"description":"",
+			"arguments":[
+				{
+					"name":"",
+					"type":"",
+					"optional":false,
+					"default":"",
+					"description":""
+				}
+			]
+		}
+	],
+	"properties":[
+		{
+			"name":"rules",
+			"type":"Object",
+			"description":"An object containing a set of named functions used for validation. Method signature is (String char, String input, Object group, HTMLInputElement field) where char is the latest character a user has typed, and input is the full string the user has entered for a given group.",
+			"default":""
+		},
+		{
+			"name":"restrict",
+			"type":"Object",
+			"description":"An object containing a set of regexes used to test input. If input does not test true, it is not allowed in the field.",
+			"default":""
+		},
+		{
+			"name":"placeholder",
+			"type":"string",
+			"description":"Placeholder value. Should contain separator chars as well so it can be properly chunked into individual inputs.",
+			"default":""
+		}
+	],
+	"events": [
+		{
+			"type": "changed",
+			"detail": [
+				{
+					"name":"value",
+					"type":"String",
+					"description":"Value of the selected item, usually it's label"
+				}
+			]
+		}
+	]
+}

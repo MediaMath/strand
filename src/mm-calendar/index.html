@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="mm-calendar.html">
+		<style type="text/css">
+
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin: 0;
+				padding: 0;
+				background: #eee;
+				font-family: sans-serif;
+				color: #333;
+			}
+
+			mm-calendar[unresolved] {
+				display: none;
+			}
+
+			mm-calendar {
+				margin: 25px;
+				display: block;
+			}
+
+			.pair {
+				display: inline-block;
+				margin: none;
+			}
+
+		</style>
+	</head>
+	<body>
+		<mm-calendar id="cal1"></mm-calendar>
+		<mm-calendar id="cal2"></mm-calendar>
+		<mm-calendar id="cal3" disabled></mm-calendar>
+		<template is="auto-binding">
+			<mm-calendar id="cal4" mode="left" pairDate="{{$.cal5.date}}" class="pair" disablePast="true"></mm-calendar>
+			<mm-calendar id="cal5" mode="right" pairDate="{{$.cal4.date}}" class="pair" disablePast="true"></mm-calendar>
+		</template>
+		<script>
+			var cal1, cal2, cal3;
+
+			window.addEventListener("polymer-ready", function() { 
+				cal1 = document.getElementById("cal1");
+				cal2 = document.getElementById("cal2");
+				cal3 = document.getElementById("cal2");
+				
+			});
+		</script>
+	</body>
+</html>

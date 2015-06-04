@@ -1,0 +1,30 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/fontloader.html">
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/measure.html">
+<link rel="import" href="../mm-input/mm-input.html">
+<link rel="import" href="../mm-item-notifier/mm-item-notifier.html">
+<polymer-element name="mm-input-mask" attributes="" extends="mm-input">
+	<template>
+		<link href="mm-input-mask.css" rel="stylesheet" type="text/css"/>
+		<div id="pseudo">
+			<template repeat="{{maskConfig}}">
+				<template if="{{type === 1}}">
+					<input id="mini{{index}}" type="text" size="{{max}}" maxlength="{{max}}" class="_mm_text_input mask" disabled?="{{disabled}}" value="{{value}}" on-focus="{{handleInputFocus}}" on-blur="{{handleBlur}}" on-keydown="{{cellKey}}" on-keyup="{{cellVal}}" placeholder="{{placeholder}}" style="{{style | contentWidth(value, placeholder, loaded) | styleObject}}"></input>
+				</template>
+				<template if="{{type === 0}}"><span class="{{style | tokenList}}">{{value}}</span></template>
+			</template>
+		</div>
+		<shadow></shadow>
+		<mm-item-notifier on-added="{{handleUpdate}}" on-removed="{{handleUpdate}}" on-modified="{{handleUpdate}}">
+		<content id="content" select="group,sep"></content>
+	</template>
+	<script src="mm-input-mask.js"></script>
+</polymer-element>
