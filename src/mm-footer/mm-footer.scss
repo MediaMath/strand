@@ -18,21 +18,21 @@
 @include fit();
 
 .footer {
-	@include displayFlex();
-	@include flexVerticalAlign(center);
-	@include flexJustify(space-between);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(space-between);
 	box-sizing: border-box;
 	border-top: $color-A9 solid 1px;
 	background-color: $color-A12;
 	padding: 15px;
 }
 
-polyfill-next-selector { content: '.right-box *:not(label)'; }
-.right-box ::content *:not(label) {
+polyfill-next-selector { content: '.right-box > *'; }
+.right-box ::content > * {
 	margin-left: 10px;
 }
 
-polyfill-next-selector { content: '.left-box *:not(label)'; }
-.left-box ::content *:not(label) {
+polyfill-next-selector { content: '.left-box > *'; }
+.left-box ::content > * {
 	margin-right: 10px;
 }

@@ -9,7 +9,7 @@
 @import "_mixins";
 
 :host {
-	@include displayFlex();
+	@include display(flex);
 	vertical-align: middle;
 	position: relative;
 	padding: 6px 10px;
@@ -28,9 +28,9 @@
 polyfill-next-selector { content: ':host > ._mm_container'; }
 ._mm_container {
 	@include user-select(none);
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(space-between);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(space-between);
 	font-family: "Arimo", sans-serif;
 	font-weight: bold;
 	font-size: 11px;
@@ -38,12 +38,12 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 	width: 100%;
 
 	&.right {
-		@include flexJustify(end);
+		@include justify-content(end);
 	}
 
 	.left-items {
-		@include displayFlex();
-		@include flexVerticalAlign();
+		@include display(flex);
+		@include align-items(center);
 	}
 }
 

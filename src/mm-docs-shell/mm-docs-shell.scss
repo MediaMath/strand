@@ -43,8 +43,9 @@
 }
 
 .mobile-header-box {
-	@include displayFlex();
-	@include flexVerticalAlign();
+	@include display(flex);
+	@include align-items(center);
+	
 	position: absolute;
 	left: 0;
 	bottom: 0;
