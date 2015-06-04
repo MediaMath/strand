@@ -1,5 +1,3 @@
-var exec = require("child_process").exec;
-
 module.exports = function(grunt) {
 
 	grunt.initConfig({
@@ -205,13 +203,45 @@ module.exports = function(grunt) {
 			},
 		},
 
+		shell: {
+			stageRelease: {
+				command: [	
+							'git checkout -b release-<%= pkg.version %>',
+							'git add <%= dist_dir %>/*'
+						].join('&&')
+			},
+			publishRelease: {
+				command: [
+							'git checkout master',
+							'git merge --no-ff release-<%= pkg.version %>',
+							'git tag -a v<%= pkg.version %> -m "Version <%= pkg.version %>"',
+							'git checkout develop',
+							'git merge --no-ff release-<%= pkg.version %>',
+							'git branch -d release-<%= pkg.version %>'
+						].join('&&')
+			}
+		},
+
+		githubChanges: {
+			release: {
+				options: {
+					owner: 'MediaMath',
+					repository: 'strand',
+					branch: 'develop',
+					noMerges: true,
+					tagName: 'v<%= pkg.version %>'
+				}
+			}
+		},
+
 		bump: {
 			options: {
 				files: [ 'package.json', 'bower.json' ],
-				commitFiles: [ 'package.json', 'bower.json', 'dist/*' ],
+				commitFiles: [ 'package.json', 'bower.json', 'CHANGELOG.md', 'dist/*' ],
 				updateConfigs: ['pkg'],
-				push: true,
-				pushTo: 'origin'
+				push: false,
+				pushTo: 'upstream',
+				createTag: false
 			}
 		}
 
@@ -288,23 +318,10 @@ module.exports = function(grunt) {
 		]);
 	});
 
-	function execCmd(cmd, onExecuted) {
-		exec( cmd, function(error, stdout, stderr) {
-			error && console.error(error);
-			stderr && console.error(stderr);
-			stdout && console.log(stdout);
-			onExecuted();
-		});
-	}
-
-	grunt.registerTask( "stage-release", "Stage release files.", function() {
-		execCmd( "git add " + grunt.config("dist_dir") + "/*", this.async() );
-	});
-
 	grunt.registerTask('default', ['build:dev']);
 
 	grunt.registerTask('release', function(version){
 		version = version || "patch";
-		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "replace:bower", "copy:dist", "build:docs", "stage-release", "bump-commit");
+		grunt.task.run( "bump-only:" + version, "clean:dist", "build:dist", "replace:bower", "copy:dist", "shell:stageRelease", "githubChanges", "bump-commit");
 	});
 };
