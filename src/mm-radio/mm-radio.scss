@@ -30,8 +30,8 @@
 }
 
 ._mm_container {
-	@include displayFlex();
-	@include flexVerticalAlign();
+	@include display(flex);
+	@include align-items(center);
 	cursor: pointer;
 }
 

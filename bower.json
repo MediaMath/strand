@@ -1,6 +1,6 @@
 {
   "name": "strand",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "homepage": "https://github.com/MediaMath/strand",
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
   "license": "BSD",
   "ignore": [
     "**/.*",
-    "src",
     "docs",
     "grunt",
     "Gruntfile.js",
@@ -39,7 +38,9 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#0.5.4"
   },
   "devDependencies": {
-    "web-component-tester": "~2.0.5",
-    "bourbon": "4.2.1"
+    "web-component-tester": "~2.2.6",
+    "moment": "~2.9.0",
+    "moment-range": "~1.0.5",
+    "bourbon": "4.2.3"
   }
 }

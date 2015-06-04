@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 			moduleDoc.modules = moduleList;
 			moduleDoc.articleList = articleList;
 			moduleDoc.articleMap = articleMap;
-			moduleConfig.files['build/docs/'+moduleDoc.name+'.html'] = 'docs/component_template.html';
+			moduleConfig.files[grunt.config('docs_dir')+'/'+moduleDoc.name+'.html'] = 'docs/component_template.html';
 			moduleConfig.options.data = moduleDoc;
 
 			grunt.config.set(["hogan_static","docs_"+moduleDoc.name], moduleConfig);
@@ -124,7 +124,7 @@ module.exports = function(grunt) {
 				article: articleBody
 			};
 
-			articleConfig.files['build/docs/article_'+articleName+'.html'] = 'docs/article_template.html';
+			articleConfig.files[grunt.config('docs_dir')+'/article_'+articleName+'.html'] = 'docs/article_template.html';
 			articleConfig.options.data = articleData;
 
 			grunt.config.set(["hogan_static","article_" + articleName], articleConfig);
@@ -150,24 +150,24 @@ module.exports = function(grunt) {
 			usePartials: 'docs/*.html',
 		},
 		files: {
-			'build/docs/index.html':'docs/index.html'
+			'<%= docs_dir %>/index.html':'docs/index.html'
 		}
 	});
 
 	grunt.config('copy.docs', {
 		files: [ 
-			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= build_dir %>/docs/'},
-			{ expand: true, src: ['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'], dest: '<%= build_dir %>/docs/'},
-			{ src: 'LICENSE.txt', dest: '<%= build_dir %>/docs/' },
-			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= build_dir %>/docs/bower_components/strand/dist/<%= pkg.name %>.html' }
+			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= docs_dir %>/'},
+			{ expand: true, src: ['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'], dest: '<%= docs_dir %>'},
+			{ src: 'LICENSE.txt', dest: '<%= docs_dir %>/' },
+			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= docs_dir %>/bower_components/strand/dist/<%= pkg.name %>.html' }
 		]
 	});
 
-	grunt.registerTask("docs", ["build:dist", "replace:bower", "build:docs"]);
+	grunt.registerTask('docs', ['clean:docs', 'build:dist', 'replace:bower', 'build:docs']);
 
 	grunt.config('gh-pages', {
 		options: {
-			base: 'build/docs',
+			base: '<%= docs_dir %>',
 			message: 'docs updates v' + grunt.config('pkg.version')
 		},
 		src: '**/*'

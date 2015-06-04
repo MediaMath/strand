@@ -6,13 +6,13 @@
 */
 polyfill-next-selector { content: ':host ._mm_column' }
 ._mm_column {
-	display: inline-block;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	padding: 0px 10px;
 	vertical-align: middle;
 	box-sizing: border-box;
+	float: left;
 
 	&.right {
 		text-align: right;
@@ -23,7 +23,6 @@ polyfill-next-selector { content: ':host ._mm_column' }
 		box-sizing: content-box;
 		margin: auto 0;
 		padding: 0px 5px;
-		float: left;
 
 		&:first-of-type {
 			padding-left: 15px;

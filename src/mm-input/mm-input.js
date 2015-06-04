@@ -189,7 +189,7 @@ Polymer('mm-input', {
 
 	get inputWidth() {
 		if (this.$)
-		return parseFloat(Measure(this.$.input, this).getComputedStyle().width);
+		return parseFloat(Measure.getComputedStyle(this.$.input).width);
 	},
 
 	open: function(e) {

@@ -1,12 +1,17 @@
 {
   "name": "strand",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "MediaMath UI-Framework based on polymer.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/MediaMath/strand.git"
   },
-  "author": "dlasky@mediamath.com",
+  "contributors": [
+    "Anthony Koerber <akoerber@mediamath.com>",
+    "Dan Lasky <dlasky@mediamath.com>",
+    "Justin Moore <jmoore@mediamath.com>",
+    "Derek Olson <dolson@mediamath.com>"
+  ],
   "license": "BSD",
   "devDependencies": {
     "grunt": "*",
@@ -19,9 +24,11 @@
     "grunt-contrib-watch": "*",
     "grunt-css-url-embed": "*",
     "grunt-gh-pages": "^0.10.0",
+    "grunt-github-changes": "0.0.6",
     "grunt-hogan-static": "*",
     "grunt-mocha-phantomjs": "*",
     "grunt-sass": "*",
+    "grunt-shell": "^1.1.2",
     "grunt-text-replace": "^0.4.0",
     "grunt-vulcanize": "0.5.0",
     "load-grunt-tasks": "*"

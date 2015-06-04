@@ -1,0 +1,60 @@
+{
+	"name":"mm-drawer",
+	"description":"Re-usable drawer component for showing/hiding content.",
+	"attributes": [
+		{
+			"name":"expanded",
+			"type":"Boolean",
+			"description":"The expanded state of the drawer. Changing this will open/close the drawer",
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"label",
+			"type":"String",
+			"description":"The label for the drawer's toggle button. Setting this value will show the \"Tab\" style drawer",
+			"default":"",
+			"options":[]
+		},
+		{
+			"name":"closedHeight",
+			"type":"Number",
+			"description":"The pixel height of the drawer when closed.",
+			"default":"0",
+			"options":[]
+		},
+		{
+			"name":"openedHeight",
+			"type":"Number",
+			"description":"The pixel height of the drawer when opened. Defaults to measured content height.",
+			"default":"Content Height",
+			"options":[]
+		},
+		{
+			"name":"forceMeasure",
+			"type":"Number",
+			"description":"Force drawer to measure contents every time it is opened. By default the initial height is cached.",
+			"default":"false",
+			"options":[]
+		}
+	],
+	"properties":[
+	],
+	"methods": [
+		{
+			"name":"open",
+			"description":"Open/show drawer contents.",
+			"arguments":[]
+		},
+		{
+			"name":"close",
+			"description":"Close/hide drawer contents",
+			"arguments":[]
+		},
+		{
+			"name":"toggle",
+			"description":"Toggle drawer opened/closed state",
+			"arguments":[]
+		}
+	]
+}

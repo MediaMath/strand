@@ -9,14 +9,13 @@
 @import "_mixins";
 
 :host {
-	display: flex;
+	@include display(flex);
 	vertical-align: middle;
 	position: relative;
 	padding: 6px 10px;
 	cursor: default;
 	box-sizing: border-box;
 	background: $color-A16;
-	flex: 0 0 auto;
 }
 
 :host(':hover') {
@@ -29,23 +28,22 @@
 polyfill-next-selector { content: ':host > ._mm_container'; }
 ._mm_container {
 	@include user-select(none);
-	@include displayFlex();
-	@include flexVerticalAlign();
-	@include flexJustify(space-between);
+	@include display(flex);
+	@include align-items(center);
+	@include justify-content(space-between);
 	font-family: "Arimo", sans-serif;
 	font-weight: bold;
 	font-size: 11px;
-	line-height: 11px;
 	margin: auto 0;
 	width: 100%;
 
 	&.right {
-		@include flexJustify(end);
+		@include justify-content(end);
 	}
 
 	.left-items {
-		@include displayFlex();
-		@include flexVerticalAlign();
+		@include display(flex);
+		@include align-items(center);
 	}
 }
 
@@ -59,7 +57,7 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 
 #info, #sort {
 	margin-left: 5px;
-	flex-shrink: 0;
+	@include flex-shrink(0);
 }
 
 #sort {

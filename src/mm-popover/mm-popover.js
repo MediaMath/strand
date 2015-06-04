@@ -62,8 +62,8 @@ Polymer('mm-popover', {
 		}
 
 		//Use close panel to calculate bounding
-		var rect = Measure(this.$.closePanel, this).getBoundingClientRect(),
-			targetRect = Measure(this.$.closePanel.target, this).getBoundingClientRect();
+		var rect = Measure.getBoundingClientRect(this.$.closePanel),
+			targetRect = Measure.getBoundingClientRect(this.$.closePanel.target);
 			bounding = contains(rect, e.clientX, e.clientY) || contains(targetRect, e.clientX, e.clientY);
 
 		if (bounding) {

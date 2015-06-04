@@ -50,6 +50,21 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.registerTask('measureFix', function() {
+		var files = grunt.file.expand(['mm-*/*.js']),
+			content;
+
+		files.forEach(function(file) {
+			console.log(file);
+			content = grunt.file.read(file);
+			content = content.replace(/Measure\((.+),.+\)\.(\w+)\(\)/gi, 'Measure.$2($1)');
+			content = content.replace(/Measure\((.+)\)\.(\w+)\(\)/gi, 'Measure.$2($1)');
+			grunt.file.write(file, content);
+		});
+
+		grunt.log.ok();
+	});
+
 	grunt.registerTask('migrate', function() {
 		grunt.task.run('clean:src');
 

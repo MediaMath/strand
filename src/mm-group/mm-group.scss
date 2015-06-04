@@ -26,13 +26,13 @@
 
 :host('[align=horizontal]'),
 :host('[align=vertical]') {
-	@include displayFlex(true);
+	@include display(flex);
 }
 
 :host('[align=vertical]') {
-	@include flexDirection(column);
+	@include flex-direction(column);
 }
 
 :host('[align=horizontal][fitparent]') {
-	@include flexJustify(space-between);
+	@include justify-content(space-between);
 }

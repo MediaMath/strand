@@ -4,26 +4,21 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function () {
+(function (scope) {
 
-	var Measure = function(input, root) {
-		this.input = input;
-		// this.root = root;
-	};
-
-	Measure.prototype = {	
+	var Measure = {	
 		// returns the boundingClientRect of the text within an mm-list-tem
-		getTextBounds: function() {
+		getTextBounds: function(input) {
 			var range = document.createRange();
-			if (range && this.input.childNodes[0]) {
-				range.selectNode(this.input.childNodes[0]);
+			if (range && input.childNodes[0]) {
+				range.selectNode(input.childNodes[0]);
 				return range.getBoundingClientRect();
 			}
 		},
 		//measures text off the dom, input is used for style reference
-		textWidth: function(chars, font) {
+		textWidth: function(input, chars, font) {
 			if (!font) {
-				var s = getComputedStyle(this.input);
+				var s = getComputedStyle(input);
 				font = s["font-size"] + " " + s["font-family"];
 			}
 			var c = document.createElement("canvas");
@@ -32,38 +27,45 @@
 			return ctx.measureText(chars).width;
 		},
 		// returns the total of border left width + border right width
-		getBorderWidth: function() {
-			var style = getComputedStyle(this.input),
+		getBorderWidth: function(input) {
+			var style = getComputedStyle(input),
 				borderLeft = parseInt(style.borderLeftWidth),
 				borderRight = parseInt(style.borderRightWidth);
 			return borderLeft + borderRight;
 		},
+		// returns the total of border top width + border bottom width
+		getBorderHeight: function(input) {
+			var style = getComputedStyle(input),
+				borderTop = parseInt(style.borderTopWidth),
+				borderBottom = parseInt(style.borderBottomWidth);
+			return borderTop + borderBottom;
+		},
 		// return the total of padding left + padding right
-		getPaddingWidth: function() {
-			var style = getComputedStyle(this.input),
+		getPaddingWidth: function(input) {
+			var style = getComputedStyle(input),
 				padLeft = parseInt(style.paddingLeft),
 				padRight = parseInt(style.paddingRight);
 			return padLeft + padRight;
 		},
 		//return the offset width
-		getOffsetWidth: function() {
-			return this.input.offsetWidth;
+		getOffsetWidth: function(input) {
+			return input.offsetWidth;
 		},
 		//return the offset height
-		getOffsetHeight: function() {
-			return this.input.offsetHeight;
+		getOffsetHeight: function(input) {
+			return input.offsetHeight;
 		},
 		//return the scroll height
-		getScrollHeight: function() {
-			return this.input.scrollHeight;
+		getScrollHeight: function(input) {
+			return input.scrollHeight;
 		},
 
-		getBoundingClientRect: function() {
-			return this.input.getBoundingClientRect();
+		getBoundingClientRect: function(input) {
+			return input.getBoundingClientRect();
 		},
 
-		getComputedStyle: function() {
-			return getComputedStyle(this.input);
+		getComputedStyle: function(input) {
+			return getComputedStyle(input);
 		},
 
 		getScrollbarWidth: function() {
@@ -87,13 +89,5 @@
 		}
 		
 	};
-	var cache = new WeakMap();
-	window.Measure = function(input, root) {
-		var c = cache.get(input);
-		if (!c) {
-			c = new Measure(input, root);
-			cache.set(input, c);
-		}
-		return c; 
-	};
-})();
+	scope.Measure = Measure;
+})(window);

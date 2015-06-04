@@ -1,33 +1,73 @@
-<mm-footer fitparent="true" unresolved>
-	<mm-action underline="true">
-		<label>Close</label>
-	</mm-action>
-	<mm-button type="secondary">
-		<label>Save &amp; Close</label>
-	</mm-button>
-	<mm-button>
-		<label>Save &amp; Add Another</label>
-	</mm-button>
-</mm-footer>
-<!-- footer with error message -->
-<mm-footer id="footer" fitparent="true" unresolved>
-	<mm-action underline="true">
-		<label>Close</label>
-	</mm-action>
+<!-- Default Example -->
+<mm-footer unresolved fitparent>
 	<mm-button>
 		<label>Save</label>
 	</mm-button>
 </mm-footer>
-<!-- Script to display message -->
+<!-- Display Message / Multiple Buttons Example -->
+<mm-footer id="tf1" unresolved fitparent>
+	<mm-action id="closeLink" underline="true">
+		<label>Close</label>
+	</mm-action>
+	<mm-button id="saveAndClose">
+		<label>Save &amp; Close</label>
+	</mm-button>
+	<mm-button id="saveAndAdd">
+		<label>Save &amp; Add Another</label>
+	</mm-button>
+</mm-footer>
+<!-- Align Items Left or Right Example -->
+<mm-footer id="tf2" unresolved fitparent>
+	<mm-checkbox class="left">
+		<label>Don't show again</label>
+	</mm-checkbox>
+	<mm-button>
+		<label>Close</label>
+	</mm-button>
+</mm-footer>
+<!-- Example Scripts -->
 <script>
-	var footer;
+	var tf1,
+		tf2,
+		closeLink,
+		saveAndClose,
+		saveAndAdd;
 
-    window.addEventListener("polymer-ready", function() {
-    	footer = document.body.querySelector('#footer');
-		footer.message = "Error some text is here.";
-		footer.type = "error";
+	window.addEventListener("polymer-ready", function() {
+		tf1 = document.querySelector("#tf1");
+		tf2 = document.querySelector("#tf2");
 
-		// show the message:
-		footer.showMessage();
+		closeLink = document.querySelector("#closeLink");
+		saveAndClose = document.querySelector("#saveAndClose");
+		saveAndAdd = document.querySelector("#saveAndAdd");
+
+		closeLink.addEventListener("click", closeHandler);
+		saveAndClose.addEventListener("click", saveCloseHandler);
+		saveAndAdd.addEventListener("click", saveAddHandler);
 	});
+
+	function closeHandler(e) {
+		e.preventDefault();
+		console.log("closeHandler");
+		// Test messaging:
+		tf1.message = "This is a neat message.";
+		tf1.type = "success";
+		tf1.showMessage();
+	}
+
+	function saveCloseHandler(e) {
+		console.log("saveCloseHandler");
+		// Test messaging:
+		tf1.message = "This is a super message.";
+		tf1.type = "error";
+		tf1.showMessage();
+	}
+
+	function saveAddHandler(e) {
+		console.log("saveAddHandler");
+		// Test messaging:
+		tf1.message = "This is a test message.";
+		tf1.type = "warning";
+		tf1.showMessage();
+	}
 </script>

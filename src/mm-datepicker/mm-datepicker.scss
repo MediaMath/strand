@@ -1,0 +1,85 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+	@include clearfix();
+}
+
+._mm-start, ._mm-end {
+	box-sizing: border-box;
+	background: $color-F0;
+	position: relative;
+	float: left;
+	width: 212px;
+
+	mm-calendar {
+		padding: 5px 12px 12px 12px;
+	}
+
+	.input-top,
+	.input-bottom {
+		box-sizing: border-box;
+		width: 100%;
+		padding: 15px;
+	}
+
+	.input-bottom {
+		padding-top: 0;
+	}
+
+	.input-top {
+		mm-header, mm-input, mm-checkbox {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		mm-input:last-child {
+			margin: 0;
+		}
+	}
+}
+
+._mm-end {
+	.vert-stroke {
+		position: absolute;
+		width:0px;
+		top: 15px;
+		bottom: 15px;
+		border-left: 1px solid $color-A9;
+	}
+}
+
+.range-presets {
+	box-sizing: border-box;
+	background: $color-F0;
+	width: 100%;
+	padding: 15px;
+}
+
+.range-presets:first-of-type {
+	// border-bottom: 1px solid $color-A9;
+	padding-bottom: 0;
+}
+
+.range-presets:last-of-type {
+	// border-top: 1px solid $color-A9;
+	// border-bottom: none;
+	padding-top: 0;
+	clear: left;
+}
+
+mm-footer {
+	clear: left;
+}

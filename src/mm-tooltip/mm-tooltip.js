@@ -1,9 +1,3 @@
-/**
- * @license
- * Copyright (c) 2015 MediaMath Inc. All rights reserved.
- * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
-
-*/
 (function() {
 	var _instances = [],
 		_currentInstance = null,
@@ -59,7 +53,7 @@
 		}
 
 		var closeIcon = _closePanel.$.closeIcon,
-			closeBound = contains(Measure(_closePanel.$.closeIcon, _closePanel).getBoundingClientRect(), e.clientX, e.clientY);
+			closeBound = contains(Measure.getBoundingClientRect(_closePanel.$.closeIcon), e.clientX, e.clientY);
 
 		if (closeBound) {
 			_currentInstance.close();
@@ -71,6 +65,7 @@
 		STATE_OPENED: "opened",
 		STATE_CLOSED: "closed",
 		publish: {
+			model: null,
 			valign: { value: "top", reflect: true },
 			auto: { value: true, refelct: true },
 			align: "center",
@@ -121,12 +116,12 @@
 			if(_currentInstance !== this) {
 				_setCurrentInstance(this);
 
-				var msgContent = this.querySelector('template').content;
+				var msgContent = this.querySelector('template').createInstance(this);
 				_closePanel.style.width = this.tipWidth ? this.tipWidth + "px" : "auto";
 				_closePanel.valign = this.valign;
 				_closePanel.align = this.align;
 				_closePanel.innerHTML = null;
-				_closePanel.appendChild(document.importNode(msgContent, true));
+				_closePanel.appendChild(msgContent);
 				_closePanel.scope = this;
 				_closePanel.target = this.$.tipTarget;
 			}

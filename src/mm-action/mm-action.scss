@@ -18,23 +18,26 @@
 }
 
 :host('[disabled]') {
-	pointer-events:none;
+	pointer-events:none; 
 	opacity: 0.5;
 }
 
 .action {
-	@include displayFlex(true);
-	@include flexVerticalAlign();
+	@include display(inline-flex);
+	@include align-items(center);
+
 	color: $color-D0;
 	cursor: pointer;
 	text-decoration: none;
 }
 
-.action.underline {
+polyfill-next-selector { content: ".action.underline label"; }
+.action.underline ::content label {
 	text-decoration: underline;
 }
 
-.action.underline:hover {
+polyfill-next-selector { content: ".action.underline:hover label"; }
+.action.underline:hover ::content label {
 	text-decoration: none;
 }
 

@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/strand.html">
+</head>
+<body>
+  <script>
+
+
+describe("mm-sync", function() {
+
+  before(function() {
+    server = sinon.fakeServer.create();
+    server.autoRespond = true;
+    // server.autoRespondAfter = 0;
+  });
+
+	it("should support saving and reading a global", function() {
+		var s = document.querySelector("#sync1");
+		s.setGlobal("test", 1234);
+		s.getGlobal("test").should.equal(1234);
+	});
+
+  it("should support dom node setting of params", function() {
+    var s = document.querySelector("#sync2");
+    var rawParams = s.getDomParams();
+    rawParams.should.include.keys("input-params");
+    s._inputParams.should.include.keys(["headers","queryParams","urlParams"]);
+    s._inputParams.headers.should.have.length(2);
+    s._inputParams.queryParams.should.have.length(2);
+    s._inputParams.urlParams.should.have.length(2);
+
+  });
+
+  it("should support GET calls", function(done) {
+    server.respondWith("GET", "//123/innerUrl?innerQuery=inner123&queryTest=123",[200, { "Content-Type": "application/json" },
+        '[{ "id": 1 }]']);
+    var s = document.querySelector("#sync2");
+    var spy = sinon.spy();
+    s.addEventListener("sync-ready", spy);
+    s.get();
+    s.addEventListener("sync-ready", function() {
+
+      spy.calledOnce.should.be.true;
+      done();
+    });
+  });
+
+	it ("should fetch when dom node settings change", function(done) {
+
+    server.respondWith("GET", /example\.com.*/, [200,{ "Content-Type": "application/json" },'[{ "id": 1 }]']);
+
+    var s = document.querySelector("#sync3");
+    var sq = document.querySelector("queryParam[name=vary]");
+    var spy = sinon.spy();
+
+    s.addEventListener("sync-ready", spy);
+    s.addEventListener("sync-ready", function() {
+      spy.calledOnce.should.be.true;
+      done();
+    });
+
+    sq.setAttribute("value", "something");
+
+  });
+
+  it("should handle server errors", function(done) {
+    var s = document.querySelector("#sync4");
+    var spy = sinon.spy();
+    s.addEventListener("sync-error", spy);
+    s.addEventListener("sync-error", function() {
+      spy.calledOnce.should.be.true;
+      done();
+    });
+    s.get();
+  });
+
+  it("should handle CSRF headers from TOAST", function(done) {
+    server.respondWith("GET", /csrf/i, [200, {"X-CSRF-Token":"12345"}, '']);
+
+    var s = document.querySelector("#sync5");
+    var spy = sinon.spy();
+    s.addEventListener("sync-ready", spy);
+    s.addEventListener("sync-ready", function() {
+      this.csrfHeader.should.equal("12345");
+      spy.calledOnce.should.be.true;
+      done();
+    });
+    s.get();
+
+  });
+
+  it("should allow contentType setting for all calls", function() {
+
+    var s = document.querySelector("#sync6");
+    s.contentType = "test/type";
+    s.post();
+    s._outputParams.headers.should.have.length(1);
+    s._outputParams.headers[0].name.should.equal("content-type");
+    s._outputParams.headers[0].value.should.equal("test/type");
+  });
+
+});
+</script>
+<mm-sync id="sync1" cacheGlobals="true" auto="false"></mm-sync>
+<mm-sync id="sync2" cacheGlobals="true" auto="false">
+  <input-params>
+    <queryParam name="queryTest" value="123"></queryParam>
+    <queryParam name="innerQuery">inner123</queryParam>
+    <urlParam value="123"></urlParam>
+    <urlParam>innerUrl</urlParam>
+    <header name="x-labs-test">labs</header>
+    <header name="x-test" value="someVal"></header>
+  </input-params>
+</mm-sync>
+<mm-sync id="sync3" endpoint="example.com/test" auto="true">
+  <input-params>
+    <queryParam name="vary" value="123"></queryParam>
+  </input-params>
+</mm-sync>
+<mm-sync id="sync4" endpoint="fail" auto="false"></mm-sync>
+<mm-sync id="sync5" endpoint="csrf" csrf="true" auto="false"></mm-sync>
+<mm-sync id="sync6" endpoint="contentType" csrf="false" auto="false"></mm-sync>
+</body>
+</html>
