@@ -4,8 +4,9 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.js */
-Polymer('mm-header', {
+MMHeader = Polymer('mm-header', {
+	is:"mm-header",
+
 	ver:"<<version>>",
 	size:"large",
 });
