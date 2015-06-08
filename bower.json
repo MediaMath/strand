@@ -35,12 +35,12 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#0.5.4",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#0.5.4"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#0.5.4",
+    "moment": "~2.9.0",
+    "moment-range": "~1.0.5"
   },
   "devDependencies": {
     "web-component-tester": "~2.2.6",
-    "moment": "~2.9.0",
-    "moment-range": "~1.0.5",
     "bourbon": "4.2.3"
   }
 }
