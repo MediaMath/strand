@@ -5,50 +5,77 @@
 
 */
 /* test.js */
-Polymer('mm-icon', {
-	
-	ver:"<<version>>",
+Polymer({
+	is:"mm-icon",
 
-	publish: {
-		type: { value:"plus", reflect:true },
-		width:28,
-		height:28,
-		primaryColor: Colors.A2,
-		hoverColor: null,
-		uid: null
+	behaviors: [
+		StrandTraits.Stylable
+	],
+
+	properties: {
+		ver:{
+			type:String,
+			value:"<<version>>",
+		},
+		type: {
+			type:String,
+			value:"plus", 
+			reflectAsAttribute:true 
+		},
+		width:{
+			type:Number, 
+			value: 28
+		},
+		height: {
+			type:Number, 
+			value: 28
+		},
+		primaryColor: {
+			type:String, 
+			value: Colors.A2 
+		},
+		hoverColor: {
+			type:String, 
+			value:null 
+		},
+		iconStyle: {
+			type: Object,
+			computed: "updateStyle(width, height, type)"
+		},	
+		iconClass: {
+			type:Object,
+			computed: "updateClass(uid, type)"
+		},
+		uid: {
+			type: String,
+			value: function() { 
+				var timestamp = new Date().valueOf(),
+					rndNum	= Math.floor((Math.random()*99)+1),
+					id = 'id_' + rndNum + '_' + timestamp;
+				return id;
+			}
+		}
 	},
 
-	iconStyle: {},
-
-	observe: { "width height type" : "updateStyleJob" },
-
-	ready: function() {
-		// this was added to allow hover color/state, 
-		// while still supporting the established api:
-		this.uid = this.createId();
+	updateClass: function(uid, type) {
+		var o = {};
+		o["icon-"+type] = true;
+		o["_mm_icon"] = true;
+		o[this.uid] = true;
+		return o;
 	},
 
-	attached: function() {
-		this.updateStyleJob();
-	},
-
-	updateStyleJob: function() {
-		this.job("style", this.updateStyle, 0);
-	},
-
-	updateStyle: function() {
-		this.iconStyle = {
-			minWidth: this.width + "px",
-			minHeight: this.height + "px", 
-			lineHeight: this.height + "px",
-			fontSize: this.height + "px"
+	updateStyle: function(width, height) {
+		return {
+			minWidth: width + "px",
+			minHeight: height + "px", 
+			lineHeight: height + "px",
+			fontSize: height + "px"
 		};
 	},
 
-	createId: function() {
-		var timestamp = new Date().valueOf(),
-			rndNum	= Math.floor((Math.random()*99)+1),
-			id = 'id_' + rndNum + '_' + timestamp;
-		return id;
+	updateInternalStyle: function(uid, hoverColor, primaryColor) {
+		return "._mm_icon."+uid+" { color: "+primaryColor+";}._mm_icon."+uid+":hover {color: "+hoverColor+";}";
 	}
+
 });
