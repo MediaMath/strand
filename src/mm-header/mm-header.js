@@ -15,7 +15,8 @@ Strand.Header = Polymer({
 		},
 		size: {
 			value:"large",
-			type:String
+			type:String,
+			reflectToAttribute:true
 		}
 	},
 
