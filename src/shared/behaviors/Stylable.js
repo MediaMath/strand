@@ -15,10 +15,10 @@
 	 	classList: function(classes) {
 			var out = [];
 			for (var cl in classes) {
-				if (classes[cl]) out.push(key);
+				if (classes[cl]) out.push(cl);
 			}
 			return out.join(' ');
 		},
 	 };
 	 scope.Stylable = Stylable;
-})(window.StrandTraits); 
+})(window.StrandTraits = window.StrandTraits || {}); 
