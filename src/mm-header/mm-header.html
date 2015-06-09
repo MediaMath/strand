@@ -6,13 +6,14 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
+
 <dom-module id="mm-header">
 	<link rel="import" type="css" href="mm-header.css"/>
 	<template>
-		<div class="header-{{size}}"><content></content></div>
+		<div class$="{{headerClass(size)}}"><content></content></div>
 	</template>
-	<script src="mm-header.js"></script>
 </dom-module>
+<script src="mm-header.js"></script>
 
 <!-- <polymer-element name="mm-header" attributes="size" constructor="MMHeader">
 	<template>

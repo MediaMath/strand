@@ -4,9 +4,22 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-MMHeader = Polymer('mm-header', {
+var Strand = Strand || {};
+Strand.Header = Polymer({
 	is:"mm-header",
 
-	ver:"<<version>>",
-	size:"large",
+	properties: {
+		ver:{
+			value:"<<version>>",
+			type:String
+		},
+		size: {
+			value:"large",
+			type:String
+		}
+	},
+
+	headerClass: function(size) {
+		return "header-"+size;
+	}
 });
