@@ -38,14 +38,6 @@ Polymer({
 			type:String, 
 			value:null 
 		},
-		iconStyle: {
-			type: Object,
-			computed: "updateStyle(width, height, type)"
-		},	
-		iconClass: {
-			type:Object,
-			computed: "updateClass(uid, type)"
-		},
 		uid: {
 			type: String,
 			value: function() { 
@@ -62,16 +54,16 @@ Polymer({
 		o["icon-"+type] = true;
 		o["_mm_icon"] = true;
 		o[this.uid] = true;
-		return o;
+		return this.classList(o);
 	},
 
 	updateStyle: function(width, height) {
-		return {
+		return this.styleList({
 			minWidth: width + "px",
 			minHeight: height + "px", 
 			lineHeight: height + "px",
 			fontSize: height + "px"
-		};
+		});
 	},
 
 	updateInternalStyle: function(uid, hoverColor, primaryColor) {
