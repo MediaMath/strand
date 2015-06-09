@@ -4,24 +4,55 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-action', {
-	ver:"<<version>>",
-	PRIMARY_ICON_COLOR: Colors.D0,
+Polymer({
+	is: "mm-action",
 
-	publish: {
-		underline: false
-	},
+	behaviors: [
+		StrandTraits.Stylable
+	],
 
-	ready: function() {
-		// set layout defaults - is there an icon?
-		if (this.items.length) {
-			this.items[0].setAttribute("primaryColor", this.PRIMARY_ICON_COLOR);
+	properties: {
+		ver:{
+			type:String,
+			value:"<<version>>",
+		},
+		href: {
+			type: String,
+			value: false,
+			reflectToAttribute: true
+		},
+		underline: {
+			type: Boolean,
+			value: false,
+			reflectToAttribute: true
+		},
+		target: {
+			type: String,
+			value: "_self",
+			reflectToAttribute: true
+		},
+		disabled: {
+			type: Boolean,
+			value: false,
+			reflectToAttribute: true
 		}
 	},
 
-	get items() {
-		var items = Array.prototype.slice.call(this.$.icon.getDistributedNodes());
-		return items.filter(function(item) { return item.nodeName !== "TEMPLATE"; });
+	PRIMARY_ICON_COLOR: Colors.D0,
+
+	ready: function() {
+		// if there is an icon - colorize it:
+		var items = Array.prototype.slice.call(Polymer.dom(this.$.icon).getDistributedNodes());
+		if (items.length) {
+			items[0].setAttribute("primary-color", this.PRIMARY_ICON_COLOR);
+		}
+	},
+
+	updateClass: function(underline) {
+		var o = {};
+		o["action"] = true;
+		o["underline"] = underline;
+		return this.classList(o);
 	}
 
 });

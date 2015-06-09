@@ -7,13 +7,15 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
-<polymer-element name="mm-action" attributes="href underline" constructor="MMAction">
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+
+<dom-module id="mm-action">
+	<link rel="import" type="css" href="mm-action.css"/>
 	<template>
-		<link href="mm-action.css" rel="stylesheet" type="text/css"/>
-		<a href="{{href}}" class="action {{ {underline:underline} | tokenList }}">
+		<a href="{{href}}" target="{{target}}" class$="{{ updateClass(underline) }}">
 			<content select="mm-icon" id="icon"></content>
 			<content select="label"></content>
 		</a>
 	</template>
-	<script src="mm-action.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-action.js"></script>

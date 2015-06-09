@@ -29,31 +29,28 @@
 	color: $color-D0;
 	cursor: pointer;
 	text-decoration: none;
-}
 
-polyfill-next-selector { content: ".action.underline label"; }
-.action.underline ::content label {
-	text-decoration: underline;
-}
+	&.underline > ::content label {
+		text-decoration: underline;
+	}
 
-polyfill-next-selector { content: ".action.underline:hover label"; }
-.action.underline:hover ::content label {
-	text-decoration: none;
-}
+	&.underline:hover > ::content label {
+		text-decoration: none;
+	}
 
-polyfill-next-selector { content: '.action label'; }
-::content label {
-	font-size: 13px;
-	line-height: 15px;
-	font-family: "ArimoRegular", sans-serif;
-	@include fontSmoothing();
-	pointer-events: none;
-	color: $color-D0;
-}
+	& > ::content label {
+		@include fontSmoothing();
+		font-size: 13px;
+		line-height: 15px;
+		font-family: "ArimoRegular", sans-serif;
+		pointer-events: none;
+		color: $color-D0;
+	}
 
-polyfill-next-selector { content: '.action mm-icon'; }
-::content mm-icon {
-	pointer-events: none;
-	padding-right: 5px;
-	margin-top: -1px;
+	& > ::content mm-icon {
+		pointer-events: none;
+		padding-right: 5px;
+		margin-top: -1px;
+		color: $color-D0;
+	}
 }
