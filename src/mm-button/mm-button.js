@@ -4,31 +4,67 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-button', {
-	
-	ver: "<<version>>",
-	type: "primary",
-	PRIMARY_ICON_COLOR: Colors.D0,
-	SECONDARY_ICON_COLOR: Colors.A2,
+(function (scope) {
 
-	publish: {
-		disabled: { value: false, reflect: true },
-		fitparent: { value: false, reflect: true },
-		layout: { value: null, reflect: true },
-		error: false
-	},
-	
-	ready: function() {
-		// set layout defaults - is there an icon?
-		if (this.items.length) {
-			var primaryColor = (this.type !== "primary") ? this.SECONDARY_ICON_COLOR : this.PRIMARY_ICON_COLOR;
-			this.items[0].setAttribute("primaryColor", primaryColor);
+	scope.Button = Polymer({
+		is: 'mm-button',
+
+		behaviors: [
+			StrandTraits.Stylable
+		],
+		
+		properties: {
+			ver: {
+				type: String,
+				value: "<<version>>"
+			},
+			type: {
+				type: String,
+				value: "primary",
+				reflectToAttribute: true
+			},
+			disabled: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			fitparent: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			layout: { 
+				type: String,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			error: {
+				type: Boolean,
+				value: false
+			}
+		},
+
+		PRIMARY_ICON_COLOR: Colors.D0,
+		SECONDARY_ICON_COLOR: Colors.A2,
+		
+		ready: function() {
+			// if there is an icon - colorize it:
+			var items = Array.prototype.slice.call(Polymer.dom(this.$.icon).getDistributedNodes()),
+				primaryColor = (this.type !== "primary") ? this.SECONDARY_ICON_COLOR : this.PRIMARY_ICON_COLOR;
+			if (items.length) {
+				items[0].setAttribute("primary-color", primaryColor);
+			}
+		},
+
+		updateClass: function(fitparent, error, type) {
+			var o = {};
+			o["button"] = true;
+			o["fit"] = fitparent;
+			o["invalid"] = error;
+			o[type] = true; 
+			return this.classList(o);
 		}
-	},
 
-	get items() {
-		var items = Array.prototype.slice.call(this.$.icon.getDistributedNodes());
-		return items.filter(function(item) { return item.nodeName !== "TEMPLATE"; });
-	},
+	});
 
-});
+})(window.Strand = window.Strand || {});

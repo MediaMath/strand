@@ -6,6 +6,14 @@
 */
 @import "_mixins";
 
+@mixin buttonFont() {
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-weight: 700;
+	font-size: 13px!important;
+	line-height: 28px !important;
+}
+
 .button {
 	box-sizing: border-box;
 	@include user-select(none);
@@ -21,89 +29,83 @@
 	width: auto;
 }
 
-polyfill-next-selector { content: '.button label, .button'; }
-.button ::content label,
 .button {
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-size: 13px!important;
-	line-height: 28px !important;
+	@include buttonFont();
 	text-transform: capitalize;
-}
 
-polyfill-next-selector { content: '.button label'; }
-::content label {
-	pointer-events: none;
-	white-space: nowrap;
-}
+	& > ::content label {
+		// Need to duplicate this for actual shadowDOM
+		@include buttonFont();
+		pointer-events: none;
+		white-space: nowrap;
+	}
 
-polyfill-next-selector { content: '.button mm-icon'; }
-::content mm-icon {
-	display: block;
-	pointer-events: none;
-}
+	& > ::content mm-icon {
+		display: block;
+		pointer-events: none;
+	}
 
-polyfill-next-selector { content: '.button mm-icon + label'; }
-::content mm-icon + label {
-	padding-left: 7px;
-}
+	& > ::content mm-icon + label {
+		padding-left: 7px;
+	}
 
-.button:focus {
-	outline: none;
-}
+	&:focus {
+		outline: none;
+	}
 
-.button.fit {
-	@include fitContent();
-}
+	&.fit {
+		@include fitContent();
+	}
 
-.button.primary {
-	color: $color-D0;
-	border-color: $color-D4;
-	background: $color-D6;	
-}
+	&.primary {
+		color: $color-D0;
+		border-color: $color-D4;
+		background: $color-D6;	
+	}
 
-.button.invalid,
-.button.primary.invalid,
-.button.secondary.invalid {
-	border-color: $color-C12;
-}
+	&.invalid,
+	&.primary.invalid,
+	&.secondary.invalid {
+		border-color: $color-C12;
+	}
 
-.button.primary:hover {
-	color: $color-D0;
-	background-color: $color-D5;
-}
+	&.primary:hover {
+		color: $color-D0;
+		background-color: $color-D5;
+	}
 
-.button.primary:active {
-	@include buttonSelected($color-D22, $color-D5, $color-D22);
-}
+	&.primary:active {
+		@include buttonSelected($color-D22, $color-D5, $color-D22);
+	}
 
-.button.secondary {
-	color: $color-A2;
-	border-color: $color-A8;
-	background: $color-F0;
-	@include background-image(linear-gradient($color-F0, $color-A19));		
-}
+	&.secondary {
+		color: $color-A2;
+		border-color: $color-A8;
+		background: $color-F0;
+		@include background-image(linear-gradient($color-F0, $color-A19));		
+	}
 
-.button.secondary:hover {
-	color: $color-A2;
-	background-color: $color-A9;
-	background-image: none;
-}
+	&.secondary:hover {
+		color: $color-A2;
+		background-color: $color-A9;
+		background-image: none;
+	}
 
-.button.secondary:active {
-	@include buttonSelected($color-A20, $color-A9, $color-A20);
+	&.secondary:active {
+		@include buttonSelected($color-A20, $color-A9, $color-A20);
+	}
+
+	/* layout modes for button */
+	&.opened.bottom {
+		border-radius: 4px 4px 0px 0px;
+	}
+
+	&.opened.top {
+		border-radius: 0px 0px 4px 4px;
+	}
 }
 
 /* layout modes for button */
-.button.opened.bottom {
-	border-radius: 4px 4px 0px 0px;
-}
-
-.button.opened.top {
-	border-radius: 0px 0px 4px 4px;
-}
-
 /* horizontal */
 :host('[layout=hgroup-left]') {
 	.button  {
@@ -122,10 +124,11 @@ polyfill-next-selector { content: '.button mm-icon + label'; }
 :host('[layout=hgroup-center]') {
 	margin-left: -1px;
 
-	.button,
-	.button.opened.bottom,
-	.button.opened.top {
-		border-radius: 0px 0px 0px 0px;
+	.button {
+		&.opened.bottom,
+		&.opened.top {
+			border-radius: 0px 0px 0px 0px;
+		}
 	}
 }
 

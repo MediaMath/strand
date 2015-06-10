@@ -23,12 +23,12 @@
 	opacity: 0.5;
 }
 
-polyfill-next-selector { content: ':host[selected] .button.primary'; }
+// polyfill-next-selector { content: ':host[selected] .button.primary'; }
 :host('[selected]') .button.primary {
 	@include buttonSelected($color-D22, $color-D5, $color-D22);
 }
 
-polyfill-next-selector { content: ':host[selected] .button.secondary'; }
+// polyfill-next-selector { content: ':host[selected] .button.secondary'; }
 :host('[selected]') .button.secondary {
 	@include buttonSelected($color-A20, $color-A9, $color-A20);
 }

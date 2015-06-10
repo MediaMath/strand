@@ -8,13 +8,17 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../mm-icon/mm-icon.html"/>
-<polymer-element name="mm-button" attributes="type disabled fitparent layout error" constructor="MMButton">
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+
+<dom-module id="mm-button">
+	<link rel="import" type="css" href="mm-button.css"/>
 	<template>
-		<link href="mm-button.css" rel="stylesheet" type="text/css"/>
-		<div class="button {{ { fit:fitparent!= null, invalid:error == true } | tokenList }} {{type}}">
+		<!-- <div class="button {{ { fit:fitparent!= null, invalid:error == true } | tokenList }} {{type}}"> -->
+		<div class$="{{ updateClass(fitparent, error, type) }}">
 			<content select="mm-icon" id="icon"></content>
 			<content select="label"></content>
 		</div>
 	</template>
-	<script src="mm-button.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-button.js"></script>
