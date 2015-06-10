@@ -4,49 +4,42 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-inline-box', {
-	ver:"<<version>>",
-	maxlines: 1,
-	LINE_HEIGHT: 18,
+(function(scope) {
 
-	publish: {
-		type: { value: "info", reflect: true },
-		layout: "default"
-	},
+	scope.InlineBox = Polymer({
+		is: 'mm-inline-box',
+		LINE_HEIGHT: 18,
 
-	ready: function() {
-		this.typeChanged("",this.type);
-	},
+		iconMap: {
+			info:    { type: "info",    color: Colors.D3 },
+			success: { type: "success", color: Colors.B6 },
+			warning: { type: "warning", color: Colors.E5 },
+			error:   { type: "warning", color: Colors.C3 }
+		},
 
-	typeChanged: function(oldVal, newVal) {
-		var primaryColor, 
-			icon;
+		properties: {
+			type: {
+				type: String,
+				value: "info",
+				reflectToAttribute: true
+			},
+			maxlines: {
+				type: Number
+			},
+			icon: {
+				type: Object,
+				computed: 'getIconAttributes(type)'
+			}
+		},
 
-		switch (this.type) {
-			case "error":
-				icon = this.$.warningIcon;
-				primaryColor = Colors.C3;
-			break;
-			case "warning":
-				icon = this.$.warningIcon;
-				primaryColor = Colors.E5;
-			break;
-			case "success":
-				icon = this.$.successIcon;
-				primaryColor = Colors.B6;
-			break;
-			case "info":
-				icon = this.$.infoIcon;
-				primaryColor = Colors.D3;
-			break;
+		getContentStyle: function(maxlines) {
+			var maxHeight = maxlines ? maxlines * this.LINE_HEIGHT + "px" : "none";
+			return "max-height: " + maxHeight;
+		},
+
+		getIconAttributes: function(type) {
+			return this.iconMap[type];
 		}
-		
-		if(icon){
-			icon.primaryColor = primaryColor;
-		}
-	},
+	});
 
-	layoutChanged: function(oldVal, newVal) {
-		// console.log('layoutChanged: ' + newVal);
-	}
-});
+})(window.Strand = window.Strand || {});

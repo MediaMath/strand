@@ -8,17 +8,13 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../mm-icon/mm-icon.html"/>
-<polymer-element name="mm-inline-box" attributes="type fitparent maxlines layout" constructor="MMInlineBox">
+<dom-module id="mm-inline-box">
+	<link rel="import" type="css" href="mm-inline-box.css"/>
 	<template>
-		<link href="mm-inline-box.css" rel="stylesheet" type="text/css"/>
-		<div class="box {{ {_mm_message:layout=='message', _mm_default:layout=='default'} | tokenList }} {{type}}">
-			<mm-icon id="warningIcon" type="warning" width="18" height="18" shapeRendering="auto" optimize="true"></mm-icon>
-			<mm-icon id="successIcon" type="success" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
-			<mm-icon id="infoIcon" type="info" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
-			<div class="_mm_content" style="max-height: [[ maxlines * LINE_HEIGHT ]]px">
-				<content></content>
-			</div>
+		<mm-icon id="icon" type="{{icon.type}}" width="16" height="16" primary-color="{{icon.color}}"></mm-icon>
+		<div id="content" style$="{{getContentStyle(maxlines)}}">
+			<content></content>
 		</div>
 	</template>
-	<script src="mm-inline-box.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-inline-box.js"></script>

@@ -15,6 +15,11 @@
 	vertical-align: middle;
 	font-size: 0em;
 	line-height: 0em;
+
+	box-sizing: border-box;
+	border: 1px solid;
+	border-radius: 4px;
+	padding: 6px 10px;
 }
 
 :host([disabled]) {
@@ -24,77 +29,50 @@
 
 @include fit();
 
-:host([fitparent]) .box {
-	@include fitContent();
+:host([type="info"]) {
+	border-color: $color-D20;
+	background-color: $color-D10;
 }
 
-.box {
-	position: relative;
-	display: inline-block;
-
-	mm-icon {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		display: none;
-	}
-
-	&._mm_default {
-		box-sizing: border-box;
-		border: 1px solid;
-		border-radius: 4px;
-		padding: 6px 10px;
-
-		mm-icon {
-			margin: 6px 0 0 10px;
-		}
-
-		&.error {
-			border-color: $color-C13;
-			background-color: $color-C14;
-		}
-
-		&.warning {
-			border-color: $color-E12;
-			background-color: $color-E13;
-		}
-
-		&.success {
-			border-color: $color-B12;
-			background-color: $color-B13;
-		}
-
-		&.info {
-			border-color: $color-D20;
-			background-color: $color-D10;
-		}
-	}
-
-	&._mm_message {
-		border: none !important;
-		background: none !important;
-		padding: 0;
-	}
-
-	._mm_content {
-		color: $color-A2;
-		font-family: 'Arimo', sans-serif;
-		@include fontSmoothing();
-		font-weight: 400;
-		font-size: 13px;
-		line-height: 18px;
-		overflow: auto;
-		margin-left: 25px;
-	}
+:host([type="success"]) {
+	border-color: $color-B12;
+	background-color: $color-B13;
 }
 
-.box.error #warningIcon,
-.box.warning #warningIcon {
-	display: block;
+:host([type="warning"]) {
+	border-color: $color-E12;
+	background-color: $color-E13;
 }
 
-.box.success #successIcon,
-.box.info #infoIcon {
-	padding: 1px;
-	display: block;
+:host([type="error"]) {
+	border-color: $color-C13;
+	background-color: $color-C14;
+}
+
+#icon {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 6px 0 0 10px;
+}
+
+#content {
+	color: $color-A2;
+	font-family: 'Arimo', sans-serif;
+	@include fontSmoothing();
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 18px;
+	overflow: auto;
+	margin-left: 25px;
+}
+
+:host([layout="message"]) {
+	border: none;
+	background: none;
+	padding: 0;
+
+	#icon {
+		margin: 0;
+	}
 }
