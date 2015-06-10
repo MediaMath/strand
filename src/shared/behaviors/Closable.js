@@ -25,7 +25,7 @@
 		var filter;
 		for(var i in _instances) {
 			instance = _instances[i];
-			filter = instance.closeFilter;
+			filter = instance._closeFilter;
 			scope = typeof instance.scope === "object" ? instance.scope : instance;
 			filter.apply(scope, [instance, normalized, e]);
 		}
@@ -42,7 +42,7 @@
 	 		isClosed: {
 	 			type:Boolean,
 	 			notify: true,
-	 			computed:"checkClosed(state)"
+	 			computed:"_checkClosed(state)"
 	 		}
 	 	},
 
@@ -54,37 +54,39 @@
 	 		_removeInstance(this);
 	 	},
 
-	 	open: function() {
+	 	open: function(silent) {
 	 		this.state = _state.STATE_OPEN;
+	 		!silent && this.fire("open");
 	 	},
 
-	 	close: function() {
+	 	close: function(silent) {
 	 		this.state = _state.STATE_CLOSED;
+	 		!silent && this.fire("close");
 	 	},
 
-	 	toggleClose: function() {
+	 	toggle: function(silent) {
 	 		if (this.state === _state.STATE_OPEN) {
-	 			this.state = _state.STATE_CLOSED;
+	 			this.close(silent);
 	 		} else {
-	 			this.state = _state.STATE_OPEN;
+	 			this.open(silent);
 	 		}
 	 	},
 
-	 	checkClosed: function(state) {
-	 		return this.state === _state.STATE_CLOSED;
+	 	_checkClosed: function(state) {
+	 		return state === _state.STATE_CLOSED;
 	 	},
 
-		closeFilter: function(instance, e, original) {
+		_closeFilter: function(instance, e, original) {
 			if(e.path.indexOf(this) > -1){
 				original.stopImmediatePropagation();
 			} else {
-				instance.closeHandler();
+				instance.close();
 			}
 		},
 
-	 	closeHandler: function() {
-	 		this.fire("close");
-	 	}
+	 	// _closeHandler: function() {
+	 	// 	this.fire("close");
+	 	// }
 	 };
 
 	 scope.Closable = Closable;
