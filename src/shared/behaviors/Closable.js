@@ -82,11 +82,7 @@
 			} else {
 				instance.close();
 			}
-		},
-
-	 	// _closeHandler: function() {
-	 	// 	this.fire("close");
-	 	// }
+		}
 	 };
 
 	 scope.Closable = Closable;
