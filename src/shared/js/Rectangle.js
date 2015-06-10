@@ -4,6 +4,8 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
+(function (scope) {
+
 	function Rectangle (x, y, width, height) {
 		this.x = x;
 		this.y = y;
@@ -38,7 +40,7 @@
 		return align;
 	};
 
-	Rectangle.SIDE = new BitMask("TOP","BOTTOM","LEFT","RIGHT","CENTER","VCENTER");
+	Rectangle.SIDE = new scope.BitMask("TOP","BOTTOM","LEFT","RIGHT","CENTER","VCENTER");
 
 	Rectangle.prototype = {
 
@@ -120,3 +122,4 @@
 			return this;
 		}
 	};
+})(window.StrandLib = window.StrandLib || {}); 

@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function () {
+(function (scope) {
 
 	function _isType(value, type) {
 		return Object.prototype.toString.call(value).toLowerCase() === "[object "+type.toLowerCase()+"]";
@@ -179,6 +179,6 @@
 		},
 	};
 
-	window.DataUtils = DataUtils;
+	scope.DataUtils = DataUtils;
 	
-})(); 
+})(window.StrandLib = window.StrandLib || {}); 

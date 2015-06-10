@@ -45,4 +45,5 @@
 
 	};
 	scope.FontLoader = FontLoader;
-})(window);
+	
+})(window.StrandLib = window.StrandLib || {});
