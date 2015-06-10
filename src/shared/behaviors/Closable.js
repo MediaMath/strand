@@ -35,7 +35,7 @@
 
 	 	properties: {
 	 		state: {
-	 			type:"String",
+	 			type:String,
 	 			notify: true,
 	 			value:_state.STATE_CLOSED,
 	 		},
