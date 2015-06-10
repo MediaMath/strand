@@ -10,7 +10,7 @@
 		_instances.splice(_instances.indexOf(instance), 1);
 	}
 
-	document.addEventListener("click", function(e) {
+	Polymer.Gestures.add(document, "down", function(e) {
 		var normalized = Polymer.dom(e);
 		var instance;
 		var scope;
