@@ -19,7 +19,7 @@
 	line-height: 0em;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }
@@ -57,7 +57,7 @@
 }
 
 // horizontal
-:host('[layout=hgroup-left]'){
+:host([layout=hgroup-left]){
 	._mm_text_input {
 		border-radius: 4px 0px 0px 4px;
 		border-right: none;
@@ -72,7 +72,7 @@
 	}
 }
 
-:host('[layout=hgroup-center]') {
+:host([layout=hgroup-center]) {
 	._mm_text_input {
 		border-radius: 0 0 0 0;
 		border-left: none;
@@ -80,7 +80,7 @@
 	}
 }
 
-:host('[layout=hgroup-right]') {
+:host([layout=hgroup-right]) {
 	._mm_text_input {
 		border-radius: 0px 4px 4px 0px;
 		border-left: none;
@@ -96,7 +96,7 @@
 }
 
 // dropdown - mm-input nested in a dropdown
-:host('[layout=dropdown]') {
+:host([layout=dropdown]) {
 	display: block;
 	border-bottom: 1px solid $color-A8;
 

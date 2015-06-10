@@ -21,7 +21,7 @@
 	@include user-select(none);
 }
 
-:host('[disabled]'){
+:host([disabled]){
 	opacity: 0.5;
 	pointer-events:none;
 }
@@ -91,7 +91,7 @@ polyfill-next-selector { content: '._mm_checkbox_icon'; }
 	}
 }
 
-:host(':active') ._mm_checkbox {
+:host(:active) ._mm_checkbox {
 	border-color: $color-A17;
 	box-shadow: inset 1px 1px 0 $color-A18; 
 	@include background-image(linear-gradient(bottom, $color-A15 0%, $color-A16 100%));
@@ -104,7 +104,7 @@ polyfill-next-selector { content: '._mm_checkbox_icon'; }
 	}
 }
 
-:host(':active') ._mm_checkbox_icon {
+:host(:active) ._mm_checkbox_icon {
 	&.selected {
 		.icon {
 			opacity: 0.8;

@@ -20,6 +20,8 @@
 	@include display(flex);
 	@include align-items(center);
 	@include justify-content(start);
+	@include buttonFont();
+	text-transform: capitalize;
 	border: 1px solid;
 	border-radius: 4px 4px 4px 4px;
 	padding: 0 10px;
@@ -27,14 +29,8 @@
 	margin: 0;
 	height: 29px;
 	width: auto;
-}
-
-.button {
-	@include buttonFont();
-	text-transform: capitalize;
 
 	& > ::content label {
-		// Need to duplicate this for actual shadowDOM
 		@include buttonFont();
 		pointer-events: none;
 		white-space: nowrap;
@@ -107,7 +103,7 @@
 
 /* layout modes for button */
 /* horizontal */
-:host('[layout=hgroup-left]') {
+:host([layout=hgroup-left]) {
 	.button  {
 		border-radius: 4px 0px 0px 4px;
 	}
@@ -121,7 +117,7 @@
 	}
 }
 
-:host('[layout=hgroup-center]') {
+:host([layout=hgroup-center]) {
 	margin-left: -1px;
 
 	.button {
@@ -132,7 +128,7 @@
 	}
 }
 
-:host('[layout=hgroup-right]') {
+:host([layout=hgroup-right]) {
 	margin-left:-1px;
 
 	.button {
@@ -149,21 +145,21 @@
 }
 
 /* vertical */
-:host('[layout=vgroup-top]'),
-:host('[layout=vgroup-center]'),
-:host('[layout=vgroup-left]') {
+:host([layout=vgroup-top]),
+:host([layout=vgroup-center]),
+:host([layout=vgroup-left]) {
 	.button {
 		@include justify-content(center);
 	}
 }
 
-:host('[layout=vgroup-top]') {
+:host([layout=vgroup-top]) {
 	.button {
 		border-radius: 4px 4px 0px 0px;
 	}
 }
 
-:host('[layout=vgroup-center]') {
+:host([layout=vgroup-center]) {
 	margin-top: -1px;
 
 	.button{
@@ -171,7 +167,7 @@
 	}
 }
 
-:host('[layout=vgroup-bottom]') {
+:host([layout=vgroup-bottom]) {
 	margin-top: -1px;
 	
 	.button {

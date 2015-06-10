@@ -18,14 +18,14 @@
 	margin-right: 7px;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	opacity: .5;
 	pointer-events:none;
 }
 
 @include fit();
 
-:host('[checked]') ._mm_radio .active {
+:host([checked]) ._mm_radio .active {
 	display: block;
 }
 
@@ -65,7 +65,7 @@
 	}
 }
 
-:host(':active') ._mm_radio {
+:host(:active) ._mm_radio {
 	box-shadow: inset 1px 1px 2px rgba(0,0,0,.18);
 	@include background-image(linear-gradient(top, #bfbfbf 0%, #f2f2f2 100%));
 }
@@ -86,21 +86,21 @@ polyfill-next-selector { content: 'label'; }
 
 // layout modes for radio
 // horizontal
-:host('[layout=hgroup-left]'),
-:host('[layout=hgroup-center]') {
+:host([layout=hgroup-left]),
+:host([layout=hgroup-center]) {
 	margin-right: 20px;
 }
 
-:host('[layout=hgroup-right]') {
+:host([layout=hgroup-right]) {
 	margin-right: 0;
 }
 
 // vertical
-:host('[layout=vgroup-top]'),
-:host('[layout=vgroup-center]') {
+:host([layout=vgroup-top]),
+:host([layout=vgroup-center]) {
 	margin-bottom: 10px;
 }
 
-:host('[layout=vgroup-bottom]') {
+:host([layout=vgroup-bottom]) {
 	margin-bottom: 0;
 }
