@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<link rel="import" href="../mm-action/mm-action.html">
 	<link rel="import" href="../mm-button/mm-button.html">
 	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
@@ -88,26 +88,20 @@
 				display: block;
 				float: left;
 			}
-
-			mm-footer[unresolved]{
-				display: none;
-			}
-
-			mm-footer {}
 		</style>
 	</head>
 	<body>
 
 		<div class="col cX">
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer unresolved>
+				<mm-footer>
 					<mm-button>
 						<label>Save</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Display Message / Multiple Buttons</p>
-				<mm-footer id="tf1" unresolved>
+				<mm-footer id="tf1">
 					<mm-action id="closeLink" underline="true">
 						<label>Close</label>
 					</mm-action>
@@ -120,7 +114,14 @@
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" unresolved>
+				<mm-footer id="tf2" message="Some message content" message-visible="true">
+					<mm-button>
+						<label>Close</label>
+					</mm-button>
+				</mm-footer>
+			<hr/>
+			<p><span class="bold">Footer:</span> Default</p>
+				<mm-footer id="tf2">
 					<mm-checkbox class="left">
 						<label>Don't show again</label>
 					</mm-checkbox>
@@ -138,7 +139,7 @@
 				saveAndClose,
 				saveAndAdd;
 
-			window.addEventListener("polymer-ready", function() {
+			window.addEventListener("WebComponentsReady", function() {
 				tf1 = document.querySelector("#tf1");
 				tf2 = document.querySelector("#tf2");
 
