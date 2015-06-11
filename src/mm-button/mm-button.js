@@ -62,7 +62,7 @@
 			o["fit"] = fitparent;
 			o["invalid"] = error;
 			o[type] = true; 
-			return this.classList(o);
+			return this.classBlock(o);
 		}
 
 	});

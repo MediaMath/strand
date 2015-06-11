@@ -54,7 +54,7 @@
 			var o = {};
 			o["action"] = true;
 			o["underline"] = underline;
-			return this.classList(o);
+			return this.classBlock(o);
 		}
 
 	});

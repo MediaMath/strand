@@ -55,11 +55,11 @@
 			o["icon-"+type] = true;
 			o["_mm_icon"] = true;
 			o[this.uid] = true;
-			return this.classList(o);
+			return this.classBlock(o);
 		},
 
 		updateStyle: function(width, height) {
-			return this.styleList({
+			return this.styleBlock({
 				minWidth: width + "px",
 				minHeight: height + "px", 
 				lineHeight: height + "px",

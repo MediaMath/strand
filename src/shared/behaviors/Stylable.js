@@ -7,7 +7,7 @@
 (function (scope) {
 	 var Stylable = {
 
-	 	styleList: function(styles) {
+	 	styleBlock: function(styles) {
 			var out = [];
 			for (var style in styles) {
 				var n = String(style).replace(/[A-Z]/g, function(c) {
@@ -18,7 +18,7 @@
 			return out.join('; ');
 	 	},
 
-	 	classList: function(classes) {
+	 	classBlock: function(classes) {
 			var out = [];
 			for (var cl in classes) {
 				if (classes[cl]) out.push(cl);
