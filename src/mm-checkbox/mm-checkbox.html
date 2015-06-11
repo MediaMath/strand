@@ -7,25 +7,28 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../mm-icon/mm-icon.html"/>
-<polymer-element name="mm-checkbox" attributes="checked state disabled" constructor="MMCheckbox" on-click="{{toggleChecked}}">
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+
+<dom-module id="mm-checkbox">
+	<link rel="import" type="css" href="mm-checkbox.css"/>
 	<template>
-		<link href="mm-checkbox.css" rel="stylesheet" type="text/css"/>
-		<template if="{{icon}}">
-			<div id="checkbox" class="_mm_checkbox_icon {{ { selected:state === CHECKED_STATE } | tokenList }}">
-				<mm-icon class="icon" type="{{icon}}" primaryColor="{{checked ? iconColor : null}}" width="16" height="16"></mm-icon>
+		<template is="dom-if" if="{{icon}}">
+			<div class$="{{ updateClass(icon, state) }}">
+				<mm-icon class="icon" type="{{icon}}" primary-color="{{checkedIconColor}}" width="16" height="16"></mm-icon>
 			</div>
 		</template>
-		<template if="{{!icon}}">
-			<div id="checkbox" class="_mm_checkbox {{ { selected:state === CHECKED_STATE, partial:state === PARTIAL_STATE } | tokenList }}">
-				<template if="{{state === CHECKED_STATE}}">
-					<mm-icon class="check" type="check" width="10" height="10" optimize="true" primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+		<template is="dom-if" if="{{!icon}}">
+			<div id="checkbox" class$="{{ updateClass(icon, state) }}">
+				<template is="dom-if" if="{{checked}}">
+					<mm-icon class="check" type="check" width="10" height="10" primary-color="[[PRIMARY_ICON_COLOR]]"></mm-icon>
 				</template>
-				<template if="{{state === PARTIAL_STATE}}">
-					<mm-icon class="dash" type="partial" width="8" height="8" optimize="true" primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+				<template is="dom-if" if="{{partial}}">
+					<mm-icon class="dash" type="partial" width="8" height="8" primary-color="[[PRIMARY_ICON_COLOR]]"></mm-icon>
 				</template>
 			</div>
 		</template>
 		<content select="label"></content>
 	</template>
-	<script src="mm-checkbox.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-checkbox.js"></script>

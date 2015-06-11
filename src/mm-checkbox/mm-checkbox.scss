@@ -4,7 +4,6 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.sass */
 @import "_bourbon";
 @import "_color";
 @import "_mixins";
@@ -28,8 +27,28 @@
 
 @include fit();
 
-polyfill-next-selector { content: '._mm_checkbox'; }
-._mm_checkbox {
+:host(:active) .checkbox {
+	border-color: $color-A17;
+	box-shadow: inset 1px 1px 0 $color-A18; 
+	@include background-image(linear-gradient(bottom, $color-A15 0%, $color-A16 100%));
+
+	&.partial,
+	&.selected {
+		border-color: $color-D18;
+		box-shadow: inset 1px 1px 0 $color-D19;
+		@include background-image(linear-gradient(bottom, $color-D16 0%, $color-D17 100%));
+	}
+}
+
+:host(:active) .checkbox-icon {
+	&.selected {
+		.icon {
+			opacity: 0.8;
+		}
+	}
+}
+
+.checkbox {
 	border: 1px solid $color-A13;
 	border-radius: 3px;
 	background-color: $color-A14;
@@ -70,8 +89,7 @@ polyfill-next-selector { content: '._mm_checkbox'; }
 	}
 }
 
-polyfill-next-selector { content: '._mm_checkbox_icon'; }
-._mm_checkbox_icon {
+.checkbox-icon {
 	overflow: hidden;
 	width:16px;
 	height: 16px;
@@ -91,29 +109,12 @@ polyfill-next-selector { content: '._mm_checkbox_icon'; }
 	}
 }
 
-:host(:active) ._mm_checkbox {
-	border-color: $color-A17;
-	box-shadow: inset 1px 1px 0 $color-A18; 
-	@include background-image(linear-gradient(bottom, $color-A15 0%, $color-A16 100%));
-
-	&.partial,
-	&.selected {
-		border-color: $color-D18;
-		box-shadow: inset 1px 1px 0 $color-D19;
-		@include background-image(linear-gradient(bottom, $color-D16 0%, $color-D17 100%));
-	}
+.label-holder {
+	background: #00FF00;
 }
 
-:host(:active) ._mm_checkbox_icon {
-	&.selected {
-		.icon {
-			opacity: 0.8;
-		}
-	}
-}
-
-polyfill-next-selector { content: 'label'; }
-::content label {
+// This approach is acceptable with only one content bucket
+:host > ::content label {
 	font-family: 'Arimo', sans-serif;
 	@include fontSmoothing();
 	color: $color-A2;
