@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
 (function (scope) {
 
 	var _w = 10000, 
@@ -22,7 +28,7 @@
 	function _addInstance(instance, type) {
 		var cat = _instances[type];
 		if (cat && cat.items.length < cat.max) {
-			instance.depth = cat.items.push(instance) + cat.base;
+			instance._setDepth( cat.items.push(instance) + cat.base );
 		} else {
 			throw(new Error("Could not add item at "+cat.max));
 		}
@@ -48,6 +54,7 @@
 			stackType:{
 				type:String,
 				value:"ui",
+				reflectToAttribute:true,
 				observer:"_updateStackType"
 			}
 		},
