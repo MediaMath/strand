@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../mm-button/mm-button.html">
-		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
+		<!-- <link rel="import" href="../mm-dropdown/mm-dropdown.html"> -->
+		<!-- <link rel="import" href="../mm-list-item/mm-list-item.html"> -->
 		<link rel="import" href="../mm-action/mm-action.html">
 		<link rel="import" href="../mm-footer/mm-footer.html">
 		<link rel="import" href="../mm-header/mm-header.html">
@@ -122,14 +122,14 @@ Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non di
 			<p><span class="bold">Fake Content:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus. Curabitur mattis dictum elit non sagittis. Sed lobortis velit nisl, sed varius leo semper ut. Quisque dapibus leo at leo consequat rutrum.<br/><br/>
 Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non diam fermentum tempus eget et eros. Ut hendrerit risus ac tortor dapibus, sed laoreet metus tempor. Cras egestas neque ac dictum feugiat. Mauris ac venenatis odio, sit amet vulputate diam. Pellentesque est urna, convallis eu rhoncus eu, porta sed augue. Nulla ornare nibh malesuada est scelerisque, nec tristique mauris ornare. Integer et tristique augue. Quisque dapibus tempor dapibus. Mauris pellentesque ullamcorper nibh, nec ornare massa. Aenean placerat condimentum dolor ut consectetur. Praesent faucibus purus vitae posuere consectetur.</p>
 			<hr/>
-			<mm-button id="showBtn" unresolved>
+			<mm-button id="showBtn">
 				<label>Show</label>
 			</mm-button>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		
-		<mm-modal id="testModal" unresolved>
+		<mm-modal id="testModal">
 			<div class="content-top">
 				<mm-header size="medium">Header Content Here</mm-header>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
@@ -165,7 +165,7 @@ Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non di
 		</mm-modal>
 		
 		<script language="javascript">
-			window.addEventListener("polymer-ready", function() { 
+			window.addEventListener("WebComponentsReady", function() { 
 				var sb = document.getElementById("showBtn"),
 					tm = document.getElementById("testModal");
 
