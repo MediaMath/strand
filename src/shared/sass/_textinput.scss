@@ -6,7 +6,7 @@
 */
 @import "_mixins";
 
-._mm_text_input {
+.text-input {
 	box-sizing: border-box;
 	border: 1px solid $color-A8;
 	border-radius: 4px;
@@ -31,9 +31,13 @@
 		font-style: italic;
 		font-weight: 400;
 	}
+
+	&.invalid {
+		@include invalid();
+	}
 }
 
-._mm_text_input.monospace {
+.text-input.monospace {
 	font-family: monospace;
 
 	@include placeholder {
@@ -41,18 +45,12 @@
 	}
 }
 
-._mm_text_input:focus, ._mm_text_input[forceFocus] {
+.text-input:focus, .text-input[forceFocus] {
 	border-color: $color-D20;
 	outline: none;
 	box-shadow: 0 0 6px rgba(171,210,246,.83);
 }
 
-._mm_text_input.invalid {
+.text-input.invalid:focus {
 	border-color: $color-C12;
-}
-
-._mm_text_input.invalid:focus {
-	border-color: $color-C12;
-	outline: none;
-	box-shadow: 0 0 6px rgba(171,210,246,.83);
 }

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<link rel="import" href="mm-input.html">
 		<style type="text/css">
 			body, html {
@@ -81,31 +82,24 @@
 				display: block;
 				float: left;
 			}
-			mm-input[unresolved] {
-				display: none;
-			}
-			mm-input {}
 		</style>
 	</head>
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Input:</span> Default</p>
-			<mm-input id="defaultInput"></mm-input>
+			<mm-input id="test"></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> with clear</p>
-			<mm-input placeholder="Clear" clear="true"></mm-input>
+			<mm-input id="ci" placeholder="Clear" clear="true"></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> with search</p>
 			<mm-input placeholder="Search" search="true"></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span>  with clear and search and fit to parent</p>
-			<mm-input placeholder="Icon and Clear" icon="calendar" clear="true" fitparent></mm-input>
+			<mm-input id="ic" placeholder="Icon and Clear" icon="calendar" clear="true" fitparent></mm-input>
 			<hr/>
-			<p><span class="bold">Input:</span>  with clear, search, autocomplete</p>
-			<mm-input placeholder="Search and Clear" search="true" clear="true" autocomplete="true" data='[{"name":"test"}]'></mm-input>
-			<hr/>
-			<p><span class="bold">Input:</span>  with clear, search, autocomplete and width</p>
-			<mm-input placeholder="Search and Clear" search="true" clear="true" overflow="visible" autocomplete="true" data='[{"name":"test"}]' width="250"></mm-input>
+			<p><span class="bold">Input:</span>  with clear, search and width</p>
+			<mm-input placeholder="Search and Clear" search="true" clear="true" overflow="visible" width="250"></mm-input>
 			<hr/>
 		</div>
 		<div class="vr"></div>
@@ -117,13 +111,13 @@
 			<mm-input placeholder="empty" validation="empty"></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate int</p>
-			<mm-input placeholder="int" validation="int"></mm-input>
+			<mm-input placeholder="int" validation="int|empty|whitespace"></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate decimal and fit to parent</p>
 			<mm-input placeholder="decimal" validation="decimal" fitparent="true"></mm-input>
 			<hr/>
-			<p><span class="bold">Input:</span>  with clear, search, autocomplete, fit to parent</p>
-			<mm-input id="searchInput" placeholder="Search &amp; Clear with Autocomplete" search="true" clear="true" autocomplete="true" fitparent maxItems="5"></mm-input>
+			<p><span class="bold">Input:</span>  with clear, search, fit to parent</p>
+			<mm-input id="searchInput" placeholder="Search, Clear &amp; Fit" search="true" clear="true" fitparent></mm-input>
 			<hr/>
 		</div>
 		<div class="vr"></div>
@@ -145,24 +139,10 @@
 			<hr/>
 		</div>
 		<script>
-			var si;
-			document.addEventListener("polymer-ready", function(e) {
-				si = document.getElementById("searchInput");
-				si.data = [
-					{name: "apples", 	value:"A1"},
-					{name: "bears", 	value:"B1"},
-					{name: "candy", 	value:"C1"},
-					{name: "doggies", 	value:"D1"},
-					{name: "elves", 	value:"E1"},
-					{name: "fireflies", value:"F1"},
-					{name: "godzilla", 	value:"G1"}
-				];
-				si.addEventListener("selected", function(e) {
-					// value from the selected event - from the list item:
-					console.log("selected :: e.detail.value: ", e.detail.value);
-				});
-				si.addEventListener("changed", function(e) {
-					// value from the changed event - this has to stay as is for the time being:
+			var ci;
+			document.addEventListener("WebComponentsReady", function(e) {
+				ci = document.querySelector("#ci");
+				ci.addEventListener("changed", function(e) {
 					console.log("changed :: e.detail.value: ", e.detail.value);
 				});
 			});
