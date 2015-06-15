@@ -89,6 +89,7 @@
 				<mm-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></mm-datepicker>
 			</div>
 		</template>
+		<mm-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></mm-datepicker>
 		<script>
 			var dp,
 				tmp,
@@ -115,6 +116,16 @@
 				tmp.op = function() {
 					this.$.dp2.open();
 				};
+
+				var dp3 = document.querySelector("#dp3");
+				dp3.start = moment("Fri Jun 12 2015 00:00:00");
+				dp3.end = moment("Thu Sep 10 2015 00:00:00");
+				dp3.allowedStart = dp3.start;
+				dp3.allowedEnd = dp3.end;
+				dp3.async(function() {
+
+				dp3.open();
+			});
 
 				init();
 			});
