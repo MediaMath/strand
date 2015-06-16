@@ -168,7 +168,8 @@ module.exports = function(grunt) {
 	grunt.config('gh-pages', {
 		options: {
 			base: '<%= docs_dir %>',
-			message: 'docs updates v' + grunt.config('pkg.version')
+			message: 'docs updates v' + grunt.config('pkg.version'),
+			repo: 'git@github.com:MediaMath/strand.git'
 		},
 		src: '**/*'
 	});

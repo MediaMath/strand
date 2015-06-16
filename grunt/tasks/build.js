@@ -205,20 +205,7 @@ module.exports = function(grunt) {
 
 		shell: {
 			stageRelease: {
-				command: [	
-							'git checkout -b release-<%= pkg.version %>',
-							'git add <%= dist_dir %>/*'
-						].join('&&')
-			},
-			publishRelease: {
-				command: [
-							'git checkout master',
-							'git merge --no-ff release-<%= pkg.version %>',
-							'git tag -a v<%= pkg.version %> -m "Version <%= pkg.version %>"',
-							'git checkout develop',
-							'git merge --no-ff release-<%= pkg.version %>',
-							'git branch -d release-<%= pkg.version %>'
-						].join('&&')
+				command: 'git add <%= dist_dir %>/*'
 			}
 		},
 
@@ -241,7 +228,7 @@ module.exports = function(grunt) {
 				updateConfigs: ['pkg'],
 				push: false,
 				pushTo: 'upstream',
-				createTag: false
+				createTag: true
 			}
 		}
 

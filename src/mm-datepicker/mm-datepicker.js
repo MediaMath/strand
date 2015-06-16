@@ -61,8 +61,8 @@
 		},
 
 		observe: {
-			"startDate endDate":"validateDates",
-			"start end":"reset"
+			"start end":"updateFields",
+			"startDate endDate":"validateDates"
 		},
 
 		computed: {
@@ -167,6 +167,10 @@
 					});
 				}
 			}
+		},
+
+		updateFields: function() {
+			this.reset();
 		},
 
 		reset: function(start, end) {

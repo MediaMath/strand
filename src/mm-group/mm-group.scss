@@ -26,7 +26,7 @@
 
 :host('[align=horizontal]'),
 :host('[align=vertical]') {
-	@include display(flex);
+	@include display(inline-flex);
 }
 
 :host('[align=vertical]') {
