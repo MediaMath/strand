@@ -57,7 +57,7 @@
 			this.items = Polymer.dom(this.$$("content")).getDistributedNodes().forEach(function(node) {
 				this.push("items", node);
 			},this);
-			if (this.items.length > 0) {
+			if (this.items && this.items.length > 0) {
 				this.fire("added", {nodes:this.items.slice()});
 			}
 		},
