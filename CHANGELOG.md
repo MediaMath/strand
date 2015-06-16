@@ -1,6 +1,16 @@
 ## Change Log
 
+### v1.1.1 (2015/06/16 16:04 +00:00)
+- [32eff76](https://github.com/MediaMath/strand/commit/32eff761037c55a103e8fe61aab76d53ce0a3815) simplify release build script (@derekolson)
+- [a44f3ed](https://github.com/MediaMath/strand/commit/a44f3ed35a605acd2dea92d8481a0280f2d1559d) Update mm-group.scss (@anthonykoerber)
+- [ad5c7bb](https://github.com/MediaMath/strand/commit/ad5c7bba2133c9883da5f8214b7e4c708f72d692) datepicker end date override fix (@dlasky)
+- [f566b77](https://github.com/MediaMath/strand/commit/f566b7767bb4901486a9006b026771100cf951fe) fix docs webcomponents.js import (@derekolson)
+- [395c3c3](https://github.com/MediaMath/strand/commit/395c3c39a3fb50fc7c0cd365d539c3535a9058c7) move moment.js to bower "dependencies" (@derekolson)
+- [ab923f0](https://github.com/MediaMath/strand/commit/ab923f0ff067f3416983300170f874e12c6df0ac) fix gh-pages repo (@derekolson)
+
 ### v1.1.0 (2015/06/04 23:13 +00:00)
+- [d1bd7d1](https://github.com/MediaMath/strand/commit/d1bd7d1ce9d0248ef5780cdf324a24c101133aea) Release v1.1.0 (@derekolson)
+- [b186c32](https://github.com/MediaMath/strand/commit/b186c3235d822be5cc793b8735282b97b381054c) add change log generation and modify grunt release (@derekolson)
 - [0a6b50c](https://github.com/MediaMath/strand/commit/0a6b50ca10bbc43d649f5e2f1b532bfd8b861e0e) remove all home rolled flex box mixins (@anthonykoerber)
 - [9cffc1e](https://github.com/MediaMath/strand/commit/9cffc1eb76cfd921a1d5c8b45fb9d51c853c067c) Add Datepicker Component (@dlasky)
 - [07e1e82](https://github.com/MediaMath/strand/commit/07e1e820cbadd45a125c11bd394a4fa6e8bd8258) Dev/fwrk 291 from ui-framework (@anthonykoerber)
