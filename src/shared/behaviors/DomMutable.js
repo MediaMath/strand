@@ -12,13 +12,6 @@
 				type:Object,
 				value: function() { return this; }
 			},
-			items:{
-				type:Array,
-				notify:true,
-				value: function() { 
-					return []; 
-				}
-			},
 			observeSubtree:{
 				type:Boolean,
 				value: false,
@@ -44,43 +37,28 @@
 				childList:true,
 				subTree: this.observeSubtree,
 				attributes: this.observeAttributes,
-				charachterData: this.observeCharacterData
+				characterData: this.observeCharacterData
 			});
 		},
 
 		detached: function() {
 			this._observer.disconnect();
-			this.items = null;
-		},
-
-		ready: function() {
-			this.items = Polymer.dom(this.$$("content")).getDistributedNodes().forEach(function(node) {
-				this.push("items", node);
-			},this);
-			if (this.items && this.items.length > 0) {
-				this.fire("added", {nodes:this.items.slice()});
-			}
 		},
 
 		_nodesChanged: function(mutations) {
 
-			Array.prototype.slice.call(mutations).forEach( function(mutation) {
-				var added = Array.prototype.slice.call(mutation.addedNodes);
-				var removed = Array.prototype.slice.call(mutation.removedNodes);
+			var clone = StrandLib.DataUtils.clone;
 
-				if (added.length) {
-					this.fire("added", {nodes:added});
-					added.forEach(function(node) {
-						this.push("items",node);
-					},this);
+			clone(mutations).forEach(function(mutation) {
+
+				if (mutation.addedNodes.length) {
+					this.fire("added", {nodes:clone(mutation.addedNodes)});
 				}
-				if (removed.length) {
+				if (mutation.removedNodes.length) {
+					var removed = clone(mutation.removedNodes);
 					this.fire("removed", {nodes:removed});
-					removed.forEach(function(node) {
-						this.splice("items", this.items.indexOf(node), 1);
-					});
 				}
-				if (added.length === 0 && removed.length === 0) {
+				if (mutation.addedNodes.length === 0 && mutation.removedNodes.length=== 0) {
 					this.fire("modified", {nodes:[mutation.target]});
 				}
 
