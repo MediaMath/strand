@@ -34,7 +34,7 @@
     "*.md"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#1.0.2",
+    "polymer": "Polymer/polymer#1.0.4",
     "webcomponentsjs": "webcomponents/webcomponentsjs#0.7.3",
     "moment": "~2.9.0",
     "moment-range": "~1.0.5"
