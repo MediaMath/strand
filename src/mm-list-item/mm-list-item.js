@@ -4,13 +4,13 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.js */
+
 (function (scope) {
 	scope.ListItem = Polymer({
 
 		is: "mm-list-item",
 
-		behaviors: [StrandTraits.DomMutable],
+		behaviors: [ StrandTraits.DomMutable, StrandTraits.Resizable ],
 
 		properties: {
 			selected: { 
@@ -33,12 +33,12 @@
 			"modified":"updateTitleHandler"
 		},
 
-		ready: function() {
-			this.updateTitle();
-		},
-
 		updateTitleHandler: function() {
 			this.debounce("update-title",this.updateTitle,0);
+		},
+
+		elementResize: function() {
+			this.debounce("update-title", this.updateTitle, 0);
 		},
 
 		updateTitle: function() {
@@ -51,6 +51,6 @@
 				this.title = null;
 			}
 		}
-		
+
 	});
 })(window.Strand = window.Strand || {}); 
