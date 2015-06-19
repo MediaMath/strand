@@ -18,26 +18,47 @@
 				type: String,
 				value: "<<version>>"
 			},
+			actionLabel: {
+				type: String,
+				value: false
+			},
 			primaryButtonLabel: {
 				type: String,
-				value: 'Save'
+				value: false
 			},
 			secondaryButtonLabel: {
 				type: String,
-				value: 'Don\'t Save'
-			},
-			actionLabel: {
-				type: String,
-				value: 'Cancel'
+				value: false
 			}
 		},
 
+		_handleAction: function(e) {
+			e.preventDefault();
+			this.fire('click-action');
+		},
+
+		_handleSecondary: function(e) {
+			this.fire('click-secondary');
+		},
+
+		_handlePrimary: function(e) {
+			this.fire('click-primary');
+		},
+
+		_showHide: function() {
+			this.hidden ? this.hide() : this.show();
+		},
+
+		ready: function() {
+			this.modal = this.$$('#dialog-inner-modal');
+		},
+
 		show: function() {
-			this.$$('#dialog-inner-modal').show();
+			this.modal.show();
 		},
 
 		hide: function() {
-			this.$$('#dialog-inner-modal').hide();
+			this.modal.hide(this.modal);
 		}
 
 	});

@@ -10,25 +10,27 @@
 <link rel="import" href="../mm-button/mm-button.html"/>
 <link rel="import" href="../mm-footer/mm-footer.html"/>
 <link rel="import" href="../mm-modal/mm-modal.html"/>
-<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/stackable.html"/>
 
 <dom-module id="mm-dialog">
 	<link rel="import" type="css" href="mm-dialog.css"/>
+
 	<template>
-		<mm-modal id="dialog-inner-modal">
+		<mm-modal id="dialog-inner-modal" hidden>
 			<div class="content-top">
 				<content></content>
 			</div>
+
 			<mm-footer fitparent="true">
-				<mm-action underline="true">
+				<template is="dom-if" if="{{actionLabel}}"><mm-action on-click="_handleAction" underline="true">
 					<label>{{actionLabel}}</label>
-				</mm-action>
-				<mm-button type="secondary">
+				</mm-action></template>
+				<template is="dom-if" if="{{secondaryButtonLabel}}"><mm-button on-click="_handleSecondary" type="secondary">
 					<label>{{secondaryButtonLabel}}</label>
-				</mm-button>
-				<mm-button>
+				</mm-button></template>
+				<template is="dom-if" if="{{primaryButtonLabel}}"><mm-button on-click="_handlePrimary">
 					<label>{{primaryButtonLabel}}</label>
-				</mm-button>
+				</mm-button></template>
 			</mm-footer>
 		</mm-modal>
 	</template>

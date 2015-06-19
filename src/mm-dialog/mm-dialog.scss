@@ -9,3 +9,8 @@
 @import "_mixins";
 
 @include fit();
+
+.content-top {
+	box-sizing: border-box;
+	padding: 15px;
+}
