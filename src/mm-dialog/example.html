@@ -1,0 +1,45 @@
+<mm-dialog id="testDialog"
+	type="info"
+	header="It works"
+	width="250">
+	<p>You didn't break it</p>
+</mm-dialog>
+
+<p>
+	<mm-button id="showBtn">
+		<label>Show Dialog</label>
+	</mm-button>
+</p>
+
+<script>
+	window.addEventListener("WebComponentsReady", function() { 
+		var sb = document.getElementById("showBtn"),
+			td = document.getElementById("testDialog");
+
+		td.actions = [
+			{
+				label: "Cancel",
+				callback: function(e,host) {
+					host.hide();
+				}
+			},
+			{
+				label: "OK",
+				type: "Primary",
+				callback: function(e,host) {
+					host.fire('confirm');
+					host.hide();
+				}
+			}
+		];
+
+		sb.addEventListener('click', showDialog);
+		td.addEventListener('confirm', function() {
+			console.log('Confirmed.');
+		});
+
+		function showDialog(e) {
+			td.show();
+		}
+	});
+</script>
