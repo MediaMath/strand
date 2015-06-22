@@ -19,6 +19,22 @@
 				value: "<<version>>"
 			},
 
+			icon: {
+				type: String,
+				value: null
+			},
+			header: {
+				type: String,
+				value: null
+			},
+
+			actions: {
+				type: Array,
+				value: function() {
+					return [];
+				}
+			},
+
 			actionLabel: {
 				type: String,
 				value: false
@@ -65,6 +81,7 @@
 
 		ready: function() {
 			this.modal = this.$$('#dialog-inner-modal');
+			this.push('actions', {'name': 'test'});
 		},
 
 		show: function() {
