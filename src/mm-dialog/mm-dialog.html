@@ -21,15 +21,6 @@
 				<content></content>
 			</div>
 			<mm-footer fitparent="true">
-				<template is="dom-if" if="{{actionLabel}}"><mm-action on-tap="_handleAction" underline="true">
-					<label>{{actionLabel}}</label>
-				</mm-action></template>
-				<template is="dom-if" if="{{secondaryLabel}}"><mm-button on-tap="_handleSecondary" type="secondary">
-					<label>{{secondaryLabel}}</label>
-				</mm-button></template>
-				<template is="dom-if" if="{{primaryLabel}}"><mm-button on-tap="_handlePrimary">
-					<label>{{primaryLabel}}</label>
-				</mm-button></template>
 			</mm-footer>
 		</mm-modal>
 	</template>
