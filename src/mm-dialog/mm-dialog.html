@@ -19,17 +19,18 @@
 	<template>
 		<mm-modal id="dialog-inner-modal" hidden>
 			<div class="content-top">
-				<template is="dom-if" if="{{icon}}">
-					<mm-icon type="{{icon}}"></mm-icon>
+				<template is="dom-if" if="{{type}}">
+					<mm-icon type="{{type}}"></mm-icon>
 				</template>
-				<template is="dom-if" if="{{title}}">
-					<mm-header size="medium">{{title}}</mm-header>
+				<template is="dom-if" if="{{header}}">
+					<mm-header size="large">{{header}}</mm-header>
 				</template>
 				<content></content>
 			</div>
-			<mm-footer fitparent="true">
+			<mm-footer>
 				<template is="dom-repeat" items="{{actions}}">
-					<p>{{item.name}}</p>
+					<template is="dom-if" if="{{item.type}}"><mm-button on-click="_handleClick" type="{{item.type}}"><label>{{item.label}}</label></mm-button></template>
+					<template is="dom-if" if="{{!item.type}}"><mm-action underline><label>{{item.label}}</label></mm-action></template>
 				</template>
 			</mm-footer>
 		</mm-modal>

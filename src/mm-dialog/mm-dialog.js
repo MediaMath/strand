@@ -14,65 +14,26 @@
 		],
 
 		properties: {
-			ver: {
+			type: {
 				type: String,
-				value: "<<version>>"
-			},
-
-			icon: {
-				type: String,
-				value: null
+				value: ''
 			},
 			header: {
 				type: String,
-				value: null
+				value: ''
 			},
-
-			actions: {
-				type: Array,
-				value: function() {
-					return [];
-				}
-			},
-
-			actionLabel: {
-				type: String,
-				value: false
-			},
-			primaryLabel: {
-				type: String,
-				value: false
-			},
-			secondaryLabel: {
-				type: String,
-				value: false
-			},
-
-			actionEvent: {
-				type: String,
-				value: 'click-action'
-			},
-			primaryEvent: {
-				type: String,
-				value: 'click-primary'
-			},
-			secondaryEvent: {
-				type: String,
-				value: 'click-secondary'
-			}
+			actions: Array
 		},
 
-		_handleAction: function(e) {
+		factoryImpl: function(properties) {
+			this.header = properties.header;
+			this.type = properties.type;
+			this.actions = properties.actionList;
+		},
+
+		_handleClick: function(e) {
 			e.preventDefault();
-			this.fire(this.actionEvent);
-		},
-
-		_handlePrimary: function(e) {
-			this.fire(this.primaryEvent);
-		},
-
-		_handleSecondary: function(e) {
-			this.fire(this.secondaryEvent);
+			e.model.item.handleClick();
 		},
 
 		_showHide: function() {
@@ -81,16 +42,17 @@
 
 		ready: function() {
 			this.modal = this.$$('#dialog-inner-modal');
-			this.push('actions', {'name': 'test'});
 		},
 
 		show: function() {
 			this.modal.show();
+			this.hidden = false;
 		},
 
 		hide: function() {
 			this.modal.hide(this.modal);
-		}
+			this.hidden = true;
+		},
 
 	});
 

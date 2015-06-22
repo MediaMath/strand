@@ -25,7 +25,7 @@
 				display: block;
 				float: left;
 				padding: 0 20px;
-				font-size: 0;
+				/*font-size: 0;*/
 			}
 
 			.col.c0 {
@@ -51,7 +51,7 @@
 			.col:after {
 				visibility: hidden;
 				display: block;
-				font-size: 0;
+				/*font-size: 0;*/
 				content: " ";
 				clear: both;
 				height: 0;
@@ -93,8 +93,9 @@
 	<body>
 		<div class="col c4">
 			<mm-dialog id="testDialog"
-				header="It works"
-				dismiss="false">
+				type="warning"
+				title="It works"
+				>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
 			</mm-dialog>
 
@@ -106,26 +107,59 @@
 		</div>
 
 		<script>
-			window.addEventListener("WebComponentsReady", function() { 
-				var sb = document.getElementById("showBtn"),
-					td = document.getElementById("testDialog");
+			window.addEventListener("WebComponentsReady", function() {
 
+				var td = new Strand.Dialog({
+					header: 'It Works',
+					type: 'success',
+					actionList: [
+						{
+							label: 'Cancel',
+							type: 'secondary',
+							handleClick: function() { alert('Cancel!') }
+						},
+						{
+							label: 'Confirm',
+							type: 'primary',
+							handleClick: function() { alert('Confirm!') }
+						}
+					],
+				});
+
+				var container = document.querySelector('.col.c4');
+				Polymer.dom(container).appendChild(td);
+
+				var sb = document.getElementById("showBtn");
 				sb.addEventListener("click", showDialog);
 
 				function showDialog(e) {
 					td.show();
 				}
-
-				td.addEventListener(td.actionEvent, function() {
-					alert('Action Click');
-				});
-				td.addEventListener(td.secondaryEvent, function() {
-					alert('Secondary Click');
-				});
-				td.addEventListener(td.primaryEvent, function() {
-					alert('Primary Click');
-				});
 			});
+
+			// window.addEventListener("WebComponentsReady", function() { 
+			// 	var sb = document.getElementById("showBtn"),
+			// 		td = document.getElementById("testDialog");
+
+			// 	sb.addEventListener("click", showDialog);
+
+			// 	function showDialog(e) {
+			// 		td.show();
+			// 	}
+
+			// 	td.addEventListener('click-cancel', function() {
+			// 		alert('You clicked the cancel button');
+			// 	});
+			// 	td.addEventListener('click-help', function() {
+			// 		alert('You clicked the help button');
+			// 	});
+			// 	td.addEventListener('click-dont-save', function() {
+			// 		alert('You clicked the Don\'t Save button');
+			// 	});
+			// 	td.addEventListener('click-confirm-save', function() {
+			// 		alert('You clicked the Confirm Save button');
+			// 	});
+			// });
 		</script>
 	</body>
 </html>
