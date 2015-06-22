@@ -8,5 +8,41 @@
 	"methods":[
 	],
 	"properties":[
+		{
+			"name": "action-label",
+			"type": "string",
+			"description": "",
+			"default": "false (hidden)",
+		},
+		{
+			"name": "action-event",
+			"type": "string",
+			"description": "Name of event to fire on mm-dialog element when user clicks on action",
+			"default": "click-action"
+		},
+		{
+			"name": "primary-label",
+			"type": "string",
+			"description": "",
+			"default": "false (hidden)",
+		},
+		{
+			"name": "primary-event",
+			"type": "string",
+			"description": "Name of event to fire on mm-dialog element when user clicks on primary button",
+			"default": "click-primary"
+		},
+		{
+			"name": "secondary-label",
+			"type": "string",
+			"description": "",
+			"default": "false (hidden)",
+		},
+		{
+			"name": "secondary-event",
+			"type": "string",
+			"description": "Name of event to fire on mm-dialog element when user clicks on secondary button",
+			"default": "click-secondary"
+		},
 	]
 }

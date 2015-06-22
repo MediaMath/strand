@@ -93,9 +93,10 @@
 	<body>
 		<div class="col c4">
 			<mm-dialog id="testDialog"
-				primary-button-label="Test" 
-				secondary-button-label="Test Secondary"
+				primary-label="Test" 
+				secondary-label="Test Secondary"
 				action-label="Cancel"
+				primary-target="this"
 				dismiss="false">
 				<mm-header size="medium">Header Content Here</mm-header>112456
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
@@ -119,13 +120,13 @@
 					td.show();
 				}
 
-				td.addEventListener("click-action", function() {
+				td.addEventListener(td.actionEvent, function() {
 					alert('Action Click');
 				});
-				td.addEventListener("click-secondary", function() {
+				td.addEventListener(td.secondaryEvent, function() {
 					alert('Secondary Click');
 				});
-				td.addEventListener("click-primary", function() {
+				td.addEventListener(td.primaryEvent, function() {
 					alert('Primary Click');
 				});
 			});

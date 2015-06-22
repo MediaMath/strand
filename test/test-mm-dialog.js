@@ -21,5 +21,5 @@ describe("mm-dialog", function() {
 			a.modal.visible.should.equal(true);
 		});
 	});
-
+	
 });

@@ -18,31 +18,45 @@
 				type: String,
 				value: "<<version>>"
 			},
+
 			actionLabel: {
 				type: String,
 				value: false
 			},
-			primaryButtonLabel: {
+			primaryLabel: {
 				type: String,
 				value: false
 			},
-			secondaryButtonLabel: {
+			secondaryLabel: {
 				type: String,
 				value: false
+			},
+
+			actionEvent: {
+				type: String,
+				value: 'click-action'
+			},
+			primaryEvent: {
+				type: String,
+				value: 'click-primary'
+			},
+			secondaryEvent: {
+				type: String,
+				value: 'click-secondary'
 			}
 		},
 
 		_handleAction: function(e) {
 			e.preventDefault();
-			this.fire('click-action');
-		},
-
-		_handleSecondary: function(e) {
-			this.fire('click-secondary');
+			this.fire(this.actionEvent);
 		},
 
 		_handlePrimary: function(e) {
-			this.fire('click-primary');
+			this.fire(this.primaryEvent);
+		},
+
+		_handleSecondary: function(e) {
+			this.fire(this.secondaryEvent);
 		},
 
 		_showHide: function() {
