@@ -1,0 +1,99 @@
+{
+	"name":"mm-progress-bar",
+	"description":"A fully-styled progress bar.",
+	"attributes": [
+		{
+			"name":"background-color",
+			"type":"String",
+			"optional":true,
+			"description":"The background color of the progress bar, as hex code or named color.",
+			"default":"Colors.A1"
+		},
+		{
+			"name":"fill-color",
+			"type":"String",
+			"optional":true,
+			"description":"The color of the progress bar, as hex code or named color.",
+			"default":"Colors.D3"
+		},
+		{
+			"name":"height",
+			"type":"Number",
+			"optional":true,
+			"description":"Height of progress bar, in px",
+			"default":"null",
+		},
+		{
+			"name":"indeterminate",
+			"type":"Boolean",
+			"optional":true,
+			"description":"Whether the progress bar is in an indeterminate state.",
+			"default":"false"
+		},
+		{
+			"name":"percent-complete",
+			"type":"Number",
+			"optional":true,
+			"description":"How full the progress bar is. 0 is empty, 100 is full.",
+			"default":"0",
+		},
+		{
+			"name":"secondary-fill-color",
+			"type":"String",
+			"optional":true,
+			"default":"Colors.D5",
+			"description":"The secondary color for the striped progress bar, as hex code or named color."
+		},
+		{
+			"name":"width",
+			"type":"Number",
+			"optional":true,
+			"description":"Width of progress bar, in px (fits to container by default)",
+			"default":"null"
+		},
+	],
+	"properties":[
+		{
+			"name":"backgroundColor",
+			"type":"String",
+			"description":"The background color of the progress bar, as hex code or named color.",
+			"default":"#131313"
+		},
+		{
+			"name":"fillColor",
+			"type":"String",
+			"description":"The color of the progress bar, as hex code or named color.",
+			"default":"#367ABE"
+		},
+		{
+			"name":"height",
+			"type":"Number",
+			"description":"Height of progress bar, in px",
+			"default":"null",
+		},
+		{
+			"name":"indeterminate",
+			"type":"Boolean",
+			"description":"Whether the progress bar is in an indeterminate state.",
+			"default":"false"
+		},
+		{
+			"name":"percentComplete",
+			"type":"Number",
+			"description":"How full the progress bar is. 0 is empty, 100 is full.",
+			"default":"0",
+		},
+		{
+			"name":"secondaryFillColor",
+			"type":"String",
+			"default":"#66ADF2",
+			"description":"The secondary color for the striped progress bar, as hex code or named color."
+		},
+		{
+			"name":"width",
+			"type":"Number",
+			"description":"Width of progress bar, in px (fits to container by default)",
+			"default":"null"
+		},
+	]
+}
