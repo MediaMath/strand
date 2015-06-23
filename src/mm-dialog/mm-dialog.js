@@ -96,17 +96,6 @@
 			this.modal.dismiss = this.dismiss;
 		},
 
-		factoryImpl: function(properties) {
-			this.header = properties.header;
-			this.type = properties.type.toLowerCase();
-
-			var dialogContent = document.createElement('div');
-			dialogContent.innerHTML = properties.content;
-			Polymer.dom(this.root).appendChild(dialogContent);
-
-			this.configureActions(properties.actionList);
-		},
-
 		configureActions: function(actionList) {
 			actionList.map(function(item) {
 				var t;

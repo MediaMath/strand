@@ -97,7 +97,7 @@
 				header="It works"
 				width="250"
 				>
-				<p>Hooray, you didn't break it</p>
+				<p>You didn't break it</p>
 			</mm-dialog> -->
 
 			<p>
@@ -108,67 +108,36 @@
 		</div>
 
 		<script>
-			window.addEventListener("WebComponentsReady", function() {
+			window.addEventListener("WebComponentsReady", function() { 
+				var sb = document.getElementById("showBtn"),
+					td = document.getElementById("testDialog");
 
-				var td = new Strand.Dialog({
-					header: 'It Works',
-					type: 'success',
-					content: '<p>You didn\'t break it',
-					actionList: [
-						{
-							label: 'Cancel',
-							type: 'secondary',
-							handleClick: function() { alert('Cancel!') }
-						},
-						{
-							label: 'Confirm',
-							type: 'primary',
-							handleClick: function() { alert('Confirm!') }
+				td.configureActions([
+					{
+						label: "Cancel",
+						handleClick: function(e,host) {
+							host.hide();
 						}
-					],
+					},
+					{
+						label: "OK",
+						type: "Primary",
+						handleClick: function(e,host) {
+							host.fire('confirm');
+							host.hide(e);
+						}
+					}
+				]);
+
+				sb.addEventListener('click', showDialog);
+				td.addEventListener('confirm', function() {
+					console.log('Confirmed.');
 				});
-
-				var container = document.querySelector('.col.c4');
-				Polymer.dom(container).appendChild(td);
-
-				var sb = document.getElementById("showBtn");
-				sb.addEventListener("click", showDialog);
 
 				function showDialog(e) {
 					td.show();
 				}
 			});
-
-			// window.addEventListener("WebComponentsReady", function() { 
-			// 	var sb = document.getElementById("showBtn"),
-			// 		td = document.getElementById("testDialog");
-
-			// 	td.configureActions([
-			// 		{
-			// 			label: "Cancel",
-			// 			handleClick: function(e,host) {
-			// 				host.hide();
-			// 			}
-			// 		},
-			// 		{
-			// 			label: "OK",
-			// 			type: "Primary",
-			// 			handleClick: function(e,host) {
-			// 				host.fire('confirm');
-			// 				host.hide(e);
-			// 			}
-			// 		}
-			// 	]);
-
-			// 	sb.addEventListener('click', showDialog);
-			// 	td.addEventListener('confirm', function() {
-			// 		console.log('Confirmed.');
-			// 	});
-
-			// 	function showDialog(e) {
-			// 		td.show();
-			// 	}
-			// });
 		</script>
 	</body>
 </html>
