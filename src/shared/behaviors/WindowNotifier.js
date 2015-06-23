@@ -53,4 +53,4 @@
 
 	};
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandTraits = window.StrandTraits || {}); 
