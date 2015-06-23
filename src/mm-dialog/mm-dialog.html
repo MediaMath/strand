@@ -27,8 +27,8 @@
 			</div>
 			<mm-footer>
 				<template is="dom-repeat" items="{{actions}}">
-					<template is="dom-if" if="{{item.type}}"><mm-button on-tap="_handleClick" type="{{item.type}}"><label>{{item.label}}</label></mm-button></template>
-					<template is="dom-if" if="{{!item.type}}"><mm-action on-tap="_handleClick" underline><label>{{item.label}}</label></mm-action></template>
+					<template is="dom-if" if="{{item.type}}"><mm-button on-click="_handleClick" type="{{item.type}}"><label>{{item.label}}</label></mm-button></template>
+					<template is="dom-if" if="{{!item.type}}"><mm-action on-click="_handleClick" underline><label>{{item.label}}</label></mm-action></template>
 				</template>
 			</mm-footer>
 		</mm-modal>

@@ -38,6 +38,12 @@
 				type: Boolean,
 				value: true,
 			},
+			dismiss: {
+				notify: true,
+				observer: '_changeModalDismissable',
+				type: Boolean,
+				value: true,
+			},
 			width: {
 				observer: '_changeModalWidth',
 				type: Number,
@@ -48,9 +54,9 @@
 				value: function() {
 					return [{
 						label: 'OK',
-						type: 'primary',
+						type: 'secondary',
 						handleClick: function(e,host) {
-							host.hide(e);
+							host.hide();
 						}
 					}];
 				}
@@ -85,13 +91,29 @@
 			this.modal.width = this.width;
 		},
 
+		_changeModalDismissable: function() {
+			this._checkModalExists();
+			this.modal.dismiss = this.dismiss;
+		},
+
 		factoryImpl: function(properties) {
 			this.header = properties.header;
 			this.type = properties.type.toLowerCase();
-			this.actions = properties.actionList;
+
+			var dialogContent = document.createElement('div');
+			dialogContent.innerHTML = properties.content;
+			Polymer.dom(this.root).appendChild(dialogContent);
+
+			this.configureActions(properties.actionList);
 		},
 
-		setActions: function(actionList) {
+		configureActions: function(actionList) {
+			actionList.map(function(item) {
+				var t;
+				if(item.type) t = item.type.toLowerCase();
+				if(!(t==='primary' || t==='secondary')) t = false;
+				item.type = t;
+			});
 			this.actions = actionList;
 		},
 
@@ -101,9 +123,9 @@
 			this.hidden = false;
 		},
 
-		hide: function(e) {
+		hide: function() {
 			this._checkModalExists();
-			this.modal.hide(e);
+			this.modal.hidden = true;
 			this.hidden = true;
 		},
 
