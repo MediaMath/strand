@@ -25,10 +25,6 @@
 				type: String,
 				value: ''
 			},
-			icon: {
-				type: Object,
-				computed: '_getIconAttributes(type)'
-			},
 			header: {
 				type: String,
 				value: ''
@@ -39,15 +35,24 @@
 				value: true,
 			},
 			dismiss: {
-				notify: true,
-				observer: '_changeModalDismissable',
+				observer: '_updateModalProperties',
 				type: Boolean,
 				value: true,
 			},
+			noscroll: {
+				observer: '_updateModalProperties',
+				type: Boolean,
+				value: false
+			},
 			width: {
-				observer: '_changeModalWidth',
+				observer: '_updateModalProperties',
 				type: Number,
 				value: 600
+			},
+
+			icon: {
+				type: Object,
+				computed: '_getIconAttributes(type)'
 			},
 			actions: {
 				type: Array,
@@ -82,18 +87,11 @@
 			return this.iconMap[type];
 		},
 
-		ready: function() {
-			this._checkModalExists();
-		},
-
-		_changeModalWidth: function() {
+		_updateModalProperties: function() {
 			this._checkModalExists();
 			this.modal.width = this.width;
-		},
-
-		_changeModalDismissable: function() {
-			this._checkModalExists();
 			this.modal.dismiss = this.dismiss;
+			this.modal.noscroll = this.noscroll;
 		},
 
 		configureActions: function(actionList) {

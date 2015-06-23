@@ -95,8 +95,7 @@
 			<mm-dialog id="testDialog"
 				type="info"
 				header="It works"
-				width="250"
-				>
+				width="250">
 				<p>You didn't break it</p>
 			</mm-dialog>
 
@@ -124,7 +123,7 @@
 						type: "Primary",
 						handleClick: function(e,host) {
 							host.fire('confirm');
-							host.hide(e);
+							host.hide();
 						}
 					}
 				]);
