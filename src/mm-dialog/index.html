@@ -93,10 +93,11 @@
 	<body>
 		<div class="col c4">
 			<mm-dialog id="testDialog"
-				type="warning"
-				title="It works"
+				type="info"
+				header="It works"
+				width="250"
 				>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
+				<p>Hooray, you didn't break it</p>
 			</mm-dialog>
 
 			<p>
@@ -107,59 +108,59 @@
 		</div>
 
 		<script>
-			window.addEventListener("WebComponentsReady", function() {
+			// window.addEventListener("WebComponentsReady", function() {
 
-				var td = new Strand.Dialog({
-					header: 'It Works',
-					type: 'success',
-					actionList: [
-						{
-							label: 'Cancel',
-							type: 'secondary',
-							handleClick: function() { alert('Cancel!') }
-						},
-						{
-							label: 'Confirm',
-							type: 'primary',
-							handleClick: function() { alert('Confirm!') }
-						}
-					],
-				});
+			// 	var td = new Strand.Dialog({
+			// 		header: 'It Works',
+			// 		type: 'success',
+			// 		actionList: [
+			// 			{
+			// 				label: 'Cancel',
+			// 				type: 'secondary',
+			// 				handleClick: function() { alert('Cancel!') }
+			// 			},
+			// 			{
+			// 				label: 'Confirm',
+			// 				type: 'primary',
+			// 				handleClick: function() { alert('Confirm!') }
+			// 			}
+			// 		],
+			// 	});
 
-				var container = document.querySelector('.col.c4');
-				Polymer.dom(container).appendChild(td);
+			// 	var container = document.querySelector('.col.c4');
+			// 	Polymer.dom(container).appendChild(td);
 
-				var sb = document.getElementById("showBtn");
-				sb.addEventListener("click", showDialog);
-
-				function showDialog(e) {
-					td.show();
-				}
-			});
-
-			// window.addEventListener("WebComponentsReady", function() { 
-			// 	var sb = document.getElementById("showBtn"),
-			// 		td = document.getElementById("testDialog");
-
+			// 	var sb = document.getElementById("showBtn");
 			// 	sb.addEventListener("click", showDialog);
 
 			// 	function showDialog(e) {
 			// 		td.show();
 			// 	}
-
-			// 	td.addEventListener('click-cancel', function() {
-			// 		alert('You clicked the cancel button');
-			// 	});
-			// 	td.addEventListener('click-help', function() {
-			// 		alert('You clicked the help button');
-			// 	});
-			// 	td.addEventListener('click-dont-save', function() {
-			// 		alert('You clicked the Don\'t Save button');
-			// 	});
-			// 	td.addEventListener('click-confirm-save', function() {
-			// 		alert('You clicked the Confirm Save button');
-			// 	});
 			// });
+
+			window.addEventListener("WebComponentsReady", function() { 
+				var sb = document.getElementById("showBtn"),
+					td = document.getElementById("testDialog");
+
+				sb.addEventListener("click", showDialog);
+
+				function showDialog(e) {
+					td.show();
+				}
+
+				td.addEventListener('click-cancel', function() {
+					alert('You clicked the cancel button');
+				});
+				td.addEventListener('click-help', function() {
+					alert('You clicked the help button');
+				});
+				td.addEventListener('click-dont-save', function() {
+					alert('You clicked the Don\'t Save button');
+				});
+				td.addEventListener('click-confirm-save', function() {
+					alert('You clicked the Confirm Save button');
+				});
+			});
 		</script>
 	</body>
 </html>
