@@ -3,7 +3,7 @@ var should = chai.should();
 describe("mm-loader", function() {
 	
 	it("should have an element constructor", function() {
-		var a = new MMLoader();
+		var a = new Strand.Loader();
 		a.nodeName.should.equal("MM-LOADER");
 	});
 
@@ -27,7 +27,7 @@ describe("mm-loader", function() {
 
 	it("should convert hex", function() {
 		var a = document.querySelector("#loader");
-		a.convertHex("#ff0000").should.equal("rgba(255,0,0,"+a.bgOpacity+")");
+		a._convertHex("#ff0000").should.equal("rgba(255,0,0,"+a.bgOpacity+")");
 	});
 
 });

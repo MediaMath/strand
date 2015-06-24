@@ -5,10 +5,12 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<polymer-element name="mm-spinner" constructor="MMSpinner">
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<dom-module id="mm-spinner">
+	<link rel="import" type="css" href="mm-spinner.css"/>
 	<template>
-		<link href="mm-spinner.css" rel="stylesheet" type="text/css"/>
-		<canvas id="spinner" style="{{spinnerAnimation | styleObject }}" width="{{radius*2}}" height="{{radius*2}}"></canvas>
+		<canvas id="spinner" style$="{{spinnerAnimation}}" width$="{{diameter}}" height$="{{diameter}}"></canvas>
 	</template>
-	<script src="mm-spinner.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-spinner.js"></script>
