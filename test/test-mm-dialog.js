@@ -37,4 +37,25 @@ describe("mm-dialog", function() {
 		button.querySelector('label').innerHTML.should.equal('OK');
 	});
 
+	it("should have configurable action/buttons", function() {
+		var a = document.querySelector('#addButtons');
+		a.actions = [
+			{ label: 'Custom Label', type: 'primary', handleClick: function() {} },
+			{ label: 'Custom Label', type: 'secondary', handleClick: function() {} },
+			{ label: 'Custom Action', handleClick: function() {} },
+		];
+		a.$$('template[is="dom-repeat"]').render();
+		var actionNodes =
+			Polymer.dom(a.$$('#dialog-actions-container'))
+				.childNodes
+				.filter(function(el) { return el.localName === 'mm-action' });
+		var buttonNodes =
+			Polymer.dom(a.$$('#dialog-actions-container'))
+				.childNodes
+				.filter(function(el) { return el.localName === 'mm-button' });
+		buttonNodes.length.should.equal(2);
+		buttonNodes[0].querySelector('label').innerHTML.should.equal('Custom Label');
+		actionNodes[0].querySelector('label').innerHTML.should.equal('Custom Action');
+	});
+
 });

@@ -23,7 +23,7 @@
 				<template is="dom-if" if="{{header}}"><mm-header size="large">{{header}}</mm-header></template>
 				<content></content>
 			</div>
-			<mm-footer>
+			<mm-footer id="dialog-actions-container">
 				<template is="dom-repeat" items="{{actions}}">
 					<template is="dom-if" if="{{_validType(item.type)}}"><mm-button on-click="_handleClick" type="{{item.type}}"><label>{{item.label}}</label></mm-button></template>
 					<template is="dom-if" if="{{!_validType(item.type)}}"><mm-action on-click="_handleClick" underline><label>{{item.label}}</label></mm-action></template>
