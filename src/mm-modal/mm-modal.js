@@ -44,7 +44,7 @@ Polymer( {
 	},
 
 	hide: function(e) {
-		e = Polymer.dom(e);
+		if (e) e = Polymer.dom(e);
 		if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
 			this.hidden = true;
 			document.body.style.overflow = "";
