@@ -54,8 +54,12 @@ module.exports = function(grunt) {
 			tasks: ['default']
 		},
 		jslib: {
-			files:['shared/js/*.js'],
+			files:['src/shared/js/*.js'],
 			tasks: ['vulcanize:jslib'],
+		},
+		jsBehaviors: {
+			files:['src/shared/behaviors/*.js'],
+			tasks: ['default']
 		},
 		docs: {
 			files: ['docs/*', 'src/mm-*/doc.json', 'src/mm-*/example.html'],

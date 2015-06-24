@@ -4,78 +4,139 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.js */
-Polymer('mm-checkbox', {
+(function(scope) {
 
-	ver:"<<version>>",
-	PRIMARY_ICON_COLOR: Colors.D0,
-	UNCHECKED_STATE: "unchecked",
-	CHECKED_STATE: "checked",
-	PARTIAL_STATE: "partial",
+	scope.Checkbox = Polymer({
+		is: 'mm-checkbox',
 
-	publish: {
-		icon: null,
-		iconColor: null,
-		state: null,
-		checked: { value: false, reflect:true },
-		disabled: { value: false, reflect: true }
-	},
+		behaviors: [
+			StrandTraits.Stylable
+		],
 
-	created: function() {
-		this.state = this.UNCHECKED_STATE;
-	},
+		properties: {
+			ver: {
+				type: String,
+				value: "<<version>>"
+			},
+			icon: {
+				type: String,
+				value: false,
+				reflectToAttribute: true,
+			},
+			iconColor: {
+				type: String,
+				value: false,
+				reflectToAttribute: true,
+			},
+			state: {
+				type: String,
+				value: "unchecked",
+				observer: "stateChanged"
+			},
+			checked: { 
+				type: Boolean,
+				reflectToAttribute: true,
+				observer: "checkedChanged",
+			},
+			disabled: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			partial: { 
+				type: Boolean,
+				computed: "_partialState(state)"
+			},
+			checkedIconColor: {
+				type: String,
+				computed: "_checkedIconColor(checked)"
+			}
+		},
 
-	ready: function() {
-		this.setAttribute('type', 'checkbox');
-	},
+		PRIMARY_ICON_COLOR: Colors.D0,
+		UNCHECKED_STATE: "unchecked",
+		CHECKED_STATE: "checked",
+		PARTIAL_STATE: "partial",
 
-	get value() {
-		return this.checked;
-	},
+		listeners: {
+			"tap" : "toggleChecked"
+		},
 
-	set value(input) {
-		this.checked = input;
-		this.updateModel();
-	},
+		_partialState: function(state) {
+			return state === this.PARTIAL_STATE;
+		},
 
-	checkedChanged: function(oldValue, newValue) {
-		if(newValue === false) {
-			this.state = this.UNCHECKED_STATE;
-		} else if(newValue === true) {
-			this.state = this.CHECKED_STATE;
-		}
-	},
+		_checkedIconColor: function(checked) {
+			return checked ? this.iconColor : false;
+		},
 
-	stateChanged: function(oldState, newState) {
-		if (newState === this.PARTIAL_STATE) {
-			this.checked = null;
-		} else if(newState === this.UNCHECKED_STATE) {
-			this.checked = false;
-		} else if(newState === this.CHECKED_STATE) {
-			this.checked = true;
-		}
-		this.fire("changed", { state: newState });
-	},
+		checkedChanged: function(newVal, oldVal) {
+			this.debounce("stateChecked", this.handleCheckedChange);
+		},
 
-	toggleChecked: function(e) {
-		this.checked = !this.checked;
-	},
+		handleCheckedChange: function() {
+			if (this.checked === false) {
+				this.state = this.UNCHECKED_STATE;
+			} else if (this.checked === true) {
+				this.state = this.CHECKED_STATE;
+			}
+		},
 
-	bindModel: function(model, property) {
-		this.model = model;
-		this.property = property;
-	},
+		stateChanged: function(newVal, oldVal) {
+			this.debounce("stateChecked", this.handleStateChange);
+			this.fire("changed", { state: this.state }, true);
+		},
 
-	updateModel: function() {
-		if (this.model && this.property) {
-			//check for BB models
-			if (this.model.set) {
-				var o = {};
-				o[this.property] = this.value;
-				this.model.set(o);
-			} else {
-				this.model[this.property] = this.value;
+		handleStateChange: function() {
+			if (this.state === this.PARTIAL_STATE) {
+				this.checked = null;
+			} else if (this.state === this.UNCHECKED_STATE) {
+				this.checked = false;
+			} else if (this.state === this.CHECKED_STATE) {
+				this.checked = true;
+			}
+		},
+
+		toggleChecked: function(e) {
+			this.checked = !this.checked;
+		},
+
+		updateClass: function(icon, state) {
+			var o = {};
+			o["checkbox"] = !icon ? true : false;
+			o["checkbox-icon"] = icon ? true : false;
+			o["selected"] = (state === this.CHECKED_STATE) ? true : false;
+			o["partial"] = (state === this.PARTIAL_STATE) ? true : false;
+			return this.classBlock(o);
+		},
+
+		get value() {
+			return this.checked;
+		},
+
+		set value(input) {
+			this.checked = input;
+			this.updateModel();
+		},
+
+		bindModel: function(model, property) {
+			this.model = model;
+			this.property = property;
+		},
+
+		updateModel: function() {
+			if (this.model && this.property) {
+				//check for BB models
+				if (this.model.set) {
+					var o = {};
+					o[this.property] = this.value;
+					this.model.set(o);
+				} else {
+					this.model[this.property] = this.value;
+				}
 			}
 		}
-	}
-});
+
+	});
+
+})(window.Strand = window.Strand || {});

@@ -4,20 +4,38 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-footer', {
-	ver:"<<version>>",
-	publish: {
-		message: null,
-		type: "info",
-		messageVisible: false
-	},
+(function(scope) {
 
-	showMessage: function() {
-		this.messageVisible = true;
-	},
+	scope.Footer = Polymer({
+		is: 'mm-footer',
 
-	hideMessage: function() {
-		this.messageVisible = false;
-	}
+		properties: {
+			ver: {
+				type: String,
+				value: "<<version>>",
+			},
+			message: {
+				type: String,
+				value: null
+			},
+			type: {
+				type: String,
+				value: "info"
+			},
+			messageVisible: {
+				type: Boolean,
+				value: false
+			}
+		},
 
-});
+		showMessage: function() {
+			this.messageVisible = true;
+		},
+
+		hideMessage: function() {
+			this.messageVisible = false;
+		}
+
+	});
+
+})(window.Strand = window.Strand || {});

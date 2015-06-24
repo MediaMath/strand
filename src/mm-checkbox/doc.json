@@ -35,7 +35,7 @@
 			"options":["*see mm-icon for options"]
 		},
 		{
-			"name":"iconColor",
+			"name":"icon-color",
 			"type":"String",
 			"description":"The hex value to color the icon, passed thru to the underlying mm-icon",
 			"optional":true,

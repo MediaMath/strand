@@ -90,4 +90,4 @@
 		
 	};
 	scope.Measure = Measure;
-})(window);
+})(window.StrandLib = window.StrandLib || {});

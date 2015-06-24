@@ -1,0 +1,82 @@
+{
+	"name":"mm-dialog",
+	"description":"A wrapper around mm-modal used to quickly create dialog boxes",
+	"attributes": [
+		{
+			"name":"type",
+			"type":"String",
+			"description":"The type of message this is, which determines the icon/icon color",
+			"optional":true,
+			"default":"",
+			"options":["error", "info", "success","warning"]
+		},
+		{
+			"name":"header",
+			"type":"String",
+			"description":"Text to display in the header of dialog window",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"width",
+			"type":"int",
+			"description":"The pixel width of the dialog window",
+			"optional":true,
+			"default":"600",
+			"options":[]
+		},
+		{
+			"name":"noscroll",
+			"type":"Boolean",
+			"description":"Disable page scrolling while the dialog is open",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"dismiss",
+			"type":"Boolean",
+			"description":"Whether or not the dialog can be dismissed by the user without a response",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"]
+		},
+	],
+	"methods": [
+		{
+			"name":"show",
+			"description":"Shows the dialog.",
+			"arguments":[]
+		},
+		{
+			"name":"hide",
+			"description":"Hides the dialog.",
+			"arguments":[]
+		},
+	],
+	"properties":[
+		{
+			"name":"hidden",
+			"type":"string",
+			"description":"The visible state of the dialog window and blocker.",
+			"default":"true"
+		},
+		{
+			"name":"width",
+			"type":"int",
+			"description":"The pixel width of the dialog window.",
+			"default":"600"
+		},
+		{
+			"name":"dismiss",
+			"type":"string",
+			"description":"Whether or not the dialog can be dismissed by the user without a response.",
+			"default":"true"
+		},
+		{
+			"name":"actions",
+			"type":"array",
+			"description":"An array of actions/buttons to show in the footer, of the form {label: String, type: String, handleClick: Function}. type should be either \"primary\" or \"secondary\". handleClick may take optional arguments for the event object and the mm-dialog node."
+		}
+	]
+}

@@ -5,33 +5,48 @@
 
 */
 /* mm-modal.js */
-Polymer('mm-modal', {
-	
-	ver:"<<version>>",
+Polymer( {
+	is: 'mm-modal',
 
-	publish: {
-		visible: false,
-		dismiss: true,
-		noscroll: false,
-		width: 600
+	behaviors:[StrandTraits.Stackable],
+
+	properties: {
+		hidden: {
+			type:Boolean,
+			value:true,
+			reflectToAttribute:true
+		},
+		dismiss: {
+			type:Boolean,
+			value:true,
+			notify:true,
+		},
+		noscroll: {
+			type:Boolean,
+			value:false
+		},
+		width: {
+			type:Number,
+			value:600
+		}
 	},
 
-	visibleChanged: function() {
-		this.hidden = !this.visible;
-	},
-	
 	show: function() {
-		this.visible = true;
+		this.hidden = false;
 
 		if(this.noscroll) {
 			document.body.style.overflow = "hidden";
 		}
 	},
 
+	_widthStyle: function(width) {
+		return "width:"+width+"px";
+	},
+
 	hide: function(e) {
-		if (!e || this.dismiss && e.target === this.$.blocker || e.target === this.$.close) {
-			// only dismiss the modal if this action is permitted:
-			this.visible = false;
+		e = Polymer.dom(e);
+		if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
+			this.hidden = true;
 			document.body.style.overflow = "";
 		}
 	}

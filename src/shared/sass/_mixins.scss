@@ -9,7 +9,7 @@
 
 //fix for google's fit behavior
 @mixin fit() {
-  :host('[fitparent]') {
+  :host([fitparent]) {
     @include fitContent();
   }
 }

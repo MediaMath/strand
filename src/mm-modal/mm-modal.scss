@@ -14,6 +14,10 @@
 	display: block;
 }
 
+:host[hidden] {
+	display:none;
+}
+
 #blocker {
 	position: fixed;
 	left: 0;

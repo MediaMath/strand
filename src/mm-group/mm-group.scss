@@ -17,22 +17,22 @@
 	line-height: 0em;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }
 
 @include fit();
 
-:host('[align=horizontal]'),
-:host('[align=vertical]') {
+:host([align=horizontal]),
+:host([align=vertical]) {
 	@include display(inline-flex);
 }
 
-:host('[align=vertical]') {
+:host([align=vertical]) {
 	@include flex-direction(column);
 }
 
-:host('[align=horizontal][fitparent]') {
+:host([align=horizontal][fitparent]) {
 	@include justify-content(space-between);
 }

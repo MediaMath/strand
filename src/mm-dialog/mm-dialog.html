@@ -1,0 +1,36 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../mm-action/mm-action.html"/>
+<link rel="import" href="../mm-button/mm-button.html"/>
+<link rel="import" href="../mm-header/mm-header.html"/>
+<link rel="import" href="../mm-footer/mm-footer.html"/>
+<link rel="import" href="../mm-modal/mm-modal.html"/>
+<link rel="import" href="../shared/behaviors/stackable.html"/>
+
+<dom-module id="mm-dialog">
+	<link rel="import" type="css" href="mm-dialog.css"/>
+
+	<template>
+		<mm-modal id="dialog-inner-modal" hidden>
+			<div class="content-top">
+				<template is="dom-if" if="{{type}}"><mm-icon height="25" width="30" type="{{icon.type}}" primary-color="{{icon.color}}"></mm-icon></template>
+				<template is="dom-if" if="{{header}}"><mm-header size="large">{{header}}</mm-header></template>
+				<content></content>
+			</div>
+			<mm-footer id="dialog-actions-container">
+				<template is="dom-repeat" items="{{actions}}">
+					<template is="dom-if" if="{{_validType(item.type)}}"><mm-button on-click="_handleClick" type="{{item.type}}"><label>{{item.label}}</label></mm-button></template>
+					<template is="dom-if" if="{{!_validType(item.type)}}"><mm-action on-click="_handleClick" underline><label>{{item.label}}</label></mm-action></template>
+				</template>
+			</mm-footer>
+		</mm-modal>
+	</template>
+</dom-module>
+
+<script src="mm-dialog.js"></script>

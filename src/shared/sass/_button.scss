@@ -6,12 +6,22 @@
 */
 @import "_mixins";
 
+@mixin buttonFont() {
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-weight: 700;
+	font-size: 13px!important;
+	line-height: 28px !important;
+}
+
 .button {
 	box-sizing: border-box;
 	@include user-select(none);
 	@include display(flex);
 	@include align-items(center);
 	@include justify-content(start);
+	@include buttonFont();
+	text-transform: capitalize;
 	border: 1px solid;
 	border-radius: 4px 4px 4px 4px;
 	padding: 0 10px;
@@ -19,93 +29,81 @@
 	margin: 0;
 	height: 29px;
 	width: auto;
-}
 
-polyfill-next-selector { content: '.button label, .button'; }
-.button ::content label,
-.button {
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-size: 13px!important;
-	line-height: 28px !important;
-	text-transform: capitalize;
-}
+	& > ::content label {
+		@include buttonFont();
+		pointer-events: none;
+		white-space: nowrap;
+	}
 
-polyfill-next-selector { content: '.button label'; }
-::content label {
-	pointer-events: none;
-	white-space: nowrap;
-}
+	& > ::content mm-icon {
+		display: block;
+		pointer-events: none;
+	}
 
-polyfill-next-selector { content: '.button mm-icon'; }
-::content mm-icon {
-	display: block;
-	pointer-events: none;
-}
+	& > ::content mm-icon + label {
+		padding-left: 7px;
+	}
 
-polyfill-next-selector { content: '.button mm-icon + label'; }
-::content mm-icon + label {
-	padding-left: 7px;
-}
+	&:focus {
+		outline: none;
+	}
 
-.button:focus {
-	outline: none;
-}
+	&.fit {
+		@include fitContent();
+	}
 
-.button.fit {
-	@include fitContent();
-}
+	&.primary {
+		color: $color-D0;
+		border-color: $color-D4;
+		background: $color-D6;	
+	}
 
-.button.primary {
-	color: $color-D0;
-	border-color: $color-D4;
-	background: $color-D6;	
-}
+	&.invalid,
+	&.primary.invalid,
+	&.secondary.invalid {
+		border-color: $color-C12;
+	}
 
-.button.invalid,
-.button.primary.invalid,
-.button.secondary.invalid {
-	border-color: $color-C12;
-}
+	&.primary:hover {
+		color: $color-D0;
+		background-color: $color-D5;
+	}
 
-.button.primary:hover {
-	color: $color-D0;
-	background-color: $color-D5;
-}
+	&.primary:active {
+		@include buttonSelected($color-D22, $color-D5, $color-D22);
+	}
 
-.button.primary:active {
-	@include buttonSelected($color-D22, $color-D5, $color-D22);
-}
+	&.secondary {
+		color: $color-A2;
+		border-color: $color-A8;
+		background: $color-F0;
+		@include background-image(linear-gradient($color-F0, $color-A19));		
+	}
 
-.button.secondary {
-	color: $color-A2;
-	border-color: $color-A8;
-	background: $color-F0;
-	@include background-image(linear-gradient($color-F0, $color-A19));		
-}
+	&.secondary:hover {
+		color: $color-A2;
+		background-color: $color-A9;
+		background-image: none;
+	}
 
-.button.secondary:hover {
-	color: $color-A2;
-	background-color: $color-A9;
-	background-image: none;
-}
+	&.secondary:active {
+		@include buttonSelected($color-A20, $color-A9, $color-A20);
+	}
 
-.button.secondary:active {
-	@include buttonSelected($color-A20, $color-A9, $color-A20);
+	/* layout modes for button */
+	&.opened.bottom {
+		border-radius: 4px 4px 0px 0px;
+	}
+
+	&.opened.top {
+		border-radius: 0px 0px 4px 4px;
+	}
 }
 
 /* layout modes for button */
-.button.opened.bottom {
-	border-radius: 4px 4px 0px 0px;
-}
-
-.button.opened.top {
-	border-radius: 0px 0px 4px 4px;
-}
-
 /* horizontal */
-:host('[layout=hgroup-left]') {
+:host([layout=hgroup-left]) {
 	.button  {
 		border-radius: 4px 0px 0px 4px;
 	}
@@ -119,17 +117,18 @@ polyfill-next-selector { content: '.button mm-icon + label'; }
 	}
 }
 
-:host('[layout=hgroup-center]') {
+:host([layout=hgroup-center]) {
 	margin-left: -1px;
 
-	.button,
-	.button.opened.bottom,
-	.button.opened.top {
-		border-radius: 0px 0px 0px 0px;
+	.button {
+		&.opened.bottom,
+		&.opened.top {
+			border-radius: 0px 0px 0px 0px;
+		}
 	}
 }
 
-:host('[layout=hgroup-right]') {
+:host([layout=hgroup-right]) {
 	margin-left:-1px;
 
 	.button {
@@ -146,21 +145,21 @@ polyfill-next-selector { content: '.button mm-icon + label'; }
 }
 
 /* vertical */
-:host('[layout=vgroup-top]'),
-:host('[layout=vgroup-center]'),
-:host('[layout=vgroup-left]') {
+:host([layout=vgroup-top]),
+:host([layout=vgroup-center]),
+:host([layout=vgroup-left]) {
 	.button {
 		@include justify-content(center);
 	}
 }
 
-:host('[layout=vgroup-top]') {
+:host([layout=vgroup-top]) {
 	.button {
 		border-radius: 4px 4px 0px 0px;
 	}
 }
 
-:host('[layout=vgroup-center]') {
+:host([layout=vgroup-center]) {
 	margin-top: -1px;
 
 	.button{
@@ -168,7 +167,7 @@ polyfill-next-selector { content: '.button mm-icon + label'; }
 	}
 }
 
-:host('[layout=vgroup-bottom]') {
+:host([layout=vgroup-bottom]) {
 	margin-top: -1px;
 	
 	.button {

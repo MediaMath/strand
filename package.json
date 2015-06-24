@@ -23,6 +23,7 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "*",
     "grunt-css-url-embed": "*",
+    "grunt-html-minify": "^0.3.1",
     "grunt-gh-pages": "^0.10.0",
     "grunt-github-changes": "0.0.6",
     "grunt-hogan-static": "*",
@@ -30,7 +31,7 @@
     "grunt-sass": "*",
     "grunt-shell": "^1.1.2",
     "grunt-text-replace": "^0.4.0",
-    "grunt-vulcanize": "0.5.0",
+    "grunt-vulcanize":"kgadzinowski/grunt-vulcanize#master",
     "load-grunt-tasks": "*"
   },
   "dependencies": {

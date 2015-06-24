@@ -27,26 +27,26 @@
 	@include user-select(none);
 }
 
-:host(':hover') {
+:host(:hover) {
 	background: $color-D12;
 	color: $color-F0;
 }
 
-:host(':active') {
+:host(:active) {
 	background: $color-D23;
 	color: $color-D2;
 }
 
-:host(':focus') {
+:host(:focus) {
 	outline: none;
 }
 
-:host('[selected]') {
+:host([selected]) {
 	background: $color-D23;
 	color: $color-D2;
 }
 
-:host-context('._mm_visible') {
+:host-context(._mm_visible) {
 	white-space: nowrap;
 	overflow: visible;
 }

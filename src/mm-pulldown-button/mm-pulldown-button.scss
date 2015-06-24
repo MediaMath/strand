@@ -19,7 +19,7 @@
 	line-height: 0em;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }

@@ -4,8 +4,26 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.js */
-Polymer('mm-header', {
-	ver:"<<version>>",
-	size:"large",
-});
+(function (scope) {
+ 
+	scope.Header = Polymer({
+		is:"mm-header",
+
+		properties: {
+			ver:{
+				value:"<<version>>",
+				type:String
+			},
+			size: {
+				value:"large",
+				type:String,
+				reflectToAttribute:true
+			}
+		},
+
+		headerClass: function(size) {
+			return "header-"+size;
+		}
+	});
+	
+})(window.Strand = window.Strand || {});

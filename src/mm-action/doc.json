@@ -17,10 +17,22 @@
 			"optional":true,
 			"default":"none",
 			"options":[]
+		},
+		{
+			"name":"target",
+			"type":"String",
+			"description":"Target for the redirect (same as a href)",
+			"optional":true,
+			"default":"_self",
+			"options":[]
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Disables the action link",
+			"optional":true,
+			"default":"false",
+			"options":[]
 		}
-	],
-	"methods": [],
-	"properties":[],
-	"articles":[
 	]
 }

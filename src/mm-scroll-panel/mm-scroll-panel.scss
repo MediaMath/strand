@@ -40,7 +40,7 @@
 	border-radius: 4px;
 }
 
-:host(':hover') .scrollbar-y {
+:host(:hover) .scrollbar-y {
 	opacity: 0.6;
 	filter: alpha(opacity = 60);
 }

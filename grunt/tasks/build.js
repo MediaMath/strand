@@ -234,28 +234,28 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.registerTask('sassShadowFix', function() {
-		var files = grunt.file.expand(grunt.config('build_dir') + '/mm-*/mm-*.css'),
-			css;
-		function stripQuotes(str, arg) {
-			return str.replace(/'/g,'');
-		}
+	
+	// grunt.registerTask('sassShadowFix', function() {
+	// 	var files = grunt.file.expand(grunt.config('build_dir') + '/mm-*/mm-*.css'),
+	// 		css;
+	// 	function stripQuotes(str, arg) {
+	// 		return str.replace(/'/g,'');
+	// 	}
 
-		files.forEach(function(file) {
-			css = grunt.file.read(file);
-			//strip '' from :host('.select') workaround
-			css = css.replace(/:host\('.*'\)/ig, stripQuotes);
-			//strip '' from :host-context('.select') workaround
-			css = css.replace(/:host-context\('.*'\)/ig, stripQuotes);
-			//strip '' from '/shadow/' workaround 
-			css = css.replace(/'\/(shadow|shadow-child|shadow-deep)\/'/ig, stripQuotes);
-			grunt.log.writeln('Wrote ' + file);
-			grunt.file.write(file, css);
-		}) ;
+	// 	files.forEach(function(file) {
+	// 		css = grunt.file.read(file);
+	// 		//strip '' from :host('.select') workaround
+	// 		css = css.replace(/:host\('.*'\)/ig, stripQuotes);
+	// 		//strip '' from :host-context('.select') workaround
+	// 		css = css.replace(/:host-context\('.*'\)/ig, stripQuotes);
+	// 		//strip '' from '/shadow/' workaround 
+	// 		css = css.replace(/'\/(shadow|shadow-child|shadow-deep)\/'/ig, stripQuotes);
+	// 		grunt.log.writeln('Wrote ' + file);
+	// 		grunt.file.write(file, css);
+	// 	}) ;
 
-		grunt.log.ok();
-
-	});
+	// 	grunt.log.ok();
+	// });
 
 	//Create HTML imports for JS library
 	grunt.registerTask('jslib:imports', function() {
@@ -284,7 +284,7 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dist',
-			'sassShadowFix',
+			// 'sassShadowFix',
 			'cssUrlEmbed', 
 			'hogan_static:lib',
 			'vulcanize:shared',
@@ -299,7 +299,7 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dev',
-			'sassShadowFix',
+			// 'sassShadowFix',
 			'hogan_static:index',
 			'hogan_static:lib'
 		]);

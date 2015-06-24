@@ -4,8 +4,13 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.sass */
 @import "_bourbon";
 @import "_color";
-@import "_fonts";
-@import "_text";
+@import "_mixins";
+
+@include fit();
+
+.content-top {
+	box-sizing: border-box;
+	margin: 2em 1em 1em;
+}

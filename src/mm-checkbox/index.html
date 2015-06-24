@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<link rel="import" href="mm-checkbox.html">
 		<style type="text/css">
@@ -105,23 +105,23 @@
 			<hr/>
 			<p><span class="bold">Checkbox:</span> custom icon</p>
 			<mm-checkbox icon="chart"></mm-checkbox>
-			<mm-checkbox checked="true" icon="check" iconColor="#008000">
+			<mm-checkbox checked="true" icon="check" icon-color="#008000">
 				<label>Check me out</label>
 			</mm-checkbox>
 			<hr/>
 			<p><span class="bold">Checkbox:</span> State set programmatically</p>
-			<mm-checkbox id="cbp" disabled="true"><label>parent</label></mm-checkbox>
+			<mm-checkbox id="cbp" disabled><label>parent</label></mm-checkbox>
 			<br/>
-			&nbsp;<mm-checkbox id="cbc1" class="cbc"><label>Child 1</label></mm-checkbox>
-			&nbsp;<mm-checkbox id="cbc2" class="cbc"><label>Child 2</label></mm-checkbox>
-			&nbsp;<mm-checkbox id="cbc3" class="cbc"><label>Child 3</label></mm-checkbox>
+			<mm-checkbox id="cbc1" class="cbc"><label>Child 1</label></mm-checkbox>
+			<mm-checkbox id="cbc2" class="cbc"><label>Child 2</label></mm-checkbox>
+			<mm-checkbox id="cbc3" class="cbc"><label>Child 3</label></mm-checkbox>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		<script>
-			window.addEventListener("polymer-ready", function() {
+			window.addEventListener("WebComponentsReady", function() {
 				// via vanilla JS:
-				var checkbox = document.getElementById("cbxv");
+				var checkbox = document.querySelector("#cbxv");
 				checkbox.addEventListener("click", function(e) {
 					console.log(e);
 					console.log("e.target.checked: " + e.target.checked);
@@ -135,16 +135,19 @@
 				});
 
 				// Programatically set
-				var parent = document.getElementById("cbp");
+				var parent = document.querySelector("#cbp");
 				var $parent = $("#cbp");
 				var $children = $(".cbc");
+
 				$children.click(function(e) {
 					var checkedCount = 0;
+
 					$children.each(function() {
 						if (this.state === "checked") {
 							checkedCount++;
 						}
 					});
+
 					if (checkedCount === 0) {
 						$parent[0].state = 'unchecked';
 					} else if (checkedCount === $children.length) {
@@ -166,23 +169,6 @@
 					console.log("e.originalEvent.detail.state: " + e.originalEvent.detail.state);
 				});
 			});
-
-			// e.target.checked NOT correct when listening to "mouseup":
-			// window.addEventListener("polymer-ready", function() {
-			// 	// via vanilla JS:
-			// 	var checkbox = document.getElementById("cbxv");
-			// 	checkbox.addEventListener("mouseup", function(e) {
-			// 		console.log(e);
-			// 		console.log("e.target.checked: " + e.target.checked);
-			// 	});
-
-			// 	// via jQuery:
-			// 	var $checkbox = $("#cbxjq");
-			// 	$checkbox.mouseup(function(e) {
-			// 		console.log(e);
-			// 		console.log("e.target.checked: " + e.target.checked);
-			// 	});
-			// });
 		</script>
 	</body>
 </html>
