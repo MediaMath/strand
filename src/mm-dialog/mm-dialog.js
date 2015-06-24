@@ -16,10 +16,6 @@
 			error:   { type: "warning", color: Colors.C3 }
 		},
 
-		behaviors: [
-			StrandTraits.Stackable
-		],
-
 		properties: {
 			type: {
 				type: String,

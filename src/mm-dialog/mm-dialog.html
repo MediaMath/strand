@@ -19,7 +19,7 @@
 	<template>
 		<mm-modal id="dialog-inner-modal" hidden>
 			<div class="content-top">
-				<template is="dom-if" if="{{type}}"><mm-icon type="{{icon.type}}" primary-color="{{icon.color}}"></mm-icon></template>
+				<template is="dom-if" if="{{type}}"><mm-icon height="25" width="30" type="{{icon.type}}" primary-color="{{icon.color}}"></mm-icon></template>
 				<template is="dom-if" if="{{header}}"><mm-header size="large">{{header}}</mm-header></template>
 				<content></content>
 			</div>
