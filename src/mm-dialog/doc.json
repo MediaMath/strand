@@ -53,10 +53,6 @@
 			"description":"Hides the dialog.",
 			"arguments":[]
 		},
-		{
-			"name":"configureActions",
-			"description":"Configure the links/buttons in the footer of the dialog window with an array of objects. These objects should contain a \"label\" (String), an optional \"type\" (String) which can be \"primary\" or \"secondary\", and a \"handleClick\" callback."
-		}
 	],
 	"properties":[
 		{
@@ -76,6 +72,11 @@
 			"type":"string",
 			"description":"Whether or not the dialog can be dismissed by the user without a response.",
 			"default":"true"
+		},
+		{
+			"name":"actions",
+			"type":"array",
+			"description":"An array of actions/buttons to show in the footer, of the form {label: String, type: String, handleClick: Function}. type should be either \"primary\" or \"secondary\". handleClick may take optional arguments for the event object and the mm-dialog node."
 		}
 	]
 }

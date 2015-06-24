@@ -16,7 +16,7 @@
 		var sb = document.getElementById("showBtn"),
 			td = document.getElementById("testDialog");
 
-		td.configureActions([
+		td.actions = [
 			{
 				label: "Cancel",
 				handleClick: function(e,host) {
@@ -31,7 +31,7 @@
 					host.hide();
 				}
 			}
-		]);
+		];
 
 		sb.addEventListener('click', showDialog);
 		td.addEventListener('confirm', function() {

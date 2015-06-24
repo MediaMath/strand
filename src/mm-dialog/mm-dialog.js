@@ -30,6 +30,7 @@
 				value: ''
 			},
 			hidden: {
+				reflectToAttribute: true,
 				observer: '_showHide',
 				type: Boolean,
 				value: true,
@@ -55,6 +56,7 @@
 				computed: '_getIconAttributes(type)'
 			},
 			actions: {
+				observer: '_updateActions',
 				type: Array,
 				value: function() {
 					return [{
@@ -94,14 +96,8 @@
 			this.modal.noscroll = this.noscroll;
 		},
 
-		configureActions: function(actionList) {
-			actionList.map(function(item) {
-				var t;
-				if(item.type) t = item.type.toLowerCase();
-				if(!(t==='primary' || t==='secondary')) t = false;
-				item.type = t;
-			});
-			this.actions = actionList;
+		_validType: function(type) {
+			return type === 'primary' || type === 'secondary';
 		},
 
 		show: function() {
