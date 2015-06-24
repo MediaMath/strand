@@ -52,7 +52,6 @@
 				computed: '_getIconAttributes(type)'
 			},
 			actions: {
-				observer: '_updateActions',
 				type: Array,
 				value: function() {
 					return [{
