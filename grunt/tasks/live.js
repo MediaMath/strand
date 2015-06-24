@@ -49,16 +49,8 @@ module.exports = function(grunt) {
 				nospawn: true,
 			}
 		},
-		sharedScss: {
-			files: ['src/shared/sass/*.scss'],
-			tasks: ['default']
-		},
-		jslib: {
-			files:['src/shared/js/*.js'],
-			tasks: ['vulcanize:jslib'],
-		},
-		jsBehaviors: {
-			files:['src/shared/behaviors/*.js'],
+		shared: {
+			files:['src/shared/**'],
 			tasks: ['default']
 		},
 		docs: {
