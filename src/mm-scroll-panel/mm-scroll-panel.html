@@ -5,17 +5,26 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../mm-item-notifier/mm-item-notifier.html">
-<polymer-element name="mm-scroll-panel" attributes="scope" constructor="MMScrollPanel">
+<link rel="import" href="../shared/behaviors/stylable.html">
+<!-- <link rel="import" href="../shared/behaviors/resizable.html"> -->
+<link rel="import" href="../shared/behaviors/dommutable.html">
+
+<dom-module id="mm-scroll-panel">
+	<link rel="import" type="css" href="mm-scroll-panel.css" />
 	<template>
-		<link href="mm-scroll-panel.css" rel="stylesheet" type="text/css"/>
-		<mm-item-notifier target="{{scope}}" on-added="{{itemChanged}}" on-removed="{{itemChanged}}"></mm-item-notifier>
 		<div id="viewport" class="container">
-			<content></content>
+			<div id="holder">
+				<content></content>
+			</div>
 		</div>
-		<div id="scrollbarY" class="scrollbar-y" on-down="{{onDown}}" on-track="{{onTrack}}" on-up="{{onUp}}">
+		<div id="scrollbarY"
+			 class="scrollbar-y" 
+			 style$="{{ _updateScrollbarStyle(scrollBarSize) }}"
+			 on-down="_onDown" 
+			 on-track="_onTrack">
 			<div class="bar"></div>
 		</div>
 	</template>
-	<script src="mm-scroll-panel.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-scroll-panel.js"></script>
