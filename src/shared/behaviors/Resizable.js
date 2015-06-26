@@ -6,7 +6,7 @@
 */
 
 (function (scope) {
-	
+
 	var _cache = [];
 	var _instances = [];
 	var _il = 0;
@@ -66,11 +66,11 @@
 		},
 
 		attached:function() {
-			_addInstance(this);
+			_addInstance(this.resizeTarget);
 		},
 
 		detached:function() {
-			_removeInstance(this);
+			_removeInstance(this.resizeTarget);
 		},
 
 		elementResize: function(e) {
@@ -79,4 +79,4 @@
 
 	};
 
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
