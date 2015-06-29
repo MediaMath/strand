@@ -10,13 +10,14 @@
 		is: 'mm-checkbox',
 
 		behaviors: [
-			StrandTraits.Stylable
+			StrandTraits.Stylable,
+			StrandTraits.Validatable
 		],
 
 		properties: {
-			ver: {
+			PRIMARY_ICON_COLOR: {
 				type: String,
-				value: "<<version>>"
+				value: Colors.D0
 			},
 			icon: {
 				type: String,
@@ -36,6 +37,7 @@
 			checked: { 
 				type: Boolean,
 				reflectToAttribute: true,
+				value: null,
 				observer: "checkedChanged",
 			},
 			disabled: { 
@@ -53,10 +55,12 @@
 			}
 		},
 
-		PRIMARY_ICON_COLOR: Colors.D0,
 		UNCHECKED_STATE: "unchecked",
 		CHECKED_STATE: "checked",
 		PARTIAL_STATE: "partial",
+
+		// for validation and jQuery
+		value: null,
 
 		listeners: {
 			"tap" : "toggleChecked"
@@ -71,13 +75,19 @@
 		},
 
 		checkedChanged: function(newVal, oldVal) {
-			this.debounce("stateChecked", this.handleCheckedChange);
+			if (newVal !== null) {
+				this.debounce("stateChecked", this.handleCheckedChange);
+
+				// also handle value - which should mirror "checked"
+				this.value = newVal;
+				if (this.validation) this.fire("value-changed", { value: this.value }, true);
+			}
 		},
 
 		handleCheckedChange: function() {
-			if (this.checked === false) {
+			if (!this.checked) {
 				this.state = this.UNCHECKED_STATE;
-			} else if (this.checked === true) {
+			} else if (this.checked) {
 				this.state = this.CHECKED_STATE;
 			}
 		},
@@ -103,38 +113,11 @@
 
 		updateClass: function(icon, state) {
 			var o = {};
-			o["checkbox"] = !icon ? true : false;
+			o.checkbox = !icon ? true : false;
 			o["checkbox-icon"] = icon ? true : false;
-			o["selected"] = (state === this.CHECKED_STATE) ? true : false;
-			o["partial"] = (state === this.PARTIAL_STATE) ? true : false;
+			o.selected = (state === this.CHECKED_STATE) ? true : false;
+			o.partial = (state === this.PARTIAL_STATE) ? true : false;
 			return this.classBlock(o);
-		},
-
-		get value() {
-			return this.checked;
-		},
-
-		set value(input) {
-			this.checked = input;
-			this.updateModel();
-		},
-
-		bindModel: function(model, property) {
-			this.model = model;
-			this.property = property;
-		},
-
-		updateModel: function() {
-			if (this.model && this.property) {
-				//check for BB models
-				if (this.model.set) {
-					var o = {};
-					o[this.property] = this.value;
-					this.model.set(o);
-				} else {
-					this.model[this.property] = this.value;
-				}
-			}
 		}
 
 	});
