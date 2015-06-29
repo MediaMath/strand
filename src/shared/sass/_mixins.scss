@@ -18,6 +18,10 @@
 	width: 100%;
 }
 
+@mixin invalid() {
+	border-color: $color-C12;
+}
+
 // button selected state
 @mixin buttonSelected($gradientColor1, $gradientColor2, $boxShadowColor) {
 	@include background-image(linear-gradient($gradientColor1, $gradientColor2));
