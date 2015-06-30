@@ -11,10 +11,13 @@
 	display: inline-block;
 	vertical-align: middle;
 	overflow: hidden;
-	@include animation(fadeIn 1s ease);
+	@include animation-name(fadeIn);
+	@include animation-duration(1s);
+	@include animation-timing-function(ease);
 }
 
 @include keyframes(spin) {
+	0% { @include transform(rotate(0deg)); }
 	100% { @include transform(rotate(360deg)); }
 }
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="mm-loader.html">
 		<link rel="import" href="../mm-button/mm-button.html">
-		<style type="text/css">
+		<style is="custom-style" type="text/css">
 			body, html {
 				height: 100%;
 				min-height: 100%;
@@ -114,6 +114,7 @@
 			<mm-button id="hideBtn">
 				<label>Hide All Loaders</label>
 			</mm-button>
+			
 			<hr/>
 			<p><span class="bold">Loader:</span> Default</p>
 			<div class="loader-holder">
@@ -124,16 +125,16 @@
 			<hr/>
 			<p><span class="bold">Loader:</span> Customized Variant</p>
 			<div class="loader-holder">
-				<mm-loader id="l2" unresolved bgColor="#003C71" bgOpacity="1">
-					<mm-spinner radius="12" lineLength="0.6" lineWeight="0.6"></mm-spinner>
+				<mm-loader id="l2" unresolved bg-color="#003C71" bg-opacity="1">
+					<mm-spinner radius="12" line-length="0.6" line-weight="0.6"></mm-spinner>
 					<label>Waiting...</label>
 				</mm-loader>
 			</div>
 			<hr/>
 			<p><span class="bold">Loader:</span> Customized Variant</p>
 			<div class="loader-holder">
-				<mm-loader id="l3" unresolved paddingTop="10" paddingLeft="10" bgColor="#cccccc" bgOpacity="0.75">
-					<mm-spinner radius="32" lineLength="0.6" lineWeight="0.9" fillColor="#003C71"></mm-spinner>
+				<mm-loader id="l3" unresolved padding-top="10" padding-left="10" bg-color="#cccccc" bg-opacity="0.75">
+					<mm-spinner radius="32" line-length="0.6" line-weight="0.9" fill-color="#003C71"></mm-spinner>
 				</mm-loader>
 			</div>
 			<hr/>
@@ -149,7 +150,7 @@
 				hideAllBtn,
 				showAllBtn;
 
-			window.addEventListener("polymer-ready", function() {
+			window.addEventListener("WebComponentsReady", function() {
 				loader1 = document.getElementById("l1");
 				loader2 = document.getElementById("l2");
 				loader3 = document.getElementById("l3");
