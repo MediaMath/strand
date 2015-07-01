@@ -31,7 +31,7 @@
     "grunt-sass": "*",
     "grunt-shell": "^1.1.2",
     "grunt-text-replace": "^0.4.0",
-    "grunt-vulcanize":"kgadzinowski/grunt-vulcanize#master",
+    "grunt-vulcanize":"^1.0.0",
     "load-grunt-tasks": "*"
   },
   "dependencies": {
