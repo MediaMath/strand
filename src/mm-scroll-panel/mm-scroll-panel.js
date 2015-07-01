@@ -14,11 +14,14 @@
 
 		behaviors: [
 			StrandTraits.Stylable,
-			// StrandTraits.Resizable,
 			StrandTraits.DomMutable
 		],
 		
 		properties: {
+			tabIndex: {
+				type: Number,
+				value: 0
+			},
 			scrollBarSize: {
 				type: Number,
 				value: false
@@ -37,7 +40,8 @@
 
 		listeners: {
 			"added" : "_onAdded",
-			"removed" : "_onRemoved"
+			"removed" : "_onRemoved",
+			"mouseenter" : "_onFocus"
 		},
 
 		MIN_BAR_SIZE: 50,
@@ -45,9 +49,9 @@
 		attached: function() {
 			this.addEventListener(support, this._onScroll);
 			// Waiting on light DOM children is tricky...
-			this.async(function() {
-				this.debounce("update-ui", this._updateUI, 100);
-			});
+			// this.async(function() {
+			// 	this.debounce("update-ui", this._updateUI, 100);
+			// });
 		},
 		
 		detached: function() {
@@ -62,9 +66,9 @@
 			this.debounce("update-ui", this._updateUI, 0);
 		},
 
-		// elementResize: function(e) {
-		// 	this.debounce("update-ui", this._updateUI, 0);
-		// },
+		_onFocus: function(e) {
+			this.debounce("update-ui", this._updateUI, 0);
+		},
 
 		_updateUI: function() {
 			var barSize = this.viewportHeight * this.viewportHeight / this.contentHeight;
