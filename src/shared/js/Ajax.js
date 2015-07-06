@@ -24,39 +24,46 @@
 		return output;
 	}
 
-	function Ajax(contentType, method, body, withCredentials, timeout) {
-		this.contentType = contentType || "application/x-www-form-urlencoded";
-		this.method = method || "GET";
-		this.body = body;
-		this.withCredentials = withCredentials;
-		this.timeout = timeout || 10000;
+	function Ajax(options) {
 
-		this.reset();
+		this.requests = [];
+		this.options = StrandLib.DataUtils.copy({},{
+			"contentType":"application/x-www-form-urlencoded",
+			"method":Request.GET,
+			"withCredentials":false,
+			"timeout":10000
+		}, options);
+
+		// console.log("options",this.options);
+
+
+		// this.contentType = options.contentType || "application/x-www-form-urlencoded";
+		// this.method = options.method || "GET";
+		// this.body = options.body;
+		// this.withCredentials = options.withCredentials;
+		// this.timeout = options.timeout || 10000;
+
+		// this.reset();
 	}
 
 	Ajax.prototype = {
 
-		GET:"GET",
-		POST:"POST",
-		PUT:"PUT",
-		DELETE:"DELETE",
+		GET:Request.GET,
+		POST:Request.POST,
+		PUT:Request.PUT,
+		DELETE:Request.DELETE,
 
-		reset: function() {
-			this._xhr = new XMLHttpRequest();
-			this.promise = pinkySwear();
-			this.headers = [];
-			this.params = [];
-			this.urlParams = [];
+		queue: function(data, options, queueName) {
+			options = StrandLib.DataUtils.copy({}, options, this.options);
+
 		},
-		
-		exec: function() {
-			var data,
-				message,
-				url = this.url;
+
+		exec: function(data, options) {
+			options = StrandLib.DataUtils.copy({}, options, this.options);
+			var url = options.url;
 
 			if (!this.method || !url) {
-				message = "url and method are required!!";
-				this.fire("data-error", {message:message});
+				var message = "url and method are required!!";
 				this.promise(false, [this, this.promise, message]);
 				return this.promise;
 			}
@@ -70,12 +77,11 @@
 
 			if (this.method.match(/(POST|PUT|DELETE)/i)) {
 				if (this.contentType === "application/json") {
-					data = this.body;
+					data = data || this.body;
 				} else if(this.contentType === "multipart/form-data") {
 					if (this.body instanceof FormData) {
-						data = this.body;
+						data = data || this.body;
 					} else {
-						//TODO: expose this outside of body
 						var fd = new FormData();
 						if (this.body instanceof FormData) {
 							data = this.body;
@@ -101,23 +107,26 @@
 				url += this.serialize(this.params).join("&");
 			}
 
-			this.xhr.open(this.method, url, true, this.username, this.password);
+			var req = new Request();
 
-			this.xhr.timeout = this.timeout || 10000;
-			this.xhr.withCredentials = this.withCredentials;
-			this.xhr.onreadystatechange = this.readyStateChange.bind(this);
-			this.xhr.addEventListener("abort", this.handleAbort.bind(this));
-			this.xhr.addEventListener("progress", this.handleProgress.bind(this));
+			// this.xhr.open(this.method, url, true, this.username, this.password);
+			//
+			// this.xhr.timeout = this.timeout || 10000;
+			// this.xhr.withCredentials = this.withCredentials;
+			// this.xhr.onreadystatechange = this.readyStateChange.bind(this);
+			// this.xhr.addEventListener("abort", this.handleAbort.bind(this));
+			// this.xhr.addEventListener("progress", this.handleProgress.bind(this));
+			//
+			// this.contentType && this.xhr.setRequestHeader("content-type",this.contentType);
+			//
+			// this.headers && this.headers.forEach(function(header) {
+			// 	this.xhr.setRequestHeader(header.name, header.value);
+			// }.bind(this));
+			//
+			// this.xhr.send(data);
 
-			this.contentType && this.xhr.setRequestHeader("content-type",this.contentType);
-
-			this.headers && this.headers.forEach(function(header) {
-				this.xhr.setRequestHeader(header.name, header.value);
-			}.bind(this));
-
-			this.xhr.send(data);
-
-			return this.promise;
+			// return this.promise;
+			return req.promise;
 
 		},
 

@@ -88,6 +88,19 @@
 		return o;
 	}
 
+	function _copy() {
+		var args = _clone(arguments);
+		var init = args.length > 1 ? args.shift() : {};
+		return args.reduce(function(prev, cur) {
+			if (_isType(cur,"object")) {
+				for(var i in cur) {
+					prev[i] = cur[i];
+				}
+			}
+			return prev;
+		}, init);
+	}
+
 	function _compoundObserver(obj, observer) {
 		for(var i in obj) {
 			if (obj.hasOwnProperty(i)) {
@@ -100,11 +113,13 @@
 		return observer;
 	}
 
-	DataUtils  = {
+	var DataUtils  = {
 
 		clone: function(list) {
 			return _clone(list);
 		},
+
+		copy: _copy,
 
 		isType: function(value, type) {
 			return _isType(value, type);
@@ -130,7 +145,7 @@
 		},
 
 		objectifyDistributedNodes: function(elementList, ignoreList) {
-			
+
 			function elements(n) {
 				return n.nodeType === Node.ELEMENT_NODE;
 			}
@@ -155,10 +170,10 @@
 		},
 
 		mergeParamLists: function() {
-			var i, 
-				j, 
+			var i,
+				j,
 				param,
-				seen = {}, 
+				seen = {},
 				o = [],
 				list = [],
 				args = _clone(arguments);
@@ -180,5 +195,5 @@
 	};
 
 	scope.DataUtils = DataUtils;
-	
-})(window.StrandLib = window.StrandLib || {}); 
+
+})(window.StrandLib = window.StrandLib || {});

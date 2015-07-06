@@ -13,7 +13,7 @@
     "Justin Moore <jmoore@mediamath.com>"
   ],
   "description": "MediaMath UI-Framework built with polymer.js",
-  "main": [ 
+  "main": [
     "dist/strand.html"
   ],
   "keywords": [
@@ -37,7 +37,8 @@
     "polymer": "Polymer/polymer#1.0.4",
     "webcomponentsjs": "webcomponents/webcomponentsjs#0.7.3",
     "moment": "~2.9.0",
-    "moment-range": "~1.0.5"
+    "moment-range": "~1.0.5",
+    "zousan": "~1.1.2"
   },
   "devDependencies": {
     "web-component-tester": "~2.2.6",
