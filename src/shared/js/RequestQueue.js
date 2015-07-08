@@ -1,12 +1,13 @@
 (function (scope) {
 
-	function RequestQueue(requests, concurrency) {
+	function RequestQueue(requests, concurrency, hook) {
 		if (!requests) throw(new Error("request array is required"));
 
 		this.work = requests.slice();
 		this.results = [];
 		this.failures = [];
 		this.concurrency = concurrency;
+		this.processHook = hook;
 		this.promise = new Zousan();
 
 	}
@@ -17,8 +18,10 @@
 				this.results = this.results.concat(res);
 			}
 			var chunk = this.work.splice(0,this.concurrency).map(function(req) {
+				if (this.processHook)
+					this.processHook(req);
 				return req.exec();
-			});
+			},this);
 
 			if (chunk && chunk.length > 0) {
 				var all = Zousan.all(chunk);

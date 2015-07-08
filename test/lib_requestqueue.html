@@ -94,6 +94,20 @@
 			});
 			rq.exec();
 		});
+
+		it("should expose a process hook for each request as it is executed", function(done) {
+			var work = [new Req(), new Req(), new Req(), new Req()];
+			var test = [];
+			var rq = new StrandLib.RequestQueue(work, 1, function(r) {
+				test.push(r);
+			});
+			rq.promise.then(function() {
+				test.should.have.length(4);
+				test.should.deep.equal(work);
+				done();
+			});
+			rq.exec();
+		});
 	});
 	</script>
 </body>
