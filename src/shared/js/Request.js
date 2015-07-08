@@ -4,34 +4,45 @@
 		
 		options = options || {};
 
+
+		//TODO: (dlasky) there is probably no reason to unstack most of this
 		this.url = options.url;
-		this.method = options.method || this.GET;
+		this.method = options.method || Request.GET;
 		this.body = options.body;
+		this.responseType = options.responseType;
 		this.reqHeaders = options.reqHeaders;
 		this.withCredentials = options.withCredentials;
 		this.timeout = options.timeout;
 		this.username = options.username;
 		this.password = options.password;
 		this.progress = options.progress;
+
 		this.xhr = new XMLHttpRequest();
-		this.promise = pinkySwear();
+		this.promise = new Zousan();
+
 	}
 
+	Request.GET = "GET";
+	Request.POST = "POST";
+	Request.PUT = "PUT";
+	Request.DELETE = "DELETE";
+
 	Request.prototype = {
-		
-		get GET()  { return "GET"; },
-		get POST() { return "POST"; },
-		get PUT() { return "PUT"; },
-		get DELETE() { return "DELETE"; },
 
 		exec: function() {
 			if (!this.method || !this.url) {
-				this.promise(false, [this, this.promise, "url and method are required!!"]);
+				// this.promise(false, [this, this.promise, "url and method are required!!"]);
+				this.promise.reject({
+					error:"url and method are required!!",
+					instance:this,
+					response:null,
+				});
 				return this.promise;
 			}
 
 			this.xhr.open(this.method, this.url, true, this.username, this.password);
 
+			this.xhr.responseType = this.responseType;
 			this.xhr.timeout = this.timeout || 10000;
 			this.xhr.withCredentials = this.withCredentials;
 			this.xhr.onreadystatechange = this.readyStateChange.bind(this);
@@ -48,7 +59,7 @@
 				}.bind(this));
 			}
 
-			this.xhr.send(data);
+			this.xhr.send(this.body);
 
 			return this.promise;
 		},
@@ -56,17 +67,17 @@
 		readyStateChange: function() {
 			var result = {};
 			if (this.xhr.readyState === 4) {
-				this.fire("data-result");
-				this.response = this.responseHandler[this.responseType || 'json'].call(this);
+				// this.fire("data-result");
+				this.response = this.responseHandler[this.xhr.responseType || 'json'].call(this);
 				if (!this.xhr.status || (this.xhr.status >= 200 && this.xhr.status < 300)) {
 					result = {response: this.response, instance: this};
 					if (this.promise) {
-						this.promise(true, [this, this.promise, result]);
+						this.promise.resolve(result);
 					}
 				} else {
 					result = {error: this.xhr.status, instance: this, response: this.response};
 					if (this.promise) {
-						this.promise(false, [this, this.promise, result]);
+						this.promise.reject(result);
 					}
 				}
 			}
@@ -74,7 +85,12 @@
 
 		handleAbort: function() {
 			if (this.promise) {
-				this.promise(false, [this, this.promise, 'aborted']);
+				this.promise.reject({
+					error:'aborted',
+					instance:this,
+					response:null
+				});
+				// this.promise(false, [this, this.promise, 'aborted']);
 			}
 		},
 
@@ -95,7 +111,7 @@
 			},
 
 			text: function() {
-			return this.xhr.responseText;
+				return this.xhr.responseText;
 			},
 
 			json: function() {
@@ -103,7 +119,12 @@
 				try {
 					return JSON.parse(response);
 				} catch (e) {
-					this.fire("data-error", {error: e.message, instance: this});
+					// this.fire("data-error", {error: e.message, instance: this});
+					this.promise.reject({
+						error:e.message,
+						instance:this,
+						response:response
+					});
 					return response;
 				}
 			},
