@@ -1,13 +1,12 @@
 (function (scope) {
 
-	function RequestQueue(requests, concurrency, bail) {
+	function RequestQueue(requests, concurrency) {
 		if (!requests) throw(new Error("request array is required"));
 
 		this.work = requests.slice();
 		this.results = [];
 		this.failures = [];
 		this.concurrency = concurrency;
-		this.bail = bail;
 		this.promise = new Zousan();
 
 	}
@@ -29,12 +28,8 @@
 			}
 		},
 		fail: function(val) {
-			if (this.bailout) {
-				this.promise.reject(val);
-			} else {
-				this.failures.push(val);
-				this.next();
-			}
+			this.promise.reject(val);
+			this.failures.push(val);
 		},
 		exec: function() {
 			this.next();
