@@ -6,6 +6,7 @@
 		this.work = requests.slice();
 		this.results = [];
 		this.failures = [];
+		this.flight = [];
 		this.concurrency = concurrency;
 		this.processHook = hook;
 		this.promise = new Zousan();
@@ -18,6 +19,7 @@
 				this.results = this.results.concat(res);
 			}
 			var chunk = this.work.splice(0,this.concurrency).map(function(req) {
+				this.flight.push(req);
 				if (this.processHook)
 					this.processHook(req);
 				return req.exec();
@@ -36,6 +38,13 @@
 		},
 		exec: function() {
 			this.next();
+		},
+		abort: function() {
+			this.work = [];
+			this.flight.forEach(function(r) {
+				r.abort();
+			});
+			this.promise.reject(new Error("Aborted"));
 		}
 	};
 

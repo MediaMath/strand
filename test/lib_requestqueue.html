@@ -31,6 +31,16 @@
 			return this.promise;
 		}
 	};
+	function AReq() {
+		this.promise = new Zousan();
+	}
+	AReq.prototype = {
+		exec: function() {
+			this.promise.resolve({response:"yes"});
+			return this.promise;
+		},
+		abort: sinon.spy()
+	};
 
 	describe("RequestQueue", function() {
 		
@@ -107,6 +117,22 @@
 				done();
 			});
 			rq.exec();
+		});
+
+		it("should stop work on abort", function(done) {
+			var success = sinon.spy();
+			var work = [new AReq(), new AReq(), new AReq(), new AReq()];
+			var rq = new StrandLib.RequestQueue(work, 1);
+			rq.promise.then(success, function(f) {
+				work.map(function(r) {
+					r.abort.calledOnce.should.be.true;
+				});
+				rq.flight.should.have.length(1);
+				rq.flight[0].abort.calledOnce.should.be.true;
+				done();
+			});
+			rq.exec();
+			rq.abort();
 		});
 	});
 	</script>
