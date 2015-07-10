@@ -5,7 +5,7 @@
 
 */
 /*jshint -W030 */
-(function () {
+(function (scope) {
 
 	function _paramaterize(name, value) {
 		return encodeURIComponent(name) + "=" + encodeURIComponent(value);
@@ -31,7 +31,9 @@
 		return output;
 	}
 
-	Polymer('mm-ajax', {
+	scope.Ajax = Polymer({
+		is: 'mm-ajax',
+
 		ver:"<<version>>",
 
 		GET: "GET",
@@ -39,15 +41,42 @@
 		PUT: "PUT",
 		DELETE: "DELETE",
 
-		publish: {
-			contentType: 'application/x-www-form-urlencoded',
-			method: "GET",
-			auto: false,
-			debug: false,
-			body: null,
-			withCredentials: false,
-			timeout: 10000
+		properties: {
+			contentType:{
+				type:String,
+				value: 'application/x-www-form-urlencoded'
+			},
+			method: {
+				type:String,
+				value: "GET"
+			},
+			auto: {
+				type:Boolean,
+				value:false,
+			},
+			body: {
+				type:Object,
+				value: null
+			},
+			withCredentials: {
+				type: Boolean,
+				value: false
+			},
+			timeout: {
+				type:Number,
+				value: 10000
+			}
 		},
+
+		// publish: {
+		// 	contentType: 'application/x-www-form-urlencoded',
+		// 	method: "GET",
+		// 	auto: false,
+		// 	debug: false,
+		// 	body: null,
+		// 	withCredentials: false,
+		// 	timeout: 10000
+		// },
 
 		created: function() {
 			this.reset();
@@ -276,4 +305,4 @@
 		}
 	});
 
-})(); 
+})(window.Strand = window.Strand || {}); 

@@ -26,47 +26,66 @@
 
 	function Ajax(options) {
 
+		this.recent = {};
 		this.requests = [];
 		this.options = StrandLib.DataUtils.copy({},{
 			"contentType":"application/x-www-form-urlencoded",
-			"method":Request.GET,
+			"method":StrandLib.Request.GET,
 			"withCredentials":false,
 			"timeout":10000
 		}, options);
-
-		// console.log("options",this.options);
-
-
-		// this.contentType = options.contentType || "application/x-www-form-urlencoded";
-		// this.method = options.method || "GET";
-		// this.body = options.body;
-		// this.withCredentials = options.withCredentials;
-		// this.timeout = options.timeout || 10000;
-
-		// this.reset();
 	}
 
 	Ajax.prototype = {
 
-		GET:Request.GET,
-		POST:Request.POST,
-		PUT:Request.PUT,
-		DELETE:Request.DELETE,
+		GET:StrandLib.Request.GET,
+		POST:StrandLib.Request.POST,
+		PUT:StrandLib.Request.PUT,
+		DELETE:StrandLib.Request.DELETE,
 
 		queue: function(data, options, queueName) {
-			options = StrandLib.DataUtils.copy({}, options, this.options);
+			var req = _requestFactory(data, options);
+			_getQueue(queueName).push(req);
+		},
 
+		runQueue: function(queueName) {
+			var q = _getQueue(queueName);
+			var rq = new RequestQueue(q, this.options.concurrency, function(r) {
+				this.recent = r;
+			}.bind(this));
+			rq.run();
+			q.running = rq;
+			return rq.promise;
 		},
 
 		exec: function(data, options) {
+
+			var req = _requestFactory(data, options);
+
+			this.requests.push(req);
+			this.recent = req;
+			req.exec();
+
+			return req.promise;
+
+		},
+
+		_getQueue: function(queueName, init) {
+			if (queueName) {
+				if (this[queueName]) {
+					return this[queueName];
+				} else if (init) {
+					this[queueName] = [];
+					return this[queueName];
+				}
+			} else if (queueName) {
+				return this.requests;
+			}
+		},
+
+		_requestFactory: function(data, options) {
 			options = StrandLib.DataUtils.copy({}, options, this.options);
 			var url = options.url;
-
-			if (!this.method || !url) {
-				var message = "url and method are required!!";
-				this.promise(false, [this, this.promise, message]);
-				return this.promise;
-			}
 
 			if (this.urlParams && this.urlParams.length > 0) {
 				if (url.slice(-1) !== "/") {
@@ -107,48 +126,28 @@
 				url += this.serialize(this.params).join("&");
 			}
 
-			var req = new Request();
-
-			// this.xhr.open(this.method, url, true, this.username, this.password);
-			//
-			// this.xhr.timeout = this.timeout || 10000;
-			// this.xhr.withCredentials = this.withCredentials;
-			// this.xhr.onreadystatechange = this.readyStateChange.bind(this);
-			// this.xhr.addEventListener("abort", this.handleAbort.bind(this));
-			// this.xhr.addEventListener("progress", this.handleProgress.bind(this));
-			//
-			// this.contentType && this.xhr.setRequestHeader("content-type",this.contentType);
-			//
-			// this.headers && this.headers.forEach(function(header) {
-			// 	this.xhr.setRequestHeader(header.name, header.value);
-			// }.bind(this));
-			//
-			// this.xhr.send(data);
-
-			// return this.promise;
-			return req.promise;
-
+			return req = new Request(StrandLib.DataUtils.copy({
+				url:url,
+				body:data,
+			}, options));
 		},
 
 		abort: function() {
-			if (this.xhr) {
-				this.xhr.abort();
+			if (this.current) {
+				this.current.abort();
 			}
 		},
 
-		handleAbort: function(e) {
-			this.fire("data-abort");
-			if (this.promise) {
-				this.promise(false, [this, this.promise, 'aborted']);
-			}
+		abortQueue: function(queueName) {
+			_getQueue(queueName).running.abort();
 		},
 
 		handleProgress: function(e) {
-			this.fire("data-progress", {
-				percent: e.totalSize/e.position,
-				total: e.totalSize,
-				current: e.position
-			});
+			// this.fire("data-progress", {
+			// 	percent: e.totalSize/e.position,
+			// 	total: e.totalSize,
+			// 	current: e.position
+			// });
 		},
 
 		addHeader: function(name, value) {
@@ -196,71 +195,16 @@
 			return output;
 		},
 
-		readyStateChange: function() {
-			var result = {};
-			if (this.xhr.readyState === 4) {
-				this.fire("data-result");
-				this.response = this.responseHandler[this.responseType || 'json'].call(this);
-				if (!this.xhr.status || (this.xhr.status >= 200 && this.xhr.status < 300)) {
-					result = {response: this.response, instance: this};
-					this.fire("data-ready", result);
-					if (this.promise) {
-						this.promise(true, [this, this.promise, result]);
-					}
-				} else {
-					result = {error: this.xhr.status, instance: this, response: this.response};
-					this.fire("data-error", result);
-					if (this.promise) {
-						this.promise(false, [this, this.promise, result]);
-					}
-				}
-			}
-		},
-
-		responseHandler: {
-
-			xml: function() {
-				return this.xhr.responseXML;
-			},
-
-			text: function() {
-			return this.xhr.responseText;
-			},
-
-			json: function() {
-				var response = this.xhr.responseText;
-				try {
-					return JSON.parse(response);
-				} catch (e) {
-					this.fire("data-error", {error: e.message, instance: this});
-					return response;
-				}
-			},
-
-			document: function() {
-				return this.xhr.response;
-			},
-
-			blob: function() {
-				return this.xhr.response;
-			},
-
-			arrayBuffer: function() {
-				return this.xhr.response;
-			},
-
-		},
-
 		get status() {
-			return this.xhr && this.xhr.status;
+			return this.current && this.current.xhr.status;
 		},
 
 		get state() {
-			return this.xhr && this.xhr.readyState;
+			return this.current && this.current.readyState;
 		},
 
 		get xhr() {
-			return this._xhr;
+			return this.current && this.current.xhr;
 		}
 	};
 
