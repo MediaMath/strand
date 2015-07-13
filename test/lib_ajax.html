@@ -33,6 +33,39 @@ describe("Ajax", function() {
 			timeout:10000
 		});
 	});
+
+	it("should serialize url params",function() {
+		var a = new StrandLib.Ajax();
+		var result = a.serializeUrl("http://www.mediamath.com",["a","b","c"]);
+		result.should.equal("http://www.mediamath.com/a/b/c");
+
+		//trailing slash
+		result = a.serializeUrl("http://www.mediamath.com/",["a","b","c"]);
+		result.should.equal("http://www.mediamath.com/a/b/c");
+
+		result = a.serializeUrl("http://www.mediamath.com/",["a",12345,"c"]);
+		result.should.equal("http://www.mediamath.com/a/12345/c");
+
+	});
+
+	it("should serialize data", function() {
+		var a = new StrandLib.Ajax();
+		var result = a.serialize({a:1,b:"test",c:2});
+		result.should.deep.equal(["a=1", "b=test", "c=2"]);
+
+		result = a.serialize({
+			a:{b:{c:1}},
+			z:10
+		});
+		result.should.deep.equal(["a%5Bb%5D%5Bc%5D=1","z=10"]);
+
+
+	});
+
+	it("should preflight requests via factory", function() {
+		var a = new StrandLib.Ajax();
+	});
+
 });
 </script>
 </body>

@@ -16,7 +16,7 @@
 			obj = data[i];
 			name = (depth === 0) ? i : "[" + i + "]";
 			if (typeof obj === "object") {
-				output = output.concat( _serialize(obj, name, depth+1) );
+				output = output.concat( _serialize(obj, parent + name, depth+1) );
 			} else {
 				output.push( paramaterize(parent + name, obj) );
 			}
@@ -46,6 +46,8 @@
 		queue: function(data, options, queueName) {
 			var req = _requestFactory(data, options);
 			_getQueue(queueName).push(req);
+
+			return req.promise;
 		},
 
 		runQueue: function(queueName) {
@@ -85,14 +87,15 @@
 
 		_requestFactory: function(data, options) {
 			options = StrandLib.DataUtils.copy({}, options, this.options);
-			var url = options.url;
 
-			if (this.urlParams && this.urlParams.length > 0) {
-				if (url.slice(-1) !== "/") {
-					url += "/";
-				}
-				url += this.serializeUrl(this.urlParams);
-			}
+			var url = this.serializeUrl(options.url, this.urlParams);
+
+			// if (this.urlParams && this.urlParams.length > 0) {
+			// 	if (url.slice(-1) !== "/") {
+			// 		url += "/";
+			// 	}
+			// 	url += this.serializeUrl(this.urlParams);
+			// }
 
 			if (this.method.match(/(POST|PUT|DELETE)/i)) {
 				if (this.contentType === "application/json") {
@@ -165,8 +168,18 @@
 			this.urlParams.push(param);
 		},
 
-		serializeUrl: function(array) {
-			return array.join("/");
+		serializeUrl: function(url, urlParams) {
+
+			url = url || "";
+
+			if (urlParams && urlParams.length > 0) {
+				if (url.slice(-1) !== "/") {
+					url += "/";
+				}
+				url += urlParams.join("/");
+			}
+
+			return url;
 		},
 
 		serialize: function(data, paramaterize) {
@@ -177,10 +190,10 @@
 				try {
 					data = JSON.parse(data);
 				} catch(e) {
-					this.fire("data-error", {error: e.message, instance: this});
+					// this.fire("data-error", {error: e.message, instance: this});
 				}
 			}
-			if ( DataUtils.isType(data, "array") ) {
+			if ( StrandLib.DataUtils.isType(data, "array") ) {
 				for (i = data.length - 1; i >= 0; i--) {
 					obj = data[i];
 					if (obj.name !== null && obj.value !== null) {
