@@ -126,9 +126,9 @@ module.exports = function(grunt) {
 
 		vulcanize: {
 			options: {
-				inline:true,
-				strip:true,
-				'strip-excludes':false,
+				inlineScripts:true,
+				inlineCss:true,
+				stripExcludes:false
 			},
 			shared: {
 				files: [{
@@ -156,6 +156,20 @@ module.exports = function(grunt) {
 					excludes: {
 						imports: ['polymer.html']
 					}
+				},
+				files: {
+					'<%= build_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
+				}
+			}
+		},
+
+		htmlmin: {
+			dist: {
+				options: {
+					customAttrAssign: /\$=/,
+					minifyJS: true,
+					removeComments: true,
+					collapseWhitespace: true
 				},
 				files: {
 					'<%= build_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
@@ -262,10 +276,8 @@ module.exports = function(grunt) {
 			'copy:build',
 			'sass:dist',
 			'cssUrlEmbed', 
-			'hogan_static:lib',
-			'vulcanize:shared',
-			'vulcanize:modules',
 			'vulcanize:dist',
+			'htmlmin:dist',
 			'usebanner:dist'
 		]);
 	});
