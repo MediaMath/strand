@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.registerTask('live', ['connect','watch']);
+	grunt.registerTask('live', ['default','connect','watch']);
 
 	grunt.config.set("watch", {
 		options: {
