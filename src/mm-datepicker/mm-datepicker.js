@@ -81,7 +81,7 @@
 			},
 			rangeDescription: {
 				type: String,
-				value: 'Selected a Predefined Date Range'
+				value: 'Select a Predefined Date Range'
 			},
 			timezoneDescription: {
 				type: String,
