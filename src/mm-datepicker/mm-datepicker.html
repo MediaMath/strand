@@ -28,14 +28,14 @@
 
 <polymer-element name="mm-datepicker" attributes="start end align valign target" constructor="MMDatePicker">
 	<template>
-	
+
 		<link href="mm-datepicker.css" rel="stylesheet" type="text/css"/>
 
 		<mm-close-panel id="closePanel" valign="{{valign}}" align="{{align}}" targetFilter="{{closeFilter}}" scope="{{}}" target="{{target}}" state="{{state}}">
-			
+
 			<template if="{{useRange}}">
 				<div class="range-presets">
-					<mm-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" maxitems="{{ranges.presets.length > ranges.max ? ranges.max : ranges.presets.length}}" fitparent value="{{rangeValue | displayRange}}" data="{{_rangePresets}}">
+					<mm-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" maxitems="{{ranges.presets.length > ranges.max ? ranges.max : ranges.presets.length}}" fitparent value="{{rangeValue}}" data="{{_rangePresets}}">
 					</mm-dropdown>
 				</div>
 			</template>
