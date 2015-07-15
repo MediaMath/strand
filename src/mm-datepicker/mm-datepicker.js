@@ -172,7 +172,7 @@
 					}
 				},this);
 				if (!found) {
-					this.rangeValue = -1;
+					this.rangeValue = "";
 				}
 			}
 		},
