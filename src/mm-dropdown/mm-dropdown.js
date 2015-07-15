@@ -222,7 +222,7 @@ Polymer('mm-dropdown', {
 	},
 
 	selectItemByValue: function(value) {
-		var selectedIndex = this.items.map(this.getItemValue).indexOf(value);
+		var selectedIndex = this.items.map(this.getItemValue).indexOf(String(value));
 		this.selectedItem = this.items[selectedIndex];
 	},
 
