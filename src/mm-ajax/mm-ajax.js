@@ -95,14 +95,9 @@
 					if (this.body instanceof FormData) {
 						data = this.body;
 					} else {
-						//TODO: expose this outside of body
 						fd = new FormData();
-						if (this.body instanceof FormData) {
-							data = this.body;
-						} else {
-							this.serialize(this.body, fd.append);
-							data = fd;
-						}
+						this.serialize(this.body, fd.append.bind(fd));
+						data = fd;
 					}
 				} else {
 					data = this.serialize( this.body ).join("&");
@@ -112,7 +107,7 @@
 			if (this.params && this.params.length) {
 				if (url.indexOf("?") !== -1) {
 					var last = url.slice(-1);
-					if (last !== "&") {
+					if (last !== "&" && last !== "?") {
 						url += "&";
 					}
 				} else {
