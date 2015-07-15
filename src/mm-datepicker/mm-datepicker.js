@@ -89,7 +89,6 @@
 		},
 
 		rangeValueChanged: function(oldRangeValue, newRangeValue) {
-			console.log("rangeValueChanged", oldRangeValue,newRangeValue)
 
 			var idx = this._rangePresets.map(function(p) { return p.value }).indexOf(newRangeValue);
 			var range = this._rangePresets[idx];
@@ -168,14 +167,12 @@
 				var found = false;
 				this._rangePresets.forEach(function(preset) {
 					if(preset.range.start.isSame(sd, "day") && preset.range.end.isSame(ed.add(1,"second"),"day")) {
-						console.log("found", preset.value);
 						this.rangeValue = String(preset.value);
 						found = true;
 					}
 				},this);
 				if (!found) {
-					console.log("not found")
-					this.rangeValue = -1;//this.$.rangeDropdown.reset();
+					this.rangeValue = -1;
 				}
 			}
 		},
