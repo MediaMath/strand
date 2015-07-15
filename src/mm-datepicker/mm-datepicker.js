@@ -27,7 +27,7 @@
 
 			rangeValue:"",
 			rangePresets: null,
-			rangeDescription:"Selected a Predefined Date Range",
+			rangeDescription:"Select a Predefined Date Range",
 			timezoneDescription:"Select a Timezone",
 			timezones:null,
 			
