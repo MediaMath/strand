@@ -36,12 +36,12 @@
 		}, options);
 	}
 
-	Ajax.prototype = {
+	Ajax.GET = StrandLib.Request.GET;
+	Ajax.POST = StrandLib.Request.POST;
+	Ajax.PUT = StrandLib.Request.PUT;
+	Ajax.DELETE = StrandLib.Request.DELETE;
 
-		GET:StrandLib.Request.GET,
-		POST:StrandLib.Request.POST,
-		PUT:StrandLib.Request.PUT,
-		DELETE:StrandLib.Request.DELETE,
+	Ajax.prototype = {
 
 		queue: function(data, options, queueName) {
 			var req = _requestFactory(data, options);
@@ -87,13 +87,15 @@
 
 		_requestFactory: function(data, options) {
 
-			options = StrandLib.DataUtils.copy({}, options, this.options);
+			var copy = StrandLib.DataUtils.copy;
+
+			options = copy({}, this.options, options);
 
 			var url = this.serializeUrl(options.url, this.urlParams);
 			url = this.serializeParams(url, this.params);
-			data = setRequestData(this.method, this.contentType, this.body);
+			data = this.setRequestData(options.method, options.contentType, data, options.body);
 
-			return req = new Request(StrandLib.DataUtils.copy({
+			return new StrandLib.Request(StrandLib.DataUtils.copy({
 				url:url,
 				body:data,
 			}, options));
@@ -132,23 +134,37 @@
 			this.urlParams.push(param);
 		},
 
-		setRequestData: function(method, contentType, body) {
+		setRequestData: function(method, contentType, override, body) {
+			var input;
 			var data;
+
+			if (override) {
+				if (typeof override === "string") {
+					return override;
+				} else {
+					input = StrandLib.DataUtils.copy({}, body, override);
+				}
+			} else {
+				input = body;
+			}
+
+			//ignores for GET requests
 			if (method.match(/(POST|PUT|DELETE)/i)) {
 				if (contentType === "application/json") {
-					data = data || body;
+					data = input;
 				} else if(contentType === "multipart/form-data") {
-					if (body instanceof FormData) {
-						data = data || body;
+					if (input instanceof FormData) {
+						data = input;
 					} else {
 						var fd = new FormData();
-						this.serialize(body, fd.append.bind(fd));
+						this.serialize(input, fd.append.bind(fd));
 						data = fd;
 					}
 				} else {
-					data = this.serialize( body ).join("&");
+					data = this.serialize( input ).join("&");
 				}
 			}
+
 			return data;
 		},
 

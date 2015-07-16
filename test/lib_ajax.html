@@ -86,7 +86,7 @@ describe("Ajax", function() {
 		var a = new StrandLib.Ajax();
 		var DU = StrandLib.DataUtils;
 		var params = [DU.param("test",123), DU.param("aces","acesss")];
-		
+
 		var result = a.serializeParams("http://www.mediamath.com?", params);
 		result.should.equal("http://www.mediamath.com?aces=acesss&test=123");
 
@@ -122,13 +122,26 @@ describe("Ajax", function() {
 		result = a.setRequestData("POST", "multipart/form-data", data);
 		result.toString().should.equal("[object FormData]");
 
+		//test override scenarios
+		result = a.setRequestData("POST", "application/json", data, "string body");
+		result.should.deep.equal(data);
+
+		result = a.setRequestData("POST", "application/json", data, "string body");
+		result.should.deep.equal(data);
+
+		result = a.setRequestData("POST", "application/json", data, {test:2});
+		result.test.should.equal(1);
 
 	});
 
 	it("should preflight requests via factory", function() {
-		var a = new StrandLib.Ajax({
-			
-		});
+		var a = new StrandLib.Ajax();
+		var req = a._requestFactory({},{});
+		req.should.be.instanceof(StrandLib.Request);
+
+		// req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST});
+		// req.method.should.equal(StrandLib.Ajax.POST);
+		// req.body.should.deep.equal({a:1});
 
 	});
 
