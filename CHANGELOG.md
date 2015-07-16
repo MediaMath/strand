@@ -1,6 +1,26 @@
 ## Change Log
 
+### v1.1.2 (2015/07/16 19:12 +00:00)
+- [15a768f](https://github.com/MediaMath/strand/commit/15a768f11a33981540835ca0ea2d8957e4a9add0) cname support for docs build (@dlasky)
+- [2f589fa](https://github.com/MediaMath/strand/commit/2f589fa5bea5293738e9bcdba0d3e3dac4f8de39) fix for Number values in .data array not being selectable (@dlasky)
+- [ce753a3](https://github.com/MediaMath/strand/commit/ce753a313842f0a661c23e6172afda52388f790b) removed some unneeded logic (@dlasky)
+- [d06a372](https://github.com/MediaMath/strand/commit/d06a372b1cd2ee04e6dda63db451f665c371e29b) cleanup per cr (@dlasky)
+- [1fa73e4](https://github.com/MediaMath/strand/commit/1fa73e4b2259e789dc62740f58a79f8144ac9635) Changed mm-datepicker default date rangeDescription from "Selected a Predefined Date Range" to "Select a Predefined Date Range" (@jeremysklarsky)
+- [dc92d40](https://github.com/MediaMath/strand/commit/dc92d40c33980cb4d7881d488cbb18a9f04e0881) cleanup (@dlasky)
+- [9a2fe4d](https://github.com/MediaMath/strand/commit/9a2fe4db2239f230db7999644e6925bba3fa2cf7) tests
+- [71042cb](https://github.com/MediaMath/strand/commit/71042cb9fbb9003ceab2357975559343bddf56a7) range setting fixes on dp
+
+### v1.1.1 (2015/06/16 16:04 +00:00)
+- [32eff76](https://github.com/MediaMath/strand/commit/32eff761037c55a103e8fe61aab76d53ce0a3815) simplify release build script (@derekolson)
+- [a44f3ed](https://github.com/MediaMath/strand/commit/a44f3ed35a605acd2dea92d8481a0280f2d1559d) Update mm-group.scss (@anthonykoerber)
+- [ad5c7bb](https://github.com/MediaMath/strand/commit/ad5c7bba2133c9883da5f8214b7e4c708f72d692) datepicker end date override fix (@dlasky)
+- [f566b77](https://github.com/MediaMath/strand/commit/f566b7767bb4901486a9006b026771100cf951fe) fix docs webcomponents.js import (@derekolson)
+- [395c3c3](https://github.com/MediaMath/strand/commit/395c3c39a3fb50fc7c0cd365d539c3535a9058c7) move moment.js to bower "dependencies" (@derekolson)
+- [ab923f0](https://github.com/MediaMath/strand/commit/ab923f0ff067f3416983300170f874e12c6df0ac) fix gh-pages repo (@derekolson)
+
 ### v1.1.0 (2015/06/04 23:13 +00:00)
+- [d1bd7d1](https://github.com/MediaMath/strand/commit/d1bd7d1ce9d0248ef5780cdf324a24c101133aea) Release v1.1.0 (@derekolson)
+- [b186c32](https://github.com/MediaMath/strand/commit/b186c3235d822be5cc793b8735282b97b381054c) add change log generation and modify grunt release (@derekolson)
 - [0a6b50c](https://github.com/MediaMath/strand/commit/0a6b50ca10bbc43d649f5e2f1b532bfd8b861e0e) remove all home rolled flex box mixins (@anthonykoerber)
 - [9cffc1e](https://github.com/MediaMath/strand/commit/9cffc1eb76cfd921a1d5c8b45fb9d51c853c067c) Add Datepicker Component (@dlasky)
 - [07e1e82](https://github.com/MediaMath/strand/commit/07e1e820cbadd45a125c11bd394a4fa6e8bd8258) Dev/fwrk 291 from ui-framework (@anthonykoerber)
@@ -23,8 +43,8 @@
 
 ### v1.0.1 (2015/04/21 21:29 +00:00)
 - [0aa3472](https://github.com/MediaMath/strand/commit/0aa3472b547f4bc20aae9bf77dbb93cd2f41228b) Release v1.0.1 (@derekolson)
-- [ba625ee](https://github.com/MediaMath/strand/commit/ba625eeed119341ec71638f4ee85117db401bc8f) update bower keywords and ignore (@derekolson)
 - [3e539ad](https://github.com/MediaMath/strand/commit/3e539ad9f00d0a8a3880dbe30b44566a21e7635e) add grunt-replace for bower_components (@derekolson)
+- [ba625ee](https://github.com/MediaMath/strand/commit/ba625eeed119341ec71638f4ee85117db401bc8f) update bower keywords and ignore (@derekolson)
 
 ### v1.0.0 (2015/04/20 16:31 +00:00)
 - [7316c68](https://github.com/MediaMath/strand/commit/7316c6896e660ccdabd403849e63c50879c3c825) Release v1.0.0 (@derekolson)
