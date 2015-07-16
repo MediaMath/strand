@@ -159,7 +159,8 @@ module.exports = function(grunt) {
 			{ expand: true, cwd: 'docs', src: 'images/**', dest: '<%= docs_dir %>/'},
 			{ expand: true, src: ['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'], dest: '<%= docs_dir %>'},
 			{ src: 'LICENSE.txt', dest: '<%= docs_dir %>/' },
-			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= docs_dir %>/bower_components/strand/dist/<%= pkg.name %>.html' }
+			{ src: '<%= build_dir %>/<%= pkg.name %>.html', dest: '<%= docs_dir %>/bower_components/strand/dist/<%= pkg.name %>.html' },
+			{ src: 'docs/CNAME', dest: '<%= docs_dir %>/' }
 		]
 	});
 

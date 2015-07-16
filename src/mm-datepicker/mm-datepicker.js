@@ -27,10 +27,10 @@
 
 			rangeValue:"",
 			rangePresets: null,
-			rangeDescription:"Selected a Predefined Date Range",
+			rangeDescription:"Select a Predefined Date Range",
 			timezoneDescription:"Select a Timezone",
 			timezones:null,
-			
+
 			start: null,
 			startEnabled: false,
 			startUserEnabled: true,
@@ -41,7 +41,7 @@
 			startDate: null,
 			startTime: null,
 			startTimePeriod:"am",
-			
+
 			end: null,
 			endEnabled: false,
 			endUserEnabled: true,
@@ -52,7 +52,7 @@
 			endDate: null,
 			endTime: null,
 			endTimePeriod:"am",
-			
+
 			timezone: null,
 
 			state:'closed',
@@ -83,37 +83,32 @@
 			if (!this.endTime) {
 				this.endTime = moment().endOf('day').format(this.timeOnlyFormat);
 				this.endTimePeriod = moment().endOf('day').format('a');
-			} 
+			}
 			if(!this.endDate) this.endDate = "";
-				
+
 		},
 
-		displayRange: {
-			toDOM: function(value) {
-				return value.toString();
-			},
-			toModel: function(value) {
-				var range = this._rangePresets[parseInt(value)];
-				if (range) {
-					this.startDate = range.range.start.format(this.dateFormat);
-					this.endDate = range.range.end.format(this.dateFormat);
-					return value;
-				}
-				return value.toString();
+		rangeValueChanged: function(oldRangeValue, newRangeValue) {
+
+			var idx = this._rangePresets.map(function(p) { return p.value }).indexOf(newRangeValue);
+			var range = this._rangePresets[idx];
+			if (range) {
+				this.startDate = range.range.start.format(this.dateFormat);
+				this.endDate = range.range.end.format(this.dateFormat);
 			}
 		},
 
 		rangePresetsChanged: function(oldRangePresets, newRangePresets) {
 			this._rangePresets = this.rangePresets.map(function(range, i) {
-				var start = moment(range.start); 
+				var start = moment(range.start);
 				var end = moment(range.end);
 				return {
 					index: i,
 					range: moment.range(start, end),
 					label: range.name,
-					value: i
+					value: "range" + i
 				};
-			});		
+			});
 		},
 
 		calendarFilter:  {
@@ -167,6 +162,19 @@
 					});
 				}
 			}
+
+			if (this.areDatesValid() && this.useRange && this._rangePresets) {
+				var found = false;
+				this._rangePresets.forEach(function(preset) {
+					if(preset.range.start.isSame(sd, "day") && preset.range.end.isSame(ed.add(1,"second"),"day")) {
+						this.rangeValue = String(preset.value);
+						found = true;
+					}
+				},this);
+				if (!found) {
+					this.rangeValue = "";
+				}
+			}
 		},
 
 		updateFields: function() {
@@ -184,7 +192,7 @@
 				this.startTime = s.format(this.timeOnlyFormat);
 				this.startTimePeriod = s.format("a");
 			}
-			
+
 			if (e.isValid()) {
 				this.endDate = e.format(this.dateFormat);
 				this.endTime = e.format(this.timeOnlyFormat);
@@ -246,7 +254,7 @@
 				});
 			}
 		},
-		
+
 		closeFilter: function(instance, e) {
 			if(Array.prototype.slice.call(e.path).indexOf(this) > -1 ||
 				Array.prototype.slice.call(e.path).indexOf(this.$.closePanel.target) > -1) {
@@ -296,4 +304,4 @@
 
 	});
 
-})(); 
+})();
