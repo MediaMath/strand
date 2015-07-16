@@ -30,11 +30,9 @@
     "grunt-shell": "^1.1.2",
     "grunt-text-replace": "^0.4.0",
     "grunt-vulcanize": "^1.0.0",
-    "load-grunt-tasks": "*"
+    "load-grunt-tasks": "*",
+    "marked": "^0.3.3"
   },
   "dependencies": {
-    "grunt-contrib-jshint": "^0.10.0",
-    "marked": "^0.3.3",
-    "mocha": "^1.21.4"
   }
 }

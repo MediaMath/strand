@@ -287,8 +287,8 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dev',
-			'hogan_static:index',
-			'hogan_static:lib'
+			'hogan_static:index'
+			// 'hogan_static:lib'
 		]);
 	});
 
