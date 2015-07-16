@@ -86,48 +86,12 @@
 		},
 
 		_requestFactory: function(data, options) {
+
 			options = StrandLib.DataUtils.copy({}, options, this.options);
 
 			var url = this.serializeUrl(options.url, this.urlParams);
-
-			// if (this.urlParams && this.urlParams.length > 0) {
-			// 	if (url.slice(-1) !== "/") {
-			// 		url += "/";
-			// 	}
-			// 	url += this.serializeUrl(this.urlParams);
-			// }
-
-			if (this.method.match(/(POST|PUT|DELETE)/i)) {
-				if (this.contentType === "application/json") {
-					data = data || this.body;
-				} else if(this.contentType === "multipart/form-data") {
-					if (this.body instanceof FormData) {
-						data = data || this.body;
-					} else {
-						var fd = new FormData();
-						if (this.body instanceof FormData) {
-							data = this.body;
-						} else {
-							this.serialize(this.body, fd.append);
-							data = fd;
-						}
-					}
-				} else {
-					data = this.serialize( this.body ).join("&");
-				}
-			}
-
-			if (this.params && this.params.length) {
-				if (url.indexOf("?") !== -1) {
-					var last = url.slice(-1);
-					if (last !== "&") {
-						url += "&";
-					}
-				} else {
-					url += "?";
-				}
-				url += this.serialize(this.params).join("&");
-			}
+			url = this.serializeParams(url, this.params);
+			data = setRequestData(this.method, this.contentType, this.body);
 
 			return req = new Request(StrandLib.DataUtils.copy({
 				url:url,
@@ -168,6 +132,26 @@
 			this.urlParams.push(param);
 		},
 
+		setRequestData: function(method, contentType, body) {
+			var data;
+			if (method.match(/(POST|PUT|DELETE)/i)) {
+				if (contentType === "application/json") {
+					data = data || body;
+				} else if(contentType === "multipart/form-data") {
+					if (body instanceof FormData) {
+						data = data || body;
+					} else {
+						var fd = new FormData();
+						this.serialize(body, fd.append.bind(fd));
+						data = fd;
+					}
+				} else {
+					data = this.serialize( body ).join("&");
+				}
+			}
+			return data;
+		},
+
 		serializeUrl: function(url, urlParams) {
 
 			url = url || "";
@@ -179,6 +163,21 @@
 				url += urlParams.join("/");
 			}
 
+			return url;
+		},
+
+		serializeParams: function(url, params) {
+			if (params && params.length) {
+				if (url.indexOf("?") !== -1) {
+					var last = url.slice(-1);
+					if (last !== "&" && last !== "?") {
+						url += "&";
+					}
+				} else {
+					url += "?";
+				}
+				url += this.serialize(params).join("&");
+			}
 			return url;
 		},
 
@@ -202,7 +201,7 @@
 				}
 
 			} else {
-				output = _serialize(data, null);
+				output = _serialize(data, null, null, paramaterize);
 			}
 
 			return output;
