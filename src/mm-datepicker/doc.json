@@ -268,7 +268,19 @@
 			"description":"Returns a string representing the selected timezone, as specified in data configuration for timezones (see: timezones)",
 			"default":"none",
 			"attribute":"N/A"
-		}
+		},
+		{
+			"name":"closeLabel",
+			"type":"string",
+			"description":"A string used for text of 'close' link in footer",
+			"default":"Close"
+		},
+		{
+			"name":"saveLabel",
+			"type":"string",
+			"description":"A string used for text of 'save' button in footer",
+			"default":"Save"
+		}				
 	],
 	"methods": [
 		{

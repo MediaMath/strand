@@ -24,6 +24,14 @@
 		is: 'mm-datepicker',
 
 		properties: {
+			closeLabel: {
+				type: String,
+				value: "Close"
+			},
+			saveLabel: {
+				type: String,
+				value: "Save",
+			},
 			useTimezone: {
 				type: Boolean,
 				value: true

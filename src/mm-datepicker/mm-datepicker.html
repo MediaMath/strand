@@ -122,10 +122,10 @@
 				<template is="dom-if" if="{{useCommit}}">
 					<mm-footer id="footer" fitparent="true" message="{{_duration}}">
 						<mm-action underline="true" on-click="_closeLinkHandler">
-							<label>Close</label>
+							<label>{{closeLabel}}</label>
 						</mm-action>
 						<mm-button on-click="_save" disabled$="{{!_datesValid}}">
-							<label>Save</label>
+							<label>{{saveLabel}}</label>
 						</mm-button>
 					</mm-footer>
 				</template>
