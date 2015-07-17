@@ -40,7 +40,7 @@
 			"optional":true,
 			"default":"true",
 			"options":["true", "false"]
-		},
+		}
 	],
 	"methods": [
 		{
@@ -52,7 +52,7 @@
 			"name":"hide",
 			"description":"Hides the dialog.",
 			"arguments":[]
-		},
+		}
 	],
 	"properties":[
 		{

@@ -21,7 +21,7 @@
 			"type":"Number",
 			"optional":true,
 			"description":"Height of progress bar, in px",
-			"default":"null",
+			"default":"null"
 		},
 		{
 			"name":"indeterminate",
@@ -35,7 +35,7 @@
 			"type":"Number",
 			"optional":true,
 			"description":"How full the progress bar is. 0 is empty, 100 is full.",
-			"default":"0",
+			"default":"0"
 		},
 		{
 			"name":"secondary-fill-color",
@@ -50,7 +50,7 @@
 			"optional":true,
 			"description":"Width of progress bar, in px (fits to container by default)",
 			"default":"null"
-		},
+		}
 	],
 	"properties":[
 		{
@@ -69,7 +69,7 @@
 			"name":"height",
 			"type":"Number",
 			"description":"Height of progress bar, in px",
-			"default":"null",
+			"default":"null"
 		},
 		{
 			"name":"indeterminate",
@@ -81,7 +81,7 @@
 			"name":"percentComplete",
 			"type":"Number",
 			"description":"How full the progress bar is. 0 is empty, 100 is full.",
-			"default":"0",
+			"default":"0"
 		},
 		{
 			"name":"secondaryFillColor",
@@ -94,6 +94,6 @@
 			"type":"Number",
 			"description":"Width of progress bar, in px (fits to container by default)",
 			"default":"null"
-		},
+		}
 	]
 }
