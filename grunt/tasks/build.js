@@ -276,6 +276,7 @@ module.exports = function(grunt) {
 			'copy:build',
 			'sass:dist',
 			'cssUrlEmbed', 
+			// 'hogan_static:lib', //un-comment to build entire library
 			'vulcanize:dist',
 			'htmlmin:dist',
 			'usebanner:dist'
