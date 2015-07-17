@@ -48,6 +48,10 @@
 				type: Boolean,
 				value: true
 			},
+			useDuration: {
+				type: Boolean,
+				value: true,
+			},
 			resetOnClose: { 
 				type: Boolean,
 				value: true
@@ -347,7 +351,7 @@
 
 		_getDuration: function(date1, date2) {
 			var footer = this.$$('#footer');
-			if (footer) footer.showMessage();
+			if (footer && this.useDuration) footer.showMessage();
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
 			if (duration === 'a few seconds') {
 				if (footer) footer.hideMessage();

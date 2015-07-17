@@ -39,6 +39,14 @@
 			"attribute":"use-commit"
 		},
 		{
+			"name":"useDuration",
+			"type":"boolean",
+			"description":"Shows an estimated duration of time between selected start and end dates",
+			"optional":true,
+			"default":"true",
+			"options":[]
+		},
+		{
 			"name":"resetOnClose",
 			"type":"Boolean",
 			"description":"When set to true, instructs the component reset when closed. Dependant upon the setting for useCommit, requires that the user click 'save' or the component will be reset to default values when closed.",
