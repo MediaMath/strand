@@ -20,6 +20,7 @@
 			useRange: true,
 			useTime: true,
 			useCommit: true,
+			useDuration: true,
 			resetOnClose: true,
 			dual: true,
 			dateFormat:"MM/DD/YYYY",
@@ -202,7 +203,7 @@
 		},
 
 		getDuration: function(date1, date2) {
-			if (this.$ && this.$.footer) {
+			if (this.$ && this.$.footer && this.useDuration) {
 				this.$.footer.showMessage();
 			}
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
