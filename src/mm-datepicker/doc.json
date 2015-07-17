@@ -227,7 +227,19 @@
 			"type":"string",
 			"description":"The meridian value to default the meridian dropdown to",
 			"default":"am"
-		}	
+		},
+		{
+			"name":"closeLabel",
+			"type":"string",
+			"description":"A string used for text of 'close' link in footer",
+			"default":"Close"
+		},
+		{
+			"name":"saveLabel",
+			"type":"string",
+			"description":"A string used for text of 'save' button in footer",
+			"default":"Save"
+		}				
 	],
 	"events": [
 		{

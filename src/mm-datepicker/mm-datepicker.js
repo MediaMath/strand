@@ -58,6 +58,9 @@
 			state:'closed',
 			valign: { value: "center", reflect: true },
 			align: { value: "center", reflect: true },
+
+			closeLabel: "Close",
+			saveLabel: "Save"
 		},
 
 		observe: {
