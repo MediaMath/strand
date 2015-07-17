@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 			examplePath,
 			moduleList = [],
 			articleList = [],
-			tasks = ['copy:docs'];
+			tasks = ['clean:docs', 'replace:bower', 'copy:docs'];
 
 		if (mcheck.length !== modules.length) {
 			grunt.log.error("Documentation missing for some modules!!");
@@ -163,7 +163,7 @@ module.exports = function(grunt) {
 		]
 	});
 
-	grunt.registerTask('docs', ['clean:docs', 'build:dist', 'replace:bower', 'build:docs']);
+	grunt.registerTask('docs', ['build:dist', 'build:docs', 'connect:docs', 'watch']);
 
 	grunt.config('gh-pages', {
 		options: {

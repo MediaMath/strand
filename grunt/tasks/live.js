@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.registerTask('live', ['default','connect','watch']);
+	grunt.registerTask('live', ['default','connect:server','watch']);
 
 	grunt.config.set("watch", {
 		options: {
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 		},
 		docs: {
 			files: ['docs/*', 'src/mm-*/doc.json', 'src/mm-*/example.html'],
-			tasks: ['docs'],
+			tasks: ['build:docs'],
 			options: {
 				nospawn: true,
 			}
@@ -95,6 +95,7 @@ module.exports = function(grunt) {
 	grunt.config.set("connect", {
 		server: {
 			options: {
+				open: true,
 				middleware: function(connect, options) {
 					return [
 					function(req, res, next) {
@@ -120,6 +121,12 @@ module.exports = function(grunt) {
 					})
 					];
 				}
+			}
+		},
+		docs: {
+			options: {
+				open: true,
+				base: grunt.config('docs_dir')
 			}
 		}
 	});
