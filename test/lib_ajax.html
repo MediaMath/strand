@@ -126,11 +126,12 @@ describe("Ajax", function() {
 		result = a.setRequestData("POST", "application/json", data, "string body");
 		result.should.deep.equal(data);
 
-		result = a.setRequestData("POST", "application/json", data, "string body");
-		result.should.deep.equal(data);
+		result = a.setRequestData("POST", "application/json", "string body", data);
+		result.should.deep.equal("string body");
 
-		result = a.setRequestData("POST", "application/json", data, {test:2});
+		result = a.setRequestData("POST", "application/json", data, {test:2, nonover:"aces"});
 		result.test.should.equal(1);
+		result.nonover.should.equal("aces");
 
 	});
 
@@ -139,9 +140,54 @@ describe("Ajax", function() {
 		var req = a._requestFactory({},{});
 		req.should.be.instanceof(StrandLib.Request);
 
-		// req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST});
-		// req.method.should.equal(StrandLib.Ajax.POST);
-		// req.body.should.deep.equal({a:1});
+		req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST});
+		req.method.should.equal(StrandLib.Ajax.POST);
+		req.body.should.equal("a=1");
+
+		req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST, contentType:"application/json"});
+		req.body.should.deep.equal({a:1});
+
+		req = a._requestFactory(null,{
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"http://www.mediamath.com",
+			urlParams:[
+				"test",
+				"test2"
+			],
+			params:[{
+				name:"testq",
+				value:"testq2"
+			}],
+			headers:[{
+				name:"X-Internet-Device",
+				value:"Yes"
+			}]
+		});
+		req.url.should.equal("http://www.mediamath.com/test/test2?testq=testq2");
+		req.headers.should.deep.equal([{
+			name:"X-Internet-Device",
+			value:"Yes"
+		}]);
+		should.equal(req.body, undefined);
+
+	});
+
+	it("should support queue selection", function() {
+		var a = new StrandLib.Ajax();
+		a._getQueue().should.equal(a.requests);
+		should.equal(a._getQueue("test"),undefined);
+		a._getQueue("test",true).should.deep.equal([]);
+	});
+
+	it("should expose promises for every call", function() {
+		var a = new StrandLib.Ajax({url:"", method:"get"});
+		a.exec().should.be.an.instanceof(Zousan);
+		a.queue().should.be.an.instanceof(Zousan);
+		a.execQueue().should.be.an.instanceof(Zousan);
+	});
+
+	it("should preflight requests via queing mechanism", function() {
 
 	});
 
