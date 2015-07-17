@@ -39,12 +39,12 @@
   	});
 
 
-  	it("should make an XHR", function(done) { 
+  	it("should make an XHR", function(done) {
   		var xhr = sinon.useFakeXMLHttpRequest();
   		xhr.onCreate = sinon.spy();
 
   		var r = new StrandLib.Request({
-  			url:"/", 
+  			url:"/",
   			method:StrandLib.Request.POST,
   		});
 
@@ -63,7 +63,7 @@
   		};
 
   		var r = new StrandLib.Request({
-  			url:"/", 
+  			url:"/",
   			method:StrandLib.Request.POST
   		});
   		r.promise.then(function(out) {
@@ -90,7 +90,7 @@
   		};
 
   		var r = new StrandLib.Request({
-  			url:"/", 
+  			url:"/",
   			method:StrandLib.Request.GET
   		});
   		r.promise.then(function(out) {
@@ -117,7 +117,7 @@
   		};
 
   		var r = new StrandLib.Request({
-  			url:"/", 
+  			url:"/",
   			method:StrandLib.Request.GET
   		});
 
@@ -142,7 +142,7 @@
   		};
 
   		var r = new StrandLib.Request({
-  			url:"/", 
+  			url:"/",
   			method:StrandLib.Request.GET,
   			responseType:"text"
   		});
@@ -170,7 +170,7 @@
   		};
 
   		var r = new StrandLib.Request({
-  			url:"/", 
+  			url:"/",
   			method:StrandLib.Request.GET,
   			responseType:"xml"
   		});
@@ -188,6 +188,35 @@
 
   		xhr.restore();
   	});
+
+    it("should support headers", function(done) {
+        var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+        var r = new StrandLib.Request({
+            url:"/",
+            method:StrandLib.Request.GET,
+            headers:[
+                {name:"x-test",value:"testval"},
+                {name:"x-test2",value:"things"}
+            ]
+        });
+
+        r.promise.then(function(out) {
+            request.requestHeaders.should.deep.equal({
+                "x-test":"testval",
+                "x-test2":"things"
+            })
+            done();
+        }, done);
+        r.exec();
+        request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1 }');
+        xhr.restore();
+    });
 
 
   });

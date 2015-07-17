@@ -1,7 +1,7 @@
 (function(scope) {
 
 	function Request(options) {
-		
+
 		options = options || {};
 
 
@@ -10,7 +10,7 @@
 		this.method = options.method || Request.GET;
 		this.body = options.body;
 		this.responseType = options.responseType;
-		this.reqHeaders = options.reqHeaders;
+		this.headers = options.headers;
 		this.withCredentials = options.withCredentials;
 		this.timeout = options.timeout;
 		this.username = options.username;
@@ -53,8 +53,8 @@
 				this.xhr.setRequestHeader("content-type", this.contentType);
 			}
 
-			if (this.reqHeaders) {
-				this.reqHeaders.forEach(function(header) {
+			if (this.headers) {
+				this.headers.forEach(function(header) {
 					this.xhr.setRequestHeader(header.name, header.value);
 				}.bind(this));
 			}
