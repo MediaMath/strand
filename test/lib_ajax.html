@@ -173,6 +173,20 @@ describe("Ajax", function() {
 
 	});
 
+	it("should call after preflighting", function(done) {
+		var a = new StrandLib.Ajax({
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"/ajax",
+
+		});
+		a.exec().then(function() {
+			done();
+		},function() {
+			done();
+		});
+	});
+
 	it("should support queue selection", function() {
 		var a = new StrandLib.Ajax();
 		a._getQueue().should.equal(a.requests);
@@ -181,6 +195,7 @@ describe("Ajax", function() {
 	});
 
 	it("should expose promises for every call", function() {
+		Zousan.suppressUncaughtRejectionError = true;
 		var a = new StrandLib.Ajax({url:"", method:"get"});
 		a.exec().should.be.an.instanceof(Zousan);
 		a.queue().should.be.an.instanceof(Zousan);
@@ -188,7 +203,53 @@ describe("Ajax", function() {
 	});
 
 	it("should preflight requests via queing mechanism", function() {
+		var a = new StrandLib.Ajax();
+		a.queue(null, {
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"http://www.mediamath.com",
+			urlParams:[
+				"test",
+				"test2"
+			],
+			params:[{
+				name:"testq",
+				value:"testq2"
+			}],
+			headers:[{
+				name:"X-Internet-Device",
+				value:"Yes"
+			}]
+		}, "testQ");
+		var q = a._getQueue("testQ");
+		should.exist(q);
+		q.should.have.length(1);
+		var req = q[0];
+		should.exist(req);
 
+		req.url.should.equal("http://www.mediamath.com/test/test2?testq=testq2");
+		req.headers.should.deep.equal([{
+			name:"X-Internet-Device",
+			value:"Yes"
+		}]);
+		should.equal(req.body, undefined);
+
+	});
+
+	it("should run a queue after it has been filled", function() {
+		var a = new StrandLib.Ajax();
+		var a = new StrandLib.Ajax({
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"/ajax",
+
+		});
+		a.queue(null, null, "tq");
+		a.execQueue("tq").then(function() {
+			done();
+		},function() {
+			done();
+		});
 	});
 
 });

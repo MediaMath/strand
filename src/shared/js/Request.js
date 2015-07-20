@@ -42,7 +42,7 @@
 
 			this.xhr.open(this.method, this.url, true, this.username, this.password);
 
-			this.xhr.responseType = this.responseType;
+			this.xhr.responseType = this.responseType || "";
 			this.xhr.timeout = this.timeout || 10000;
 			this.xhr.withCredentials = this.withCredentials;
 			this.xhr.onreadystatechange = this.readyStateChange.bind(this);

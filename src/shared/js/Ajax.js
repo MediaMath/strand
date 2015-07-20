@@ -45,7 +45,7 @@
 
 		queue: function(data, options, queueName) {
 			var req = this._requestFactory(data, options);
-			this._getQueue(queueName).push(req);
+			this._getQueue(queueName, true).push(req);
 
 			return req.promise;
 		},
