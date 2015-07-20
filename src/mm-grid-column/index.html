@@ -82,12 +82,8 @@
 				float: left;
 			}
 
-			mm-grid-column[unresolved] {
-				display: none;
-			}
-
 			mm-grid-column {
-
+				display: inline-block;
 			}
 
 		</style>
@@ -95,18 +91,10 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Header Item:</span> default</p>
-			<mm-grid-column style="width: 100%;" id="ti"></mm-grid-column>
+			<mm-grid-column width="50%" sort>Test Column</mm-grid-column>
+			<mm-grid-column width="50%" sort>Test Column</mm-grid-column>
 			<hr/>
 		</div>
 		<div class="vr"></div>
-		<script>
-			 window.addEventListener("polymer-ready", function() {
-				var testItem = document.getElementById("ti");
-				testItem.name = "name\nname";
-				testItem.sort = true;
-				testItem.info = true;
-				testItem.checkbox = true;
-			});
-		</script>
 	</body>
 </html>

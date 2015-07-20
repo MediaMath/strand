@@ -4,23 +4,11 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-grid-column', {
-	ver: "<<version>>",
+Polymer({
+	is: 'mm-grid-column',
+
 	SORT_ICON_COLOR: Colors.A2,
 	INFO_ICON_COLOR: Colors.A4,
-
-	publish: {
-		field: null,
-		label: null,
-		sortField: null,
-		sortOrder: null,
-		sort: false,
-		info: false,
-		resize: false,
-		align: "left",
-		width: null,
-		minWidth: 75
-	},
 
 	SORT_DEFAULT: 0,
 	SORT_ASCENDING: 1,
@@ -31,61 +19,109 @@ Polymer('mm-grid-column', {
 	RESIZE_START_EVENT: "column-resize-start",
 	RESIZE_END_EVENT: "column-resize-end",
 
-	created: function() {
-		this.sortOrder = this.SORT_DEFAULT;
+	properties: {
+		field: {
+			type: String
+		},
+		label: {
+			type: String
+		},
+		sortField: {
+			type: String
+		},
+		sortOrder: {
+			type: Number,
+			value: function() {
+				return this.SORT_DEFAULT;
+			}
+		},
+		sort: {
+			type: Boolean,
+			value: false
+		},
+		info: {
+			type: String
+		},
+		resize: {
+			type: Boolean,
+			value: true
+		},
+		align: {
+			type: String,
+			value: "left"
+		},
+		width: {
+			type: String,
+			observer: '_widthChanged'
+		},
+		minWidth: {
+			type: Number,
+			value: 75
+		}
+	},
+
+	listeners: {
+		'tap': '_handleTap'
 	},
 
 	ready: function() {
 		this.sortField = this.sortField || this.field;
-		this.label = this.label || this.innerText || this.textContent;
+		this.label = this.label || Polymer.dom(this).innerText || Polymer.dom(this).textContent;
 		this.$.label.innerHTML = this.label.split("\n").join("<br/>");
 		this.$.label.setAttribute("title", this.label);
-	},
-
-	attached: function() {
-		if(this.sort) {
-			PolymerGestures.addEventListener(this, "tap", this.onClicked);
-		}
-	},
-
-	detached: function() {
-		PolymerGestures.removeEventListener(this, "tap", this.onClicked);
 	},
 
 	toggleSort: function() {
 		this.sortOrder = this.sortOrder === this.SORT_ASCENDING ? this.SORT_DESCENDING : this.SORT_ASCENDING;
 	},
 
-	widthChanged: function(oldVal, newVal) {
+	_sortClass: function(sortOrder) {
+		return sortOrder === this.SORT_ASCENDING ? 'asc' : 'des';
+	},
+
+	_widthChanged: function(newVal, oldVal) {
 		this.style.width = newVal;
 	},
 
-	onClicked: function() {
-		this.toggleSort();
-		this.fire(this.SORT_EVENT, { field: this.sortField, val: this.sortOrder });
+	_handleTap: function() {
+		if(this.sort) {
+			this.toggleSort();
+			this.fire(this.SORT_EVENT, { field: this.sortField, val: this.sortOrder });
+		}
 	},
 
-	preventClick: function(e) {
+	_handleGrabberTap: function(e) {
+		//Prevent toggling "sort" when resizing:
+		e.preventDefault();
 		e.stopImmediatePropagation();
 	},
 
-	onTrackStart: function(e) {
+	_handleGrabberDown: function(e) {
 		e.preventDefault();
 		this.startWidth = this.offsetWidth;
 		var offset = this.offsetLeft;
 		this.fire(this.RESIZE_START_EVENT, { field: this.field, val: offset });
 	},
 
-	onTrack: function(e) {
+	_handleGrabberTrack: function(e) {
 		e.preventDefault();
-		var width = Math.max(this.minWidth, this.startWidth + e.dx);
+		switch(e.detail.state) {
+			case 'track':
+				this._onTrack(e);
+				break;
+			case 'end':
+				this._onTrackEnd(e);
+				break;
+		}
+	},
+
+	_onTrack: function(e) {
+		var width = Math.max(this.minWidth, this.startWidth + e.detail.dx);
 		this.desiredWidth = width;
 		this.fire(this.RESIZE_EVENT, { field: this.field, val: width });
 	},
 
-	onTrackEnd: function(e) {
-		e.preventDefault();
-		e.preventTap();
+	_onTrackEnd: function(e) {
 		this.fire(this.RESIZE_END_EVENT, { field: this.field, val: this.desiredWidth - this.startWidth });
 		this.width = this.desiredWidth + "px";
 	}

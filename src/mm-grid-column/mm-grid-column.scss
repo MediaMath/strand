@@ -18,11 +18,8 @@
 	background: $color-A16;
 }
 
-:host(:hover) {
-	&:host([sort]) {
-		cursor: pointer;
-		background-color: rgba(255,255,255,0.2);
-	}
+:host([sort]) {
+	cursor: pointer;
 }
 
 polyfill-next-selector { content: ':host > ._mm_container'; }

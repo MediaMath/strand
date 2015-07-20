@@ -8,23 +8,23 @@
 <link rel="import" href="../shared/fonts/fonts.html">
 <link rel="import" href="../shared/js/colors.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
-<polymer-element name="mm-grid-column">
+<dom-module id="mm-grid-column">
+	<link rel="import" type="css" href="mm-grid-column.css">
 	<template>
-		<link href="mm-grid-column.css" rel="stylesheet" type="text/css"/>
-		<div class="_mm_container {{align}}">
+		<div class="_mm_container">
 			<div class="left-items">
 				<div id="label"></div>
-				<template if="{{info}}">
+				<template is="dom-if" if="{{info}}">
 					<mm-icon id="info" width="14" height="14" type="info" primaryColor="{{INFO_ICON_COLOR}}"></mm-icon>
 				</template>
 			</div>
-			<template if="{{sortOrder === SORT_ASCENDING || sortOrder === SORT_DESCENDING}}">
-				<mm-icon id="sort" width="10" height="10" type="sort" class="{{sortOrder === SORT_ASCENDING ? 'asc' : 'des' }}" primaryColor="{{SORT_ICON_COLOR}}"></mm-icon>
+			<template is="dom-if" if="{{sortOrder}}">
+				<mm-icon id="sort" width="10" height="10" type="sort" class$="{{_sortClass(sortOrder)}}" primaryColor="{{SORT_ICON_COLOR}}"></mm-icon>
 			</template>
 		</div>
-		<template if="{{resize}}">
-			<div id="grabber" on-tap="{{preventClick}}" on-down="{{onTrackStart}}" on-track="{{onTrack}}" on-trackend="{{onTrackEnd}}"></div>
+		<template is="dom-if" if="{{resize}}">
+			<div id="grabber" on-tap="_handleGrabberTap" on-down="_handleGrabberDown" on-track="_handleGrabberTrack"></div>
 		</template>
 	</template>
-	<script src="mm-grid-column.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-grid-column.js"></script>
