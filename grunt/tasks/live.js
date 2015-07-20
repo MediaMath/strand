@@ -95,6 +95,7 @@ module.exports = function(grunt) {
 	grunt.config.set("connect", {
 		server: {
 			options: {
+				livereload: true,
 				open: true,
 				middleware: function(connect, options) {
 					return [
@@ -125,6 +126,7 @@ module.exports = function(grunt) {
 		},
 		docs: {
 			options: {
+				livereload: true,
 				open: true,
 				base: grunt.config('docs_dir')
 			}
