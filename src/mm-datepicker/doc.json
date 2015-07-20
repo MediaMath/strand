@@ -35,6 +35,14 @@
 			"options":[]
 		},
 		{
+			"name":"useDuration",
+			"type":"boolean",
+			"description":"Shows an estimated duration of time between selected start and end dates",
+			"optional":true,
+			"default":"true",
+			"options":[]
+		},
+		{
 			"name":"resetOnClose",
 			"type":"boolean",
 			"description":"When useCommit is true and resetOnClose is true, the picker will be reset to default values when closed if a user does not press the save button",
