@@ -117,10 +117,10 @@
 			<template if="{{useCommit}}">
 				<mm-footer id="footer" fitparent="true" message="{{duration}}" unresolved>
 					<mm-action underline="true" on-click="{{closeLinkHandler}}">
-						<label>Close</label>
+						<label>{{closeLabel}}</label>
 					</mm-action>
 					<mm-button on-click="{{save}}" disabled?="{{!datesValid}}">
-						<label>Save</label>
+						<label>{{saveLabel}}</label>
 					</mm-button>
 				</mm-footer>
 			</template>
