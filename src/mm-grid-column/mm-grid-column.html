@@ -19,7 +19,7 @@
 				</template>
 			</div>
 			<template is="dom-if" if="{{sortOrder}}">
-				<mm-icon id="sort" width="10" height="10" type="sort" class$="{{_sortClass(sortOrder)}}" primaryColor="{{SORT_ICON_COLOR}}"></mm-icon>
+				<mm-icon id="sort" width="10" height="10" type="sort" class$="{{_computeSortClass(sortOrder)}}" primaryColor="{{SORT_ICON_COLOR}}"></mm-icon>
 			</template>
 		</div>
 		<template is="dom-if" if="{{resize}}">

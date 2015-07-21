@@ -75,7 +75,7 @@ Polymer({
 		this.sortOrder = this.sortOrder === this.SORT_ASCENDING ? this.SORT_DESCENDING : this.SORT_ASCENDING;
 	},
 
-	_sortClass: function(sortOrder) {
+	_computeSortClass: function(sortOrder) {
 		return sortOrder === this.SORT_ASCENDING ? 'asc' : 'des';
 	},
 
