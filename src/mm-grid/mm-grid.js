@@ -6,20 +6,7 @@
 */
 (function() {
 	// Hack for grid flickering issue:
-	window.addEventListener("mousewheel", function(){});
-
-	// determine proper transform:
-	if (document.documentElement.style.transform !== undefined) {
-		function setTransform(element, string, value) {
-			element.style.transform = string;
-			element._transformValue = value;
-		}
-	} else {
-		function setTransform(element, string, value) {
-			element.style.webkitTransform = string;
-			element._transformValue = value;
-		}
-	}
+	// window.addEventListener("mousewheel", function(){});
 
 	function arrayToMap(arr, key){
 		return arr.reduce(function(map, obj) {
@@ -28,48 +15,74 @@
 		}, {});
 	}
 
-	Polymer('mm-grid', {
+	Polymer({
 
-		ver:"<<version>>",
+		is: 'mm-grid',
 
-		publish: {
-			data: null,
-			columns: null,
-			index: null,
-			itemTemplate: null,
-			viewportWidth: 0,
-			selectable: false,
-			expandable: false,
-			sortField: "",
-			sortOrder: 1,
-			isLoading: false
+		properties: {
+			data: Array,
+			columns: Array,
+			index: Number,
+			itemTemplate: Object,
+			viewportWidth: {
+				type: Number,
+				value: function() {
+					return 0;
+				}
+			},
+			selectable: {
+				type: Boolean,
+				value: false
+			},
+			expandable: {
+				type: Boolean,
+				value: false
+			},
+			sortField: String,
+			sortOrder: {
+				type: Number,
+				value: 1
+			},
+			isLoading: {
+				type: Boolean,
+				value: false
+			}
 		},
 
 		expanded: false,
 
-		observe: {
-			"sortField sortOrder": "onSortChanged"
+		listeners: {
+			'column-resize-start': 'onColumnResizeStart',
+			'column-resize': 'onColumnResize',
+			'column-resize-end': 'onColumnResizeEnd'
 		},
 
-		ready: function() {
+		attached: function() {
 			if(typeof this.itemTemplate === "string"){
 				this.itemTemplate = this.querySelector("#" + this.itemTemplate);
 			}
 
 			this.itemTemplate = this.itemTemplate || this.$.defaultTemplate;
+			this.async(this.initialize);
+		},
+
+		initialize: function() {
+			// this.$.list.style.paddingTop = this.$.header.offsetHeight + "px";
+			this.initializeColumns();
+			this.setInitialColumnWidth();
 		},
 
 		initializeColumns: function() {
-			if(this.$.columns.getDistributedNodes().length > 0) {
+			if(Polymer.dom(this.$.columns).getDistributedNodes().length > 0) {
 				this.columnsExist = true;
-				this.columns = Array.prototype.slice.call(this.$.columns.getDistributedNodes());
+				this.columns = Array.prototype.slice.call(Polymer.dom(this.$.columns).getDistributedNodes());
 				this.columnsMap = arrayToMap(this.columns, "field");
 
-				var item = this.itemTemplate.createInstance(this);
-				this.columnOverrideMap = this.columns.reduce(function(map, column){
-					map[column.field] = item.querySelector('[field="' + column.field + '"]') !== null;
-					return map;
-				}, {});
+				// var item = this.itemTemplate.createInstance(this);
+				// this.columnOverrideMap = this.columns.reduce(function(map, column){
+				// 	map[column.field] = item.querySelector('[field="' + column.field + '"]') !== null;
+				// 	return map;
+				// }, {});
 			}
 		},
 		
@@ -90,14 +103,8 @@
 			}
 		},
 
-		domReady: function() {
-			this.$.viewport.$.list.style.paddingTop = this.$.header.offsetHeight + "px";
-			this.initializeColumns();
-			this.setInitialColumnWidth();
-		},
-
-		onScroll: function(e) {
-			setTransform(this.$.header, "translate3d(0, " + e.target.scrollTop + "px, 0)", e.target.scrollTop);
+		_handleScroll: function(e) {
+			this.translate3d(0, e.target.scrollTop + 'px', 0, this.$.header);
 		},
 
 		////// Selection //////
@@ -135,7 +142,7 @@
 
 		onColumnResize: function(e){
 			var x = this._columnOffset + e.detail.val - this.$.viewport.scrollLeft;
-			this.$.separator.style.left = x + "px";
+			this.translate3d(x + "px", 0, 0, this.$.separator);
 			this.showSeparator();
 		},
 
@@ -163,10 +170,15 @@
 			});
 
 			if(!this.viewportWidth) {
-				this.viewportWidth = this.$.viewport.$.list.offsetWidth;
+				this.viewportWidth = this.$.viewport.offsetWidth; //this.$.viewport.$.list.offsetWidth;
 			}
 
 			this.viewportWidth += val;
+		},
+
+		_computeViewportWidth: function(viewportWidth) {
+			viewportWidth = viewportWidth ? viewportWidth + 'px' : '100%';
+			return 'width: ' + viewportWidth;
 		},
 
 		////// Sorting //////

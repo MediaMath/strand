@@ -5,48 +5,49 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../mm-item-recycler/mm-item-recycler.html">
+<!-- <link rel="import" href="../mm-item-recycler/mm-item-recycler.html"> -->
 <link rel="import" href="../mm-grid-column/mm-grid-column.html">
-<link rel="import" href="../mm-grid-item/mm-grid-item.html">
+<!-- <link rel="import" href="../mm-grid-item/mm-grid-item.html"> -->
 <link rel="import" href="../mm-checkbox/mm-checkbox.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
-<link rel="import" href="../mm-loader/mm-loader.html">
-<polymer-element name="mm-grid" on-column-sort="{{onColumnSort}}" on-column-resize-start="{{onColumnResizeStart}}" on-column-resize="{{onColumnResize}}" on-column-resize-end="{{onColumnResizeEnd}}" on-item-selected="{{onItemSelected}}">
+<!-- <link rel="import" href="../mm-loader/mm-loader.html"> -->
+<dom-module id="mm-grid">
+	<link rel="import" type="css" href="mm-grid.css"/>
 	<template>
-		<link href="mm-grid.css" rel="stylesheet" type="text/css"/>
-		<mm-item-recycler id="viewport" viewportWidth="{{viewportWidth}}" itemTemplate="{{itemTemplate}}" data="{{data}}" scope="{{}}" index="{{index}}" on-scroll="{{onScroll}}">
-			<content select=":not(mm-grid-column)"></content>
+		<!-- <mm-item-recycler id="viewport" viewportWidth="{{viewportWidth}}" itemTemplate="{{itemTemplate}}" data="{{data}}" scope="{{}}" index="{{index}}" on-scroll="{{onScroll}}"> -->
+		<div id="viewport" on-scroll="_handleScroll">
 			<template id="defaultTemplate">
-				<mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item>
+				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item> -->
 			</template>
+			<div id="list" style$="{{_computeViewportWidth(viewportWidth)}}">
+				<template is="dom-repeat" items="{{data}}">
+					<div>{{item}}</div>
+				</template>
+			</div>
 
 			<div id="header">
-				<template if="{{selectable}}">
+				<template is="dom-if" if="{{selectable}}">
 					<div class="_mm_column checkbox">
-						<mm-checkbox id="selectAll" on-tap="{{selectAll}}" state="{{selectAllState}}"></mm-checkbox>
+						<mm-checkbox id="selectAll" on-tap="{{selectAll}}"></mm-checkbox>
 					</div>
 				</template>
-				<template if="{{expandable}}">
-					<div class="_mm_column toggle {{ { expanded: expanded } | tokenList }}">
-						<template if="{{expandable == 'all'}}">
+				<template is="dom-if" if="{{expandable}}">
+					<div class="_mm_column toggle">
+						<template is="dom-if" if="{{expandable == 'all'}}">
 							<mm-icon width="10" height="10" type="expand-all" on-tap="{{expandAll}}"></mm-icon>
 						</template>
 					</div>
 				</template>
 				<div id="columnContainer">
 					<content id="columns" select="mm-grid-column"></content>
-					<template if="{{!columnsExist}}">
-						<template repeat="{{column in columns}}">
-							<mm-grid-column width="{{column.width}}" label="{{column.label}}" field="{{column.field}}" sort="{{column.sort}}" resize?="{{column.resize}}" info="{{column.info}}" align="{{column.align}}"></mm-grid-column>
-						</template>
-					</template>
 				</div>
 			</div>
-		</mm-item-recycler>
-		<template if="{{isLoading}}">
+		<!-- </mm-item-recycler> -->
+		</div>
+<!-- 		<template is="dom-if" if="{{isLoading}}">
 			<mm-loader id="loader"><label>Loading...</label></mm-loader>
-		</template>
+		</template> -->
 		<div id="separator"></div>
 	</template>
-	<script src="mm-grid.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-grid.js"></script>

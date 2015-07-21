@@ -3,9 +3,7 @@
 <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<link rel="import" href="mm-grid.html">
-	<link rel="import" href="../mm-input/mm-input.html">
 	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
-	<link rel="import" href="../mm-tooltip/mm-tooltip.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -30,8 +28,6 @@
 	</style>
 </head>
 <body>
-	<polymer-element name="test-app" attributes="data" noscript>
-		<template>
 		<style type="text/css">
 			:host {
 				display: block;
@@ -41,8 +37,7 @@
 				height: 100%;
 			}
 		</style>
-		<mm-checkbox checked="{{selectable}}"></mm-checkbox>
-		<mm-grid id="mmTestGrid" itemTemplate="customTemplate" selectable="{{selectable}}" unresolved data="{{data}}">
+		<mm-grid id="mmTestGrid" selectable>
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
 			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
@@ -50,7 +45,7 @@
 			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
-			<template id="customTemplate">
+<!-- 			<template id="customTemplate">
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
 						<mm-tooltip model="{{model}}" tipWidth="150">
@@ -83,13 +78,8 @@
 						</div>
 					</div>
 				</mm-grid-item>
-			</template>
+			</template> -->
 		</mm-grid>
-		</template>
-	</polymer-element>
-	<div class="container">
-		<test-app></test-app>
-	</div>
 	<script type="text/javascript">
 		var data = [],
 			columns = [
@@ -126,8 +116,8 @@
 			});
 		}
 
-		window.addEventListener("polymer-ready", function() {
-			app = document.querySelector("test-app");
+		window.addEventListener("WebComponentsReady", function() {
+			app = document.querySelector("#mmTestGrid");
 			app.data = data;
 		});
 	</script>

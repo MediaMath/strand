@@ -18,7 +18,7 @@
 
 #header, #footer {
 	@include display(flex);
-	position: absolute;
+	position: fixed;
 	min-width: 100%;
 	background: $color-A16;
 	@include user-select(none);
