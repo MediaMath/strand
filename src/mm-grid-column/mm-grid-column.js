@@ -44,7 +44,7 @@ Polymer({
 		},
 		resize: {
 			type: Boolean,
-			value: true
+			value: false
 		},
 		align: {
 			type: String,
