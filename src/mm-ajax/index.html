@@ -15,13 +15,13 @@
   </style>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="mm-ajax.html"/>
-    <!-- <link rel="import" href="../mm-textarea/mm-textarea.html"/> -->
-    <!-- <link rel="import" href="../mm-input/mm-input.html"/> -->
+    <link rel="import" href="../mm-textarea/mm-textarea.html"/>
+    <link rel="import" href="../mm-input/mm-input.html"/>
     <link rel="import" href="../mm-button/mm-button.html"/>
   </head>
   <body>
 
-  <dom-module name="test-result">
+  <dom-module id="test-result">
       <style>
       :host {
         display: block;
@@ -93,7 +93,7 @@
     </mm-button>
   </div>
   <script>
-  window.addEventListener("polymer-ready", function(e) {
+  window.addEventListener("WebComponentsReady", function(e) {
     var a1 = document.querySelector("#a1"),
       b1 = document.querySelector("#b1"),
       a2 = document.querySelector("#a2"),

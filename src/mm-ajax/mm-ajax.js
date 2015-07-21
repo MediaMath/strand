@@ -22,14 +22,24 @@
 					return new StrandLib.Ajax();
 				}
 			},
-			contentType:{
+			url: {
 				type:String,
-				value: 'application/x-www-form-urlencoded',
+				value:"",
 				observer:"_updateAjax"
 			},
 			method: {
 				type:String,
-				value: "GET",
+				value:"GET",
+				observer:"_updateAjax"
+			},
+			responseType: {
+				type:String,
+				value:"",
+				observer:"_updateAjax"
+			},
+			contentType:{
+				type:String,
+				value: 'application/x-www-form-urlencoded',
 				observer:"_updateAjax"
 			},
 			auto: {
@@ -51,34 +61,70 @@
 				type:Number,
 				value: 10000,
 				observer:"_updateAjax"
-			}
+			},
+			concurrency: {
+				type:Number,
+				value:4,
+				observer:"_updateAjax"
+			},
+			progress: {
+				type:Object,
+				value: function() {
+					return {
+						percent:0,
+						total:0,
+						current:0
+					};
+				},
+				notify:true
+			},
+
 		},
 
 		ready: function() {
-			if (this.auto && this.url && this.method) {
+			if (this._validateAjax()) {
 				this.ajax.exec();
 			}
 		},
 
 		_updateAjax: function() {
 			//TODO(dlasky): expose binds for additional prefs
-			this.ajax.options = DataUtils.copy(this.ajax.options, {
-				contentType:this.contentType,
-				method:this.method,
-				body:this.body,
-				withCredentials:this.withCredentials,
-				timeout:this.timeout
-			});
+			this.debounce("options", function() {
+				this.ajax.options = StrandLib.DataUtils.copy(this.ajax.options, {
+					contentType:this.contentType,
+					responseTyle:this.responseType,
+					method:this.method,
+					url:this.url,
+					body:this.body,
+					withCredentials:this.withCredentials,
+					timeout:this.timeout,
+					concurrency:this.concurrency
+				});
+			}.bind(this));
 		},
 
 		_validateAjax: function() {
-			if (!this.method) return false;
+			if (!this.method || !this.auto) return false;
 			if (this.method === StrandLib.Ajax.GET) {
 				if (this.url) return true;
 			} else {
 				if (this.url && this.body) return true;
 			}
 			return false;
+		},
+
+		exec: function(data, options) {
+			var p = this.ajax.exec(data, options);
+			this.ajax.current.progress = this.handleProgress;
+			return p;
+		},
+
+		queue: function(data, options, name) {
+			return this.ajax.queue(data, options, name);
+		},
+
+		execQueue: function(name) {
+			return this.ajax.execQueue(name);
 		},
 
 		abort: function() {
@@ -89,18 +135,11 @@
 		},
 
 		handleAbort: function(e) {
-			this.fire("data-abort");
-			if (this.promise) {
-				this.promise(false, [this, this.promise, 'aborted']);
-			}
+			this.fire("data-abort", e);
 		},
 
-		handleProgress: function(e) {
-			this.fire("data-progress", {
-				percent: e.totalSize/e.position,
-				total: e.totalSize,
-				current: e.position
-			});
+		handleProgress: function(progress) {
+			this.progress = progress;
 		},
 
 		addHeader: function(name, value) {

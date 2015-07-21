@@ -53,7 +53,7 @@
 		execQueue: function(queueName) {
 			var q = this._getQueue(queueName);
 			var rq = new StrandLib.RequestQueue(q, this.options.concurrency, function(r) {
-				this.recent = r;
+				this.current = r;
 			}.bind(this));
 			rq.exec();
 			q.running = rq;
@@ -65,7 +65,7 @@
 			var req = this._requestFactory(data, options);
 
 			this.requests.push(req);
-			this.recent = req;
+			this.current = req;
 			req.exec();
 
 			return req.promise;
@@ -228,7 +228,7 @@
 		},
 
 		get state() {
-			return this.current && this.current.readyState;
+			return this.current && this.current.state;
 		},
 
 		get xhr() {
