@@ -11,7 +11,7 @@
 
 		behaviors: [
 			StrandTraits.Stylable,
-			StrandTraits.Validate
+			StrandTraits.Validatable
 		],
 
 		properties: {
