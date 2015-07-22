@@ -12,6 +12,11 @@ Polymer({
 		scope: Object
 	},
 
+	observers: [
+		'_columnsChanged(scope.columns.*)',
+		'_modelChanged(model.*)'
+	],
+
 	_computePathValue: function(model, field) {
 		// var path = Path.get(field),
 		// 	dataPath = Path.get("data." + field),
@@ -20,6 +25,18 @@ Polymer({
 		// val = val !== undefined && val !== "" ? val : dataPath.getValueFrom(model);
 		// return val;
 		return model[field];
+	},
+
+	_computeColumnStyle: function(width) {
+		return 'width: ' + width;
+	},
+
+	_columnsChanged: function(changeRecord) {
+		// console.log(changeRecord);
+	},
+
+	_modelChanged: function(changeRecord) {
+		console.log("modelChanged", changeRecord);
 	},
 
 	onItemSelected: function(e, detail, sender) {

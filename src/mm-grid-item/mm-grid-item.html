@@ -15,14 +15,14 @@
 					<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
 						<mm-checkbox on-tap="onItemSelected" checked="{{model.selected}}"></mm-checkbox>
 					</div>
-					<div class="_mm_column toggle {{ { expanded: model.expanded } | tokenList }}" hidden$="{{!scope.expandable}}">
+					<div class="_mm_column toggle" hidden$="{{!scope.expandable}}">
 						<mm-icon width="10" height="10" type="carat" on-tap="onItemExpanded"></mm-icon>
 					</div>
 				<div id="columnContainer">
-					<template is="dom-repeat" items="{{scope.columns}}" as="column">
-						<div class="_mm_column {{column.align}}" style="width: {{column.width}};">
+					<template is="dom-repeat" items="{{scope.columns}}">
+						<div class="_mm_column {{item.align}}" style$="{{_computeColumnStyle(item.width)}}">
 							<!-- <template is="dom-if" if="[[!_computeOverride(scope.columnOverrideMap, column.field)]]"> -->
-								<span>[[_computePathValue(model, column.field)]]</span>
+								<span>[[_computePathValue(model, item.field)]]</span>
 							<!-- </template> -->
 <!-- 							<template is="dom-if" if="{{scope.columnOverrideMap[column.field]}}">
 								<content select="[field='{{column.field}}']"></content>

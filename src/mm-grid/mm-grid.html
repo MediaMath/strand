@@ -7,7 +7,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <!-- <link rel="import" href="../mm-item-recycler/mm-item-recycler.html"> -->
 <link rel="import" href="../mm-grid-column/mm-grid-column.html">
-<!-- <link rel="import" href="../mm-grid-item/mm-grid-item.html"> -->
+<link rel="import" href="../mm-grid-item/mm-grid-item.html">
 <link rel="import" href="../mm-checkbox/mm-checkbox.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
 <!-- <link rel="import" href="../mm-loader/mm-loader.html"> -->
@@ -21,20 +21,20 @@
 			</template>
 			<div id="list" style$="{{_computeViewportWidth(viewportWidth)}}">
 				<template is="dom-repeat" items="{{data}}">
-					<div>{{item}}</div>
+					<mm-grid-item model="{{item}}" scope="{{scope}}"></mm-grid-item>
 				</template>
 			</div>
 
 			<div id="header">
 				<template is="dom-if" if="{{selectable}}">
 					<div class="_mm_column checkbox">
-						<mm-checkbox id="selectAll" on-tap="{{selectAll}}"></mm-checkbox>
+						<mm-checkbox id="selectAll" on-tap="selectAll" state="{{_selectAllState}}"></mm-checkbox>
 					</div>
 				</template>
 				<template is="dom-if" if="{{expandable}}">
 					<div class="_mm_column toggle">
 						<template is="dom-if" if="{{expandable == 'all'}}">
-							<mm-icon width="10" height="10" type="expand-all" on-tap="{{expandAll}}"></mm-icon>
+							<mm-icon width="10" height="10" type="expand-all" on-tap="expandAll"></mm-icon>
 						</template>
 					</div>
 				</template>

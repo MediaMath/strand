@@ -22,6 +22,12 @@
 		properties: {
 			data: Array,
 			columns: Array,
+			scope: {
+				type: Object,
+				value: function() {
+					return this;
+				}
+			},
 			index: Number,
 			itemTemplate: Object,
 			viewportWidth: {
@@ -29,6 +35,10 @@
 				value: function() {
 					return 0;
 				}
+			},
+			_selectAllState: {
+				type: String,
+				value: 'unchecked'
 			},
 			selectable: {
 				type: Boolean,
@@ -54,7 +64,8 @@
 		listeners: {
 			'column-resize-start': 'onColumnResizeStart',
 			'column-resize': 'onColumnResize',
-			'column-resize-end': 'onColumnResizeEnd'
+			'column-resize-end': 'onColumnResizeEnd',
+			'item-selected': 'onItemSelected'
 		},
 
 		attached: function() {
@@ -120,13 +131,14 @@
 				state = "checked";
 			}
 
-			this.selectAllState = state;
+			this._selectAllState = state;
 		},
 
-		selectAll: function(e, d, sender) {
-			this.data.forEach(function(item) {
-				item.selected = sender.checked;
-			});
+		selectAll: function(e) {
+			var checked = e.target.checked;
+			this.data.forEach(function(item, i) {
+				this.set('data.'+i+'.selected', checked)
+			}, this);
 		},
 
 		get selected() {
