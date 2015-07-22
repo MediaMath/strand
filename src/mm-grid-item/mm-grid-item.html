@@ -8,41 +8,35 @@
 <link rel="import" href="../mm-checkbox/mm-checkbox.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
 <link rel="import" href="../mm-spinner/mm-spinner.html">
-<polymer-element name="mm-grid-item" attributes="">
+<dom-module id="mm-grid-item">
+	<link rel="import" type="css" href="mm-grid-item.css"/>
 	<template>
-		<link href="mm-grid-item.css" rel="stylesheet" type="text/css"/>
-		<div class="_mm_item">
-			<template if="{{model}}">
-				<template if="{{scope.selectable}}">
-					<div class="_mm_column checkbox">
-						<mm-checkbox on-tap="{{onItemSelected}}" checked="{{model.selected}}"></mm-checkbox>
+		<div class="_mm_item" hidden$="{{!model}}">
+					<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
+						<mm-checkbox on-tap="onItemSelected" checked="{{model.selected}}"></mm-checkbox>
 					</div>
-				</template>
-				<template if="{{scope.expandable}}">
-					<div class="_mm_column toggle {{ { expanded: model.expanded } | tokenList }}">
-						<mm-icon width="10" height="10" type="carat" on-tap="{{onItemExpanded}}"></mm-icon>
+					<div class="_mm_column toggle {{ { expanded: model.expanded } | tokenList }}" hidden$="{{!scope.expandable}}">
+						<mm-icon width="10" height="10" type="carat" on-tap="onItemExpanded"></mm-icon>
 					</div>
-				</template>
 				<div id="columnContainer">
-					<template repeat="{{column in scope.columns}}">
+					<template is="dom-repeat" items="{{scope.columns}}" as="column">
 						<div class="_mm_column {{column.align}}" style="width: {{column.width}};">
-							<template if="{{!scope.columnOverrideMap[column.field]}}">
-								{{ {field: column.field, model: model} | getPathValue }}
-							</template>
-							<template if="{{scope.columnOverrideMap[column.field]}}">
+							<!-- <template is="dom-if" if="[[!_computeOverride(scope.columnOverrideMap, column.field)]]"> -->
+								<span>[[_computePathValue(model, column.field)]]</span>
+							<!-- </template> -->
+<!-- 							<template is="dom-if" if="{{scope.columnOverrideMap[column.field]}}">
 								<content select="[field='{{column.field}}']"></content>
-							</template>
+							</template> -->
 						</div>
 					</template>
 				</div>
-			</template>
 		</div>
-		<template if="{{!model}}">
+		<template is="dom-if" if="{{!model}}">
 			<mm-spinner id="loader" radius="12" fillcolor="#333333"></mm-spinner>
 		</template>
-		<template if="{{model.expanded}}">
+		<template is="dom-if" if="{{model.expanded}}">
 			<content id="expansion" select=".expansion"></content>
 		</template>
 	</template>
-	<script src="mm-grid-item.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-grid-item.js"></script>

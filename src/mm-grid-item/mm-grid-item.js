@@ -4,20 +4,22 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-grid-item', {
-	ver:"<<version>>",
-	publish: {
-		model: null,
-		scope: null
+Polymer({
+	is: 'mm-grid-item',
+
+	properties: {
+		model: Object,
+		scope: Object
 	},
 
-	getPathValue: function(item) {
-		var path = Path.get(item.field),
-			dataPath = Path.get("data." + item.field),
-			val = path.getValueFrom(item.model);
+	_computePathValue: function(model, field) {
+		// var path = Path.get(field),
+		// 	dataPath = Path.get("data." + field),
+		// 	val = path.getValueFrom(model);
 
-		val = val !== undefined && val !== "" ? val : dataPath.getValueFrom(item.model);
-		return val;
+		// val = val !== undefined && val !== "" ? val : dataPath.getValueFrom(model);
+		// return val;
+		return model[field];
 	},
 
 	onItemSelected: function(e, detail, sender) {
