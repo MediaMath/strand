@@ -6,13 +6,14 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../shared/behaviors/stylable.html">
+<link rel="import" href="../shared/behaviors/mousewheelable.html">
 
 <dom-module id="mm-scrollbar-y">
 	<link rel="import" type="css" href="mm-scrollbar-y.css" />
 	<template>
 		<div id="containerY"
 			 class="container-y" 
-			 style$="{{ _updateScrollbarStyle(scrollBarSize, interop) }}">
+			 style$="{{ _updateScrollbarStyle(scrollBarSize, interface) }}">
 			<div class="bar"></div>
 		</div>
 	</template>

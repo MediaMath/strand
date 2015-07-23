@@ -5,19 +5,17 @@
 
 */
 (function(scope) {
-	// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
-	var support = "onwheel" in document.createElement("div") ? "wheel" : 
-		document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
 
 	Polymer({
 		is: 'mm-scrollbar-y',
 
 		behaviors: [
 			StrandTraits.Stylable,
+			StrandTraits.MouseWheelable,
 		],
 		
 		properties: {
-			interop: Object,
+			interface: Object,
 			scrollBarSize: {
 				type: Number,
 				value: 0
@@ -37,21 +35,9 @@
 		_contentPosition: 0,
 		_referencePosition: 0,
 
-		attached: function() {
-			this.addEventListener(support, this.onScroll);
-			// Waiting on light DOM children is tricky...
-			// this.async(function() {
-			// 	this.debounce("update-ui", this.updateUI, 100);
-			// });
-		},
-		
-		detached: function() {
-			this.removeEventListener(support, this.onScroll);
-		},
-
 		_updateScrollbarStyle: function(scrollBarSize) {
-			var permit = scrollBarSize && this.interop && this.interop.viewportHeight;
-			var d = permit && scrollBarSize < this.interop.viewportHeight() ? "block" : "none";
+			var permit = scrollBarSize && this.interface && this.interface.viewportHeight;
+			var d = permit && scrollBarSize < this.interface.viewportHeight() ? "block" : "none";
 			return this.styleBlock({
 				display: d,
 				height: scrollBarSize + "px"
@@ -59,16 +45,16 @@
 		}, 
 
 		updateUI: function() {
-			if (this.interop &&
-				this.interop.contentHeight &&
-				this.interop.viewportHeight) {
+			if (this.interface &&
+				this.interface.contentHeight &&
+				this.interface.viewportHeight) {
 				this._updateUI();
 			}
 		},
 
 		_updateUI: function () {
-			var contentHeight = this.interop.contentHeight();
-			var viewportHeight = this.interop.viewportHeight();
+			var contentHeight = this.interface.contentHeight();
+			var viewportHeight = this.interface.viewportHeight();
 			var barSize = viewportHeight * viewportHeight / contentHeight;
 
 			this.scrollBarSize = barSize < this.MIN_BAR_SIZE ? this.MIN_BAR_SIZE : barSize;
@@ -79,7 +65,11 @@
 			this._applyPositions();
 		},
 
-		onScroll: function(e) {
+		onWheel: function (e) {
+			return this._onWheel.apply(this, arguments);
+		},
+
+		_onWheel: function(e) {
 			e.preventDefault();
 			this._contentPosition += e.deltaY;
 			this._clampToContentPosition();
@@ -105,9 +95,9 @@
 		},
 
 		_applyPositions: function(scrollTop) {
-			if (this.interop &&
-				this.interop.applyPositions) {
-				this.interop.applyPositions(this._scrollPosition, this._contentPosition);
+			if (this.interface &&
+				this.interface.applyPositions) {
+				this.interface.applyPositions(this._scrollPosition, this._contentPosition);
 			} else {
 				this.style.top = this._scrollPosition + "px";
 			}

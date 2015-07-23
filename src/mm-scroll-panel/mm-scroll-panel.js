@@ -5,23 +5,20 @@
 
 */
 (function(scope) {
-	// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
-	var support = "onwheel" in document.createElement("div") ? "wheel" : 
-		document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
 
-	function Adapter (scrollPanel) {
+	function ScrollbarInterface (scrollPanel) {
 		this._scrollPanel = scrollPanel;
 	}
 
-	Adapter.prototype.contentHeight = function () {
+	ScrollbarInterface.prototype.contentHeight = function () {
 		return this._scrollPanel.contentHeight;
 	};
 
-	Adapter.prototype.viewportHeight = function () {
+	ScrollbarInterface.prototype.viewportHeight = function () {
 		return this._scrollPanel.viewportHeight;
 	};
 
-	Adapter.prototype.applyPositions = function () {
+	ScrollbarInterface.prototype.applyPositions = function () {
 		return this._scrollPanel._applyPositions.apply(this._scrollPanel, arguments);
 	};
 
@@ -29,7 +26,8 @@
 		is: 'mm-scroll-panel',
 
 		behaviors: [
-			StrandTraits.DomMutable
+			StrandTraits.DomMutable,
+			StrandTraits.MouseWheelable,
 		],
 		
 		properties: {
@@ -43,10 +41,10 @@
 			mutationTarget: {
 				value: function() { return this.$.holder }
 			},
-			scrollInterop: {
+			scrollbarInterface: {
 				type: Object,
 				value: function () {
-					return new Adapter(this);
+					return new ScrollbarInterface(this);
 				},
 			},
 		},
@@ -55,18 +53,6 @@
 			"added" : "_onAdded",
 			"removed" : "_onRemoved",
 			"mouseenter" : "_onFocus"
-		},
-
-		attached: function() {
-			this.addEventListener(support, this._onScroll);
-			// Waiting on light DOM children is tricky...
-			// this.async(function() {
-			// 	this._updateScrollbarUI(100);
-			// });
-		},
-		
-		detached: function() {
-			this.removeEventListener(support, this._onScroll);
 		},
 
 		_updateScrollbarUI: function (time) {
@@ -85,9 +71,9 @@
 			this._updateScrollbarUI(0);
 		},
 
-		_onScroll: function(e) {
+		_onWheel: function(e) {
 			e.preventDefault();
-			this.$.scrollbar.onScroll(e);
+			this.$.scrollbar.onWheel(e);
 		},
 
 		_applyPositions: function(scrollPosition, contentPosition) {
