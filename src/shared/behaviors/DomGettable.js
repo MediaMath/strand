@@ -22,7 +22,18 @@
 				value:function() { return {}; },
 				notify:true,
 			},
-			observeSubtree:true,
+			observeSubtree:{
+				type:Boolean,
+				value: true,
+			},
+			observeCharacterData: {
+				type:Boolean,
+				value: true
+			},
+			observeAttributes:{
+				type:Boolean,
+				value: true
+			},
 		},
 
 		ready: function() {
@@ -35,7 +46,10 @@
 
 		_updateDomObject: function() {
 			this.set("domObject", StrandLib.DataUtils.objectifyDistributedNodes( this.getLightDOM() ));
+			this.domObjectChanged(this.domObject);
 		},
+
+		domObjectChanged: function(domObject) {},
 
 		_nodesChanged:function(mutations) {
 			//super

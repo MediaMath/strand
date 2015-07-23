@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function () {
+(function (scope) {
 
 	var _csrf = null,
 		_globals = null,
@@ -20,8 +20,9 @@
 		};
 	}
 
-	Polymer('mm-sync', {
-		ver:"<<version>>",
+	scope.Sync = Polymer({
+
+		is:"mm-sync",
 
 		get MODE_SINGLE() { return "single"; },
 		get MODE_MULTIPLE() { return "multiple"; },
@@ -40,17 +41,17 @@
 
 			cacheBuster:null,
 			inputParams: null, //user facing (js api)
-			outputParams: null, 
+			outputParams: null,
 			_inputParams: null,  //internal caching
-			_outputParams: null, 
+			_outputParams: null,
 
 			saveResponse: true, //save response back to data
-			
+
 			csrf:true,
 			csrfHeader:"",
 			cacheCsrf:false,
 			cacheGlobals: false,
-			
+
 			data: null,
 
 			silentData: true,
@@ -114,7 +115,7 @@
 
 		getDomParams: function() {
 
-			function mapper(o) { 
+			function mapper(o) {
 				return {
 					name: o.name,
 					value: DataUtils.nodeInnerValue(o)
@@ -151,7 +152,7 @@
 			this.fire(_evtPrefix + "pending", {mode:mode});
 
 			if (ajax.state === 0 || ajax.state === 4) {
-				
+
 				if (ajax.state !== 0)
 					ajax.reset();
 				ajax.method = mode;
@@ -159,14 +160,14 @@
 				ajax.timeout = this.timeout;
 				ajax.url = this.endpoint; //rest is built from urlparams
 				ajax.withCredentials = this.withCredentials;
-				
+
 				if (this.cacheBuster) {
 					this._inputParams.queryParams.push(this.getCacheBuster());
 					this._outputParams.queryParams.push(this.getCacheBuster());
 				}
 
 				this.setCSRFHeader(mode);
-				
+
 				switch(mode) {
 					case "get":
 						ajax.params = this._inputParams.queryParams;
@@ -197,7 +198,7 @@
 		getCacheBuster: function() {
 			var name = "nocache";
 			if (typeof this.cacheBuster === "string" && this.cacheBuster.length > 0) {
-				name = this.cacheBuster;			
+				name = this.cacheBuster;
 			}
 			return {
 				name: name,
@@ -253,41 +254,41 @@
 			return promise;
 		},
 
-		appendQueue: function(mode, body) {
-			if (typeof MMAjax === "undefined") {
-				throw(new Error("mm-ajax is a required import to use mm-sync"));
-			}
-			var a = new MMAjax(),
-				pagePath = Path.get("target.page"),
-				pageSizePath = Path.get("target.pageSize");
-			this.getDomParams(mode);
-			this.setAjaxParams(a, mode, body);
-			var promise = a.promise;
+		// appendQueue: function(mode, body) {
+		// 	if (typeof MMAjax === "undefined") {
+		// 		throw(new Error("mm-ajax is a required import to use mm-sync"));
+		// 	}
+		// 	var a = new MMAjax(),
+		// 		pagePath = Path.get("target.page"),
+		// 		pageSizePath = Path.get("target.pageSize");
+		// 	this.getDomParams(mode);
+		// 	this.setAjaxParams(a, mode, body);
+		// 	var promise = a.promise;
+		//
+		// 	a.page = pagePath.getValueFrom(this);
+		// 	a.pageSize = pageSizePath.getValueFrom(this);
+		//
+		// 	var req = {
+		// 		ajax: a,
+		// 		promise: promise
+		// 	};
+		// 	this.requestQueue.push(req);
+		// 	this.manageQueue();
+		// 	return promise;
+		// },
 
-			a.page = pagePath.getValueFrom(this);
-			a.pageSize = pageSizePath.getValueFrom(this);
-			
-			var req = {
-				ajax: a,
-				promise: promise
-			};
-			this.requestQueue.push(req);
-			this.manageQueue();
-			return promise;
-		},
-
-		manageQueue: function() {
-			if (this.requestQueue.length > 0 && this.requestBuffer.length < this.requestConcurrency) {
-				var req = this.requestQueue.shift();
-				req.ajax.exec()
-					.then(this.handleResult.bind(this), this.handleError.bind(this))
-					.then(this.manageQueue.bind(this), this.manageQueue.bind(this));
-				this.requestBuffer.push(req);
-			}
-			this.requestBuffer = this.requestBuffer.filter(function(req) {
-				return req.promise() === undefined;
-			});
-		},
+		// manageQueue: function() {
+		// 	if (this.requestQueue.length > 0 && this.requestBuffer.length < this.requestConcurrency) {
+		// 		var req = this.requestQueue.shift();
+		// 		req.ajax.exec()
+		// 			.then(this.handleResult.bind(this), this.handleError.bind(this))
+		// 			.then(this.manageQueue.bind(this), this.manageQueue.bind(this));
+		// 		this.requestBuffer.push(req);
+		// 	}
+		// 	this.requestBuffer = this.requestBuffer.filter(function(req) {
+		// 		return req.promise() === undefined;
+		// 	});
+		// },
 
 		setData: function(data, silent) {
 			this.silentData = silent;
@@ -318,7 +319,7 @@
 			this.getCSRFHeader(ajax);
 			this.fire(_evtPrefix + "ready", {data: this.data });
 		},
-		
+
 		handleError: function(ajax, promise, error, result) {
 			this.fire(_evtPrefix + "error", {error:error, result:result});
 			if (result && result.response && this.saveResponse) {
@@ -364,7 +365,7 @@
 				if (newTarget instanceof MMCollection) {
 					this.targetType = "collection";
 					//OVERIDE WITH MODE_MULTIPLE if you need individual model saves
-					this.syncMode = this.MODE_SINGLE; 
+					this.syncMode = this.MODE_SINGLE;
 				}
 				if (newTarget instanceof MMModel) {
 					this.targetType = "model";
@@ -376,7 +377,7 @@
 				this.job("auto",this.get, this.autoDebounce);
 			}
 		},
-		
+
 		getOutputData: function() {
 			if (this.target === null) {
 				return this.data;
@@ -429,7 +430,7 @@
 				model = result.response;
 			}
 		},
-		
+
 		//TODO: (dlasky) hook this up to deep-observe paradigm possibly
 		dataChanged: function(oldData, newData) {
 			if (this.auto && this.auto !== "load" && !this.silentData) {
@@ -461,4 +462,4 @@
 		}
 
 	});
-})(); 
+})(window.Strand = window.Strand || {});
