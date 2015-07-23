@@ -23,28 +23,13 @@
 	min-height: 100%;
 }
 
-.scrollbar-y {
-	display: none;
+#scrollbar {
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 16px;
-	
-	opacity: 0;
-	filter: alpha(opacity = 0);
-	transition: opacity .15s linear;
-	cursor: default;
 }
 
-.scrollbar-y .bar {
-	height: 100%;
-	width: 8px;
-	margin: auto;
-	background-color: #aaa;
-	border-radius: 4px;
-}
-
-:host(:hover) .scrollbar-y {
+:host(:hover) #scrollbar {
 	opacity: 1.0;
 	filter: alpha(opacity = 60);
 }

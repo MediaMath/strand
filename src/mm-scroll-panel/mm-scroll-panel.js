@@ -9,11 +9,26 @@
 	var support = "onwheel" in document.createElement("div") ? "wheel" : 
 		document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
 
+	function Adapter (scrollPanel) {
+		this._scrollPanel = scrollPanel;
+	}
+
+	Adapter.prototype.contentHeight = function () {
+		return this._scrollPanel.contentHeight;
+	};
+
+	Adapter.prototype.viewportHeight = function () {
+		return this._scrollPanel.viewportHeight;
+	};
+
+	Adapter.prototype.applyPositions = function () {
+		return this._scrollPanel._applyPositions.apply(this._scrollPanel, arguments);
+	};
+
 	Polymer({
 		is: 'mm-scroll-panel',
 
 		behaviors: [
-			StrandTraits.Stylable,
 			StrandTraits.DomMutable
 		],
 		
@@ -22,20 +37,18 @@
 				type: Number,
 				value: 0
 			},
-			scrollBarSize: {
-				type: Number,
-				value: false
-			},
 			resizeTarget: {
 				value: function() { return this.$.holder }
 			},
 			mutationTarget: {
 				value: function() { return this.$.holder }
 			},
-			contentRange: Number,
-			scrollRange: Number,
-			initContentHeight: Number,
-			currentY: Number
+			scrollInterop: {
+				type: Object,
+				value: function () {
+					return new Adapter(this);
+				},
+			},
 		},
 
 		listeners: {
@@ -44,13 +57,11 @@
 			"mouseenter" : "_onFocus"
 		},
 
-		MIN_BAR_SIZE: 50,
-
 		attached: function() {
 			this.addEventListener(support, this._onScroll);
 			// Waiting on light DOM children is tricky...
 			// this.async(function() {
-			// 	this.debounce("update-ui", this._updateUI, 100);
+			// 	this._updateScrollbarUI(100);
 			// });
 		},
 		
@@ -58,75 +69,41 @@
 			this.removeEventListener(support, this._onScroll);
 		},
 
+		_updateScrollbarUI: function (time) {
+			this.$.scrollbar.debounce("update-ui", this.$.scrollbar.updateUI, +time || 0);
+		},
+
 		_onAdded: function(e) {
-			this.debounce("update-ui", this._updateUI, 0);
+			this._updateScrollbarUI(0);
 		},
 
 		_onRemoved: function(e) {
-			this.debounce("update-ui", this._updateUI, 0);
+			this._updateScrollbarUI(0);
 		},
 
 		_onFocus: function(e) {
-			this.debounce("update-ui", this._updateUI, 0);
+			this._updateScrollbarUI(0);
 		},
-
-		_updateUI: function() {
-			var barSize = this.viewportHeight * this.viewportHeight / this.contentHeight;
-
-			this.scrollBarSize = barSize < this.MIN_BAR_SIZE ? this.MIN_BAR_SIZE : barSize;
-			this.scrollRange = this.viewportHeight - this.scrollBarSize;
-			this.contentRange = this.contentHeight - this.viewportHeight;
-			
-			this.initContentHeight = this.contentHeight;
-			this._updateScrollbar(this.$.viewport.scrollTop);
-		},
-
-		_updateScrollbarStyle: function(scrollBarSize) {
-			var d = this.contentHeight > this.viewportHeight ? "block" : "none";
-			return this.styleBlock({
-				display: d,
-				height: scrollBarSize + "px"
-			});
-		}, 
 
 		_onScroll: function(e) {
 			e.preventDefault();
-			this.$.viewport.scrollTop += e.deltaY;
-			this._updateScrollbar(this.$.viewport.scrollTop);
+			this.$.scrollbar.onScroll(e);
 		},
 
-		_updateScrollbar: function(scrollTop) {
-			var scrollY = scrollTop * this.scrollRange / this.contentRange;
-			this.$.scrollbarY.style.top = scrollY + "px";
-		},
-
-		_updateViewport: function (deltaY) {
-			var newPos = this.currentY + deltaY;
-			this.$.viewport.scrollTop = newPos * this.contentRange / this.scrollRange;
+		_applyPositions: function(scrollPosition, contentPosition) {
+			this.$.scrollbar.style.top = scrollPosition + "px";
+			this.$.viewport.scrollTop = contentPosition;
 		},
 
 		resetScroll: function() {
-			this.$.viewport.scrollTop = 0;
-			this._updateScrollbar(this.$.viewport.scrollTop);
-		},
-		
-		// Scrollbar Click-and-Drag Handlers
-		_onDown: function(e) {
-			e.preventDefault();
-			this.currentY = this.$.scrollbarY.offsetTop;
+			this.$.scrollbar.resetScroll();
 		},
 
-		_onTrack: function(e) {
-			e.preventDefault();
-			this._updateViewport(e.detail.dy);
-			this._updateScrollbar(this.$.viewport.scrollTop);
-		},
-
-		get contentHeight() {
+		get contentHeight () {
 			return this.$.holder.offsetHeight;
 		},
 
-		get viewportHeight() {
+		get viewportHeight () {
 			return this.$.viewport.offsetHeight;
 		}
 	});
