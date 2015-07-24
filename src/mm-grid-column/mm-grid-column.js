@@ -52,6 +52,7 @@ Polymer({
 		},
 		width: {
 			type: String,
+			notify: true,
 			observer: '_widthChanged'
 		},
 		minWidth: {
@@ -123,7 +124,7 @@ Polymer({
 
 	_onTrackEnd: function(e) {
 		this.fire(this.RESIZE_END_EVENT, { field: this.field, val: this.desiredWidth - this.startWidth });
-		this.width = this.desiredWidth + "px";
+		this.set('width', this.desiredWidth + 'px');
 	}
 
 });

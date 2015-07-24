@@ -21,9 +21,15 @@
 
 		properties: {
 			data: Array,
-			columns: Array,
+			columns: {
+				type: Array,
+				value: function() {
+					return [];
+				}
+			},
 			scope: {
 				type: Object,
+				notify: true,
 				value: function() {
 					return this;
 				}
@@ -177,12 +183,13 @@
 			////// Overflow Resizing //////
 			this.columns.forEach(function(column) {
 				if(column.width.indexOf("%") !== -1){
-					column.width = column.offsetWidth + "px";
+					// column.width = column.offsetWidth + "px";
+					column.set('width', column.offsetWidth + 'px');
 				}
 			});
 
 			if(!this.viewportWidth) {
-				this.viewportWidth = this.$.viewport.offsetWidth; //this.$.viewport.$.list.offsetWidth;
+				this.viewportWidth = this.$.list.offsetWidth; //this.$.viewport.$.list.offsetWidth;
 			}
 
 			this.viewportWidth += val;
