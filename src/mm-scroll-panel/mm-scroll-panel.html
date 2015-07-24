@@ -7,6 +7,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../shared/behaviors/stylable.html">
 <link rel="import" href="../shared/behaviors/dommutable.html">
+<link rel="import" href="../shared/behaviors/mousewheelable.html">
+<link rel="import" href="../mm-scrollbar-y/mm-scrollbar-y.html">
 
 <dom-module id="mm-scroll-panel">
 	<link rel="import" type="css" href="mm-scroll-panel.css" />
@@ -16,13 +18,7 @@
 				<content></content>
 			</div>
 		</div>
-		<div id="scrollbarY"
-			 class="scrollbar-y" 
-			 style$="{{ _updateScrollbarStyle(scrollBarSize) }}"
-			 on-down="_onDown" 
-			 on-track="_onTrack">
-			<div class="bar"></div>
-		</div>
+		<mm-scrollbar-y id="scrollbar" interface="{{scrollbarInterface}}"></mm-scrollbar-y>
 	</template>
 </dom-module>
 
