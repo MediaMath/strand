@@ -35,7 +35,7 @@
 		attached: function() {
 			this._observer.observe(this.mutationTarget, {
 				childList:true,
-				subTree: this.observeSubtree,
+				subtree: this.observeSubtree,
 				attributes: this.observeAttributes,
 				characterData: this.observeCharacterData
 			});
@@ -66,4 +66,4 @@
 		}
 
 	 };
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
