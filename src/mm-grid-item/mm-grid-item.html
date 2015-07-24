@@ -19,10 +19,10 @@
 						<mm-icon width="10" height="10" type="carat" on-tap="onItemExpanded"></mm-icon>
 					</div>
 				<div id="columnContainer">
-					<template is="dom-repeat" items="{{scope.columns}}">
-						<div class="_mm_column {{item.align}}" style$="{{_computeColumnStyle(item.width)}}">
+					<template is="dom-repeat" items="{{scope.columns}}" as="column">
+						<div class="_mm_column" style$="{{_computeColumnStyle(column.width)}}">
 							<!-- <template is="dom-if" if="[[!_computeOverride(scope.columnOverrideMap, column.field)]]"> -->
-								<span>[[_computePathValue(model, item.field)]]</span>
+								<span>[[_computeColumnValue(model, column.field)]]</span>
 							<!-- </template> -->
 <!-- 							<template is="dom-if" if="{{scope.columnOverrideMap[column.field]}}">
 								<content select="[field='{{column.field}}']"></content>
