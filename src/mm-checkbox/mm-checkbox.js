@@ -38,6 +38,7 @@
 				type: Boolean,
 				reflectToAttribute: true,
 				value: null,
+				notify: true,
 				observer: "checkedChanged",
 			},
 			disabled: { 
