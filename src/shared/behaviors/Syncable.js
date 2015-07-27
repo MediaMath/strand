@@ -69,6 +69,16 @@
 				}
 			},
 
+			cacheGlobals: {
+				type:Boolean,
+				value:false,
+			},
+
+			cacheCsrf:{
+				type:Boolean,
+				value:false
+			},
+
 			page: {
 				type:Number,
 				value:0,
@@ -79,10 +89,12 @@
 				value:10,
 				notify:true
 			},
+
 			cacheBuster: {
 				type:Boolean,
 				value:true,
 			},
+
 			inputParams:{
 				type:Object,
 				value:_getParamBase,
@@ -91,6 +103,7 @@
 				type:Object,
 				value:_getParamBase,
 			},
+
 			_inputParams: {
 				type:Object,
 				value:_getParamBase,
@@ -121,31 +134,34 @@
 			method = method || Ajax.GET;
 			data = data || this.body;
 			options = DataUtils.copy({}, options, this.options);
-			if (this.cacheBuster) {
-				options.params = options.params || [];
-				options.params.push(this.getCacheBuster());
-			}
 
+			this.getCacheBuster(this.cacheBuster, options.params);
 
-			return this._ajax.exec( data, DataUtils.copy({method:method}, options));
+			var promise = this._ajax.exec( data, DataUtils.copy({method:method}, options));
+			promise.then(this.handleResult, this.handleError);
+			return promise;
 		},
 
 		domObjectChanged: function(domObject) {
-			console.log(domObject);
-			if (this.auto) {
-				//do things
+			// console.log(domObject);
+			if (this.auto && this.auto !== "save") {
+				this.get();
 			}
 		},
 
-		getCacheBuster: function() {
-			var name = "nocache";
-			if (typeof this.cacheBuster === "string" && this.cacheBuster.length > 0) {
-				name = this.cacheBuster;
+		getCacheBuster: function(cacheBuster, queryParams) {
+			if (this.cacheBuster) {
+				queryParams = queryParams || [];
+
+				var name = "nocache";
+				if (typeof this.cacheBuster === "string" && this.cacheBuster.length > 0) {
+					name = this.cacheBuster;
+				}
+				queryParams.push({
+					name: name,
+					value: Date.now()
+				});
 			}
-			return {
-				name: name,
-				value: Date.now()
-			};
 		},
 
 		getCSRFHeader: function(result) {
@@ -178,7 +194,11 @@
 		},
 
 		handleResult: function(result) {
+			console.warn("result",result);
+		},
 
+		handleError: function(error) {
+			console.warn("error",error);
 		},
 
 		setGlobal: function(key, value) {
@@ -191,7 +211,7 @@
 		}
 	};
 	scope.Syncable = [
+		scope.DomGettable,
 		Syncable,
-		scope.DomGettable
 	];
 }(window.StrandTraits = window.StrandTraits || {}));
