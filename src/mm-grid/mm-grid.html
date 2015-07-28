@@ -11,7 +11,7 @@
 <link rel="import" href="../mm-checkbox/mm-checkbox.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
 <link rel="import" href="../mm-loader/mm-loader.html">
-<polymer-element name="mm-grid" on-column-sort="{{onColumnSort}}" on-column-resize-start="{{onColumnResizeStart}}" on-column-resize="{{onColumnResize}}" on-column-resize-end="{{onColumnResizeEnd}}" on-item-selected="{{onItemSelected}}">
+<polymer-element name="mm-grid" attributes="recycle" on-column-sort="{{onColumnSort}}" on-column-resize-start="{{onColumnResizeStart}}" on-column-resize="{{onColumnResize}}" on-column-resize-end="{{onColumnResizeEnd}}" on-item-selected="{{onItemSelected}}">
 	<template>
 		<link href="mm-grid.css" rel="stylesheet" type="text/css"/>
 		<mm-item-recycler id="viewport" viewportWidth="{{viewportWidth}}" itemTemplate="{{itemTemplate}}" data="{{data}}" scope="{{}}" index="{{index}}" on-scroll="{{onScroll}}">
