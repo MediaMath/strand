@@ -247,6 +247,8 @@ found here: https://github.com/Polymer/core-list
 			this._inferDefaultHeight = false;
 
 			this._viewportHeight = viewportHeight - this.$.list.offsetTop;
+
+			this.async(this.resizeViewport);
 		},
 
 		recalculateCounts: function (viewportHeight, itemsPerPanel) {

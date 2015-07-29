@@ -42,7 +42,8 @@
 			expandable: false,
 			sortField: "",
 			sortOrder: 1,
-			isLoading: false
+			isLoading: false,
+			recycle: "true",
 		},
 
 		expanded: false,
@@ -59,6 +60,20 @@
 			this.itemTemplate = this.itemTemplate || this.$.defaultTemplate;
 		},
 
+		_originalStylePosition: "absolute",
+
+		recycleChanged: function () {
+			if (this.recycle === "false") {
+				this._originalStylePosition = this.$.viewport.style.position;
+				this.$.viewport.style.position = "static";
+				if (this.$.viewport.data) {
+					this.resizeViewport();
+				}
+			} else {
+				this.$.viewport.style.position = this._originalStylePosition;
+			}
+		},
+
 		initializeColumns: function() {
 			if(this.$.columns.getDistributedNodes().length > 0) {
 				this.columnsExist = true;
@@ -73,6 +88,10 @@
 			}
 		},
 		
+		resizeViewport: function () {
+			this.$.viewport.resizeViewport();
+		},
+
 		columnsChanged: function() {
 			this.columnsMap = arrayToMap(this.columns, "field");
 		},
