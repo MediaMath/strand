@@ -12,14 +12,37 @@
 	overflow: auto;
 }
 
-#list {
+#maskContainer {
 	overflow: hidden;
-	position: relative;
+	height: 100%;
 	min-width: 100%;
 
-	::content .recycler-panel {
+	#sizeContainer {
+		position: relative;
+		height: 100%;
 		min-width: 100%;
-		width: 100%;
-		position: absolute;
+
+		#positionContainer {
+			height: 0;
+
+			.recycler-panel {
+				position: absolute;
+				min-width: 100%;
+				width: 100%;
+			}
+		}
 	}
+
+}
+
+#scrollbar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 16px;
+}
+
+:host(:hover) #scrollbar {
+	opacity: 1.0;
+	filter: alpha(opacity = 60);
 }

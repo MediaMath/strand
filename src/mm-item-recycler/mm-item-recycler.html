@@ -5,13 +5,27 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<polymer-element name="mm-item-recycler" on-scroll="{{scrollHandler}}">
+<link rel="import" href="../shared/js/recycler.html"/>
+<link rel="import" href="../shared/behaviors/domwatchable.html"/>
+<link rel="import" href="../shared/behaviors/windownotifier.html"/>
+<link rel="import" href="../shared/behaviors/mousewheelable.html">
+<link rel="import" href="../mm-scrollbar-y/mm-scrollbar-y.html">
+
+<dom-module id="mm-item-recycler">
+	<link rel="import" type="css" href="mm-item-recycler.css"/>
 	<template>
-		<link href="mm-item-recycler.css" rel="stylesheet" type="text/css"/>
-		<div id="list">
-			<content select=".recycler-panel"></content>
-			<content></content>
+		<div id="maskContainer">
+			<div id="sizeContainer">
+				<div id="positionContainer">
+					<content select=".recycler-panel"></content>
+				</div>
+				<mm-scrollbar-y id="scrollbar" interface="{{scrollbarInterface}}"></mm-scrollbar-y>
+			</div>
 		</div>
+		<content></content>
 	</template>
-	<script src="mm-item-recycler.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-item-recycler.js"></script>
+
+

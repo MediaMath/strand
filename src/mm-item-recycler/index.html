@@ -34,11 +34,12 @@
 			background: #ccc;
 			height: 30px;
 		}
+
 	</style>
   </head>
   <body>
-	<mm-item-recycler id="itemRecycler" itemTemplate="itemTemplate">
-		<template id="itemTemplate">
+	<mm-item-recycler id="itemRecycler" item-template="templateItem">
+		<template id="templateItem" is="dom-template">
 			<div class="_mm_item" data-id="{{model.id}}">
 				<mm-input value="{{model.name}}"></mm-input>
 			</div>
@@ -49,7 +50,7 @@
 		var data = [],
 			itemRecycler,
 			header,
-			NUM_ITEMS = 100;
+			NUM_ITEMS = 100 * 1;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem();
@@ -57,7 +58,7 @@
 
 		function generateItem() {
 			data.push({
-				id: i,
+				//id: i, // id throws an error -- https://github.com/Polymer/polymer/issues/2061
 				name: Math.random().toString(36).substring(7),
 				advertiser: "Advertiser No. " + i,
 				concept: "Concept No. " + i,
@@ -67,7 +68,7 @@
 			});
 		}
 
-		window.addEventListener("polymer-ready", function() {
+		window.addEventListener("WebComponentsReady", function() {
 			itemRecycler = document.querySelector("#itemRecycler");
 			header = document.querySelector("#header");
 			itemRecycler.data = data;

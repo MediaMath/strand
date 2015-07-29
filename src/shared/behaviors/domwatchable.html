@@ -1,0 +1,33 @@
+<!--
+@license
+Copyright (c) 2015 MediaMath Inc. All rights reserved.
+This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+-->
+<script language="javascript">
+(function (scope) {
+
+	var defaultConfig = {
+			childList: true,
+		};
+
+	scope.DomWatchable = {
+
+		onMutation: function(callback, target, config) {
+
+			var watchable = this,
+				element = target || this,
+				observer = new MutationObserver(function () {
+					if (observer) {
+						observer.disconnect();
+						observer = null;
+						callback.call(watchable);
+					}
+				});
+
+			observer.observe(element, config || defaultConfig);
+		},
+
+	 };
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>
