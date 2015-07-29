@@ -1,6 +1,15 @@
 ## Change Log
 
+### v1.1.3 (2015/07/29 20:06 +00:00)
+- [47e2d4e](https://github.com/MediaMath/strand/commit/47e2d4e699c38f9f53205b600be5da1441545269) Restore comment accuracy (@jcmoore)
+- [e54204b](https://github.com/MediaMath/strand/commit/e54204bc7a5165ac1fb9a2a0447a9eb423be1b54) Update to mm-grid recycle false (@anthonykoerber)
+- [cb1cfc5](https://github.com/MediaMath/strand/commit/cb1cfc5d899d04a6fbda8aa79761910faec3c8e5) cname (@dlasky)
+- [1535a17](https://github.com/MediaMath/strand/commit/1535a17607f6ba9e5b0b62aff9457d9d24a22154) Permit mm-grid without recycling
+- [9dfe9bf](https://github.com/MediaMath/strand/commit/9dfe9bfafdb98a10264b67e8567453673e1a69e3) Make "close" link text and "save" button text on mm-datepicker user definable (@jeremysklarsky)
+- [b6cced9](https://github.com/MediaMath/strand/commit/b6cced90b6ada50e97ed816c888c8bd483b16fdc) Makes mm-datepicker duration estimate display optional (@jeremysklarsky)
+
 ### v1.1.2 (2015/07/16 19:12 +00:00)
+- [d11d691](https://github.com/MediaMath/strand/commit/d11d691b367dc80eb11ad8b77df5a8ecbba626fe) Release v1.1.2 (@dlasky)
 - [15a768f](https://github.com/MediaMath/strand/commit/15a768f11a33981540835ca0ea2d8957e4a9add0) cname support for docs build (@dlasky)
 - [2f589fa](https://github.com/MediaMath/strand/commit/2f589fa5bea5293738e9bcdba0d3e3dac4f8de39) fix for Number values in .data array not being selectable (@dlasky)
 - [ce753a3](https://github.com/MediaMath/strand/commit/ce753a313842f0a661c23e6172afda52388f790b) removed some unneeded logic (@dlasky)
@@ -11,6 +20,7 @@
 - [71042cb](https://github.com/MediaMath/strand/commit/71042cb9fbb9003ceab2357975559343bddf56a7) range setting fixes on dp
 
 ### v1.1.1 (2015/06/16 16:04 +00:00)
+- [340ad67](https://github.com/MediaMath/strand/commit/340ad67d367f4401309725d6a8dc580af29dcff3) Release v1.1.1 (@derekolson)
 - [32eff76](https://github.com/MediaMath/strand/commit/32eff761037c55a103e8fe61aab76d53ce0a3815) simplify release build script (@derekolson)
 - [a44f3ed](https://github.com/MediaMath/strand/commit/a44f3ed35a605acd2dea92d8481a0280f2d1559d) Update mm-group.scss (@anthonykoerber)
 - [ad5c7bb](https://github.com/MediaMath/strand/commit/ad5c7bba2133c9883da5f8214b7e4c708f72d692) datepicker end date override fix (@dlasky)
