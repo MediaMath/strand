@@ -16,6 +16,14 @@
 	min-height: 300px;
 }
 
+:host([recycle=false]) {
+	min-height: 0px; // height of the header - safari needs a number
+
+	#viewport {
+		position: static;
+	}
+}
+
 #header, #footer {
 	@include display(flex);
 	position: absolute;

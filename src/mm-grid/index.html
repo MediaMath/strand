@@ -20,6 +20,7 @@
 			display: none;
 		}
 
+		/* comment out for recycle="false" */
 		mm-grid {
 			height: 100%;
 		}
@@ -30,6 +31,7 @@
 	</style>
 </head>
 <body>
+	<!--
 	<polymer-element name="test-app" attributes="data" noscript>
 		<template>
 		<style type="text/css">
@@ -90,6 +92,55 @@
 	<div class="container">
 		<test-app></test-app>
 	</div>
+	-->
+	<div class="container">
+		<mm-grid id="mmTestGrid" itemTemplate="customTemplate" selectable="{{selectable}}" unresolved data="{{data}}">
+			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+			<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
+			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
+			<mm-grid-column width="10%" field="actions"></mm-grid-column>
+			<template id="customTemplate">
+				<mm-grid-item model="{{model}}" scope="{{scope}}">
+					<div field="actions">
+						<mm-tooltip model="{{model}}" tipWidth="150">
+							<mm-icon width="15" height="15" type="actions"></mm-icon>
+							<template>
+								<label>I'm a tooltip for Creative - {{model.name}}</label>
+							</template>
+						</mm-tooltip>
+					</div>
+					<div field="name">
+						Creative - {{model.name}}
+					</div>
+					<div class="expansion">
+						<div class="expansion-row">
+							<div class="expansion-col">
+								<h4>Expanded Content</h4>
+								{{model.name}}
+							</div>
+							<div class="expansion-col">
+								<h4>Expanded Advertiser</h4>
+								{{model.advertiser}}
+							</div>
+							<div class="expansion-col">
+								<h4>Expanded Concept</h4>
+								{{model.concept}}
+							</div>
+						</div>
+						<div class="expansion-row">
+							<div class="expansion-col">Expanded Content - {{model.content}}</div>
+						</div>
+					</div>
+				</mm-grid-item>
+			</template>
+		</mm-grid>
+	</div>
+
+	<div style="width:100%; height: 600px; background: #ff0000;"></div>
+
 	<script type="text/javascript">
 		var data = [],
 			columns = [
@@ -101,7 +152,7 @@
 				{field: "dimensions", label: "Dimensions", width: "15%", align:"right"}
 			],
 			app, 
-			NUM_ITEMS = 163; // a prime number -- definitely not divisible evenly into a number of recycled panels
+			NUM_ITEMS = 301; // a prime number -- definitely not divisible evenly into a number of recycled panels
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem();
@@ -127,7 +178,7 @@
 		}
 
 		window.addEventListener("polymer-ready", function() {
-			app = document.querySelector("test-app");
+			app = document.querySelector("#mmTestGrid"); // document.querySelector("test-app");
 			app.data = data;
 		});
 	</script>

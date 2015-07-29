@@ -43,7 +43,7 @@
 			sortField: "",
 			sortOrder: 1,
 			isLoading: false,
-			recycle: "true",
+			recycle: "true"
 		},
 
 		expanded: false,
@@ -60,17 +60,11 @@
 			this.itemTemplate = this.itemTemplate || this.$.defaultTemplate;
 		},
 
-		_originalStylePosition: "absolute",
-
-		recycleChanged: function () {
-			if (this.recycle === "false") {
-				this._originalStylePosition = this.$.viewport.style.position;
-				this.$.viewport.style.position = "static";
+		recycleChanged: function (oldVal, newVal) {
+			if (newVal === "false") {
 				if (this.$.viewport.data) {
 					this.resizeViewport();
 				}
-			} else {
-				this.$.viewport.style.position = this._originalStylePosition;
 			}
 		},
 
