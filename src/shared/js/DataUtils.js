@@ -115,15 +115,9 @@
 
 	var DataUtils  = {
 
-		clone: function(list) {
-			return _clone(list);
-		},
-
+		clone: _clone,
 		copy: _copy,
-
-		isType: function(value, type) {
-			return _isType(value, type);
-		},
+		isType: _isType,
 
 		param: function(name, value) {
 			return {
@@ -132,17 +126,15 @@
 			};
 		},
 
-		packParams: function(paramArray, outputObject) {
-			return _pack(paramArray, outputObject);
-		},
+		packParams: _pack,
 
-		unpackParams: function(inputObject) {
-			return _unpack(obj);
-		},
+		unpackParams: _unpack,
 
-		uniqueMergeParams: function() {
-			return _uniqueMerge.apply(this, arguments);
-		},
+		// uniqueMergeParams: function() {
+		// 	return _uniqueMerge.apply(this, arguments);
+		// },
+
+		uniqueMergeParams: _uniqueMerge,
 
 		objectifyDistributedNodes: function(elementList, ignoreList) {
 
@@ -167,6 +159,13 @@
 
 		nodeInnerValue: function(nodeObj) {
 			return nodeObj.value || nodeObj.inner;
+		},
+
+		nodeToParam: function(nodeObj) {
+			return {
+				name:o.name,
+				value:this.nodeInnerValue(nodeObj)
+			};
 		},
 
 		mergeParamLists: function() {

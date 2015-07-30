@@ -10,11 +10,13 @@
 	var Storage = StrandLib.Storage;
 	var Ajax = StrandLib.Ajax;
 
-	function _getParamBase() {
+	var __csrf;
+
+	function _getParamBase(obj) {
 		return {
-			queryParams:[],
-			urlParams:[],
-			headers:[]
+			queryParams: obj.queryParams || [],
+			urlParams: obj.urlParams || [],
+			headers: obj.headers || []
 		};
 	}
 
@@ -66,7 +68,8 @@
 				type:Object,
 				value: function() {
 					return {};
-				}
+				},
+				observe:"_dataChanged"
 			},
 
 			cacheGlobals: {
@@ -77,6 +80,10 @@
 			cacheCsrf:{
 				type:Boolean,
 				value:false
+			},
+			csrfHeader:{
+				type:String,
+				value:"X-CSRF-Token"
 			},
 
 			page: {
@@ -119,11 +126,11 @@
 		},
 
 		post: function(data, options) {
-			return this._ajax.exec( data, DataUtils.copy({method:Ajax.POST}, options));
+			return this.sync(Ajax.POST, data, options);
 		},
 
-		put:function(data,options) {
-			return this._ajax.exec( data, DataUtils.copy({method:Ajax.PUT}, options));
+		put: function(data, options) {
+			return this.sync(Ajax.PUT, data, options);
 		},
 
 		delete: function (data, options) {
@@ -133,13 +140,27 @@
 		sync: function(method, data, options) {
 			method = method || Ajax.GET;
 			data = data || this.body;
-			options = DataUtils.copy({}, options, this.options);
 
-			this.getCacheBuster(this.cacheBuster, options.params);
+			var configOpts = this._getDomConfig(method, this.domObject);
 
-			var promise = this._ajax.exec( data, DataUtils.copy({method:method}, options));
-			promise.then(this.handleResult, this.handleError);
+			options = DataUtils.copy({method:method}, options, configOpts, this.options);
+
+			this._getCacheBuster(this.cacheBuster, options.params);
+			var promise = this._ajax.exec( data, options );
+			promise.then(this._handleResult, this._handleError);
+
 			return promise;
+		},
+
+		_getDomConfig: function(method, domObject) {
+			var domConfig = method === Ajax.GET ? this.domObject["input-params"] : this.domObject["output-params"];
+			domConfig = _getParamBase(domConfig) || _getParamBase();
+
+			return {
+				headers: domConfig.headers.map(DataUtils.nodeToParam),
+				params: domConfig.queryParams.map(DataUtils.nodeToParam),
+				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
+			};
 		},
 
 		domObjectChanged: function(domObject) {
@@ -149,7 +170,13 @@
 			}
 		},
 
-		getCacheBuster: function(cacheBuster, queryParams) {
+		_dataChanged:function(oldData, newData) {
+			if (this.auto && this.auto !== "load") {
+				this.post();
+			}
+		},
+
+		_getCacheBuster: function(cacheBuster, queryParams) {
 			if (this.cacheBuster) {
 				queryParams = queryParams || [];
 
@@ -164,41 +191,44 @@
 			}
 		},
 
-		getCSRFHeader: function(result) {
-			var headers = [],
-				csrf = "";
+		_getCSRFHeader: function(result) {
 
 			if (this.csrf) {
-				headers = ajax.xhr.getAllResponseHeaders().match(/X-CSRF-Token/ig);
+				var headReg = new Regexp(this.csrfHeader,"ig");
+				var headers = ajax.xhr.getAllResponseHeaders().match(this.headReg);
 				if (headers) {
-					csrf = ajax.xhr.getResponseHeader(headers[0]);
-					_csrf = csrf;
+					var csrf = ajax.xhr.getResponseHeader(headers[0]);
+					__csrf = csrf;
 					if (this.cacheCsrf) {
-						this.$.csrf.save(csrf);
+						this._csrf.save(csrf);
+						// this.$.csrf.save(csrf);
 					}
-					this.csrfHeader = csrf;
+					// this.csrfHeader = csrf;
 				}
 			}
 		},
 
-		setCSRFHeader: function(mode) {
-			var csrf;
-			if (this.csrf && (this.csrfHeader || _csrf)) {
-				csrf = DataUtils.param("X-CSRF-Token", this.csrfHeader || _csrf );
-				if (mode === "get") {
-					this._inputParams.headers.push(csrf);
+		_setCSRFHeader: function(method, headers) {
+			if (this.csrf && __csrf) {
+				var csrf = DataUtils.param(this.csrfHeader, __csrf );
+				if (method === Ajax.GET) {
+					headers.push(csrf);
 				} else {
-					this._outputParams.headers.push(csrf);
+					headers.push(csrf);
 				}
 			}
 		},
 
-		handleResult: function(result) {
+		_handleResult: function(result) {
 			console.warn("result",result);
+			this._getCSRFHeader(result);
+			this.fire("data-result",result);
+			//TODO: things
 		},
 
-		handleError: function(error) {
+		_handleError: function(error) {
 			console.warn("error",error);
+			this.fire("data-error",error);
 		},
 
 		setGlobal: function(key, value) {
