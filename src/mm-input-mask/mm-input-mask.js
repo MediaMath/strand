@@ -164,9 +164,9 @@
 			//TODO: remove this in favor of dom notifier
 			this._parseMask();
 
-			this.async(function() {
-				this.$.input.toggleAttribute("disabled");
-			});
+			// this.async(function() {
+			// 	this.$.input.toggleAttribute("disabled");
+			// });
 		},
 
 		_parseMask: function() {
@@ -204,7 +204,6 @@
 							style:style,
 							loaded: false,
 							value: '',
-							contentWidth:this.contentWidth,
 							placeholder: rest.substring(0,node.attributes.size.value)
 						};
 						rest = rest.substring(node.attributes.size.value)
@@ -218,10 +217,10 @@
 						var s = {
 							type:_types.SEP, 
 							value:chars, 
-							style:{
-								sep:true, 
-								placeholder:true
-							}
+							style: this.classBlock({
+								sep: true, 
+								placeholder: true
+							})
 						};
 						rest = rest.substring(chars.length);
 						maskConfig.push(s);
@@ -234,38 +233,51 @@
 			this.groups = groups;
 		},
 
-		contentWidth: function(item,value) {
-			console.log(item);
-			console.log(value);
-			var val = item.value,
-				placeholder = item.placeholder;
+		// contentWidth: function(item,value) {
+		// 	console.log(item);
+		// 	console.log(value);
+		// 	var val = item.value,
+		// 		placeholder = item.placeholder;
+		// 	var w = 0.0;
+		// 	var check = val || placeholder || "";
+		// 	while(check.length < this.max) {
+		// 		check += "S";
+		// 	}
+		// 	if (!val && placeholder) {
+		// 		w = Measure.textWidth(null, check, "italic 13px Arimo");
+		// 	} else {
+		// 		w = Measure.textWidth(null, check, "13px Arimo");
+		// 	}
+		// 	return this.styleBlock({
+		// 		background: "red",
+		// 	});
+		// },
+
+		_sepClass: function(val) {
+			if(!val) var val = "";
+			var placeholder = val.length <= this.sepsLen;
+			return this.classBlock({
+				sep: true,
+				placeholder: placeholder
+			});
+		},
+
+		_groupStyle: function(inputValue,item) {
 			var w = 0.0;
-			var check = val || placeholder || "";
-			while(check.length < this.max) {
+			var check = item.value || item.placeholder || "";
+			while(check.length < item.max) {
 				check += "S";
 			}
-			if (!val && placeholder) {
+			console.log("check: " + check);
+			if (!item.value && item.placeholder) {
 				w = Measure.textWidth(null, check, "italic 13px Arimo");
 			} else {
 				w = Measure.textWidth(null, check, "13px Arimo");
 			}
-			return this.styleBlock({
-				background: "red",
-			});
-		},
 
-		valueChanged: function(newValue,oldValue) {
-			if (newValue) {
-				var placeholder = newValue.length <= this.sepsLen;
-				this.seps.forEach(function(sep) {
-					sep.style = {sep:true, placeholder:placeholder};
-				},this);
-			}
-			if (this.ignoreInternal) {
-				this.ignoreInternal = false;
-				return;
-			}
-			this.applyValue(this.chunkValue(newValue));
+			return this.styleBlock({
+				width: w+"px"
+			});
 		},
 
 		chunkValue: function(value, type) {
@@ -335,15 +347,17 @@
 
 		_handleFocus: function(e) {
 			this.updateGroups();
-			this._handleInputFocus();
+			this._handleInputFocus();       
 		},
 
 		_handleInputFocus: function(e) {
-			this.$.input.toggleAttribute("disabled");
+			this.$.input.toggleAttribute("forceFocus");
+			// this.$.input.toggleAttribute("disabled");
 		},
 
 		_handleBlur: function(e) {
-			this.$.input.toggleAttribute("disabled");
+			this.$.input.toggleAttribute("forceFocus");
+			// this.$.input.toggleAttribute("disabled");
 		},
 
 		validateGroup: function(e, target) {
