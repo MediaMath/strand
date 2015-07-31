@@ -22,9 +22,9 @@
 		<div id="pseudo">
 			<template is="dom-repeat" id="domRepeat" items="{{maskConfig}}">
 				<template is="dom-if" if="{{item.type}}">
-					<input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" class="_mm_text_input mask" disabled$="{{item.disabled}}" value$="{{item.value}}" on-focus="_handleFocus" on-blur="_handleBlur" on-keydown="cellKey" on-keyup="cellVal" placeholder="{{item.placeholder}}"></input>
+					<input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" style$="{{ _groupStyle(value,item) }}" class="_mm_text_input mask" disabled$="{{item.disabled}}" value$="{{item.value}}" on-focus="_handleFocus" on-blur="_handleBlur" on-keydown="cellKey" on-keyup="cellVal" placeholder="{{item.placeholder}}"></input>
 				</template>
-				<template is="dom-if" if="{{!item.type}}"><span>{{item.value}}</span></template>
+				<template is="dom-if" if="{{!item.type}}"><span class$="{{ _sepClass(value) }}">{{item.value}}</span></template>
 			</template>
 		</div>
 		<mm-input id="input"></mm-input>
