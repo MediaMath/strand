@@ -101,6 +101,17 @@
 		}, init);
 	}
 
+	function _nodeInnerValue(nodeObj) {
+		return nodeObj.value || nodeObj.inner;
+	}
+
+	function _nodeToParam(nodeObj) {
+		return {
+			name:nodeObj.name,
+			value:_nodeInnerValue(nodeObj)
+		};
+	}
+
 	function _compoundObserver(obj, observer) {
 		for(var i in obj) {
 			if (obj.hasOwnProperty(i)) {
@@ -157,16 +168,8 @@
 			}, {});
 		},
 
-		nodeInnerValue: function(nodeObj) {
-			return nodeObj.value || nodeObj.inner;
-		},
-
-		nodeToParam: function(nodeObj) {
-			return {
-				name:o.name,
-				value:this.nodeInnerValue(nodeObj)
-			};
-		},
+		nodeInnerValue: _nodeInnerValue,
+		nodeToParam: _nodeToParam,
 
 		mergeParamLists: function() {
 			var i,

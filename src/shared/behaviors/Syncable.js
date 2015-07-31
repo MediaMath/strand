@@ -14,9 +14,9 @@
 
 	function _getParamBase(obj) {
 		return {
-			queryParams: obj.queryParams || [],
-			urlParams: obj.urlParams || [],
-			headers: obj.headers || []
+			params: obj.queryparam || [],
+			urlParams: obj.urlparam || [],
+			headers: obj.header || []
 		};
 	}
 
@@ -59,7 +59,7 @@
 						contentType:"application/x-www-form-urlencoded",
 						timeout:10000,
 						withCredentials:false,
-						concurrency:4,
+						concurrency:4
 					};
 				}
 			},
@@ -143,7 +143,7 @@
 
 			var configOpts = this._getDomConfig(method, this.domObject);
 
-			options = DataUtils.copy({method:method}, options, configOpts, this.options);
+			options = DataUtils.copy({method:method, url:this.endpoint}, options, configOpts, this.options);
 
 			this._getCacheBuster(this.cacheBuster, options.params);
 			var promise = this._ajax.exec( data, options );
@@ -158,7 +158,7 @@
 
 			return {
 				headers: domConfig.headers.map(DataUtils.nodeToParam),
-				params: domConfig.queryParams.map(DataUtils.nodeToParam),
+				params: domConfig.params.map(DataUtils.nodeToParam),
 				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
 			};
 		},
