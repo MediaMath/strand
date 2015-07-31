@@ -4,7 +4,9 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function () {
+(function(scope) {
+
+	var Measure = StrandLib.Measure;
 
 	var _types = {
 		SEP:0,
@@ -99,23 +101,60 @@
 		return range.indexOf("-") !== -1;
 	};
 
-	Polymer('mm-input-mask', {
-		ver:"<<version>>",
+	scope.InputMask = Polymer({
+		is: 'mm-input-mask',
 
-		publish: {
-			mask:"",
-			rules:null,
-			restrict:null
+		behaviors: [
+			StrandTraits.DomGettable,
+			StrandTraits.Stylable,
+		],
+
+		properties: {
+			value: {
+				type: String,
+				reflectToAttribute: true,
+				value: null,
+			},
+			mask: {
+				type: String,
+				value: "",
+			},
+			maskConfig: {
+				type: Array,
+				value: function() { return []; }
+			},
+			seps: {
+				type: Array,
+				value: function() { return []; }
+			},
+			groups: {
+				type: Array,
+				value: function() { return []; }
+			},
+			rules: {
+				type: Object,
+				value: null,
+			},
+			restrict: {
+				type: Object,
+				value: null,
+			},
+			placeholder: {
+				type: String,
+				reflectToAttribute: true,
+				value: null,
+			},
 		},
 
 		created: function() {
-			this.loader = new FontLoader();
-			this.loader.add("Arimo");
+			// this._parseMask();
+		},
+
+		attached: function() {
+			this.updateGroups();
 		},
 
 		ready: function() {
-
-			this.super();
 			if (!this.rules) {
 				this.rules = _rules;
 			}
@@ -123,37 +162,30 @@
 				this.restrict = _restrict;
 			}
 			//TODO: remove this in favor of dom notifier
-			this.parseMask();
+			this._parseMask();
 
+			this.async(function() {
+				this.$.input.toggleAttribute("disabled");
+			});
 		},
 
-		domReady: function() {
-			this.$.input.setAttribute("disabled",true);
-			this.updateGroups();
-		},
-
-		attached: function() {
-			this.$.input.addEventListener("focus", this.handleFocus.bind(this));
-			this.$.input.addEventListener("blur", this.handleBlur.bind(this));
-		},
-
-		detached: function() {
-			this.$.input.removeEventListener("focus");
-			this.$.input.removeEventListener("blur");
-		},
-
-		parseMask: function() {
+		_parseMask: function() {
 			this.sepsLen = 0; //used to check 'empty' state for placeholder styling
-			var nodes = DataUtils.clone( this.$.content.getDistributedNodes() ),
+			var nodes = Polymer.dom(this).children,
+				maskConfig = [],
 				groups = [],
-				seps = [];
-			this.maskConfig = nodes.map(function(node, index) {
+				seps = [],
+				rest = this.placeholder;
+
+			for(var i=0; i<nodes.length; i++) {
+				var node = nodes[i];
 				switch(node.nodeName) {
 					case "GROUP":
-						var rng = _groupRange(node.getAttribute("size")),
-							rule = this.rules[node.getAttribute("rule")],
-							restrict = this.restrict[node.getAttribute("restrict")],
-							auto = node.getAttribute("autofill"),
+						var rng = _groupRange(node.attributes.size.value),
+							rule = this.rules[node.attributes.rule.value],
+							restrict = this.restrict[node.attributes.restrict.value],
+							// auto = node.attributes.autofill.value,
+							auto = false,
 							args = node.textContent.trim(),
 							style = {
 								width:"auto"
@@ -161,7 +193,7 @@
 						if (restrict !== _restrict.numeric) style = {};
 
 						var o = {
-							index:index,
+							id:"mini"+i,
 							max:rng[1],
 							min:rng[0], 
 							rule:rule, 
@@ -171,13 +203,17 @@
 							type:_types.GROUP, 
 							style:style,
 							loaded: false,
-							contentWidth:this.contentWidthHandler
+							value: '',
+							contentWidth:this.contentWidth,
+							placeholder: rest.substring(0,node.attributes.size.value)
 						};
+						rest = rest.substring(node.attributes.size.value)
+						maskConfig.push(o)
 						groups.push(o);
-						return o;
+						break;
 
 					case "SEP":
-						var chars = node.getAttribute("chars");
+						var chars = node.attributes.chars.value;
 						this.sepsLen += chars.length;
 						var s = {
 							type:_types.SEP, 
@@ -187,27 +223,22 @@
 								placeholder:true
 							}
 						};
+						rest = rest.substring(chars.length);
+						maskConfig.push(s);
 						seps.push(s);
-						return s;
+						break;
 				}
-			}, this);
+			}
+			this.maskConfig = maskConfig;
 			this.seps = seps;
 			this.groups = groups;
-
-
-			this.loader.add("Arimo").then(function(e) {
-
-				this.arimoLoaded = true;
-				this.async(function() {
-					this.groups.forEach(function(group) {
-						group.loaded = true;
-						},this);
-					});
-			}.bind(this));
-
 		},
 
-		contentWidthHandler: function(style, val, placeholder, loaded) {
+		contentWidth: function(item,value) {
+			console.log(item);
+			console.log(value);
+			var val = item.value,
+				placeholder = item.placeholder;
 			var w = 0.0;
 			var check = val || placeholder || "";
 			while(check.length < this.max) {
@@ -218,15 +249,12 @@
 			} else {
 				w = Measure.textWidth(null, check, "13px Arimo");
 			}
-			style.width = w + "px";
-			return style;
+			return this.styleBlock({
+				background: "red",
+			});
 		},
 
-		placeholderChanged: function(oldPlaceholder, newPlaceholder) {
-			this.applyValue(this.chunkValue(this.placeholder, "placeholder"), "placeholder");
-		},
-
-		valueChanged: function(oldValue, newValue) {
+		valueChanged: function(newValue,oldValue) {
 			if (newValue) {
 				var placeholder = newValue.length <= this.sepsLen;
 				this.seps.forEach(function(sep) {
@@ -244,10 +272,10 @@
 			if (!type) type = "value";
 			//clear case
 			if (value === "" || value === null) {
-				// for(var i=0; i<this.groups.length; i++) {
-				// 	var g = this.groups[i];
-				// 	g[type] = "";
-				// }
+				for(var i=0; i<this.groups.length; i++) {
+					var g = this.groups[i];
+					g[type] = "";
+				}
 				return [];
 
 			//chunk our values and assign them to sub fields
@@ -301,21 +329,21 @@
 
 		updateGroups: function() {
 			this.groupSel = this.groups.map(function(o) {
-				return this.shadowRoot.querySelector("#mini"+o.index);
+				return this.querySelector("#"+o.id);
 			}.bind(this));
 		},
 
-		handleFocus: function(e) {
+		_handleFocus: function(e) {
 			this.updateGroups();
-			this.handleInputFocus();
+			this._handleInputFocus();
 		},
 
-		handleInputFocus: function(e) {
-			this.$.input.setAttribute("forceFocus",true);
+		_handleInputFocus: function(e) {
+			this.$.input.toggleAttribute("disabled");
 		},
 
-		handleBlur: function(e) {
-			this.$.input.removeAttribute("forceFocus");
+		_handleBlur: function(e) {
+			this.$.input.toggleAttribute("disabled");
 		},
 
 		validateGroup: function(e, target) {
@@ -361,6 +389,7 @@
 		},
 
 		cellKey: function(e) {
+			this.updateGroups();
 			var target = e.target,
 				code = e.keyCode,
 				alpha = (code >= 48 && code <= 57),
@@ -394,11 +423,12 @@
 			if (tab) {
 				this.handleFill(target);
 			}
-
 		},
 
 		cellVal: function(e) {
-			var val = this.maskConfig.reduce(function(prev, item) {
+			this.$.domRepeat.itemForElement(e.target).value = e.target.value;
+
+			var val = this.maskConfig.reduce(function(prev,item) {
 				return item.value ? prev + item.value : prev;
 			},"");
 			if (val !== this.value) {
@@ -408,4 +438,5 @@
 		}
 
 	});
-})();
+
+})(window.Strand = window.Strand || {});
