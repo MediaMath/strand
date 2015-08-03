@@ -6,7 +6,8 @@
 */
 (function(scope) {
 
-	var Measure = StrandLib.Measure;
+	var Measure = StrandLib.Measure,
+		FontLoader = StrandLib.FontLoader;
 
 	var _types = {
 		SEP:0,
@@ -113,7 +114,9 @@
 			value: {
 				type: String,
 				reflectToAttribute: true,
+				notify: true,
 				value: null,
+				observer: '_valueChanged'
 			},
 			mask: {
 				type: String,
@@ -121,13 +124,18 @@
 			},
 			maskConfig: {
 				type: Array,
-				value: function() { return []; }
+				value: function() { return []; },
+				notify: true,
 			},
 			seps: {
 				type: Array,
 				value: function() { return []; }
 			},
 			groups: {
+				type: Array,
+				value: function() { return []; }
+			},
+			groupSel: {
 				type: Array,
 				value: function() { return []; }
 			},
@@ -147,11 +155,75 @@
 		},
 
 		created: function() {
-			// this._parseMask();
+			this.loader = new FontLoader();
+			this.loader.add("Arimo");
 		},
 
 		attached: function() {
 			this.updateGroups();
+		},
+
+		_maskTemplate: function() {
+			var template = [];
+			var nodes = this.getLightDOM();
+			for(var i=0; i<nodes.length; i++) {
+				var node = nodes[i];
+				if(node.nodeName === "SEP") template.concat(node.attributes.chars.value.split(''));
+				else for(var j=0; j<node.attributes.size.value; j++) template.push(null);
+			}
+			return template;
+		},
+
+		_valueChanged: function(value) {
+			// this._sanitizeValue(value);
+			if(value) this._chunkValue(value,false);
+			else this._chunkValue(this.placeholder,true);
+		},
+
+		_sanitizeValue: function(value) {
+			if(!value) return;
+			var rest = value;
+			var template = this._maskTemplate();
+			for(var i=0; i<template.length; i++) {
+				if(template[i] === null) {
+					template[i] = rest[0];
+					rest = rest.substring(1);
+				};
+			}
+			template = template.join('');
+			console.log(template);
+			this.value = template;
+		},
+
+		_chunkValue: function(value, isPlaceholder) {
+			console.log("chunking");
+			if(!value) return;
+			if(!this.groupSel) return;
+			if(this.groupSel.reduce(function(curr,prev){ !curr || !prev; })) return;
+			this.async(function() {
+				var nodes = this.getLightDOM();
+				var rest = value;
+				var groupCount = 0;
+
+				for(var i=0; i<nodes.length; i++) {
+					var node = nodes[i];
+					if(node.nodeName === 'GROUP' && isPlaceholder) {
+						var size = Math.min(node.attributes.size.value,this.groupSel[groupCount].placeholder.length);
+						this.maskConfig[i].placeholder = rest.substring(0,size);
+						this.groupSel[groupCount].placeholder = this.maskConfig[i].placeholder;
+						rest = rest.substring(size);
+						groupCount++;
+					} else if(node.nodeName === 'GROUP') {
+						var size = Math.min(node.attributes.size.value,this.groupSel[groupCount].value.length);
+						this.maskConfig[i].value = rest.substring(0,size);
+						this.groupSel[groupCount].value = this.maskConfig[i].value;
+						rest = rest.substring(size);
+						groupCount++;
+					} else {
+						rest = rest.substring(node.attributes.chars.value.length);
+					}
+				}
+			});
 		},
 
 		ready: function() {
@@ -234,27 +306,16 @@
 			this.maskConfig = maskConfig;
 			this.seps = seps;
 			this.groups = groups;
-		},
 
-		// contentWidth: function(item,value) {
-		// 	console.log(item);
-		// 	console.log(value);
-		// 	var val = item.value,
-		// 		placeholder = item.placeholder;
-		// 	var w = 0.0;
-		// 	var check = val || placeholder || "";
-		// 	while(check.length < this.max) {
-		// 		check += "S";
-		// 	}
-		// 	if (!val && placeholder) {
-		// 		w = Measure.textWidth(null, check, "italic 13px Arimo");
-		// 	} else {
-		// 		w = Measure.textWidth(null, check, "13px Arimo");
-		// 	}
-		// 	return this.styleBlock({
-		// 		background: "red",
-		// 	});
-		// },
+			this.loader.add("Arimo").then(function(e) {
+				this.arimoLoaded = true;
+				this.async(function() {
+					this.groups.forEach(function(group) {
+						group.loaded = true;
+						},this);
+					});
+			}.bind(this));
+		},
 
 		_sepClass: function(val) {
 			if(!val) var val = "";
@@ -265,80 +326,19 @@
 			});
 		},
 
-		_groupStyle: function(inputValue,item) {
+		_groupStyle: function(inputValue,item,loaded) {
+			// console.log('styling group');
 			var w = 0.0;
 			var check = item.value || item.placeholder || "";
 			while(check.length < item.max) {
 				check += "S";
 			}
-			if (!item.value && item.placeholder) {
-				w = Measure.textWidth(null, check, "italic 13px Arimo");
-			} else {
-				w = Measure.textWidth(null, check, "13px Arimo");
-			}
+			console.log(check);
+			w = Measure.textWidth(null, check, "13px Arimo");
 
 			return this.styleBlock({
 				width: w+"px"
 			});
-		},
-
-		chunkValue: function(value, type) {
-			if (!type) type = "value";
-			//clear case
-			if (value === "" || value === null) {
-				for(var i=0; i<this.groups.length; i++) {
-					var g = this.groups[i];
-					g[type] = "";
-				}
-				return [];
-
-			//chunk our values and assign them to sub fields
-			} else {
-				var sepReg = "[" +  this.seps.map(function (sep) {
-						return sep.value;
-					}).join("")+ "]+",
-					srcPath = Path.get("restrict.source"),
-					base = this.maskConfig.map(function(item) {
-						switch(item.type) {
-							case _types.GROUP:
-								item = this.groups.filter(function(g) {
-									return g.index === item.index;
-								})[0];
-								var src = srcPath.getValueFrom(item) || ".*";
-								if (type === "placeholder") {
-									src = ".*";
-								}
-								if (item.min !== item.max) {
-									return "(" + src + ")";
-								} else {
-									src = src.replace("+","");
-									src = src.replace("*","");
-									return "(" + src + "{" + item.min + "})";
-								}
-								break;
-							case _types.SEP:
-								return sepReg;
-						}
-					},this),
-					r = new RegExp(base.join(""), "g"),
-					res = r.exec(value);
-				if (res) {
-					res.shift();
-					return Array.prototype.slice.apply(res);
-				}
-				return [];
-			}
-		},
-
-		applyValue:function(valArray, type) {
-			if (!type) type = "value";
-			if (!valArray) valArray = [];
-			var g, value;
-			for(var i=0; i<this.groups.length; i++) {
-				g = this.groups[i];
-				value = valArray.length > 0 ? valArray[i] : "";
-				g[type] = value;
-			}
 		},
 
 		updateGroups: function() {
