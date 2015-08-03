@@ -164,9 +164,9 @@
 			//TODO: remove this in favor of dom notifier
 			this._parseMask();
 
-			// this.async(function() {
-			// 	this.$.input.toggleAttribute("disabled");
-			// });
+			this.async(function() {
+				this.$.input.$$("input").setAttribute("tabIndex",-1);
+			});
 		},
 
 		_parseMask: function() {
@@ -175,6 +175,7 @@
 				maskConfig = [],
 				groups = [],
 				seps = [],
+				pl = this.value,
 				rest = this.placeholder;
 
 			for(var i=0; i<nodes.length; i++) {
@@ -203,10 +204,11 @@
 							type:_types.GROUP, 
 							style:style,
 							loaded: false,
-							value: '',
-							placeholder: rest.substring(0,node.attributes.size.value)
+							value: (pl) ? pl.substring(0,node.attributes.size.value) : '',
+							placeholder: (rest) ? rest.substring(0,node.attributes.size.value) : ''
 						};
-						rest = rest.substring(node.attributes.size.value)
+						rest = (rest) ? rest.substring(node.attributes.size.value) : '';
+						pl = (pl) ? pl.substring(node.attributes.size.value) : '';
 						maskConfig.push(o)
 						groups.push(o);
 						break;
@@ -222,7 +224,8 @@
 								placeholder: true
 							})
 						};
-						rest = rest.substring(chars.length);
+						pl = (pl) ? pl.substring(chars.length) : '';
+						rest = (rest) ? rest.substring(chars.length) : '';
 						maskConfig.push(s);
 						seps.push(s);
 						break;
@@ -268,7 +271,6 @@
 			while(check.length < item.max) {
 				check += "S";
 			}
-			console.log("check: " + check);
 			if (!item.value && item.placeholder) {
 				w = Measure.textWidth(null, check, "italic 13px Arimo");
 			} else {
@@ -351,13 +353,11 @@
 		},
 
 		_handleInputFocus: function(e) {
-			this.$.input.toggleAttribute("forceFocus");
-			// this.$.input.toggleAttribute("disabled");
+			this.$.input.$$("input").setAttribute("forceFocus",true);
 		},
 
 		_handleBlur: function(e) {
-			this.$.input.toggleAttribute("forceFocus");
-			// this.$.input.toggleAttribute("disabled");
+			this.$.input.$$("input").removeAttribute("forceFocus");
 		},
 
 		validateGroup: function(e, target) {
