@@ -124,21 +124,19 @@
 			},
 			maskConfig: {
 				type: Array,
-				value: function() { return []; },
-				notify: true,
+				value: null
 			},
 			seps: {
 				type: Array,
-				value: function() { return []; }
+				value: null
 			},
 			groups: {
 				type: Array,
-				notify: true,
-				value: function() { return []; }
+				value: null
 			},
 			groupSel: {
 				type: Array,
-				value: function() { return []; }
+				value: null
 			},
 			rules: {
 				type: Object,
@@ -176,12 +174,13 @@
 		},
 
 		_valueChanged: function(newValue, oldValue) {
-			if (!this.groups || !this.seps || !this.maskConfig) return;
 			if (this.ignoreInternal) {
 				this.ignoreInternal = false;
 				return;
 			}
-			this._applyValue(this._chunkValue(newValue));
+			this.async(function() {
+				this._applyValue(this._chunkValue(newValue));
+			});
 		},
 
 		_chunkValue: function(value, type) {
@@ -207,7 +206,7 @@
 								// 	return g.index === item.index;
 								// })[0];
 								// var src = srcPath.getValueFrom(item) || ".*";
-								var src = item.value || ".*";
+								var src = ".*";
 								if (type === "placeholder") {
 									src = ".*";
 								}
@@ -267,7 +266,6 @@
 				maskConfig = [],
 				groups = [],
 				seps = [],
-				pl = this.value,
 				rest = this.placeholder;
 
 			for(var i=0; i<nodes.length; i++) {
@@ -296,11 +294,10 @@
 							type:_types.GROUP, 
 							style:style,
 							loaded: false,
-							value: (pl) ? pl.substring(0,node.attributes.size.value) : '',
+							value: '',
 							placeholder: (rest) ? rest.substring(0,node.attributes.size.value) : ''
 						};
 						rest = (rest) ? rest.substring(node.attributes.size.value) : '';
-						pl = (pl) ? pl.substring(node.attributes.size.value) : '';
 						maskConfig.push(o)
 						groups.push(o);
 						break;
@@ -316,7 +313,6 @@
 								placeholder: true
 							})
 						};
-						pl = (pl) ? pl.substring(chars.length) : '';
 						rest = (rest) ? rest.substring(chars.length) : '';
 						maskConfig.push(s);
 						seps.push(s);
@@ -331,7 +327,9 @@
 				this.arimoLoaded = true;
 				this.async(function() {
 					this.groups.forEach(function(group) {
-						group.loaded = true;
+						var index = this.maskConfig.indexOf(group);
+						var path = 'maskConfig.'+index+'.loaded';
+						this.set(path,true);
 						},this);
 					});
 			}.bind(this));
@@ -347,7 +345,6 @@
 		},
 
 		_groupStyle: function(inputValue,item,loaded) {
-			// console.log('styling group');
 			var w = 0.0;
 			var check = item.value || item.placeholder || "";
 			while(check.length < item.max) {
