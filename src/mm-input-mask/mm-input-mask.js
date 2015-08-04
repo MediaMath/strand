@@ -151,6 +151,10 @@
 				reflectToAttribute: true,
 				value: null,
 			},
+			_arimoLoaded: {
+				type: Boolean,
+				value: false
+			}
 		},
 
 		created: function() {
@@ -324,7 +328,7 @@
 			this.groups = groups;
 
 			this.loader.add("Arimo").then(function(e) {
-				this.arimoLoaded = true;
+				this._arimoLoaded = true;
 				this.async(function() {
 					this.groups.forEach(function(group) {
 						var index = this.maskConfig.indexOf(group);
@@ -350,7 +354,7 @@
 			while(check.length < item.max) {
 				check += "S";
 			}
-			w = Measure.textWidth(null, check, "13px Arimo");
+			w = Measure.textWidth(this.$.input.$$('input'),check);
 
 			return this.styleBlock({
 				width: w+"px"
