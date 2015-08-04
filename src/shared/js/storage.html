@@ -23,7 +23,7 @@
 		},
 
 		hasKey: function(key) {
-			return this.store.getItem(key) !== null;
+			return this.store.getItem(key || this.key) !== null;
 		},
 
 		clear: function() {
