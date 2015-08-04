@@ -10,7 +10,9 @@
 @import "_textinput";
 
 :host {
+	display: inline-block;
 	position: relative;
+	width: auto;
 }
 
 ::content group,sep {
@@ -18,18 +20,19 @@
 }
 
 ::content mm-input {
+	position: relative;
 	z-index: -1;
 }
 
 #pseudo {
 	box-sizing: border-box;
 	position: absolute;
-	top: -3px;
 	left: 0;
 	width: 100%;
 	height: 29px;
 	font-weight: 400;
 	padding: 0 10px;
+	white-space: nowrap;
 
 	input {
 		font-family: Arimo, sans-serif !important;
@@ -66,8 +69,4 @@
 		color: #a9a9a9;
 		font-style: italic;
 	}
-}
-
-#input ::shadow input {
-
 }

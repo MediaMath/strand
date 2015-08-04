@@ -17,7 +17,6 @@
 <!-- <link rel="import" href="../mm-item-notifier/mm-item-notifier.html"> -->
 <dom-module id="mm-input-mask">
 	<link href="mm-input-mask.css" rel="import" type="css">
-
 	<template>
 		<div id="pseudo">
 			<template is="dom-repeat" id="domRepeat" items="{{maskConfig}}"><template is="dom-if" if="{{item.type}}"><input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" style$="{{ _groupStyle(value,item,item.loaded) }}" class="_mm_text_input mask" disabled$="{{item.disabled}}" value$="{{item.value}}" on-focus="_handleFocus" on-blur="_handleBlur" on-keydown="cellKey" on-keyup="cellVal" placeholder="{{item.placeholder}}"></input></template><template is="dom-if" if="{{!item.type}}"><span class$="{{ _sepClass(value) }}">{{item.value}}</span></template></template>
