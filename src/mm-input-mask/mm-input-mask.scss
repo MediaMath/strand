@@ -19,10 +19,6 @@
 
 ::content mm-input {
 	z-index: -1;
-	// color:#FFF;
-	@include placeholder {
-		// color:#FFF;
-	}
 }
 
 #pseudo {
@@ -39,19 +35,20 @@
 		font-family: Arimo, sans-serif !important;
 		font-size: 13px !important;
 		line-height: 2.231em !important;
+		@include placeholder { font-style: italic; }
 	}
 
 	.mask {
 		border: none;
 		box-shadow: none;
 		width: auto;
-		// padding: 0;
-		// margin: 0;
-		// height: 29px;
-		// line-height: 2.231em !important;
+		padding: 0;
+		margin: 0;
+		height: 29px;
+		line-height: 2.231em !important;
 		background: none;
 
-		// @include transition(width .3s ease-in-out);
+		@include transition(width .3s ease-in-out);
 
 		&:focus {
 			outline: none;
@@ -66,7 +63,8 @@
 	}
 
 	.placeholder {
-		color:#a9a9a9;
+		color: #a9a9a9;
+		font-style: italic;
 	}
 }
 

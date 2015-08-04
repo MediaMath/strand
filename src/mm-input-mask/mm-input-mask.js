@@ -383,12 +383,17 @@
 		validateGroup: function(e, target) {
 			var val = String.fromCharCode(e.keyCode);
 			var group = this.getGroup(target);
+			// If alphanumeric throw out all modifiers except capital letters
+			if(group.restrict !== _restrict.all) {
+				if(e.altKey || e.ctrlKey || e.metaKey) return false;
+				if(e.shiftKey && (e.keyCode < 65 || e.keyCode > 90)) return false;
+			}
 			var restrict = group.restrict && _applyReg(group.restrict, val);
 			var rule = group.rule && group.rule(val, target.value, group, target);
 			return restrict && rule;
 		},
 
-		focusLeft: function(target) {
+		_focusLeft: function(target) {
 			var idx = this.groupSel.indexOf(target);
 			if (idx > 0) {
 				idx--;
@@ -398,7 +403,7 @@
 			return target;
 		},
 
-		focusRight: function(target) {
+		_focusRight: function(target) {
 			var idx = this.groupSel.indexOf(target);
 			idx++;
 			if (idx < this.groupSel.length) {
@@ -408,7 +413,7 @@
 			return target;
 		},
 
-		handleFill: function(target) {
+		_handleFill: function(target) {
 			var group = this.getGroup(target),
 				delta = group.max - target.value.length;
 			if (group.auto && delta > 0) {
@@ -426,8 +431,8 @@
 			this.updateGroups();
 			var target = e.target,
 				code = e.keyCode,
-				alpha = (code >= 48 && code <= 57),
-				numeric =  (code >= 65 && code <= 90),
+				numeric = (code >= 48 && code <= 57) || (code >= 96 && code <= 105),
+				alpha =  (code >= 65 && code <= 90),
 				alphaNumeric = alpha || numeric,
 				left = code === 37,
 				right = code === 39,
@@ -436,26 +441,25 @@
 				selLength = target.selectionEnd - target.selectionStart,
 				max = this.getGroup(e.target).max;
 
-
 			if (back && target.value.length === 0 && selLength === 0) {
-				target = this.focusLeft(target);
+				target = this._focusLeft(target);
 			} else
 			if (alphaNumeric && target.value.length === max && selLength === 0) {
-				target = this.focusRight(target);
+				target = this._focusRight(target);
 			} else
 			if (left && e.target.selectionStart === 0) {
-				target = this.focusLeft(target);
+				target = this._focusLeft(target);
 			} else
 			if (right && e.target.selectionStart === max) {
-				target = this.focusRight(target);
+				target = this._focusRight(target);
 			}
 			if (alphaNumeric && !this.validateGroup(e, target) && selLength === 0) {
 				e.preventDefault();
 				if (target.value.length === max)
-					this.focusRight(target);
+					this._focusRight(target);
 			}
 			if (tab) {
-				this.handleFill(target);
+				this._handleFill(target);
 			}
 		},
 
