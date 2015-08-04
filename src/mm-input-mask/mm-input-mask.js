@@ -133,6 +133,7 @@
 			},
 			groups: {
 				type: Array,
+				notify: true,
 				value: function() { return []; }
 			},
 			groupSel: {
@@ -174,56 +175,75 @@
 			return template;
 		},
 
-		_valueChanged: function(value) {
-			// this._sanitizeValue(value);
-			if(value) this._chunkValue(value,false);
-			else this._chunkValue(this.placeholder,true);
-		},
-
-		_sanitizeValue: function(value) {
-			if(!value) return;
-			var rest = value;
-			var template = this._maskTemplate();
-			for(var i=0; i<template.length; i++) {
-				if(template[i] === null) {
-					template[i] = rest[0];
-					rest = rest.substring(1);
-				};
+		_valueChanged: function(newValue, oldValue) {
+			if (!this.groups || !this.seps || !this.maskConfig) return;
+			if (this.ignoreInternal) {
+				this.ignoreInternal = false;
+				return;
 			}
-			template = template.join('');
-			console.log(template);
-			this.value = template;
+			this._applyValue(this._chunkValue(newValue));
 		},
 
-		_chunkValue: function(value, isPlaceholder) {
-			console.log("chunking");
-			if(!value) return;
-			if(!this.groupSel) return;
-			if(this.groupSel.reduce(function(curr,prev){ !curr || !prev; })) return;
-			this.async(function() {
-				var nodes = this.getLightDOM();
-				var rest = value;
-				var groupCount = 0;
+		_chunkValue: function(value, type) {
+			if (!type) type = "value";
+			//clear case
+			if (value === "" || value === null) {
+				// for(var i=0; i<this.groups.length; i++) {
+				// 	var g = this.groups[i];
+				// 	g[type] = "";
+				// }
+				return [];
 
-				for(var i=0; i<nodes.length; i++) {
-					var node = nodes[i];
-					if(node.nodeName === 'GROUP' && isPlaceholder) {
-						var size = Math.min(node.attributes.size.value,this.groupSel[groupCount].placeholder.length);
-						this.maskConfig[i].placeholder = rest.substring(0,size);
-						this.groupSel[groupCount].placeholder = this.maskConfig[i].placeholder;
-						rest = rest.substring(size);
-						groupCount++;
-					} else if(node.nodeName === 'GROUP') {
-						var size = Math.min(node.attributes.size.value,this.groupSel[groupCount].value.length);
-						this.maskConfig[i].value = rest.substring(0,size);
-						this.groupSel[groupCount].value = this.maskConfig[i].value;
-						rest = rest.substring(size);
-						groupCount++;
-					} else {
-						rest = rest.substring(node.attributes.chars.value.length);
-					}
+			//chunk our values and assign them to sub fields
+			} else {
+				var sepReg = "[" +  this.seps.map(function (sep) {
+						return sep.value;
+					}).join("")+ "]+",
+					// srcPath = Path.get("restrict.source"),
+					base = this.maskConfig.map(function(item) {
+						switch(item.type) {
+							case _types.GROUP:
+								// item = this.groups.filter(function(g) {
+								// 	return g.index === item.index;
+								// })[0];
+								// var src = srcPath.getValueFrom(item) || ".*";
+								var src = item.value || ".*";
+								if (type === "placeholder") {
+									src = ".*";
+								}
+								if (item.min !== item.max) {
+									return "(" + src + ")";
+								} else {
+									src = src.replace("+","");
+									src = src.replace("*","");
+									return "(" + src + "{" + item.min + "})";
+								}
+								break;
+							case _types.SEP:
+								return sepReg;
+						}
+					},this),
+					r = new RegExp(base.join(""), "g"),
+					res = r.exec(value);
+				if (res) {
+					res.shift();
+					return Array.prototype.slice.apply(res);
 				}
-			});
+				return [];
+			}
+		},
+
+		_applyValue:function(valArray, type) {
+			if (!type) type = "value";
+			if (!valArray) valArray = [];
+			var g, value;
+			for(var i=0; i<this.groups.length; i++) {
+				g = this.groups[i];
+				value = valArray.length > 0 ? valArray[i] : "";
+				index = this.maskConfig.indexOf(g);
+				path = 'maskConfig.'+index+'.value';
+				this.set(path, value);
+			}
 		},
 
 		ready: function() {
@@ -333,7 +353,6 @@
 			while(check.length < item.max) {
 				check += "S";
 			}
-			console.log(check);
 			w = Measure.textWidth(null, check, "13px Arimo");
 
 			return this.styleBlock({
