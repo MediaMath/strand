@@ -117,6 +117,26 @@
 
 		});
 
+		it("should support adding a manual cachebust for older servers", function() {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+			var sync = new SyncTest();
+			sync.auto = false;
+			sync.cacheBuster = true;
+			sync.get();
+
+			request.url.should.contain("/?nocache=");
+
+			sync.cacheBuster = "testBust";
+			sync.get();
+			request.url.should.contain("/?testBust=");
+
+			xhr.restore();
+		});
+
 	});
 	</script>
 	<!-- <test-syncable auto="false"></test-syncable> -->
