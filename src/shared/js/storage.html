@@ -1,3 +1,4 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html"/>
 <script>
 /**
  * @license
@@ -38,6 +39,16 @@
 			window.removeEventListener("storage", this.handleStorage);
 			delete this.mode;
 			delete this.key;
+		},
+
+		set: function(objPath, value) {
+			var o = this.value;
+			Polymer.Base.set(objPath, value, o);
+			this.value = o;
+		},
+
+		get: function(objPath) {
+			return Polymer.Base.get(objPath, o);
 		},
 
 		get value() {

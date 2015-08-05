@@ -37,6 +37,13 @@
 			st2.value.should.deep.equal([1,2,3]);
 		});
 
+		it("should save complex objects", function() {
+			var st1 = new StrandLib.Storage("test");
+			st1.value = {};
+			st1.set("test", 222);
+			st1.value.test.should.equal(222);
+		});
+
 		it("should report a boolean for key status", function() {
 			var st1 = new StrandLib.Storage("test");
 			st1.value = "Testing";
