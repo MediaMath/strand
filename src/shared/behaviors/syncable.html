@@ -105,6 +105,7 @@
 				value: function() { return __csrf; }
 			},
 
+			//TODO (dlasky): remove this in favor of a behavior
 			page: {
 				type:Number,
 				value:0,
@@ -115,6 +116,7 @@
 				value:10,
 				notify:true
 			},
+			//
 
 			cacheBuster: {
 				type:Boolean,
@@ -126,15 +128,6 @@
 				value:_getParamBase,
 			},
 			outputParams:{
-				type:Object,
-				value:_getParamBase,
-			},
-
-			_inputParams: {
-				type:Object,
-				value:_getParamBase,
-			},
-			_outputParams: {
 				type:Object,
 				value:_getParamBase,
 			}
@@ -166,7 +159,7 @@
 
 			this._getCacheBuster(this.cacheBuster, options.params);
 			this._setCSRFHeader(method, options.headers);
-			
+
 			var promise = this._ajax.exec( data, options );
 			promise.then(this._handleResult, this._handleError);
 
