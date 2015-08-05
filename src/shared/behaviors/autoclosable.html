@@ -1,3 +1,4 @@
+<link rel="import" href="closable.html"/>
 <script>
 /**
  * @license
@@ -49,7 +50,10 @@
 		}
 	};
 
-	 scope.AutoClosable = AutoClosable;
+	scope.AutoClosable = [
+		scope.Closable,
+		AutoClosable
+	];
 })(window.StrandTraits = window.StrandTraits || {});
 
 </script>
