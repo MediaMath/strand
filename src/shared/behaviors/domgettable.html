@@ -40,7 +40,7 @@
 		},
 
 		ready: function() {
-			this._updateDomObject();
+			this.async(this._updateDomObject);
 		},
 
 		getLightDOM: function() {
