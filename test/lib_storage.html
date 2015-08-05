@@ -42,6 +42,9 @@
 			st1.value = {};
 			st1.set("test", 222);
 			st1.value.test.should.equal(222);
+
+			st1.clear();
+			st1.set("test", 100);
 		});
 
 		it("should report a boolean for key status", function() {
