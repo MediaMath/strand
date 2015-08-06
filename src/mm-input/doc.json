@@ -16,7 +16,7 @@
 			"description":"Define which type of validation the textarea should perform.",
 			"optional":true,
 			"default":"none",
-			"options":["empty", "int", "decimal", "email", "alpha"]
+			"options":["empty", "int", "decimal", "email", "alpha", "blank"]
 		},
 		{
 			"name":"search",
