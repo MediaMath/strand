@@ -125,6 +125,8 @@ Polymer('mm-input', {
 				return this.email.test(this.value);
 			case "alpha":
 				return this.alpha.test(this.value);
+			case "blank":
+				return this.value.trim().length > 0;
 			default:
 				return true;
 		}
