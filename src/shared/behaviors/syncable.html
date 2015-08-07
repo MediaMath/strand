@@ -87,6 +87,30 @@
 				observe:"_dataChanged"
 			},
 
+			saveResponse: {
+				type:Boolean,
+				value:true
+			},
+
+			apiMarshaller:{
+				type:Object,
+				value:function() {
+					return {
+						noop:function(o) {return o;}
+					};
+				}
+			},
+
+			responseMarshaller: {
+				type:String,
+				value:"noop"
+			},
+
+			requestMarshaller: {
+				type:String,
+				value:"noop"
+			},
+
 			cacheGlobals: {
 				type:Boolean,
 				value:false,
@@ -151,7 +175,7 @@
 
 		sync: function(method, data, options) {
 			method = method || Ajax.GET;
-			data = data || this.body;
+			data = this.apiMarshaller[this.requestMarshaller]( data || this.body );
 
 			var configOpts = this._getDomConfig(method, this.domObject);
 
@@ -232,14 +256,16 @@
 		},
 
 		_handleResult: function(result) {
-			console.warn("result",result);
+
 			this._getCSRFHeader(result);
-			this.fire("data-result",result);
-			//TODO: things
+			this.fire("data-ready",result);
+
+			if (this.saveResponse) {
+				this.set("data", this.apiMarshaller[this.requestMarshaller]( this.result.response ));
+			}
 		},
 
 		_handleError: function(error) {
-			console.warn("error",error);
 			this.fire("data-error",error);
 		},
 
