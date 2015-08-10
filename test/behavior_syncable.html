@@ -66,12 +66,21 @@
 
 		it("should support basic calls", function() {
 
+			var xhr = sinon.useFakeXMLHttpRequest();
+
 			var sync = new SyncTest();
 			sync.auto = false;
 			sync.get.should.be.a.function;
 			sync.post.should.be.a.function;
 			sync.put.should.be.a.function;
 			sync.delete.should.be.a.function;
+
+			sync.get().should.be.instanceof(Zousan);
+			sync.post().should.be.instanceof(Zousan);
+			sync.put().should.be.instanceof(Zousan);
+			sync.delete().should.be.instanceof(Zousan);
+
+			xhr.restore();
 
 		});
 

@@ -1,0 +1,45 @@
+<script>
+(function (scope) {
+	var Pageable = {
+
+		properties: {
+			page:{
+				type:Number,
+				value:0,
+				observer:"_pageChanged"
+			},
+			pageWidth:{
+				type:Number,
+				value:10,
+				observer:"_pageSizeChanged"
+			}
+		},
+
+		nextPage: function() {
+			this.page++;
+		},
+
+		prevPage: function() {
+			this.page--;
+		},
+
+		_pageChanged:function() {
+			if (this.auto && this.auto !== "save" && this.page >= 0) {
+				this.debounce("dom", this.get, this.autoDebounce);
+			}
+		},
+
+		_pageSizeChanged: function() {
+			if (this.auto && this.auto !== "Save" && this.pageSize > 0) {
+				this.debounce("dom", this.get, this.autoDebounce);
+			}
+		}
+
+	};
+
+	scope.Pageable = [
+		scope.Syncable,
+		Pageable
+	];
+})(scope = window.StrandTraits || {}); 
+</script>
