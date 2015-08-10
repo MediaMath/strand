@@ -12,10 +12,6 @@
 	var DomGettable = {
 
 		properties: {
-			contentId:{
-				type:String,
-				value:"content"
-			},
 			contentTarget:{
 				type:Object,
 				value:function() { return this; }
@@ -44,7 +40,8 @@
 		},
 
 		getLightDOM: function() {
-			return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
+			// return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
+			return Polymer.dom(this.contentTarget).queryDistributedElements("*");
 		},
 
 		_updateDomObject: function() {
