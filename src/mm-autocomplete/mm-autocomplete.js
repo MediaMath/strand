@@ -50,7 +50,8 @@
 			},
 			fitparent: {
 				type: Boolean,
-				value: false
+				value: false,
+				reflectToAttribute: true
 			},
 			iconColor: {
 				type: String,
@@ -75,6 +76,7 @@
 				value: function() { return []; },
 				notify: true
 			},
+			width: Number,
 			layout: String,
 			selectedFlag: Boolean
 		},
@@ -118,11 +120,12 @@
 		},
 
 		_changeHandler: function(e) {
-			if (e.detail.value) {
-				if(!this.selectedFlag) this._search(e.detail.value);
+			var value = e.detail.value;
+			if (value) {
+				if(!this.selectedFlag) this._search(value);
 				this.selectedFlag = false;
 			} else {
-				this.close();
+				this.reset();
 			}
 		},
 
@@ -203,6 +206,7 @@
 		reset: function() {
 			this.value = null;
 			this.selectedIndex = null;
+			highlightedIndex = null;
 			this.selectedFlag = false;
 			this.close();
 		},
