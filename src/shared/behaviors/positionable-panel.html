@@ -1,0 +1,175 @@
+<link rel="import" href="../js/measure.html">
+<link rel="import" href="../js/rectangle.html">
+<link rel="import" href="positionable.html">
+<script type="text/javascript">
+(function(scope) {
+
+	var Measure = StrandLib.Measure,
+		Rectangle = StrandLib.Rectangle;
+	
+	var PositionablePanel = {
+
+		properties: {
+			direction: {
+				type: String,
+				value: 's',
+				reflectToAttribute: true
+			},
+			containerOffset: {
+				type: Number,
+				value: 0
+			},
+			_containerStyle: {
+				type: String,
+				computed: ''
+			},
+			_tipSize: {
+				type: Number,
+				value: 15
+			},
+			_nodeOrigin: Object,
+			_previousIndex: Number
+		},
+
+		ready: function() {
+			this._originalDirection = this.direction;
+		},
+
+		// Hack to temporarily change the z-index of the closest transformed element
+		// so that nothing stacks over the top of this element
+		// see StrandTraits.AutoClosable for 'open' & 'close'
+		open: function(silent) {
+			this._nodeOrigin = Measure.getNodeOrigin(this.panel);
+
+			if (this._nodeOrigin.transform) {
+				this._previousIndex = this._nodeOrigin.target.style.zIndex;
+				this._nodeOrigin.target.style.zIndex = this.style.zIndex;
+			}
+
+	 		this.state = this.STATE_OPENED;
+	 		!silent && this.fire("open");
+	 	},
+
+	 	close: function(silent) {
+	 		this._nodeOrigin = this._nodeOrigin || Measure.getNodeOrigin(this.panel);
+
+	 		if (this._nodeOrigin.transform) {
+				this._nodeOrigin.target.style.zIndex = this._previousIndex;
+				this._previousIndex = null;
+			}
+
+	 		this.state = this.STATE_CLOSED;
+	 		!silent && this.fire("close");
+	 	},
+
+		_updatePosition: function() {
+			var winRect 			= this.windowMetrics,
+				panelRect 			= this.metrics,
+				targetRect 			= this.targetMetrics,
+				nodeOrigin 			= Measure.getNodeOrigin(this.panel),
+				offset 				= 0;
+
+			this.direction = this._originalDirection;
+			this._nodeOrigin = nodeOrigin;
+			this._updateDirection(this.direction, panelRect, targetRect, nodeOrigin);
+
+			if(this.direction === 'n' || this.direction === 's') {
+				offset = this._getOffset(
+					panelRect.left + nodeOrigin.rect.left,
+					panelRect.right + nodeOrigin.rect.right - nodeOrigin.rect.width,
+					winRect.left, 
+					winRect.right, 
+					panelRect.width, 
+					targetRect.width
+				);
+				this._containerStyle = 'left: ' + offset + 'px';
+
+				// window boundary flip:
+				if (panelRect.top + nodeOrigin.rect.top < winRect.top || 
+					nodeOrigin.rect.bottom + panelRect.bottom - nodeOrigin.rect.height > winRect.bottom) {
+
+					this.direction = this._flipDirection(this.direction);
+					this._updateDirection(this.direction, panelRect, targetRect, nodeOrigin);
+				}
+			} else {
+				offset = this._getOffset(
+					panelRect.top + nodeOrigin.rect.top,
+					nodeOrigin.rect.bottom + panelRect.bottom - nodeOrigin.rect.height,
+					winRect.top, 
+					winRect.bottom, 
+					panelRect.height, 
+					targetRect.height
+				);
+				this._containerStyle = 'top: ' + offset + 'px';
+				
+				// window boundary flip:
+				if (panelRect.left + nodeOrigin.rect.left < winRect.left || 
+					panelRect.right + nodeOrigin.rect.right - nodeOrigin.rect.width > winRect.right) {
+
+					this.direction = this._flipDirection(this.direction);
+					this._updateDirection(this.direction, panelRect, targetRect, nodeOrigin);
+				}
+			}
+
+			panelRect.toCSS(this.panel);
+		},
+
+		_flipDirection: function(direction) {
+			var index = this.DIRECTIONS.indexOf(direction);
+			index = (index + 2) % this.DIRECTIONS.length;
+			return this.DIRECTIONS[index];
+		},
+
+		_getOffset: function(panelA, panelB, boundaryA, boundaryB, panelSize, targetSize) {
+			var offset = this.containerOffset;
+			var maxOffset = (panelSize - this.boundaryOffset * 2) / 2 - this._tipSize;
+
+			if(panelA + offset < boundaryA) {
+				offset = boundaryA - panelA;
+			} else if(panelB + offset > boundaryB) {
+				offset = boundaryB - panelB;
+			}
+
+			offset = Math.min(Math.max(offset, -maxOffset), maxOffset);
+
+			return offset;
+		},
+
+		_updateDirection: function(direction, panelRect, targetRect, origin) {
+			var hCenter = targetRect.width / 2 - panelRect.width / 2;
+			var vCenter = targetRect.height / 2 - panelRect.height / 2;
+
+			switch(direction) {
+				case 'n':
+					panelRect.top = (targetRect.top - panelRect.height) - origin.rect.top;
+					panelRect.left = (targetRect.left - origin.rect.left) + hCenter;
+					panelRect.top -= this.panelOffset;
+					break;
+				case 's':
+					panelRect.top = (targetRect.top + targetRect.height) - origin.rect.top;
+					panelRect.left = (targetRect.left - origin.rect.left) + hCenter;
+					panelRect.top += this.panelOffset;
+					break;
+				case 'e':
+					panelRect.top = (targetRect.top - origin.rect.top) + vCenter;
+					panelRect.left = (targetRect.left + targetRect.width) - origin.rect.left;
+					panelRect.left += this.panelOffset;
+					break;
+				case 'w':
+					panelRect.top = (targetRect.top - origin.rect.top) + vCenter;
+					panelRect.left = (targetRect.left - panelRect.width) - origin.rect.left;
+					panelRect.left -= this.panelOffset;
+					break;
+			}
+		},
+
+		DIRECTIONS: ['n', 'e', 's', 'w']
+	};
+
+	scope.PositionablePanel = [
+		scope.Positionable,
+		PositionablePanel
+	];
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

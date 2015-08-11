@@ -1,0 +1,57 @@
+<link rel="import" href="domgettable.html"/>
+<script>
+(function (scope) {
+	var Selectable = {
+		properties: {
+			selectedIndex: {
+				type: Number,
+				value: null,
+				observer: '_selectedIndexChanged'
+			},
+			highlightedIndex: {
+				type: Number,
+				value: null,
+				observer: '_highlightedIndexChanged'
+			},
+			maxItems: {
+				type: Number,
+				value: false
+			},
+			maxHeight: {
+				type: Number,
+				value: false
+			},
+		},
+
+		get items() {
+			return (this.data) ?
+				Polymer.dom(this.panel).querySelectorAll('mm-list-item') :
+				this.getLightDOM().filter(function(el) { return el.localName === 'mm-list-item'; });
+		},
+
+		get itemHeight() {
+	 		return this.items.length ? this.items[0].offsetHeight : 0;
+		},
+
+		_selectedIndexChanged: function(newIndex,oldIndex) {
+			if(typeof newIndex === 'number' && newIndex >= 0) this.attributeFollows('selected',this.items[newIndex],this.items[oldIndex]);
+		},
+		
+		_highlightedIndexChanged: function(newIndex,oldIndex) {
+			if(typeof newIndex === 'number' && newIndex >= 0) this.classFollows('highlighted',this.items[newIndex],this.items[oldIndex]);
+		},
+
+		// display updates
+		_setMaxHeight: function(maxItems) {
+			actualMax = Math.min(this.items.length, maxItems);
+			if(this.$.container) this.$.container.style.height = Math.min((this.itemHeight * actualMax), window.innerHeight) + "px";
+	 	}
+	}
+
+	scope.Selectable = [
+		scope.DomGettable,
+		Selectable
+	];
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

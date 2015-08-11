@@ -1,0 +1,109 @@
+<link rel="import" href="../js/measure.html">
+<link rel="import" href="../js/rectangle.html">
+<link rel="import" href="positionable-panel.html"/>
+<script type="text/javascript">
+(function(scope) {
+
+	var Measure = StrandLib.Measure,
+		Rectangle = StrandLib.Rectangle;
+	
+	var PositionableDropdown = {
+		properties: {
+			_origRect: {
+				type: Object,
+				value : null
+			},
+			overflowWidth: {
+				type: Number,
+				value: false
+			},
+		},
+
+		open: function(silent) {
+			this.focus();
+			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
+			this.state = this.STATE_OPENED;
+	 		!silent && this.fire("open");
+		},
+
+		close: function(silent) {
+			this.state = this.STATE_CLOSED;
+	 		!silent && this.fire("close");
+		},
+
+		_containerClass: function(state,direction) {
+			var o = {};
+			o[direction] = true;
+			o[state] = true;
+			return this.classBlock(o);
+		},
+
+		_updatePosition: function() {
+			var winRect = this.windowMetrics,
+				panelRect = this.metrics,
+				targetRect = this.targetMetrics,
+				origin = Measure.getNodeOrigin(this.panel);
+
+			this.direction = this._originalDirection;
+			// *************************
+			// TODO: Explore why _clampHeight breaking
+			// *************************
+			// this._clampHeight(winRect, panelRect, targetRect);
+			this._updateDirection(this.direction, winRect, panelRect, targetRect, origin.rect);
+
+			if(this.direction === 'n' || this.direction === 's') {
+				// window boundary flip:
+				var bottom = panelRect.bottom + origin.rect.top,
+					top = panelRect.top + origin.rect.top;
+				if(top < winRect.top || bottom > winRect.bottom) {
+					this.direction = this._flipDirection(this.direction);
+					this._updateDirection(this.direction, winRect, panelRect, targetRect, origin.rect);
+				}
+			}
+
+			panelRect.left = targetRect.left - origin.rect.left;
+
+			if (this.overflowWidth) {
+				this.$.container.style.maxWidth = parseInt(this.overflowWidth)+"px";
+				this.$.container.style.width = parseInt(this.overflowWidth)+"px";
+			} else {
+				if(this.overflow === 'hidden') { this.$.container.style.maxWidth = targetRect.width+"px"; }
+				this.$.container.style.width = Math.max(targetRect.width, Math.min(this._origRect.width, panelRect.width))+"px";
+			}
+
+			panelRect.toCSS(this.panel,true);
+		},
+
+		_updateDirection: function(direction, winRect, panelRect, targetRect, originRect) {
+			switch(direction) {
+				case 'n':
+					panelRect.top = targetRect.top - panelRect.height - originRect.top;
+					panelRect.marginLeft = targetRect.left;
+					break;
+				case 's':
+					panelRect.top = targetRect.top + targetRect.height - originRect.top;
+					panelRect.marginLeft = targetRect.left;
+					break;
+			}
+		},
+
+		_clampHeight: function(winRect, panelRect, targetRect) {
+			var top = targetRect.top - this.boundaryOffset,
+				bottom = winRect.height - targetRect.bottom - this.boundaryOffset;
+
+			// panelRect.height = Math.min(this._origRect.height, Math.max(top,bottom));
+			this.$.container.style.maxHeight = Math.max(top,bottom)+"px";
+		},
+
+		_boundaryOffsetChanged: function() {
+			// override
+		}
+	};
+
+	scope.PositionableDropdown = [
+		scope.PositionablePanel,
+		PositionableDropdown
+	];
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

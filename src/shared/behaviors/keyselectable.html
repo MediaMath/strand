@@ -1,0 +1,125 @@
+<link rel="import" href="keyboardable.html">
+<link rel="import" href="selectable.html">
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function(scope) {
+
+	var KeySelectable = {
+
+		listeners: {
+			'keydown': '_handleKeydown',
+			'mouseover': '_handleMouseover',
+		},
+
+		_handleKeydown: function(e) {
+			this._routeKeyEvent(e);
+		},
+
+		_highlightPrev: function() {
+			if(typeof this.highlightedIndex !== 'number') this.highlightedIndex = 0;
+			else {
+				var newIndex = this.highlightedIndex - 1;
+				if(newIndex < 0) newIndex = this.items.length-1;
+				this.highlightedIndex = newIndex;
+			}
+		},
+
+		_highlightNext: function() {
+			if(typeof this.highlightedIndex !== 'number') this.highlightedIndex = 0;
+			else {
+				var newIndex = this.highlightedIndex + 1;
+				if(newIndex >= this.items.length) newIndex = 0;
+				this.highlightedIndex = newIndex;
+			}
+		},
+
+		_onUp: function(e) {
+			if(this.state === 'closed') this.open();
+			this._highlightPrev();
+		},
+		_onLeft: function(e) { this._onUp(e); },
+
+		_onDown: function(e) {
+			if(this.state === 'closed') this.open();
+			this._highlightNext();
+		},
+		_onRight: function(e) { this._onDown(e); },
+
+		_onEsc: function(e) {
+			this.close();
+		},
+
+		_onEnter: function(e) {
+			this.selectedIndex = this.highlightedIndex;
+			this.close();
+		},
+
+		_onTab: function(e) {
+			// use tabout to determine whether 
+			this.close();
+		},
+
+		_onPgUp: function(e) {
+			e.preventDefault();
+			var curr = this.items.indexOf(this.focusedItem);
+			this.focusedItem = this.items[Math.max(0,curr-25)];
+		},
+
+		_onPgDown: function(e) {
+			e.preventDefault();
+			var curr = this.items.indexOf(this.focusedItem);
+			this.focusedItem = this.items[Math.min(this.items.length-1,curr+25)];
+		},
+
+		_onHome: function(e) {
+			e.preventDefault();
+			this.focusedItem = this.items[0];
+		},
+
+		_onEnd: function(e) {
+			e.preventDefault();
+			this.focusedItem = this.items[this.items.length-1];
+		},
+
+		_handleMouseover: function(e) {
+			var target = Polymer.dom(e).path[0];
+			var targetIndex = this.items.indexOf(target);
+			if(targetIndex >= 0) {
+				this.highlightedIndex = targetIndex;
+			}
+		},
+
+		_focusedItemChanged: function(newFocus, oldFocus) {
+			this.classFollows('focus',newFocus,oldFocus);
+			this._updateContainerScroll();
+		},
+
+		// If focused item not entirely visible, scroll panel so item top/bottom is aligned with panel top/bottom
+		_updateContainerScroll: function() {
+			if(this.focusedItem) {
+				var panelRect = this.panel.getBoundingClientRect(),
+					focusRect = this.focusedItem.getBoundingClientRect();
+
+				if(focusRect.top < panelRect.top) {
+					this.$.container.scrollTop -= (panelRect.top - focusRect.top);
+				}
+
+				if(focusRect.bottom > panelRect.bottom) {
+					this.$.container.scrollTop +=  (focusRect.bottom - panelRect.bottom);
+				}
+			}
+		}
+	}
+
+	scope.KeySelectable = [
+		scope.Keyboardable,
+		scope.Selectable,
+		KeySelectable
+	];
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

@@ -1,15 +1,13 @@
 <!-- You must use a template tag to populate the tooltip -->
 <!-- Default Example -->
-<mm-tooltip>
-	<mm-icon type="info" width="14" height="14" primaryColor="#666666"></mm-icon>
-	<template>
-		<label>Hi there, I'm a tooltip.</label>
-	</template>
-</mm-tooltip>
+<mm-icon id="defaultTarg" type="info" width="14" height="14" primary-color="#666666"></mm-icon>
+<mm-tooltip-alt target="#defaultTarg">
+	<label>Hi there, I'm a tooltip.</label>
+</mm-tooltip-alt>
+
 <!-- User dismissable example -->
-<mm-tooltip tipWidth="200" auto="false">
-	<template>
-		<label><span class="bold">Hi there: </span>you'll have to click the x to dismiss me. Here's a <a href="http://www.example.com" target="_blank">link</a>, too!</label>
-	</template>
-	<mm-action underline="true"><label>Awesome</label></mm-action>
-</mm-tooltip>
+<mm-action id="actionTarg" underline="true"><label>Awesome</label></mm-action>
+<mm-tooltip-alt tip-width="200" auto="false" target="#actionTarg">
+	<label><span class="bold">Hi there: </span>you'll have to click the x to dismiss me. Here's a <a href="http://www.example.com" target="_blank">link</a>, too!</label>
+</mm-tooltip-alt>
+

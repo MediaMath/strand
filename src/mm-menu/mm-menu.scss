@@ -1,0 +1,53 @@
+@import "_bourbon";
+@import "../shared/sass/_color";
+@import "../shared/sass/_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+#target {
+	cursor: pointer;
+}
+
+// polyfill-next-selector { content: 'mm-icon'; }
+:host ::content mm-icon {
+	color: $color-A4;
+}
+
+// polyfill-next-selector { content: 'mm-icon'; }
+:host ::content mm-icon:hover {
+	color: $color-A2;
+}
+
+// polyfill-next-selector { content: 'mm-list-item'; }
+:host ::content mm-list-item {
+	padding: 5px 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+
+	&:hover,
+	&:active {
+		background: $color-A18;
+		color: $color-A2;
+	}
+}
+
+// polyfill-next-selector { content: 'mm-list-item:first-of-type'; }
+:host ::content mm-list-item:first-of-type {
+	padding: 10px 10px 5px 10px;
+}
+
+// polyfill-next-selector { content: 'mm-list-item:last-of-type'; }
+:host ::content mm-list-item:last-of-type {
+	padding: 5px 10px 10px 10px;
+}
+
+// polyfill-next-selector { content: 'mm-list-item:only-of-type'; }
+:host ::content mm-list-item:only-of-type {
+	padding: 10px;
+}

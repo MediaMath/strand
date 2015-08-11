@@ -5,7 +5,10 @@
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
-	<link rel="import" href="../build/strand.html">
+	<link rel="import" href="../build/mm-list-item/mm-list-item.html">
+	<link rel="import" href="../build/mm-icon/mm-icon.html">
+	<link rel="import" href="../build/mm-pulldown-button/mm-pulldown-button.html">
+	<link rel="import" href="../build/mm-pulldown-panel/mm-pulldown-panel.html">
 	<script src="test-mm-pulldown-button.js"></script>
 </head>
 <body>
@@ -18,12 +21,34 @@
 		<mm-list-item>Option 3</mm-list-item>
 	</mm-pulldown-button>
 
-	<mm-pulldown-button id="pdbFit" type="secondary" fitparent>
+	<mm-pulldown-button id="pdbTruncate">
+		<label>Hi There</label>
+		<mm-list-item>option mm-list-item with a long name that might overflow the container</mm-list-item>
+	</mm-pulldown-button>
+
+	<mm-pulldown-button id="pdbOverflow" overflow="visible">
+		<label>Hi There</label>
+		<mm-list-item>option mm-list-item with a long name that might overflow the container</mm-list-item>
+	</mm-pulldown-button>
+
+	<mm-pulldown-button id="pdbFit" type="secondary">
 		<label>Hi There</label>
 		<mm-list-item>Option 1</mm-list-item>
 	</mm-pulldown-button>
 
+	<div style="transform: translate3d(50px,50px,0)">
+		<mm-pulldown-button id="pdbTransform" type="secondary">
+			<label>Hi There</label>
+			<mm-list-item>Option 1</mm-list-item>
+		</mm-pulldown-button>
+	</div>
+
 	<div id="other" style="width:50px; height:50px;"></div>
 
+	<script>
+		document.addEventListener("keydown", function(e) {
+			console.log("key pressed: "+e.keyCode);
+		});
+	</script>
 </body>
 </html>

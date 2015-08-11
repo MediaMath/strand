@@ -1,0 +1,49 @@
+{
+	"name":"mm-menu",
+	"description":"",
+	"attributes": [
+		{
+			"name":"",
+			"type":"",
+			"description":"",
+			"optional":true,
+			"default":"",
+			"options":[]
+		}
+	],
+	"methods": [
+		{
+			"name":"",
+			"description":"",
+			"arguments":[
+				{
+					"name":"",
+					"type":"",
+					"optional":false,
+					"default":"",
+					"description":""
+				}
+			]
+		}
+	],
+	"properties":[
+		{
+			"name":"",
+			"type":"",
+			"description":"",
+			"default":""
+		}
+	],
+	"events": [
+		{
+			"type": "",
+			"detail": [
+				{
+					"name":"",
+					"type":"",
+					"description":""
+				}
+			]
+		}
+	]
+}
