@@ -1,19 +1,17 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../mm-icon/mm-icon.html"/>
 <link rel="import" href="../shared/behaviors/autoclosable.html">
-<!-- <link rel="import" href="../shared/behaviors/autotogglable.html"> -->
-<link rel="import" href="../mm-menu-panel/mm-menu-panel.html"/>
+<link rel="import" href="../shared/behaviors/autotogglable.html">
+<link rel="import" href="../shared/behaviors/stackable.html">
+<link rel="import" href="../shared/behaviors/positionable-panel.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
 
 <dom-module name="mm-menu">
 	<link rel="import" type="css" href="mm-menu.css" />
 
 	<template>
-		<div id="target">
-			<content select="mm-icon"></content>
-		</div>
-		<mm-menu-panel id="panel" target="{{target}}" scope="{{scope}}" state="{{state}}" direction="{{direction}}" offset="{{offset}}">
+		<div id="container" style$="{{_containerStyle}}">
 			<content></content>
-		</mm-menu-panel>
+		</div>
 	</template>
 </dom-module>
 

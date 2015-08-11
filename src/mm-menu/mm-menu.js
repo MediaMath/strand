@@ -3,33 +3,18 @@
 	scope.Menu = Polymer({
 		is: 'mm-menu',
 
-		properties: {
-			target: {
-				type: Object,
-				value: function() { return this.$.target; }
-			},
-			scope: {
-				type: Object,
-				value: function() { return this; }
-			},
-			state: {
-				type: String,
-				value: "closed",
-			},
-			direction: {
-				type: String,
-				value: "s"
-			},
-			offset: {
-				type: Number,
-				value: 0,
-			}
-		},
-
 		behaviors: [
 			StrandTraits.AutoClosable,
+			StrandTraits.AutoTogglable,
+			StrandTraits.Stackable,
+			StrandTraits.PositionablePanel
 		],
 
+		attached: function() {
+			this.async(function() {
+				if (this.target) this.target.style.cursor = 'pointer';
+			});
+		}
 	});
 
 })(window.Strand = window.Strand || {});

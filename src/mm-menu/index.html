@@ -3,10 +3,11 @@
   <head>
 	<script language="javascript" src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<link rel="import" href="../shared/js/colors.html"/>
-    <link rel="import" href="mm-menu.html">
-    <link rel="import" href="../mm-list-item/mm-list-item.html">
-    <link rel="import" href="../mm-icon/mm-icon.html">
-    <style type="text/css">
+	<link rel="import" href="../mm-button/mm-button.html">
+	<link rel="import" href="../mm-list-item/mm-list-item.html">
+	<link rel="import" href="../mm-icon/mm-icon.html">
+	<link rel="import" href="mm-menu.html">
+	<style type="text/css">
 			body, html {
 				height: 100%;
 				min-height: 100%;
@@ -90,10 +91,10 @@
 	<body>
 	  <div class="col c1">
 			<p>
-				<span class="bold">Menu:</span> Layout Default
-				<mm-menu direction="s" offset="5" id="testMenu">
-					<mm-icon type="actions" width="15" height="15"></mm-icon>
-					<mm-list-item id="test" value="m1">menu item 1</mm-list-item>
+				<span class="bold">Menu:</span> Button Target
+				<mm-button id="cpb"><label>Open Menu</label></mm-button>
+				<mm-menu id="testMenu" direction="s" offset="5" target="#cpb">
+					<mm-list-item value="m1"><mm-icon width="15" height="15" type="info"></mm-icon> menu item 1</mm-list-item>
 					<mm-list-item value="m2">menu item 2</mm-list-item>
 					<mm-list-item value="m3">menu item 3</mm-list-item>
 					<mm-list-item value="m4">menu item 4</mm-list-item>
@@ -101,21 +102,18 @@
 				</mm-menu>
 			</p>
 			<hr/>
+			<p>
+				<span class="bold">Menu:</span> Icon Target
+				<mm-icon type="actions" id="cpb2"></mm-icon>
+				<mm-menu id="testMenu" direction="e" offset="15" target="#cpb2">
+					<mm-list-item value="m1">menu item 1</mm-list-item>
+					<mm-list-item value="m2">menu item 2</mm-list-item>
+					<mm-list-item value="m3">menu item 3</mm-list-item>
+					<mm-list-item value="m4">menu item 4</mm-list-item>
+					<mm-list-item value="m5">menu item 5</mm-list-item>
+				</mm-menu>
+			</p>
 		</div>
 		<div class="vr"></div>
-		<script>
-			var tm;
-			window.addEventListener("WebComponentsReady", function(e) {
-				tm = document.getElementById("testMenu");
-
-				document.getElementById("test").addEventListener('click', function() {
-					console.log('it works!!');
-				});
-
-				tm.addEventListener("selected", function(e) {
-					console.log("selected: ", e.detail);
-				});
-			});
-		</script>
 	</body>
 </html>

@@ -118,7 +118,7 @@
 				<mm-list-item value="3">mm-list-item 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			<!--
+			
 			<p><span class="bold">Dropdown:</span> error</p>
 			<mm-dropdown placeholder="Some Longer Label" error>
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
@@ -255,7 +255,7 @@
 			<p><span class="bold">Dropdown:</span> Dynamic jQuery test</p>
 			<mm-dropdown placeholder="select one" overflow="visible" fitparent="true" id="dynamic" max-items="10"></mm-dropdown>
 			<hr/>
-			-->
+			
 		</div>
 		
 		<script>
@@ -275,18 +275,18 @@
 				dataTest.data = dataItems;
 				
 				// init jQuery test:
-				// $d = $("#dynamic");
-				// addListItems(50);
-				// $d[0].value = 3;
+				$d = $("#dynamic");
+				addListItems(50);
+				$d[0].value = 3;
 
 				// hidden at first test:
-				// ddlHide = document.querySelector("#ddlHide");
-				// ddlHide.style.display = "none";
-				// setTimeout(function() {
-				// 	ddlHide.style.display = 'block';
-				// }, 3000);
+				ddlHide = document.querySelector("#ddlHide");
+				ddlHide.style.display = "none";
+				setTimeout(function() {
+					ddlHide.style.display = 'block';
+				}, 3000);
 
-				// // log selected:
+				// log selected:
 				document.addEventListener("selected", function (e) {
 					console.log(e.detail);
 				});

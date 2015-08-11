@@ -1,6 +1,6 @@
 {
 	"name":"mm-menu",
-	"description":"",
+	"description":"A popover menu",
 	"attributes": [
 		{
 			"name":"",
