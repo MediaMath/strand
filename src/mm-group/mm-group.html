@@ -5,14 +5,13 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
-<link rel="import" href="../mm-list/mm-list.html"/>
-<polymer-element name="mm-group" attributes="group type fitparent align value" constructor="MMGroup">
+<dom-module id="mm-group">
+
+	<link rel="import" type="css" href="mm-group.css"/>
+
 	<template>
-		<link href="mm-group.css" rel="stylesheet" type="text/css"/>
-		<template if="{{type=='mm-button'}}">
-			<mm-list target="{{}}" itemSelector="mm-button"></mm-list>
-		</template>
-		<content select="*" id="groupItems"></content>
+		<content select="*" id="items"></content>
 	</template>
-	<script src="mm-group.js"></script>
-</polymer-element>
+
+</dom-module>
+<script src="mm-group.js"></script>
