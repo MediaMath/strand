@@ -73,6 +73,7 @@
 			StrandTraits.NonScrollable
 		],
 
+		_widthLocked: false,
 		LAYOUT_TYPE: 'dropdown',
 		SECONDARY_ICON_COLOR: Colors.A2,
 
@@ -82,14 +83,6 @@
 			}
 
 			this.async(function() {
-				// set the button/target width so it remains constant
-				// *************************
-				// TODO: this elsewhere - breaks in group:
-				// *************************
-				if (!this.fitparent) {	
-					this.$.target.style.width = this.buttonWidth + "px";
-				}
-
 				// set input layout default - is there an input?
 				var search = this.querySelector('mm-input');
 				if (search) {
@@ -102,6 +95,11 @@
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
 			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
+
+			if (!this._widthLocked) {	
+				this.$.target.style.maxWidth = !this.fitparent ? this.buttonWidth + "px" : "";
+				this._widthLocked = true;
+			}
 
 			this.focus();
 			this.disableScroll();
