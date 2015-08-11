@@ -1,5 +1,10 @@
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="syncable.html"/>
 <script>
 (function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+
 	var Pageable = {
 
 		properties: {
@@ -8,10 +13,23 @@
 				value:0,
 				observer:"_pageChanged"
 			},
-			pageWidth:{
+			pageSize:{
 				type:Number,
 				value:10,
 				observer:"_pageSizeChanged"
+			},
+			pageOptions:{
+				type:Object,
+				value:function() {
+					return {
+						pageName:"",
+						sizeName:"",
+						url:false,
+						query:true,
+						body:false,
+						singleValue:false,
+					};
+				}
 			}
 		},
 
@@ -20,7 +38,43 @@
 		},
 
 		prevPage: function() {
-			this.page--;
+			if (this.page > 0);
+				this.page--;
+		},
+
+		sync:function(method, data, options) {
+			
+			var opts = this.pageOptions;
+			var page = opts.singleValue ? this.page * this.pageSize : this.page;
+
+			if (opts.url) {
+				if (!DataUtils.isType(options.urlParams, "array")) { 
+					options.urlParams = [];
+				}
+				options.urlParams.push(DataUtils.param(opts.pageName, page));
+				if (!opts.singleValue) {
+					options.urlParams.push(DataUtils.param(opts.pageName, this.pageSize));
+				}
+			}
+			if (this.pageOptions.query) {
+				if (!DataUtils.isType(options.params, "array")) { 
+					options.params = [];
+				}
+				options.params.push(DataUtils.param(opts.pageName, page));
+				if (!opts.singleValue) {
+					options.params.push(DataUtils.param(opts.pageName, this.pageSize));
+				}
+			}
+			if (this.pageOptions.body) {
+				if (DataUtils.isType(data, "object")) {
+					data[opts.pageName] = page;
+					if (!opts.singleValue) {
+						data[opts.sizeName] = this.pageSize;
+					}
+				}
+			}
+
+			return scope.Syncable.sync(method, data, options);
 		},
 
 		_pageChanged:function() {
@@ -41,5 +95,5 @@
 		scope.Syncable,
 		Pageable
 	];
-})(scope = window.StrandTraits || {}); 
+}(window.StrandTraits = window.StrandTraits || {}));
 </script>

@@ -27,6 +27,19 @@
 		};
 	}
 
+	// function _copy() {
+	// 	var args = _clone(arguments);
+	// 	var init = args.length > 1 ? args.shift() : {};
+	// 	return args.reduce(function(prev, cur) {
+	// 		if (_isType(cur,"object")) {
+	// 			for(var i in cur) {
+	// 				prev[i] = cur[i];
+	// 			}
+	// 		}
+	// 		return prev;
+	// 	}, init);
+	// }
+
 	var Syncable = {
 		properties: {
 			_csrf: {
@@ -128,19 +141,6 @@
 				type:String,
 				value: function() { return __csrf; }
 			},
-
-			//TODO (dlasky): remove this in favor of a behavior
-			page: {
-				type:Number,
-				value:0,
-				notify:true
-			},
-			pageSize:{
-				type:Number,
-				value:10,
-				notify:true
-			},
-			//
 
 			cacheBuster: {
 				type:Boolean,

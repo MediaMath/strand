@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../shared/behaviors/pageable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+	<dom-module id="test-pageable">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+	/*jshint -W030 */
+
+	var SyncTest = Polymer({
+		is:"test-pageable",
+		behaviors:[StrandTraits.Pageable],
+	});
+
+	/** begin tests **/
+
+	describe("syncable", function() {
+
+		it("should exist", function() {
+			StrandTraits.should.be.an.object;
+			StrandTraits.Pageable.should.be.an.array;
+		});
+
+	});
+	</script>
+	<!-- <test-syncable auto="false"></test-syncable> -->
+</body>
+</html>
