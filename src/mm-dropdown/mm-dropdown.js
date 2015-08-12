@@ -7,7 +7,8 @@
 (function(scope) {
 
 	var Rectangle = StrandLib.Rectangle,
-		Measure = StrandLib.Measure;
+		Measure = StrandLib.Measure,
+		BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.Dropdown = Polymer({
 		is: 'mm-dropdown',
@@ -69,8 +70,7 @@
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
-			StrandTraits.PositionableDropdown,
-			StrandTraits.NonScrollable
+			StrandTraits.PositionableDropdown
 		],
 
 		_widthLocked: false,
@@ -92,36 +92,40 @@
 		},
 
 		open: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
 			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
-
-			if (!this._widthLocked) {	
-				this.$.target.style.maxWidth = !this.fitparent ? this.buttonWidth + "px" : "";
-				this._widthLocked = true;
-			}
+			if (!this._widthLocked) this._lockWidth();
 
 			this.focus();
-			this.disableScroll();
-			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
-
-			StrandTraits.Closable.open.apply(this, [silent]);
+			inherited.open.apply(this, [silent]);
 		},
 
 		close: function(silent) {
-			this.enableScroll();
-			StrandTraits.Closable.close.apply(this, [silent]);
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			inherited.close.apply(this, [silent]);
 		},
 
 		reset: function() {
+			this.value = null;
 			this.selectedIndex = null;
+			highlightedIndex = null;
+			if(this.state === this.STATE_OPENED) this.close();
+		},
+
+		_lockWidth: function() {
+			this.$.target.style.maxWidth = !this.fitparent ? this.buttonWidth + "px" : "";
+			this._widthLocked = true;
 		},
 
 		_selectItemByValue: function(value) {
 			this.async(function() {
 				var item = this.items.filter(function(el) {
-					return String(el.value) === String(value) || String(el.innerText) === String(value)
+					return String(el.value) === String(value) || String(el.textContent.trim()) === String(value)
 				})[0];
+
+				if (!this._widthLocked) this._lockWidth();
 				if(item) this.selectedIndex = this.items.indexOf(item);
 			});
 		},
@@ -165,20 +169,21 @@
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if(typeof newIndex === 'number') {
-				var newSelected = this.items[newIndex];
-				var oldSelected = this.items[oldIndex];
+				var newSelected = this.items[newIndex],
+					oldSelected = this.items[oldIndex],
+					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
-				if(this.value !== newSelected.value) this.value = newSelected.value;
+				if(this.value !== value) this.value = value;
 				newSelected.selected = true;
 
 				this.fire('selected', {
 					item: newSelected,
 					index: newIndex,
-					value: newSelected.value,
+					value: this.value,
 					selected: newSelected.selected
 				});
 
-				this.fire('changed', { value: newSelected.value });
+				this.fire('changed', { value: value });
 			}
 			if(typeof oldIndex === 'number') {
 				this.items[oldIndex].selected = false;
@@ -222,7 +227,7 @@
 			o['top'] = (direction === 'n');
 			o['bottom'] = (direction === 's');
 			return this.classBlock(o);
-		},
+		}
 	});
 
 })(window.Strand = window.Strand || {});

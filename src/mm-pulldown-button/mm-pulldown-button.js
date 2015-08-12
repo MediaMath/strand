@@ -6,11 +6,9 @@
 */
 (function(scope) {
 
-	var Rectangle = StrandLib.Rectangle,
-		Measure = StrandLib.Measure;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.PulldownButton = Polymer({
-
 		is: 'mm-pulldown-button',
 
 		properties: {
@@ -65,17 +63,20 @@
 		SECONDARY_ICON_COLOR: Colors.A2,
 
 		behaviors: [
-			StrandTraits.PositionableDropdown,
+			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
-			StrandTraits.Stylable,
-			StrandTraits.NonScrollable
+			StrandTraits.PositionableDropdown,
 		],
 
-		attached: function() {
-			// colorize the icons
+		ready: function() {
+			if(!this.toggleTrigger) {
+				this.toggleTrigger = this.target;
+			}
+
 			this.async(function(){
+				// colorize the icons
 				var icon = Polymer.dom(this.$.icon).getDistributedNodes();
 
 				if (icon.length > 0) {
@@ -84,28 +85,19 @@
 			});
 		},
 
-		ready: function() {
-			if(!this.toggleTrigger) {
-				this.toggleTrigger = this.target;
-			}
-		},
-
 		open: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
 			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
-			
+
 			this.focus();
-			this.disableScroll();
-			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
-			this.state = this.STATE_OPENED;
-	 		!silent && this.fire("open");
+			inherited.open.apply(this, [silent]);
 		},
 
 		close: function(silent) {
-			this.state = this.STATE_CLOSED;
-			this.enableScroll();
-	 		!silent && this.fire("close");
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			inherited.close.apply(this, [silent]);
 		},
 
 		_updateSelectedItem: function(e) {
@@ -121,13 +113,16 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if(typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex],
-					oldSelected = this.items[oldIndex];
+					oldSelected = this.items[oldIndex],
+					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
+
+				newSelected.selected = true;
 
 				this.fire('selected', {
 					item: newSelected,
 					index: newIndex,
-					value: newSelected.value || newSelected.innerText,
-					selected: true
+					value: value,
+					selected: newSelected.selected
 				});
 			}
 

@@ -22,7 +22,11 @@
 	 				return prev;
 	 			});
 	 		} else {
-	 			console.warn("This doesnt look like a behavior array");
+	 			if (imp && imp[method]) {
+	 				return imp;
+	 			} else {
+	 				console.warn("This doesnt look like a behavior array");
+	 			}
 	 		}
 	 	}
 	 };

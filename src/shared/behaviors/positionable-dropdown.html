@@ -1,11 +1,14 @@
 <link rel="import" href="../js/measure.html">
 <link rel="import" href="../js/rectangle.html">
+<link rel="import" href="../js/behaviorutils.html"/>
 <link rel="import" href="positionable-panel.html"/>
+<link rel="import" href="nonscrollable.html"/>
 <script type="text/javascript">
 (function(scope) {
 
 	var Measure = StrandLib.Measure,
-		Rectangle = StrandLib.Rectangle;
+		Rectangle = StrandLib.Rectangle,
+		BehaviorUtils = StrandLib.BehaviorUtils;
 	
 	var PositionableDropdown = {
 		properties: {
@@ -20,15 +23,18 @@
 		},
 
 		open: function(silent) {
-			this.focus();
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionablePanel, "open");
+
 			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
-			this.state = this.STATE_OPENED;
-	 		!silent && this.fire("open");
+			this.disableScroll();
+			inherited.open.apply(this, [silent]);
 		},
 
 		close: function(silent) {
-			this.state = this.STATE_CLOSED;
-	 		!silent && this.fire("close");
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionablePanel, "close");
+
+			this.enableScroll();
+	 		inherited.close.apply(this, [silent]);
 		},
 
 		_containerClass: function(state,direction) {
@@ -91,6 +97,10 @@
 			var top = targetRect.top - this.boundaryOffset,
 				bottom = winRect.height - targetRect.bottom - this.boundaryOffset;
 
+			// *************************
+			// TODO: what we actually want is maxHeight... may need to add this to Rectangle
+			// so we get the correct css out of it later
+			// *************************
 			// panelRect.height = Math.min(this._origRect.height, Math.max(top,bottom));
 			this.$.container.style.maxHeight = Math.max(top,bottom)+"px";
 		},
@@ -102,6 +112,7 @@
 
 	scope.PositionableDropdown = [
 		scope.PositionablePanel,
+		scope.NonScrollable,
 		PositionableDropdown
 	];
 

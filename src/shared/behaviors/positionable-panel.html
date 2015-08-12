@@ -1,11 +1,13 @@
 <link rel="import" href="../js/measure.html">
 <link rel="import" href="../js/rectangle.html">
+<link rel="import" href="../js/behaviorutils.html"/>
 <link rel="import" href="positionable.html">
 <script type="text/javascript">
 (function(scope) {
 
 	var Measure = StrandLib.Measure,
-		Rectangle = StrandLib.Rectangle;
+		Rectangle = StrandLib.Rectangle,
+		BehaviorUtils = StrandLib.BehaviorUtils;
 	
 	var PositionablePanel = {
 
@@ -39,6 +41,7 @@
 		// so that nothing stacks over the top of this element
 		// see StrandTraits.AutoClosable for 'open' & 'close'
 		open: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
 			this._nodeOrigin = Measure.getNodeOrigin(this.panel);
 
 			if (this._nodeOrigin.transform) {
@@ -46,11 +49,11 @@
 				this._nodeOrigin.target.style.zIndex = this.style.zIndex;
 			}
 
-	 		this.state = this.STATE_OPENED;
-	 		!silent && this.fire("open");
+	 		inherited.open.apply(this, [silent]);
 	 	},
 
 	 	close: function(silent) {
+	 		var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "close");
 	 		this._nodeOrigin = this._nodeOrigin || Measure.getNodeOrigin(this.panel);
 
 	 		if (this._nodeOrigin.transform) {
@@ -58,8 +61,7 @@
 				this._previousIndex = null;
 			}
 
-	 		this.state = this.STATE_CLOSED;
-	 		!silent && this.fire("close");
+	 		inherited.close.apply(this, [silent]);
 	 	},
 
 		_updatePosition: function() {

@@ -6,7 +6,7 @@
 */
 (function(scope) {
 
-	var Rectangle = StrandLib.Rectangle;
+	var BehaviorUtils = StrandLib.BehaviorUtils;;
 
 	scope.AutoComplete = Polymer({
 		is: 'mm-autocomplete',
@@ -82,33 +82,29 @@
 		},
 
 		behaviors: [
+			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
-			StrandTraits.Stylable,
-			StrandTraits.PositionableDropdown,
-			StrandTraits.NonScrollable
+			StrandTraits.PositionableDropdown
 		],
 
 		LAYOUT_TYPE: "dropdown",
 		SECONDARY_ICON_COLOR: Colors.A2,
 
 		open: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
 			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
 
 			this.focus();
-			this.disableScroll();
-			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
-			this.state = this.STATE_OPENED;
-	 		!silent && this.fire("open");
+			inherited.open.apply(this, [silent]);
 		},
 
 		close: function(silent) {
-			this.state = this.STATE_CLOSED;
-			this.enableScroll();
-	 		!silent && this.fire("close");
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			inherited.close.apply(this, [silent]);
 		},
 
 		_updateInputDirection: function(state,direction) {
@@ -164,23 +160,24 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if(typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex],
-					oldSelected = this.items[oldIndex];
+					oldSelected = this.items[oldIndex],
+					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
-				if(this.value !== newSelected.value) {
+				if(this.value !== value) {
 					this.selectedFlag = true;
 					newSelected.selected = true;
-					this.value = newSelected.value;
-					this.$.target.value = newSelected.innerText;
+					this.value = value;
+					this.$.target.value = newSelected.textContent.trim();
 				}
 
 				this.fire('selected', {
 					item: newSelected,
 					index: newIndex,
-					value: newSelected.value,
+					value: value,
 					selected: newSelected.selected
 				});
 
-				this.fire('changed', { value: newSelected.value });
+				this.fire('changed', { value: value });
 			}
 
 			if(typeof oldIndex === 'number') { 
@@ -197,7 +194,7 @@
 		_selectItemByValue: function(value) {
 			this.async(function() {
 				var item = this.items.filter(function(el) {
-					return String(el.value) === String(value) || String(el.innerText) === String(value)
+					return String(el.value) === String(value) || String(el.textContent.trim()) === String(value)
 				})[0];
 				if(item) this.selectedIndex = this.items.indexOf(item);
 			});
@@ -208,7 +205,7 @@
 			this.selectedIndex = null;
 			highlightedIndex = null;
 			this.selectedFlag = false;
-			this.close();
+			if(this.state === this.STATE_OPENED) this.close();
 		},
 
 		get itemHeight() {
