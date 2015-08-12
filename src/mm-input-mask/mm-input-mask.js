@@ -73,7 +73,8 @@
 			if (input.length < group.max) { return true; }
 			var i = parseInt(input),
 				rng = _parseRange(group.args);
-			return i >= rng[0] && i <= rng[1];
+			if(rng.length > 0) return i >= rng[0] && i <= rng[1]
+			else return true;
 		},
 		exact: function(char, input, group, field) {
 			return input === group.args;
@@ -383,14 +384,46 @@
 			this.$.input.$$("input").removeAttribute("forceFocus");
 		},
 
-		_validateGroup: function(e, target) {
-			var val = String.fromCharCode(e.keyCode);
+		_handleCut: function(e) {
+			this.updateGroups();
+			setTimeout(this._cellVal.bind(this,e), 0);
+		},
+
+		_handlePaste: function(e) {
+			e.preventDefault();
+			if(this._validateGroup(e,e.target)) {
+				e.target.value = e.clipboardData.getData('text/plain');
+				this._cellVal(e);
+			}
+		},
+
+		_isKeyboardShortcut: function(e) {
+			if(!(e instanceof KeyboardEvent)) return false;
+			else if(!e.metaKey && !e.ctrlKey) return false;
+			else switch(e.keyCode) {
+				case 65: // Select all (a)
+				case 67: // Copy (c)
+				case 88: // Cut (x)
+				case 86: // Paste (v)
+					return true;
+				break;
+				default:
+					return false;
+				break;
+			}
+		},
+
+		_validateGroup: function(e,target) {
+			var val;
+			if(e instanceof KeyboardEvent) val = String.fromCharCode(e.keyCode);
+			else if(e instanceof ClipboardEvent) val = e.clipboardData.getData('text/plain');
+
 			var group = this._getGroup(target);
 			// If alphanumeric throw out all modifiers except capital letters
-			if(group.restrict !== _restrict.all) {
-				if(e.altKey || e.ctrlKey || e.metaKey) return false;
-				if(e.shiftKey && (e.keyCode < 65 || e.keyCode > 90)) return false;
-			}
+			// if(group.restrict !== _restrict.all) {
+			// 	if(e.altKey) return false;
+			// 	if(e.shiftKey && (e.keyCode < 65 || e.keyCode > 90)) return false;
+			// }
 			var restrict = group.restrict && _applyReg(group.restrict, val);
 			var rule = group.rule && group.rule(val, target.value, group, target);
 			return restrict && rule;
@@ -430,12 +463,13 @@
 			return this.groups[this.groupSel.indexOf(target)];
 		},
 
-		cellKey: function(e) {
+		_cellKey: function(e) {
 			this.updateGroups();
 			this._routeKeyEvent(e);
 		},
 
 		_onAlpha: function(e) {
+			if(this._isKeyboardShortcut(e)) return;
 			var max = this._getGroup(e.target).max,
 				selLength = e.target.selectionEnd - e.target.selectionStart;
 			if(e.target.value.length === max && selLength === 0) e.target = this._focusRight(e.target);
@@ -480,9 +514,8 @@
 			}
 		},
 
-		cellVal: function(e) {
+		_cellVal: function(e) {
 			this._updateGroupValues();
-
 			var val = this.maskConfig.reduce(function(prev,item) {
 				return item.value ? prev + item.value : prev;
 			},"");
