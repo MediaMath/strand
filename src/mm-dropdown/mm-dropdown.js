@@ -104,14 +104,13 @@
 			this.focus();
 			this.disableScroll();
 			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
-			this.state = this.STATE_OPENED;
-	 		!silent && this.fire("open");
+
+			StrandTraits.Closable.open.apply(this, [silent]);
 		},
 
 		close: function(silent) {
-			this.state = this.STATE_CLOSED;
 			this.enableScroll();
-	 		!silent && this.fire("close");
+			StrandTraits.Closable.close.apply(this, [silent]);
 		},
 
 		reset: function() {
