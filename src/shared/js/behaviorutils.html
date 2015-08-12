@@ -13,7 +13,7 @@
 	 		}
 	 	},
 	 	findSuper:function(imp, method) {
-	 		DataUtils.isType(imp, "array") {
+	 		if (DataUtils.isType(imp, "array")) {
 	 			return imp.reduce(function(behavior, prev) {
 	 				var m = behavior[method];
 	 				if(m && m instanceof Function) {
@@ -21,6 +21,8 @@
 	 				}
 	 				return prev;
 	 			});
+	 		} else {
+	 			console.warn("This doesnt look like a behavior array");
 	 		}
 	 	}
 	 };
