@@ -1,0 +1,99 @@
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="syncable.html"/>
+<script>
+(function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+
+	var Pageable = {
+
+		properties: {
+			page:{
+				type:Number,
+				value:0,
+				observer:"_pageChanged"
+			},
+			pageSize:{
+				type:Number,
+				value:10,
+				observer:"_pageSizeChanged"
+			},
+			pageOptions:{
+				type:Object,
+				value:function() {
+					return {
+						pageName:"",
+						sizeName:"",
+						url:false,
+						query:true,
+						body:false,
+						singleValue:false,
+					};
+				}
+			}
+		},
+
+		nextPage: function() {
+			this.page++;
+		},
+
+		prevPage: function() {
+			if (this.page > 0);
+				this.page--;
+		},
+
+		sync:function(method, data, options) {
+			
+			var opts = this.pageOptions;
+			var page = opts.singleValue ? this.page * this.pageSize : this.page;
+
+			if (opts.url) {
+				if (!DataUtils.isType(options.urlParams, "array")) { 
+					options.urlParams = [];
+				}
+				options.urlParams.push(DataUtils.param(opts.pageName, page));
+				if (!opts.singleValue) {
+					options.urlParams.push(DataUtils.param(opts.pageName, this.pageSize));
+				}
+			}
+			if (this.pageOptions.query) {
+				if (!DataUtils.isType(options.params, "array")) { 
+					options.params = [];
+				}
+				options.params.push(DataUtils.param(opts.pageName, page));
+				if (!opts.singleValue) {
+					options.params.push(DataUtils.param(opts.pageName, this.pageSize));
+				}
+			}
+			if (this.pageOptions.body) {
+				if (DataUtils.isType(data, "object")) {
+					data[opts.pageName] = page;
+					if (!opts.singleValue) {
+						data[opts.sizeName] = this.pageSize;
+					}
+				}
+			}
+
+			return scope.Syncable.sync(method, data, options);
+		},
+
+		_pageChanged:function() {
+			if (this.auto && this.auto !== "save" && this.page >= 0) {
+				this.debounce("dom", this.get, this.autoDebounce);
+			}
+		},
+
+		_pageSizeChanged: function() {
+			if (this.auto && this.auto !== "Save" && this.pageSize > 0) {
+				this.debounce("dom", this.get, this.autoDebounce);
+			}
+		}
+
+	};
+
+	scope.Pageable = [
+		scope.Syncable,
+		Pageable
+	];
+}(window.StrandTraits = window.StrandTraits || {}));
+</script>

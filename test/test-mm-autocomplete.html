@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<link rel="import" href="../build/mm-autocomplete/mm-autocomplete.html">
+	<link rel="import" href="../build/mm-pulldown-panel/mm-pulldown-panel.html">
+	<link rel="import" href="../build/mm-list-item/mm-list-item.html">
+	<script src="test-mm-autocomplete.js"></script>
+</head>
+<body>
+
+<mm-autocomplete id="ac"></mm-autocomplete>
+
+<script>
+	document.addEventListener("WebComponentsReady", function() {
+		var dataTest = document.getElementById('ac');
+		dataTest.data = [
+			{name: "abelian", value: "abelian"},
+			{name: "pylorus", value: "pylorus"},
+			{name: "hainault", value: "hainault"},
+			{name: "omnidirectional", value: "omnidirectional"},
+			{name: "pul", value: "pul"},
+			{name: "antipastos", value: "antipastos"},
+			{name: "unwaxed", value: "unwaxed"},
+			{name: "mira", value: "mira"},
+			{name: "subconferential", value: "subconferential"},
+			{name: "chromolithographic", value: "chromolithographic"},
+			{name: "cocainism", value: "cocainism"},
+			{name: "united", value: "united"},
+			{name: "conroy", value: "conroy"},
+			{name: "marsden", value: "marsden"},
+			{name: "zoon", value: "zoon"},
+			{name: "axiopoenus", value: "axiopoenus"},
+			{name: "quarrion", value: "quarrion"},
+			{name: "eliminated", value: "eliminated"},
+			{name: "postcode", value: "postcode"},
+		]
+	});
+</script>
+
+</body>
+</html>

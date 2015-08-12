@@ -26,12 +26,13 @@
 				box-sizing: border-box;
 				display: block;
 				float: left;
-				padding: 0 20px;
+				padding: 0 40px;
 				font-size: 0;
 			}
 
 			.col.c0 {
 				width:400px;
+				border: 1px solid #ff0000;
 			}
 
 			.col.c1 {
@@ -88,87 +89,153 @@
 			}
 
 			#cpb {
-				position: relative;
+				position: absolute;
 			}
 
-			mm-popover[unresolved],
-			mm-button[unresolved] {
-				display: none;
-			}
-
-			mm-popover {}
 		</style>
 </head>
-<body>
 
-	<mm-button id="cpb" unresolved>
-		<label>open popover default (draggable)</label>
-	</mm-button>
-	<mm-popover id="popover" target="#cpb" unresolved>
-		<div class="body">
-			<mm-input></mm-input>
+<body style="height: 5000px;">
+<!-- <body> -->
+
+	<!-- Emulate a grid-like scenario -->
+	<!--
+	<div>
+		<div style="transform:translate3d(0px, 0px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
+			<div class="col c0">
+				<mm-button id="cpb1">
+					<label>open popover</label>
+				</mm-button>
+				<mm-popover target="#cpb1" id="popover1">
+					<div class="body">
+						<mm-input></mm-input>
+					</div>
+					<mm-footer>
+						<mm-action id="closeLink1" underline>
+							<label>Close</label>
+						</mm-action>
+						<mm-button id="applyBtn1">
+							<label>Apply</label>
+						</mm-button>
+					</mm-footer>
+				</mm-popover>
+			</div>
 		</div>
-		<mm-footer>
-			<mm-action id="closeLink" underline>
-				<label>Close</label>
-			</mm-action>
-			<mm-button id="applyBtn">
-				<label>Apply</label>
-			</mm-button>
-		</mm-footer>
-	</mm-popover>
+		<div style="transform:translate3d(0px, 100px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
+			<div class="col c0">
+				<mm-button id="cpb2">
+					<label>open popover</label>
+				</mm-button>
+				<mm-popover target="#cpb2" id="popover1">
+					<div class="body">
+						<mm-input></mm-input>
+					</div>
+					<mm-footer>
+						<mm-action id="closeLink1" underline>
+							<label>Close</label>
+						</mm-action>
+						<mm-button id="applyBtn1">
+							<label>Apply</label>
+						</mm-button>
+					</mm-footer>
+				</mm-popover>
+			</div>
+		</div>
+		<div style="transform:translate3d(0px, 200px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
+			<div class="col c0">
+				<mm-button id="cpb3">
+					<label>open popover</label>
+				</mm-button>
+				<mm-popover target="#cpb3" id="popover1">
+					<div class="body">
+						<mm-input></mm-input>
+					</div>
+					<mm-footer>
+						<mm-action id="closeLink1" underline>
+							<label>Close</label>
+						</mm-action>
+						<mm-button id="applyBtn1">
+							<label>Apply</label>
+						</mm-button>
+					</mm-footer>
+				</mm-popover>
+			</div>
+		</div>
+	</div>
+	-->
 
-<!-- 
-	<mm-button id="cpb" unresolved>
+	<!-- 3d transform instance lives OUTSIDE -->
+	<!-- <div style="transform:translate3d(200px, 200px, 0px); width:200px; height:200px; border:1px solid #00ff00;"> -->
+	<div style="transform:translate3d(100px, 200px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
+		<div class="col c0">
+			<mm-button id="cpb1">
+				<label>open popover</label>
+			</mm-button>
+		</div>
+	</div>
+
+	<div style="transform:translate3d(100px, 300px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
+		<mm-popover target="#cpb1" id="popover1" direction="s">
+			<div class="body">
+				<mm-input></mm-input>
+			</div>
+			<mm-footer>
+				<mm-action id="closeLink1" underline>
+					<label>Close</label>
+				</mm-action>
+				<mm-button id="applyBtn1">
+					<label>Apply</label>
+				</mm-button>
+			</mm-footer>
+		</mm-popover>
+	</div>
+
+	<mm-button id="cpb">
 		<label>open popover multiselect (draggable)</label>
 	</mm-button> 
-	<mm-popover id="popover" target="#cpb" mode="multiselect" valign="center" align="right" unresolved>
-		<mm-input search="true" layout="dropdown"></mm-input> 
-		<div class="body">
-			<mm-checkbox>
-				<label>Item One</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Two</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Three</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Four</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Five</label>
-			</mm-checkbox>
-		</div>
-		<mm-footer>
-			<mm-action id="closeLink" underline>
-				<label>Close</label>
-			</mm-action>
-			<mm-button id="applyBtn">
-				<label>Apply</label>
-			</mm-button>
-		</mm-footer>
-	</mm-popover>
-  -->
+
+	<div style="width:200px; height:200px; border:1px solid #00FF00;">
+		<mm-popover id="popover" target="#cpb" direction="s">
+			<mm-input search="true" layout="dropdown"></mm-input> 
+			<div class="body">
+				<mm-checkbox>
+					<label>Item One</label>
+				</mm-checkbox>
+				<mm-checkbox>
+					<label>Item Two</label>
+				</mm-checkbox>
+				<mm-checkbox>
+					<label>Item Three</label>
+				</mm-checkbox>
+			</div>
+			<mm-footer>
+				<mm-action id="closeLink" underline>
+					<label>Close</label>
+				</mm-action>
+				<mm-button id="applyBtn">
+					<label>Apply</label>
+				</mm-button>
+			</mm-footer>
+		</mm-popover>
+	</div>
+
+
+ 
 	<script>
 		var popover,
 			closeLink,
 			applyBtn,
-			drag = false,
-			btnStyle,
-			btnWidth,
-			btnHeight;
+			cpb,
+			offsetTop,
+			offsetLeft,
+			drag = false;
 
-		window.addEventListener("polymer-ready", function() {
-			console.log("polymer-ready");
-			popover = document.getElementById("popover");
-			closeLink = document.getElementById("closeLink");
-			applyBtn = document.getElementById("applyBtn");
-
-			btnStyle = window.getComputedStyle(cpb, null);
-			btnWidth = parseInt(btnStyle.getPropertyValue("width").split("px"));
-			btnHeight = parseInt(btnStyle.getPropertyValue("height").split("px"));
+		window.addEventListener("WebComponentsReady", function() {
+			popover 	= document.querySelector("#popover");
+			closeLink 	= document.querySelector("#closeLink");
+			applyBtn 	= document.querySelector("#applyBtn");
+			cpb 		= document.querySelector("#cpb");
+			// popover.target = cpb;
 
 			document.addEventListener("mousemove", dragHandler);
 			cpb.addEventListener("click", cpbClickHandler);
@@ -180,11 +247,13 @@
 		});
 
 		function cpbClickHandler(e) {
-			popover.toggle();
+			// popover.toggle();
 		}
 
 		function dragStart(e) {
 			drag = true;
+			offsetLeft = e.pageX - cpb.offsetLeft;
+			offsetTop = e.pageY - cpb.offsetTop;
 		}
 
 		function dragStop(e) {
@@ -193,8 +262,10 @@
 
 		function dragHandler(e) {
 			if (drag) {
-				var left = e.pageX - btnWidth/2,
-					top = e.pageY - btnHeight/2;
+				e.preventDefault();
+
+				var left = e.pageX - offsetLeft,
+					top = e.pageY - offsetTop;
 
 				// console.log("e.pageX: " + e.pageX);
 				// console.log("e.pageY: " + e.pageY);
@@ -202,16 +273,19 @@
 				// console.log("top: " + e.pageY);
 				cpb.style.setProperty("left", left +"px");
 				cpb.style.setProperty("top", top +"px");
+				popover.update();
 			}
 		}
 
 		function closeHandler(e) {
 			e.preventDefault();
+			popover.close();
 			console.log("closeHandler");
 			console.log(e);
 		}
 
 		function applyHandler(e) {
+			popover.close();
 			console.log("applyHandler");
 			console.log(e);
 		}

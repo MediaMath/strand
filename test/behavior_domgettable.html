@@ -17,14 +17,24 @@
 			<content id="content"></content>
 		</template>
 	</dom-module>
+	<dom-module id="test-compget">
+		<template>
+			<content select="child"></content>
+			<content select="tester"></content>
+		</template>
+	</dom-module>
 	<script>
-		window.addEventListener("WebComponentsReady", function() {
 
 		Polymer({
 			is:"test-gettable",
 			behaviors:[StrandTraits.DomGettable]
-		})
-	});
+		});
+
+		Polymer({
+			is:"test-compget",
+			behaviors:[StrandTraits.DomGettable]
+		});
+
 	</script>
 
 <script>
@@ -49,6 +59,13 @@ describe("DomGettable", function() {
 
 	});
 
+	it("should support any internal content tags", function() {
+		var test = document.querySelector("#test3");
+		var ld = test.getLightDOM();
+		ld.should.be.an.array;
+		ld.should.have.length(3);
+	});
+
 	it("should update domObject when child nodes change", function(done) {
 		var test = document.querySelector("#test2");
 		var div = document.createElement("div");
@@ -68,5 +85,6 @@ describe("DomGettable", function() {
 </script>
 <test-gettable id="test1"><child>test</child><child></child><child></child></test-gettable>
 <test-gettable id="test2"><child>test</child><child></child><child></child></test-gettable>
+<test-compget id="test3"><child>test</child><child></child><testers></testers></test-compget>
 </body>
 </html>

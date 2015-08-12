@@ -7,42 +7,43 @@
 */
 (function (scope) {
 
-	var _state = {
-		get STATE_CLOSED() {
-			return "closed";
-		},
-		get STATE_OPEN() {
-			return "open";
-		}
-	};
-
 	 var Closable = {
 
 	 	properties: {
 	 		state: {
-	 			type:String,
+	 			type: String,
 	 			notify: true,
-	 			value:_state.STATE_CLOSED,
+	 			value: function() {
+	 				return this.STATE_CLOSED
+	 			}
 	 		},
 	 		isClosed: {
-	 			type:Boolean,
+	 			type: Boolean,
 	 			notify: true,
-	 			computed:"_checkClosed(state)"
+	 			computed: "_checkClosed(state)"
 	 		}
 	 	},
 
+	 	get STATE_CLOSED() {
+			return "closed";
+		},
+
+		get STATE_OPENED() {
+			return "opened";
+		},
+
 	 	open: function(silent) {
-	 		this.state = _state.STATE_OPEN;
+	 		this.state = this.STATE_OPENED;
 	 		!silent && this.fire("open");
 	 	},
 
 	 	close: function(silent) {
-	 		this.state = _state.STATE_CLOSED;
+	 		this.state = this.STATE_CLOSED;
 	 		!silent && this.fire("close");
 	 	},
 
 	 	toggle: function(silent) {
-	 		if (this.state === _state.STATE_OPEN) {
+	 		if (this.state === this.STATE_OPENED) {
 	 			this.close(silent);
 	 		} else {
 	 			this.open(silent);
@@ -50,16 +51,9 @@
 	 	},
 
 	 	_checkClosed: function(state) {
-	 		return state === _state.STATE_CLOSED;
+	 		return state === this.STATE_CLOSED;
 	 	},
 
-		_closeFilter: function(instance, e, original) {
-			if(e.path.indexOf(this) > -1){
-				original.stopImmediatePropagation();
-			} else {
-				instance.close();
-			}
-		}
 	 };
 
 	 scope.Closable = Closable;

@@ -7,38 +7,41 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
-<link rel="import" href="../shared/js/windownotifier.html"/>
-<link rel="import" href="../mm-icon/mm-icon.html"/>
-<link rel="import" href="../mm-close-panel/mm-close-panel.html"/>
-<link rel="import" href="../mm-list-item/mm-list-item.html"/>
-<link rel="import" href="../mm-item-recycler/mm-item-recycler.html"/>
+<link rel="import" href="../shared/js/rectangle.html">
 <link rel="import" href="../shared/js/measure.html"/>
-<polymer-element name="mm-dropdown" constructor="MMDropdown">
+<link rel="import" href="../shared/behaviors/positionable-dropdown.html"/>
+<link rel="import" href="../shared/behaviors/autoclosable.html"/>
+<link rel="import" href="../shared/behaviors/autotogglable.html"/>
+<link rel="import" href="../shared/behaviors/jqueryable.html"/>
+<link rel="import" href="../shared/behaviors/keyselectable.html"/>
+<link rel="import" href="../shared/behaviors/nonscrollable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../mm-list-item/mm-list-item.html"/>
+
+<dom-module id="mm-dropdown">
+	<link href="mm-dropdown.css" rel="import" type="css"/>
 	<template>
-		<link href="mm-dropdown.css" rel="stylesheet" type="text/css"/>
-		<div class="button secondary {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', fit:fitparent!=null, invalid:error == true } | tokenList }}" id="buttonMain" on-mousedown="{{toggle}}" title="{{displayTitle}}">
-			<div class="left-items">
-				<label id="labelText">{{selectedItem.label || placeholder}}</label>
-			</div>
-			<mm-icon id="caratIcon" class="{{state}}" type="carat" width="8" height="8" primaryColor="[[SECONDARY_ICON_COLOR]]" shapeRendering="auto" optimize="true"></mm-icon>
+		<div
+			id="target" 
+			class$="{{_updateButtonClass(direction, fitparent, error, state, type)}}" 
+			tabindex="0" 
+			title="{{_updateTitle(selectedIndex)}}">
+			<span class="left-items">
+				<content select="mm-icon" id="icon"></content>
+				<label id="label">{{_updateLabelText(selectedIndex, placeholder)}}</label>
+			</span>
+			<mm-icon id="caratIcon" class="{{state}}" type="carat" width="8" height="8" primary-color="[[SECONDARY_ICON_COLOR]]"></mm-icon>
 		</div>
-		<mm-close-panel id="closePanel" fitparent="{{fitparent}}" target="{{$.buttonMain}}" offsetY="-1" auto="true" mode="dropdown" targetFilter="{{closeFilter}}" state="{{state}}" scope="{{}}">
-			<content id="search" select="mm-input"></content>
-			<div id="list" class="scroll-container">
-			<template if="{{!data}}">
-				<div on-tap="{{onSelectItem}}">
-					<content id="items" select="mm-list-item"></content>
-				</div>
-			</template>
-			<template if="{{data}}">
-				<mm-item-recycler id="recycler" itemTemplate="defaultTemplate" on-tap="{{onSelectItem}}" data="{{data}}">
-					<template id="defaultTemplate">
-						<mm-list-item selected?="{{model.selected}}" value="{{model.value}}" title="{{model.label}}">{{model.label}}</mm-list-item>
-					</template>
-				</mm-item-recycler>
-			</template>
+		<div id="panel" on-tap="_updateSelectedItem">
+			<div id="container" class$="{{_containerClass(state, direction)}}">
+				<content hidden="${{_hideInsertionPoints(data)}}" id="search" select="mm-input"></content>
+				<content hidden="${{_hideInsertionPoints(data)}}" id="content"></content>
+				<template is="dom-repeat" items="{{data}}">
+					<mm-list-item value$="{{item.value}}" selected$="{{item.selected}}">{{item.label}}</mm-list-item>
+				</template>
 			</div>
-		</mm-close-panel>
+		</div>
 	</template>
-	<script src="mm-dropdown.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-dropdown.js"></script>

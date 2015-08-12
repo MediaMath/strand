@@ -31,10 +31,6 @@
 	opacity: 0.5;
 }
 
-::shadow input[type=text]:focus {
-	box-shadow: none;
-}
-
-#recycler {
-	height: 100%;
+.hidden {
+	display: none;
 }

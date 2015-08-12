@@ -1,13 +1,19 @@
 {
 	"name":"mm-tooltip",
-	"description":"A custom styled tooltip which accepts variable and partially styleable content. IMPORTANT: This component requires template tags around the content you would like to insert.",
+	"description":"A custom styled tooltip which accepts variable and partially styleable content.",
 	"attributes": [
 		{
-			"name":"tipWidth",
+			"name":"tip-width",
 			"type":"int",
 			"description":"The desired width of the tooltip.",
 			"optional":true,
 			"default":"Defaults to content width"
+		},
+		{
+			"name":"target",
+			"type":"String",
+			"description":"The desired target for the tooltip, as a class or id ('.class-name' or '#targetId'). This is required to get mm-tooltip up-and-running.",
+			"default":"null"
 		},
 		{
 			"name":"auto",
@@ -18,12 +24,12 @@
 			"options":["true", "false"]
 		},
 		{
-			"name":"valign",
+			"name":"direction",
 			"type":"String",
-			"description":"Where the tooltip is positioned relative to it's target area.",
+			"description":"Where the tooltip is positioned relative to it's target area, in 'compass' coordinates.",
 			"optional":true,
 			"default":"top",
-			"options":["top", "bottom"]
+			"options":["n", "s", "e", "w"]
 		}
 	],
 	"methods": [
@@ -44,16 +50,22 @@
 			"default":"Defaults to content width"
 		},
 		{
+			"name":"target",
+			"type":"Object",
+			"description":"Object reference derived from the class or id ('.class-name' or '#targetId') provided as an attribute. Optionally, an object can be passed dynamically. This is required to get mm-tooltip up-and-running.",
+			"default":"null"
+		},
+		{
 			"name":"auto",
 			"type":"Boolean",
 			"description":"Instructs the tooltip to stay visible even after the user has rolled out of the target area.",
 			"default":"Defaults to content width"
 		},
 		{
-			"name":"valign",
+			"name":"direction",
 			"type":"String",
-			"description":"Instructs the tooltip where to render it's arrow (pointer) indicator, relative to it's target area.",
-			"default":"bottom"
+			"description":"Where the tooltip is positioned relative to it's target area, in 'compass' coordinates.",
+			"default":"top",
 		}
 	]
 }

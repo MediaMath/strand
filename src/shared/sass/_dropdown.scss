@@ -56,3 +56,54 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+// TODO: no ::shadow for this
+::shadow input[type=text]:focus {
+	box-shadow: none;
+}
+
+#recycler {
+	height: 100%;
+}
+
+$arrow-size: 0;
+$bg-color: #fff !default;
+$border-color: $color-A18 !default;
+
+#panel {
+	position: fixed;
+	display: block;
+	z-index: 1;
+}
+
+#container {
+	box-sizing: border-box;
+	position: relative;
+	overflow: auto;
+	background: $bg-color;
+	border: 1px solid $border-color;
+
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
+}
+
+#container.opened.s {
+	border-radius: 0 0 4px 4px;
+	margin-top: -1px;
+}
+
+#container.opened.n {
+	border-radius: 4px 4px 0 0;	
+	box-shadow: 0px -6px 12px 0px rgba(0, 0, 0, 0.18);
+	margin-top: 1px;
+}
+
+#container.opened.w {
+	border-radius: 4px 0 4px 0;
+	margin-right: -1px;
+}
+
+#container.opened.e {
+	border-radius: 0 4px 0 4px;
+	margin-left: -1px;
+}

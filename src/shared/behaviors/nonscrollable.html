@@ -1,0 +1,62 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function(scope) {
+	// TODO: Consider rename since we make a lot of assumptions here
+	// about the way that the "nonscrollable" component will be set up
+	// ie - should this be for panels only - probably YES
+	var _support = "onwheel" in document.createElement("div") ? "wheel" : 
+		document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll",
+		_instance = null,
+		_previousOverflow = null;
+
+
+	function _disableScroll(instance) {
+		_instance = instance;
+		document.addEventListener(_support, _handler, false);
+		document.addEventListener("keydown", _handler, false);
+
+		_previousOverflow = document.body.style.overflow;
+		document.body.style.overflow = "hidden";
+	}
+
+	function _enableScroll() {
+		_instance = null;
+		document.removeEventListener(_support, _handler, false);
+		document.removeEventListener("keydown", _handler, false);
+		document.body.style.overflow = _previousOverflow;
+	}
+
+	function _handler(e) {
+		var normalized = Polymer.dom(e),
+			// This insanity is necessary because we don't get a normalized event
+			// path which actually contains _instance UNLESS it's 'real' shadow dom.
+			// Additionally, we don't want scrolling to occur when hovering
+			// over the target
+			allow = normalized.path.indexOf(_instance) > -1 || 
+				normalized.path.indexOf(_instance.scope) > -1 &&
+				normalized.path.indexOf(_instance.target) === -1;
+
+		if (!allow) {
+			if (!e.keyCode || [37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+				e.preventDefault();
+				e.returnValue = false;  
+			}
+		}
+	}
+	
+	scope.NonScrollable = {
+		disableScroll: function() {
+			_disableScroll(this);
+		},
+		enableScroll: function() {
+			_enableScroll();
+		},
+	};
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

@@ -1,3 +1,5 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="datautils.html"/>
 <script>
 /**
  * @license
@@ -7,6 +9,8 @@
 */
 (function (scope) {
 	
+	var DataUtils = scope.DataUtils;
+
 	function Storage(key, mode) {
 		this.mode = mode;
 		this.key = key;
@@ -23,7 +27,7 @@
 		},
 
 		hasKey: function(key) {
-			return this.store.getItem(key) !== null;
+			return this.store.getItem(key || this.key) !== null;
 		},
 
 		clear: function() {
@@ -38,6 +42,16 @@
 			window.removeEventListener("storage", this.handleStorage);
 			delete this.mode;
 			delete this.key;
+		},
+
+		set: function(objPath, value) {
+			var o = this.value || {};
+			Polymer.Base.set(objPath, value, o);
+			this.value = o;
+		},
+
+		get: function(objPath) {
+			return Polymer.Base.get(objPath, this.value);
 		},
 
 		get value() {

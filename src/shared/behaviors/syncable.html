@@ -2,6 +2,7 @@
 <link rel="import" href="../js/datautils.html"/>
 <link rel="import" href="../js/ajax.html"/>
 <link rel="import" href="../behaviors/domgettable.html"/>
+<link rel="import" href="../behaviors/falsifiable.html"/>
 <script>
 /**
  * @license
@@ -18,6 +19,7 @@
 	var __csrf;
 
 	function _getParamBase(obj) {
+		obj = obj || {};
 		return {
 			params: obj.queryparam || [],
 			urlParams: obj.urlparam || [],
@@ -25,18 +27,35 @@
 		};
 	}
 
+	// function _copy() {
+	// 	var args = _clone(arguments);
+	// 	var init = args.length > 1 ? args.shift() : {};
+	// 	return args.reduce(function(prev, cur) {
+	// 		if (_isType(cur,"object")) {
+	// 			for(var i in cur) {
+	// 				prev[i] = cur[i];
+	// 			}
+	// 		}
+	// 		return prev;
+	// 	}, init);
+	// }
+
 	var Syncable = {
 		properties: {
 			_csrf: {
 				type:Object,
 				value: function() {
-					return new Storage("csrf","localStorage");
+					var csrf = new Storage("csrf","localStorage");
+					__csrf = csrf.value;
+					return csrf;
 				}
 			},
 			_globals: {
 				type:Object,
 				value: function() {
-					return new Storage("globals","localStorage");
+					var globals = new Storage("globals","localStorage");
+					if (globals.value === null) globals.value = {};
+					return globals;
 				}
 			},
 
@@ -54,7 +73,7 @@
 
 			auto:{
 				type:Boolean,
-				value:true
+				value:true,
 			},
 			autoDebounce:{
 				type:Number,
@@ -81,6 +100,30 @@
 				observe:"_dataChanged"
 			},
 
+			saveResponse: {
+				type:Boolean,
+				value:true
+			},
+
+			apiMarshaller:{
+				type:Object,
+				value:function() {
+					return {
+						noop:function(o) {return o;}
+					};
+				}
+			},
+
+			responseMarshaller: {
+				type:String,
+				value:"noop"
+			},
+
+			requestMarshaller: {
+				type:String,
+				value:"noop"
+			},
+
 			cacheGlobals: {
 				type:Boolean,
 				value:false,
@@ -94,16 +137,9 @@
 				type:String,
 				value:"X-CSRF-Token"
 			},
-
-			page: {
-				type:Number,
-				value:0,
-				notify:true
-			},
-			pageSize:{
-				type:Number,
-				value:10,
-				notify:true
+			csrfToken:{
+				type:String,
+				value: function() { return __csrf; }
 			},
 
 			cacheBuster: {
@@ -116,15 +152,6 @@
 				value:_getParamBase,
 			},
 			outputParams:{
-				type:Object,
-				value:_getParamBase,
-			},
-
-			_inputParams: {
-				type:Object,
-				value:_getParamBase,
-			},
-			_outputParams: {
 				type:Object,
 				value:_getParamBase,
 			}
@@ -148,13 +175,15 @@
 
 		sync: function(method, data, options) {
 			method = method || Ajax.GET;
-			data = data || this.body;
+			data = this.apiMarshaller[this.requestMarshaller]( data || this.body );
 
 			var configOpts = this._getDomConfig(method, this.domObject);
 
 			options = DataUtils.copy({method:method, url:this.endpoint}, options, configOpts, this.options);
 
 			this._getCacheBuster(this.cacheBuster, options.params);
+			this._setCSRFHeader(method, options.headers);
+
 			var promise = this._ajax.exec( data, options );
 			promise.then(this._handleResult, this._handleError);
 
@@ -173,16 +202,13 @@
 		},
 
 		domObjectChanged: function(domObject) {
-			// console.log(domObject);
 			if (this.auto && this.auto !== "save") {
-				// this.get();
 				this.debounce("dom", this.get, this.autoDebounce);
 			}
 		},
 
 		_dataChanged:function(oldData, newData) {
 			if (this.auto && this.auto !== "load") {
-				// this.post();
 				this.debounce("dom", this.post, this.autoDebounce);
 			}
 		},
@@ -204,17 +230,16 @@
 
 		_getCSRFHeader: function(result) {
 
-			if (this.csrf) {
-				var headReg = new Regexp(this.csrfHeader,"ig");
-				var headers = ajax.xhr.getAllResponseHeaders().match(this.headReg);
-				if (headers) {
-					var csrf = ajax.xhr.getResponseHeader(headers[0]);
+			if (this.csrf && result && result.instance) {
+				var ajax =  result.instance;
+				var hasHeader = ajax.xhr.getAllResponseHeaders().indexOf(this.csrfHeader) !== -1;
+				if (hasHeader) {
+					var csrf = ajax.xhr.getResponseHeader(this.csrfHeader);
 					__csrf = csrf;
+					this.csrfToken = csrf;
 					if (this.cacheCsrf) {
-						this._csrf.save(csrf);
-						// this.$.csrf.save(csrf);
+						this._csrf.value = csrf;
 					}
-					// this.csrfHeader = csrf;
 				}
 			}
 		},
@@ -231,28 +256,30 @@
 		},
 
 		_handleResult: function(result) {
-			console.warn("result",result);
+
 			this._getCSRFHeader(result);
-			this.fire("data-result",result);
-			//TODO: things
+			this.fire("data-ready",result);
+
+			if (this.saveResponse) {
+				this.set("data", this.apiMarshaller[this.requestMarshaller]( this.result.response ));
+			}
 		},
 
 		_handleError: function(error) {
-			console.warn("error",error);
 			this.fire("data-error",error);
 		},
 
 		setGlobal: function(key, value) {
-			this._globals[key] = value;
-			this._globals.save();
+			this._globals.set(key,value);
 		},
 
 		getGlobal: function(key) {
-			return this._globals[key];
+			return this._globals.get(key);
 		}
 	};
 	scope.Syncable = [
 		scope.DomGettable,
+		scope.Falsifiable,
 		Syncable,
 	];
 }(window.StrandTraits = window.StrandTraits || {}));

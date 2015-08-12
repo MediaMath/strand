@@ -1,130 +1,93 @@
-(function() {
-	var _instances = [],
-		_currentInstance = null,
-		_previousInstance = null,
-		_closePanel = null;
+(function(scope) {
 
-	function _addInstance(instance) {
-		if(_instances.length === 0 && _closePanel === null) { 
-			_createClosePanel(); 
-		}
-		_instances.push(instance);
-	}
+	scope.Tooltip = Polymer({
+		is: 'mm-tooltip',
 
-	function _removeInstance(instance) {
-		_instances.splice(_instances.indexOf(instance), 1);
-	}
+		behaviors: [
+			StrandTraits.Stackable,
+			StrandTraits.PositionablePanel,
+			StrandTraits.Stylable
+		],
 
-	function _setCurrentInstance(instance) {
-		_previousInstance = _currentInstance !== null ? _currentInstance : null;
-		_currentInstance = instance;
-	}
-
-	function _hideClosePanel(instance) {
-		if(instance == _currentInstance) {
-			_closePanel.close();
-		}
-	}
-
-	function _showClosePanel(instance) {
-		if(instance == _currentInstance) {
-			// clean up any existing "auto" tooltips, so the close panel can be reused:
-			if (_previousInstance && _previousInstance.auto === false) {
-				_previousInstance.close();
+		properties: {
+			CLOSE_ICON_COLOR: {
+				type: String,
+				value: Colors.A4
+			},
+			CLOSE_ICON_HOVER: {
+				type: String,
+				value: Colors.F0
+			},
+			auto: { 
+				type: Boolean,
+				value: false, 
+				refelctToAttribute: true,
+				observer: '_autoChanged'
+			},
+			direction: {
+				value: 'n'
+			},
+			tipWidth: {
+				type: Number,
+				value: false, // if not set, assume it should be the width of it's content
+				refelctToAttribute: true,
+				observer: '_widthChanged'
 			}
-			_closePanel.auto = instance.auto;
-			_closePanel.open();
-		}
-	}
-
-	function _createClosePanel() {
-		_closePanel = new MMClosePanel();
-		_closePanel.offsetY = 0;
-		_closePanel.mode = "tooltip";
-		_closePanel.state = _closePanel.STATE_CLOSED;
-		_closePanel.targetFilter = _closeFilter;
-		_closePanel.scope = _closePanel;
-		document.body.appendChild(_closePanel);
-	}
-
-	function _closeFilter(instance, e) {
-		function contains(rect, x, y) {
-			return rect.left < x && rect.right > x && rect.top < y && rect.bottom > y;
-		}
-
-		var closeIcon = _closePanel.$.closeIcon,
-			closeBound = contains(Measure.getBoundingClientRect(_closePanel.$.closeIcon), e.clientX, e.clientY);
-
-		if (closeBound) {
-			_currentInstance.close();
-		}
-	}
-
-	Polymer('mm-tooltip', {
-		ver:"<<version>>",
-		STATE_OPENED: "opened",
-		STATE_CLOSED: "closed",
-		publish: {
-			model: null,
-			valign: { value: "top", reflect: true },
-			auto: { value: true, refelct: true },
-			align: "center",
-			state:'closed',
-			tipWidth: null // if it's not set explicitly, assume that it should just be the width of it's content
 		},
 
 		attached: function() {
-			_addInstance(this);
+			this.async(function() {
+				if (this.target) {
+					this.target.addEventListener('mouseover', this._overHandler.bind(this));
+					this.target.addEventListener('mouseout', this._outHandler.bind(this));
+					this.target.style.cursor = 'pointer';
+				}
+			});
 		},
 
-		detached: function() {
-			_removeInstance(this);
+		removed: function() {
+			if (this.target) {
+				this.target.removeEventListener('mouseover', this._overHandler.bind(this));
+				this.target.removeEventListener('mouseout', this._outHandler.bind(this));
+				this.target.style.cursor = 'default';
+			}
 		},
 
-		ready: function(){
-			//
-		},
-
-		open: function(e) {
-			this.configurePanel();
-			this.state = this.STATE_OPENED;
-		},
-
-		close: function(e) {
-			this.state = this.STATE_CLOSED;
-		},
-
-		overHandler: function(e) {
+		// see StrandTraits.AutoClosable for 'open' & 'close'
+		// also see positionable-tip where we extend 'open' & 'close' 
+		_overHandler: function(e) {
 			this.open();
 		},
 
-		outHandler: function(e) {
-			if(this.auto) {
+		_outHandler: function(e) {
+			if(!this.auto) {
 				this.close();
 			}
 		},
 
-		stateChanged: function() {
-			if (this.state === this.STATE_OPENED) {
-				_showClosePanel(this);
-			} else {
-				_hideClosePanel(this);
+		_widthChanged: function(newVal, oldVal) {
+			this.style.width = newVal + 'px';
+		},
+
+		_autoChanged: function(newVal, oldVal) {
+			if (newVal && typeof newVal === 'string') {
+				newVal = JSON.parse(newVal.toLowerCase());
 			}
 		},
 
-		configurePanel: function() {
-			if(_currentInstance !== this) {
-				_setCurrentInstance(this);
+		_updateClass: function(auto) {
+			var o = {};
+			o.auto = auto;
+			return this.classBlock(o);
+		},
 
-				var msgContent = this.querySelector('template').createInstance(this);
-				_closePanel.style.width = this.tipWidth ? this.tipWidth + "px" : "auto";
-				_closePanel.valign = this.valign;
-				_closePanel.align = this.align;
-				_closePanel.innerHTML = null;
-				_closePanel.appendChild(msgContent);
-				_closePanel.scope = this;
-				_closePanel.target = this.$.tipTarget;
+		_closeFilter: function(instance, e, original) {
+			var closeIcon = instance.$$('.close-icon');
+			if(e.path.indexOf(closeIcon) > -1){
+				instance.close();
 			}
 		}
+
 	});
-})();
+
+})(window.Strand = window.Strand || {});

@@ -5,29 +5,19 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../shared/fonts/fonts.html"/>
-<link rel="import" href="../shared/js/colors.html"/>
-<link rel="import" href="../shared/js/measure.html"/>
-<link rel="import" href="../mm-close-panel/mm-close-panel.html"/>
-<polymer-element name="mm-popover" attributes="valign align target mode" constructor="MMPopover">
+<link rel="import" href="../shared/behaviors/autotogglable.html">
+<link rel="import" href="../shared/behaviors/stackable.html">
+<link rel="import" href="../shared/behaviors/positionable-panel.html"/>
+<dom-module id="mm-popover">
+	<link rel="import" type="css" href="mm-popover.css"/>
 	<template>
-		<link href="mm-popover.css" rel="stylesheet" type="text/css"/>
-		<mm-close-panel id="closePanel" valign="{{valign}}" align="{{align}}" targetFilter="{{closeFilter}}" scope="{{}}" target="{{target}}" state="{{state}}">
-			<template if="{{mode=='default'}}">
-				<div class="body-content {{mode}}">
-					<content select=".body"></content>
-				</div>
-			</template>
-			<template if="{{mode=='multiselect'}}">
-				<content select="mm-input"></content>
-				<div class="body-content {{mode}}">
-					<!-- TODO: Figure out how we want to actually assemble a multiselect list 
-					for now, leaving the selection of body content as is -->
-					<content select=".body"></content>
-				</div>
-			</template>
-			<content select="mm-footer"></content>
-		</mm-close-panel>
+		<div id="container" style$="{{_containerStyle}}">
+			<content select="mm-input"></content>
+			<div class="body-content">
+				<content select=".body"></content>
+			</div>
+			<content id="footer" select="mm-footer"></content>
+		</div>		
 	</template>
-	<script src="mm-popover.js"></script>
-</polymer-element> 
+</dom-module>
+<script src="mm-popover.js"></script>

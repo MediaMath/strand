@@ -15,8 +15,8 @@
 		this.height = height;
 	}
 
-	Rectangle.fromElement = function(element, root) {
-		if (element && element.getBoundingClientRect && (element.shadowRoot || root && root.shadowRoot)) {
+	Rectangle.fromElement = function(element) {
+		if (element && element.getBoundingClientRect) {
 			var cr = element.getBoundingClientRect();
 			return new Rectangle(cr.left, cr.top, cr.width, cr.height);
 		} else {
@@ -78,12 +78,15 @@
 			return bitfield;
 		},
 
-		toCSS : function(element) {
+		toCSS : function(element,exact) {
 			if (element && element.style) {
-				element.style.setProperty("left", this.left + "px");
-				element.style.setProperty("top", this.top + "px");
-				// element.style.setProperty("-webkit-transform", "translate3d("+this.left+"px,"+this.top+"px,0)");
-				// element.style.setProperty("-webkit-transform", "matrix(1,0,0,1,"+this.left+","+this.top+")");
+				if(exact) {
+					element.style.left = this.left + "px";
+					element.style.top = this.top + "px";					
+				} else {
+					element.style.left = Math.round(this.left) + "px";
+					element.style.top = Math.round(this.top) + "px";
+				}
 			}
 			return this;
 		},
@@ -124,5 +127,7 @@
 			return this;
 		}
 	};
+
+	scope.Rectangle = Rectangle;
 })(window.StrandLib = window.StrandLib || {}); 
 </script>

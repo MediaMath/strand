@@ -7,6 +7,14 @@
 @import "_bourbon";
 // mixins.scss
 
+@mixin buttonFont() {
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-weight: 700;
+	font-size: 13px!important;
+	line-height: 28px !important;
+}
+
 //fix for google's fit behavior
 @mixin fit() {
   :host([fitparent]) {
@@ -45,4 +53,51 @@
 		-moz-osx-font-smoothing: auto;
 		font-smoothing: subpixel-antialiased;
 	}	
+}
+
+// Arrow Generator:
+@function get-item($list, $current, $offset:0) {
+	$result-position: ($current + $offset) % length($list);
+	@if $result-position == 0 {
+		$result-position: length($list);
+	}
+	@return nth($list, $result-position);
+}
+ 
+@mixin arrow($direction, $size, $color, $strokeColor) {
+	&:before,
+	&:after {
+		position: absolute;
+		width: 0;
+		height: 0;
+		content: " ";
+		@if $direction == top or $direction == bottom {
+			left: 50%;
+			margin-left: -$size;
+		} @else {
+			top: 50%;
+			margin-top: -$size;
+		}
+	}
+	
+	$directions: top, right, bottom, left;
+	@for $i from 1 through length($directions) {
+		@if nth($directions, $i) == $direction {
+			&:before,
+			&:after {
+				border-#{get-item($directions, $i, -1)}: $size solid transparent; 
+				border-#{get-item($directions, $i, 1)}: $size solid transparent; 
+			}
+
+			&:before {
+				#{$direction}: 0px;
+				border-#{get-item($directions, $i, 2)}: $size solid $strokeColor;
+			}
+
+			&:after {
+				#{$direction}: 1px;
+				border-#{get-item($directions, $i, 2)}: $size solid $color;
+			}
+		} 
+	}
 }

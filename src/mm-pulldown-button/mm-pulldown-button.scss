@@ -24,8 +24,34 @@
 	opacity: 0.5;
 }
 
+:host([selected]) .button.primary {
+	@include buttonSelected($color-D22, $color-D5, $color-D22);
+}
+
+:host([selected]) .button.secondary {
+	@include buttonSelected($color-A20, $color-A9, $color-A20);
+}
+
 @include fit();
 
-.button label {
-	font-weight: 700;
+.button {
+	&.fit {
+		@include fitContent();
+		@include justify-content(center);
+	}
+
+	& > .left-items ::content label {
+		@include buttonFont();
+		pointer-events: none;
+		white-space: nowrap;
+	}
+
+	& > .left-items ::content mm-icon {
+		display: block;
+		pointer-events: none;
+	}
+
+	& > .left-items ::content mm-icon + label {
+		padding-left: 7px;
+	}
 }

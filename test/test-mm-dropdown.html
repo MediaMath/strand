@@ -6,20 +6,22 @@
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-	<link rel="import" href="../build/strand.html">
+	<link rel="import" href="../build/mm-dropdown/mm-dropdown.html">
+	<link rel="import" href="../build/mm-pulldown-panel/mm-pulldown-panel.html">
+	<link rel="import" href="../build/mm-list-item/mm-list-item.html">
 	<script src="test-mm-dropdown.js"></script>
 </head>
 <body>
 
-	<mm-dropdown id="ddl" placeholder="some longer label" unresolved>
-		<mm-list-item>mm-list-item 01</mm-list-item>
-		<mm-list-item>mm-list-item 02</mm-list-item>
-		<mm-list-item>mm-list-item 03</mm-list-item>
-		<mm-list-item>mm-list-item 04</mm-list-item>
+	<mm-dropdown id="ddl" placeholder="some longer label">
+		<mm-list-item value="1">mm-list-item 01</mm-list-item>
+		<mm-list-item value="2">mm-list-item 02</mm-list-item>
+		<mm-list-item value="3">mm-list-item 03</mm-list-item>
+		<mm-list-item value="4">mm-list-item 04</mm-list-item>
 	</mm-dropdown>
 
 	<div style="width:500px;">
-		<mm-dropdown id="ddlFit" placeholder="some longer label" maxItems="3" fitparent unresolved>
+		<mm-dropdown id="ddlFit" placeholder="some longer label" maxItems="3" fitparent>
 			<mm-list-item>mm-list-item 01</mm-list-item>
 			<mm-list-item>mm-list-item 02</mm-list-item>
 			<mm-list-item>mm-list-item 03</mm-list-item>
@@ -45,6 +47,10 @@
 		<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
 		<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 	</mm-dropdown>
+
+	<mm-dropdown id="ddlJquery"></mm-dropdown>
+
+	<mm-dropdown id="ddlLarge"></mm-dropdown>
 
 </body>
 </html>

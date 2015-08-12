@@ -24,6 +24,10 @@
 				type:String,
 				value:null,
 				reflectToAttribute: true
+			},
+			value: {
+				type: String,
+				value: ""
 			}
 		},
 

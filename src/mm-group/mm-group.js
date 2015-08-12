@@ -4,24 +4,37 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-group', {
+Polymer({
+	is: 'mm-group',
 	
-	ver:"<<version>>",
 	HALIGN: "horizontal",
 	VALIGN: "vertical",
-	HALIGN_LEFT: "hgroup-left",
-	HALIGN_CENTER: "hgroup-center",
-	HALIGN_RIGHT: "hgroup-right",
-	VALIGN_TOP: "vgroup-top",
-	VALIGN_CENTER: "vgroup-center",
-	VALIGN_BOTTOM: "vgroup-bottom",
-	type: null,
 
-	publish: {
-		fitparent: { value: false, reflect: true },
-		group: { value: null, reflect: true },
-		align: { value: null, reflect: true },
-		value: { value: "", reflect: true }
+	properties: {
+		fitparent: { 
+			type: String,
+			reflectToAttribute: true,
+			observer: 'fitparentChanged'
+		},
+		group: { 
+			type: String,
+			reflectToAttribute: true,
+			observer: 'groupChanged'
+		},
+		align: { 
+			align: 'horizontal',
+			type: String,
+			reflectToAttribute: true,
+			observer: 'alignChanged'
+		},
+		value: { 
+			type: String,
+			reflectToAttribute: true 
+		}
+	},
+
+	listeners: {
+		'tap':'toggleSelection'
 	},
 
 	ready: function() {
@@ -34,57 +47,70 @@ Polymer('mm-group', {
 			this.align = "horizontal";
 		}
 
-		this.itemsByTagName = {};
+		this.type = this.getType();
+	},
 
-		// set type immediately
-		function setType(item, index) {
+	// ***********************
+	// TODO: Handle selection(!)
+	// needs selectable or similar
+	// ***********************
+
+	getType: function() {
+		var type = "";
+		function setType(map, item) {
 			var key = item.tagName.toLowerCase();
-			this.itemsByTagName[key] = (this.itemsByTagName[key] || []);
-			this.itemsByTagName[key].push(item);
+			map[key] = (map[key] || []);
+			map[key].push(item);
+			return map;
 		}
-		this.items.forEach(setType.bind(this));
+		
+		var itemsByTagName = this.items.reduce(setType.bind(this), {});
 
 		// infer that only one unique key means only one tag type
-		var numKeys = Object.keys(this.itemsByTagName).length;
+		var numKeys = Object.keys(itemsByTagName).length;
 		if (numKeys === 1){
-			var tag = Object.keys(this.itemsByTagName)[0];
-			this.type = tag;
+			type = Object.keys(itemsByTagName)[0];
 		}
+
+		return type;
+	},
+
+	toggleSelection: function(e) {
+
+		var target = Polymer.dom(e).localTarget;
+
+		if(!this.multi && this.selectedItem) {
+			this.selectedItem.toggleAttribute('selected', false)
+		}
+		this.selectedItem = target;
+		this.selectedItem.toggleAttribute('selected');
 	},
 
 	get items() {
-		var items = Array.prototype.slice.call(this.$.groupItems.getDistributedNodes());
-		return items.filter(function(item) { return item.nodeName !== "TEMPLATE"; });
+		return Array.prototype.slice.call(Polymer.dom(this.$.items).getDistributedNodes());
 	},
 
-	fitparentChanged: function(oldVal, newVal) {
+	fitparentChanged: function(newVal, oldVal) {
 		function setItemFit(item) {
-			item.setAttribute("fitparent", true);
+			item.setAttribute("fitparent", this.fitparent);
 		}
-		if (this.fitparent !== null && this.type === "mm-button") {
-			this.items.forEach(setItemFit.bind(this));
-		}
+
+		this.items.forEach(setItemFit, this);
 	},
 
-	alignChanged: function(oldVal, newVal){
+	alignChanged: function(newVal, oldVal){
+		// ***********************
+		// TODO: GO back to the 0.5 way cause there are
+		// too many gotchas doing it this way
+		// ***********************
 		function setItemAlign(item, index) {
-			var alignFirst	= (this.align !== this.HALIGN) ? this.VALIGN_TOP : this.HALIGN_LEFT,
-				alignCenter = (this.align !== this.HALIGN) ? this.VALIGN_CENTER : this.HALIGN_CENTER,
-				alignLast	= (this.align !== this.HALIGN) ? this.VALIGN_BOTTOM : this.HALIGN_RIGHT;
-
-			// set layout on all items
-			if (index === 0) {
-				item.setAttribute("layout", alignFirst);
-			} else if (index === this.items.length-1) {
-				item.setAttribute("layout", alignLast);
-			} else {
-				item.setAttribute("layout", alignCenter);
-			}
+			item.setAttribute("layout", this.align);
 		}
+
 		this.items.forEach(setItemAlign.bind(this));
 	},
 
-	groupChanged: function(oldVal, newVal) {
+	groupChanged: function(newVal, oldVal) {
 
 		function setItemGroup(item) {
 			item.setAttribute("group", this.group);
@@ -92,10 +118,10 @@ Polymer('mm-group', {
 		this.items.forEach(setItemGroup.bind(this));
 		if (oldVal) {
 			if (this._handleUpdate) {
-				this.removeEventListener("mousedown", this._handleUpdate);
+				this.removeEventListener("selected", this._handleUpdate);
 			}
 		}
-		if (newVal && this.type === "mm-radio") {
+		if (newVal) {
 			if (!this._handleUpdate) {
 				this._handleUpdate = this.handleUpdate.bind(this);
 			}
@@ -105,7 +131,6 @@ Polymer('mm-group', {
 	},
 
 	handleUpdate: function(e) {
-
 		this.async(function() {
 			var checked = this.items.filter(function(item) { 
 				return item.hasAttribute("checked"); 
@@ -118,26 +143,26 @@ Polymer('mm-group', {
 
 	valueChanged: function(oldVal, newVal) {
 		this.fire("changed", {value: this.value});
-		this.updateModel();
+		// this.updateModel();
 	},
 
-	bindModel: function(model, property) {
-		this.model = model;
-		this.property = property;
-	},
+	// bindModel: function(model, property) {
+	// 	this.model = model;
+	// 	this.property = property;
+	// },
 
-	updateModel: function() {
-		if (this.model && this.property) {
-			//check for BB models
-			if (this.model.set) {
-				var o = {};
-				o[this.property] = this.value;
-				this.model.set(o);
-			} else {
-				this.model[this.property] = this.value;
-			}
-		}
-	},
+	// updateModel: function() {
+	// 	if (this.model && this.property) {
+	// 		//check for BB models
+	// 		if (this.model.set) {
+	// 			var o = {};
+	// 			o[this.property] = this.value;
+	// 			this.model.set(o);
+	// 		} else {
+	// 			this.model[this.property] = this.value;
+	// 		}
+	// 	}
+	// },
 
 	createId: function() {
 		var timestamp = new Date().valueOf(),
