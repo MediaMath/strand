@@ -69,7 +69,7 @@
 			}
 			return true;
 		},
-		range:function(char, input, group, field) {
+		range: function(char, input, group, field) {
 			if (input.length < group.max) { return true; }
 			var i = parseInt(input),
 				rng = _parseRange(group.args);
@@ -107,6 +107,7 @@
 
 		behaviors: [
 			StrandTraits.DomGettable,
+			StrandTraits.Keyboardable,
 			StrandTraits.Stylable,
 		],
 
@@ -166,6 +167,10 @@
 			this.updateGroups();
 		},
 
+		clear: function() {
+			this.value = "";
+		},
+
 		_maskTemplate: function() {
 			var template = [];
 			var nodes = this.getLightDOM();
@@ -191,26 +196,24 @@
 			if (!type) type = "value";
 			//clear case
 			if (value === "" || value === null) {
-				// for(var i=0; i<this.groups.length; i++) {
-				// 	var g = this.groups[i];
-				// 	g[type] = "";
-				// }
+				for(var i=0; i<this.groups.length; i++) {
+					var g = this.groups[i];
+					g[type] = "";
+				}
 				return [];
-
+			}
 			//chunk our values and assign them to sub fields
-			} else {
+			else {
 				var sepReg = "[" +  this.seps.map(function (sep) {
 						return sep.value;
 					}).join("")+ "]+",
-					// srcPath = Path.get("restrict.source"),
 					base = this.maskConfig.map(function(item) {
 						switch(item.type) {
 							case _types.GROUP:
-								// item = this.groups.filter(function(g) {
-								// 	return g.index === item.index;
-								// })[0];
-								// var src = srcPath.getValueFrom(item) || ".*";
-								var src = ".*";
+								item = this.groups.filter(function(g) {
+									return g.index === item.index;
+								})[0];
+								var src = this.get("restrict.source",item) || ".*";
 								if (type === "placeholder") {
 									src = ".*";
 								}
@@ -380,9 +383,9 @@
 			this.$.input.$$("input").removeAttribute("forceFocus");
 		},
 
-		validateGroup: function(e, target) {
+		_validateGroup: function(e, target) {
 			var val = String.fromCharCode(e.keyCode);
-			var group = this.getGroup(target);
+			var group = this._getGroup(target);
 			// If alphanumeric throw out all modifiers except capital letters
 			if(group.restrict !== _restrict.all) {
 				if(e.altKey || e.ctrlKey || e.metaKey) return false;
@@ -414,7 +417,7 @@
 		},
 
 		_handleFill: function(target) {
-			var group = this.getGroup(target),
+			var group = this._getGroup(target),
 				delta = group.max - target.value.length;
 			if (group.auto && delta > 0) {
 				var o = new Array(delta+1).join(group.auto);
@@ -423,48 +426,62 @@
 			}
 		},
 
-		getGroup: function(target) {
+		_getGroup: function(target) {
 			return this.groups[this.groupSel.indexOf(target)];
 		},
 
 		cellKey: function(e) {
 			this.updateGroups();
-			var target = e.target,
-				code = e.keyCode,
-				numeric = (code >= 48 && code <= 57) || (code >= 96 && code <= 105),
-				alpha =  (code >= 65 && code <= 90),
-				alphaNumeric = alpha || numeric,
-				left = code === 37,
-				right = code === 39,
-				back = code === 8,
-				tab = code === 9,
-				selLength = target.selectionEnd - target.selectionStart,
-				max = this.getGroup(e.target).max;
+			this._routeKeyEvent(e);
+		},
 
-			if (back && target.value.length === 0 && selLength === 0) {
-				target = this._focusLeft(target);
-			} else
-			if (alphaNumeric && target.value.length === max && selLength === 0) {
-				target = this._focusRight(target);
-			} else
-			if (left && e.target.selectionStart === 0) {
-				target = this._focusLeft(target);
-			} else
-			if (right && e.target.selectionStart === max) {
-				target = this._focusRight(target);
-			}
-			if (alphaNumeric && !this.validateGroup(e, target) && selLength === 0) {
+		_onAlpha: function(e) {
+			var max = this._getGroup(e.target).max,
+				selLength = e.target.selectionEnd - e.target.selectionStart;
+			if(e.target.value.length === max && selLength === 0) e.target = this._focusRight(e.target);
+			else if(!this._validateGroup(e,e.target)) {
 				e.preventDefault();
-				if (target.value.length === max)
-					this._focusRight(target);
 			}
-			if (tab) {
-				this._handleFill(target);
+		},
+		_onNum: function(e) {
+			this._onAlpha(e);
+		},
+
+		_onLeft: function(e) {
+			if(e.target.selectionStart === 0) {
+				var oldTarget = e.target;
+				var newTarget = this._focusLeft(e.target);
+				if(oldTarget !== newTarget) newTarget.selectionStart = newTarget.selectionEnd = newTarget.value.length;
+			}
+		},
+		
+		_onRight: function(e) {
+			var max = this._getGroup(e.target).max,
+				selLength = e.target.selectionEnd - e.target.selectionStart;
+			if(e.target.selectionStart === e.target.value.length && selLength === 0) {
+				var oldTarget = e.target;
+				var newTarget = this._focusRight(e.target);
+				if(oldTarget !== newTarget) newTarget.selectionStart = newTarget.selectionEnd = 0;
+			}
+		},
+		
+		_onTab: function(e) {
+			this._handleFill(e.target);
+		},
+
+		_onBackspace: function(e) {
+			if(e.target.selectionStart === 0 && e.target.selectionEnd === 0) e.target = this._focusLeft(e.target);
+		},
+
+		_updateGroupValues: function() {
+			for(var i=0; i<this.groupSel.length; i++) {
+				var item = this.$.domRepeat.itemForElement(this.groupSel[i]);
+				item.value = this.groupSel[i].value;
 			}
 		},
 
 		cellVal: function(e) {
-			this.$.domRepeat.itemForElement(e.target).value = e.target.value;
+			this._updateGroupValues();
 
 			var val = this.maskConfig.reduce(function(prev,item) {
 				return item.value ? prev + item.value : prev;
