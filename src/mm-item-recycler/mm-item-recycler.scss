@@ -8,41 +8,23 @@
 
 :host {
 	display: block;
+}
+
+#pane {
+	width: 100%;
+	height: 100%;
 	@include transform(translate3d(0,0,0));
 	overflow: auto;
 }
 
-#maskContainer {
-	overflow: hidden;
-	height: 100%;
-	min-width: 100%;
-
-	#sizeContainer {
-		position: relative;
-		height: 100%;
-		min-width: 100%;
-
-		#positionContainer {
-			height: 0;
-
-			.recycler-panel {
-				position: absolute;
-				min-width: 100%;
-				width: 100%;
-			}
-		}
-	}
-
+#header, #footer, #middle, #extent {
+	@include transform(translate3d(0,0,0));
 }
 
-#scrollbar {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 16px;
+#extent {
+	height: 1px;
+	margin-top: -1px;
+	z-index: -1;
 }
 
-:host(:hover) #scrollbar {
-	opacity: 1.0;
-	filter: alpha(opacity = 60);
-}
+

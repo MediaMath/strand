@@ -17,7 +17,7 @@
 
 		mm-item-recycler {
 			height: 500px;
-			padding-top: 30px;
+			/*padding-top: 30px;*/
 		}
 
 		._mm_item {
@@ -27,12 +27,16 @@
 		}
 
 		#header {
-			position: absolute;
+			/*position: absolute;
 			top: 0;
 			left: 0;
 			right: 0;
+			height: 30px;*/
 			background: #ccc;
-			height: 30px;
+		}
+
+		#footer {
+			background: #ccc;
 		}
 
 	</style>
@@ -40,42 +44,59 @@
   <body>
 	<mm-item-recycler id="itemRecycler" item-template="templateItem">
 		<template id="templateItem" is="dom-template">
-			<div class="_mm_item" data-id="{{model.id}}">
-				<mm-input value="{{model.name}}"></mm-input>
+			<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
+				<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
 			</div>
 		</template>
-		<div id="header" recycler="header">Header Text</div>
+		<div id="header" recycler="header">Header <br/> Text</div>
+		<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
+		Hello World
 	</mm-item-recycler>
 	<script type="text/javascript">
 		var data = [],
 			itemRecycler,
 			header,
-			NUM_ITEMS = 100 * 1;
+			NUM_ITEMS = 10 * 10;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
-			generateItem();
+			generateItem(i);
 		}
 
-		function generateItem() {
+		function generateItem(index) {
 			data.push({
+				num: index,
 				//id: i, // id throws an error -- https://github.com/Polymer/polymer/issues/2061
 				name: Math.random().toString(36).substring(7),
 				advertiser: "Advertiser No. " + i,
 				concept: "Concept No. " + i,
 				type: "swf",
 				file: "Creative_File_" + i + ".swf",
-				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300))
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
+				//style: "transition: height 2s; height: 50px",
+				size: 50,
 			});
 		}
 
 		window.addEventListener("WebComponentsReady", function() {
 			itemRecycler = document.querySelector("#itemRecycler");
-			header = document.querySelector("#header");
 			itemRecycler.data = data;
 
-			itemRecycler.onscroll = function(e) {
-				header.style.top = itemRecycler.scrollTop + "px";
-			}
+			setTimeout(function () {
+				itemRecycler.style.height = (2 * itemRecycler.offsetHeight) + "px";
+
+				(function loop () {
+					var index = 0|(Math.random() * itemRecycler.data.length);
+					var datum = itemRecycler.data[index];
+					if (datum.size === 50) {
+						datum.size = 100;
+						itemRecycler.set("data."+index+".style", "transition: height 2s; height: 100px");
+					} else {
+						datum.size = 50;
+						itemRecycler.set("data."+index+".style", "transition: height 2s; height: 50px");
+					}
+					setTimeout(loop, 1000);
+				});
+			}, 3000);
 		});
 	</script>
   </body>
