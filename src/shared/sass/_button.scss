@@ -112,11 +112,10 @@
 :host([layout=hgroup-center]) {
 	margin-left: -1px;
 
-	.button {
-		&.opened.bottom,
-		&.opened.top {
-			border-radius: 0px 0px 0px 0px;
-		}
+	.button,
+	.button.opened.bottom,
+	.button.opened.top {
+		border-radius: 0px 0px 0px 0px;
 	}
 }
 

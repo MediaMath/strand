@@ -93,7 +93,7 @@
 	<body unresolved>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary)</p>
-			<mm-group>
+			<mm-group id="removeMe">
 				<mm-button type="secondary"><label>S</label></mm-button>
 				<mm-button type="secondary"><label>M</label></mm-button>
 				<mm-button type="secondary"><label>T</label></mm-button>
@@ -120,13 +120,13 @@
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Horizontal</p>
 			<mm-group align="" group="myRadGroup">
-				<mm-radio checked="true">
+				<mm-radio checked="true" value="rad0">
 					<label>Rad Group Item 1</label>
 				</mm-radio>
-				<mm-radio>
+				<mm-radio value="rad1">
 					<label>Rad Group Item 2</label>
 				</mm-radio>	
-				<mm-radio>
+				<mm-radio value="rad2">
 					<label>Rad Group Item 3</label>
 				</mm-radio>			
 			</mm-group>
@@ -296,9 +296,19 @@
 				si1 = document.getElementById("si1");
 				si2 = document.getElementById("si2");
 				si3 = document.getElementById("si3");
+
 				si1.data = data;
 				si2.data = data;
 				si3.data = data;
+
+				// log selected:
+				document.addEventListener("selected", function (e) {
+					console.log(e.detail);
+				});
+
+				document.addEventListener("changed", function (e) {
+					console.log(e.detail);
+				});
 			});
 		</script>
 	</body>

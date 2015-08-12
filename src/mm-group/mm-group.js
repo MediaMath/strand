@@ -4,171 +4,221 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer({
-	is: 'mm-group',
-	
-	HALIGN: "horizontal",
-	VALIGN: "vertical",
+(function(scope) {
 
-	properties: {
-		fitparent: { 
-			type: String,
-			reflectToAttribute: true,
-			observer: 'fitparentChanged'
+	Polymer({
+		is: 'mm-group',
+
+		properties: {
+			fitparent: { 
+				type: String,
+				reflectToAttribute: true,
+				observer: '_fitparentChanged'
+			},
+			group: { 
+				type: String,
+				reflectToAttribute: true,
+				observer: '_groupChanged'
+			},
+			align: { 
+				align: 'horizontal',
+				type: String,
+				reflectToAttribute: true,
+				observer: '_alignChanged'
+			},
+			value: { 
+				type: String,
+				value: false,
+				reflectToAttribute: true,
+				observer: "_valueChanged"
+			},
+			filter: {
+				type: Boolean,
+				value: false
+			},
+			filterElementType: {
+				type: String,
+				value: "*"
+			},
+			multi: {
+				type: Boolean,
+				value: false
+			},
+			_type: {
+				type: String,
+				value: false
+			},
+			_itemsByTagName: {
+				type: Object,
+				value: null
+			}
 		},
-		group: { 
-			type: String,
-			reflectToAttribute: true,
-			observer: 'groupChanged'
+
+		HALIGN: "horizontal",
+		VALIGN: "vertical",
+		HALIGN_LEFT: "hgroup-left",
+		HALIGN_CENTER: "hgroup-center",
+		HALIGN_RIGHT: "hgroup-right",
+		VALIGN_TOP: "vgroup-top",
+		VALIGN_CENTER: "vgroup-center",
+		VALIGN_BOTTOM: "vgroup-bottom",
+
+		behaviors: [
+			StrandTraits.Selectable
+		],
+
+		attached: function() {
+			this.type = this._getType();
+
+			this.async(function() {
+				switch(this.type) {
+					case "mm-button":
+						// ***********************
+						// TODO: Why no tap listener?
+						// ***********************
+						// this.addEventListener('tap', this._updateSelectedItem.bind(this), false);
+						this.addEventListener('click', this._updateSelectedItem);
+						break;
+					case "mm-radio":
+						this.addEventListener('selected', this._radioSelected);
+						break;
+					default:
+						return;
+				}
+			});
 		},
-		align: { 
-			align: 'horizontal',
-			type: String,
-			reflectToAttribute: true,
-			observer: 'alignChanged'
+
+		detached: function() {
+			console.log("detached", this);
+			this.removeEventListener('click', this._updateSelectedItem);
+			this.removeEventListener('selected', this._radioSelected);
 		},
-		value: { 
-			type: String,
-			reflectToAttribute: true 
-		}
-	},
 
-	listeners: {
-		'tap':'toggleSelection'
-	},
+		ready: function() {
+			// if no group ID is specified, generate a UID
+			if(!this.group){
+				this.group = this.createId();
+			}
 
-	ready: function() {
-		// if no group ID is specified, generate a UID
-		if(!this.group){
-			this.group = this.createId();
-		}
+			if (!this.align) {
+				this.align = this.HALIGN;
+			}
+		},
 
-		if (!this.align) {
-			this.align = "horizontal";
-		}
+		_getType: function() {
+			var type = "";
+			
+			// items query handled by StrandTraits.Selectable
+			this._itemsByTagName = this.items.reduce(this._setType.bind(this), {});
 
-		this.type = this.getType();
-	},
+			// infer that only one unique key means only one tag type
+			var numKeys = Object.keys(this._itemsByTagName).length;
 
-	// ***********************
-	// TODO: Handle selection(!)
-	// needs selectable or similar
-	// ***********************
+			if (numKeys === 1) {
+				type = Object.keys(this._itemsByTagName)[0];
+			} else {
+				type = "mixed-type";
+			}
 
-	getType: function() {
-		var type = "";
-		function setType(map, item) {
+			return type;
+		},
+		
+		_setType: function(map, item) {
 			var key = item.tagName.toLowerCase();
 			map[key] = (map[key] || []);
 			map[key].push(item);
 			return map;
-		}
-		
-		var itemsByTagName = this.items.reduce(setType.bind(this), {});
+		},
 
-		// infer that only one unique key means only one tag type
-		var numKeys = Object.keys(itemsByTagName).length;
-		if (numKeys === 1){
-			type = Object.keys(itemsByTagName)[0];
-		}
+		_updateSelectedItem: function(e) {
+			var target = Polymer.dom(e).localTarget,
+				targetIndex = this.items.indexOf(target);
+			// console.log("_updateSelectedItem: ", e, target);
+			if(targetIndex >= 0) {
+				this.selectedIndex = targetIndex;
+			}
+			// ***********************
+			// TODO: Multi-Select?
+			// ***********************
+		},
 
-		return type;
-	},
+		_selectedIndexChanged: function(newIndex, oldIndex) {
+			if(typeof newIndex === 'number') {
+				var newSelected = this.items[newIndex],
+					oldSelected = this.items[oldIndex],
+					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
-	toggleSelection: function(e) {
+				if(this.value !== value) this.value = value;
+				newSelected.toggleAttribute("selected");
 
-		var target = Polymer.dom(e).localTarget;
+				this.fire('selected', {
+					item: newSelected,
+					index: newIndex,
+					value: this.value,
+					selected: true
+				});
+			}
+			if(typeof oldIndex === 'number') {
+				this.items[oldIndex].toggleAttribute("selected");
+			}
+		},
 
-		if(!this.multi && this.selectedItem) {
-			this.selectedItem.toggleAttribute('selected', false)
-		}
-		this.selectedItem = target;
-		this.selectedItem.toggleAttribute('selected');
-	},
+		_fitparentChanged: function(newVal, oldVal) {
+			this.items.forEach(this._setItemFit, this);
+		},
 
-	get items() {
-		return Array.prototype.slice.call(Polymer.dom(this.$.items).getDistributedNodes());
-	},
-
-	fitparentChanged: function(newVal, oldVal) {
-		function setItemFit(item) {
+		_setItemFit: function(item) {
 			item.setAttribute("fitparent", this.fitparent);
-		}
+		},
 
-		this.items.forEach(setItemFit, this);
-	},
+		_alignChanged: function(newVal, oldVal){
+			this.items.forEach(this._setItemAlign.bind(this));
+		},
 
-	alignChanged: function(newVal, oldVal){
-		// ***********************
-		// TODO: GO back to the 0.5 way cause there are
-		// too many gotchas doing it this way
-		// ***********************
-		function setItemAlign(item, index) {
-			item.setAttribute("layout", this.align);
-		}
+		_setItemAlign: function(item, index) {
+			var alignFirst	= (this.align !== this.HALIGN) ? this.VALIGN_TOP : this.HALIGN_LEFT,
+				alignCenter = (this.align !== this.HALIGN) ? this.VALIGN_CENTER : this.HALIGN_CENTER,
+				alignLast	= (this.align !== this.HALIGN) ? this.VALIGN_BOTTOM : this.HALIGN_RIGHT;
 
-		this.items.forEach(setItemAlign.bind(this));
-	},
+			// set layout on all items
+			if (index === 0) {
+				item.setAttribute("layout", alignFirst);
+			} else if (index === this.items.length-1) {
+				item.setAttribute("layout", alignLast);
+			} else {
+				item.setAttribute("layout", alignCenter);
+			}
+		},
 
-	groupChanged: function(newVal, oldVal) {
+		_groupChanged: function(newVal, oldVal) {
+			this.items.forEach(this._setItemGroup.bind(this));
+		},
 
-		function setItemGroup(item) {
+		_setItemGroup: function(item) {
 			item.setAttribute("group", this.group);
-		}
-		this.items.forEach(setItemGroup.bind(this));
-		if (oldVal) {
-			if (this._handleUpdate) {
-				this.removeEventListener("selected", this._handleUpdate);
-			}
-		}
-		if (newVal) {
-			if (!this._handleUpdate) {
-				this._handleUpdate = this.handleUpdate.bind(this);
-			}
-			this.addEventListener("selected", this._handleUpdate);
-			this.handleUpdate();
-		}
-	},
+		},
 
-	handleUpdate: function(e) {
-		this.async(function() {
+		_radioSelected: function(e) {
 			var checked = this.items.filter(function(item) { 
 				return item.hasAttribute("checked"); 
 			})[0];
+
 			if (checked) {
 				this.value = checked.getAttribute("value") || checked.textContent.trim();
 			}
-		}.bind(this));
-	},
+		},
 
-	valueChanged: function(oldVal, newVal) {
-		this.fire("changed", {value: this.value});
-		// this.updateModel();
-	},
+		_valueChanged: function(newVal, oldVal) {
+			this.fire("changed", { value: newVal });
+		},
 
-	// bindModel: function(model, property) {
-	// 	this.model = model;
-	// 	this.property = property;
-	// },
+		createId: function() {
+			var timestamp = new Date().valueOf(),
+				rndNum	= Math.floor((Math.random()*99)+1),
+				groupId = 'g' + rndNum + '_' + timestamp;
+			return groupId;
+		}
 
-	// updateModel: function() {
-	// 	if (this.model && this.property) {
-	// 		//check for BB models
-	// 		if (this.model.set) {
-	// 			var o = {};
-	// 			o[this.property] = this.value;
-	// 			this.model.set(o);
-	// 		} else {
-	// 			this.model[this.property] = this.value;
-	// 		}
-	// 	}
-	// },
+	});
 
-	createId: function() {
-		var timestamp = new Date().valueOf(),
-			rndNum	= Math.floor((Math.random()*99)+1),
-			groupId = 'g' + rndNum + '_' + timestamp;
-		return groupId;
-	}
-
-});
+})(window.Strand = window.Strand || {});

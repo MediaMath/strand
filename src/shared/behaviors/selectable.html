@@ -3,6 +3,18 @@
 (function (scope) {
 	var Selectable = {
 		properties: {
+			filterElementType: {
+				type: String,
+				value: "mm-list-item"
+			},
+			filter: {
+				type: Boolean,
+				value: true
+			},
+			panel: {
+				type: Object,
+				value: function() { return this.$.panel; }
+			},
 			selectedIndex: {
 				type: Number,
 				value: null,
@@ -24,14 +36,21 @@
 		},
 
 		get items() {
-			return (this.data) ?
-				Polymer.dom(this.panel).querySelectorAll('mm-list-item') :
-				this.getLightDOM().filter(function(el) { return el.localName === 'mm-list-item'; });
+			var itemsArr = null,
+				elementType = this.filterElementType;
+
+			if (this.filter) {
+				itemsArr = this.data ? Polymer.dom(this.panel).querySelectorAll(elementType) :
+				this.getLightDOM().filter(function(el) { return el.localName === elementType; });
+			} else {
+				itemsArr = Polymer.dom(this).queryDistributedElements(this.filterElementType);
+			}
+			// return (this.data) ?
+			// 	Polymer.dom(this.panel).querySelectorAll(this.filterElementType) :
+			// 	this.getLightDOM().filter(function(el) { return el.localName === this.filterElementType; });
+			return itemsArr;
 		},
 
-		get itemHeight() {
-	 		return this.items.length ? this.items[0].offsetHeight : 0;
-		},
 
 		_selectedIndexChanged: function(newIndex,oldIndex) {
 			if(typeof newIndex === 'number' && newIndex >= 0) this.attributeFollows('selected',this.items[newIndex],this.items[oldIndex]);
@@ -41,7 +60,13 @@
 			if(typeof newIndex === 'number' && newIndex >= 0) this.classFollows('highlighted',this.items[newIndex],this.items[oldIndex]);
 		},
 
-		// display updates
+		// ***********************
+		// TODO: display updates belong elsewhere
+		// ***********************
+		get itemHeight() {
+	 		return this.items.length ? this.items[0].offsetHeight : 0;
+		},
+
 		_setMaxHeight: function(maxItems) {
 			actualMax = Math.min(this.items.length, maxItems);
 			if(this.$.container) this.$.container.style.height = Math.min((this.itemHeight * actualMax), window.innerHeight) + "px";
