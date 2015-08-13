@@ -70,22 +70,24 @@
 		attached: function() {
 			this.type = this._getType();
 
-			this.async(function() {
-				switch(this.type) {
-					case "mm-button":
-						// ***********************
-						// TODO: Why no tap listener?
-						// ***********************
-						// this.addEventListener('tap', this._updateSelectedItem.bind(this), false);
-						this.addEventListener('click', this._updateSelectedItem);
-						break;
-					case "mm-radio":
-						this.addEventListener('selected', this._radioSelected);
-						break;
-					default:
-						return;
-				}
-			});
+			// ***********************
+			// TODO: Move to attached/detached so we can cleanup?
+			// ***********************
+
+			switch(this.type) {
+				case "mm-button":
+					// ***********************
+					// TODO: Why no tap listener?
+					// ***********************
+					// this.addEventListener('tap', this._updateSelectedItem.bind(this), false);
+					this.addEventListener('click', this._updateSelectedItem.bind(this), false);
+					break;
+				case "mm-radio":
+					this.addEventListener('selected', this._radioSelected);
+					break;
+				default:
+					return;
+			}
 		},
 
 		detached: function() {
@@ -142,14 +144,11 @@
 			// ***********************
 		},
 
-		_selectedIndexChanged: function(newIndex, oldIndex) {
-			if(typeof newIndex === 'number') {
-				var newSelected = this.items[newIndex],
-					oldSelected = this.items[oldIndex],
-					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
-
-				if(this.value !== value) this.value = value;
-				newSelected.toggleAttribute("selected");
+		_updateSelectedItem: function(e) {
+			// var target = Polymer.dom(e).localTarget;
+			var target = Polymer.dom(e).path[0];
+			
+			console.log("_updateSelectedItem: ", e);
 
 				this.fire('selected', {
 					item: newSelected,
