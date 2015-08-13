@@ -10,15 +10,6 @@
 		<link rel="import" href="../mm-input/mm-input.html">
 		<link rel="import" href="mm-dropdown.html">
 		<script language="javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-		<script language="javascript">
-			// document.addEventListener("selected", function (e) {
-			// 	console.log(e.detail);
-			// });
-
-			// document.addEventListener("changed", function (e) {
-			// 	console.log(e.detail);
-			// });
-		</script>
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -106,11 +97,11 @@
 		<div class="col c1">
 			
 			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
-			<mm-dropdown id="dataTest" overflow="visible" maxItems="10" placeholder="Some Longer Label" value="1"></mm-dropdown>
+			<mm-dropdown id="dataTest" overflow="visible" maxItems="10" value="1" placeholder="Some Longer Label"></mm-dropdown>
 			<hr/>
-	
+			
 			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
-			<mm-dropdown placeholder="Some Longer Label" value="2">
+			<mm-dropdown placeholder="Some Longer Label" value="0">
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
 				<mm-list-item value="0">mm-list-item 01</mm-list-item>
 				<mm-list-item value="1">mm-list-item 02</mm-list-item>
@@ -118,7 +109,7 @@
 				<mm-list-item value="3">mm-list-item 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			
+			<!--
 			<p><span class="bold">Dropdown:</span> error</p>
 			<mm-dropdown placeholder="Some Longer Label" error>
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
@@ -146,9 +137,9 @@
 				<mm-list-item>mm-list-item 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-
+			-->
 		</div>
-
+		<!--
 		<div class="vr"></div>
 		
 		<div class="col c1">
@@ -257,7 +248,7 @@
 			<hr/>
 			
 		</div>
-		
+		-->
 		<script>
 			var ddlHide,
 				$d,
@@ -266,7 +257,7 @@
 				dataItems = [];
 
 			for (var i=0; i < 10; i++) {
-				dataItems.push({ value: String(i), label: "Item with a long label or name in here " + i });
+				dataItems.push({ value: String(i), name: "Readable Name " + i });
 			}
 			
 			document.addEventListener("WebComponentsReady", function(e) {
@@ -275,16 +266,16 @@
 				dataTest.data = dataItems;
 				
 				// init jQuery test:
-				$d = $("#dynamic");
-				addListItems(50);
-				$d[0].value = 3;
+				// $d = $("#dynamic");
+				// addListItems(50);
+				// $d[0].value = 3;
 
-				// hidden at first test:
-				ddlHide = document.querySelector("#ddlHide");
-				ddlHide.style.display = "none";
-				setTimeout(function() {
-					ddlHide.style.display = 'block';
-				}, 3000);
+				// // hidden at first test:
+				// ddlHide = document.querySelector("#ddlHide");
+				// ddlHide.style.display = "none";
+				// setTimeout(function() {
+				// 	ddlHide.style.display = 'block';
+				// }, 3000);
 
 				// log selected:
 				document.addEventListener("selected", function (e) {

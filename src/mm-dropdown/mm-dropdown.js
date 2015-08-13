@@ -22,6 +22,10 @@
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
+			itemRecycler: {
+				type: Object,
+				value: function() { return this.$.itemRecycler; }
+			},
 			target: {
 				type: Object,
 				value: function() { return this.$.target; }
@@ -50,18 +54,20 @@
 				type: String,
 				value: 'Select',
 			},
-			data: {
-				type: Array,
-				value: null,
-				observer: '_dataChanged'
-			},
 			value: {
 				type: String,
 				value: false,
 				reflectToAttribute: true,
 				observer: '_valueChanged'
 			},
-			layout: String
+			data: {
+				type: Array,
+				value: null,
+				notify: true,
+				observer: '_dataChanged'
+			},
+			layout: String,
+			_selectedFlag: Boolean
 		},
 
 		behaviors: [
@@ -114,29 +120,50 @@
 			if(this.state === this.STATE_OPENED) this.close();
 		},
 
-		_lockWidth: function() {
-			this.$.target.style.maxWidth = !this.fitparent ? this.buttonWidth + "px" : "";
-			this._widthLocked = true;
-		},
 
 		_selectItemByValue: function(value) {
-			this.async(function() {
-				var item = this.items.filter(function(el) {
-					return String(el.value) === String(value) || String(el.textContent.trim()) === String(value)
-				})[0];
+			var item = null;
 
-				if (!this._widthLocked) this._lockWidth();
-				if(item) this.selectedIndex = this.items.indexOf(item);
-			});
+			if (!this._widthLocked) this._lockWidth();
+
+			if (this.data) {
+				item = this._getDataItemByValue(value);
+			} else {
+				item = this._getDomByValue(value);
+			}
+			if (item) this.selectedIndex = this.items.indexOf(item);
 		},
 
 		_updateSelectedItem: function(e) {
-			var target = Polymer.dom(e).path[0];
-			var targetIndex = this.items.indexOf(target);
+			var target = Polymer.dom(e).path[0],
+				value = this._getValueFromDom(target),
+				targetIndex = null;
+
+			if (this.data) {
+				targetIndex = this._getDataIndexFromDom(value);
+			} else {
+				targetIndex = this.items.indexOf(target);
+			}
+
 			if(targetIndex >= 0) {
 				this.selectedIndex = targetIndex;
 				this.close();
 			}
+		},
+
+		// Dom handling
+		_getDomByValue: function(value) {
+			return this.items.filter(function(node) {
+				return node.getAttribute("value") === value || node.textContent.trim() === value;
+			})[0];
+		},
+
+		_getValueFromDom: function(node) {
+			return node.getAttribute("value") || node.textContent.trim();
+		},
+
+		_getDataIndexFromDom: function(value) {
+			return this.data.indexOf(this._getDataItemByValue(value));
 		},
 
 		// Data handling
@@ -144,6 +171,13 @@
 			if (newData && this.value) this._selectItemByValue(this.value);
 		},
 
+		_getDataItemByValue: function(value) {
+			return this.data.filter(function(item) {
+				return item.name === value || item.value === value;
+			})[0];
+		},
+
+		// Getters
 		get itemHeight() {
 	 		return this.items.length ? this.items[0].offsetHeight : 0;
 		},
@@ -160,21 +194,31 @@
 			return Measure.getBorderWidth(this.$.target);
 		},
 
-		// general
+		// General
 		_valueChanged: function(newVal, oldVal) {
-			if (newVal) {
+			if (newVal && !this._selectedFlag) {
 				this._selectItemByValue(newVal);
 			}
+			this._selectedFlag = false;
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
-			if(typeof newIndex === 'number') {
+			if (typeof newIndex === 'number' && newIndex !== oldIndex) {
 				var newSelected = this.items[newIndex],
 					oldSelected = this.items[oldIndex],
 					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
-				if(this.value !== value) this.value = value;
-				newSelected.selected = true;
+				if (this.data) { 
+					// ***********************
+					// TODO: It doesn't ACTUALLY reflect to the dom...
+					// ***********************
+					this.set('data.' + newIndex + '.selected', true);
+				} else {
+					newSelected.selected = true;
+				}
+				
+				this._selectedFlag = true;
+				this.value = value;
 
 				this.fire('selected', {
 					item: newSelected,
@@ -185,28 +229,51 @@
 
 				this.fire('changed', { value: value });
 			}
-			if(typeof oldIndex === 'number') {
+
+			if (typeof oldIndex === 'number' && newIndex !== oldIndex) {
 				this.items[oldIndex].selected = false;
 			}
 		},
 
+		_highlightedIndexChanged: function(newIndex, oldIndex) {
+			if (typeof newIndex === 'number' && newIndex >= 0) {
+				if (this.data) {
+					// ***********************
+					// TODO: It doesn't ACTUALLY reflect to the dom...
+					// ***********************
+					this.set('data.' + newIndex + '.highlighted', true);
+				} else {
+					this.classFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+				}
+			}
+		},
+
 		_updateLabelText: function(selectedIndex, placeholder) {
-			var selectedItem = this.items[selectedIndex];
-			return selectedItem ? selectedItem.label || selectedItem.textContent.trim() : placeholder;
+			var label = this.placeholder;
+
+			if (typeof selectedIndex === 'number') {
+				var selectedItem = this.items[selectedIndex];
+					
+				label = this.data ? selectedItem.name : selectedItem.textContent.trim();
+			}
+			return label;
 		},
 
 		_updateTitle: function(selectedIndex) {
-			var selectedItem = this.items[selectedIndex],
-				title = "";
-			if (selectedItem) {
-				var availableArea = (this.buttonWidth + this.borderWidth) - this.paddingWidth,
-					textBounds = Measure.getTextBounds(this.$.label);
+			if (typeof selectedIndex === 'number') {
+				var selectedItem = this.items[selectedIndex],
+					title = "";
 
-				if(textBounds.width >= availableArea) {
-					title = selectedItem.label || selectedItem.textContent.trim();
+				if (selectedItem) {
+					var availableArea = (this.buttonWidth + this.borderWidth) - this.paddingWidth,
+						textBounds = Measure.getTextBounds(this.$.label);
+
+					if(textBounds.width >= availableArea) {
+						title = this.data ? selectedItem.name : selectedItem.textContent.trim();
+					}
 				}
-			} 
-			return title;
+				return title;
+			}
 		},
 
 		_hideInsertionPoints: function(data) {
@@ -215,6 +282,11 @@
 			} else {
 				return false;
 			}
+		},
+
+		_lockWidth: function() {
+			this.$.target.style.width = !this.fitparent ? this.buttonWidth + "px" : "";
+			this._widthLocked = true;
 		},
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {

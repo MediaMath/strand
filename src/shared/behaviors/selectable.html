@@ -11,13 +11,9 @@
 				type: Boolean,
 				value: true
 			},
-			panel: {
-				type: Object,
-				value: function() { return this.$.panel; }
-			},
 			selectedIndex: {
 				type: Number,
-				value: null,
+				value: false,
 				observer: '_selectedIndexChanged'
 			},
 			highlightedIndex: {
@@ -40,25 +36,20 @@
 				elementType = this.filterElementType;
 
 			if (this.filter) {
-				itemsArr = this.data ? Polymer.dom(this.panel).querySelectorAll(elementType) :
-				this.getLightDOM().filter(function(el) { return el.localName === elementType; });
+				if (this.data) {
+					itemsArr = this.data;
+				} else {
+					itemsArr = this.getLightDOM().filter(function(el) { return el.localName === elementType; });
+				}
 			} else {
 				itemsArr = Polymer.dom(this).queryDistributedElements(this.filterElementType);
 			}
-			// return (this.data) ?
-			// 	Polymer.dom(this.panel).querySelectorAll(this.filterElementType) :
-			// 	this.getLightDOM().filter(function(el) { return el.localName === this.filterElementType; });
 			return itemsArr;
 		},
 
-
-		_selectedIndexChanged: function(newIndex,oldIndex) {
-			if(typeof newIndex === 'number' && newIndex >= 0) this.attributeFollows('selected',this.items[newIndex],this.items[oldIndex]);
-		},
+		_selectedIndexChanged: function(newIndex, oldIndex) {},
 		
-		_highlightedIndexChanged: function(newIndex,oldIndex) {
-			if(typeof newIndex === 'number' && newIndex >= 0) this.classFollows('highlighted',this.items[newIndex],this.items[oldIndex]);
-		},
+		_highlightedIndexChanged: function(newIndex,oldIndex) {},
 
 		// ***********************
 		// TODO: display updates belong elsewhere
