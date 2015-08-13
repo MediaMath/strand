@@ -126,7 +126,8 @@
 			},
 			maskConfig: {
 				type: Array,
-				value: null
+				value: null,
+				notify: true,
 			},
 			seps: {
 				type: Array,
@@ -134,7 +135,7 @@
 			},
 			groups: {
 				type: Array,
-				value: null
+				value: null,
 			},
 			groupSel: {
 				type: Array,
@@ -152,6 +153,7 @@
 				type: String,
 				reflectToAttribute: true,
 				value: null,
+				observer: '_placeholderChanged'
 			},
 			_arimoLoaded: {
 				type: Boolean,
@@ -172,24 +174,20 @@
 			this.value = "";
 		},
 
-		_maskTemplate: function() {
-			var template = [];
-			var nodes = this.getLightDOM();
-			for(var i=0; i<nodes.length; i++) {
-				var node = nodes[i];
-				if(node.nodeName === "SEP") template.concat(node.attributes.chars.value.split(''));
-				else for(var j=0; j<node.attributes.size.value; j++) template.push(null);
-			}
-			return template;
-		},
-
 		_valueChanged: function(newValue, oldValue) {
 			if (this.ignoreInternal) {
 				this.ignoreInternal = false;
 				return;
+			} else {
+				this.async(function() {
+					this._applyValue(this._chunkValue(newValue));
+				});
 			}
+		},
+
+		_placeholderChanged: function(newPlaceholder) {
 			this.async(function() {
-				this._applyValue(this._chunkValue(newValue));
+				this._applyValue(this._chunkValue(newPlaceholder,"placeholder"),"placeholder");
 			});
 		},
 
@@ -240,7 +238,7 @@
 			}
 		},
 
-		_applyValue:function(valArray, type) {
+		_applyValue: function(valArray, type) {
 			if (!type) type = "value";
 			if (!valArray) valArray = [];
 			var g, value;
@@ -248,8 +246,11 @@
 				g = this.groups[i];
 				value = valArray.length > 0 ? valArray[i] : "";
 				index = this.maskConfig.indexOf(g);
-				path = 'maskConfig.'+index+'.value';
-				this.set(path, value);
+				modelPath = 'maskConfig.'+index+'.'+type;
+				inputPath = 'groupSel.'+i+'.'+type;
+
+				this.set(modelPath, value);
+				this.set(inputPath, value);
 			}
 		},
 
@@ -260,7 +261,6 @@
 			if(!this.restrict) {
 				this.restrict = _restrict;
 			}
-			//TODO: remove this in favor of dom notifier
 			this._parseMask();
 
 			this.async(function() {
@@ -273,8 +273,8 @@
 			var nodes = Polymer.dom(this).children,
 				maskConfig = [],
 				groups = [],
-				seps = [],
-				rest = this.placeholder;
+				seps = [];
+				// rest = this.placeholder;
 
 			for(var i=0; i<nodes.length; i++) {
 				var node = nodes[i];
@@ -303,10 +303,9 @@
 							style:style,
 							loaded: false,
 							value: '',
-							placeholder: (rest) ? rest.substring(0,node.attributes.size.value) : ''
+							placeholder: ''
 						};
-						rest = (rest) ? rest.substring(node.attributes.size.value) : '';
-						maskConfig.push(o)
+						maskConfig.push(o);
 						groups.push(o);
 						break;
 
@@ -321,7 +320,6 @@
 								placeholder: true
 							})
 						};
-						rest = (rest) ? rest.substring(chars.length) : '';
 						maskConfig.push(s);
 						seps.push(s);
 						break;
@@ -391,10 +389,12 @@
 
 		_handlePaste: function(e) {
 			e.preventDefault();
-			if(this._validateGroup(e,e.target)) {
-				e.target.value = e.clipboardData.getData('text/plain');
-				this._cellVal(e);
-			}
+			var group = this._getGroup(e.target),
+				pasteData = e.clipboardData.getData('text/plain'),
+				max = group.max;
+			if(pasteData.length > group.max) this._applyValue(this._chunkValue(pasteData));
+			else if(this._validateGroup(e,e.target)) e.target.value = pasteData;
+			this._cellVal(e);
 		},
 
 		_isKeyboardShortcut: function(e) {
@@ -420,10 +420,10 @@
 
 			var group = this._getGroup(target);
 			// If alphanumeric throw out all modifiers except capital letters
-			// if(group.restrict !== _restrict.all) {
-			// 	if(e.altKey) return false;
-			// 	if(e.shiftKey && (e.keyCode < 65 || e.keyCode > 90)) return false;
-			// }
+			if(group.restrict !== _restrict.all) {
+				if(e.altKey) return false;
+				if(e.shiftKey && (e.keyCode < 65 || e.keyCode > 90)) return false;
+			}
 			var restrict = group.restrict && _applyReg(group.restrict, val);
 			var rule = group.rule && group.rule(val, target.value, group, target);
 			return restrict && rule;
