@@ -19,7 +19,7 @@
 	display:none;
 }
 
-::content mm-input {
+:host mm-input {
 	position: relative;
 	z-index: -1;
 }

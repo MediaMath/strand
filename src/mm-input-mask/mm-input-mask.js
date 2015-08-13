@@ -274,7 +274,6 @@
 				maskConfig = [],
 				groups = [],
 				seps = [];
-				// rest = this.placeholder;
 
 			for(var i=0; i<nodes.length; i++) {
 				var node = nodes[i];
@@ -365,7 +364,7 @@
 
 		updateGroups: function() {
 			this.groupSel = this.groups.map(function(o) {
-				return this.querySelector("#"+o.id);
+				return Polymer.dom(this.root).querySelector("#"+o.id);
 			}.bind(this));
 		},
 
