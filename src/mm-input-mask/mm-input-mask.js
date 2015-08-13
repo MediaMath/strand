@@ -212,7 +212,7 @@
 						switch(item.type) {
 							case _types.GROUP:
 								item = this.groups.filter(function(g) {
-									return g.index === item.index;
+									return g.id === item.id;
 								})[0];
 								var src = this.get("restrict.source",item) || ".*";
 								if (type === "placeholder") {
