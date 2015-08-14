@@ -31,7 +31,8 @@
 				RETURN: 13,
 				ENTER: 13,
 				ESC: 27,
-				SPACEBAR: 32,			
+				SPACEBAR: 32,
+				DELETE: 46	
 			},
 			ALPHA_KEYS: range(65,91),
 			NUM_KEYS: range(48,58),
@@ -55,6 +56,7 @@
 				this._onNum(e);
 			},
 			_onSpacebar: function() {},
+			_onDel: function() {},
 			_onOther: function() {},
 
 			_routeKeyEvent: function(e) {
@@ -73,6 +75,7 @@
 					case(this.KEYS.ENTER): this._onEnter(e); break;
 					case(this.KEYS.ESC): this._onEsc(e); break;
 					case(this.KEYS.SPACEBAR): this._onSpacebar(e); break;
+					case(this.KEYS.DELETE): this._onDel(e); break;
 					default:
 						// Check named key ranges
 						if(this.ALPHA_KEYS.indexOf(e.keyCode) > -1) this._onAlpha(e);

@@ -87,4 +87,5 @@ describe("mm-input-mask", function() {
 			done();
 		});
 	});
+
 });

@@ -39,5 +39,13 @@
 		<sep chars="-"></sep>
 		<group rule="range" restrict="numeric" size="4">1000-9999</group>
 	</mm-input-mask>
+	<mm-input-mask id="test5">
+		<sep chars="("></sep>
+		<group rule="range" restrict="numeric" size="3">000-999</group>
+		<sep chars=") "></sep>
+		<group rule="range" restrict="numeric" size="3">000-999</group>
+		<sep chars="-"></sep>
+		<group rule="range" restrict="numeric" size="4">0000-9999</group>
+	</mm-input-mask>
 </body>
 </html>

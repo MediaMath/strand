@@ -506,6 +506,8 @@
 			if(e.target.selectionStart === 0 && e.target.selectionEnd === 0) e.target = this._focusLeft(e.target);
 		},
 
+		_onOther: function(e) { e.preventDefault(); },
+
 		_updateGroupValues: function() {
 			for(var i=0; i<this.groupSel.length; i++) {
 				var item = this.$.domRepeat.itemForElement(this.groupSel[i]);
