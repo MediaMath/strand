@@ -20,15 +20,7 @@
 				type: Number,
 				value: null,
 				observer: '_highlightedIndexChanged'
-			},
-			maxItems: {
-				type: Number,
-				value: false
-			},
-			maxHeight: {
-				type: Number,
-				value: false
-			},
+			}
 		},
 
 		get items() {
@@ -50,18 +42,6 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {},
 		
 		_highlightedIndexChanged: function(newIndex,oldIndex) {},
-
-		// ***********************
-		// TODO: display updates belong elsewhere
-		// ***********************
-		get itemHeight() {
-	 		return this.items.length ? this.items[0].offsetHeight : 0;
-		},
-
-		_setMaxHeight: function(maxItems) {
-			actualMax = Math.min(this.items.length, maxItems);
-			if(this.$.container) this.$.container.style.height = Math.min((this.itemHeight * actualMax), window.innerHeight) + "px";
-	 	}
 	}
 
 	scope.Selectable = [

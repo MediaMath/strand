@@ -54,6 +54,10 @@
 				type: String,
 				value: 'Select',
 			},
+			maxItems: {
+				type: Number,
+				value: false
+			},
 			value: {
 				type: String,
 				value: false,
@@ -179,7 +183,17 @@
 
 		// Getters
 		get itemHeight() {
-	 		return this.items.length ? this.items[0].offsetHeight : 0;
+			var itemHeight = null,
+				items = this.items;
+
+			if (this.items.length > 0) {
+				if (this.data) {
+					itemHeight = Polymer.dom(this.$.itemRecycler.$.pane).querySelector('mm-list-item').offsetHeight;
+				} else {
+					itemHeight = this.items[0].offsetHeight;
+				}
+			}
+	 		return itemHeight;
 		},
 
 		get buttonWidth() {
@@ -288,6 +302,11 @@
 			this.$.target.style.width = !this.fitparent ? this.buttonWidth + "px" : "";
 			this._widthLocked = true;
 		},
+
+		_setMaxHeight: function(maxItems) {
+			actualMax = Math.min(this.items.length, maxItems);
+			this.$.container.style.height = this.itemHeight * actualMax + "px";
+	 	},
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {
 			var o = {};

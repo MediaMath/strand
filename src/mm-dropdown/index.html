@@ -97,16 +97,25 @@
 		<div class="col c1">
 			
 			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
-			<mm-dropdown id="dataTest" overflow="visible" maxItems="10" value="1" placeholder="Some Longer Label"></mm-dropdown>
+			<!-- <mm-dropdown id="dataTest" overflow="visible" max-items="10" value="1" placeholder="Some Longer Label"></mm-dropdown> -->
+			<mm-dropdown id="dataTest" overflow="visible" max-items="10" value="1"placeholder="Some Longer Label"></mm-dropdown>
 			<hr/>
 			
 			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
-			<mm-dropdown placeholder="Some Longer Label" value="0">
+			<mm-dropdown placeholder="Some Longer Label" value="0" max-items="7">
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
 				<mm-list-item value="0">mm-list-item 01</mm-list-item>
 				<mm-list-item value="1">mm-list-item 02</mm-list-item>
 				<mm-list-item value="2">mm-list-item 03</mm-list-item>
 				<mm-list-item value="3">mm-list-item 04</mm-list-item>
+				<mm-list-item value="4">mm-list-item 05</mm-list-item>
+				<mm-list-item value="5">mm-list-item 06</mm-list-item>
+				<mm-list-item value="6">mm-list-item 07</mm-list-item>
+				<mm-list-item value="7">mm-list-item 08</mm-list-item>
+				<mm-list-item value="8">mm-list-item 09</mm-list-item>
+				<mm-list-item value="9">mm-list-item 10</mm-list-item>
+				<mm-list-item value="10">mm-list-item 11</mm-list-item>
+				<mm-list-item value="11">mm-list-item 12</mm-list-item>
 			</mm-dropdown>
 			<hr/>
 			<!--
@@ -256,7 +265,7 @@
 				dynamicItems = [],
 				dataItems = [];
 
-			for (var i=0; i < 10; i++) {
+			for (var i=0; i < 100; i++) {
 				dataItems.push({ value: String(i), name: "Readable Name " + i });
 			}
 			
