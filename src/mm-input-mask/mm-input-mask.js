@@ -143,11 +143,11 @@
 			},
 			rules: {
 				type: Object,
-				value: null,
+				value: _rules,
 			},
 			restrict: {
 				type: Object,
-				value: null,
+				value: _restrict,
 			},
 			placeholder: {
 				type: String,
@@ -255,12 +255,6 @@
 		},
 
 		ready: function() {
-			if (!this.rules) {
-				this.rules = _rules;
-			}
-			if(!this.restrict) {
-				this.restrict = _restrict;
-			}
 			this._parseMask();
 
 			this.async(function() {
