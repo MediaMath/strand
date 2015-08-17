@@ -79,31 +79,35 @@ $border-color: $color-A18 !default;
 #container {
 	box-sizing: border-box;
 	position: relative;
-	overflow: auto;
+	overflow: hidden;
 	background: $bg-color;
 	border: 1px solid $border-color;
-
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
-}
 
-#container.opened.s {
-	border-radius: 0 0 4px 4px;
-	margin-top: -1px;
-}
+	&.opened.s {
+		border-radius: 0 0 4px 4px;
+		margin-top: -1px;
+	}
 
-#container.opened.n {
-	border-radius: 4px 4px 0 0;	
-	box-shadow: 0px -6px 12px 0px rgba(0, 0, 0, 0.18);
-	margin-top: 1px;
-}
+	&.opened.n {
+		border-radius: 4px 4px 0 0;	
+		box-shadow: 0px -6px 12px 0px rgba(0, 0, 0, 0.18);
+		margin-top: 1px;
+	}
 
-#container.opened.w {
-	border-radius: 4px 0 4px 0;
-	margin-right: -1px;
-}
+	&.opened.w {
+		border-radius: 4px 0 4px 0;
+		margin-right: -1px;
+	}
 
-#container.opened.e {
-	border-radius: 0 4px 0 4px;
-	margin-left: -1px;
+	&.opened.e {
+		border-radius: 0 4px 0 4px;
+		margin-left: -1px;
+	}
+	
+	#list {
+	    overflow-x: hidden;
+	    overflow-y: auto;
+	}
 }

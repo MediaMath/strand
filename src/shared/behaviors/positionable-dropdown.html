@@ -73,7 +73,10 @@
 				this.$.container.style.maxWidth = parseInt(this.overflowWidth)+"px";
 				this.$.container.style.width = parseInt(this.overflowWidth)+"px";
 			} else {
-				if(this.overflow === 'hidden') { this.$.container.style.maxWidth = targetRect.width+"px"; }
+				if(this.overflow === 'hidden') { 
+					this.$.container.style.maxWidth = targetRect.width+"px";
+				}
+
 				this.$.container.style.width = Math.max(targetRect.width, Math.min(this._origRect.width, panelRect.width))+"px";
 			}
 

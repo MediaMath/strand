@@ -56,7 +56,8 @@
 			},
 			maxItems: {
 				type: Number,
-				value: false
+				value: false,
+				observer: '_maxItemsChanged'
 			},
 			value: {
 				type: String,
@@ -102,10 +103,11 @@
 		},
 
 		open: function(silent) {
-			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, 'open');
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
 			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
+
 			if (!this._widthLocked) this._lockWidth();
 
 			this.focus();
@@ -114,7 +116,7 @@
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
-			inherited.apply(this, [silent]);
+			inherited.close.apply(this, [silent]);
 		},
 
 		reset: function() {
@@ -128,11 +130,14 @@
 		_selectItemByValue: function(value) {
 			var item = null;
 
+			value = value.toString();
+
 			if (!this._widthLocked) this._lockWidth();
 
 			if (this.data) {
 				item = this._getDataItemByValue(value);
 			} else {
+
 				item = this._getDomByValue(value);
 			}
 			if (item) this.selectedIndex = this.items.indexOf(item);
@@ -158,12 +163,12 @@
 		// Dom handling
 		_getDomByValue: function(value) {
 			return this.items.filter(function(node) {
-				return node.getAttribute("value") === value || node.textContent.trim() === value;
+				return node.getAttribute('value') === value || node.textContent.trim() === value;
 			})[0];
 		},
 
 		_getValueFromDom: function(node) {
-			return node.getAttribute("value") || node.textContent.trim();
+			return node.getAttribute('value') || node.textContent.trim();
 		},
 
 		_getDataIndexFromDom: function(value) {
@@ -193,6 +198,7 @@
 					itemHeight = this.items[0].offsetHeight;
 				}
 			}
+
 	 		return itemHeight;
 		},
 
@@ -276,7 +282,7 @@
 		_updateTitle: function(selectedIndex) {
 			if (typeof selectedIndex === 'number') {
 				var selectedItem = this.items[selectedIndex],
-					title = "";
+					title = '';
 
 				if (selectedItem) {
 					var availableArea = (this.buttonWidth + this.borderWidth) - this.paddingWidth,
@@ -299,13 +305,17 @@
 		},
 
 		_lockWidth: function() {
-			this.$.target.style.width = !this.fitparent ? this.buttonWidth + "px" : "";
+			this.$.target.style.width = !this.fitparent ? this.buttonWidth + 'px' : '';
 			this._widthLocked = true;
 		},
 
-		_setMaxHeight: function(maxItems) {
+		_maxItemsChanged: function(newVal, oldVal) {
+			if(newVal) this._setMaxHeight(newVal);
+	 	},
+
+	 	_setMaxHeight: function(maxItems) {
 			actualMax = Math.min(this.items.length, maxItems);
-			this.$.container.style.height = this.itemHeight * actualMax + "px";
+			this.$.list.style.height = this.itemHeight * actualMax + 'px';
 	 	},
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {

@@ -134,19 +134,21 @@
 		},
 
 		_updateStyle: function(icon, width, fitparent, clear) {
-			var p = icon || clear ? this.PADDING_RIGHT_ICON + "px" : this.PADDING_RIGHT_DEFAULT + "px",
-				f = fitparent ? "100%" : false,
-				w = width ? width + "px" : "auto";
+			var p = icon || clear ? this.PADDING_RIGHT_ICON + 'px' : this.PADDING_RIGHT_DEFAULT + 'px',
+				f = fitparent ? '100%' : false,
+				w = width ? width + 'px' : null,
+				style = {};
 
-			return this.styleBlock({
-				paddingRight: p,
-				width: f ? f : w
-			});
+			style.paddingRight = p;
+			// sometimes, we do not want to add width
+			if(w) style.width = f ? f : w;
+
+			return this.styleBlock(style);
 		},
 
 		_updateClass: function(direction, error) {
 			var o = {};
-			o["text-input"] = true;
+			o['text-input'] = true;
 			o.invalid = error;
 			o.top = (direction === this.DIRECTION_TOP);
 			o.bottom = (direction === this.DIRECTION_BOTTOM);

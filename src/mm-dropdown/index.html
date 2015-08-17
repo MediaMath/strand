@@ -97,8 +97,8 @@
 		<div class="col c1">
 			
 			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
-			<!-- <mm-dropdown id="dataTest" overflow="visible" max-items="10" value="1" placeholder="Some Longer Label"></mm-dropdown> -->
-			<mm-dropdown id="dataTest" overflow="visible" max-items="10" value="1"placeholder="Some Longer Label"></mm-dropdown>
+			<mm-dropdown id="dataTest" overflow="visible" max-items="10" value="1" placeholder="Some Longer Label">
+			</mm-dropdown>
 			<hr/>
 			
 			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
@@ -118,7 +118,7 @@
 				<mm-list-item value="11">mm-list-item 12</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			<!--
+			
 			<p><span class="bold">Dropdown:</span> error</p>
 			<mm-dropdown placeholder="Some Longer Label" error>
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
@@ -146,9 +146,9 @@
 				<mm-list-item>mm-list-item 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			-->
+
 		</div>
-		<!--
+		
 		<div class="vr"></div>
 		
 		<div class="col c1">
@@ -257,7 +257,7 @@
 			<hr/>
 			
 		</div>
-		-->
+		
 		<script>
 			var ddlHide,
 				$d,
@@ -266,7 +266,7 @@
 				dataItems = [];
 
 			for (var i=0; i < 100; i++) {
-				dataItems.push({ value: String(i), name: "Readable Name " + i });
+				dataItems.push({ value: String(i), name: "No." + i + " Readable Very Long Name Here" });
 			}
 			
 			document.addEventListener("WebComponentsReady", function(e) {
@@ -275,16 +275,16 @@
 				dataTest.data = dataItems;
 				
 				// init jQuery test:
-				// $d = $("#dynamic");
-				// addListItems(50);
-				// $d[0].value = 3;
+				$d = $("#dynamic");
+				addListItems(50);
+				$d[0].value = 3;
 
-				// // hidden at first test:
-				// ddlHide = document.querySelector("#ddlHide");
-				// ddlHide.style.display = "none";
-				// setTimeout(function() {
-				// 	ddlHide.style.display = 'block';
-				// }, 3000);
+				// hidden at first test:
+				ddlHide = document.querySelector("#ddlHide");
+				ddlHide.style.display = "none";
+				setTimeout(function() {
+					ddlHide.style.display = 'block';
+				}, 3000);
 
 				// log selected:
 				document.addEventListener("selected", function (e) {
