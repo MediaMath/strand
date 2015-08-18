@@ -512,6 +512,12 @@ found here: https://github.com/Polymer/core-list
 					wasCustomMeasuredHeight = meta.custom,
 					delta = 0;
 
+				if (!element.parentNode) {
+					// ignore panels that have been removed -- they may trigger post-mortem
+					// (typically due to repeat invocations of initializeRecycler)
+					return;
+				}
+
 				meta.custom = true;
 				if (ev) {
 					physical.adjustPositionsAbove = false;

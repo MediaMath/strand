@@ -49,7 +49,7 @@
 		var data = [],
 			itemRecycler,
 			header,
-			NUM_ITEMS = 100;
+			NUM_ITEMS = 2;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem();
@@ -70,7 +70,10 @@
 		window.addEventListener("polymer-ready", function() {
 			itemRecycler = document.querySelector("#itemRecycler");
 			header = document.querySelector("#header");
-			itemRecycler.data = data;
+			itemRecycler.data = [];
+			itemRecycler.async(function () {
+				itemRecycler.data = data;
+			});
 
 			itemRecycler.onscroll = function(e) {
 				header.style.top = itemRecycler.scrollTop + "px";
