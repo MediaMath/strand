@@ -177,6 +177,7 @@
 
 		// Data handling
 		_dataChanged: function(newData, oldData) {
+			if(newData) this._setMaxHeight(this.maxItems); 
 			if (newData && this.value) this._selectItemByValue(this.value);
 		},
 
@@ -315,7 +316,13 @@
 
 	 	_setMaxHeight: function(maxItems) {
 			actualMax = Math.min(this.items.length, maxItems);
+			
 			this.$.list.style.height = this.itemHeight * actualMax + 'px';
+			
+			if (this.data) {
+				this.$.itemRecycler.style.height = this.itemHeight * actualMax + 'px';
+				this.$.list.style.overflowY = "hidden";
+			}
 	 	},
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {
