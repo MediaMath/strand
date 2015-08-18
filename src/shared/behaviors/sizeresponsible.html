@@ -3,6 +3,7 @@
 Copyright (c) 2015 MediaMath Inc. All rights reserved.
 This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 -->
+
 <script type="text/javascript">
 // adapted from https://github.com/sdecima/javascript-detect-element-resize/blob/3d9563692e169eb54f7c4fb96f4866aebc17cb4e/detect-element-resize.js
 /**
@@ -96,6 +97,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		var animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
 	}
 	
+	/*
 	function createStyles() {
 		if (!stylesCreated) {
 			//opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
@@ -116,6 +118,7 @@ This code may only be used under the BSD style license found at http://mediamath
 			stylesCreated = true;
 		}
 	}
+	*/
 	
 	scope.SizeResponsible = {
 		properties: {
@@ -129,16 +132,18 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	addResizeListener: function(fn, target){
 			var element = target || this;
+			var nameSpace = " " + this.tagName.toLocaleLowerCase() + " ";
+
 			if (attachEvent) element.attachEvent('onresize', fn);
 			else {
 				if (!element.__resizeTriggers__) {
 					if (getComputedStyle(element).position == 'static') element.style.position = 'relative';
-					createStyles();
+					// createStyles();
 					element.__resizeLast__ = {};
 					element.__resizeListeners__ = [];
-					(element.__resizeTriggers__ = document.createElement('div')).className = 'resize-triggers';
-					element.__resizeTriggers__.innerHTML = '<div class="expand-trigger"><div></div></div>' +
-																							'<div class="contract-trigger"></div>';
+					(element.__resizeTriggers__ = document.createElement('div')).className = 'resize-triggers' + nameSpace;
+					element.__resizeTriggers__.innerHTML = '<div class="expand-trigger'+ nameSpace +'"><div></div></div>' +
+																							'<div class="contract-trigger' + nameSpace + '"></div>';
 					element.appendChild(element.__resizeTriggers__);
 					resetTriggers(element);
 					element.addEventListener('scroll', scrollListener, true);

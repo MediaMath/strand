@@ -5,6 +5,7 @@
 
 */
 @import "_bourbon";
+@import "_sizeresponsible";
 
 :host {
 	display: block;
@@ -26,5 +27,4 @@
 	margin-top: -1px;
 	z-index: -1;
 }
-
 
