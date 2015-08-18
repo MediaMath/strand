@@ -92,12 +92,12 @@
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
 
 			this.focus();
-			inherited.open.apply(this, [silent]);
+			inherited.apply(this, [silent]);
 		},
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
-			inherited.close.apply(this, [silent]);
+			inherited.apply(this, [silent]);
 		},
 
 		_updateSelectedItem: function(e) {

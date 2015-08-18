@@ -27,14 +27,14 @@
 
 			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
 			this.disableScroll();
-			inherited.open.apply(this, [silent]);
+			inherited.apply(this, [silent]);
 		},
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionablePanel, "close");
 
 			this.enableScroll();
-	 		inherited.close.apply(this, [silent]);
+	 		inherited.apply(this, [silent]);
 		},
 
 		_containerClass: function(state,direction) {

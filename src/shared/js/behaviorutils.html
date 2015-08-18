@@ -14,16 +14,19 @@
 	 	},
 	 	findSuper:function(imp, method) {
 	 		if (DataUtils.isType(imp, "array")) {
-	 			return imp.reduce(function(behavior, prev) {
+	 			return imp.reduce(function(prev, behavior, idx, arr) {
+	 				if (DataUtils.isType(behavior, "array")) {
+	 					return scope.BehaviorUtils.findSuper(behavior, method);
+	 				}
 	 				var m = behavior[method];
 	 				if(m && m instanceof Function) {
 	 					return m;
 	 				}
 	 				return prev;
-	 			});
+	 			}, Function());
 	 		} else {
 	 			if (imp && imp[method]) {
-	 				return imp;
+	 				return imp[method];
 	 			} else {
 	 				console.warn("This doesnt look like a behavior array");
 	 			}

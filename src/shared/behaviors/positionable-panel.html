@@ -49,7 +49,7 @@
 				this._nodeOrigin.target.style.zIndex = this.style.zIndex;
 			}
 
-	 		inherited.open.apply(this, [silent]);
+	 		inherited.apply(this, [silent]);
 	 	},
 
 	 	close: function(silent) {
@@ -61,7 +61,7 @@
 				this._previousIndex = null;
 			}
 
-	 		inherited.close.apply(this, [silent]);
+	 		inherited.apply(this, [silent]);
 	 	},
 
 		_updatePosition: function() {
