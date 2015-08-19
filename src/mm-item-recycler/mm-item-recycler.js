@@ -322,7 +322,7 @@ found here: https://github.com/Polymer/core-list
 			if(!this.itemTemplateElement) {
 				throw new Error("mm-item-recycler: Item template does not exist!");
 				return;
-			} else if (this.wasTemplateTemplatized(this.itemTemplateElement)) {
+			} else if (!this.wasTemplateTemplatized(this.itemTemplateElement)) {
 				// an attempt to handle templates that have not passed through Polymer.Annotations_parseTemplate()
 				// (https://github.com/Polymer/polymer/issues/2181)
 				template = document.createElement("template");
