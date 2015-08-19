@@ -12,10 +12,10 @@
 	var DomGettable = {
 
 		properties: {
-			contentTarget:{
-				type:Object,
-				value:function() { return this; }
-			},
+			// contentTarget:{
+			// 	type:Object,
+			// 	value:function() { return this; }
+			// },
 			domObject:{
 				type:Object,
 				value:function() { return {}; },
@@ -39,10 +39,10 @@
 			this.async(this._updateDomObject);
 		},
 
-		getLightDOM: function() {
-			// return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
-			return Polymer.dom(this.contentTarget).queryDistributedElements("*");
-		},
+		// getLightDOM: function() {
+		// 	// return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
+		// 	return Polymer.dom(this.contentTarget).queryDistributedElements("*");
+		// },
 
 		_updateDomObject: function() {
 			this.set("domObject", StrandLib.DataUtils.objectifyDistributedNodes( this.getLightDOM() ));
@@ -55,12 +55,12 @@
 			//super
 			scope.DomMutable._nodesChanged.apply(this, [mutations]);
 			this._updateDomObject();
-
 		}
 	};
 
 	scope.DomGettable = [
 		scope.DomMutable,
+		scope.LightDomGettable,
 		DomGettable
 	];
 }(window.StrandTraits = window.StrandTraits || {}));
