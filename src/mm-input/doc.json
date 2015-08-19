@@ -91,7 +91,7 @@
 			"description":"Defines which type of validation the textarea should perform.",
 			"optional":true,
 			"default":"false",
-			"options":["empty", "int", "decimal", "email", "alpha", "whitespace"]
+			"options":["empty", "int", "decimal", "email", "alpha", "whitespace", "blank"]
 		}
 	],
 	"methods": [
