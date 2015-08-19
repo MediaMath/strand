@@ -374,7 +374,15 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		scrollToIndex: function(value) {
-			this.scrollTop = this._scrollTop = this._recycler.getElevationAtIndex(0|value);
+			var index = 0|value;
+			var limit = 0|(this.data && this.data.length);
+			if (index > -1 &&
+				index < limit) {
+				this.$.pane.scrollTop = this._recycler.getElevationAtIndex(0|value);
+				return 0|true;
+			} else {
+				return 0|false;
+			}
 		},
 
 		scrollHandler: function(e) {
@@ -392,9 +400,13 @@ found here: https://github.com/Polymer/core-list
 		getItemHeight: function(callback) {
 			var template = this.itemTemplateElement,
 				container = this.$.middle,
-				frag = this.stamp({ model: this.data[0], scope: this.scope }).root,
+				instance = this.stamp(new BoundValue()),
+				frag = instance.root,
 				elem = Polymer.dom(frag).querySelector("*"),
 				child = document.createElement("DIV");
+
+			instance.set("model", this.data[0]);
+			instance.set("scope", this.scope);
 
 			this.toggleClass("recycler-panel", true, child);
 
