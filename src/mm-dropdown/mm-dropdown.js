@@ -105,7 +105,6 @@
 		open: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, 'open');
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
-			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
 
 			if (!this._widthLocked) this._lockWidth();
@@ -126,21 +125,20 @@
 			if(this.state === this.STATE_OPENED) this.close();
 		},
 
-
 		_selectItemByValue: function(value) {
-			var item = null;
+			this.async(function(){
+				var item = null;
+				value = value.toString();
 
-			value = value.toString();
+				if (!this._widthLocked) this._lockWidth();
 
-			if (!this._widthLocked) this._lockWidth();
-
-			if (this.data) {
-				item = this._getDataItemByValue(value);
-			} else {
-
-				item = this._getDomByValue(value);
-			}
-			if (item) this.selectedIndex = this.items.indexOf(item);
+				if (this.data) {
+					item = this._getDataItemByValue(value);
+				} else {
+					item = this._getDomByValue(value);
+				}
+				if (item) this.selectedIndex = this.items.indexOf(item);
+			});
 		},
 
 		_updateSelectedItem: function(e) {
@@ -177,7 +175,7 @@
 
 		// Data handling
 		_dataChanged: function(newData, oldData) {
-			if(newData) this._setMaxHeight(this.maxItems); 
+			if (newData) this._setMaxHeight(this.maxItems); 
 			if (newData && this.value) this._selectItemByValue(this.value);
 		},
 
@@ -316,7 +314,7 @@
 	 	},
 
 	 	_setMaxHeight: function(maxItems) {
-			actualMax = Math.min(this.items.length, maxItems);
+			var actualMax = Math.min(this.items.length, maxItems);
 			
 			this.$.list.style.height = this.itemHeight * actualMax + 'px';
 			
