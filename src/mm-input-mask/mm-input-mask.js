@@ -155,6 +155,10 @@
 				value: null,
 				observer: '_placeholderChanged'
 			},
+			icon: {
+				type: String,
+				value: ""
+			},
 			_arimoLoaded: {
 				type: Boolean,
 				value: false
