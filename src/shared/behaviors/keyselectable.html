@@ -94,18 +94,13 @@
 			}
 		},
 
-		_highlightedIndexChanged: function(newIndex, oldIndex) {
-			var direction = (newIndex > oldIndex) ? 'down' : 'up';
-			this._updateContainerScroll(direction);
+		_highlightedIndexChanged: function() {
+			this._updateContainerScroll();
 		},
 
-		_updateContainerScroll: function(direction) {
+		_updateContainerScroll: function() {
 			if(this.data) {
-				if(direction === 'up') {
-					this.$.itemRecycler.scrollToIndex(this.highlightedIndex);
-				} else {
-					this.$.itemRecycler.scrollToIndex(this.highlightedIndex-(this.maxItems-1));
-				}
+				this.$.itemRecycler.scrollToIndex(this.highlightedIndex);
 			} else {
 				var highlightedItem = this.items[this.highlightedIndex];
 				if(highlightedItem) {
