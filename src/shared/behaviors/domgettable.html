@@ -1,4 +1,5 @@
 <link rel="import" href="dommutable.html"/>
+<link rel="import" href="lightdomgettable.html"/>
 <link rel="import" href="../js/datautils.html"/>
 <script>
 /**
@@ -12,10 +13,6 @@
 	var DomGettable = {
 
 		properties: {
-			// contentTarget:{
-			// 	type:Object,
-			// 	value:function() { return this; }
-			// },
 			domObject:{
 				type:Object,
 				value:function() { return {}; },
@@ -38,11 +35,6 @@
 		ready: function() {
 			this.async(this._updateDomObject);
 		},
-
-		// getLightDOM: function() {
-		// 	// return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
-		// 	return Polymer.dom(this.contentTarget).queryDistributedElements("*");
-		// },
 
 		_updateDomObject: function() {
 			this.set("domObject", StrandLib.DataUtils.objectifyDistributedNodes( this.getLightDOM() ));
