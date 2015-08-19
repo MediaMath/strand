@@ -14,8 +14,16 @@
 
 		properties: {
 			selected: { 
+				type: Boolean,
 				value: false, 
-				reflectToAttribute: true 
+				reflectToAttribute: true,
+				notify: true
+			},
+			highlighted: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true,
+				notify: true,
 			},
 			observeSubTree: {
 				value:true

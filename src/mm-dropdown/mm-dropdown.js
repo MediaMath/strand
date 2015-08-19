@@ -228,9 +228,6 @@
 					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
 				if (this.data) { 
-					// ***********************
-					// TODO: It doesn't ACTUALLY reflect to the dom...
-					// ***********************
 					this.set('data.' + newIndex + '.selected', true);
 				} else {
 					newSelected.selected = true;
@@ -256,16 +253,18 @@
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.KeySelectable, '_highlightedIndexChanged');
 			if (typeof newIndex === 'number' && newIndex >= 0) {
 				if (this.data) {
-					// ***********************
-					// TODO: It doesn't ACTUALLY reflect to the dom...
-					// ***********************
 					this.set('data.' + newIndex + '.highlighted', true);
 				} else {
-					this.classFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+					this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
 				}
 			}
+			if (typeof oldIndex === 'number' && oldIndex >=0) {
+				this.set('data.' + oldIndex + '.highlighted', false);
+			}
+			inherited.apply(this, [newIndex, oldIndex]);
 		},
 
 		_updateLabelText: function(selectedIndex, placeholder) {

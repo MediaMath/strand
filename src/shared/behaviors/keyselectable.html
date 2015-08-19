@@ -94,23 +94,31 @@
 			}
 		},
 
-		_focusedItemChanged: function(newFocus, oldFocus) {
-			this.classFollows('focus',newFocus,oldFocus);
-			this._updateContainerScroll();
+		_highlightedIndexChanged: function(newIndex, oldIndex) {
+			var direction = (newIndex > oldIndex) ? 'down' : 'up';
+			this._updateContainerScroll(direction);
 		},
 
-		// If focused item not entirely visible, scroll panel so item top/bottom is aligned with panel top/bottom
-		_updateContainerScroll: function() {
-			if(this.focusedItem) {
-				var panelRect = this.panel.getBoundingClientRect(),
-					focusRect = this.focusedItem.getBoundingClientRect();
-
-				if(focusRect.top < panelRect.top) {
-					this.$.container.scrollTop -= (panelRect.top - focusRect.top);
+		_updateContainerScroll: function(direction) {
+			if(this.data) {
+				if(direction === 'up') {
+					this.$.itemRecycler.scrollToIndex(this.highlightedIndex);
+				} else {
+					this.$.itemRecycler.scrollToIndex(this.highlightedIndex-(this.maxItems-1));
 				}
+			} else {
+				var highlightedItem = this.items[this.highlightedIndex];
+				if(highlightedItem) {
+					var panelRect = this.panel.getBoundingClientRect(),
+						focusRect = highlightedItem.getBoundingClientRect();
 
-				if(focusRect.bottom > panelRect.bottom) {
-					this.$.container.scrollTop +=  (focusRect.bottom - panelRect.bottom);
+					if(focusRect.top < panelRect.top) {
+						this.$.list.scrollTop -= (panelRect.top - focusRect.top);
+					}
+
+					if(focusRect.bottom > panelRect.bottom) {
+						this.$.list.scrollTop +=  (focusRect.bottom - panelRect.bottom);
+					}
 				}
 			}
 		}

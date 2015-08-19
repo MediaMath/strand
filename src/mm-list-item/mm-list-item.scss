@@ -27,7 +27,7 @@
 }
 
 :host(:hover),
-:host-context(.highlighted) {
+:host-context([highlighted]) {
 	background: $color-D12;
 	color: $color-F0;
 }
