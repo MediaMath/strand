@@ -5,24 +5,12 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<!-- <link rel="import" href="../mm-ajax/mm-ajax.html"> -->
-<!-- <link rel="import" href="../mm-localstore/mm-localstore.html"> -->
-<!-- <link rel="import" href="../shared/js/datautils.html"> -->
 <link rel="import" href="../shared/behaviors/syncable.html"/>
 
 <dom-module id="mm-sync">
 	<link rel="import" href="mm-sync.css" type="css"/>
 	<template>
-		<!-- <mm-item-notifier subtree="true" characterData="true" watchAttributes="true" target="{{target}}" on-added="{{handleAuto}}" on-removed="{{handleAuto}}" on-modified="{{handleAuto}}"></mm-item-notifier> -->
 		<content id="content" select="*"></content>
-		<mm-localstore id="csrf" name="csrf"></mm-localstore>
-		<mm-localstore id="globals" name="globals"></mm-localstore>
 	</template>
-	<!-- // <script src="mm-sync.js"></script> -->
-	<script>
-	Polymer({
-		is:"mm-sync",
-		behaviors:[StrandTraits.Syncable]
-	})
-	</script>
+	<script src="mm-sync.js"></script>
 </dom-module>
