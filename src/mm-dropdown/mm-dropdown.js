@@ -116,7 +116,7 @@
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
-			inherited.close.apply(this, [silent]);
+			inherited.apply(this, [silent]);
 		},
 
 		reset: function() {
