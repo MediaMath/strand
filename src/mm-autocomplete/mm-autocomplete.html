@@ -34,11 +34,14 @@
 			on-changed="_changeHandler"></mm-input>
 		<div id="panel" on-tap="_updateSelectedItem">
 			<div id="container" class$="{{_containerClass(state,direction)}}">
-			<template is="dom-if" if="{{searchItems}}">
-				<template is="dom-repeat" items="{{searchItems}}">
-					<mm-list-item value$="{{item.value}}">{{item.name}}</mm-list-item>
-				</template>
-			</template>
+				<div id="list">
+					<!-- <template is="dom-if" if="{{searchData}}"> -->
+					<template id="domRepeat" is="dom-repeat" items="{{searchData}}">
+						<mm-list-item value$="{{item.value}}" selected$={{item.selected}}>{{item.name}}</mm-list-item>
+					</template>
+					<!-- </template> -->
+				</div>
+			</div>
 		</div>
 	</template>
 </dom-module>

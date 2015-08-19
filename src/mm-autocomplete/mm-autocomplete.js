@@ -6,7 +6,7 @@
 */
 (function(scope) {
 
-	var BehaviorUtils = StrandLib.BehaviorUtils;;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.AutoComplete = Polymer({
 		is: 'mm-autocomplete',
@@ -61,28 +61,39 @@
 				type: String,
 				value: "Search",
 			},
+			searchable: {
+				type: Boolean,
+				value: true
+			},
+			maxItems: {
+				type: Number,
+				value: false,
+				observer: '_maxItemsChanged'
+			},
 			value: {
 				type: String,
-				value: null,
-				reflectToAttribute: true,
-				observer: "_valueChanged"
+				value: false,
+				reflectToAttribute: true
 			},
 			data: {
 				type: Array,
 				value: null
 			},
-			searchItems: {
+			searchData: {
 				type: Array,
 				value: function() { return []; },
 				notify: true
 			},
 			width: Number,
 			layout: String,
-			selectedFlag: Boolean
+			changedFlag: Boolean
 		},
 
 		behaviors: [
 			StrandTraits.Stylable,
+			// *********************
+			// TODO: KeySelectable broken for dom-repeat!
+			// *********************
 			StrandTraits.KeySelectable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
@@ -107,6 +118,18 @@
 			inherited.apply(this, [silent]);
 		},
 
+		reset: function() {
+			this.value = null;
+			this.selectedIndex = null;
+			this.changedSelectedFlag = false;
+			if (this.data) {
+				this.data.forEach(function(item) {
+					if (item.selected === true) item.selected = false;
+				});
+			}
+			if(this.state === this.STATE_OPENED) this.close();
+		},
+
 		_updateInputDirection: function(state,direction) {
 			if(state === "opened") {
 				return (direction === "n") ? "top" : "bottom";
@@ -117,21 +140,25 @@
 
 		_changeHandler: function(e) {
 			var value = e.detail.value;
-			if (value) {
-				if(!this.selectedFlag) this._search(value);
-				this.selectedFlag = false;
-			} else {
+
+			if (value === null || value === '') {
 				this.reset();
+			} else {
+				if(!this.changedFlag) {
+					this._search(value);
+					this.value = value;
+				}
+				this.changedFlag = false;
 			}
 		},
 
 		_search: function(value) {
 			if(this.data && value) {
-				this.searchItems = this.data.filter(this._textfilter.bind(this, value));
+				this.searchData = this.data.filter(this._textfilter.bind(this, value));
 
 				// wait a tick to ensure we have searchitems
 				this.async(function(){
-					if(value && this.searchItems.length > 0) { 
+					if(value && this.searchData.length > 0) { 
 						this.open();
 					} else {
 						this.close();
@@ -147,50 +174,6 @@
 			return val !== "" && (it.indexOf(val) > -1);
 		},
 
-		_updateSelectedItem: function(e) {
-			var target = Polymer.dom(e).path[0],
-				targetIndex = this.items.indexOf(target);
-
-			if(targetIndex >= 0) {
-				this.selectedIndex = targetIndex;
-				this.close();
-			}
-		},
-
-		_selectedIndexChanged: function(newIndex, oldIndex) {
-			if(typeof newIndex === 'number') {
-				var newSelected = this.items[newIndex],
-					oldSelected = this.items[oldIndex],
-					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
-
-				if(this.value !== value) {
-					this.selectedFlag = true;
-					newSelected.selected = true;
-					this.value = value;
-					this.$.target.value = newSelected.textContent.trim();
-				}
-
-				this.fire('selected', {
-					item: newSelected,
-					index: newIndex,
-					value: value,
-					selected: newSelected.selected
-				});
-
-				this.fire('changed', { value: value });
-			}
-
-			if(typeof oldIndex === 'number') { 
-				this.items[oldIndex].selected = false;
-			}
-		},
-
-		_valueChanged: function(newVal, oldVal) {
-			if (newVal) {
-				this._selectItemByValue(newVal);
-			}
-		},
-
 		_selectItemByValue: function(value) {
 			this.async(function() {
 				var item = this.items.filter(function(el) {
@@ -200,17 +183,77 @@
 			});
 		},
 
-		reset: function() {
-			this.value = null;
-			this.selectedIndex = null;
-			highlightedIndex = null;
-			this.selectedFlag = false;
-			if(this.state === this.STATE_OPENED) this.close();
+		_updateSelectedItem: function(e) {
+			var targetIndex = this.searchData.indexOf(this.$.domRepeat.itemForElement(e.target));
+
+			if(targetIndex >= 0) {
+				this.selectedIndex = targetIndex;
+				this.close();
+			}
 		},
 
+		// _dataChanged: function(newData, oldData) {},
+
 		get itemHeight() {
-	 		return this.items.length ? this.items[0].offsetHeight : 0;
+	 		return this.domItems.length ? this.domItems[0].offsetHeight : 0;
 		},
+
+		get domItems() {
+	 		return Polymer.dom(this.$.list).querySelectorAll('mm-list-item');
+		},
+
+		_selectedIndexChanged: function(newIndex, oldIndex) {
+			// handle zero index
+			var nullIndex = newIndex === false || newIndex === null;
+
+			if(!nullIndex && newIndex !== oldIndex) {
+				var newSelected = this.items[newIndex],
+					oldSelected = this.items[oldIndex],
+					value = newSelected.value ? newSelected.value : newSelected.name;
+
+				this.changedFlag = true;
+				this.value = value;
+				this.$.target.value = newSelected.name;
+				this.set('searchData.' + newIndex + '.selected', true);
+				if (oldSelected) this.set('searchData.' + oldIndex + '.selected', false);
+
+				this.fire('selected', {
+					item: newSelected,
+					index: newIndex,
+					value: this.value,
+					selected: newSelected.selected
+				});
+
+				this.fire('changed', { value: value });
+			}
+		},
+
+		_highlightedIndexChanged: function(newIndex, oldIndex) {
+			// *********************
+			// TODO: Highlighted index
+			// *********************
+			// var inherited = BehaviorUtils.findSuper(StrandTraits.KeySelectable, '_highlightedIndexChanged');
+			// if (typeof newIndex === 'number' && newIndex >= 0) {
+			// 	if (this.data) {
+			// 		this.set('data.' + newIndex + '.highlighted', true);
+			// 	} else {
+			// 		this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+			// 	}
+			// }
+			// if (typeof oldIndex === 'number' && oldIndex >=0) {
+			// 	this.set('data.' + oldIndex + '.highlighted', false);
+			// }
+			// inherited.apply(this, [newIndex, oldIndex]);
+		},
+
+		_maxItemsChanged: function(newVal, oldVal) {
+			if(newVal) this._setMaxHeight(newVal);
+	 	},
+
+	 	_setMaxHeight: function(maxItems) {
+			var actualMax = Math.min(this.domItems.length, maxItems);
+			this.$.list.style.height = this.itemHeight * actualMax + 'px';
+	 	},
 
 		_iconColor: function() {},
 	});

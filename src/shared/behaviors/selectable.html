@@ -11,6 +11,10 @@
 				type: Boolean,
 				value: true
 			},
+			searchable: {
+				type: Boolean,
+				value: false
+			},
 			selectedIndex: {
 				type: Number,
 				value: false,
@@ -27,9 +31,12 @@
 			var itemsArr = null,
 				elementType = this.filterElementType;
 
+			// this needs to work for light dom, local dom (stamped dom-repeats), and
+			// for data... searchable data represents another case where it is a subset
+			// of the data provided to the host component
 			if (this.filter) {
 				if (this.data) {
-					itemsArr = this.data;
+					itemsArr = !this.searchable ? this.data : this.searchData;
 				} else {
 					itemsArr = this.getLightDOM().filter(function(el) { return el.localName === elementType; });
 				}
