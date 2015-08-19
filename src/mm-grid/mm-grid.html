@@ -5,7 +5,7 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<!-- <link rel="import" href="../mm-item-recycler/mm-item-recycler.html"> -->
+<link rel="import" href="../mm-item-recycler/mm-item-recycler.html">
 <link rel="import" href="../mm-grid-column/mm-grid-column.html">
 <link rel="import" href="../mm-grid-item/mm-grid-item.html">
 <link rel="import" href="../mm-checkbox/mm-checkbox.html">
@@ -14,18 +14,8 @@
 <dom-module id="mm-grid">
 	<link rel="import" type="css" href="mm-grid.css"/>
 	<template>
-		<!-- <mm-item-recycler id="viewport" viewportWidth="{{viewportWidth}}" itemTemplate="{{itemTemplate}}" data="{{data}}" scope="{{}}" index="{{index}}" on-scroll="{{onScroll}}"> -->
-		<div id="viewport" on-scroll="_handleScroll">
-			<template id="defaultTemplate">
-				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item> -->
-			</template>
-			<div id="list" style$="{{_computeViewportWidth(viewportWidth)}}">
-				<template is="dom-repeat" items="{{data}}">
-					<mm-grid-item model="{{item}}" scope="{{scope}}"></mm-grid-item>
-				</template>
-			</div>
-
-			<div id="header">
+		<mm-item-recycler id="viewport" viewport-width="{{viewportWidth}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}" on-scroll="_handleScroll">
+			<div id="header" style$="{{_computeViewportWidth(viewportWidth)}}">
 				<template is="dom-if" if="{{selectable}}">
 					<div class="_mm_column checkbox">
 						<mm-checkbox id="selectAll" on-tap="selectAll" state="{{_selectAllState}}"></mm-checkbox>
@@ -42,8 +32,11 @@
 					<content id="columns" select="mm-grid-column"></content>
 				</div>
 			</div>
-		<!-- </mm-item-recycler> -->
-		</div>
+		</mm-item-recycler>
+		<content select="template"></content>
+		<template id="defaultTemplate">
+			<mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item>
+		</template>
 <!-- 		<template is="dom-if" if="{{isLoading}}">
 			<mm-loader id="loader"><label>Loading...</label></mm-loader>
 		</template> -->

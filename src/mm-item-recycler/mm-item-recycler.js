@@ -56,6 +56,7 @@ found here: https://github.com/Polymer/core-list
 		is: 'mm-item-recycler',
 
 		behaviors: [
+			Polymer.Templatizer,
 			StrandTraits.WindowNotifier,
 			StrandTraits.DomWatchable,
 			StrandTraits.SizeResponsible,
@@ -168,6 +169,54 @@ found here: https://github.com/Polymer/core-list
 			"pane.scroll": "scrollHandler",
 		},
 
+		observers: [
+			"_scopeChanged(scope.*)",
+			"_dataChanged(data.*)",
+		],
+
+		_dataChanged: function (change) {
+			var prefix = "data.";
+			var offset = prefix.length;
+			var path = change.path;
+			var modelChanged = path.indexOf(prefix) === 0;
+			var delimiter = path.indexOf(".", offset);
+			var num = 0;
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
+
+			if (modelChanged &&
+				delimiter > offset) {
+				num = Number(path.slice(offset, delimiter));
+				if (!isNaN(num)) {
+					for (index; index < count; index++) {
+						bound = binds[index];
+
+						if (bound &&
+							bound.young === num) {
+							bound.instance.notifyPath("model." + change.path.slice(delimiter + 1), change.value);
+						}
+					}
+				}
+			}
+		},
+
+		_scopeChanged: function (change) {
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
+
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
+
+				if (bound) {
+					bound.instance.notifyPath(change.path, change.value);
+				}
+			}
+		},
+
 		attached: function () {
 			this.addResizeListener(this._responders.pane, this.$.pane);
 			this.addResizeListener(this._responders.header, this.$.header);
@@ -236,6 +285,10 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
+		wasTemplateTemplatized: function (template) {
+			return 0|!!template.hasOwnProperty("_content");
+		},
+
 		initialize: function () {
 			if (!this.data) {
 				return;
@@ -257,13 +310,28 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		initializeTemplateBind: function () {
-			if(this.itemTemplate && typeof this.itemTemplate === "string") {
-				this.itemTemplateElement = Polymer.dom(this).querySelector("#" + this.itemTemplate);
+			var template = null;
+			var instance = null;
+
+			if (!this.itemTemplateElement &&
+				this.itemTemplate &&
+				typeof this.itemTemplate === "string") {
+				this.itemTemplateElement = Polymer.dom(this).querySelector("template#" + this.itemTemplate);
 			}
 
 			if(!this.itemTemplateElement) {
 				throw new Error("mm-item-recycler: Item template does not exist!");
 				return;
+			} else if (this.wasTemplateTemplatized(this.itemTemplateElement)) {
+				// an attempt to handle templates that have not passed through Polymer.Annotations_parseTemplate()
+				// (https://github.com/Polymer/polymer/issues/2181)
+				template = document.createElement("template");
+				template.content.appendChild(this.itemTemplateElement);
+				this.templatize(template);
+				instance = this.stamp();
+				this.templatize((instance.root).querySelector("template"));
+			} else {
+				this.templatize(this.itemTemplateElement);
 			}
 		},
 
@@ -324,7 +392,7 @@ found here: https://github.com/Polymer/core-list
 		getItemHeight: function(callback) {
 			var template = this.itemTemplateElement,
 				container = this.$.middle,
-				frag = template.stamp({ model: this.data[0], scope: this.scope }).root,
+				frag = this.stamp({ model: this.data[0], scope: this.scope }).root,
 				elem = Polymer.dom(frag).querySelector("*"),
 				child = document.createElement("DIV");
 
@@ -364,9 +432,12 @@ found here: https://github.com/Polymer/core-list
 				}
 				count = binds.push(bound = new BoundReference(this, id));
 				bound.value = new BoundValue(null, this.scope);
-				bound.value.scope = this.scope;
-				bound.value.model = this.data[young];
-				bound.instance = this.itemTemplateElement.stamp(bound.value);
+				bound.instance = this.stamp(bound.value);
+
+				// assigning to the bound.value pre-stamp() is not sufficient -- must use bound.instance.set()
+				bound.instance.set("scope", this.scope);
+				bound.instance.set("model", this.data[young]);
+
 				content = Polymer.dom(bound.instance.root).querySelector("*");
 				bound.element = document.createElement("DIV");
 				this.toggleClass("recycler-panel", true, bound.element);
@@ -521,6 +592,12 @@ found here: https://github.com/Polymer/core-list
 			this.translate3d(0, (position) + "px", 0, this.$.footer);
 		},
 
+
+
+
+		getHeightAtIndex: function () {
+			return this._recycler.getHeightAtIndex.apply(this._recycler, arguments);
+		},
 	});
 
 })(window.Strand = window.Strand || {});

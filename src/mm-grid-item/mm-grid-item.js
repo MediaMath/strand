@@ -33,7 +33,9 @@ Polymer({
 
 	onItemExpanded: function(e, detail, sender) {
 		e.stopImmediatePropagation();
-		this.model.expanded = !this.model.expanded;
-		this.asyncFire("item-resized", this.model.expanded);
+		this.set("model.expanded", !this.model.expanded);
+		this.async(function () {
+			this.fire("item-resized", this.model.expanded);
+		});
 	}
 });

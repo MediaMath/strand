@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/mm-item-recycler/mm-item-recycler.html">
+</head>
+<body>
+	<dom-module id="test-templatizing">
+		<template>
+			<template id="internal"></template>
+		</template>
+		<script>
+			Polymer({
+				is:"test-templatizing",
+				behaviors:[Polymer.Templatizer],
+			});
+		</script>
+	</dom-module>
+
+	<template id="external"></template>
+
+	<test-templatizing id="test1"></test-templatizing>
+
+	<script>
+		describe("mm-item-recycler", function() {
+
+			it("should rely on ._content to detect pre-templatization", function() {
+				var element = document.querySelector("#test1");
+				var external = document.querySelector("#external");
+				var template = document.createElement("template");
+				var recycler = document.createElement("mm-item-recycler");
+
+				(!!recycler.wasTemplateTemplatized(element.$.internal)).should.equal(true);
+				(!!recycler.wasTemplateTemplatized(external)).should.equal(false);
+
+				(!!recycler.wasTemplateTemplatized(template)).should.equal(false);
+				element.templatize(template);
+				(!!recycler.wasTemplateTemplatized(template)).should.equal(true);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

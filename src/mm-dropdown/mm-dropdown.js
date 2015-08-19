@@ -252,7 +252,8 @@
 			}
 
 			if (typeof oldIndex === 'number' && newIndex !== oldIndex) {
-				this.items[oldIndex].selected = false;
+				this.set('data.' + oldIndex + '.selected', false);
+				//this.items[oldIndex].selected = false;
 			}
 		},
 

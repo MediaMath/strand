@@ -37,7 +37,7 @@
 				height: 100%;
 			}
 		</style>
-		<mm-grid id="mmTestGrid" selectable>
+		<mm-grid id="mmTestGrid" selectable expandable item-template="customTemplate">
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
 			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
@@ -45,6 +45,9 @@
 			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
+			<template id="customTemplate">
+				<mm-grid-item id="{{model.selected}}" model="{{model}}" scope="{{scope}}"></mm-grid-item>
+			</template>
 <!-- 			<template id="customTemplate">
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
@@ -112,7 +115,9 @@
 				concept: "Concept No. " + i,
 				type: "swf",
 				file: "Creative_File_" + i + ".swf",
-				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300))
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
+				selected: false,
+				expanded: true,
 			});
 		}
 

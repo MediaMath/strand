@@ -25,7 +25,8 @@
 				type: Array,
 				value: function() {
 					return [];
-				}
+				},
+				notify: true,
 			},
 			scope: {
 				type: Object,
@@ -35,13 +36,9 @@
 				}
 			},
 			index: Number,
-			itemTemplate: Object,
-			viewportWidth: {
-				type: Number,
-				value: function() {
-					return 0;
-				}
-			},
+			itemTemplate: String,
+			itemTemplateElement: Object,
+			viewportWidth: Number,
 			_selectAllState: {
 				type: String,
 				value: 'unchecked'
@@ -75,11 +72,12 @@
 		},
 
 		attached: function() {
-			if(typeof this.itemTemplate === "string"){
-				this.itemTemplate = this.querySelector("#" + this.itemTemplate);
+			if(this.itemTemplate && typeof this.itemTemplate === "string") {
+				this.itemTemplateElement = this.querySelector("#" + this.itemTemplate);
 			}
 
-			this.itemTemplate = this.itemTemplate || this.$.defaultTemplate;
+			this.itemTemplateElement = this.itemTemplateElement || this.$.defaultTemplate;
+
 			this.async(this.initialize);
 		},
 
@@ -90,9 +88,10 @@
 		},
 
 		initializeColumns: function() {
-			if(Polymer.dom(this.$.columns).getDistributedNodes().length > 0) {
+			var nodes = Polymer.dom(this.$.columns).getDistributedNodes();
+			if(nodes.length > 0) {
 				this.columnsExist = true;
-				this.columns = Array.prototype.slice.call(Polymer.dom(this.$.columns).getDistributedNodes());
+				this.columns = Array.prototype.slice.call(nodes);
 				this.columnsMap = arrayToMap(this.columns, "field");
 
 				// var item = this.itemTemplate.createInstance(this);
@@ -118,10 +117,6 @@
 					column.width = initialWidth + "%";
 				});
 			}
-		},
-
-		_handleScroll: function(e) {
-			this.translate3d(0, e.target.scrollTop + 'px', 0, this.$.header);
 		},
 
 		////// Selection //////
@@ -180,24 +175,28 @@
 		},
 
 		resizeColumns: function(field, val) {
+			var target = this.columnsMap[field];
+			var targetIndex = this.columns.indexOf(target);
+
+			if (!this.viewportWidth) {
+				this.viewportWidth = this.$.header.offsetWidth;
+			}
+
+			this.viewportWidth += val;
+
 			////// Overflow Resizing //////
-			this.columns.forEach(function(column) {
+			this.columns.forEach(function(column, index) {
 				if(column.width.indexOf("%") !== -1){
 					// column.width = column.offsetWidth + "px";
 					column.set('width', column.offsetWidth + 'px');
 				}
-			});
-
-			if(!this.viewportWidth) {
-				this.viewportWidth = this.$.list.offsetWidth; //this.$.viewport.$.list.offsetWidth;
-			}
-
-			this.viewportWidth += val;
+				this.notifyPath("scope.columns."+index+".width", column.width);
+			}, this);
 		},
 
-		_computeViewportWidth: function(viewportWidth) {
-			viewportWidth = viewportWidth ? viewportWidth + 'px' : '100%';
-			return 'width: ' + viewportWidth;
+		_computeViewportWidth: function (viewportWidth) {
+			var value = viewportWidth ? viewportWidth + 'px' : '100%';
+			return 'width: ' + value;
 		},
 
 		////// Sorting //////

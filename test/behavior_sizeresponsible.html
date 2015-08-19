@@ -17,6 +17,11 @@
 			<template>
 				<content id="content"></content>
 			</template>
+			<style>
+				#unused {
+					display: none;
+				}
+			</style>
 			<script>
 				Polymer({
 					is:"test-sizeresponsible",
@@ -50,6 +55,46 @@
 					classList.should.exist;
 					classList.should.be.an.array;
 					classList.indexOf(t.tagName.toLowerCase()).should.equal(1);
+				});
+
+				it("should create a style selector with element-tag-based class namespacing", function () {
+					var t = document.querySelector("#test1");
+					var name = "test-sizeresponsible";
+					var selector = "#unused";
+					var cssRule = findCSSRuleContaining(selector);
+
+					t.tagName.toLowerCase().should.equal(name);
+
+					cssRule.should.exist;
+
+					// make sure the only selector expectations are a class with the tag and the original selector
+					[cssRule.selectorText].reduce(function (reduction, str) {
+						reduction.push.apply(reduction, str.split(selector));
+						return reduction;
+					}, []).reduce(function (reduction, str) {
+						reduction.push.apply(reduction, str.split("."+name));
+						return reduction;
+					}, []).some(function (str) {
+						return str !== "";
+					}).should.equal(false);
+
+
+
+					function findCSSRuleContaining (text) {
+						var result = null;
+						var some = [].some;
+
+						some.call(document.styleSheets, function (sheet) {
+							return some.call(sheet.cssRules, this);
+						}, function (rule) {
+							if (rule.selectorText.indexOf(text) > -1) {
+								result = rule;
+								return true;
+							}
+						});
+
+						return result;
+					}
 				});
 
 			});

@@ -43,7 +43,7 @@
   </head>
   <body>
 	<mm-item-recycler id="itemRecycler" item-template="templateItem">
-		<template id="templateItem" is="dom-template">
+		<template id="templateItem">
 			<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 				<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
 			</div>

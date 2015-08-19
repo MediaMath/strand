@@ -17,8 +17,8 @@
 }
 
 #header, #footer {
+	/*position: fixed;*/
 	@include display(flex);
-	position: fixed;
 	min-width: 100%;
 	background: $color-A16;
 	@include user-select(none);
@@ -80,4 +80,5 @@
 #columnContainer {
 	@include display(flex);
 	@include flex(1);
+	width: 100%;
 }
