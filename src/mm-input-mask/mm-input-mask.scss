@@ -11,6 +11,7 @@
 
 :host {
 	display: inline-block;
+	isolation: isolate;
 	position: relative;
 	width: auto;
 }
