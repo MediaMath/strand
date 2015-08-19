@@ -27,18 +27,30 @@
 		};
 	}
 
-	// function _copy() {
-	// 	var args = _clone(arguments);
-	// 	var init = args.length > 1 ? args.shift() : {};
-	// 	return args.reduce(function(prev, cur) {
-	// 		if (_isType(cur,"object")) {
-	// 			for(var i in cur) {
-	// 				prev[i] = cur[i];
-	// 			}
-	// 		}
-	// 		return prev;
-	// 	}, init);
-	// }
+	function _copyOptions() {
+		var args = DataUtils.clone(arguments);
+		var init = _getParamBase();
+		return args.reduce(function(prev, cur) {
+			if (DataUtils.isType(cur,"object")) {
+				for(var i in cur) {
+					switch(i) {
+						case "params":
+						case "headers":
+						case "urlParams":
+							if (cur[i].length > 0) {
+								prev[i] = cur[i];
+							}
+							break;
+						default:
+							prev[i] = cur[i];
+							break;
+					}
+				}
+			}
+
+			return prev;
+		}, init);
+	}
 
 	var Syncable = {
 		properties: {
@@ -179,7 +191,8 @@
 
 			var configOpts = this._getDomConfig(method, this.domObject);
 
-			options = DataUtils.copy({method:method, url:this.endpoint}, options, configOpts, this.options);
+			// options = DataUtils.copy({method:method, url:this.endpoint}, options, configOpts, this.options);
+			options = _copyOptions({method:method, url:this.endpoint}, options, configOpts, this.options);
 
 			this._getCacheBuster(this.cacheBuster, options.params);
 			this._setCSRFHeader(method, options.headers);
@@ -268,6 +281,8 @@
 		_handleError: function(error) {
 			this.fire("data-error",error);
 		},
+
+		_getParamBase:_getParamBase,
 
 		setGlobal: function(key, value) {
 			this._globals.set(key,value);

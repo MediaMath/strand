@@ -19,9 +19,9 @@
 	<script>
 	/*jshint -W030 */
 
-	var SyncTest = Polymer({
+	var PageTest = Polymer({
 		is:"test-pageable",
-		behaviors:[StrandTraits.Pageable],
+		behaviors:[StrandTraits.Pageable]
 	});
 
 	/** begin tests **/
@@ -33,8 +33,32 @@
 			StrandTraits.Pageable.should.be.an.array;
 		});
 
+		it("should update on page size change", function(done) {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.autoDebounce = 0;
+
+			flush(function() {
+				page.nextPage();
+				page.page.should.equal(1);
+				flush(function() {
+					request.url.should.contain("page_offset=10");
+					request.url.should.contain("page_limit=10");
+					xhr.restore();
+					done();
+				});
+			}.bind(this));
+
+		});
+
 	});
 	</script>
-	<!-- <test-syncable auto="false"></test-syncable> -->
+<!-- 	<test-pageable id="test" auto="true"></test-pageable> -->
 </body>
 </html>
