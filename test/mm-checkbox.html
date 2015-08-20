@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<mm-checkbox id="cbx"></mm-checkbox>
+
+	<mm-checkbox id="cbxLabel">
+		<label>Checkbox With Label</label>
+	</mm-checkbox>
+
+	<mm-checkbox id="cbxIcon" checked="true" icon="check" iconColor="#008000">
+		<label>Check me out</label>
+	</mm-checkbox>
+
+	<script type="text/javascript">
+
+		describe("mm-checkbox", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Checkbox();
+				a.nodeName.should.equal("MM-CHECKBOX");
+			});
+
+			it("value should equal 'true' if checked attribute set", function(done) {
+				var a = document.querySelector("#cbx");
+				a.setAttribute("checked", null);
+
+				setTimeout(function() {
+					a.value.should.equal(true);
+					done();
+				}, 150);
+			});
+
+			it("should have a style of 'selected' applied to the inner #checkbox div", function(done) {
+				var a = document.querySelector("#cbx"),
+					aInner = a.shadowRoot.querySelector("._mm_checkbox"),
+					cssClass = "selected",
+					hasSelected = null;
+
+				setTimeout(function() {
+					hasSelected = aInner.classList.contains(cssClass);
+					hasSelected.should.equal(true);
+					done();
+				}, 150);
+			});
+
+			it("width of '#cbxLabel' should be 148px if it rendered correctly", function(done) {
+				var a = document.querySelector("#cbxLabel"),
+					style = null,
+					width = 0;
+
+				setTimeout(function() {
+					width = TestHelper.widthIntRounded(a);
+					width.should.equal(148);
+					done();
+				}, 150);
+			});
+
+			it("the inner icon color should be 'Colors.D0' if default", function(done) {
+				var a = document.querySelector("#cbx"),
+					aInner = a.shadowRoot.querySelector("mm-icon").shadowRoot.querySelector("#iconGlyph"),
+					expectedColor = TestHelper.hexToRgb(Colors.D0),
+					color = null;
+
+				setTimeout(function() {
+					color = TestHelper.getRgbNoSpace(aInner, "color");
+					color.should.equal(expectedColor);
+					done();
+				}, 150);
+			});
+
+			it("should set icon primaryColor if custom icon is set", function(done) {
+				var a = document.querySelector("#cbxIcon"),
+					aInner = a.shadowRoot.querySelector("mm-icon"),
+					expectedColor = a.iconColor,
+					color = null;
+
+				setTimeout(function() {
+					color = aInner.primaryColor;
+					color.should.equal(expectedColor);
+					done();
+				}, 150);
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>
