@@ -8,11 +8,11 @@
 
     <mm-input-mask placeholder="(123) 123-1234">
       <sep chars="("></sep>
-      <group rule="range" restrict="numeric" size="3">100-999</group>
+      <group rule="range" restrict="numeric" size="3"></group>
       <sep chars=") "></sep>
-      <group rule="range" restrict="numeric" size="3">100-999</group>
+      <group rule="range" restrict="numeric" size="3"></group>
       <sep chars="-"></sep>
-      <group rule="range" restrict="numeric" size="4">1000-9999</group>
+       <group rule="range" restrict="numeric" size="4"></group>
     </mm-input-mask>
 
     <mm-input-mask placeholder="(ABC) DEF-GHIJ">
@@ -24,7 +24,7 @@
       <group rule="all" restrict="alphaNumeric" size="4"></group>
     </mm-input-mask>
 
-    <mm-input-mask value="(123) 123-1234">
+   <mm-input-mask value="(123) 123-1234">
       <sep chars="("></sep>
       <group rule="range" restrict="numeric" size="3">100-999</group>
       <sep chars=") "></sep>
@@ -39,7 +39,7 @@
       <group rule="minutes" size="2" autofill="0" restrict="numeric"></group>
     </mm-input-mask>
 
-    <mm-input-mask value="03/12/1992">
+    <mm-input-mask placeholder="03/12/1992" icon="calendar">
       <group rule="range" size="2" autofill="0" restrict="numeric"></group>
       <sep chars="/"></sep>
       <group rule="range" size="2" autofill="0" restrict="numeric"></group>
