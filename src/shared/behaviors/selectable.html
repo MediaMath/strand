@@ -41,7 +41,7 @@
 					itemsArr = this.getLightDOM().filter(function(el) { return el.localName === elementType; });
 				}
 			} else {
-				itemsArr = Polymer.dom(this).queryDistributedElements(this.filterElementType);
+				itemsArr = this.getLightDOM();
 			}
 			return itemsArr;
 		},

@@ -91,9 +91,6 @@
 
 		behaviors: [
 			StrandTraits.Stylable,
-			// *********************
-			// TODO: KeySelectable broken for dom-repeat!
-			// *********************
 			StrandTraits.KeySelectable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
@@ -106,7 +103,6 @@
 		open: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
-			// See Selectable behavior
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
 
 			this.focus();
@@ -192,8 +188,6 @@
 			}
 		},
 
-		// _dataChanged: function(newData, oldData) {},
-
 		get itemHeight() {
 	 		return this.domItems.length ? this.domItems[0].offsetHeight : 0;
 		},
@@ -203,19 +197,18 @@
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
-			// handle zero index
-			var nullIndex = newIndex === false || newIndex === null;
+			// zero is a valid index
+			var nullNewIndex = newIndex === false || newIndex === null,
+				nullOldIndex = oldIndex === false || oldIndex === null;
 
-			if(!nullIndex && newIndex !== oldIndex) {
+			if(!nullNewIndex && newIndex !== oldIndex) {
 				var newSelected = this.items[newIndex],
-					oldSelected = this.items[oldIndex],
 					value = newSelected.value ? newSelected.value : newSelected.name;
 
 				this.changedFlag = true;
 				this.value = value;
 				this.$.target.value = newSelected.name;
 				this.set('searchData.' + newIndex + '.selected', true);
-				if (oldSelected) this.set('searchData.' + oldIndex + '.selected', false);
 
 				this.fire('selected', {
 					item: newSelected,
@@ -226,24 +219,42 @@
 
 				this.fire('changed', { value: value });
 			}
+
+			if(!nullOldIndex && oldIndex !== newIndex) {
+				var oldSelected = this.items[oldIndex];
+				if (oldSelected) this.set('searchData.' + oldIndex + '.selected', false);
+			}
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {
-			// *********************
-			// TODO: Highlighted index
-			// *********************
-			// var inherited = BehaviorUtils.findSuper(StrandTraits.KeySelectable, '_highlightedIndexChanged');
-			// if (typeof newIndex === 'number' && newIndex >= 0) {
-			// 	if (this.data) {
-			// 		this.set('data.' + newIndex + '.highlighted', true);
-			// 	} else {
-			// 		this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
-			// 	}
-			// }
-			// if (typeof oldIndex === 'number' && oldIndex >=0) {
-			// 	this.set('data.' + oldIndex + '.highlighted', false);
-			// }
-			// inherited.apply(this, [newIndex, oldIndex]);
+			var nullNewIndex = newIndex === false || newIndex === null,
+				nullOldIndex = oldIndex === false || oldIndex === null;
+
+			if(!nullNewIndex && newIndex !== oldIndex) {
+				this.set('searchData.' + newIndex + '.highlighted', true);
+			}
+
+			if(!nullOldIndex && oldIndex !== newIndex) {
+				this.set('searchData.' + oldIndex + '.highlighted', false);
+			}
+
+			this._updateContainerScroll();
+		},
+
+		_updateContainerScroll: function() {
+			var highlightedItem = this.domItems[this.highlightedIndex];
+			if(highlightedItem) {
+				var panelRect = this.panel.getBoundingClientRect(),
+					focusRect = highlightedItem.getBoundingClientRect();
+
+				if(focusRect.top < panelRect.top) {
+					this.$.list.scrollTop -= (panelRect.top - focusRect.top);
+				}
+
+				if(focusRect.bottom > panelRect.bottom) {
+					this.$.list.scrollTop +=  (focusRect.bottom - panelRect.bottom);
+				}
+			}
 		},
 
 		_maxItemsChanged: function(newVal, oldVal) {
