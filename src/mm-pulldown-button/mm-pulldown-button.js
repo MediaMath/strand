@@ -87,10 +87,6 @@
 
 		open: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
-			// Ensures that we get a value for the offsetHeight of the distributed list items:
-			// See Selectable behavior
-			if (this.maxItems) this._setMaxHeight(this.maxItems);
-
 			this.focus();
 			inherited.apply(this, [silent]);
 		},
@@ -129,6 +125,13 @@
 			if(typeof oldIndex === 'number') { 
 				this.items[oldIndex].selected = false;
 			}
+		},
+
+		_highlightedIndexChanged: function(newIndex, oldIndex) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.KeySelectable, '_highlightedIndexChanged');
+			
+			this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+			inherited.apply(this, [newIndex, oldIndex]);
 		},
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {
