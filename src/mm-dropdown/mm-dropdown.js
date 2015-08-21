@@ -247,8 +247,11 @@
 			}
 
 			if (typeof oldIndex === 'number' && newIndex !== oldIndex) {
-				this.set('data.' + oldIndex + '.selected', false);
-				//this.items[oldIndex].selected = false;
+				if (this.data) { 
+					this.set('data.' + oldIndex + '.selected', false);
+				} else {
+					oldSelected.selected = false;
+				}
 			}
 		},
 
