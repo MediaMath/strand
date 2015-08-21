@@ -16,6 +16,10 @@
 	width: auto;
 }
 
+:host-context([disabled]) {
+	opacity: 0.5;
+}
+
 ::content group,sep {
 	display:none;
 }

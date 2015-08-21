@@ -149,6 +149,12 @@
 				type: Object,
 				value: _restrict,
 			},
+			disabled: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true,
+				observer: '_disabledChanged'
+			},
 			placeholder: {
 				type: String,
 				reflectToAttribute: true,
@@ -187,6 +193,12 @@
 					this._applyValue(this._chunkValue(newValue));
 				});
 			}
+		},
+
+		_disabledChanged: function(newDisabled) {
+			if(this.maskConfig)
+				for(var i=0; i<this.maskConfig.length; i++)
+					this.set('maskConfig.'+i+'.disabled',newDisabled);
 		},
 
 		_placeholderChanged: function(newPlaceholder) {
@@ -293,12 +305,13 @@
 							max:rng[1],
 							min:rng[0], 
 							rule:rule, 
-							restrict:restrict, 
+							restrict:restrict,
 							args:args, 
 							auto:auto,
-							type:_types.GROUP, 
+							type:_types.GROUP,
 							style:style,
 							loaded: false,
+							disabled: this.disabled,
 							value: '',
 							placeholder: ''
 						};
