@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<mm-progress-bar id="myProgressBar" percent-complete="110"></mm-progress-bar>
+	<mm-progress-bar id="indeterminateBar" indeterminate></mm-progress-bar>
+
+	<script type="text/javascript">
+
+		describe("mm-progress-bar", function() {
+
+			it("should have an indeterminate state", function() {
+				var normal = document.querySelector('#myProgressBar');
+				var indet = document.querySelector('#indeterminateBar');
+				normal.indeterminate.should.equal(false);
+				indet.indeterminate.should.equal(true);
+			});
+
+			it("should have a filled bar when indeterminate", function() {
+				var indet = document.querySelector('#indeterminateBar .fill');
+				indet.style.width.should.equal("100%");
+			});
+
+			it("should have numerical height and width", function() {
+				var myPB = document.querySelector('#myProgressBar');
+				var indet = document.querySelector('#indeterminateBar');
+				myPB.height.should.be.a('number');
+				myPB.width.should.be.a('number');
+				indet.height.should.be.a('number');
+				indet.width.should.be.a('number');
+			});
+
+			it("should have a percent complete between 0 and 100", function() {
+				var myPB = document.querySelector('#myProgressBar');
+				myPB.percentComplete.should.be.a('number')
+					.and.be.at.least(0)
+					.and.be.at.most(100);
+			});
+		});
+
+	</script>
+
+</body>
+</html>

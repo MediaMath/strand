@@ -5,8 +5,10 @@
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
-	<link rel="import" href="../build/mm-menu/mm-menu.html">
-	<script src="test-mm-menu.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
 </head>
 <body>
 
@@ -18,6 +20,19 @@
 		<mm-list-item value="m4">menu item 4</mm-list-item>
 		<mm-list-item value="m5">menu item 5</mm-list-item>
 	</mm-menu>
+
+	<script type="text/javascript">
+
+		describe("mm-menu", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Menu();
+				a.nodeName.should.equal("MM-MENU");
+			});
+
+		});
+
+	</script>
 
 </body>
 </html>

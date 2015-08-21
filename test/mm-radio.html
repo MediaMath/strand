@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<mm-radio id="r1">
+		<label>Radio 1</label>
+	</mm-radio>
+
+	<script type="text/javascript">
+
+		describe("mm-radio", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Radio();
+				a.nodeName.should.equal("MM-RADIO");
+			});
+
+			it("should be checked on mouseup", function() {
+				var a = new Strand.Radio();
+				a.radioMouseUp();
+				a.checked.should.equal(true);
+			});
+
+			it("should fire selected when checked", function(done) {
+				var a = document.querySelector("#r1"),
+					s = sinon.spy();
+
+				a.addEventListener("selected", s);
+				a.checkedChanged(false, true);
+
+				a.async(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

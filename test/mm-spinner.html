@@ -5,12 +5,27 @@
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
-	<link rel="import" href="../build/mm-spinner/mm-spinner.html">
-	<script src="test-mm-spinner.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
 </head>
 <body>
 
 	<mm-spinner radius="24" inner-radius="5" line-width="10" line-weight="1.5" id="spinner" fill-color="#333333"></mm-spinner>
+
+	<script type="text/javascript">
+
+		describe("mm-spinner", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Spinner();
+				a.nodeName.should.equal("MM-SPINNER");
+			});
+
+		});
+		
+	</script>
 
 </body>
 </html>

@@ -5,17 +5,25 @@
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
 	<link rel="import" href="../build/strand.html">
-	<script src="test-mm-tooltip.js"></script>
 </head>
 <body>
 
-	<mm-tooltip id="tt">
-		<mm-icon type="info" width="14" height="14"></mm-icon>
-		<template>
-			<label>Hi there, I'm a tooltip</label>
-		</template>
-	</mm-tooltip>
+	<script type="text/javascript">
+
+		describe("mm-textarea", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.TextArea();
+				a.nodeName.should.equal("MM-TEXTAREA");
+			});
+
+		});
+
+	</script>
 
 </body>
 </html>

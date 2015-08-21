@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<div id="target"></div>
+	<div id="newTarget"></div>	
+	<mm-popover id="popover" target="#target"></mm-popover>
+
+	<script type="text/javascript">
+
+		describe("mm-popover", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Popover(),
+					t = document.querySelector("#target");
+				a.target = t;
+				a.nodeName.should.equal("MM-POPOVER");
+			});
+
+			it("should fire 'opened' when stateChanged", function() {
+				var a = document.querySelector("#popover"),
+					s = sinon.spy();
+
+				a.addEventListener("opened", s);
+				a.stateChanged(a.STATE_CLOSED, a.STATE_OPENED);
+				should.equal(s.calledOnce, true);
+			});
+
+			it("should fire 'closed' when stateChanged", function() {
+				var a = document.querySelector("#popover"),
+					s = sinon.spy();
+
+				a.addEventListener("closed", s);
+				a.stateChanged(a.STATE_OPENED, a.STATE_CLOSED);
+				should.equal(s.calledOnce, true);
+			});
+
+			it("should correctly pass target to it's internal mm-close-panel", function(done) {
+				var a = document.querySelector("#popover"),
+					ot = document.querySelector("#target"),
+					nt = document.querySelector("#newTarget"),
+					c = a.$.closePanel;
+
+				a.targetChanged(ot, nt);
+
+				a.async(function(){
+					c.target.should.equal(nt);
+					done();
+		 		});
+		 	});
+
+		});
+
+	</script>
+
+</body>
+</html>

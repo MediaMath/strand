@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<mm-modal id="modal"></mm-modal>
+
+	<script type="text/javascript">
+
+		describe("mm-modal", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Modal();
+				a.nodeName.should.equal("MM-MODAL");
+			});
+
+			it("should be visible when shown", function() {
+				var a = new MMModal();
+				a.show();
+				a.async(function(){
+					a.visible.should.equal(true);
+				});
+			});
+
+			it("should not be visible when hidden", function() {
+				var a = new MMModal();
+				a.hide();
+				a.async(function(){
+					a.visible.should.equal(false);
+				});
+			});
+
+			it("should disable document scroll if noscroll flag is set", function() {
+				var a = new MMModal();
+				a.noscroll = true;
+				a.show();
+				a.async(function(){
+					document.body.style.overflow.should.equal("hidden");
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>
