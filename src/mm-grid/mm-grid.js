@@ -178,12 +178,6 @@
 			var target = this.columnsMap[field];
 			var targetIndex = this.columns.indexOf(target);
 
-			if (!this.viewportWidth) {
-				this.viewportWidth = this.$.header.offsetWidth;
-			}
-
-			this.viewportWidth += val;
-
 			////// Overflow Resizing //////
 			this.columns.forEach(function(column, index) {
 				if(column.width.indexOf("%") !== -1){
@@ -192,6 +186,12 @@
 				}
 				this.notifyPath("scope.columns."+index+".width", column.width);
 			}, this);
+
+			if (!this.viewportWidth) {
+				this.viewportWidth = this.$.header.offsetWidth;
+			}
+
+			this.viewportWidth += val;
 		},
 
 		_computeViewportWidth: function (viewportWidth) {

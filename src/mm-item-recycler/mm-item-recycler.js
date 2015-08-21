@@ -278,10 +278,27 @@ found here: https://github.com/Polymer/core-list
 
 			if (delta) {
 				bound.height += delta;
+				itemRecycler._changeOffsetsAfter(bound, delta);
 				itemRecycler._recycler.setHeightAtIndex(bound.young, height + delta);
 				itemRecycler._deltaMiddleHeight(delta);
 				itemRecycler._repositionHeader();
 				itemRecycler._repositionFooter();
+			}
+		},
+
+		_changeOffsetsAfter: function (reference, delta) {
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
+
+			for (index = 1 + (0|reference.id); index < count; index++) {
+				bound = binds[index];
+
+				if (bound) {
+					bound.offset += delta;
+					this._repositionBound(bound);
+				}
 			}
 		},
 
@@ -373,12 +390,24 @@ found here: https://github.com/Polymer/core-list
 			return physicalCount;
 		},
 
-		scrollToIndex: function(value) {
+		scrollToIndex: function(value, force) {
+			var direction = (+force || 0)
 			var index = 0|value;
-			var limit = 0|(this.data && this.data.length);
+			var count = 0|(this.data && this.data.length);
+			var upper = 0;
+			var lower = 0;
+
 			if (index > -1 &&
-				index < limit) {
-				this.$.pane.scrollTop = this._recycler.getElevationAtIndex(0|value);
+				index < count) {
+				upper = this._recycler.getElevationAtIndex(index + 1);
+				lower = this._recycler.getElevationAtIndex(index);
+
+				if (direction > 0 || upper > this._scrollTop + this._viewportHeight) {
+					this.$.pane.scrollTop = upper - this._viewportHeight;
+				} else if (direction < 0 || lower < this._scrollTop) {
+					this.$.pane.scrollTop = lower;
+				}
+
 				return 0|true;
 			} else {
 				return 0|false;
@@ -434,8 +463,9 @@ found here: https://github.com/Polymer/core-list
 				binds = this._bindingList,
 				count = binds.length,
 				place = 0,
+				height = 0,
 				content = null,
-				responder = this._responders.boundMap[id] || null,
+				responder = null,
 				offset = this._calculateStaticPositionOffset(index, binds);
 
 			if (old < 0) {
@@ -456,10 +486,10 @@ found here: https://github.com/Polymer/core-list
 				Polymer.dom(bound.element).appendChild(content);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
 				responder = this._addBoundResponse(bound, id, index);
+				this.async(responder); // defer validation of the height
 			} else if (young < 0) {
 				bound = binds[index];
 				this._removeBoundResponse(bound, id, index);
-				responder = null;
 				Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
 				bound = binds[index] = null;
 				while (!binds[--count]) {
@@ -475,7 +505,9 @@ found here: https://github.com/Polymer/core-list
 					bound.instance.set("model", this.data[young]);
 				}
 				place = bound.location = recycler.getElevationAtIndex(young);
-				bound.height = recycler.getHeightAtIndex(young);
+				height = recycler.getHeightAtIndex(young);
+				this._changeOffsetsAfter(bound, height - bound.height);
+				bound.height = height;
 				bound.offset = offset;
 				bound.young = young;
 
@@ -484,10 +516,6 @@ found here: https://github.com/Polymer/core-list
 					this.debounce("rebase-transform", this._rebaseTransform, 250);
 				} else {
 					this._rebaseTransform();
-				}
-
-				if (responder) {
-					this.async(responder); // defer validation of the height
 				}
 			}
 		},

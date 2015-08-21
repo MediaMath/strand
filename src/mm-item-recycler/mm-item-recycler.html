@@ -14,6 +14,7 @@
 	<link rel="import" type="css" href="mm-item-recycler.css"/>
 	<template>
 		<div id="pane">
+			<div id="constrainer">
 				<div id="middle"></div>
 				<div id="header">
 					<content select=":not([recycler=footer])"></content>
@@ -22,6 +23,7 @@
 					<content select="[recycler=footer]"></content>
 				</div>
 				<div id="extent"></div>
+			</div>
 		</div>
 	</template>
 </dom-module>

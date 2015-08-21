@@ -4,6 +4,8 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<link rel="import" href="mm-grid.html">
 	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
+	<link rel="import" href="../mm-list-item/mm-list-item.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -46,42 +48,39 @@
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
 			<template id="customTemplate">
-				<mm-grid-item id="{{model.selected}}" model="{{model}}" scope="{{scope}}"></mm-grid-item>
-			</template>
-<!-- 			<template id="customTemplate">
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
 						<mm-tooltip model="{{model}}" tipWidth="150">
 							<mm-icon width="15" height="15" type="actions"></mm-icon>
 							<template>
-								<label>I'm a tooltip for Creative - {{model.name}}</label>
+								<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 							</template>
 						</mm-tooltip>
 					</div>
 					<div field="name">
-						Creative - {{model.name}}
+						Creative - <span>{{model.name}}</span>
 					</div>
 					<div class="expansion">
 						<div class="expansion-row">
 							<div class="expansion-col">
 								<h4>Expanded Content</h4>
-								{{model.name}}
+								<span>{{model.name}}</span>
 							</div>
 							<div class="expansion-col">
 								<h4>Expanded Advertiser</h4>
-								{{model.advertiser}}
+								<span>{{model.advertiser}}</span>
 							</div>
 							<div class="expansion-col">
 								<h4>Expanded Concept</h4>
-								{{model.concept}}
+								<span>{{model.concept}}</span>
 							</div>
 						</div>
 						<div class="expansion-row">
-							<div class="expansion-col">Expanded Content - {{model.content}}</div>
+							<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
 						</div>
 					</div>
 				</mm-grid-item>
-			</template> -->
+			</template>
 		</mm-grid>
 	<script type="text/javascript">
 		var data = [],
@@ -117,7 +116,7 @@
 				file: "Creative_File_" + i + ".swf",
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				selected: false,
-				expanded: true,
+				expanded: false,
 			});
 		}
 
