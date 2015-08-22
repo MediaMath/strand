@@ -12,14 +12,14 @@ Polymer({
 		scope: Object
 	},
 
-	_computeColumnValue: function(model, field) {
+	_computeColumnValue: function(field, model, modelChange) {
 		// var path = Path.get(field),
 		// 	dataPath = Path.get("data." + field),
 		// 	val = path.getValueFrom(model);
 
 		// val = val !== undefined && val !== "" ? val : dataPath.getValueFrom(model);
 		// return val;
-		return model[field];
+		return model ? model[field] : "";
 	},
 
 	_computeColumnStyle: function(value) {

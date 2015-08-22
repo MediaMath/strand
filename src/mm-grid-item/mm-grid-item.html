@@ -22,7 +22,7 @@
 					<template is="dom-repeat" items="{{scope.columns}}" as="column">
 						<div class="_mm_column" style$="{{_computeColumnStyle(column.width)}}">
 							<!-- <template is="dom-if" if="[[!_computeOverride(scope.columnOverrideMap, column.field)]]"> -->
-								<span>[[_computeColumnValue(model, column.field)]]</span>
+								<span>[[_computeColumnValue(column.field, model, model.*)]]</span>
 							<!-- </template> -->
 <!-- 							<template is="dom-if" if="{{scope.columnOverrideMap[column.field]}}">
 								<content select="[field='{{column.field}}']"></content>
