@@ -83,7 +83,7 @@
 		behaviors: [
 			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
-			// StrandTraits.Stackable,
+			StrandTraits.Stackable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
@@ -261,7 +261,6 @@
 			// console.log("_selectedIndexChanged:: newIndex: " + newIndex + " | oldIndex: ", oldIndex);
 			if (typeof newIndex === 'number' && newIndex !== oldIndex) {
 				var newSelected = this.items[newIndex],
-					oldSelected = this.items[oldIndex],
 					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 				
 				this._selectedFlag = true;
@@ -285,6 +284,8 @@
 			}
 
 			if (typeof oldIndex === 'number' && newIndex !== oldIndex) {
+				var oldSelected = this.items[oldIndex];
+
 				if (this.data) { 
 					this.set('data.' + oldIndex + '.selected', false);
 				} else {
