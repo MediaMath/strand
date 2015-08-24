@@ -97,7 +97,7 @@
 		<div class="col c1">
 			
 			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
-			<mm-dropdown id="dataTest" overflow="visible" max-items="10" value="1" placeholder="Some Longer Label">
+			<mm-dropdown id="dataTest" overflow="visible" max-items="10" placeholder="Some Longer Label">
 			</mm-dropdown>
 			<hr/>
 			
@@ -216,7 +216,7 @@
 			<hr/>
 			
 			<p><span class="bold">Dropdown:</span> List with overflow: overflowWidth set</p>
-			<mm-dropdown placeholder="Select One" overflow="visible" fitparent max-items="10">
+			<mm-dropdown placeholder="Select One" overflow="visible" fitparent>
 				<mm-list-item>mm-list-item with an exremely long label or name in here 00</mm-list-item>
 				<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
 				<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
@@ -268,11 +268,17 @@
 			for (var i=0; i < 100; i++) {
 				dataItems.push({ value: String(i), name: "No." + i + " Readable Very Long Name Here" });
 			}
+
+			// *******************************
+			// jQuery and data dropdown: 
+			// requires preselected value to be set after data is set
+			// *******************************
 			
 			document.addEventListener("WebComponentsReady", function(e) {
 				// init dynamic data test:
 				dataTest = document.querySelector("#dataTest");
 				dataTest.data = dataItems;
+				dataTest.value = 1;
 				
 				// init jQuery test:
 				$d = $("#dynamic");
