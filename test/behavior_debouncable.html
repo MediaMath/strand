@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../shared/behaviors/debouncable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+	<dom-module id="test-semaphor">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+
+		Polymer({
+			is:"test-semaphore",
+			behaviors:[StrandTraits.Debouncable],
+			debouncers:{
+				test:{
+					keys:["a","b","c"],
+					type:StrandTraits.Debouncable.ALL,
+					callback:function() { console.log("test",arguments); }
+				}
+			},
+			properties:{
+				a:{value: "", notify: true},
+				b:{value: "", notify: true},
+				c:{value: "", notify: true},
+			}
+		});
+
+	</script>
+
+<script>
+describe("Semaphorable", function() {
+
+	it("should exist", function() {
+		StrandTraits.should.be.an.object;
+		StrandTraits.Debouncable.should.be.an.object;
+	});
+
+});
+</script>
+<test-semaphore></test-semaphore>
+</body>
+</html>

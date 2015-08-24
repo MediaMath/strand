@@ -1,0 +1,36 @@
+<script>
+(function (scope) {
+	scope.Debouncable = {
+		
+		properties:{
+			debouncers:{
+				type:Array,
+				value:function() { return []; }
+			},
+			_debouncersCache:{
+				type:Object,
+				value:function() { return {}; }
+			}
+		},
+		
+		ALL:'all',
+		SOME:'some',
+
+		created:function() {
+			this.observers = this.observers || [];
+			var keys = Object.keys(this.debouncers);
+			keys.forEach(function(debouncer) {
+				var sem = this.debouncers[debouncer];
+				sem.keys.forEach(function(key) {
+					this.addEventListener(key+"-changed", function() { 
+						this.debounce(debouncer,function() {
+							this.fire(debouncer+"-changed");
+							if (sem.callback) sem.callback(key, debouncer);
+						}, 0);
+					});
+				},this);
+			},this);
+		}
+	};
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>
