@@ -63,12 +63,6 @@ found here: https://github.com/Polymer/core-list
 		],
 
 		properties: {
-			data: {
-				type: Array,
-				value: null,
-				notify: true,
-				observer: "initialize"
-			},
 			scope: {
 				type: Object,
 				value: null,
@@ -76,7 +70,8 @@ found here: https://github.com/Polymer/core-list
 			},
 			itemTemplate: {
 				type: String,
-				value: ""
+				// value: ""
+				value: false
 			},
 			itemTemplateElement: {
 				type: Object,
@@ -162,6 +157,12 @@ found here: https://github.com/Polymer/core-list
 						this._getDataLength.bind(this),
 						this._handleRecycling.bind(this));
 				},
+			},
+			data: {
+				type: Array,
+				value: null,
+				notify: true,
+				observer: "initialize"
 			},
 		},
 

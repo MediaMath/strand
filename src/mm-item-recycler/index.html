@@ -3,6 +3,7 @@
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<link rel="import" href="../mm-input/mm-input.html">
+	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
 	<link rel="import" href="mm-item-recycler.html">
 	<style type="text/css">
 		html, body {
@@ -46,6 +47,17 @@
 		<template id="templateItem">
 			<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 				<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
+				
+				<mm-dropdown placeholder="Some Very Long Name" data="{{model.dropdownData}}" value="{{model.dropDownValue}}"></mm-dropdown>
+
+				<!--
+				<mm-dropdown placeholder="{{model.name}}" value="{{model.value}}">
+					<mm-list-item value="0">JPEG</mm-list-item>
+					<mm-list-item value="1">GIF</mm-list-item>
+					<mm-list-item value="2">SWF</mm-list-item>
+					<mm-list-item value="3">PNG</mm-list-item>
+				</mm-dropdown>
+				-->
 			</div>
 		</template>
 		<div id="header" recycler="header">Header <br/> Text</div>
@@ -54,12 +66,21 @@
 	</mm-item-recycler>
 	<script type="text/javascript">
 		var data = [],
+			ddDataArr = [],
 			itemRecycler,
 			header,
 			NUM_ITEMS = 10 * 10;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem(i);
+		}
+
+		for(var j=0; j<50; j++) {
+			ddDataArr.push({
+				name: "Some Name " + j,
+				// value: j
+				value: "String" + j
+			});
 		}
 
 		function generateItem(index) {
@@ -74,6 +95,8 @@
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				//style: "transition: height 2s; height: 50px",
 				size: 50,
+				dropdownData: ddDataArr,
+				dropDownValue: null
 			});
 		}
 
@@ -81,22 +104,22 @@
 			itemRecycler = document.querySelector("#itemRecycler");
 			itemRecycler.data = data;
 
-			setTimeout(function () {
-				itemRecycler.style.height = (2 * itemRecycler.offsetHeight) + "px";
+		// 	setTimeout(function () {
+		// 		itemRecycler.style.height = (2 * itemRecycler.offsetHeight) + "px";
 
-				(function loop () {
-					var index = 0|(Math.random() * itemRecycler.data.length);
-					var datum = itemRecycler.data[index];
-					if (datum.size === 50) {
-						datum.size = 100;
-						itemRecycler.set("data."+index+".style", "transition: height 2s; height: 100px");
-					} else {
-						datum.size = 50;
-						itemRecycler.set("data."+index+".style", "transition: height 2s; height: 50px");
-					}
-					setTimeout(loop, 1000);
-				});
-			}, 3000);
+		// 		(function loop () {
+		// 			var index = 0|(Math.random() * itemRecycler.data.length);
+		// 			var datum = itemRecycler.data[index];
+		// 			if (datum.size === 50) {
+		// 				datum.size = 100;
+		// 				itemRecycler.set("data."+index+".style", "transition: height 2s; height: 100px");
+		// 			} else {
+		// 				datum.size = 50;
+		// 				itemRecycler.set("data."+index+".style", "transition: height 2s; height: 50px");
+		// 			}
+		// 			setTimeout(loop, 1000);
+		// 		});
+		// 	}, 3000);
 		});
 	</script>
   </body>

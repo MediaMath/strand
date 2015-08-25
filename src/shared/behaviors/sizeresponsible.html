@@ -34,10 +34,21 @@ This code may only be used under the BSD style license found at http://mediamath
 		})();
 
 		function resetTriggers(element){
+			// non-optimal hack to avoid console errors if the dom doesn't exist
+			// specifically - mm-item-recycler getItemHeight method:
+			if (!element || 
+				!element.__resizeTriggers__ ||
+				!element.__resizeTriggers__.firstElementChild ||
+				!element.__resizeTriggers__.lastElementChild ||
+				!element.__resizeTriggers__.firstElementChild.firstElementChild) {
+				return;
+			}
+
 			var triggers = element.__resizeTriggers__,
 				expand = triggers.firstElementChild,
 				contract = triggers.lastElementChild,
 				expandChild = expand.firstElementChild;
+
 			contract.scrollLeft = contract.scrollWidth;
 			contract.scrollTop = contract.scrollHeight;
 			expandChild.style.width = expand.offsetWidth + 1 + 'px';
@@ -75,9 +86,9 @@ This code may only be used under the BSD style license found at http://mediamath
 			startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' '),
 			pfx  = '';
 		{
+
 			var elm = document.createElement('fakeelement');
 			if( elm.style.animationName !== undefined ) { animation = true; }    
-			
 			if( animation === false ) {
 				for( var i = 0; i < domPrefixes.length; i++ ) {
 					if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
@@ -90,6 +101,7 @@ This code may only be used under the BSD style license found at http://mediamath
 					}
 				}
 			}
+
 		}
 		
 		var animationName = 'resizeanim';
@@ -141,11 +153,14 @@ This code may only be used under the BSD style license found at http://mediamath
 					// createStyles();
 					element.__resizeLast__ = {};
 					element.__resizeListeners__ = [];
-					(element.__resizeTriggers__ = document.createElement('div')).className = 'resize-triggers' + nameSpace;
-					element.__resizeTriggers__.innerHTML = '<div class="expand-trigger'+ nameSpace +'"><div></div></div>' +
-																							'<div class="contract-trigger' + nameSpace + '"></div>';
+					element.__resizeTriggers__ = document.createElement('div');
+					element.__resizeTriggers__.className = 'resize-triggers' + nameSpace;
+					element.__resizeTriggers__.innerHTML = '<div class="expand-trigger' + nameSpace + '"><div></div></div>' + '<div class="contract-trigger' + nameSpace + '"></div>';
 					Polymer.dom(element).appendChild(element.__resizeTriggers__);
+					Polymer.dom.flush();
+
 					resetTriggers(element);
+
 					element.addEventListener('scroll', scrollListener, true);
 
 					/* Listen for a css animation to detect element display/re-attach */

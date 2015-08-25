@@ -30,10 +30,6 @@
 				type: Object,
 				value: function() { return this.$.target; }
 			},
-			// stackTarget:{
-			// 	type: Object,
-			// 	value: function() { return this.$.panel; }
-			// },
 			overflow: {
 				type: String,
 				value: 'hidden'
@@ -83,7 +79,7 @@
 		behaviors: [
 			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
-			StrandTraits.Stackable,
+			// StrandTraits.Stackable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
@@ -149,7 +145,7 @@
 
 		_updateSelectedItem: function(e) {
 			var target = Polymer.dom(e).path[0],
-				value = this._getValueFromDom(target),
+				value = this._getValueFromDom(target).toString(),
 				targetIndex = null;
 
 			if (this.data) {
@@ -179,14 +175,18 @@
 			return this.data.indexOf(this._getDataItemByValue(value));
 		},
 
+		_getDataItemByValue: function(value) {
+			return this.data.filter(function(item) {
+				return item.name === value || item.value.toString() === value;
+			})[0];
+		},
+
 		// Data handling
 		_dataChanged: function(newData, oldData) {
 			var nullData = newData === null || newData === undefined,
 				nullValue = this.value === null || this.value === undefined;
-			// console.log("_dataChanged: ", newData);
+			
 			if (!nullData) {
-				// console.log("_dataChanged:: !nullData");
-				// default the max items to gaurantee a height on the item recycler
 				if (!this.maxItems) {
 					this.maxItems = 10;
 				} else {
@@ -194,22 +194,8 @@
 				}
 				if (!nullValue) this._selectItemByValue(this.value);
 			} else {
-				// in the case where the dropdown is repopulated by item recycling
-				// console.log("_dataChanged:: nullData");
 				this.reset();
 			}
-			// console.log("-- -- -- -- -- -- -- --");
-			// if (newData && this.value) {
-			// 	this._selectItemByValue(this.value);
-			// } else {
-			// 	console.log("_dataChanged: should reset: ", newData);
-			// }
-		},
-
-		_getDataItemByValue: function(value) {
-			return this.data.filter(function(item) {
-				return item.name === value || item.value === value;
-			})[0];
 		},
 
 		// Getters
@@ -224,7 +210,6 @@
 					itemHeight = this.items[0].offsetHeight;
 				}
 			}
-
 	 		return itemHeight;
 		},
 
@@ -243,34 +228,28 @@
 		// General
 		_valueChanged: function(newVal, oldVal) {
 			var nullValue = newVal === null || newVal === undefined;
-			// console.log("_valueChanged:: newVal: " + newVal + " | oldVal: ", oldVal);
+			// console.log("_valueChanged:: newVal: ", newVal, oldVal);
 			if (!nullValue) {
-				// console.log("_valueChanged:: !nullValue");
-				// console.log("_valueChanged:: this._selectedFlag: ", this._selectedFlag);
 				if (!this._selectedFlag) this._selectItemByValue(newVal);
 			} else {
-				// console.log("_valueChanged:: nullValue");
 				this.reset();
 			}
-			// console.log("-- -- -- -- -- -- -- --");
 			this._selectedFlag = false;
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
-			// var nullIndex = newIndex === null || newIndex === undefined;
-			// console.log("_selectedIndexChanged:: newIndex: " + newIndex + " | oldIndex: ", oldIndex);
 			if (typeof newIndex === 'number' && newIndex !== oldIndex) {
 				var newSelected = this.items[newIndex],
-					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
+					value = newSelected.value.toString() ? 
+						newSelected.value.toString() : newSelected.textContent.trim();
 				
 				this._selectedFlag = true;
+				this.value = value;
 
 				if (this.data) { 
 					this.set('data.' + newIndex + '.selected', true);
-					this.set('data.' + newIndex + '.value', value);
 				} else {
 					newSelected.selected = true;
-					this.value = value;
 				}
 
 				this.fire('selected', {
