@@ -63,6 +63,11 @@ found here: https://github.com/Polymer/core-list
 		],
 
 		properties: {
+			gpu: {
+				type: String,
+				value: "3d",
+			},
+			_gpuAssignedOnce: String,
 			scope: {
 				type: Object,
 				value: null,
@@ -584,9 +589,29 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
+		_gpu: function () {
+			if (!this._gpuAssignedOnce) {
+				this._gpuAssignedOnce = String(this.gpu);
+				switch (this._gpuAssignedOnce) {
+					default: this._gpuAssignedOnce = "3d";
+					case "3d":
+					case "2d":
+				}
+			}
+
+			return this._gpuAssignedOnce;
+		},
+
+		_setTranslation: function (value, target) {
+			switch (this._gpu()) {
+				case "3d": this.translate3d(0, value + "px", 0, target); break;
+				case "2d": target.style.top = value + "px"; break;
+			}
+		},
+
 		_repositionBound: function (bound) {
 			var position = bound.location - bound.offset - this._transformBaseline;
-			this.translate3d(0, (position) +"px", 0, bound.element);
+			this._setTranslation(position, bound.element);
 		},
 
 		_applyTransform: function () {
@@ -614,23 +639,23 @@ found here: https://github.com/Polymer/core-list
 
 		_repositionExtent: function () {
 			var position = -this._extentHeight + this._transformBaseline;
-			this.translate3d(0, (position) + "px", 0, this.$.extent);
+			this._setTranslation(position, this.$.extent);
 		},
 
 		_repositionMiddle: function () {
 			var position = (this._headerHeight + this._transformBaseline);
-			this.translate3d(0, (position) + "px", 0, this.$.middle);
+			this._setTranslation(position, this.$.middle);
 		},
 
 		_repositionHeader: function () {
 			var position = -(this._middleHeight - this._transformBaseline - this._scrollTop);
-			this.translate3d(0, (position) + "px", 0, this.$.header);
+			this._setTranslation(position, this.$.header);
 		},
 
 		_repositionFooter: function () {
 			var position = -(this._middleHeight - this._transformBaseline - this._scrollTop);
 			position += this._viewportHeight;
-			this.translate3d(0, (position) + "px", 0, this.$.footer);
+			this._setTranslation(position, this.$.footer);
 		},
 
 

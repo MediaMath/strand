@@ -43,7 +43,7 @@
 	</style>
   </head>
   <body>
-	<mm-item-recycler id="itemRecycler" item-template="templateItem">
+	<mm-item-recycler id="itemRecycler" gpu="2d" item-template="templateItem">
 		<template id="templateItem">
 			<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 				<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>

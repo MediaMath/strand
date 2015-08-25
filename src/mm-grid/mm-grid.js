@@ -20,6 +20,10 @@
 		is: 'mm-grid',
 
 		properties: {
+			gpu: {
+				type: String,
+				value: "3d",
+			},
 			data: Array,
 			columns: {
 				type: Array,

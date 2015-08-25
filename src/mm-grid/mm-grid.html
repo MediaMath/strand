@@ -14,7 +14,7 @@
 <dom-module id="mm-grid">
 	<link rel="import" type="css" href="mm-grid.css"/>
 	<template>
-		<mm-item-recycler id="viewport" viewport-width="{{viewportWidth}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}">
+		<mm-item-recycler id="viewport" gpu="{{gpu}}" viewport-width="{{viewportWidth}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}">
 			<div id="header" style$="{{_computeViewportWidth(viewportWidth)}}">
 				<template is="dom-if" if="{{selectable}}">
 					<div class="_mm_column checkbox">
