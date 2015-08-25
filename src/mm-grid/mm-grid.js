@@ -22,7 +22,7 @@
 		properties: {
 			gpu: {
 				type: String,
-				value: "3d",
+				value: "2d",
 			},
 			data: Array,
 			columns: {

@@ -65,7 +65,7 @@ found here: https://github.com/Polymer/core-list
 		properties: {
 			gpu: {
 				type: String,
-				value: "3d",
+				value: "2d",
 			},
 			_gpuAssignedOnce: String,
 			scope: {
@@ -593,7 +593,7 @@ found here: https://github.com/Polymer/core-list
 			if (!this._gpuAssignedOnce) {
 				this._gpuAssignedOnce = String(this.gpu);
 				switch (this._gpuAssignedOnce) {
-					default: this._gpuAssignedOnce = "3d";
+					default: this._gpuAssignedOnce = "2d";
 					case "3d":
 					case "2d":
 				}
