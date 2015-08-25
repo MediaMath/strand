@@ -5,47 +5,71 @@
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
-	<link rel="import" href="../shared/behavior/stackable.html">
+	<script>
+		var should = chai.should();
+	</script>
 	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../shared/behaviors/stackable.html">
 </head>
 <body>
+
+		<dom-module id="test-stackable">
+			<template>
+				<content id="content"></content>
+			</template>
+			<style></style>
+			<script>
+				Polymer({
+					is:"test-stackable",
+					behaviors:[StrandTraits.Stackable]
+				});
+			</script>
+		</dom-module>
+
+		<test-stackable id="test1"></test-stackable>
 	
 	<script type="text/javascript">
-		
-		// TODO: previous mm-stack-manager tests for reference
 
-		// describe("mm-stack-manager", function() {
-	
-		// 	it("should have an element constructor", function() {
-		// 		var a = new MMStackManager();
-		// 		a.nodeName.should.equal("MM-STACK-MANAGER");
-		// 	});
-
-		// 	it("should be checked on mouseup", function(done) {
-		// 		var a = new MMStackManager(),
-		// 			s = sinon.spy();
-
-		// 		a.addEventListener("depthChanged", s);
-		// 		a.depthChanged(10000, 20000);
-		// 		a.async(function() {
-		// 			should.equal(s.calledOnce, true);
-		// 			done();
-		// 		});
-		// 	});
-
-		// 	it("should move to top", function(done) {
-		// 		var a = document.querySelector("#sm"),
-		// 			index = null;
+		describe("Stackable", function() {
 				
-		// 		index = a.moveToTop();
+			it("should exist", function() {
+				StrandTraits.should.be.an.object;
+				StrandTraits.Stackable.should.be.an.object;
+			});
 
-		// 		a.async(function() {
-		// 			should.equal(index, 10003);
-		// 			done();
-		// 		});
-		// 	});
+			it("should not _updateStack() if _initialized is false", function() {
+				// var t = document.querySelector("#test1");
+			});
 
-		// });
+			it("should update depth", function(done) {
+				// var a = new StrandTraits.Stackable(),
+				// 	s = sinon.spy();
+
+				// a.addEventListener("depthChanged", s);
+				// a.depthChanged(10000, 20000);
+				// a.async(function() {
+				// 	should.equal(s.calledOnce, true);
+				// 	done();
+				// });
+			});
+
+			it("should set z-index on stackTarget, if specified", function(done) {
+				//
+			});
+
+			it("should move to top", function(done) {
+				// var a = document.querySelector("#sm"),
+				// 	index = null;
+				
+				// index = a.moveToTop();
+
+				// a.async(function() {
+				// 	should.equal(index, 10003);
+				// 	done();
+				// });
+			});
+
+		});
 
 	</script>
 

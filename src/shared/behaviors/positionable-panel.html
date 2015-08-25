@@ -44,10 +44,10 @@
 			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
 			this._nodeOrigin = Measure.getNodeOrigin(this.panel);
 
-			if (this._nodeOrigin.transform) {
-				this._previousIndex = this._nodeOrigin.target.style.zIndex;
-				this._nodeOrigin.target.style.zIndex = this.style.zIndex;
-			}
+			// if (this._nodeOrigin.transform) {
+			// 	this._previousIndex = this._nodeOrigin.target.style.zIndex;
+			// 	this._nodeOrigin.target.style.zIndex = this.style.zIndex || this.stackTarget.style.zIndex;
+			// }
 
 	 		inherited.apply(this, [silent]);
 	 	},

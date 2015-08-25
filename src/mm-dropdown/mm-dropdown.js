@@ -30,6 +30,10 @@
 				type: Object,
 				value: function() { return this.$.target; }
 			},
+			stackTarget: {
+				type: Object,
+				value: function() { return this.$.panel; }
+			},
 			overflow: {
 				type: String,
 				value: 'hidden'
@@ -79,7 +83,7 @@
 		behaviors: [
 			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
-			// StrandTraits.Stackable,
+			StrandTraits.Stackable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,

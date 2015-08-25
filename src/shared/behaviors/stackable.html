@@ -29,9 +29,11 @@
 	function _addInstance(instance, type) {
 		var cat = _instances[type];
 		if (cat && cat.items.length < cat.max) {
-			instance._setDepth( cat.items.push(instance) + cat.base );
+			// cat.items.push(instance);
+			// instance._setDepth(cat.items.length + cat.base);
+			instance._setDepth(cat.items.push(instance) + cat.base);
 		} else {
-			throw(new Error("Could not add item at "+cat.max));
+			throw(new Error("Could not add item at " + cat.max));
 		}
 	}
 
@@ -45,43 +47,71 @@
 	scope.Stackable = {
 
 		properties: {
+			stackHost: {
+				type: Object,
+				value: function() { return this; }
+			},
+			stackTarget: {
+				type: Object,
+				value: null,
+				observer: "_stackTargetChanged"
+			},
 			depth: {
-				readOnly:true,
+				readOnly: true,
 				notify: true,
-				type:Number,
-				value:0,
-				observer:"_updateDepth"
+				type: Number,
+				value: 0,
+				observer: "_updateDepth"
 			},
 			stackType:{
-				type:String,
-				value:"ui",
-				reflectToAttribute:true,
-				observer:"_updateStackType"
+				type: String,
+				value: "ui",
+				reflectToAttribute: true,
+				observer:"_updateType"
 			}
 		},
 
+		_initialized: false,
+
 		attached: function() {
-			_addInstance(this, this.stackType);
+			_addInstance(this.stackHost, this.stackType);
+			// We don't want to trigger a stack update when properties
+			// are processed - initialized flag:
+			this.initialized = true;
 		},
 
 		detached: function() {
-			_removeInstance(this, this.stackType);
+			_removeInstance(this.stackHost, this.stackType);
+		},
+
+		_stackTargetChanged: function(newVal, oldVal) {
+			if (newVal) this._updateStack();
 		},
 
 		_updateDepth: function() {
-			this.style.setProperty("z-index", this.depth);
+			if (this.stackTarget) {
+				this.stackTarget.style.setProperty("z-index", this.depth);
+			} else {
+				this.stackHost.style.setProperty("z-index", this.depth);
+			}
+			// console.log("this.depth: ", this.depth);
 		},
 
-		_updateStackType: function() {
-			_removeInstance(this, this.stackType);
-			_addInstance(this, this.stackType);
+		_updateType: function(newVal, oldVal) {
+			if (newVal) this._updateStack();
 		},
 
 		moveToTop: function() {
-			_removeInstance(this, this.stackType);
-			_addInstance(this, this.stackType);
+			this._updateStack();
 			return this.depth;
-		}
+		},
+
+		_updateStack: function() {
+			if (this._initialized) {
+				_removeInstance(this.stackHost, this.stackType);
+				_addInstance(this.stackHost, this.stackType);
+			}
+		},
 	};
 
 })(window.StrandTraits = window.StrandTraits || {}); 
