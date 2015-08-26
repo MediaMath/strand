@@ -13,34 +13,42 @@
 			base:1*_w,
 			max:2*_w,
 			items:[],
+			topIndex:1*_w
 		},
 		ui:{
 			base:2*_w,
 			max:3*_w,
 			items:[],
+			topIndex:2*_w
 		},
 		tooltip:{
 			base:3*_w,
 			max:4*_w,
 			items:[],
+			topIndex:3*_w
 		}
 	};
 
-	function _addInstance(instance, type) {
-		var cat = _instances[type];
+	function _addInstance(host, instance, type) {
+		var cat = _instances[type],
+			inst = !instance ? host : instance;
+
 		if (cat && cat.items.length < cat.max) {
-			// cat.items.push(instance);
+			cat.items.push(inst);
+			host._setDepth(cat.topIndex);
+			cat.topIndex++;
 			// instance._setDepth(cat.items.length + cat.base);
-			instance._setDepth(cat.items.push(instance) + cat.base);
 		} else {
 			throw(new Error("Could not add item at " + cat.max));
 		}
 	}
 
-	function _removeInstance(instance, type) {
-		var cat = _instances[type];
+	function _removeInstance(host, instance, newType, oldType) {
+		var cat = !oldType ? _instances[newType] : _instances[oldType],
+			inst = !instance ? host : instance;
+
 		if (cat) {
-			cat.items.splice(cat.items.indexOf(instance), 1);
+			cat.items.splice(cat.items.indexOf(inst), 1);
 		}
 	}
 
@@ -74,14 +82,14 @@
 		_initialized: false,
 
 		attached: function() {
-			_addInstance(this.stackHost, this.stackType);
+			_addInstance(this.stackHost, this.stackTarget, this.stackType);
 			// We don't want to trigger a stack update when properties
 			// are processed - initialized flag:
-			this.initialized = true;
+			this._initialized = true;
 		},
 
 		detached: function() {
-			_removeInstance(this.stackHost, this.stackType);
+			_removeInstance(this.stackHost, this.stackTarget, this.stackType);
 		},
 
 		_stackTargetChanged: function(newVal, oldVal) {
@@ -98,7 +106,7 @@
 		},
 
 		_updateType: function(newVal, oldVal) {
-			if (newVal) this._updateStack();
+			if (newVal) this._updateStack(newVal, oldVal);
 		},
 
 		moveToTop: function() {
@@ -106,10 +114,13 @@
 			return this.depth;
 		},
 
-		_updateStack: function() {
+		_updateStack: function(newType, oldType) {
 			if (this._initialized) {
-				_removeInstance(this.stackHost, this.stackType);
-				_addInstance(this.stackHost, this.stackType);
+				var newStackType = !newType ? this.stackType : newType,
+					oldStackType = !oldType ? null : oldType;
+
+				_removeInstance(this.stackHost, this.stackTarget, newStackType, oldStackType);
+				_addInstance(this.stackHost, this.stackTarget, newStackType);
 			}
 		},
 	};

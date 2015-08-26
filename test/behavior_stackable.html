@@ -13,20 +13,43 @@
 </head>
 <body>
 
-		<dom-module id="test-stackable">
-			<template>
-				<content id="content"></content>
-			</template>
-			<style></style>
-			<script>
-				Polymer({
-					is:"test-stackable",
-					behaviors:[StrandTraits.Stackable]
-				});
-			</script>
-		</dom-module>
+	<dom-module id="test-stackable">
+		<style></style>
+		<template>
+			<content id="content"></content>
+		</template>
+		<script>
+			Polymer({
+				is:"test-stackable",
+				behaviors:[StrandTraits.Stackable]
+			});
+		</script>
+	</dom-module>
 
-		<test-stackable id="test1"></test-stackable>
+	<!-- used this way in components which need their internals to stack -->
+	<dom-module id="test-stackable-panel">
+		<style></style>
+		<template>
+			<content id="content"></content>
+			<div id="panel"></div>
+		</template>
+		<script>
+			Polymer({
+				is:"test-stackable-panel",
+				properties: {
+					stackTarget: {
+						type: Object,
+						value: function() { return this.$.panel; }
+					}
+				},
+				behaviors:[StrandTraits.Stackable]
+			});
+		</script>
+	</dom-module>
+
+	<test-stackable id="test1"></test-stackable>
+	<test-stackable id="test2"></test-stackable>
+	<test-stackable-panel id="test3"></test-stackable-panel>
 	
 	<script type="text/javascript">
 
@@ -37,36 +60,58 @@
 				StrandTraits.Stackable.should.be.an.object;
 			});
 
-			it("should not _updateStack() if _initialized is false", function() {
-				// var t = document.querySelector("#test1");
+			it("should not _updateStack() if _initialized is false", function(done) {
+				var t = document.querySelector("#test1"),
+					s = sinon.spy(t, "_updateStack"),
+					origZIndex = t.style.zIndex,
+					afterZIndex = null;
+
+				t._initialized = false;
+				t._updateStack();
+
+				t.async(function(){
+					should.equal(s.calledOnce, true);
+					afterZIndex = t.style.zIndex;
+					afterZIndex.should.equal.origZIndex;
+					done();
+				});
 			});
 
 			it("should update depth", function(done) {
-				// var a = new StrandTraits.Stackable(),
-				// 	s = sinon.spy();
+				var t = document.querySelector("#test2"),
+					s = sinon.spy(t, "_updateDepth"),
+					origZIndex = t.style.zIndex,
+					afterZIndex = null;
 
-				// a.addEventListener("depthChanged", s);
-				// a.depthChanged(10000, 20000);
-				// a.async(function() {
-				// 	should.equal(s.calledOnce, true);
-				// 	done();
-				// });
+				t.stackType = "modal";
+
+				t.async(function() {
+					should.equal(s.called, true);
+					afterZIndex = t.style.zIndex;
+					afterZIndex.should.not.be.origZIndex;
+					done();
+				});
 			});
 
-			it("should set z-index on stackTarget, if specified", function(done) {
-				//
+			it("should apply z-index on stackTarget, if specified", function() {
+				var t = Polymer.dom(document).querySelector("#test3"),
+					panel = Polymer.dom(t.root).querySelector("#panel"),
+					panelIndex = panel.style.zIndex;
+
+				panelIndex.should.exist;
 			});
 
 			it("should move to top", function(done) {
-				// var a = document.querySelector("#sm"),
-				// 	index = null;
+				var t = Polymer.dom(document).querySelector("#test1"),
+					topIndex = null;
 				
-				// index = a.moveToTop();
+				t._initialized = true;
+				topIndex = t.moveToTop();
 
-				// a.async(function() {
-				// 	should.equal(index, 10003);
-				// 	done();
-				// });
+				t.async(function() {
+					should.equal(topIndex, 20003);
+					done();
+				});
 			});
 
 		});
