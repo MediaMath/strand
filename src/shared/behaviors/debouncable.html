@@ -55,7 +55,9 @@
 							this.debounce(debouncer,function() {
 								_clearKeys(this._debouncersCache, sem.keys);
 								this.fire(debouncer+"-changed");
-								if (sem.callback) sem.callback(key, debouncer);
+								if (sem.callback) {
+									sem.callback.apply(this, [key, debouncer]);
+								}
 							}, 0);
 						}
 
