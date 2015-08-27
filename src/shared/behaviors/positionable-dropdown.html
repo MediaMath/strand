@@ -23,7 +23,7 @@
 		},
 
 		open: function(silent) {
-			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionablePanel, "open");
+			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
 
 			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
 			this.disableScroll();
@@ -31,7 +31,7 @@
 		},
 
 		close: function(silent) {
-			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionablePanel, "close");
+			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "close");
 
 			this.enableScroll();
 	 		inherited.apply(this, [silent]);
@@ -47,27 +47,26 @@
 		_updatePosition: function() {
 			var winRect = this.windowMetrics,
 				panelRect = this.metrics,
-				targetRect = this.targetMetrics,
-				origin = Measure.getNodeOrigin(this.panel);
+				targetRect = this.targetMetrics;
 
 			this.direction = this._originalDirection;
 			// *************************
 			// TODO: Explore why _clampHeight breaking
 			// *************************
 			// this._clampHeight(winRect, panelRect, targetRect);
-			this._updateDirection(this.direction, winRect, panelRect, targetRect, origin.rect);
+			this._updateDirection(this.direction, winRect, panelRect, targetRect);
 
 			if(this.direction === 'n' || this.direction === 's') {
 				// window boundary flip:
-				var bottom = panelRect.bottom + origin.rect.top,
-					top = panelRect.top + origin.rect.top;
+				var bottom = panelRect.bottom,
+					top = panelRect.top;
 				if(top < winRect.top || bottom > winRect.bottom) {
 					this.direction = this._flipDirection(this.direction);
-					this._updateDirection(this.direction, winRect, panelRect, targetRect, origin.rect);
+					this._updateDirection(this.direction, winRect, panelRect, targetRect);
 				}
 			}
 
-			panelRect.left = targetRect.left - origin.rect.left;
+			panelRect.left = targetRect.left;
 
 			if (this.overflowWidth) {
 				this.$.container.style.maxWidth = parseInt(this.overflowWidth)+"px";
@@ -76,8 +75,7 @@
 				if(this.overflow === 'hidden') { 
 					this.$.container.style.maxWidth = targetRect.width+"px";
 				}
-
-				this.$.container.style.width = Math.max(targetRect.width, Math.min(this._origRect.width, panelRect.width))+"px";
+				this.$.container.style.width = Math.max(targetRect.width, panelRect.width) + "px";
 			}
 
 			panelRect.toCSS(this.panel,true);
@@ -86,12 +84,12 @@
 		_updateDirection: function(direction, winRect, panelRect, targetRect, originRect) {
 			switch(direction) {
 				case 'n':
-					panelRect.top = targetRect.top - panelRect.height - originRect.top;
-					panelRect.marginLeft = targetRect.left;
+					panelRect.top = targetRect.top - panelRect.height;
+					panelRect.left = targetRect.left;
 					break;
 				case 's':
-					panelRect.top = targetRect.top + targetRect.height - originRect.top;
-					panelRect.marginLeft = targetRect.left;
+					panelRect.top = targetRect.top + targetRect.height;
+					panelRect.left = targetRect.left;
 					break;
 			}
 		},
@@ -105,7 +103,7 @@
 			// so we get the correct css out of it later
 			// *************************
 			// panelRect.height = Math.min(this._origRect.height, Math.max(top,bottom));
-			this.$.container.style.maxHeight = Math.max(top,bottom)+"px";
+			this.$.container.style.maxHeight = Math.max(top, bottom) + "px";
 		},
 
 		_boundaryOffsetChanged: function() {

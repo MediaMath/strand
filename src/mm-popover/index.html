@@ -26,13 +26,12 @@
 				box-sizing: border-box;
 				display: block;
 				float: left;
-				padding: 0 40px;
+				padding: 40px;
 				font-size: 0;
 			}
 
 			.col.c0 {
 				width:400px;
-				border: 1px solid #ff0000;
 			}
 
 			.col.c1 {
@@ -96,77 +95,8 @@
 </head>
 
 <body style="height: 5000px;">
-<!-- <body> -->
-
-	<!-- Emulate a grid-like scenario -->
-	<!--
+	
 	<div>
-		<div style="transform:translate3d(0px, 0px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
-			<div class="col c0">
-				<mm-button id="cpb1">
-					<label>open popover</label>
-				</mm-button>
-				<mm-popover target="#cpb1" id="popover1">
-					<div class="body">
-						<mm-input></mm-input>
-					</div>
-					<mm-footer>
-						<mm-action id="closeLink1" underline>
-							<label>Close</label>
-						</mm-action>
-						<mm-button id="applyBtn1">
-							<label>Apply</label>
-						</mm-button>
-					</mm-footer>
-				</mm-popover>
-			</div>
-		</div>
-		<div style="transform:translate3d(0px, 100px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
-			<div class="col c0">
-				<mm-button id="cpb2">
-					<label>open popover</label>
-				</mm-button>
-				<mm-popover target="#cpb2" id="popover1">
-					<div class="body">
-						<mm-input></mm-input>
-					</div>
-					<mm-footer>
-						<mm-action id="closeLink1" underline>
-							<label>Close</label>
-						</mm-action>
-						<mm-button id="applyBtn1">
-							<label>Apply</label>
-						</mm-button>
-					</mm-footer>
-				</mm-popover>
-			</div>
-		</div>
-		<div style="transform:translate3d(0px, 200px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
-			<div class="col c0">
-				<mm-button id="cpb3">
-					<label>open popover</label>
-				</mm-button>
-				<mm-popover target="#cpb3" id="popover1">
-					<div class="body">
-						<mm-input></mm-input>
-					</div>
-					<mm-footer>
-						<mm-action id="closeLink1" underline>
-							<label>Close</label>
-						</mm-action>
-						<mm-button id="applyBtn1">
-							<label>Apply</label>
-						</mm-button>
-					</mm-footer>
-				</mm-popover>
-			</div>
-		</div>
-	</div>
-	-->
-
-	<!-- 3d transform instance lives OUTSIDE -->
-	<!-- <div style="transform:translate3d(200px, 200px, 0px); width:200px; height:200px; border:1px solid #00ff00;"> -->
-	<div style="transform:translate3d(100px, 200px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
 		<div class="col c0">
 			<mm-button id="cpb1">
 				<label>open popover</label>
@@ -174,7 +104,7 @@
 		</div>
 	</div>
 
-	<div style="transform:translate3d(100px, 300px, 0px); width: 800px; height: 100px; background: #ccc; border-bottom: 1px solid #333; padding: 20px; box-sizing: border-box; position:absolute;">
+	<div>
 		<mm-popover target="#cpb1" id="popover1" direction="s">
 			<div class="body">
 				<mm-input></mm-input>
@@ -194,7 +124,7 @@
 		<label>open popover multiselect (draggable)</label>
 	</mm-button> 
 
-	<div style="width:200px; height:200px; border:1px solid #00FF00;">
+	<div>
 		<mm-popover id="popover" target="#cpb" direction="s">
 			<mm-input search="true" layout="dropdown"></mm-input> 
 			<div class="body">
@@ -218,8 +148,6 @@
 			</mm-footer>
 		</mm-popover>
 	</div>
-
-
  
 	<script>
 		var popover,
@@ -235,20 +163,14 @@
 			closeLink 	= document.querySelector("#closeLink");
 			applyBtn 	= document.querySelector("#applyBtn");
 			cpb 		= document.querySelector("#cpb");
-			// popover.target = cpb;
 
 			document.addEventListener("mousemove", dragHandler);
-			cpb.addEventListener("click", cpbClickHandler);
 			cpb.addEventListener("mousedown", dragStart);
 			cpb.addEventListener("mouseup", dragStop);
 
 			closeLink.addEventListener("click", closeHandler);
 			applyBtn.addEventListener("click", applyHandler);
 		});
-
-		function cpbClickHandler(e) {
-			// popover.toggle();
-		}
 
 		function dragStart(e) {
 			drag = true;
@@ -267,10 +189,6 @@
 				var left = e.pageX - offsetLeft,
 					top = e.pageY - offsetTop;
 
-				// console.log("e.pageX: " + e.pageX);
-				// console.log("e.pageY: " + e.pageY);
-				// console.log("left: " + e.pageX);
-				// console.log("top: " + e.pageY);
 				cpb.style.setProperty("left", left +"px");
 				cpb.style.setProperty("top", top +"px");
 				popover.update();

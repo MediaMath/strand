@@ -87,69 +87,7 @@
 			document.body.removeChild(outer);
 			
 			return widthNoScroll - widthWithScroll;
-		},
-
-		// DOMNode -> Matrix
-		computeTransformations: function(node,all) {
-			var Matrix = scope.Matrix;
-			return this._compTransImpl(node,Matrix.ident(), all, false);				
-		},
-
-		// DOMNode -> Matrix -> Matrix
-		_compTransImpl: function(node, acc, all) {
-			var Matrix = scope.Matrix;
-
-			if(!node || !(node instanceof Element)) {
-				// skip #shadow-root
-				if(node.host) { return this._compTransImpl( node.host, acc, all ); }
-
-				// otherwise done, return accumulated transformation matrix
-				return acc;
-			} else {
-				// recursive case
-				var transform = getComputedStyle(node).transform,
-					tMatrix = Matrix.fromString(transform);
-
-				if(all) {
-					// compose all transforms
-					return this._compTransImpl( node.parentNode, acc.multiply(tMatrix), all);
-				} else {
-					// use add for efficiency if only translate is needed
-					return this._compTransImpl( node.parentNode, acc.add(tMatrix), all);
-				}
-			}
-		},
-
-		getNodeOrigin: function nodeOrig(node) {
-			var p = node.parentNode || node.host;
-			if (p && p.host) {
-				return nodeOrig(p.host);
-			}
-			if (p === document) {
-				return {
-					target: document,
-					transform: false,
-					rect: {
-						top: 0,
-						right: 0,
-						bottom: 0,
-						left: 0,
-						height: 0,
-						width: 0
-					}
-				}
-			}
-			var t = getComputedStyle(p).transform;
-			if (t !== "none") {
-				return {
-					target: p, 
-					transform: true,
-					rect: Measure.getBoundingClientRect(p)
-				};
-			} else {
-				return nodeOrig(p);
-			}
-		},
+		}
 
 	};
 

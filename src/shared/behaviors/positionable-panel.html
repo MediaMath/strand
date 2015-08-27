@@ -28,57 +28,26 @@
 			_tipSize: {
 				type: Number,
 				value: 15
-			},
-			_nodeOrigin: Object,
-			_previousIndex: Number
+			}
 		},
 
 		ready: function() {
 			this._originalDirection = this.direction;
 		},
 
-		// Hack to temporarily change the z-index of the closest transformed element
-		// so that nothing stacks over the top of this element
-		// see StrandTraits.AutoClosable for 'open' & 'close'
-		open: function(silent) {
-			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
-			this._nodeOrigin = Measure.getNodeOrigin(this.panel);
-
-			// if (this._nodeOrigin.transform) {
-			// 	this._previousIndex = this._nodeOrigin.target.style.zIndex;
-			// 	this._nodeOrigin.target.style.zIndex = this.style.zIndex || this.stackTarget.style.zIndex;
-			// }
-
-	 		inherited.apply(this, [silent]);
-	 	},
-
-	 	close: function(silent) {
-	 		var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "close");
-	 		this._nodeOrigin = this._nodeOrigin || Measure.getNodeOrigin(this.panel);
-
-	 		if (this._nodeOrigin.transform) {
-				this._nodeOrigin.target.style.zIndex = this._previousIndex;
-				this._previousIndex = null;
-			}
-
-	 		inherited.apply(this, [silent]);
-	 	},
-
 		_updatePosition: function() {
 			var winRect 			= this.windowMetrics,
 				panelRect 			= this.metrics,
 				targetRect 			= this.targetMetrics,
-				nodeOrigin 			= Measure.getNodeOrigin(this.panel),
 				offset 				= 0;
 
 			this.direction = this._originalDirection;
-			this._nodeOrigin = nodeOrigin;
-			this._updateDirection(this.direction, panelRect, targetRect, nodeOrigin);
+			this._updateDirection(this.direction, panelRect, targetRect);
 
-			if(this.direction === 'n' || this.direction === 's') {
+			if (this.direction === 'n' || this.direction === 's') {
 				offset = this._getOffset(
-					panelRect.left + nodeOrigin.rect.left,
-					panelRect.right + nodeOrigin.rect.right - nodeOrigin.rect.width,
+					panelRect.left,
+					panelRect.right,
 					winRect.left, 
 					winRect.right, 
 					panelRect.width, 
@@ -87,16 +56,14 @@
 				this._containerStyle = 'left: ' + offset + 'px';
 
 				// window boundary flip:
-				if (panelRect.top + nodeOrigin.rect.top < winRect.top || 
-					nodeOrigin.rect.bottom + panelRect.bottom - nodeOrigin.rect.height > winRect.bottom) {
-
+				if (panelRect.top < winRect.top || panelRect.bottom > winRect.bottom) {
 					this.direction = this._flipDirection(this.direction);
-					this._updateDirection(this.direction, panelRect, targetRect, nodeOrigin);
+					this._updateDirection(this.direction, panelRect, targetRect);
 				}
 			} else {
 				offset = this._getOffset(
-					panelRect.top + nodeOrigin.rect.top,
-					nodeOrigin.rect.bottom + panelRect.bottom - nodeOrigin.rect.height,
+					panelRect.top ,
+					panelRect.bottom,
 					winRect.top, 
 					winRect.bottom, 
 					panelRect.height, 
@@ -105,11 +72,9 @@
 				this._containerStyle = 'top: ' + offset + 'px';
 				
 				// window boundary flip:
-				if (panelRect.left + nodeOrigin.rect.left < winRect.left || 
-					panelRect.right + nodeOrigin.rect.right - nodeOrigin.rect.width > winRect.right) {
-
+				if (panelRect.left < winRect.left || panelRect.right > winRect.right) {
 					this.direction = this._flipDirection(this.direction);
-					this._updateDirection(this.direction, panelRect, targetRect, nodeOrigin);
+					this._updateDirection(this.direction, panelRect, targetRect);
 				}
 			}
 
@@ -126,41 +91,35 @@
 			var offset = this.containerOffset;
 			var maxOffset = (panelSize - this.boundaryOffset * 2) / 2 - this._tipSize;
 
-			if(panelA + offset < boundaryA) {
+			if (panelA + offset < boundaryA) {
 				offset = boundaryA - panelA;
-			} else if(panelB + offset > boundaryB) {
+			} else if (panelB + offset > boundaryB) {
 				offset = boundaryB - panelB;
 			}
 
-			offset = Math.min(Math.max(offset, -maxOffset), maxOffset);
-
-			return offset;
+			return Math.min(Math.max(offset, -maxOffset), maxOffset);
 		},
 
-		_updateDirection: function(direction, panelRect, targetRect, origin) {
+		_updateDirection: function(direction, panelRect, targetRect) {
 			var hCenter = targetRect.width / 2 - panelRect.width / 2;
 			var vCenter = targetRect.height / 2 - panelRect.height / 2;
 
 			switch(direction) {
 				case 'n':
-					panelRect.top = (targetRect.top - panelRect.height) - origin.rect.top;
-					panelRect.left = (targetRect.left - origin.rect.left) + hCenter;
-					panelRect.top -= this.panelOffset;
+					panelRect.top = (targetRect.top - panelRect.height) - this.panelOffset;
+					panelRect.left = targetRect.left + hCenter;
 					break;
 				case 's':
-					panelRect.top = (targetRect.top + targetRect.height) - origin.rect.top;
-					panelRect.left = (targetRect.left - origin.rect.left) + hCenter;
-					panelRect.top += this.panelOffset;
+					panelRect.top = targetRect.bottom + this.panelOffset;
+					panelRect.left = targetRect.left + hCenter;
 					break;
 				case 'e':
-					panelRect.top = (targetRect.top - origin.rect.top) + vCenter;
-					panelRect.left = (targetRect.left + targetRect.width) - origin.rect.left;
-					panelRect.left += this.panelOffset;
+					panelRect.top = targetRect.top + vCenter;
+					panelRect.left = (targetRect.left + targetRect.width) + this.panelOffset;
 					break;
 				case 'w':
-					panelRect.top = (targetRect.top - origin.rect.top) + vCenter;
-					panelRect.left = (targetRect.left - panelRect.width) - origin.rect.left;
-					panelRect.left -= this.panelOffset;
+					panelRect.top = targetRect.top + vCenter;
+					panelRect.left = (targetRect.left - panelRect.width) - this.panelOffset;
 					break;
 			}
 		},
