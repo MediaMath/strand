@@ -36,20 +36,35 @@
 	</head>
 	<body>
 		<mm-calendar id="cal1"></mm-calendar>
-		<mm-calendar id="cal2"></mm-calendar>
+		<mm-calendar id="cal2" disable-future="true"></mm-calendar>
 		<mm-calendar id="cal3" disabled></mm-calendar>
-		<template is="auto-binding">
-			<mm-calendar id="cal4" mode="left" pairDate="{{$.cal5.date}}" class="pair" disablePast="true"></mm-calendar>
-			<mm-calendar id="cal5" mode="right" pairDate="{{$.cal4.date}}" class="pair" disablePast="true"></mm-calendar>
+		<template id="calPair" is="dom-bind">
+			<mm-calendar id="cal4" mode="left" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true"></mm-calendar>
+			<mm-calendar id="cal5" mode="right" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true"></mm-calendar>
 		</template>
 		<script>
 			var cal1, cal2, cal3;
 
-			window.addEventListener("polymer-ready", function() { 
+			window.addEventListener("WebComponentsReady", function() { 
 				cal1 = document.getElementById("cal1");
 				cal2 = document.getElementById("cal2");
-				cal3 = document.getElementById("cal2");
-				
+				cal3 = document.getElementById("cal3");
+
+				cal1.addEventListener('calendar-select', function(e) {
+					console.log('Date selected:');
+					console.log(e);
+				});
+
+				cal2.addEventListener('calendar-select', function(e) {
+					console.log('Date selected:');
+					console.log(e);
+				});
+
+				cal3.addEventListener('calendar-select', function(e) {
+					console.log('Date selected:');
+					console.log(e);
+				});
+
 			});
 		</script>
 	</body>

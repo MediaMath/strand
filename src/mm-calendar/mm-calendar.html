@@ -3,39 +3,41 @@
  * Copyright (c) 2015 MediaMath Inc. All rights reserved.
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
  
--->
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+--><html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../mm-header/mm-header.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
+<link rel="import" href="../shared/behaviors/stylable.html">
 <link rel="import" href="../shared/js/colors.html">
 <link rel="import" href="../shared/js/datautils.html">
 <link rel="import" href="../shared/js/moment.html">
 <link rel="import" href="../shared/js/momentrange.html">
 
-<polymer-element name="mm-calendar" attributes="days month year">
-	<template>
-		<link href="mm-calendar.css" rel="stylesheet" type="text/css"/>
+<dom-module id="mm-calendar">
+  <link rel="import" type="css" href="mm-calendar.css">
+  <template>
 		<div class="month-year">
-			<mm-icon class="left-arrow" type="cycle-arrow" on-click="{{decrMonth}}" width="13" height="13" hoverColor="[[ARROW_HOVER_COLOR]]"></mm-icon>
-			<mm-header class="header" size="small">{{month}} {{year}}</mm-header>
-			<mm-icon class="right-arrow"type="cycle-arrow" on-click="{{incrMonth}}" width="13" height="13" hoverColor="[[ARROW_HOVER_COLOR]]"></mm-icon>
+			<mm-icon class="left-arrow" type="cycle-arrow" on-tap="_decrMonth" width="13" height="13"></mm-icon>
+			<mm-header class="header" size="small"><span>{{month}}</span> <span>{{year}}</span></mm-header>
+			<mm-icon class="right-arrow" type="cycle-arrow" on-tap="_incrMonth" width="13" height="13"></mm-icon>
 		</div>
 		<div class="calendar">
 			<div class="headings">
-				<template repeat="{{ header in headers }}">
-					<div class="{{header.class}}">
+				<template is="dom-repeat" items="{{headers}}" as="header">
+					<div class$="{{header.class}}">
 						<span>{{header.label}}</span>
 					</div>
 				</template>
-			</div> 
-			<div id="days" class="days" on-tap="{{handleTap}}">
-				<template repeat="{{ day in days }}">
-					<div id="day{{day.value}}" class="day {{day.class | tokenList}}">
-						<span value="{{day.value}}">{{day.label}}</span>
+			</div>
+			<div id="days" class="days" on-tap="_handleTap">
+				<div style="min-height: 16px;">
+				<template is="dom-repeat" items="{{days}}" as="day">
+					<div id$="{{_dayId(day)}}" class$="{{_dayClass(day)}}">
+						<span value$="{{day.value}}">{{day.label}}</span>
 					</div>
 				</template>
+				</div>
 			</div>
 		</div>
 	</template>
-	<script src="mm-calendar.js"></script>
-</polymer-element>
+  <script src="mm-calendar.js"></script>
+</dom-module>
