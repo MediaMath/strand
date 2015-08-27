@@ -34,47 +34,45 @@
   <template>
   		<div id="container" style$="{{_containerStyle}}">
   			<div class="body">
-				<template is="dom-if" if="{{useRange}}">
+				<template is="dom-if" if="{{ _shouldUseRange(dual,useRange)}}">
 					<div class="range-presets">
-						<mm-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" max-items="{{rangePresets.length}}" fitparent value="{{rangeValue}}" data="{{rangePresets}}"></mm-dropdown>
+						<mm-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" max-items="{{rangePresets.length}}" fitparent overflow="hidden" value="{{rangeValue}}" data="{{rangePresets}}"></mm-dropdown>
 					</div>
 				</template>
 
-				<!-- <template is="dom-if" if="true"> -->
-					<div class="_mm-start">
-						<div class="input-top">
-							<mm-header class="header" size="normal">{{startLabel}}</mm-header>
-							<template is="dom-if" if="{{startEnabledLabel}}">
-								<mm-checkbox id="startCheckbox" checked="{{startEnabled}}" disabled$="{{!startUserEnabled}}">
-									<label>{{startEnabledLabel}}</label>
-								</mm-checkbox>
-							</template>
-							<mm-input-mask id="startDate" icon="calendar" fitparent value="{{startDate}}" placeholder="MM/DD/YYYY" disabled$="{{!startEnabled}}">
-								<group rule="range" size="2" restrict="numeric" autofill="0"></group>
-								<sep chars="/"></sep>
-								<group rule="range" size="2" restrict="numeric" autofill="0"></group>
-								<sep chars="/"></sep>
-								<group rule="range" restrict="numeric" size="4"></group>
-							</mm-input-mask>
-						</div>
-						<mm-calendar id="startCalendar" date="{{startDate}}" pair-date="{{endDate}}" disable-past="{{allowedStart}}" disable-future="{{endDate}}" on-calendar-select="handleTap" disabled$="{{!startEnabled}}" date-format="{{dateFormat}}"></mm-calendar>
-						<template is="dom-if" if="{{useTime}}">
-							<div class="input-bottom">
-								<mm-group>
-									<mm-input-mask id="startTime" icon="clock" value="{{startTime}}" width="119" on-keydown="keyHandler" disabled$="{{!startEnabled}}">
-										<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
-										<sep chars=":"></sep>
-										<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
-									</mm-input-mask>
-									<mm-dropdown id="startPeriod" value="{{startTimePeriod}}" fitparent="" style="width:64px;" disabled$="{{!startEnabled}}">
-										<mm-list-item value="am">AM</mm-list-item>
-										<mm-list-item value="pm">PM</mm-list-item>
-									</mm-dropdown>
-								</mm-group>
-							</div>
+				<div class="_mm-start">
+					<div class="input-top">
+						<mm-header class="header" size="normal">{{startLabel}}</mm-header>
+						<template is="dom-if" if="{{startEnabledLabel}}">
+							<mm-checkbox id="startCheckbox" checked="{{startEnabled}}" disabled$="{{!startUserEnabled}}">
+								<label>{{startEnabledLabel}}</label>
+							</mm-checkbox>
 						</template>
+						<mm-input-mask id="startDate" icon="calendar" fitparent value="{{startDate}}" placeholder="MM/DD/YYYY" disabled$="{{!startEnabled}}">
+							<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" restrict="numeric" size="4"></group>
+						</mm-input-mask>
 					</div>
-				<!-- </template> -->
+					<mm-calendar id="startCalendar" date="{{startDate}}" pair-date="{{endDate}}" disable-past="{{allowedStart}}" disable-future="{{_disableFuture(dual,endDate,allowedEnd)}}" on-calendar-select="handleTap" disabled$="{{!startEnabled}}" date-format="{{dateFormat}}"></mm-calendar>
+					<template is="dom-if" if="{{useTime}}">
+						<div class="input-bottom">
+							<mm-group>
+								<mm-input-mask id="startTime" icon="clock" value="{{startTime}}" width="119" on-keydown="keyHandler" disabled$="{{!startEnabled}}">
+									<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
+									<sep chars=":"></sep>
+									<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+								</mm-input-mask>
+								<mm-dropdown id="startPeriod" value="{{startTimePeriod}}" fitparent="" style="width:64px;" disabled$="{{!startEnabled}}">
+									<mm-list-item value="am">AM</mm-list-item>
+									<mm-list-item value="pm">PM</mm-list-item>
+								</mm-dropdown>
+							</mm-group>
+						</div>
+					</template>
+				</div>
 
 				<template is="dom-if" if="{{dual}}">
 					<div class="_mm-end">
@@ -115,7 +113,7 @@
 
 				<template is="dom-if" if="{{useTimezone}}">
 					<div class="range-presets">
-						<mm-dropdown id="timezoneDropdown" placeholder="{{timezoneDescription}}" max-items="10" fitparent value="{{timezone}}" data="{{timezones}}">
+						<mm-dropdown id="timezoneDropdown" placeholder="{{timezoneDescription}}" max-items="10" fitparent overflow="hidden" value="{{timezone}}" data="{{timezones}}">
 							<mm-input id="timezoneSearch" search="" clear="" value="{{timezoneSearch}}"></mm-input>
 						</mm-dropdown>
 					</div>

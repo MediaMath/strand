@@ -116,6 +116,10 @@
 				dpb = document.querySelector("#dpb");
 				// dp.useCommit = false;
 				dp.target = dpb;
+				dp.dual = false;
+
+				dp.allowedStart = moment().subtract(14, 'days');
+				dp.allowedEnd = moment().add(14, 'days');
 
 				// tmp = document.querySelector("#tmp");
 				// tmp.op = function() {

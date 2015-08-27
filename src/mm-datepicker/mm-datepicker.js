@@ -214,6 +214,10 @@
 			}
 		},
 
+		_shouldUseRange: function(dual, useRange) { return dual && useRange },
+
+		_disableFuture: function(dual, endDate, allowedEnd) { return (dual) ? endDate : allowedEnd },
+
 		computeTimeOnlyFormat: function(timeFormat) {
 			return timeFormat.replace(' a','');
 		},
@@ -272,7 +276,7 @@
 		areDatesValid: function() {
 			var sd = moment(this.startDate, this.dateFormat, true);
 			var ed = moment(this.endDate, this.dateFormat, true);
-			return sd.isValid() && ed.isValid();
+			return sd.isValid() && (!this.dual || ed.isValid());
 		},
 
 		_validateStart: function() {
