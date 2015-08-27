@@ -48,7 +48,7 @@
 			<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 				<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
 				
-				<mm-dropdown placeholder="Some Very Long Name" data="{{model.dropdownData}}" value="{{model.dropDownValue}}"></mm-dropdown>
+				<mm-dropdown placeholder="Some Very Long Name" data="{{model.dd.dropdownData}}" value="{{model.dd.dropDownValue}}"></mm-dropdown>
 
 				<!--
 				<mm-dropdown placeholder="{{model.name}}" value="{{model.value}}">
@@ -95,8 +95,10 @@
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				//style: "transition: height 2s; height: 50px",
 				size: 50,
-				dropdownData: ddDataArr,
-				dropDownValue: null
+				dd:{
+					dropdownData: ddDataArr,
+					dropDownValue: "String15"
+				}
 			});
 		}
 

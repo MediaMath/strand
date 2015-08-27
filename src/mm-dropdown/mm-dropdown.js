@@ -78,7 +78,7 @@
 				observer: '_dataChanged'
 			},
 			layout: String,
-			_selectedFlag: Boolean
+			// _selectedFlag: Boolean
 		},
 
 		behaviors: [
@@ -233,22 +233,19 @@
 		// General
 		_valueChanged: function(newVal, oldVal) {
 			var nullValue = newVal === null || newVal === undefined;
-			// console.log("_valueChanged:: newVal: ", newVal, oldVal);
+			
 			if (!nullValue) {
-				if (!this._selectedFlag) this._selectItemByValue(newVal);
+				this._selectItemByValue(newVal);
 			} else {
 				this.reset();
 			}
-			this._selectedFlag = false;
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
-			if (typeof newIndex === 'number' && newIndex !== oldIndex) {
+			if (typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex],
-					value = newSelected.value.toString() ? 
-						newSelected.value.toString() : newSelected.textContent.trim();
+					value = newSelected.value.toString() ? newSelected.value.toString() : newSelected.textContent.trim();
 				
-				this._selectedFlag = true;
 				this.value = value;
 
 				if (this.data) { 
@@ -267,7 +264,7 @@
 				this.fire('changed', { value: value });
 			}
 
-			if (typeof oldIndex === 'number' && newIndex !== oldIndex) {
+			if (typeof oldIndex === 'number') {
 				var oldSelected = this.items[oldIndex];
 
 				if (this.data) { 
