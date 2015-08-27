@@ -34,14 +34,14 @@
     "*.md"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#1.0.8",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#0.7.10",
+    "polymer": "Polymer/polymer#1.1.1",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#0.7.12",
     "moment": "~2.10.6",
     "moment-range": "~2.0.3",
-    "zousan": "~1.2.0"
+    "zousan": "~1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "~2.2.6",
-    "bourbon": "4.2.3"
+    "bourbon": "~4.2.4"
   }
 }

@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function () {
+(function (scope) {
 
 	function _generateCid(collection, model) {
 		model.cid = ++collection._cidIndex;
@@ -20,34 +20,51 @@
 		}
 	}
 
-	Polymer('mm-collection', {
-		ver:"<<version>>",
+	scope.Collection = Polymer({
+
+		is:"mm-collection",
 
 		_cidIndex: 0,
 
-		publish: {
-			batchSync:false,
-			adapter:"",
-			adapterInstance:{},
-			//paging
-			dirtyFetch:false,
-			isLoading: false,
-			page:0,
-			pageSize:10,
-			index:0,
-			indexOffset:0,
-			auto:false,
-			sparse: false,
-			data:null,
+		properties: {
+			adapter:{},
+			_adapterInstance:{},
+			dirtyFetch:{},
+			data:{
+				type:Array,
+				value: function() {
+					return [];
+				}
+			}
 		},
+
+		behaviors: [
+
+		],
+
+		// publish: {
+		// 	batchSync:false,
+		// 	adapter:"",
+		// 	adapterInstance:{},
+		// 	//paging
+		// 	dirtyFetch:false,
+		// 	isLoading: false,
+		// 	page:0,
+		// 	pageSize:10,
+		// 	index:0,
+		// 	indexOffset:0,
+		// 	auto:false,
+		// 	sparse: false,
+		// 	data:null,
+		// },
 
 		// deepPublish: {
 		// 	data:[]
 		// },
 
 		ready: function() {
-			if (!this.data) this.data = [];
-			this._silent = false;
+			// if (!this.data) this.data = [];
+			// this._silent = false;
 			this._initialPage = this.page;
 		},
 
@@ -236,4 +253,4 @@
 		}
 
 	});
-})(); 
+})(window.Strand = window.Strand || {}); 

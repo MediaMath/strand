@@ -14,7 +14,7 @@
 	}
 
 	scope.Debouncable = {
-		
+
 		properties:{
 			debouncers:{
 				type:Array,
@@ -29,7 +29,7 @@
 				value:function() { return {}; }
 			}
 		},
-		
+
 		ALL:'all',
 		SOME:'some',
 
@@ -38,12 +38,12 @@
 			var keys = Object.keys(this.debouncers);
 
 			keys.forEach(function(debouncer) {
-				
+
 				var sem = this.debouncers[debouncer];
 				sem.keys.forEach(function(key) {
-					
+
 					this.addEventListener(key+"-changed", function() {
-						
+
 						this._debouncersCache[key] = true;
 						if (sem.type === 'some' || _checkKeys(this._debouncersCache, sem.keys)) {
 							if (this.resetDebouncer) {
@@ -68,5 +68,5 @@
 			},this);
 		}
 	};
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
 </script>
