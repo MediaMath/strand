@@ -68,6 +68,7 @@
 				value: false,
 				notify: true,
 				reflectToAttribute: true,
+				notify: true,
 				observer: '_valueChanged'
 			},
 			data: {

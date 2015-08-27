@@ -26,6 +26,7 @@
 			date: {
 				type: Object,
 				notify: true,
+				reflectToAttribute: true,
 				observer: '_dateChangeHandler'
 			},
 			days: {

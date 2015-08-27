@@ -18,7 +18,7 @@
     "grunt-banner": "^0.3.1",
     "grunt-bump": "^0.3.0",
     "grunt-contrib-clean": "*",
-    "grunt-contrib-connect": "*",
+    "grunt-contrib-connect": "^0.10.1",
     "grunt-contrib-copy": "*",
     "grunt-contrib-htmlmin": "^0.4.0",
     "grunt-contrib-watch": "*",

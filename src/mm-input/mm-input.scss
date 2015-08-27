@@ -58,6 +58,7 @@
 }
 
 // horizontal
+:host-context([layout=hgroup-left]),
 :host([layout=hgroup-left]) {
 	.text-input {
 		border-radius: 4px 0px 0px 4px;
@@ -73,6 +74,7 @@
 	}
 }
 
+:host-context([layout=hgroup-center]),
 :host([layout=hgroup-center]) {
 	.text-input {
 		border-radius: 0 0 0 0;
@@ -81,6 +83,7 @@
 	}
 }
 
+:host-context([layout=hgroup-right]),
 :host([layout=hgroup-right]) {
 	.text-input {
 		border-radius: 0px 4px 4px 0px;

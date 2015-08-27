@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../mm-button/mm-button.html">
+		<link rel="import" href="../mm-input/mm-input.html">
+		<link rel="import" href="../mm-input-mask/mm-input-mask.html">
+		<link rel="import" href="../mm-popover/mm-popover.html">
 		<link rel="import" href="../shared/js/moment.html">
 		<link rel="import" href="mm-datepicker.html">
 		<style type="text/css">
@@ -58,11 +61,12 @@
 		</style>
 	</head>
 	<body>
-		<mm-button id="dpb" unresolved>
+
+		<mm-button id="dpb">
 			<label>datepicker target</label>
 		</mm-button>
-		<mm-datepicker id="dp" unresolved></mm-datepicker>
-		<template id="tmp" is="auto-binding">
+		<mm-datepicker start-enabled end-enabled start-enabled-label="Start" end-enabled-label="End" id="dp" target="#dpb"></mm-datepicker>
+		<!-- <template id="tmp" is="auto-binding">
 			<div vertical layout class="controller">
 				<span id="show" on-tap="{{op}}"><b>Start:</b>{{$.dp2.start}} <b>End:</b>{{$.dp2.end}}</span>
 				<div layout horizontal>
@@ -88,47 +92,55 @@
 				</mm-checkbox>
 				<mm-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></mm-datepicker>
 			</div>
-		</template>
-		<mm-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></mm-datepicker>
+		</template> -->
+		<!-- <mm-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></mm-datepicker> -->
 		<script>
 			var dp,
 				tmp,
-				rangePresets;
-				// drag = false;
+				rangePresets,
+				drag = false;
 
-			window.addEventListener("polymer-ready", function() { 
+			window.addEventListener("WebComponentsReady", function() {
 				rangePresets = [
-					{name:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
-					{name:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
-					{name:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
-					{name:"Month to Date", start:moment().startOf('month'), end:moment()}
+					{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+					{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+					{name:"Last 30 Days", value:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+					{name:"Month to Date", value:"Month to Date", start:moment().startOf('month'), end:moment()}
 				];
 				dp = document.querySelector("#dp");
 				dp.rangePresets = rangePresets;
 				dp.timezones = [
-					{"label":"(GMT-05:00) Eastern Time (US & Canada)", value:"America/New_York"},
-					{"label":"(GMT-06:00) Central Time (US & Canada)", value:"America/Chicago"}
+					{name:"(GMT-05:00) Eastern Time (US & Canada)", value:"America/New_York"},
+					{name:"(GMT-06:00) Central Time (US & Canada)", value:"America/Chicago"}
 				]; 
 				dpb = document.querySelector("#dpb");
+				// dp.useCommit = false;
 				dp.target = dpb;
 
-				tmp = document.querySelector("#tmp");
-				tmp.op = function() {
-					this.$.dp2.open();
-				};
+				// tmp = document.querySelector("#tmp");
+				// tmp.op = function() {
+				// 	this.$.dp2.open();
+				// };
 
-				var dp3 = document.querySelector("#dp3");
-				dp3.start = moment("Fri Jun 12 2015 00:00:00");
-				dp3.end = moment("Thu Sep 10 2015 00:00:00");
-				dp3.allowedStart = dp3.start;
-				dp3.allowedEnd = dp3.end;
-				dp3.async(function() {
+				// var dp3 = document.querySelector("#dp3");
+				// dp3.start = moment("Fri Jun 12 2015 00:00:00");
+				// dp3.end = moment("Thu Sep 10 2015 00:00:00");
+				// dp3.allowedStart = dp3.start;
+				// dp3.allowedEnd = dp3.end;
+				// dp3.async(function() {
 
-				dp3.open();
+				// dp3.open();
+
+				dp.addEventListener('saved', function(e) {
+					console.info('start');
+					console.log(e.detail.start);
+					console.info('end');
+					console.log(e.detail.end);
+				})
 			});
 
-				init();
-			});
+			// 	init();
+			// });
 
 			function init() {
 				dpb.addEventListener("mouseup", handleDpb);

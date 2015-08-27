@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script src="test-mm-input-mask.js"></script>
+	<link rel="import" href="../build/mm-input-mask/mm-input-mask.html">
+</head>
+<body>
+	<mm-input-mask id="test1"></mm-input-mask>
+	<mm-input-mask id="test2">
+		<sep chars="("></sep>
+		<group rule="range" restrict="numeric" size="3">100-999</group>
+		<sep chars=") "></sep>
+		<group rule="range" restrict="numeric" size="3">100-999</group>
+		<sep chars="-"></sep>
+		<group rule="range" restrict="numeric" size="4">1000-9999</group>
+	</mm-input-mask>
+	<mm-input-mask id="test3">
+		<sep chars="("></sep>
+		<group rule="range" restrict="numeric" size="3">100-999</group>
+		<sep chars=") "></sep>
+		<group rule="range" restrict="numeric" size="3">100-999</group>
+		<sep chars="-"></sep>
+		<group rule="range" restrict="numeric" size="4">1000-9999</group>
+	</mm-input-mask>
+	<mm-input-mask id="test3a">
+		<group rule="hour12" size="2" autofill="0" restrict="numeric"></group>
+		<sep chars=":"></sep>
+		<group rule="minutes" size="2" autofill="0" restrict="numeric"></group>
+	</mm-input-mask>
+	<mm-input-mask id="test4">
+		<sep chars="("></sep>
+		<group rule="range" restrict="numeric" size="3">100-999</group>
+		<sep chars=") "></sep>
+		<group rule="range" restrict="numeric" size="3">100-999</group>
+		<sep chars="-"></sep>
+		<group rule="range" restrict="numeric" size="4">1000-9999</group>
+	</mm-input-mask>
+	<mm-input-mask id="test5">
+		<sep chars="("></sep>
+		<group rule="range" restrict="numeric" size="3">000-999</group>
+		<sep chars=") "></sep>
+		<group rule="range" restrict="numeric" size="3">000-999</group>
+		<sep chars="-"></sep>
+		<group rule="range" restrict="numeric" size="4">0000-9999</group>
+	</mm-input-mask>
+</body>
+</html>

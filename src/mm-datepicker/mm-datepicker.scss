@@ -12,8 +12,8 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
-	font-size: 0em;
-	line-height: 0em;
+	// font-size: 0em;
+	// line-height: 0em;
 	@include clearfix();
 }
 
@@ -82,4 +82,67 @@
 
 mm-footer {
 	clear: left;
+}
+
+
+
+:host {
+	position: fixed;
+	display: block;
+
+	transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+	-webkit-perspective: 1000;
+}
+
+.body-content {
+	margin: 15px;
+}
+
+#container {
+	box-sizing: border-box;
+	position: relative;
+	background: $color-F0;
+	border: 1px solid $color-A8;
+	overflow: hidden;
+
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
+
+	& ::content .body mm-checkbox:last-child {
+		margin-bottom: 0;
+	}
+
+	& ::content .body mm-checkbox {
+		display: block;
+		margin: 10px 0;
+		text-align: left;
+	}
+}
+
+$arrow-size: 10px;
+:host([direction="n"]) {
+	padding-bottom: $arrow-size !important;
+	@include arrow(bottom, $arrow-size, $color-F0, $color-A8);
+}
+
+// Account for footer arrow color:
+:host([direction="n"][class="hasFooter"]) {
+	@include arrow(bottom, $arrow-size, $color-A12, $color-A8);
+}
+
+:host([direction="s"]) {
+	padding-top: $arrow-size !important;
+	@include arrow(top, $arrow-size, $color-F0, $color-A8);
+}
+
+:host([direction="e"]) {
+	padding-left: $arrow-size !important;
+	@include arrow(left, $arrow-size, $color-F0, $color-A8);
+}
+
+:host([direction="w"]) {
+	padding-right: $arrow-size !important;
+	@include arrow(right, $arrow-size, $color-F0, $color-A8);
 }
