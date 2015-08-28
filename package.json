@@ -25,7 +25,7 @@
     "grunt-css-url-embed": "*",
     "grunt-gh-pages": "^0.10.0",
     "grunt-github-changes": "0.0.6",
-    "grunt-hogan-static": "*",
+    "grunt-hogan-static": "0.3.0",
     "grunt-sass": "*",
     "grunt-shell": "^1.1.2",
     "grunt-text-replace": "^0.4.0",
