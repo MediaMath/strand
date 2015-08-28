@@ -35,10 +35,10 @@
 	display: none;
 }
 
-#itemRecycler {
-	// height: 100%;
-}
-
 #itemRecycler[hidden] {
 	display: none;
+}
+
+#container {
+	width: 100%;
 }

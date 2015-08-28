@@ -47,13 +47,10 @@
 		_updatePosition: function() {
 			var winRect = this.windowMetrics,
 				panelRect = this.metrics,
-				targetRect = this.targetMetrics;
+				targetRect = this.targetMetrics,
+				panelWidth = null;
 
 			this.direction = this._originalDirection;
-			// *************************
-			// TODO: Explore why _clampHeight breaking
-			// *************************
-			// this._clampHeight(winRect, panelRect, targetRect);
 			this._updateDirection(this.direction, winRect, panelRect, targetRect);
 
 			if(this.direction === 'n' || this.direction === 's') {
@@ -68,14 +65,24 @@
 
 			panelRect.left = targetRect.left;
 
-			if (this.overflowWidth) {
-				this.$.container.style.maxWidth = parseInt(this.overflowWidth)+"px";
-				this.$.container.style.width = parseInt(this.overflowWidth)+"px";
-			} else {
-				if(this.overflow === 'hidden') { 
-					this.$.container.style.maxWidth = targetRect.width+"px";
-				}
-				this.$.container.style.width = Math.max(targetRect.width, panelRect.width) + "px";
+			if (this.overflow === 'hidden') {
+				panelWidth = targetRect.width + "px";
+			} else if (this.overflow === 'visible') {
+				panelWidth = "auto";
+			} 
+
+			// fitparent & overflowWidth will always trump this.overflow,
+			// especially if they are used in combination
+			if (this.fitparent) panelWidth = targetRect.width + "px";
+			if (this.overflowWidth) panelWidth = parseInt(this.overflowWidth) + "px";
+
+			panelRect.width = this.$.container.style.width = panelWidth;
+
+			// if it's an item-recycler, we need to have NO horizontal scrolling
+			if (this.data) {
+				this.$.itemRecycler.$.constrainer.style.width = panelWidth;
+				this.$.itemRecycler.$.pane.style.overflowY = "auto";
+				this.$.itemRecycler.$.pane.style.overflowX = "hidden";
 			}
 
 			panelRect.toCSS(this.panel,true);
@@ -94,13 +101,14 @@
 			}
 		},
 
+		// *************************
+		// TODO: Clamp the height of the panel?
+		// *************************
 		_clampHeight: function(winRect, panelRect, targetRect) {
 			var top = targetRect.top - this.boundaryOffset,
 				bottom = winRect.height - targetRect.bottom - this.boundaryOffset;
-
 			// *************************
-			// TODO: what we actually want is maxHeight... may need to add this to Rectangle
-			// so we get the correct css out of it later
+			// TODO: what we actually want is maxHeight, not settable via Rectangle
 			// *************************
 			// panelRect.height = Math.min(this._origRect.height, Math.max(top,bottom));
 			this.$.container.style.maxHeight = Math.max(top, bottom) + "px";
