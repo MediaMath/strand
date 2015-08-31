@@ -29,7 +29,8 @@
 			},
 			primaryColor: {
 				type:String, 
-				value: Colors.A2 
+				value: Colors.A2,
+				observer: "_primaryColorChanged"
 			},
 			hoverColor: {
 				type:String, 
@@ -38,37 +39,14 @@
 			}
 		},
 
-		_primaryColor: null,
-		
-		detached: function() {
-			this._removeListeners();
-		},
-
 		_hoverColorChanged: function(newVal, oldVal) {
-			if (newVal) {
-				this.addEventListener("mouseover", this._over);
-				this.addEventListener("mouseout", this._out);
-			} else {
-				this._removeListeners();
-			}
+			this.customStyle['--icon-color'] = newVal;
+			this.updateStyles();
 		},
 
-		_removeListeners: function() {
-			this.removeEventListener("mouseover", this._over);
-			this.removeEventListener("mouseout", this._out);
-		},
-
-		_over: function(e) {
-			if (this.hoverColor) {
-				this._primaryColor = this.primaryColor;
-				this.primaryColor = this.hoverColor;
-			}
-		},
-
-		_out: function(e) {
-			if (this.hoverColor) {
-				this.primaryColor = this._primaryColor;
-			}
+		_primaryColorChanged: function(newVal, oldVal) {
+			this.customStyle['--icon-hover-color'] = newVal;
+			this.updateStyles();
 		},
 
 		_updateClass: function(type) {
@@ -78,12 +56,8 @@
 			return this.classBlock(o);
 		},
 
-		_updateStyle: function(width, height, primaryColor) {
-			var h = this.hoverColor ? "pointer" : "default";
-
+		_updateStyle: function(width, height) {
 			return this.styleBlock({
-				color: primaryColor,
-				cursor: h,
 				minWidth: width + "px",
 				minHeight: height + "px", 
 				lineHeight: height + "px",
