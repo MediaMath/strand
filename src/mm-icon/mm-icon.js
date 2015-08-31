@@ -14,10 +14,6 @@
 		],
 
 		properties: {
-			ver:{
-				type:String,
-				value:"<<version>>",
-			},
 			type: {
 				type:String,
 				value:"plus", 
@@ -37,38 +33,62 @@
 			},
 			hoverColor: {
 				type:String, 
-				value:null 
-			},
-			uid: {
-				type: String,
-				value: function() { 
-					var timestamp = new Date().valueOf(),
-						rndNum	= Math.floor((Math.random()*99)+1),
-						id = 'id_' + rndNum + '_' + timestamp;
-					return id;
-				}
+				value: null,
+				observer: "_hoverColorChanged"
 			}
 		},
 
-		updateClass: function(uid, type) {
+		_primaryColor: null,
+		
+		detached: function() {
+			this._removeListeners();
+		},
+
+		_hoverColorChanged: function(newVal, oldVal) {
+			if (newVal) {
+				this.addEventListener("mouseover", this._over);
+				this.addEventListener("mouseout", this._out);
+			} else {
+				this._removeListeners();
+			}
+		},
+
+		_removeListeners: function() {
+			this.removeEventListener("mouseover", this._over);
+			this.removeEventListener("mouseout", this._out);
+		},
+
+		_over: function(e) {
+			if (this.hoverColor) {
+				this._primaryColor = this.primaryColor;
+				this.primaryColor = this.hoverColor;
+			}
+		},
+
+		_out: function(e) {
+			if (this.hoverColor) {
+				this.primaryColor = this._primaryColor;
+			}
+		},
+
+		_updateClass: function(type) {
 			var o = {};
 			o["icon-"+type] = true;
 			o["_mm_icon"] = true;
-			o[this.uid] = true;
 			return this.classBlock(o);
 		},
 
-		updateStyle: function(width, height) {
+		_updateStyle: function(width, height, primaryColor) {
+			var h = this.hoverColor ? "pointer" : "default";
+
 			return this.styleBlock({
+				color: primaryColor,
+				cursor: h,
 				minWidth: width + "px",
 				minHeight: height + "px", 
 				lineHeight: height + "px",
 				fontSize: height + "px"
 			});
-		},
-
-		updateInternalStyle: function(uid, hoverColor, primaryColor) {
-			return "._mm_icon."+uid+" { color: "+primaryColor+";}._mm_icon."+uid+":hover {color: "+hoverColor+";}";
 		}
 
 	});

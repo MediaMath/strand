@@ -12,8 +12,7 @@
 <dom-module id="mm-icon">
 	<link rel="import" type="css" href="mm-icon.css"/>
 	<template>
-		<style>{{updateInternalStyle(uid, hoverColor,primaryColor)}}</style>
-		<span id="iconGlyph" class$="{{ updateClass(uid, type) }}" style$="{{ updateStyle(width, height, type) }}"></span>
+		<span id="iconGlyph" class$="{{_updateClass(type)}}" style$="{{_updateStyle(width, height, primaryColor)}}"></span>
 	</template>
 </dom-module>
 
