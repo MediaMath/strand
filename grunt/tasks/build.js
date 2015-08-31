@@ -248,6 +248,41 @@ module.exports = function(grunt) {
 
 	});
 
+	grunt.registerTask('style:imports', function() {
+		var tasks = [];
+		var build = grunt.config('build_dir') + "/";
+		var styles = grunt.file.expand({
+			cwd: grunt.config('build_dir')
+		}, 'mm-**/*.css');
+
+		var styleData = {};
+		styles.forEach(function(file) {
+			var key = file.split(".css").join("").split("/")[0];
+			if (grunt.file.exists(build + file)) {
+				var css = grunt.file.read(build + file);
+				// styleData[key] = css;
+				grunt.config.set("hogan_static.styles_" + key, {
+					options:{
+						data:{
+							module:key,
+							style:css
+						}
+					},
+					files:[{
+						src:'<%= template_dir %>/style_module_template.html',
+						dest:'<%=build_dir%>/'+key+'/style.html'
+					}]
+				});
+				tasks.push("hogan_static:styles_" + key);
+			} else {
+				grunt.log.writeln("Not Found:"+build+file);
+			}
+		});
+
+		grunt.task.run(tasks);
+
+	});
+
 	//Create HTML imports for JS library
 	grunt.registerTask('jslib:imports', function() {
 		var files = grunt.file.expand({cwd: grunt.config('src_dir') + '/shared/js/' }, '*.js');
