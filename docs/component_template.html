@@ -185,7 +185,10 @@
 			}
 
 			function navigateToPage(e) {
-				window.location = e.detail.value;
+				console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = path + e.detail.value;
+				} 
 			}	
 		</script>
 	</body>
