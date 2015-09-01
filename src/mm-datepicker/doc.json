@@ -103,6 +103,15 @@
 	],
 	"properties":[
 		{
+			"name":"target",
+			"type":"string",
+			"description":"Element id or class to attach datepicker.",
+			"optional":false,
+			"default":"",
+			"options":[]
+		},
+
+		{
 			"name":"rangeValue",
 			"type":"string",
 			"description":"The currently selected range value for preset ranges",

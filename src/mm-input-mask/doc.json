@@ -8,6 +8,27 @@
 			"description":"The value of the field (including any separator characters)",
 			"optional":true,
 			"default":""
+		},
+		{
+			"name":"placeholder",
+			"type":"string",
+			"description":"Placeholder value. Should contain separator chars as well so it can be properly chunked into individual inputs.",
+			"default":""
+		},
+		{
+			"name":"disabled",
+			"type":"boolean",
+			"description":"Whether the field will accept user input",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"icon",
+			"type":"String",
+			"description":"Adds a custom icon glyph to the input field, using icons found in mm-icon.",
+			"optional":true,
+			"default":"",
+			"options":["*see mm-icon for options"]
 		}
 	],
 	"methods": [
@@ -23,6 +44,11 @@
 					"description":""
 				}
 			]
+		},
+		{
+			"name":"clear",
+			"description":"Clears the input mask field, resetting its value to empty string",
+			"arguments":[]
 		}
 	],
 	"properties":[
@@ -39,11 +65,33 @@
 			"default":""
 		},
 		{
+			"name":"value",
+			"type":"string",
+			"description":"The value of the field (including any separator characters)",
+			"optional":true,
+			"default":""
+		},
+		{
 			"name":"placeholder",
 			"type":"string",
 			"description":"Placeholder value. Should contain separator chars as well so it can be properly chunked into individual inputs.",
 			"default":""
-		}
+		},
+		{
+			"name":"disabled",
+			"type":"boolean",
+			"description":"Whether the field will accept user input",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"icon",
+			"type":"String",
+			"description":"Adds a custom icon glyph to the input field, using icons found in mm-icon.",
+			"optional":true,
+			"default":"search",
+			"options":["*see mm-icon for options"]
+		},
 	],
 	"events": [
 		{
