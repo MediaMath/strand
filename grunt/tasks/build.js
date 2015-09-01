@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					'src/lib/Colors.js': '<%= template_dir %>/lib_color.js'
+					'<%= src_dir %>/lib/Colors.js': '<%= template_dir %>/lib_color.js'
 				}
 			},
 			lib: {
@@ -121,6 +121,17 @@ module.exports = function(grunt) {
 					src: '<%= template_dir %>/lib_template.html',
 					dest: '<%= build_dir %>/<%= pkg.name %>.html'
 				}]
+			},
+			fonts:{
+				options:{
+					data:{
+						module:'shared-fonts',
+						style:grunt.file.read("build/shared/fonts/fonts.css")
+					}
+				},
+				files:{
+					'<%= build_dir %>/shared/fonts/shared-fonts.html': "<%= template_dir %>/style_module_template.html"
+				}
 			}
 		},
 
@@ -311,6 +322,8 @@ module.exports = function(grunt) {
 			'copy:build',
 			'sass:dist',
 			'cssUrlEmbed', 
+			'hogan_static:fonts',
+			'style:imports',
 			// 'hogan_static:lib', //un-comment to build entire library
 			'vulcanize:dist',
 			'htmlmin:dist',
@@ -323,6 +336,8 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dev',
+			'hogan_static:fonts',
+			'style:imports',
 			'hogan_static:index'
 			// 'hogan_static:lib'
 		]);
