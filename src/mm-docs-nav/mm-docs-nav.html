@@ -6,16 +6,17 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
-<polymer-element name="mm-docs-nav" attributes="expanded">
+
+<dom-module id="mm-docs-nav">
+	<link rel="import" type="css" href="mm-docs-nav.css"/>
 	<template>
-		<link href="mm-docs-nav.css" rel="stylesheet" type="text/css"/>
-		<div id="labelArea" on-tap="{{labelTap}}">
+		<div id="labelArea" on-tap="_labelTap">
 			<content select="mm-header"></content>
-			<mm-icon type="carat" width="10" height="10" class="{{ {opened:expanded == true} | tokenList }}"></mm-icon>
+			<mm-icon type="carat" width="10" height="10" class$="{{_updateClass(expanded)}}"></mm-icon>
 		</div>
-		<div id="expandArea" on-tap={{listTap}}>
+		<div id="expandArea" on-tap="_listTap">
 			<content select="mm-list-item"></content>
 		</div>
 	</template>
-	<script src="mm-docs-nav.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-docs-nav.js"></script>

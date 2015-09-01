@@ -4,29 +4,51 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-docs-nav', {
-	ver:"<<version>>",
+(function (scope) {
 
-	publish: {
-		expanded: { value: false, reflect: true }
-	},
+	scope.DocsNav = Polymer({
 
-	labelTap: function(e) {
-		e.preventDefault();
-		this.expanded = !this.expanded;
-	},
+		is: 'mm-docs-nav', 
 
-	listTap: function(e) {
-		e.preventDefault();
-		this.fire("docs-nav-selected", { target: e.target, value: e.target.value });
-	},
+			behaviors: [
+				StrandTraits.Stylable
+			],
 
-	expandedChanged: function(oldVal, newVal) {
-		if (newVal === true) {
-			this.$.expandArea.style.height = this.$.expandArea.scrollHeight + "px";
-		} else {
-			this.$.expandArea.style.height = "0px";
-		}
-	}
+			properties: {
+				expanded: { 
+					type: Boolean,
+					value: false, 
+					reflectToAttribute: true,
+					observer: "_expandedChanged"
+				}
+			},
 
-});
+			_labelTap: function(e) {
+				console.log("_labelTap: ", e);
+				e.preventDefault();
+				this.expanded = !this.expanded;
+			},
+
+			_listTap: function(e) {
+				console.log("_listTap: ", e);
+				e.preventDefault();
+				this.fire("docs-nav-selected", { target: e.target, value: e.target.value });
+			},
+
+			_expandedChanged: function(newVal, oldVal) {
+				if (newVal) {
+					this.$.expandArea.style.height = this.$.expandArea.scrollHeight + "px";
+				} else {
+					this.$.expandArea.style.height = "0px";
+				}
+			},
+
+			_updateClass: function(expanded) {
+				var o = {};
+				o.opened = expanded;
+				return this.classBlock(o);
+			}
+
+		});
+
+})(window.Strand = window.Strand || {});
