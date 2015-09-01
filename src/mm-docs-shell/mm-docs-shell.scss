@@ -6,6 +6,7 @@
 */
 @import "_bourbon";
 @import "_mixins";
+@import "_docs_theme";
 
 :host {
 	display: block;
@@ -69,4 +70,20 @@
 	left: 0;
 	visibility: hidden;
 	transition: opacity 1s, visibility 1s;
+}
+
+#mobileHeader {
+	background: $bgGray;
+}
+
+.layout-article {
+	background: $white;
+}
+
+#mainNav {
+	background: $mainNavBg;
+}
+
+#mobileHeader {
+	background: $mainNavBg;
 }
