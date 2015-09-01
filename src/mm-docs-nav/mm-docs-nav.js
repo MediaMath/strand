@@ -10,45 +10,43 @@
 
 		is: 'mm-docs-nav', 
 
-			behaviors: [
-				StrandTraits.Stylable
-			],
+		behaviors: [
+			StrandTraits.Stylable
+		],
 
-			properties: {
-				expanded: { 
-					type: Boolean,
-					value: false, 
-					reflectToAttribute: true,
-					observer: "_expandedChanged"
-				}
-			},
-
-			_labelTap: function(e) {
-				console.log("_labelTap: ", e);
-				e.preventDefault();
-				this.expanded = !this.expanded;
-			},
-
-			_listTap: function(e) {
-				console.log("_listTap: ", e);
-				e.preventDefault();
-				this.fire("docs-nav-selected", { target: e.target, value: e.target.value });
-			},
-
-			_expandedChanged: function(newVal, oldVal) {
-				if (newVal) {
-					this.$.expandArea.style.height = this.$.expandArea.scrollHeight + "px";
-				} else {
-					this.$.expandArea.style.height = "0px";
-				}
-			},
-
-			_updateClass: function(expanded) {
-				var o = {};
-				o.opened = expanded;
-				return this.classBlock(o);
+		properties: {
+			expanded: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true,
+				observer: "_expandedChanged"
 			}
+		},
 
-		});
+		_labelTap: function(e) {
+			e.preventDefault();
+			this.expanded = !this.expanded;
+		},
+
+		_listTap: function(e) {
+			e.preventDefault();
+			this.fire("docs-nav-selected", { target: e.target, value: e.target.value });
+		},
+
+		_expandedChanged: function(newVal, oldVal) {
+			if (newVal) {
+				this.$.expandArea.style.height = this.$.expandArea.scrollHeight + "px";
+			} else {
+				this.$.expandArea.style.height = "0px";
+			}
+		},
+
+		_updateClass: function(expanded) {
+			var o = {};
+			o.opened = expanded;
+			return this.classBlock(o);
+		}
+
+	});
 
 })(window.Strand = window.Strand || {});
