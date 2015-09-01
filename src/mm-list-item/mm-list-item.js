@@ -25,8 +25,11 @@
 				reflectToAttribute: true,
 				notify: true,
 			},
-			observeSubTree: {
+			observeSubtree: {
 				value:true
+			},
+			observeCharacterData: {
+				value: true
 			},
 			title: {
 				type:String,
