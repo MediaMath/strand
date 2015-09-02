@@ -1,5 +1,5 @@
 {
-	"name":"mm-dropdown",
+	"name":"mm-autocomplete",
 	"description":"A fully-styled dropdown list containing multiple options.",
 	"attributes": [
 		{
