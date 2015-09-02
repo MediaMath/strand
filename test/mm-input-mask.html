@@ -96,24 +96,24 @@
 				t2.maskConfig.should.have.length(6);
 				t2.maskConfig[0].should.have.keys("type","value","style");
 				t2.maskConfig[0].type.should.equal(0);
-				t2.maskConfig[1].should.have.keys("index", "max", "min", "rule", "restrict", "args", "auto", "type", "style", "loaded", "contentWidth");
+				t2.maskConfig[1].should.have.keys("index", "id", "max", "min", "rule", "restrict", "args", "auto", "type", "style", "loaded", "value", "placeholder", "disabled");
 
 			});
 
 			it("should support value chunking into subfields", function() {
 				var t3 = document.querySelector("#test3");
-				console.log(t3.chunkValue(""));
-				t3.chunkValue("").should.deep.equal([]);
-				t3.chunkValue("(123) 123-1234").should.deep.equal(["123","123","1234"]);
-				t3.chunkValue("(AAA) AAA-AAAA").should.deep.equal([]);
-				t3.chunkValue("(AAA) AAA-AAAA","placeholder").should.deep.equal(["AAA","AAA","AAAA"]);
+				console.log(t3._chunkValue(""));
+				t3._chunkValue("").should.deep.equal([]);
+				t3._chunkValue("(123) 123-1234").should.deep.equal(["123","123","1234"]);
+				t3._chunkValue("(AAA) AAA-AAAA").should.deep.equal([]);
+				t3._chunkValue("(AAA) AAA-AAAA","placeholder").should.deep.equal(["AAA","AAA","AAAA"]);
 
 				var t3a = document.querySelector("#test3a");
 
-				t3a.chunkValue("").should.deep.equal([]);
-				t3a.chunkValue("12:12").should.deep.equal(["12","12"]);
-				t3a.chunkValue("AA:AA").should.deep.equal([]);
-				t3a.chunkValue("AA:AA","placeholder").should.deep.equal(["AA","AA"]);
+				t3a._chunkValue("").should.deep.equal([]);
+				t3a._chunkValue("12:12").should.deep.equal(["12","12"]);
+				t3a._chunkValue("AA:AA").should.deep.equal([]);
+				t3a._chunkValue("AA:AA","placeholder").should.deep.equal(["AA","AA"]);
 
 			});
 			
@@ -122,7 +122,7 @@
 				var t4 = document.querySelector("#test4");
 				t4.value = "(123) 123-1234";
 				t4.async(function() {
-					var check = Array.prototype.slice.apply(t4.shadowRoot.querySelectorAll("input")).map(function(inputElement) {
+					var check = Array.prototype.slice.apply(Polymer.dom(t4.root).querySelectorAll("input")).map(function(inputElement) {
 						return inputElement.value;
 					});
 					check.join("").should.equal("1231231234");
