@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/moment/min/moment.min.js"></script>
+  <script src="../bower_components/moment-range/dist/moment-range.min.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
   <script src="TestHelper.js"></script>
   <script>
@@ -11,9 +13,12 @@
   <link rel="import" href="../build/strand.html">
 </head>
 <body>
-<mm-datepicker id="test1"></mm-datepicker>
-<mm-datepicker id="test2"></mm-datepicker>
-<mm-datepicker id="test3"></mm-datepicker>
+<mm-button id="target1"><label>Open Datepicker</label></mm-button>
+<mm-button id="target2"><label>Open Datepicker</label></mm-button>
+<mm-button id="target3"><label>Open Datepicker</label></mm-button>
+<mm-datepicker id="test1" target="#target1"></mm-datepicker>
+<mm-datepicker id="test2" target="#target2"></mm-datepicker>
+<mm-datepicker id="test3" target="#target3"></mm-datepicker>
 <script>
 describe("mm-datepicker", function() {
 
@@ -44,8 +49,8 @@ describe("mm-datepicker", function() {
 	it("should reset to original values when reset is called", function(done) {
 
 		var t2 = document.querySelector("#test2");
-		var start = moment("1-1-2001").toDate();
-		var end = moment("1-1-2001").toDate();
+		var start = moment("1/1/2001").toDate();
+		var end = moment("1/1/2001").toDate();
 		t2.start = start;
 		t2.end = end;
 
@@ -79,10 +84,10 @@ describe("mm-datepicker", function() {
 		var m = moment();
 		var m2 = moment().add(1, 'day');
 		t3.rangePresets = [
-			{name:"test 1", start: m, end:m2},
-			{name:"test 2", start: m, end:m2},
-			{name:"test 3", start: m, end:m2},
-			{name:"test 4", start: m, end:m2}
+			{name:"test 1", value:"test 1", start: m, end:m2},
+			{name:"test 2", value:"test 2", start: m, end:m2},
+			{name:"test 3", value:"test 3", start: m, end:m2},
+			{name:"test 4", value:"test 4", start: m, end:m2}
 		];
 
 		flush(function() {
@@ -99,6 +104,7 @@ describe("mm-datepicker", function() {
 			done();
 		});
 	});
+
 });
 </script>
 </body>
