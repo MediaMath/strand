@@ -163,7 +163,15 @@ module.exports = function(grunt) {
 		]
 	});
 
-	grunt.registerTask('docs', ['build:dist', 'build:docs', 'connect:docs', 'watch']);
+	grunt.config('jsonlint',{
+		docs:{
+			files:{
+				src:['<%= src_dir %>/mm-*/doc.json']
+			}
+		}
+	});
+
+	grunt.registerTask('docs', ['jsonlint','build:dist', 'build:docs', 'connect:docs', 'watch']);
 
 	grunt.config('gh-pages', {
 		options: {
