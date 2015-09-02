@@ -10,10 +10,6 @@
 		is: 'mm-footer',
 
 		properties: {
-			ver: {
-				type: String,
-				value: "<<version>>",
-			},
 			message: {
 				type: String,
 				value: null

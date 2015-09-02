@@ -17,7 +17,7 @@
 
 @include fit();
 
-.footer {
+._mm_footer {
 	@include display(flex);
 	@include align-items(center);
 	@include justify-content(space-between);
