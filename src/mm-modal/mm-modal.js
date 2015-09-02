@@ -11,6 +11,9 @@ Polymer( {
 	behaviors:[StrandTraits.Stackable],
 
 	properties: {
+		stackType:{
+			value: "modal"
+		},
 		hidden: {
 			type:Boolean,
 			value:true,
