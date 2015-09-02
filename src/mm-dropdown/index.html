@@ -86,11 +86,9 @@
 				float: left;
 			}
 
-			mm-dropdown[unresolved] {
-				display: none;
+			#ddlHide {
+				display:none;
 			}
-
-			mm-dropdown {}
 		</style>
 	</head>
 	<body>
@@ -137,14 +135,16 @@
 				<mm-list-item value="4">mm-list-item 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-
+			
 			<p><span class="bold">Dropdown:</span> Dropdown hidden at first (bug)</p>
-			<mm-dropdown id="ddlHide" fitparent="true">
-				<mm-list-item>mm-list-item 01</mm-list-item>
-				<mm-list-item>mm-list-item 02</mm-list-item>
-				<mm-list-item>mm-list-item 03</mm-list-item>
-				<mm-list-item>mm-list-item 04</mm-list-item>
-			</mm-dropdown>
+			<div id="ddlHide">
+				<mm-dropdown>
+					<mm-list-item>mm-list-item 01</mm-list-item>
+					<mm-list-item>mm-list-item 02</mm-list-item>
+					<mm-list-item>mm-list-item 03</mm-list-item>
+					<mm-list-item>mm-list-item 04</mm-list-item>
+				</mm-dropdown>
+			</div>
 			<hr/>
 
 		</div>
@@ -295,7 +295,7 @@
 
 				// hidden at first test:
 				ddlHide = document.querySelector("#ddlHide");
-				ddlHide.style.display = "none";
+				// ddlHide.style.display = "none";
 				setTimeout(function() {
 					ddlHide.style.display = 'block';
 				}, 3000);

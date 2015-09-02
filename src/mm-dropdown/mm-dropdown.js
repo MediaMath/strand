@@ -60,25 +60,20 @@
 			},
 			maxItems: {
 				type: Number,
-				value: false,
 				observer: '_maxItemsChanged'
 			},
 			value: {
 				type: String,
-				value: false,
-				notify: true,
 				reflectToAttribute: true,
 				notify: true,
 				observer: '_valueChanged'
 			},
 			data: {
 				type: Array,
-				value: null,
 				notify: true,
 				observer: '_dataChanged'
 			},
-			layout: String,
-			// _selectedFlag: Boolean
+			layout: String
 		},
 
 		behaviors: [
@@ -113,7 +108,6 @@
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, 'open');
 			// Ensures that we get a value for the offsetHeight of the distributed list items:
 			if (this.maxItems) this._setMaxHeight(this.maxItems);
-
 			if (!this._widthLocked) this._lockWidth();
 
 			this.focus();
@@ -134,15 +128,15 @@
 
 		_selectItemByValue: function(value) {
 			this.async(function(){
-				var item = null;
-				value = value.toString();
+				var item = null,
+					valueStr = value.toString();
 
 				if (!this._widthLocked) this._lockWidth();
-
+				
 				if (this.data) {
-					item = this._getDataItemByValue(value);
+					item = this._getDataItemByValue(valueStr);
 				} else {
-					item = this._getDomByValue(value);
+					item = this._getDomByValue(valueStr);
 				}
 				if (item) this.selectedIndex = this.items.indexOf(item);
 			});
@@ -188,16 +182,13 @@
 
 		// Data handling
 		_dataChanged: function(newData, oldData) {
-			var nullData = newData === null || newData === undefined,
-				nullValue = this.value === null || this.value === undefined;
-			
-			if (!nullData) {
+			if (newData) {
 				if (!this.maxItems) {
 					this.maxItems = 10;
 				} else {
 					this._setMaxHeight(this.maxItems); 
 				}
-				if (!nullValue) this._selectItemByValue(this.value);
+				if (this.value) this._selectItemByValue(this.value);
 			} else {
 				this.reset();
 			}
@@ -232,9 +223,7 @@
 
 		// General
 		_valueChanged: function(newVal, oldVal) {
-			var nullValue = newVal === null || newVal === undefined;
-			
-			if (!nullValue) {
+			if (newVal) {
 				this._selectItemByValue(newVal);
 			} else {
 				this.reset();
