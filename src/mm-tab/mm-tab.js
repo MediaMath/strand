@@ -54,7 +54,7 @@
 		loadExternal: function(path, callback) {
 			this.url = path;
 			this.callback = callback;
-		}
+		},
 
 		_loadExternal: function() {
 			if(this.url && this.active && !this._contentLoaded) this.async(function() {
