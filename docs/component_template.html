@@ -2,7 +2,7 @@
 <html>
 	{{> head}}
 	<body unresolved>
-		<mm-docs-shell id="docsShell" version="{{revision}}" mobileHeader="Strand Docs">
+		<mm-docs-shell id="docsShell" version="{{revision}}" mobile-header="Strand Docs">
 			{{> sidebar}}
 			<article class="layout-article">
 				<div class="docs-content">
@@ -187,7 +187,7 @@
 			function navigateToPage(e) {
 				console.log("navigateToPage: ", e.detail.value);
 				if(e.detail.value) {
-					window.location = path + e.detail.value;
+					window.location = e.detail.value;
 				} 
 			}	
 		</script>
