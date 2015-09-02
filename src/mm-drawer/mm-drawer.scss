@@ -20,7 +20,9 @@
 }
 
 //Tab Drawer Style
-:host([label]){
+:host([label]),
+:host([opened-label]),
+:host([closed-label]) {
 	background: $color-F0;
 	border: 1px solid $color-A16;
 	border-top: none;

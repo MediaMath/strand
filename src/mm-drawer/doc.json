@@ -17,6 +17,22 @@
 			"options":[]
 		},
 		{
+			"name":"openedLabel",
+			"type":"String",
+			"description":"The label for the drawer's toggle button when drawer is opened. Setting both this value will show the \"Tab\" style drawer",
+			"default":"",
+			"optional":true,
+			"options":[]
+		},
+		{
+			"name":"closedLabel",
+			"type":"String",
+			"description":"The label for the drawer's toggle button when the drawer is closed. Setting this value will show the \"Tab\" style drawer",
+			"default":"",
+			"optional":true,
+			"options":[]
+		},
+		{
 			"name":"closedHeight",
 			"type":"Number",
 			"description":"The pixel height of the drawer when closed.",

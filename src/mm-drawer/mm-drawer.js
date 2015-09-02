@@ -4,47 +4,101 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-drawer', {
-	publish: {
-		expanded: false,
-		closedHeight: 0,
-		openedHeight: 0,
-		forceMeasure: false,
-		label: ""
-	},
+(function(scope) {
 
-	ready: function() {
-		if(!this.expanded) {
-			this.height = this.closedHeight;
-		}
-	},
+	scope.Drawer = Polymer({
+		is: 'mm-drawer',
 
-	getContentHeight: function() {
-		if(!this.openedHeight || this.forceMeasure) {
-			this.openedHeight = this.$.content.offsetHeight;
-		}
-		return this.openedHeight;
-	},
+		properties: {
+			label: {
+				type: String,
+				value: ''
+			},
+			height: {
+				type: Number,
+				computed: '_computeDrawerHeight(expanded,openedHeight,closedHeight)'
+			},
+			openedLabel: {
+				type: String,
+				value: ''
+			},
+			closedLabel: {
+				type: String,
+				value: ''
+			},
+			openedHeight: {
+				type: Number,
+				value: 0,
+			},
+			closedHeight: {
+				type: Number,
+				value: 0
+			},
+			forceMeasure: {
+				type: Boolean,
+				value: false
+			},
+			expanded: {
+				type: Boolean,
+				value: false,
+				notify: true,
+				observer: '_expandedChanged'
+			},
+			_showLabel: {
+				type: Boolean,
+				computed: '_hasLabel(label,openedLabel,closedLabel)'
+			}
+		},
 
-	expandedChanged: function(){
-		if(this.expanded) {
-			this.open();
-		} else {
-			this.close();
-		}
-	},
+		behaviors: [
+			StrandTraits.Stylable
+		],
 
-	open: function() {
-		this.height = this.getContentHeight();
-		this.expanded = true;
-	},
-	
-	close: function() {
-		this.height = this.closedHeight;
-		this.expanded = false;
-	},
-	
-	toggle: function() {
-		this.expanded = !this.expanded;
-	}
-});
+		_hasLabel: function(label,openedLabel,closedLabel) {
+			return label || (openedLabel && closedLabel);
+		},
+
+		_computeDrawerHeight: function(expanded,openedHeight,closedHeight) {
+			return (expanded) ? openedHeight : closedHeight;
+		},
+
+		_computeLabel: function(label,openedLabel,closedLabel,expanded) {
+			if(openedLabel && closedLabel) {
+				return (expanded) ? openedLabel : closedLabel;
+			} else {
+				return label;
+			}
+		},
+
+		_expandedChanged: function(expanded) {
+			if(!this.openedHeight || this.forceMeasure)
+				this.openedHeight = this.$.content.offsetHeight;
+			return this.openedHeight;
+		},
+
+		open: function () {
+			this.expanded = true;
+		},
+
+		close: function () {
+			this.expanded = false;
+		},
+
+		toggle: function () {
+			this.expanded = !this.expanded;
+		},
+
+		_computeClass: function(expanded) {
+			var o = {};
+			o["expanded"] = expanded;
+			return this.classBlock(o);
+		},
+
+		_computeStyle: function(height) {
+			return this.styleBlock({
+				height: height + 'px'
+			});
+		},
+	});
+
+})(window.Strand = window.Strand || {});
