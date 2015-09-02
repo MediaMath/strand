@@ -7,7 +7,7 @@
 			"type": "String",
 			"optional": false,
 			"default": "",
-			"description": "The text displayed on the tab",
+			"description": "The text displayed on the tab"
 		},
 		{
 			"name": "icon",
@@ -58,7 +58,7 @@
 			"optional": true,
 			"default": "false",
 			"description": "Whether this tab is active. There should only be one active tab at a time. If no active tab is set, the first tab defaults to active."
-		}
+		},
 		{
 			"name": "icon",
 			"type": "String",
@@ -71,13 +71,13 @@
 			"type": "String",
 			"optional": false,
 			"default": "",
-			"description": "The text displayed on the tab",
+			"description": "The text displayed on the tab"
 		},
 		{
 			"name": "url",
 			"type": "String",
 			"optional": true,
 			"description": "Path to an html document, if loading an external view into the tab. Use the loadExternal method if a callback is required when the tab loads."
-		},
+		}
 	]
 }

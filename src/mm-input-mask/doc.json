@@ -91,7 +91,7 @@
 			"optional":true,
 			"default":"search",
 			"options":["*see mm-icon for options"]
-		},
+		}
 	],
 	"events": [
 		{

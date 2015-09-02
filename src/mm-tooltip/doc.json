@@ -65,7 +65,7 @@
 			"name":"direction",
 			"type":"String",
 			"description":"Where the tooltip is positioned relative to it's target area, in 'compass' coordinates.",
-			"default":"top",
+			"default":"top"
 		}
 	]
 }
