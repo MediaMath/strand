@@ -29,10 +29,20 @@
 				reflectToAttribute: true,
 				observer: '_dateChangeHandler'
 			},
-			days: {
-				type: Array,
-				value: function () { return []; },
-				notify: true
+			pairDate: {
+				type: Object,
+				notify: true,
+				observer: '_changeHandler'
+			},
+			viewDate: {
+				type: Object,
+				value: function() { return new Date(); },
+				observer: '_changeHandler'
+			},
+			useTapSelect: {
+				type: Boolean,
+				value: true,
+				reflectToAttribute: true
 			},
 			disableFuture: {
 				type: Boolean,
@@ -44,7 +54,7 @@
 				value: false,
 				observer: '_changeHandler'
 			},
-			headers: {
+			_headers: {
 				type: Array,
 				value: function () {
 					return [
@@ -86,29 +96,19 @@
 					];
 				}
 			},
-			month: {
+			_year: {
 				type: Number,
 				notify: true
 			},
-			pairDate: {
-				type: Object,
-				notify: true,
-				observer: '_changeHandler'
-			},
-			viewDate: {
-				type: Object,
-				value: function() { return new Date(); },
-				observer: '_changeHandler'
-			},
-			year: {
+			_month: {
 				type: Number,
 				notify: true
 			},
-			useTapSelect: {
-				type: Boolean,
-				value: true,
-				reflectToAttribute: true
-			}
+			_days: {
+				type: Array,
+				value: function () { return []; },
+				notify: true
+			},
 		},
 
 		behaviors: [
@@ -117,9 +117,9 @@
 
 		ready: function () {
 			if (this.date) {
-				this.month = moment(this.date).month();
-				this.year = moment(this.date).year();
-				this.day = moment(this.date).date();
+				this._month = moment(this.date).month();
+				this._year = moment(this.date).year();
+				this._day = moment(this.date).date();
 			}
 		},
 
@@ -140,7 +140,7 @@
 			if (selEnd)
 				selEnd = moment(selEnd).endOf('day');
 			var selectedRange = moment().range(selStart, selEnd);
-			this.days.forEach(function (day) {
+			this._days.forEach(function (day) {
 				day.class.selected = selectedRange.contains(day.moment);
 				if (this.date && this.pairDate) {
 					day.class.first = day.moment.isSame(selStart, 'day');
@@ -168,9 +168,9 @@
 
 		_updateMonthView: function () {
 			var mm = moment(this.viewDate).startOf('day');
-			this.month = moment.months(mm.month());
-			this.year = mm.year();
-			this.days = [];
+			this._month = moment.months(mm.month());
+			this._year = mm.year();
+			this._days = [];
 			var preStart = mm.clone().date(1).startOf('week');
 			var postEnd = preStart.clone().add(41, 'day');
 			//6 lines 42 days total
@@ -186,7 +186,7 @@
 					fade: m.month() !== mm.month(),
 					current: m.isSame(moment(), 'day') && m.isSame(moment(), 'month')
 				});
-				this.push('days',d);
+				this.push('_days',d);
 			}.bind(this));
 		},
 

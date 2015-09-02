@@ -3,7 +3,7 @@
 	"description":"A simple calendar rendering component. Intended for use in mm-datepicker but can be used for stand alone date selection. Note that mm-calendar makes heavy use of moment.js",
 	"attributes": [
 		{
-			"name":"useTapSelect",
+			"name":"use-tap-select",
 			"type":"boolean",
 			"description":"sets a default tap handler that selects the current date. Generally only set to false for cases where a custom selection behavior is desired",
 			"optional":true,

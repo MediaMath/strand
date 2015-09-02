@@ -63,18 +63,18 @@
 				value: 'hh:mm a'
 			},
 			timeOnlyFormat: {
-				computed: 'computeTimeOnlyFormat(timeFormat)'
+				computed: '_computeTimeOnlyFormat(timeFormat)'
 			},
 
 			rangeValue: {
 				type: String,
 				value: '',
-				observer: 'displayRange',
+				observer: '_displayRange',
 			},
 			rangePresets: {
 				type: Array,
 				value: null,
-				observer: 'rangePresetsChanged'
+				observer: '_rangePresetsChanged'
 			},
 			rangeDescription: {
 				type: String,
@@ -125,7 +125,6 @@
 				type: String,
 				value: function() { return moment().startOf('day').format('hh:mm'); },
 				notify: true,
-				observer: '_validateTimes',
 			},
 			startTimePeriod:{
 				type: String,
@@ -168,7 +167,6 @@
 				type: String,
 				value: function() { return moment().endOf('day').format('hh:mm'); },
 				notify: true,
-				observer: '_validateTimes',
 			},
 			endTimePeriod:{
 				type: String,
@@ -186,10 +184,10 @@
 			},
 
 			duration: {
-				computed: 'getDuration(startDate,endDate)'
+				computed: '_getDuration(startDate,endDate)'
 			},
 			datesValid: {
-				computed: 'areDatesValid(startDate,endDate)'
+				computed: '_areDatesValid(startDate,endDate)'
 			}
 
 		},
@@ -218,11 +216,11 @@
 
 		_disableFuture: function(dual, endDate, allowedEnd) { return (dual) ? endDate : allowedEnd },
 
-		computeTimeOnlyFormat: function(timeFormat) {
+		_computeTimeOnlyFormat: function(timeFormat) {
 			return timeFormat.replace(' a','');
 		},
 
-		displayRange: function(value) {
+		_displayRange: function(value) {
 			var range;
 			if(this._rangePresets)
 				range = this._rangePresets.filter(function(range) { return range.label === value })[0];
@@ -233,7 +231,7 @@
 			}
 		},
 
-		rangePresetsChanged: function(newRangePresets, oldRangePresets) {
+		_rangePresetsChanged: function(newRangePresets, oldRangePresets) {
 			if(newRangePresets) this._rangePresets = newRangePresets.map(function(range, i) {
 				var start = moment(range.start); 
 				var end = moment(range.end);
@@ -246,7 +244,7 @@
 			});		
 		},
 
-		calendarFilter: function(value) {
+		_calendarFilter: function(value) {
 			var m = moment(value);
 			if (m.isValid()) {
 				return m.format(this.dateFormat);
@@ -254,26 +252,18 @@
 			return value;
 		},
 
-		timeFilter: function(value) {
-			var m = moment(value);
-			if (m.isValid()) {
-				return m.format(this.timeFormat);
-			}
-			return value;
-		},
-
-		handleTap: function(e) {
+		_handleTap: function(e) {
 			var sc = this.$$('#startCalendar')
 			if (e.target === sc) {
-				sc.date = this.calendarFilter(e.detail.date);
+				sc.date = this._calendarFilter(e.detail.date);
 			}
 			var ec = this.$$('#endCalendar');
 			if (e.target === ec) {
-				ec.date = this.calendarFilter(e.detail.date);
+				ec.date = this._calendarFilter(e.detail.date);
 			}
 		},
 
-		areDatesValid: function() {
+		_areDatesValid: function() {
 			var sd = moment(this.startDate, this.dateFormat, true);
 			var ed = moment(this.endDate, this.dateFormat, true);
 			return sd.isValid() && (!this.dual || ed.isValid());
@@ -281,7 +271,7 @@
 
 		_validateStart: function() {
 			if(this.startDate instanceof Date) {
-				this.startDate = this.calendarFilter(this.startDate);
+				this.startDate = this._calendarFilter(this.startDate);
 				return;
 			}
 			var sd = moment(this.startDate, this.dateFormat, true);
@@ -297,7 +287,7 @@
 
 		_validateEnd: function() {
 			if(this.endDate instanceof Date) {
-				this.endDate = this.calendarFilter(this.endDate);
+				this.endDate = this._calendarFilter(this.endDate);
 				return;
 			}
 			var ed = moment(this.endDate, this.dateFormat, true);
@@ -309,13 +299,6 @@
 					});
 				}
 			}
-		},
-
-		_validateTimes: function() {
-			// var	st = moment(this.startTime),
-			// 	et = moment(this.endTime),
-			// 	sdt = moment(this.start),
-			// 	edt = moment(this.end);
 		},
 
 		_updateFields: function(key, debouncer) {
@@ -361,7 +344,7 @@
 			}
 		},
 
-		getDuration: function(date1, date2) {
+		_getDuration: function(date1, date2) {
 			var footer = this.$$('#footer');
 			if (footer) footer.showMessage();
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
@@ -378,12 +361,12 @@
 			inherited.apply(this,[silent]);
 		},
 
-		timezonesChanged: function(oldTimezones, newTimezones) {
+		_timezonesChanged: function(oldTimezones, newTimezones) {
 			if (this.useTimezone && this.timezones);
 			this._timezones = this.timezones.slice();
 		},
 
-		timezoneSearchChanged: function(oldTimezoneSearch, newTimezoneSearch) {
+		_timezoneSearchChanged: function(oldTimezoneSearch, newTimezoneSearch) {
 			if (this.useTimezone && this.timezones) {
 				this._timezones = this.timezones.filter(function(t) {
 					return t.label.toLowerCase().includes(newTimezoneSearch.toLowerCase());
@@ -391,7 +374,7 @@
 			}
 		},
 
-		keyHandler: function(e) {
+		_keyHandler: function(e) {
 			var c = String.fromCharCode(e.keyCode),
 				normalized = Polymer.dom(e);
 			if (c === 'A') {
@@ -403,7 +386,7 @@
 			}
 		},
 
-		closeLinkHandler: function(e) {
+		_closeLinkHandler: function(e) {
 			e.preventDefault();
 			this.close();
 			if (this.resetOnClose) {

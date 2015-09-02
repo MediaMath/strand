@@ -17,12 +17,12 @@
   <template>
 		<div class="month-year">
 			<mm-icon class="left-arrow" type="cycle-arrow" on-tap="_decrMonth" width="13" height="13"></mm-icon>
-			<mm-header class="header" size="small"><span>{{month}}</span> <span>{{year}}</span></mm-header>
+			<mm-header class="header" size="small"><span>{{_month}}</span> <span>{{_year}}</span></mm-header>
 			<mm-icon class="right-arrow" type="cycle-arrow" on-tap="_incrMonth" width="13" height="13"></mm-icon>
 		</div>
 		<div class="calendar">
 			<div class="headings">
-				<template is="dom-repeat" items="{{headers}}" as="header">
+				<template is="dom-repeat" items="{{_headers}}" as="header">
 					<div class$="{{header.class}}">
 						<span>{{header.label}}</span>
 					</div>
@@ -30,7 +30,7 @@
 			</div>
 			<div id="days" class="days" on-tap="_handleTap">
 				<div style="min-height: 16px;">
-				<template is="dom-repeat" items="{{days}}" as="day">
+				<template is="dom-repeat" items="{{_days}}" as="day">
 					<div id$="{{_dayId(day)}}" class$="{{_dayClass(day)}}">
 						<span value$="{{day.value}}">{{day.label}}</span>
 					</div>

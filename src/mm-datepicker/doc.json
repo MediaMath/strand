@@ -3,7 +3,7 @@
 	"description":"A single and dual (range) date/time picker component including numeric and calendar based inputs",
 	"attributes": [
 		{
-			"name":"useTimeZone",
+			"name":"use-timezone",
 			"type":"boolean",
 			"description":"Enables timezone dropdown when true (requires external tz data)",
 			"optional":true,
@@ -11,7 +11,7 @@
 			"options":[]
 		},
 		{
-			"name":"useRange",
+			"name":"use-range",
 			"type":"boolean",
 			"description":"Enables date range dropdown for preselected ranges",
 			"optional":true,
@@ -19,7 +19,7 @@
 			"options":[]
 		},
 		{
-			"name":"useTime",
+			"name":"use-time",
 			"type":"boolean",
 			"description":"Enables input boxes for time selection",
 			"optional":true,
@@ -27,7 +27,7 @@
 			"options":[]
 		},
 		{
-			"name":"useCommit",
+			"name":"use-commit",
 			"type":"boolean",
 			"description":"Shows a footer which contains save/close buttons. Without pressing save the data is not persisted to the start/end binds",
 			"optional":true,
@@ -35,7 +35,7 @@
 			"options":[]
 		},
 		{
-			"name":"resetOnClose",
+			"name":"reset-on-close",
 			"type":"boolean",
 			"description":"When useCommit is true and resetOnClose is true, the picker will be reset to default values when closed if a user does not press the save button",
 			"optional":true,
@@ -51,7 +51,7 @@
 			"options":[]
 		},
 		{
-			"name":"dateFormat",
+			"name":"date-format",
 			"type":"string",
 			"description":"moment.js format string used for date formatting--note that the input mask needs to be edited independently for format changes",
 			"optional":true,
@@ -59,7 +59,7 @@
 			"options":[]
 		},
 		{
-			"name":"timeFormat",
+			"name":"time-format",
 			"type":"string",
 			"description":"moment.js format string used for time formatting--note that markup currently only supports 12 hour time with a fixed dropdown.",
 			"optional":true,
