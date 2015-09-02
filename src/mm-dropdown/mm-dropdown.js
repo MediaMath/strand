@@ -73,6 +73,9 @@
 				notify: true,
 				observer: '_dataChanged'
 			},
+			SECONDARY_ICON_COLOR: {
+				value: Colors.A2
+			},
 			layout: String
 		},
 
@@ -88,7 +91,6 @@
 
 		_widthLocked: false,
 		LAYOUT_TYPE: 'dropdown',
-		SECONDARY_ICON_COLOR: Colors.A2,
 
 		ready: function() {
 			if(!this.toggleTrigger) {
