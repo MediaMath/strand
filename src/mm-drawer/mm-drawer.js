@@ -73,7 +73,6 @@
 		_expandedChanged: function(expanded) {
 			if(!this.openedHeight || this.forceMeasure)
 				this.openedHeight = this.$.content.offsetHeight;
-			return this.openedHeight;
 		},
 
 		open: function () {
