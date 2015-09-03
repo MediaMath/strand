@@ -293,8 +293,9 @@ module.exports = function(grunt) {
 
 		//set config for the static fonts lib as well
 		var fnts = grunt.config.get('build_dir') + '/shared/fonts/fonts.css';
-		grunt.config.set("fonts.options.data.style", grunt.file.read(fnts));
-
+		grunt.config.set("hogan_static.fonts.options.data.style", grunt.file.read(fnts));
+		
+		//run batched
 		grunt.task.run(tasks);
 
 	});
@@ -327,8 +328,8 @@ module.exports = function(grunt) {
 			'copy:build',
 			'sass:dist',
 			'cssUrlEmbed', 
-			'hogan_static:fonts',
 			'style:imports',
+			'hogan_static:fonts',
 			// 'hogan_static:lib', //un-comment to build entire library
 			'vulcanize:dist',
 			'htmlmin:dist',
@@ -341,8 +342,8 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dev',
-			'hogan_static:fonts',
 			'style:imports',
+			'hogan_static:fonts',
 			'hogan_static:index'
 			// 'hogan_static:lib'
 		]);
