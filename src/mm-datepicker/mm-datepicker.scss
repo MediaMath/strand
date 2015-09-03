@@ -14,7 +14,16 @@
 	vertical-align: middle;
 	// font-size: 0em;
 	// line-height: 0em;
+	box-sizing: border-box;
+	position: fixed;
+	display: block;
 	@include clearfix();
+}
+
+:host([dual]) {
+	#container {
+		width: 426px;
+	}
 }
 
 ._mm-start, ._mm-end {
@@ -84,13 +93,6 @@ mm-footer {
 	clear: left;
 }
 
-
-
-:host {
-	position: fixed;
-	display: block;
-}
-
 .body-content {
 	margin: 15px;
 }
@@ -101,6 +103,7 @@ mm-footer {
 	background: $color-F0;
 	border: 1px solid $color-A8;
 	overflow: hidden;
+	width: 212px;
 
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);

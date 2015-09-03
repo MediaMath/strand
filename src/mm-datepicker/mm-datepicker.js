@@ -52,7 +52,8 @@
 			},
 			dual: { 
 				type: Boolean,
-				value: true
+				value: true,
+				reflectToAttribute: true
 			},
 			dateFormat: {
 				type: String,

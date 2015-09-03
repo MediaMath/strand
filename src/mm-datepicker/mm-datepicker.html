@@ -60,12 +60,12 @@
 					<template is="dom-if" if="{{useTime}}">
 						<div class="input-bottom">
 							<mm-group>
-								<mm-input-mask id="startTime" icon="clock" value="{{startTime}}" width="119" on-keydown="_keyHandler" disabled$="{{!startEnabled}}">
+								<mm-input-mask id="startTime" icon="clock" value="{{startTime}}" style="width:119px;" on-keydown="_keyHandler" disabled$="{{!startEnabled}}">
 									<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
 									<sep chars=":"></sep>
 									<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
 								</mm-input-mask>
-								<mm-dropdown id="startPeriod" value="{{startTimePeriod}}" fitparent="" style="width:64px;" disabled$="{{!startEnabled}}">
+								<mm-dropdown id="startPeriod" value="{{startTimePeriod}}" fitparent style="width:64px;" disabled$="{{!startEnabled}}">
 									<mm-list-item value="am">AM</mm-list-item>
 									<mm-list-item value="pm">PM</mm-list-item>
 								</mm-dropdown>
@@ -96,12 +96,12 @@
 						<template is="dom-if" if="{{useTime}}">
 							<div class="input-bottom">
 								<mm-group>
-									<mm-input-mask id="endTime" icon="clock" value="{{endTime}}" width="119" on-keydown="_keyHandler" disabled$="{{!endEnabled}}">
+									<mm-input-mask id="endTime" icon="clock" value="{{endTime}}" style="width:119px;" on-keydown="_keyHandler" disabled$="{{!endEnabled}}">
 										<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
 										<sep chars=":"></sep>
 										<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
 									</mm-input-mask>
-									<mm-dropdown id="endPeriod" value="{{endTimePeriod}}" fitparent="" style="width:64px;" disabled$="{{!endEnabled}}">
+									<mm-dropdown id="endPeriod" value="{{endTimePeriod}}" fitparent style="width:64px;" disabled$="{{!endEnabled}}">
 										<mm-list-item value="am">AM</mm-list-item>
 										<mm-list-item value="pm">PM</mm-list-item>
 									</mm-dropdown>
