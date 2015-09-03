@@ -315,8 +315,20 @@
 			}
 		},
 
+		// _lockWidth: function() {
+		// 	this.$.target.style.width = !this.fitparent ? this.buttonWidth + 'px' : '';
+		// 	this._widthLocked = true;
+		// },
+		
 		_lockWidth: function() {
-			this.$.target.style.width = !this.fitparent ? this.buttonWidth + 'px' : '';
+			if (this.fitparent) {
+				this.$.target.style.width = '';
+			} else if (this.buttonWidth > 0) {
+				this.$.target.style.width = this.buttonWidth + 'px';
+			} else {
+				return;
+			}
+
 			this._widthLocked = true;
 		},
 
