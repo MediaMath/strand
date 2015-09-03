@@ -264,7 +264,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	}
 
-	Solver.prototype.solve = function (destructive, interface, lower, upper, alpha, omega, placeholders, available, recycler) {
+	Solver.prototype.solve = function (destructive, iface, lower, upper, alpha, omega, placeholders, available, recycler) {
 		var currentCount = 1 + omega - alpha;
 
 		var deltaLower = lower - alpha;
@@ -282,55 +282,55 @@ This code may only be used under the BSD style license found at http://mediamath
 			if (deltaUpper > 0) {
 				if (deltaCount > 0) {
 					if (currentCount > deltaLower) {
-						this._windUp(interface, placeholders, deltaLower, recycler);
+						this._windUp(iface, placeholders, deltaLower, recycler);
 					} else {
-						this._jump(interface, placeholders, lower, currentCount, recycler);
+						this._jump(iface, placeholders, lower, currentCount, recycler);
 					}
 
-					this._pushUp(interface, placeholders, deltaCount, available, recycler);
+					this._pushUp(iface, placeholders, deltaCount, available, recycler);
 				} else {
 					if (deltaCount < 0) {
-						this._cutUp(interface, placeholders, -deltaCount, available, recycler);
+						this._cutUp(iface, placeholders, -deltaCount, available, recycler);
 
 						currentCount += deltaCount;
 					}
 
 					if (currentCount > deltaUpper) {
-						this._windUp(interface, placeholders, deltaUpper, recycler);
+						this._windUp(iface, placeholders, deltaUpper, recycler);
 					} else {
-						this._jump(interface, placeholders, lower + deltaShift, currentCount, recycler);
+						this._jump(iface, placeholders, lower + deltaShift, currentCount, recycler);
 					}
 				}
 			} else if (deltaCount < 0) {
-				this._cutUp(interface, placeholders, deltaUpper, available, recycler);
-				this._cutDown(interface, placeholders, -deltaLower, available, recycler);
+				this._cutUp(iface, placeholders, deltaUpper, available, recycler);
+				this._cutDown(iface, placeholders, -deltaLower, available, recycler);
 			}
 		} else {
 			if (deltaUpper < 0) {
 				if (deltaCount > 0) {
 					if (currentCount > -deltaUpper) {
-						this._windDown(interface, placeholders, -deltaUpper, recycler);
+						this._windDown(iface, placeholders, -deltaUpper, recycler);
 					} else {
-						this._jump(interface, placeholders, lower, currentCount, recycler);
+						this._jump(iface, placeholders, lower, currentCount, recycler);
 					}
 
-					this._pushDown(interface, placeholders, deltaCount, available, recycler);
+					this._pushDown(iface, placeholders, deltaCount, available, recycler);
 				} else {
 					if (deltaCount < 0) {
-						this._cutDown(interface, placeholders, -deltaCount, available, recycler);
+						this._cutDown(iface, placeholders, -deltaCount, available, recycler);
 
 						currentCount += deltaCount;
 					}
 
 					if (currentCount > -deltaLower) {
-						this._windDown(interface, placeholders, -deltaLower, recycler);
+						this._windDown(iface, placeholders, -deltaLower, recycler);
 					} else {
-						this._jump(interface, placeholders, lower, currentCount, recycler);
+						this._jump(iface, placeholders, lower, currentCount, recycler);
 					}
 				}
 			} else if (deltaCount > 0) {
-				this._pushUp(interface, placeholders, deltaUpper, available, recycler);
-				this._pushDown(interface, placeholders, -deltaLower, available, recycler);
+				this._pushUp(iface, placeholders, deltaUpper, available, recycler);
+				this._pushDown(iface, placeholders, -deltaLower, available, recycler);
 			}
 		}
 	};
@@ -350,7 +350,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		available.addTail().body = index;
 	};
 
-	Solver.prototype._cutUp = function (interface, placeholders, amount, available, recycler) {
+	Solver.prototype._cutUp = function (iface, placeholders, amount, available, recycler) {
 		var count = 0|amount;
 		var index = 0;
 		var snake = placeholders.getHead();
@@ -361,11 +361,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			index = p.getInnerIndex();
 			snake = snake.dropTailwise();
 			this._abandonAvailable(index, available);
-			interface.notify(index, -1, p.getOuterIndex(), recycler);
+			iface.notify(index, -1, p.getOuterIndex(), recycler);
 		}
 	};
 
-	Solver.prototype._cutDown = function (interface, placeholders, amount, available, recycler) {
+	Solver.prototype._cutDown = function (iface, placeholders, amount, available, recycler) {
 		var count = 0|amount;
 		var index = 0;
 		var snake = placeholders.getTail();
@@ -376,11 +376,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			index = p.getInnerIndex();
 			snake = snake.dropHeadwise();
 			this._abandonAvailable(index, available);
-			interface.notify(index, -1, p.getOuterIndex(), recycler);
+			iface.notify(index, -1, p.getOuterIndex(), recycler);
 		}
 	};
 
-	Solver.prototype._pushUp = function (interface, placeholders, amount, available, recycler) {
+	Solver.prototype._pushUp = function (iface, placeholders, amount, available, recycler) {
 		var p = null;
 		var snake = placeholders.getTail();
 		var young = snake ? snake.body.getOuterIndex() : -1;
@@ -392,11 +392,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			p = makePlaceholder(index);
 			p.setOuterIndex(++young);
 			placeholders.addTail().body = p;
-			interface.notify(index, young, -1, recycler);
+			iface.notify(index, young, -1, recycler);
 		}
 	};
 
-	Solver.prototype._pushDown = function (interface, placeholders, amount, available, recycler) {
+	Solver.prototype._pushDown = function (iface, placeholders, amount, available, recycler) {
 		var p = null;
 		var snake = placeholders.getHead();
 		var young = snake ? snake.body.getOuterIndex() : -1;
@@ -408,11 +408,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			p = makePlaceholder(index);
 			p.setOuterIndex(--young);
 			placeholders.addHead().body = p;
-			interface.notify(index, young, -1, recycler);
+			iface.notify(index, young, -1, recycler);
 		}
 	};
 
-	Solver.prototype._windUp = function (interface, placeholders, moves, recycler) {
+	Solver.prototype._windUp = function (iface, placeholders, moves, recycler) {
 		var p = null;
 		var snake = placeholders.getHead();
 		var temp = placeholders.getTail();
@@ -427,11 +427,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			temp = snake.dropTailwise();
 			placeholders.addTail(snake);
 			snake = temp;
-			interface.notify(p.getInnerIndex(), young, old, recycler);
+			iface.notify(p.getInnerIndex(), young, old, recycler);
 		}
 	};
 
-	Solver.prototype._windDown = function (interface, placeholders, moves, recycler) {
+	Solver.prototype._windDown = function (iface, placeholders, moves, recycler) {
 		var p = null;
 		var snake = placeholders.getTail();
 		var temp = placeholders.getHead();
@@ -446,11 +446,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			temp = snake.dropHeadwise();
 			placeholders.addHead(snake);
 			snake = temp;
-			interface.notify(p.getInnerIndex(), young, old, recycler);
+			iface.notify(p.getInnerIndex(), young, old, recycler);
 		}
 	};
 
-	Solver.prototype._jump = function (interface, placeholders, index, moves, recycler) {
+	Solver.prototype._jump = function (iface, placeholders, index, moves, recycler) {
 		var snake = placeholders.getHead();
 		var p = snake.body;
 		var old = p.getOuterIndex();
@@ -460,9 +460,9 @@ This code may only be used under the BSD style license found at http://mediamath
 		p.setOuterIndex(index);
 		snake.dropTailwise();
 		placeholders.addTail(snake);
-		interface.notify(p.getInnerIndex(), young, old, recycler);
+		iface.notify(p.getInnerIndex(), young, old, recycler);
 
-		this._windUp(interface, placeholders, count - 1, recycler);
+		this._windUp(iface, placeholders, count - 1, recycler);
 	};
 
 
@@ -512,8 +512,8 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Recycler.prototype.truncate = function (capacity) {
-		var interface = this._continuumInterface;
-		var amount = 0|interface.getDiscreteCount();
+		var iface = this._continuumInterface;
+		var amount = 0|iface.getDiscreteCount();
 		var limit = 0|capacity;
 		var index = 0;
 		var clamp = 0|(amount > limit);
@@ -525,7 +525,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		if (clamp) {
 			this._migrate(limit);
-			interface.trim(limit);
+			iface.trim(limit);
 			return 0|true;
 		} else {
 			return 0|false;
@@ -533,7 +533,7 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Recycler.prototype._migrate = function (limit) {
-		var interface = this._continuumInterface;
+		var iface = this._continuumInterface;
 		var alpha = this.getLowestIndex();
 		var omega = this.getHighestIndex();
 		var inUse = 1 + omega;
@@ -545,10 +545,10 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		if (lower < 0) {
 			this.reposition(0);
-			solver.solve(DESTRUCTIVE, interface, 0, limit - 1, alpha, omega, placeholders, available, this);
+			solver.solve(DESTRUCTIVE, iface, 0, limit - 1, alpha, omega, placeholders, available, this);
 		} else if (inUse > limit) {
-			this.reposition(interface.getElevation(lower));
-			solver.solve(DESTRUCTIVE, interface, lower, count - 1, alpha, omega, placeholders, available, this);
+			this.reposition(iface.getElevation(lower));
+			solver.solve(DESTRUCTIVE, iface, lower, count - 1, alpha, omega, placeholders, available, this);
 		}
 	};
 
@@ -569,7 +569,7 @@ This code may only be used under the BSD style license found at http://mediamath
 	Recycler.prototype.setHeightAtIndex = function (index, height) {
 		var result = this._continuumInterface.setHeight.apply(this._continuumInterface, arguments),
 			at = 0|index,
-			interface = this._continuumInterface,
+			iface = this._continuumInterface,
 			snake = this._placeholders.getHead(),
 			outer = 0;
 
@@ -579,7 +579,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		while (snake = (snake && snake.getTail())) {
 			outer = snake.body.getOuterIndex();
-			interface.notify(snake.body.getInnerIndex(), outer, outer, this);
+			iface.notify(snake.body.getInnerIndex(), outer, outer, this);
 		}
 
 		return result;
@@ -672,9 +672,9 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	Recycler.prototype._process = function (destructive) {
 		var fence = this._fence;
-		var interface = this._continuumInterface;
-		var lower = 0|interface.getIndexAtElevation(+fence.getLower() || 0);
-		var upper = 0|interface.getIndexAtElevation(+fence.getUpper() || 0);
+		var iface = this._continuumInterface;
+		var lower = 0|iface.getIndexAtElevation(+fence.getLower() || 0);
+		var upper = 0|iface.getIndexAtElevation(+fence.getUpper() || 0);
 		var placeholders = this._placeholders;
 		var available = this._available;
 		var alpha = this.getLowestIndex();
@@ -686,10 +686,10 @@ This code may only be used under the BSD style license found at http://mediamath
 		}
 
 		if (upper < 0) {
-			upper = -1 + (0|interface.getDiscreteCount());
+			upper = -1 + (0|iface.getDiscreteCount());
 		}
 
-		return solver.solve(destructive, interface, lower, upper, alpha, omega, placeholders, available, this);
+		return solver.solve(destructive, iface, lower, upper, alpha, omega, placeholders, available, this);
 	};
 
 

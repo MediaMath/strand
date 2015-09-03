@@ -203,7 +203,7 @@
 
 			if (this.items.length > 0) {
 				if (this.data) {
-					itemHeight = Polymer.dom(this.$.itemRecycler.$.pane).querySelector('mm-list-item').offsetHeight;
+					itemHeight = 0|this.$.itemRecycler.getHeightAtIndex(0);
 				} else {
 					itemHeight = this.items[0].offsetHeight;
 				}

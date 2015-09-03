@@ -43,27 +43,30 @@
 	</style>
   </head>
   <body>
-	<mm-item-recycler id="itemRecycler" item-template="templateItem">
-		<template id="templateItem">
-			<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
-				<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
-				
-				<mm-dropdown placeholder="Some Very Long Name" data="{{model.dd.dropdownData}}" value="{{model.dd.dropDownValue}}"></mm-dropdown>
+	<button id="switch">toggle</button>
+	<div id="toggle" style="display: none">
+		<mm-item-recycler id="itemRecycler" item-template="templateItem">
+			<template id="templateItem">
+				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
+					<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
 
-				<!--
-				<mm-dropdown placeholder="{{model.name}}" value="{{model.value}}">
-					<mm-list-item value="0">JPEG</mm-list-item>
-					<mm-list-item value="1">GIF</mm-list-item>
-					<mm-list-item value="2">SWF</mm-list-item>
-					<mm-list-item value="3">PNG</mm-list-item>
-				</mm-dropdown>
-				-->
-			</div>
-		</template>
-		<div id="header" recycler="header">Header <br/> Text</div>
-		<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
-		Hello World
-	</mm-item-recycler>
+					<mm-dropdown placeholder="Some Very Long Name" data="{{model.dd.dropdownData}}" value="{{model.dd.dropDownValue}}"></mm-dropdown>
+
+					<!--
+					<mm-dropdown placeholder="{{model.name}}" value="{{model.value}}">
+						<mm-list-item value="0">JPEG</mm-list-item>
+						<mm-list-item value="1">GIF</mm-list-item>
+						<mm-list-item value="2">SWF</mm-list-item>
+						<mm-list-item value="3">PNG</mm-list-item>
+					</mm-dropdown>
+					-->
+				</div>
+			</template>
+			<div id="header" recycler="header">Header <br/> Text</div>
+			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
+			Hello World
+		</mm-item-recycler>
+	</div>
 	<script type="text/javascript">
 		var data = [],
 			ddDataArr = [],
@@ -103,8 +106,17 @@
 		}
 
 		window.addEventListener("WebComponentsReady", function() {
+			toggle = document.querySelector("#toggle");
 			itemRecycler = document.querySelector("#itemRecycler");
 			itemRecycler.data = data;
+
+			document.querySelector("#switch").onclick = function () {
+				if (toggle.style.display !== "none") {
+					toggle.style.display = "none"
+				} else {
+					toggle.style.display = "";
+				}
+			};
 
 		// 	setTimeout(function () {
 		// 		itemRecycler.style.height = (2 * itemRecycler.offsetHeight) + "px";

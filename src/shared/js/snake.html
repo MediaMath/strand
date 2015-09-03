@@ -6,7 +6,9 @@ This code may only be used under the BSD style license found at http://mediamath
 <script language="javascript">
 (function (scope) {
 
-	scope.Snake = (function snakeImplementation (sourceBody) {
+	scope.Snake = (function (snakeImplementation) {
+		return snakeImplementation("", "", snakeImplementation);
+	})(function bootstrapImplementation (sourceVars, sourceBody, snakeImplementation) {
 
 		var debug = 0|true;
 
@@ -14,9 +16,10 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		var arbortSentinel = {};
 
+		var vars = sourceVars || "";
 		var source = sourceBody || "";
 
-		var failBody = "{ throw new Error('could not resolve Snake implementation body'); }";
+		var failBody = "() { throw new Error('could not resolve Snake implementation body'); }";
 
 		var uniqueImplementation = null;
 
@@ -25,11 +28,13 @@ This code may only be used under the BSD style license found at http://mediamath
 		try {
 			if (!source) {
 				source = snakeImplementation.toString();
+				vars = source.slice(0, source.indexOf(")"));
+				vars = vars.slice(vars.indexOf("(") + 1);
 				source = source.slice(source.indexOf("{") + 1);
 				source = source.slice(0, source.lastIndexOf("}"));
 			}
 
-			uniqueImplementation = Function("sourceBody", "snakeImplementation", source);
+			uniqueImplementation = Function(vars, source);
 		} catch (e) {
 		}
 
@@ -60,10 +65,10 @@ This code may only be used under the BSD style license found at http://mediamath
 		}
 
 		SnakeType.prototype.implementationFactory = function () {
-			var implementation = (uniqueImplementation || sharedImplementation) (source, failBody);
+			var implementation = (uniqueImplementation || sharedImplementation) (vars, source, failBody);
 
 			if (uniqueImplementation) {
-				uniqueImplementation = Function("sourceBody", "snakeImplementation", source);
+				uniqueImplementation = Function(vars, source);
 			}
 
 			return implementation;
@@ -287,7 +292,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 		return SnakeType;
-	} (""));
+	});
 
 } (window));
 </script>

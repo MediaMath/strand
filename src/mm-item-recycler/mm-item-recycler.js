@@ -56,7 +56,7 @@ found here: https://github.com/Polymer/core-list
 		is: 'mm-item-recycler',
 
 		behaviors: [
-			Polymer.Templatizer,
+			StrandTraits.StampBindable,
 			StrandTraits.WindowNotifier,
 			StrandTraits.DomWatchable,
 			StrandTraits.SizeResponsible,
@@ -81,6 +81,11 @@ found here: https://github.com/Polymer/core-list
 			itemTemplateElement: {
 				type: Object,
 				value: null,
+			},
+			_templatized: {
+				type: Object,
+				value: null,
+				readOnly: true,
 			},
 			index: {
 				type: Number,
@@ -109,6 +114,14 @@ found here: https://github.com/Polymer/core-list
 				},
 			},
 			_initialized: {
+				type: Boolean,
+				value: false,
+			},
+			_initializing: {
+				type: Boolean,
+				value: false,
+			},
+			_waiting: {
 				type: Boolean,
 				value: false,
 			},
@@ -151,6 +164,7 @@ found here: https://github.com/Polymer/core-list
 					responders.pane = this._paneResponse.bind(this);
 					responders.header = this._headerResponse.bind(this);
 					responders.footer = this._footerResponse.bind(this);
+					responders.extent = this._extentResponse.bind(this);
 					return responders;
 				},
 			},
@@ -167,7 +181,6 @@ found here: https://github.com/Polymer/core-list
 				type: Array,
 				value: null,
 				notify: true,
-				observer: "initialize"
 			},
 		},
 
@@ -176,6 +189,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		observers: [
+			"initialize(data, itemTemplate, itemTemplateElement)",
 			"_scopeChanged(scope.*)",
 			"_dataChanged(data.*)",
 		],
@@ -227,12 +241,21 @@ found here: https://github.com/Polymer/core-list
 			this.addResizeListener(this._responders.pane, this.$.pane);
 			this.addResizeListener(this._responders.header, this.$.header);
 			this.addResizeListener(this._responders.footer, this.$.footer);
+			this.addResizeListener(this._responders.extent, this.$.extent);
 		},
 
 		detached: function () {
 			this.removeResizeListener(this._responders.pane, this.$.pane);
 			this.removeResizeListener(this._responders.header, this.$.header);
 			this.removeResizeListener(this._responders.footer, this.$.footer);
+			this.removeResizeListener(this._responders.extent, this.$.extent);
+		},
+
+		_extentResponse: function (e) {
+			if (this._waiting) {
+				this._waiting = false;
+				this.initialize();
+			}
 		},
 
 		_paneResponse: function (e) {
@@ -308,34 +331,29 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		wasTemplateTemplatized: function (template) {
-			return 0|!!template.hasOwnProperty("_content");
-		},
-
 		initialize: function () {
 			if (!this.data) {
 				return;
+			} else if (this.$.extent.offsetHeight < 1) {
+				this._waiting = true;
+				return;
+			} else if (!this._initialized && !this._initializing && !this.initializeTemplateBind()) {
+				return;
 			}
 
-			if(!this._initialized) {
-				this._initialized = true;
-
-				this.initializeTemplateBind();
-
+			if(!this._initializing) {
 				if(!this.itemHeight) {
+					this._initializing = true;
 					this.getItemHeight(this.initializeRecycler.bind(this));
 				} else {
 					this.initializeRecycler();
 				}
-			} else {
+			} else if (this._initialized) {
 				this.initializeRecycler();
 			}
 		},
 
 		initializeTemplateBind: function () {
-			var template = null;
-			var instance = null;
-
 			if (!this.itemTemplateElement &&
 				this.itemTemplate &&
 				typeof this.itemTemplate === "string") {
@@ -343,24 +361,21 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if(!this.itemTemplateElement) {
-				throw new Error("mm-item-recycler: Item template does not exist!");
-				return;
-			} else if (!this.wasTemplateTemplatized(this.itemTemplateElement)) {
-				// an attempt to handle templates that have not passed through Polymer.Annotations_parseTemplate()
-				// (https://github.com/Polymer/polymer/issues/2181)
-				template = document.createElement("template");
-				template.content.appendChild(this.itemTemplateElement);
-				this.templatize(template);
-				instance = this.stamp();
-				this.templatize((instance.root).querySelector("template"));
+				//throw new Error("mm-item-recycler: Item template does not exist!");
+				return 0|false;
 			} else {
-				this.templatize(this.itemTemplateElement);
+				if (this._templatized !== this.itemTemplateElement) {
+					this._set_templatized(this.itemTemplateElement);
+					this.templatize(this.itemTemplateElement);
+				}
+				return 0|true;
 			}
 		},
 
 		initializeRecycler: function() {
 			this._recycler.truncate(0);
 			this.initializeViewport();
+			this._initialized = true;
 		},
 
 		initializeViewport: function() {
@@ -662,7 +677,11 @@ found here: https://github.com/Polymer/core-list
 
 
 		getHeightAtIndex: function () {
-			return this._recycler.getHeightAtIndex.apply(this._recycler, arguments);
+			if (this.itemHeight) {
+				return this._recycler.getHeightAtIndex.apply(this._recycler, arguments);
+			} else {
+				return null;
+			}
 		},
 	});
 
