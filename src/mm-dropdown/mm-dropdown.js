@@ -187,8 +187,6 @@
 			if (newData) {
 				if (!this.maxItems) {
 					this.maxItems = 10;
-				} else {
-					this._setMaxHeight(this.maxItems); 
 				}
 				if (this.value) this._selectItemByValue(this.value);
 			} else {
@@ -323,7 +321,7 @@
 		},
 
 		_maxItemsChanged: function(newVal, oldVal) {
-			if(newVal) this._setMaxHeight(newVal);
+			if(newVal && this.state === this.STATE_OPENED) this._setMaxHeight(newVal);
 	 	},
 
 	 	_setMaxHeight: function(maxItems) {
