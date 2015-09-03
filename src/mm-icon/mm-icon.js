@@ -40,13 +40,19 @@
 		},
 
 		_hoverColorChanged: function(newVal, oldVal) {
-			this.customStyle['--icon-color'] = newVal;
-			this.updateStyles();
+			this.customStyle['--icon-hover-color'] = newVal;
+			this.debounce("callUpdateStyles", this._callUpdateStyles, 100);
 		},
 
 		_primaryColorChanged: function(newVal, oldVal) {
-			this.customStyle['--icon-hover-color'] = newVal;
-			this.updateStyles();
+			this.customStyle['--icon-color'] = newVal;
+			this.debounce("callUpdateStyles", this._callUpdateStyles, 100);
+		},
+
+		_callUpdateStyles: function() {
+			this.async(function() {
+				this.updateStyles();
+			});
 		},
 
 		_updateClass: function(type) {
