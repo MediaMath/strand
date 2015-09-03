@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 		},
 		modules: {
 			files: ['src/mm-*/*', '!doc.json', '!example.html'],
-			tasks: ['default'],//['sass:module','sassShadowFixLive','vulcanize:module'],
+			tasks: ['default'],
 			options: {
 				nospawn: true,
 			}
@@ -79,16 +79,6 @@ module.exports = function(grunt) {
 		},
 		files:{
 			'dist/<%=module%>.html':'<%=module%>/<%=module%>.html'
-		}
-	});
-
-	grunt.config.set("sass.module", {
-		options: {
-			style: 'compressed',
-			includePaths: ["bower_components/bourbon/app/assets/stylesheets/"]
-		},
-		files: {
-			'<%=module%>/<%=module%>.css':'<%=module%>/<%=module%>.scss'
 		}
 	});
 
