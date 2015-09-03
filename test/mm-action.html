@@ -36,7 +36,7 @@
 			});
 
 			it("should set icon primaryColor if an icon is present", function(done) {
-				var a = Polymer.dom(document).querySelector("#awesome"),
+				var a = document.querySelector("#awesome"),
 					color = a.PRIMARY_ICON_COLOR;
 
 				a.async(function() {
@@ -47,7 +47,7 @@
 			});
 
 			it("width of '#awesome' should be 78px if it rendered correctly", function(done) {
-				var a = Polymer.dom(document).querySelector("#awesome"),
+				var a = document.querySelector("#awesome"),
 					width = null;
 
 				a.async(function() {
@@ -59,7 +59,7 @@
 			});
 
 			it("light dom label should have text-decoration: 'underline'", function(done) {
-				var a = Polymer.dom(document).querySelector("#underline"),
+				var a = document.querySelector("#underline"),
 						label = Polymer.dom(a).querySelector("label");
 
 				a.async(function() {
@@ -70,7 +70,7 @@
 			});
 
 			it(".action & label text color should be Colors.D0", function(done) {
-				var a = Polymer.dom(document).querySelector("#awesome"),
+				var a = document.querySelector("#awesome"),
 					aInner = Polymer.dom(a.root).querySelector(".action"),
 					label = Polymer.dom(a).querySelector("label"),
 					expectedColor = TestHelper.hexToRgb(Colors.D0),
