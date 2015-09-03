@@ -126,7 +126,7 @@ module.exports = function(grunt) {
 				options:{
 					data:{
 						module:'shared-fonts',
-						style:grunt.file.read("build/shared/fonts/fonts.css")
+						//style:grunt.file.read("build/shared/fonts/fonts.css")
 					}
 				},
 				files:{
@@ -259,6 +259,7 @@ module.exports = function(grunt) {
 
 	});
 
+	//Generate template style includes for new polymer 1.1 ext-styling
 	grunt.registerTask('style:imports', function() {
 		var tasks = [];
 		var build = grunt.config('build_dir') + "/";
@@ -289,6 +290,10 @@ module.exports = function(grunt) {
 				grunt.log.writeln("Not Found:"+build+file);
 			}
 		});
+
+		//set config for the static fonts lib as well
+		var fnts = grunt.config.get('build_dir') + '/shared/fonts/fonts.css';
+		grunt.config.set("fonts.options.data.style", grunt.file.read(fnts));
 
 		grunt.task.run(tasks);
 
