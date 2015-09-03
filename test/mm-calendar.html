@@ -20,7 +20,7 @@ describe("mm-calendar", function() {
 	it("should generate a list of days around the current date by default", function() {
 
 		var t1 = document.querySelector("#test1");
-		var active = t1.days.filter(function(day) {
+		var active = t1._days.filter(function(day) {
 			return day.class.active;
 		});
 		var st = moment().startOf('month');
@@ -35,8 +35,8 @@ describe("mm-calendar", function() {
 	it("should pack the current calendar with pre/post month dates to keep a consistent size", function() {
 		var t1 = document.querySelector("#test1");
 		var month = moment().startOf('month');
-		t1.days[0].moment.isBefore(month).should.be.true;
-		t1.days[t1.days.length-1].moment.isAfter(month).should.be.true;
+		t1._days[0].moment.isBefore(month).should.be.true;
+		t1._days[t1._days.length-1].moment.isAfter(month).should.be.true;
 	});
 
 	it("should move the month view when the buttons are pressed", function(done) {
@@ -69,9 +69,10 @@ describe("mm-calendar", function() {
 		t3.date = moment("01-01-2001").toDate();
 		t3.pairDate = moment("01-01-2001").add(6, 'days').toDate();
 		flush(function() {
-			var sel = t3.days.filter(function(day) {
+			var sel = t3._days.filter(function(day) {
 			 return day.class.selected; 
 			});
+			console.log(sel);
 			sel[0].class.first.should.be.true;
 			sel[6].class.last.should.be.true;
 			sel.should.have.length(7);

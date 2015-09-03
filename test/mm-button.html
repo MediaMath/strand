@@ -37,7 +37,7 @@
 					color = a.PRIMARY_ICON_COLOR;
 
 				setTimeout(function() {
-					a.items[0].getAttribute("primaryColor").should.equal(color);
+					Polymer.dom(a).querySelector("mm-icon").getAttribute("primary-color").should.equal(color);
 					done();
 				}, 150);
 			});
@@ -68,7 +68,7 @@
 
 			it("button color should be Colors.A2 if type 'secondary'", function(done) {
 				var a = document.querySelector("#btnSec"),
-					bInner = a.shadowRoot.querySelector(".button"),
+					bInner = Polymer.dom(a.root).querySelector(".button"),
 					secondaryColor = TestHelper.hexToRgb(Colors.A2),
 					color = null;
 
@@ -81,7 +81,7 @@
 
 			it("button color should be Colors.D0 if type 'primary'", function(done) {
 				var a = document.querySelector("#btnIcon"),
-					bInner = a.shadowRoot.querySelector(".button"),
+					bInner = Polymer.dom(a.root).querySelector(".button"),
 					primaryColor = TestHelper.hexToRgb(Colors.D0),
 					color = null;
 

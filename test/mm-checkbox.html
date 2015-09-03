@@ -43,7 +43,7 @@
 
 			it("should have a style of 'selected' applied to the inner #checkbox div", function(done) {
 				var a = document.querySelector("#cbx"),
-					aInner = a.shadowRoot.querySelector("._mm_checkbox"),
+					aInner = Polymer.dom(a.root).querySelector("#checkbox"),
 					cssClass = "selected",
 					hasSelected = null;
 
@@ -68,7 +68,7 @@
 
 			it("the inner icon color should be 'Colors.D0' if default", function(done) {
 				var a = document.querySelector("#cbx"),
-					aInner = a.shadowRoot.querySelector("mm-icon").shadowRoot.querySelector("#iconGlyph"),
+					aInner = Polymer.dom(a.root).querySelector("mm-icon").$.iconGlyph,
 					expectedColor = TestHelper.hexToRgb(Colors.D0),
 					color = null;
 
@@ -81,7 +81,7 @@
 
 			it("should set icon primaryColor if custom icon is set", function(done) {
 				var a = document.querySelector("#cbxIcon"),
-					aInner = a.shadowRoot.querySelector("mm-icon"),
+					aInner = Polymer.dom(a.root).querySelector("mm-icon"),
 					expectedColor = a.iconColor,
 					color = null;
 
