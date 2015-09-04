@@ -80,9 +80,7 @@
 
 			// if it's an item-recycler, we need to have NO horizontal scrolling
 			if (this.$.itemRecycler) {
-				this.$.itemRecycler.$.constrainer.style.width = panelWidth;
-				this.$.itemRecycler.$.pane.style.overflowY = "auto";
-				this.$.itemRecycler.$.pane.style.overflowX = "hidden";
+				this.$.itemRecycler.xScroll = "none";
 			}
 
 			panelRect.toCSS(this.panel,true);

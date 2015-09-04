@@ -68,6 +68,11 @@ found here: https://github.com/Polymer/core-list
 				value: "2d",
 			},
 			_gpuAssignedOnce: String,
+			xScroll: {
+				type: String,
+				value: "all",
+				reflectToAttribute: true,
+			},
 			scope: {
 				type: Object,
 				value: null,
@@ -677,10 +682,13 @@ found here: https://github.com/Polymer/core-list
 
 
 		getHeightAtIndex: function () {
+			var recycled = null;
 			if (this.itemHeight) {
 				return this._recycler.getHeightAtIndex.apply(this._recycler, arguments);
 			} else {
-				return null;
+				// especially relevant when measurements are available before mutation observer fires
+				recycled = Polymer.dom(this.$.middle).querySelector(".recycler-panel");
+				return recycled && recycled.offsetHeight || null;
 			}
 		},
 	});
