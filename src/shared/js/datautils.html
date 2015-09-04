@@ -102,6 +102,32 @@
 		}, init);
 	}
 
+	function _getPathValue(path, object) {
+		var p = path;
+		if (typeof path === "string") {
+			p = path.split(".");
+		}
+		return p.reduce(function(prev, curr) {
+			return prev[curr];
+		}, object);
+	}
+
+	function _setPathValue(path, object, value, create) {
+		var p = path;
+		if (typeof path === "string") {
+			p = path.split(".");
+		}
+		var last = p.slice(-1)[0];
+		p.reduce(function(prev, curr) {
+			if (curr === last) {
+				prev[curr] = value;
+			} else if (create && !prev[curr]) {
+				prev[curr] = {};
+			}
+			return prev[curr];
+		},object);
+	}
+
 	function _nodeInnerValue(nodeObj) {
 		return nodeObj.value || nodeObj.inner;
 	}
@@ -195,6 +221,9 @@
 			}
 			return o.reverse();
 		},
+
+		getPathValue:_getPathValue,
+		setPathValue:_setPathValue
 	};
 
 	scope.DataUtils = DataUtils;

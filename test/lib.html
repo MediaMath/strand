@@ -131,34 +131,6 @@ describe("Measure Library", function() {
     Measure.should.be.a("object");
   });
 });
-
-describe("DataUtils Library", function() {
-
-  it("should exist", function() {
-    DataUtils.should.be.a("object");
-  });
-
-  it("should merge 2 param arrays with the latter arrays 'winning' conflicts", function() {
-    var a = [{name:"a", value:"1"},{name:"b", value:"2"},{name:"c",value:"3"}];
-    var b = [{name:"c",value:"CEE CEE CEE"}];
-    DataUtils.mergeParamLists(a, b).should.eql([{name:"a", value:"1"},{name:"b", value:"2"},{name:"c",value:"CEE CEE CEE"}])
-  });
-
-  it("should merge 2 param arrays with just flat strings instead of param objects", function() {
-    var a = [];
-    var b = ["innerValue", 123];
-    DataUtils.mergeParamLists(a,b).should.eql(b);
-    var a = [1234];
-    DataUtils.mergeParamLists(a,b).should.eql([1234, "innerValue", 123]);
-  });
-
-  it("should support adama style query for serialization fo dom", function() {
-      var expected = {"with":[{"inner":"advertiser, agency"},{"inner":"rpt_margin_management_partial"},{"inner":"budget_flights"}],"full":[{"inner":"*"}],"sort":[{"inner":"status,-updated_on"}],"order":[{"inner":"descending"}],"page":[{"inner":"0"}]},
-          q = document.querySelector("#obj2").children;
-        DataUtils.objectifyDistributedNodes(q).should.eql(expected);
-  });
-
-});
   </script>
 
 <div id="tests" style="display:none">
