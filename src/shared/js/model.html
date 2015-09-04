@@ -1,0 +1,59 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html"/>
+<script>
+(function (scope) {
+
+	scope.Model = function(data, ajax, opts, sync, collection) {
+		this.data = data || {};
+		this._ajax = ajax || new StrandLib.Ajax();
+		this._opts = opts;
+		this._sync = sync;
+		this.collection = collection;
+		if (this.collection && this.collection._cidFactory && this.data.id) {
+			this._cid = this.collection._cidFactory();
+		}
+	};
+
+	scope.Model.prototype = {
+		
+		get mId() {
+			return this.data.id || null;
+		},
+		
+		set mId (input) {
+			this.data.id = input;
+		},
+
+		get cId() {
+			return this._cid;
+		},
+
+		init: function(data) {
+			if (Object.keys(this.data).length === 0) {
+				this.data = data || this.defaults;
+			}
+		},
+
+		clear: function() {
+			this.data = {};
+		},
+
+		get: function(path) {
+			return Polymer.Base.get(path, this.data);
+		},
+
+		set: function(path, value) {
+			Polymer.Base.set(path, value, this.data);
+		},
+
+		toJSON: function() {
+			return JSON.stringify(this.data);
+		},
+
+		get connection() {
+			return this._ajax;
+		},
+
+	};
+
+})(window.StrandLib = window.StrandLib || {}); 
+</script>

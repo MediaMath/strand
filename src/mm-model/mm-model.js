@@ -40,24 +40,10 @@
 				}
 			}
 		},
-		// publish: {
-		// 	mid: "",
-		// 	cid: "",
-		// 	collection: null,
-		// 	// recursiveChanges: false,
-		// 	adapter: "",
-		// 	adapterInstance: {},
-		// 	defaults:null,
-		// 	data:null,
-		// 	auto:false,
-		// },
-
-		// deepPublish: {
-		// 	data:{},
-		// },
 
 		observers: [
-			"_dataId(data.id, mid)"
+			"_dataId(data.id)",
+			"_modelId(mId)"
 		],
 
 		init: function(data) {
@@ -99,19 +85,13 @@
 			this.data = {};
 		},
 
-		// get: function(property, obj) {
-		// 	obj = obj || this.data;
+		getData: function(path) {
+			return this.get("data."+path);
+		},
 
-		// 	var p = Path.get(property);
-		// 	return p.getValueFrom(obj);
-		// },
-
-		// set: function(property, value, obj) {
-		// 	obj = obj || this.data;
-
-		// 	var p = Path.get(property);
-		// 	return p.setvalueFrom(obj, value);
-		// },
+		setData: function(path, value) {
+			this.set("data."+path,value);
+		},
 
 		toJSON: function() {
 			return JSON.stringify(this.data);
@@ -121,17 +101,18 @@
 			return this.adapterInstance;
 		},
 
-		_modelId: function(newModelId, oldModelId ) {
-			console.log("modelId",oldModelId,newModelId);
-
-			if (newModelId !== this.get("data.id"));
-				this._set("data.id", newModelId);
+		_modelId: function(mid) {
+			// this.debounce("mid", Function("this.data.id = " + String(mid)));
+			this.debounce("mid", function() {
+				this.data.id = mid;
+			});
 		},
 
-		_dataId: function(dId, mId) {
-			console.log("dataId",dId);
-			if (dId !== mId)
-				this.mid = dId;
+		_dataId: function(did) {
+			// this.debounce("mid", Function("this.mid = " + String(this.data.id)));
+			this.debounce("mid", function() {
+				this.mId = this.data.id;
+			});
 		},
 
 	});
