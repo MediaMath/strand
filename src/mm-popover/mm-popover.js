@@ -6,7 +6,7 @@
 */
 (function(scope) {
 
-	Polymer({
+	scope.Popover = Polymer({
 		is: 'mm-popover',
 
 		behaviors: [

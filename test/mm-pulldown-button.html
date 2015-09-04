@@ -46,20 +46,20 @@
 
 	<script>
 		
-		document.addEventListener("keydown", function(e) {
-			console.log("key pressed: "+e.keyCode);
-		});
+		// document.addEventListener("keydown", function(e) {
+		// 	console.log("key pressed: "+e.keyCode);
+		// });
 
-		fireKeyEvent = function(keyCode) {
-			var ke = new Event('Event');
-			if(ke.initEvent) {
-				ke.initEvent('keydown', true, true);
-			}
-			ke.keyCode = keyCode;
-			ke.which = keyCode;
+		// fireKeyEvent = function(keyCode) {
+		// 	var ke = new Event('Event');
+		// 	if(ke.initEvent) {
+		// 		ke.initEvent('keydown', true, true);
+		// 	}
+		// 	ke.keyCode = keyCode;
+		// 	ke.which = keyCode;
 
-			document.activeElement.dispatchEvent(ke);
-		}
+		// 	document.activeElement.dispatchEvent(ke);
+		// }
 
 		describe("mm-pulldown-button", function() {
 			
@@ -106,90 +106,90 @@
 				if(a.direction === 's') targetRect.bottom.should.equal(panelRect.top);
 			});
 
-			// keyboardable behavior tests
-			it("should open on keypress if closed", function(done) {
-				var button = document.getElementById('pdb');
-				button.close();
-				button.target.focus();
-				setTimeout(function() {
-					fireKeyEvent(40);
-					button.state.should.equal(button.STATE_OPENED);
-					done();
-				}, 100);
-			});
+			/* TODO: Move to behavior_keyboardable and behavior_keyselectable */
+			// it("should open on keypress if closed", function(done) {
+			// 	var button = document.getElementById('pdb');
+			// 	button.close();
+			// 	button.target.focus();
+			// 	setTimeout(function() {
+			// 		fireKeyEvent(40);
+			// 		button.state.should.equal(button.STATE_OPENED);
+			// 		done();
+			// 	}, 100);
+			// });
 
-			it("should not respond to keypress when not focused", function(done) {
-				var button = document.getElementById('pdb');
-				button.close();
-				button.target.blur();
-				setTimeout(function() {
-					fireKeyEvent(40);
-					button.state.should.equal(button.STATE_CLOSED);
-					done();
-				}, 100);
-			});
+			// it("should not respond to keypress when not focused", function(done) {
+			// 	var button = document.getElementById('pdb');
+			// 	button.close();
+			// 	button.target.blur();
+			// 	setTimeout(function() {
+			// 		fireKeyEvent(40);
+			// 		button.state.should.equal(button.STATE_CLOSED);
+			// 		done();
+			// 	}, 100);
+			// });
 
-			it("should be navigable with arrow keys", function(done) {
-				var button = document.getElementById('pdb');
-				button.target.focus();
-				setTimeout(function() {
-					var items = Polymer.dom(button).children.filter(function(e) { return e.localName === 'mm-list-item' });
-					fireKeyEvent(40);
-					fireKeyEvent(40);
-					button.focusedItem.should.equal(items[0]);
-					fireKeyEvent(38);
-					button.focusedItem.should.equal(items[2]);
-					fireKeyEvent(38)
-					button.focusedItem.should.equal(items[1]);
-					done();
-				}, 100);
-			});
+			// it("should be navigable with arrow keys", function(done) {
+			// 	var button = document.getElementById('pdb');
+			// 	button.target.focus();
+			// 	setTimeout(function() {
+			// 		var items = Polymer.dom(button).children.filter(function(e) { return e.localName === 'mm-list-item' });
+			// 		fireKeyEvent(40);
+			// 		fireKeyEvent(40);
+			// 		button.focusedItem.should.equal(items[0]);
+			// 		fireKeyEvent(38);
+			// 		button.focusedItem.should.equal(items[2]);
+			// 		fireKeyEvent(38)
+			// 		button.focusedItem.should.equal(items[1]);
+			// 		done();
+			// 	}, 100);
+			// });
 
-			it("should also be navigable with home/end, pg up/pg dn keys", function(done) {
-				var button = document.getElementById('pdb');
-				button.target.focus();
-				setTimeout(function() {
-					var items = Polymer.dom(button).children.filter(function(e) { return e.localName === 'mm-list-item' });
-					for(var i=0; i<100*Math.floor(Math.random()); i++) {
-						fireKeyEvent(40);
-					}
-					fireKeyEvent(33);
-					button.focusedItem.should.equal(items[0]);
-					fireKeyEvent(34);
-					button.focusedItem.should.equal(items[2]);
-					fireKeyEvent(36);
-					button.focusedItem.should.equal(items[0]);
-					fireKeyEvent(35);
-					button.focusedItem.should.equal(items[2]);
-					done();			
-				}, 100);
-			});
+			// it("should also be navigable with home/end, pg up/pg dn keys", function(done) {
+			// 	var button = document.getElementById('pdb');
+			// 	button.target.focus();
+			// 	setTimeout(function() {
+			// 		var items = Polymer.dom(button).children.filter(function(e) { return e.localName === 'mm-list-item' });
+			// 		for(var i=0; i<100*Math.floor(Math.random()); i++) {
+			// 			fireKeyEvent(40);
+			// 		}
+			// 		fireKeyEvent(33);
+			// 		button.focusedItem.should.equal(items[0]);
+			// 		fireKeyEvent(34);
+			// 		button.focusedItem.should.equal(items[2]);
+			// 		fireKeyEvent(36);
+			// 		button.focusedItem.should.equal(items[0]);
+			// 		fireKeyEvent(35);
+			// 		button.focusedItem.should.equal(items[2]);
+			// 		done();			
+			// 	}, 100);
+			// });
 
-			it("should select item on return", function(done) {
-				var button = document.getElementById('pdb')
-				button.target.focus();
-				setTimeout(function() {
-					var items = Polymer.dom(button).children.filter(function(e) { return e.localName === 'mm-list-item' });
-					for(var i=0; i<100*Math.floor(Math.random()); i++) {
-						fireKeyEvent(40);
-					}
-					var sel = button.focusedItem;
-					fireKeyEvent(13);
-					button.selectedItem.should.equal(sel);
-					button.state.should.equal(button.STATE_CLOSED);
-					done();
-				}, 100);
-			});
+			// it("should select item on return", function(done) {
+			// 	var button = document.getElementById('pdb')
+			// 	button.target.focus();
+			// 	setTimeout(function() {
+			// 		var items = Polymer.dom(button).children.filter(function(e) { return e.localName === 'mm-list-item' });
+			// 		for(var i=0; i<100*Math.floor(Math.random()); i++) {
+			// 			fireKeyEvent(40);
+			// 		}
+			// 		var sel = button.focusedItem;
+			// 		fireKeyEvent(13);
+			// 		button.selectedItem.should.equal(sel);
+			// 		button.state.should.equal(button.STATE_CLOSED);
+			// 		done();
+			// 	}, 100);
+			// });
 
-			it("should close panel on escape", function(done) {
-				var button = document.getElementById('pdb');
-				button.target.focus();
-				setTimeout(function() {
-					fireKeyEvent(27);
-					button.state.should.equal(button.STATE_CLOSED);
-					done();
-				}, 100);
-			});
+			// it("should close panel on escape", function(done) {
+			// 	var button = document.getElementById('pdb');
+			// 	button.target.focus();
+			// 	setTimeout(function() {
+			// 		fireKeyEvent(27);
+			// 		button.state.should.equal(button.STATE_CLOSED);
+			// 		done();
+			// 	}, 100);
+			// });
 
 		});
 

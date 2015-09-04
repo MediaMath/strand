@@ -34,7 +34,7 @@
 
 			it("should have a default width and height of 28px by 28px", function(done) {
 				var a = document.querySelector("#plus"),
-					aInner = a.shadowRoot.querySelector("#iconGlyph"),
+					aInner = Polymer.dom(a.root).querySelector("#iconGlyph"),
 					fontSize = "",
 					width = 0,
 					height = 0;
@@ -57,7 +57,7 @@
 
 			it("should have the correct primaryColor", function(done) {
 				var a = document.querySelector("#alerts"),
-					aInner = a.shadowRoot.querySelector("#iconGlyph"),
+					aInner = Polymer.dom(a.root).querySelector("#iconGlyph"),
 					expectedColor = TestHelper.hexToRgb("#00FF00"),
 					color = null;
 
@@ -72,7 +72,7 @@
 
 			it("should have a hover class which matches it's uid", function() { 
 				var a = document.querySelector("#geoHover"),
-					styleNodes = a.shadowRoot.querySelector("style[no-shim]"),
+					styleNodes = Polymer.dom(a.root).querySelector("style[no-shim]"),
 					expectedHoverClass = "._mm_icon." + a.uid + ":hover{color:" + a.hoverColor + "}",
 					tc = styleNodes.textContent.replace(/\s/ig, "");
 					hoverClass = tc.indexOf(expectedHoverClass) !== -1;

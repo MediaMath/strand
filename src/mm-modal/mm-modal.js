@@ -5,52 +5,56 @@
 
 */
 /* mm-modal.js */
-Polymer( {
-	is: 'mm-modal',
+(function(scope) {
 
-	behaviors:[StrandTraits.Stackable],
+	scope.Modal = Polymer({
+		is: 'mm-modal',
 
-	properties: {
-		stackType:{
-			value: "modal"
+		behaviors:[StrandTraits.Stackable],
+
+		properties: {
+			stackType:{
+				value: "modal"
+			},
+			hidden: {
+				type:Boolean,
+				value:true,
+				reflectToAttribute:true
+			},
+			dismiss: {
+				type:Boolean,
+				value:true,
+				notify:true,
+			},
+			noscroll: {
+				type:Boolean,
+				value:false
+			},
+			width: {
+				type:Number,
+				value:600
+			}
 		},
-		hidden: {
-			type:Boolean,
-			value:true,
-			reflectToAttribute:true
+
+		show: function() {
+			this.hidden = false;
+
+			if(this.noscroll) {
+				document.body.style.overflow = "hidden";
+			}
 		},
-		dismiss: {
-			type:Boolean,
-			value:true,
-			notify:true,
+
+		_widthStyle: function(width) {
+			return "width:"+width+"px";
 		},
-		noscroll: {
-			type:Boolean,
-			value:false
-		},
-		width: {
-			type:Number,
-			value:600
+
+		hide: function(e) {
+			if (e) e = Polymer.dom(e);
+			if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
+				this.hidden = true;
+				document.body.style.overflow = "";
+			}
 		}
-	},
+	});
 
-	show: function() {
-		this.hidden = false;
-
-		if(this.noscroll) {
-			document.body.style.overflow = "hidden";
-		}
-	},
-
-	_widthStyle: function(width) {
-		return "width:"+width+"px";
-	},
-
-	hide: function(e) {
-		if (e) e = Polymer.dom(e);
-		if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
-			this.hidden = true;
-			document.body.style.overflow = "";
-		}
-	}
-});
+})(window.Strand = window.Strand || {});

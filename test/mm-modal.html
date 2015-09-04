@@ -24,7 +24,7 @@
 			});
 
 			it("should be visible when shown", function() {
-				var a = new MMModal();
+				var a = new Strand.Modal();
 				a.show();
 				a.async(function(){
 					a.visible.should.equal(true);
@@ -32,7 +32,7 @@
 			});
 
 			it("should not be visible when hidden", function() {
-				var a = new MMModal();
+				var a = new Strand.Modal();
 				a.hide();
 				a.async(function(){
 					a.visible.should.equal(false);
@@ -40,7 +40,7 @@
 			});
 
 			it("should disable document scroll if noscroll flag is set", function() {
-				var a = new MMModal();
+				var a = new Strand.Modal();
 				a.noscroll = true;
 				a.show();
 				a.async(function(){

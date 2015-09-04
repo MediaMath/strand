@@ -54,27 +54,6 @@
 		loadExternal: function(path, callback) {
 			this.url = path;
 			this.callback = callback;
-		},
-
-		_loadExternal: function() {
-			if(this.url && this.active && !this._contentLoaded) this.async(function() {
-				this.importHref(this.url, function(e) {
-					var importContainer = document.createElement('template','dom-bind');
-					var importNodes = e.target.import.body.childNodes;
-					for(var i=0; i<importNodes.length; i++) {
-						importContainer.content.appendChild(importNodes[i]);
-					}
-					Polymer.dom(this.root).appendChild(importContainer);
-					this._contentLoaded = true;
-				}, function(err) {
-					console.log(err);
-				});
-			});
-		},
-
-		loadExternal: function(path, callback) {
-			this.url = path;
-			this.callback = callback;
 		}
 
 	});

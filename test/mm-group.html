@@ -18,7 +18,7 @@
 		<mm-radio></mm-radio>
 	</mm-group>
 	<br/>
-	<mm-group  id="preselect" align="" group="myRadGroup">
+	<mm-group id="preselect" align="" group="myRadGroup">
 		<mm-radio value="1" checked="true">
 			<label>Rad Group Item 1</label>
 		</mm-radio>
@@ -141,12 +141,12 @@
 				type.should.equal("mm-radio");
 			});
 
-			it("should have type: null if it's a mixed item group", function() {
+			it("should have type: 'mixed-type' if it's a mixed item group", function() {
 				var a = document.querySelector("#searchGroup"),
 					type = a.type;
 
 				a.should.have.property("type");
-				should.equal(type, null);
+				type.should.equal("mixed-type")
 			});
 
 			// Radio Group:
@@ -155,12 +155,12 @@
 				exist.should.have.property("value");
 			});
 
-			it("should have an empty value when none are preselected", function() {
+			it("should have a value of `false` when none are preselected", function() {
 				var exist = document.querySelector("#exist");
-				exist.value.should.equal("");
+				exist.value.should.equal(false);
 
 				var $exist = $("#exist");
-				$exist.val().should.equal("");
+				$exist.val().should.equal(false);
 			});
 
 			it("should have a value when one is preselected", function() {

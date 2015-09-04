@@ -6,7 +6,7 @@
 */
 (function(scope) {
 
-	Polymer({
+	scope.Group = Polymer({
 		is: 'mm-group',
 
 		properties: {

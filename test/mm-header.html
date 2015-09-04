@@ -46,11 +46,11 @@
 					small = document.querySelector("#small"),
 					normal = document.querySelector("#normal"),
 					tiny = document.querySelector("#tiny"),
-					lrgDiv = large.shadowRoot.querySelector("div"),
-					medDiv = medium.shadowRoot.querySelector("div"),
-					smDiv = small.shadowRoot.querySelector("div"),
-					nrmDiv = normal.shadowRoot.querySelector("div"),
-					tnDiv = tiny.shadowRoot.querySelector("div"),
+					lrgDiv = Polymer.dom(large.root).querySelector("div"),
+					medDiv = Polymer.dom(medium.root).querySelector("div"),
+					smDiv = Polymer.dom(small.root).querySelector("div"),
+					nrmDiv = Polymer.dom(normal.root).querySelector("div"),
+					tnDiv = Polymer.dom(tiny.root).querySelector("div"),
 					ffLrg = false,
 					ffMed = false,
 					ffSm = false,
@@ -76,11 +76,11 @@
 					small = document.querySelector("#small"),
 					normal = document.querySelector("#normal"),
 					tiny = document.querySelector("#tiny"),
-					lrgDiv = large.shadowRoot.querySelector("div"),
-					medDiv = medium.shadowRoot.querySelector("div"),
-					smDiv = small.shadowRoot.querySelector("div"),
-					nrmDiv = normal.shadowRoot.querySelector("div"),
-					tnDiv = tiny.shadowRoot.querySelector("div"),
+					lrgDiv = Polymer.dom(large.root).querySelector("div"),
+					medDiv = Polymer.dom(medium.root).querySelector("div"),
+					smDiv = Polymer.dom(small.root).querySelector("div"),
+					nrmDiv = Polymer.dom(normal.root).querySelector("div"),
+					tnDiv = Polymer.dom(tiny.root).querySelector("div"),
 					ffLrg = "",
 					ffMed = "",
 					ffSm = "",
@@ -105,8 +105,8 @@
 			it("normal and tiny should have text-transform: uppercase", function(done) {
 				var normal = document.querySelector("#normal"),
 					tiny = document.querySelector("#tiny"),
-					nrmDiv = normal.shadowRoot.querySelector("div"),
-					tnDiv = tiny.shadowRoot.querySelector("div"),
+					nrmDiv = Polymer.dom(normal.root).querySelector("div"),
+					tnDiv = Polymer.dom(tiny.root).querySelector("div"),
 					ffNrm = "",
 					ffTn = "",
 					upper = false;
@@ -122,7 +122,7 @@
 
 			it("normal should have color Colors.D2", function(done) {
 				var normal = document.querySelector("#normal"),
-					nrmDiv = normal.shadowRoot.querySelector("div"),
+					nrmDiv = Polymer.dom(normal.root).querySelector("div"),
 					expectedColor = TestHelper.hexToRgb(Colors.D2),
 					color = null;
 

@@ -25,9 +25,9 @@
 				a.nodeName.should.equal("MM-RADIO");
 			});
 
-			it("should be checked on mouseup", function() {
+			it("should be checked on tap", function() {
 				var a = new Strand.Radio();
-				a.radioMouseUp();
+				a.fire('tap');
 				a.checked.should.equal(true);
 			});
 
@@ -36,7 +36,7 @@
 					s = sinon.spy();
 
 				a.addEventListener("selected", s);
-				a.checkedChanged(false, true);
+				a.checked = true;
 
 				a.async(function() {
 					should.equal(s.calledOnce, true);
