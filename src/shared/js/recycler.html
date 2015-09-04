@@ -163,19 +163,23 @@ This code may only be used under the BSD style license found at http://mediamath
 		var count = 0|continuum.getDiscreteCount();
 		var position = +continuum.getElevation(count) || 0;
 
-		if (elevation < position) {
-			return this._getKnownIndexAtElevation(elevation, continuum, count, 0);
-		} else {
+		if (elevation > position) {
 			return this._getUnknownIndexAtElevation(elevation, continuum, count, recycler);
+		} else {
+			return this._getKnownIndexAtElevation(elevation, continuum, count, 0, position);
 		}
 	};
 
-	ContinuumInterface.prototype._getKnownIndexAtElevation = function (elevation, continuum, count, start) {
+	ContinuumInterface.prototype._getKnownIndexAtElevation = function (elevation, continuum, count, start, known) {
 		var position = 0;
 		var index = 0;
 		var lower = start;
 		var upper = count;
 		var limit = count;
+
+		//if (elevation === known) {
+		//	return count;
+		//}
 
 		for (limit; limit; limit--) {
 			index = (lower + upper) >> 1;
@@ -212,14 +216,16 @@ This code may only be used under the BSD style license found at http://mediamath
 
 			position = +continuum.getElevation(upper) || 0;
 
-			if (elevation < position) {
-				delta = 1;
-				break;
+			if (elevation > position) {
+				continue;
 			}
+
+			delta = 1;
+			break;
 		} while (delta = (delta << 1) >>> 0)
 
 		if (delta) {
-			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower);
+			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, position);
 		} else {
 			return -1;
 		}
@@ -581,6 +587,8 @@ This code may only be used under the BSD style license found at http://mediamath
 			outer = snake.body.getOuterIndex();
 			iface.notify(snake.body.getInnerIndex(), outer, outer, this);
 		}
+
+		this._process(NONDESTRUCTIVE);
 
 		return result;
 	};

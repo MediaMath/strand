@@ -35,6 +35,10 @@
 	display: none;
 }
 
+#itemRecycler {
+	height: 0px;
+}
+
 #itemRecycler[hidden] {
 	display: none;
 }
