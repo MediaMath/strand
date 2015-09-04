@@ -1,15 +1,39 @@
 <script>
 (function(scope) {
+
+	var debouncer = null;
+
+	function debounceFlush (jqable) {
+		if (jqable) {
+			if (debouncer) {
+				debouncer.cancelDebouncer("flush");
+			}
+
+			jqable.debounce("flush", callbackFlush);
+
+			debouncer = jqable;
+		}
+	}
+
+	function callbackFlush () {
+		debouncer = null;
+
+		Polymer.dom.flush();
+	}
+
 	if(!Polymer.Settings.useShadow) {
 		scope.Jqueryable = {
 			appendChild: function(node) {
 				Polymer.dom(this).appendChild(node);
+				debounceFlush(this);
 			},
 			insertBefore: function(node, beforeNode) {
 				Polymer.dom(this).insertBefore(node,beforeNode);
+				debounceFlush(this);
 			},
 			removeChild: function(node) {
 				Polymer.dom(this).removeChild(node);
+				debounceFlush(this);
 			},
 			// get childNodes() {
 			// 	return Polymer.dom(this).childNodes;
@@ -34,12 +58,14 @@
 			//},
 			set textContent(input) {
 				Polymer.dom(this).textContent = input;
+				debounceFlush(this);
 			},
 			get textContent() {
 				return Polymer.dom(this).textContent
 			},
 			set innerHTML(input) {
 				Polymer.dom(this).innerHTML = input;
+				debounceFlush(this);
 			},
 			get innerHTML() {
 				return Polymer.dom(this).innerHTML;

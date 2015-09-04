@@ -315,11 +315,6 @@
 			}
 		},
 
-		// _lockWidth: function() {
-		// 	this.$.target.style.width = !this.fitparent ? this.buttonWidth + 'px' : '';
-		// 	this._widthLocked = true;
-		// },
-		
 		_lockWidth: function() {
 			if (this.fitparent) {
 				this.$.target.style.width = '';
