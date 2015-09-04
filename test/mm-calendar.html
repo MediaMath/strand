@@ -66,8 +66,8 @@ describe("mm-calendar", function() {
 
 	it("should support selecting a date range", function(done) {
 		var t3 = document.querySelector("#test3");
-		t3.date = moment("01-01-2001").toDate();
-		t3.pairDate = moment("01-01-2001").add(6, 'days').toDate();
+		t3.date = moment("01/01/2001").toDate();
+		t3.pairDate = moment("01/01/2001").add(6, 'days').toDate();
 		flush(function() {
 			var sel = t3._days.filter(function(day) {
 			 return day.class.selected; 
