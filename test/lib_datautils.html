@@ -57,6 +57,15 @@ describe("DataUtils", function() {
 		StrandLib.DataUtils.getPathValue(pathString, o).should.equal("two");
 	});
 
+	it("it should fail gracefully to get/set a value from an undefined obj", function() {
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		should.equal(StrandLib.DataUtils.getPathValue(path), null);
+		should.equal(StrandLib.DataUtils.getPathValue(pathString), null);
+		StrandLib.DataUtils.setPathValue(path);
+		StrandLib.DataUtils.setPathValue(pathString);
+	});
+
 	it("it should set a value on an object given a path", function() {
 		var o = {
 			a:{
@@ -74,7 +83,7 @@ describe("DataUtils", function() {
 		o.a.b.d.should.equal("three");
 	});
 
-	it("should setn a value on an object creating any intermediary objects (not arrays currently) given a path", function() {
+	it("should set a value on an object creating any intermediary objects (not arrays currently) given a path", function() {
 		var o = {};
 		var path = ["a","b","c"];
 		var pathString = "a.b.d";

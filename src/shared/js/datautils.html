@@ -103,6 +103,7 @@
 	}
 
 	function _getPathValue(path, object) {
+		if (!object) return null;
 		var p = path;
 		if (typeof path === "string") {
 			p = path.split(".");
@@ -113,6 +114,7 @@
 	}
 
 	function _setPathValue(path, object, value, create) {
+		if (!object) return;
 		var p = path;
 		if (typeof path === "string") {
 			p = path.split(".");
