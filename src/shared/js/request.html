@@ -12,7 +12,6 @@
 
 		options = options || {};
 
-
 		//TODO: (dlasky) there is probably no reason to unstack most of this
 		this.url = options.url;
 		this.method = options.method || Request.GET;
@@ -24,6 +23,8 @@
 		this.username = options.username;
 		this.password = options.password;
 		this.progress = options.progress;
+		this.requestMarshaller = options.requestMarshaller;
+		this.responseMarshaller = options.responseMarshaller;
 
 		this.xhr = new XMLHttpRequest();
 		this.promise = new Zousan();

@@ -146,6 +146,53 @@
 			xhr.restore();
 		});
 
+		it("should support api specific marshalling", function(done) {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+			
+			var spy = sinon.spy();
+			var spy2 = sinon.spy();
+			var sync = new SyncTest();
+			
+			sync.auto = false;
+			sync.apiMarshaller = {
+				test:function(o) {
+					spy();
+					return o;
+				},
+				test2: function(o) {
+					spy2();
+					return o;
+				}
+			};
+			sync.get(null, {
+				requestMarshaller:'test',
+				responseMarshaller:'test2'
+			}).then(function() {
+
+				spy2.calledOnce.should.be.true;
+
+				xhr.restore();
+				done();
+			}, function() {
+				done(new Error());
+			});
+
+			console.log(request);
+			request.respond(200, 
+				{ 
+					"Content-Type": "application/json"
+				},
+				'[{ "id": 101, "comment": "Stuff" }]'
+			);
+			spy.calledOnce.should.be.true;
+			
+		});
+
 	});
 	</script>
 	<!-- <test-syncable auto="false"></test-syncable> -->

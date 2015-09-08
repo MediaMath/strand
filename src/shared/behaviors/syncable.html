@@ -179,7 +179,8 @@
 
 		sync: function(method, data, options) {
 			method = method || Ajax.GET;
-			data = this.apiMarshaller[this.requestMarshaller]( data || this.body );
+			var marshaller = this.apiMarshaller[DataUtils.getPathValue("requestMarshaller",options) || this.requestMarshaller];
+			data = marshaller( data || this.body );
 
 			var configOpts = this._getDomConfig(method, this.domObject);
 
@@ -190,7 +191,7 @@
 			this._setCSRFHeader(method, options.headers);
 
 			var promise = this._ajax.exec( data, options );
-			promise.then(this._handleResult, this._handleError);
+			promise.then(this._handleResult.bind(this), this._handleError.bind(this));
 
 			return promise;
 		},
@@ -266,7 +267,9 @@
 			this.fire("data-ready",result);
 
 			if (this.saveResponse) {
-				this.set("data", this.apiMarshaller[this.requestMarshaller]( this.result.response ));
+				var opt = DataUtils.getPathValue("instance.responseMarshaller", result);
+				var marshaller = this.apiMarshaller[opt || this.responseMarshaller];
+				this.set("data", marshaller(DataUtils.getPathValue("response",result)));
 			}
 		},
 
