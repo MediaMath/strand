@@ -10,15 +10,20 @@
 		is: "mm-tabs",
 
 		behaviors: [
+			StrandTraits.Selectable,
 			StrandTraits.Stylable
 		],
 
-		listeners: {
-			'tabBar.tap': '_handleTap'
-		},
-
 		properties: {
-			inner: Boolean,
+			filterElementType: {
+				type: String,
+				value: "mm-tab"
+			},
+
+			inner: {
+				type: Boolean,
+				value: false,
+			},
 			tabBarOffset: {
 				type: Number,
 				value: 20
@@ -27,22 +32,43 @@
 				type: String,
 				value: 'top',
 			},
-			tabs: {
+			_tabs: {
 				type: Array,
-				value: [],
+				value: function() { return [] },
+			},
+			_forceUpdate: {
+				type: Boolean,
+				value: false
+			}
+		},
+
+		_selectedIndexChanged: function(newIndex, oldIndex) {
+			if(newIndex !== oldIndex) {
+				this.set('_tabs.'+oldIndex+'.active', false);
+				this.set('_tabs.'+newIndex+'.active', true);
 			}
 		},
 
 		attached: function() {
-			this.async(function() {
-				this.tabs = this._collectTabs();
-				if (this.tabs.length > 0) {
-					var defaultTab = this.querySelector('mm-tab[active]') || this.tabs[0];
-					this.tabs.map(function(t) { t.active = false; });
-					this.$.selector.select(defaultTab);
-					this.$.selector.selected.active = true;
+			if(!this._tabs || this._tabs.length <= 0 || this._forceUpdate) {
+				this._tabs = this.items;
+				this._tabs.forEach(function(tab) {
+
+					tab.addEventListener('active-changed', function(e) {
+						if(e.detail.value) this.selectedIndex = this._tabs.indexOf(tab);
+					}.bind(this));
+
+				}, this);
+			}
+
+			if (this._tabs.length > 0) {
+				var activeTabs = Polymer.dom(this).querySelectorAll('mm-tab[active]'),
+					active = activeTabs.shift();
+				for(var i=0; i<activeTabs.length; i++) {
+					activeTabs[i].active = false;
 				}
-			});
+				this.selectedIndex = this.selectedIndex || Math.max(this._tabs.indexOf(active), 0);
+			}
 		},
 
 		_tabIsActive: function(a) {
@@ -50,13 +76,7 @@
 		},
 
 		_handleTap: function(e) {
-			var tabItem = this.$.tabs.itemForElement(e.target);
-			if(tabItem) {
-				this.$.selector.selected.active = false;
-				this.classFollows('active', e.target.closest('li'), this.$$('.active'));
-				this.$.selector.select(tabItem);
-				this.$.selector.selected.active = true;
-			}
+			this.selectedIndex = this.$.tabList.indexForElement(e.target);
 		},
 
 		_updateStyle: function(pos,offset) {
@@ -64,11 +84,6 @@
 				paddingTop: (pos === 'left') ? offset+'px' : '',
 				paddingLeft: (pos === 'left') ? '' : offset+'px'
 			});
-		},
-
-		_collectTabs: function() {
-			return Polymer.dom(this).childNodes
-				.filter(function(el) { return el.localName === 'mm-tab' });
 		},
 
 	});

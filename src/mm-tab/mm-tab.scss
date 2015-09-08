@@ -11,14 +11,10 @@
 
 :host {
 	background-color: #fff;
-	display: block;
+	display: none;
 	overflow: hidden;
 }
 
-:host(:not([active])) {
-	display: none;
-}
-
-:host /deep/ mm-tab:not([active]) {
-	display: none;
+:host([active]) {
+	display: block;
 }

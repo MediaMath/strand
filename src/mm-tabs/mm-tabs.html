@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/behaviors/selectable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="stylesheet" type="text/css" href="../mm-icon/mm-icon.html">
 <link rel="import" href="../mm-tab/mm-tab.html">
@@ -14,15 +15,14 @@
 <dom-module id="mm-tabs">
 	<link rel="import" type="css" href="mm-tabs.css"/>
 	<template>
-		<ul id="tabBar" class$="{{tabBarPosition}}" style$="{{_updateStyle(tabBarPosition,tabBarOffset)}}" on-tap="_handleTap">
-			<template id="tabs" is="dom-repeat" items="{{tabs}}">
-			<li class$="{{_tabIsActive(item.active)}}">
+		<ul id="tabBar" class$="{{tabBarPosition}}" style$="{{_updateStyle(tabBarPosition,tabBarOffset)}}">
+			<template id="tabList" is="dom-repeat" items="{{_tabs}}">
+			<li active$="{{item.active}}" on-tap="_handleTap">
 				<template is="dom-if" if="{{item.icon}}"><mm-icon type="{{item.icon}}" height="16" width="16"></mm-icon></template>
 				<span>{{item.tabLabel}}</span>
 			</li>
 			</template>
 		</ul>
-		<array-selector id="selector" items="{{tabs}}" selected="{{selected}}"></array-selector>
 		<content select="mm-tab"></content>
 	</template>
 </dom-module>

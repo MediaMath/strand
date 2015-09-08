@@ -35,7 +35,7 @@
 		list-style-type: none;
 	}
 
-	li.active {
+	li[active] {
 		background: #fff;
 		color: #000;
 		cursor: default;
@@ -54,7 +54,7 @@
 		padding: .5em 1em .25em;
 	}
 
-	li.active {
+	li[active] {
 		border-bottom: 1px solid #fff;
 		margin-bottom: -1px;
 	}
@@ -69,7 +69,6 @@
 	@include flex-direction(column);
 	float: left;
 	margin-left: 10px;
-	// padding-top: 20px;
 
 	mm-icon {
 		margin-top: -1px;
@@ -87,15 +86,15 @@
 		margin-bottom: -1px;
 	}
 
-	li.active {
+	li[active] {
 		border-right: 1px solid #fff;
 		color: #000;
 		margin-right: -1px;
 	}
 }
 
-#tabBar.left ~ ::shadow mm-tab,
-#tabBar.left ~ ::content mm-tab {
+#tabBar.left ~ ::content > mm-tab, // shadow
+::content #tabBar.left ~ mm-tab { // shady
 	border-left: 1px solid darken($color-A12, 10%);
 }
 
@@ -111,7 +110,7 @@
 		padding: .75em 1em .5em;
 	}
 
-	li.active {
+	li[active] {
 		background: #fff;
 	}
 }

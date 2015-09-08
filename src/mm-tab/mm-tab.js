@@ -14,12 +14,22 @@
 				observer: '_loadExternal',
 				reflectToAttribute: true,
 				type: Boolean,
-				value: false
+				value: false,
+				notify: true
 			},
-			icon: String,
-			tabLabel: String,
-			url: String,
-			
+			icon: {
+				type: String,
+				value: ''
+			},
+			tabLabel: {
+				type: String,
+				value: '',
+			},
+			url: {
+				type: String,
+				value: '',
+				observer: '_loadExternal'
+			},
 			_contentLoaded: {
 				observer: '_fireCallback',
 				type: Boolean,
@@ -33,21 +43,27 @@
 
 		_loadExternal: function() {
 			if(this.url && this.active && !this._contentLoaded) this.async(function() {
+
 				this.importHref(this.url, function(e) {
+
 					var importContainer = document.createElement('template','dom-bind');
 					var importNodes = e.target.import.body.childNodes;
 					for(var i=0; i<importNodes.length; i++) {
 						importContainer.content.appendChild(importNodes[i]);
 					}
-					Polymer.dom(this.root).appendChild(importContainer);
+					Polymer.dom(this).appendChild(importContainer);
+
 					this._contentLoaded = true;
+
 					this.fire('loaded', {
 						label: this.tabLabel,
 						target: this,
 					});
+
 				}, function(err) {
-					console.log(err);
+					console.error(err);
 				});
+				
 			});
 		},
 
