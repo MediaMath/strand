@@ -30,7 +30,7 @@
 
 			it("should be open on 'over'", function(done) {
 				var a = document.querySelector("#tt");
-				a.overHandler();
+				a._overHandler();
 				a.async(function() {
 					a.state.should.equal(a.STATE_OPENED);
 					done();
@@ -39,18 +39,18 @@
 
 			it("should be closed on 'out'", function(done) {
 				var a = document.querySelector("#tt");
-				a.outHandler();
+				a._outHandler();
 				a.async(function() {
 					a.state.should.equal(a.STATE_CLOSED);
 					done();
 				});
 			});
 
-			it("should NOT be closed on 'out' if auto = false", function(done) {
+			it("should NOT be closed on 'out' if auto = true", function(done) {
 				var a = document.querySelector("#tt");
-				a.auto = false;
-				a.overHandler();
-				a.outHandler();
+				a.auto = true;
+				a._overHandler();
+				a._outHandler();
 				a.async(function() {
 					a.state.should.equal(a.STATE_OPENED);
 					done();
