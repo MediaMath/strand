@@ -1,135 +1,419 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta charset="utf-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta name="HandheldFriendly" content="True"/>
-		<meta name="MobileOptimized" content="320"/>
-		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
-		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="stylesheet" type="text/css" href="docs.css"/>
-		<link rel="import" href="mm-docs-shell.html">
-		<link rel="import" href="../mm-docs-nav/mm-docs-nav.html">
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
-	</head>
-	<body unresolved>
-		<mm-docs-shell mobile-header="Dennis the Menace">
-			<mm-docs-nav id="articlesNav">
-				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item value="Some Article Title 01">Some Article Title 01</mm-list-item>
-				<mm-list-item value="Some Article Title 02">Some Article Title 02</mm-list-item>
-				<mm-list-item value="Some Article Title 03">Some Article Title 03</mm-list-item>
-				<mm-list-item value="Some Article Title 04">Some Article Title 04</mm-list-item>
-				<mm-list-item value="Some Article Title 05">Some Article Title 05</mm-list-item>
-				<mm-list-item value="Some Article Title 06">Some Article Title 06</mm-list-item>
-				<mm-list-item value="Some Article Title 07">Some Article Title 07</mm-list-item>
-				<mm-list-item value="Some Article Title 08">Some Article Title 08</mm-list-item>
-				<mm-list-item value="Some Article Title 09">Some Article Title 09</mm-list-item>
-				<mm-list-item value="Some Article Title 10">Some Article Title 10</mm-list-item>
-			</mm-docs-nav>
-			<mm-docs-nav id="componentsNav">
-				<mm-header size="medium">Components</mm-header>
-				<mm-list-item value="Some Component 01">Some Component 01</mm-list-item>
-				<mm-list-item value="Some Component 02">Some Component 02</mm-list-item>
-				<mm-list-item value="Some Component 03">Some Component 03</mm-list-item>
-				<mm-list-item value="Some Component 04">Some Component 04</mm-list-item>
-				<mm-list-item value="Some Component 05">Some Component 05</mm-list-item>
-				<mm-list-item value="Some Component 06">Some Component 06</mm-list-item>
-				<mm-list-item value="Some Component 07">Some Component 07</mm-list-item>
-				<mm-list-item value="Some Component 08">Some Component 08</mm-list-item>
-				<mm-list-item value="Some Component 09">Some Component 09</mm-list-item>
-				<mm-list-item value="Some Component 10">Some Component 10</mm-list-item>
-				<mm-list-item value="Some Component 11">Some Component 11</mm-list-item>
-				<mm-list-item value="Some Component 12">Some Component 12</mm-list-item>
-				<mm-list-item value="Some Component 13">Some Component 13</mm-list-item>
-				<mm-list-item value="Some Component 14">Some Component 14</mm-list-item>
-				<mm-list-item value="Some Component 15">Some Component 15</mm-list-item>
-				<mm-list-item value="Some Component 16">Some Component 16</mm-list-item>
-				<mm-list-item value="Some Component 17">Some Component 17</mm-list-item>
-				<mm-list-item value="Some Component 18">Some Component 18</mm-list-item>
-				<mm-list-item value="Some Component 19">Some Component 19</mm-list-item>
-				<mm-list-item value="Some Component 20">Some Component 20</mm-list-item>
-			</mm-docs-nav>
-			<div class="docs-logo">
-				<a href="" target="_self" class="strand-logo"></a>
-				<p class="mini-subhead version">vX.X.X</p>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="theme-color" content="#000000" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1" />
+	<title>Strand Web Components</title>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+	<link rel="import" href="../../build/strand.html" />
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+	<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" />
+</head>
+
+<body unresolved>
+	<mm-docs-shell id="docsShell" version="1.1.0" mobile-header="Strand Docs">
+		<mm-docs-nav id="articlesNav">
+			<mm-header size="medium">Articles</mm-header>
+			<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+			<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
+			<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
+			<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
+			<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
+			<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+			<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
+			<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
+		</mm-docs-nav>
+		<mm-docs-nav id="componentsNav">
+			<mm-header size="medium">Components</mm-header>
+			<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+			<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+			<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+			<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+			<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
+			<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+			<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+			<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+			<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+			<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
+			<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+			<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+			<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+			<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+			<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+			<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+			<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+			<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+			<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+			<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
+			<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+			<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+			<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+			<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
+			<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+			<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+			<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+			<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
+			<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+			<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+			<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+			<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+			<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+			<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+			<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
+			<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+			<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+		</mm-docs-nav>
+		<div class="docs-logo">
+			<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
+				<img src="images/strand-logo.svg" />
+			</a>
+			<p class="mini-subhead version">v1.1.0</p>
+		</div>
+		<footer class="layout-footer">
+			<div class="docs-footer">
+				<div class="footer-logo-box">
+					<div class="powered-by">
+						<p class="mini-subhead">Powered By</p>
+						<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+					</div>
+					<div class="mediamath">
+						<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+					</div>
+				</div>
+				<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
 			</div>
-			<article class="layout-article">
-				<div class="docs-content">
-					<div style="height: 37.5em;">
-						Phasellus dignissim vel orci at sodales. Suspendisse potenti. Integer at euismod leo. Pellentesque commodo molestie faucibus. Cras accumsan lectus non neque maximus, in suscipit nisi molestie. Vestibulum lacinia dolor a tortor faucibus, a blandit enim finibus. Nam fermentum non lectus lacinia fringilla. Duis vitae dui arcu. Nulla ornare, eros vel malesuada vulputate, urna leo malesuada neque, finibus sodales dui arcu sed dui. Vivamus magna ante, dapibus eget sem eu, mattis interdum turpis.
-					</div>
-					<div style="height: 37.5em;">
-						Aenean nec justo lacinia, fringilla tellus nec, dignissim libero. Curabitur magna massa, iaculis sit amet condimentum sed, sollicitudin vel eros. Aliquam in varius mi. Maecenas ullamcorper purus eu risus sodales, vitae imperdiet lorem tristique. Fusce sed efficitur elit. Mauris dignissim dignissim lectus ac maximus. Sed eu congue nisl, at sollicitudin orci. Donec suscipit vehicula sem id dapibus. Nunc quis nunc vitae velit sodales auctor faucibus ac orci. Nulla fringilla ut mauris eu pretium. Maecenas accumsan quam vel sem malesuada, commodo suscipit arcu fringilla.
-					</div>
-					<div style="height: 37.5em;">
-						Pellentesque vulputate, leo consequat gravida interdum, arcu orci fermentum urna, sed pulvinar augue est vel felis. Quisque eget viverra libero, id finibus nisl. Nulla posuere ex massa. Sed convallis mi nulla, a volutpat lacus malesuada vitae. Duis laoreet, ligula vel scelerisque sagittis, justo lacus mollis dui, ac pharetra elit enim in dui. Cras nec dolor in neque eleifend efficitur sit amet in dui. Maecenas vulputate odio non accumsan dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-					</div>
-					<div style="height: 37.5em;">
-						Cras eu semper purus. Vivamus nec enim ipsum. Suspendisse semper ut justo a laoreet. Duis erat erat, vehicula id finibus in, iaculis et odio. Integer leo elit, pharetra non aliquet rutrum, dictum et odio. Vivamus id purus a nisi scelerisque eleifend. Sed laoreet orci in nunc aliquet, eu pellentesque ligula sodales. Maecenas porttitor egestas turpis, quis ultricies massa gravida ut.
-					</div>
-					<div style="height: 37.5em;">
-						Suspendisse pulvinar lorem enim, sed euismod ligula fermentum nec. Quisque magna sem, iaculis vehicula massa sit amet, malesuada ullamcorper orci. Aliquam eu sagittis libero. Etiam eget purus pharetra, bibendum purus et, finibus elit. Curabitur nunc orci, tincidunt at lacus sit amet, faucibus tincidunt nisl. Nullam sodales euismod lacus non tempor. Curabitur ut erat eget nibh efficitur rhoncus nec eget massa. Aliquam euismod felis sed pharetra gravida. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus eu enim elementum leo condimentum volutpat.
-					</div>
-				</div>
-				<div class="layout-push"></div>
-			</article>
-			<footer class="footer">
-				<div class="docs-footer">
-					<div class="footer-logo-box">
-						<div class="powered-by">
-							<p class="mini-subhead">Powered By</p>
-							<a href="http://devblog.mediamath.com/" target="_blank" class="powered-logo"></a>
-						</div>
-						<div class="mediamath">
-							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+		</footer>
+		<article class="layout-article">
+			<div class="docs-content">
+				<h1>mm-dropdown</h1>
+				<p>A fully-styled dropdown list containing multiple options.</p>
+				<hr/>
+				<section>
+					<h3>Example HTML Editor</h3>
+					<div class="editor-wrapper">
+						<div id="editor-mm-dropdown" class="editor">&lt;!-- Default Example --&gt; &lt;mm-dropdown&gt; &lt;mm-list-item&gt;Example 1&lt;/mm-list-item&gt; &lt;mm-list-item&gt;Example 2&lt;/mm-list-item&gt; &lt;mm-list-item&gt;Example 3&lt;/mm-list-item&gt; &lt;mm-list-item&gt;Example 4&lt;/mm-list-item&gt; &lt;/mm-dropdown&gt; &lt;!-- Search and Fit to Parent Example --&gt; &lt;mm-dropdown search=&quot;true&quot; fitparent=&quot;true&quot;&gt; &lt;mm-input search=&quot;true&quot; clear=&quot;true&quot; placeholder=&quot;Search&quot;&gt;&lt;/mm-input&gt; &lt;mm-list-item&gt;Example 1&lt;/mm-list-item&gt; &lt;mm-list-item&gt;Example 2&lt;/mm-list-item&gt; &lt;mm-list-item&gt;Example 3&lt;/mm-list-item&gt; &lt;mm-list-item&gt;Example 4&lt;/mm-list-item&gt; &lt;/mm-dropdown&gt; &lt;!-- Data Dropdown Example --&gt; &lt;mm-dropdown id=&quot;dataDdl&quot; placeholder=&quot;Data Dropdown&quot;&gt;&lt;/mm-dropdown&gt; &lt;script&gt; window.addEventListener(&quot;WebComponentsReady&quot;, function(e) { var dataDdl = document.querySelector(&quot;#dataDdl&quot;); dataDdl.data = [ { value: &quot;1&quot;, name: &quot;Item Number 1&quot; }, { value: &quot;2&quot;, name: &quot;Item Number 2&quot; }, { value: &quot;3&quot;, name: &quot;Item Number 3&quot; } ]; }); &lt;/script&gt;
 						</div>
 					</div>
-					<p class="license">© 2015 Strand Authors. Code licensed under the BSD License. Documentation licensed under CC BY 3.0.</p>
-				</div>
-			</footer>
-		</mm-docs-shell>
-		<script>
-			var path = "",
-				name = "",
-				articlesNav,
-				componentsNav,
-				docsShell,
-				navItems; 
+				</section>
+				<section>
+					<h3>Example Output</h3>
+					<div class="content-box example" id="example-mm-dropdown">
+						<!-- Default Example -->
+						<mm-dropdown>
+							<mm-list-item>Example 1</mm-list-item>
+							<mm-list-item>Example 2</mm-list-item>
+							<mm-list-item>Example 3</mm-list-item>
+							<mm-list-item>Example 4</mm-list-item>
+						</mm-dropdown>
+						<!-- Search and Fit to Parent Example -->
+						<mm-dropdown search="true" fitparent="true">
+							<mm-input search="true" clear="true" placeholder="Search"></mm-input>
+							<mm-list-item>Example 1</mm-list-item>
+							<mm-list-item>Example 2</mm-list-item>
+							<mm-list-item>Example 3</mm-list-item>
+							<mm-list-item>Example 4</mm-list-item>
+						</mm-dropdown>
+						<!-- Data Dropdown Example -->
+						<mm-dropdown id="dataDdl" placeholder="Data Dropdown"></mm-dropdown>
+						<script>
+							window.addEventListener("WebComponentsReady", function(e) {
+								var dataDdl = document.querySelector("#dataDdl");
 
-			window.addEventListener("WebComponentsReady", function(e) {
-				initDoc();
-			});
+								dataDdl.data = [{
+									value: "1",
+									name: "Item Number 1"
+								}, {
+									value: "2",
+									name: "Item Number 2"
+								}, {
+									value: "3",
+									name: "Item Number 3"
+								}];
+							});
+						</script>
+					</div>
+				</section>
+				<section>
+					<h3>Attributes</h3>
+					<table>
+						<tr>
+							<th>Attribute</th>
+							<th>Options</th>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">placeholder : </span>String (Optional)
+								<span class="desc italic">Default value: Select</span>
+								<span class="desc">Default text which appears on the dropdown button (&#39;Select One&#39;).</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">overflow : </span>String (Optional)
+								<span class="desc italic">Default value: hidden</span>
+								<span class="desc">Allows long list items to overflow when the list is opened.</span>
+							</td>
+							<td><span class="option">'hidden'</span><span class="option">'visible'</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">overflowWidth : </span>Number (Optional)
+								<span class="desc italic">Default value: 0</span>
+								<span class="desc">If set, will adjust the overflow container&#39;s width in pixels. Otherwise use the internal item width</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">maxitems : </span>Int (Optional)
+								<span class="desc italic">Default value: none</span>
+								<span class="desc">The maximum viewable number of items to display in the list, others will be hidden and wil incur scrolling.</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">fitparent : </span>Boolean (Optional)
+								<span class="desc italic">Default value: null</span>
+								<span class="desc">Instructs the component to fit to its parent container&#39;s width (percent or pixel width).</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">disabled : </span>Boolean (Optional)
+								<span class="desc italic">Default value: false</span>
+								<span class="desc">Disable the item</span>
+							</td>
+							<td>none</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h3>Public Methods</h3>
+					<table>
+						<tr>
+							<th>Method</th>
+							<th>Arguements</th>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">open</span>(<span></span>)
+								<span class="desc">Expand the dropdown.</span>
+							</td>
+							<td>
+								none
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">close</span>(<span></span>)
+								<span class="desc">Collapse the dropdown.</span>
+							</td>
+							<td>
+								none
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">toggle</span>(<span></span>)
+								<span class="desc">Close dropdown if it is open, otherwise open it.</span>
+							</td>
+							<td>
+								none
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">reset</span>(<span></span>)
+								<span class="desc">Reset dropdown to default state.</span>
+							</td>
+							<td>
+								none
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">bindModel</span>(<span><span class="option">model</span><span class="option">property</span></span>)
+								<span class="desc">Bind a property on the given model to the input&#39;s value.</span>
+							</td>
+							<td>
+								<span class="arg">
+										<span class="bold">model</span> : Object
+								<span class="desc italic">Default value: undefined</span>
+								<span class="desc">The model object to update with value changes.  If the model has a &#39;.set()&#39; method, .set(property, inputValue) will be used (otherwise the property field of the model will be assigned directly).</span>
+								</span>
+								<span class="arg">
+										<span class="bold">property</span> : String
+								<span class="desc italic">Default value: undefined</span>
+								<span class="desc">The property on the model that should be bound to the input&#39;s value.</span>
+								</span>
+							</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h3>Public Properties</h3>
+					<table>
+						<tr>
+							<th>Properties</th>
+							<th>Options</th>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">data : </span>Array
+								<span class="desc italic">Default value: null</span>
+								<span class="desc">Array of value / label objects for data-driven dropdown (eg. [{value: &#39;0&#39;, label:&#39;Item Label&#39;}, ...]). Setting this will override any internal mm-list-items.</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">placeholder : </span>String
+								<span class="desc italic">Default value: Select</span>
+								<span class="desc">Default text which appears on the dropdown button (&#39;Select&#39;).</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">value : </span>String
+								<span class="desc italic">Default value: null</span>
+								<span class="desc">The current value of the selected item.</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">maxItems : </span>Number
+								<span class="desc italic">Default value: null</span>
+								<span class="desc">The maximum number of items the dropdown will show before scrolling is enabled (zero and null indicate &#39;unlimited&#39;).</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">state : </span>String
+								<span class="desc italic">Default value: &#39;closed&#39;</span>
+								<span class="desc">The state of the dropdown (may be &#39;opened&#39; or &#39;closed&#39;).</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">fit : </span>Boolean
+								<span class="desc italic">Default value: false</span>
+								<span class="desc">Whether or not the dropdown should scale itself to fit the width of it&#39;s parent.</span>
+							</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">error : </span>Boolean
+								<span class="desc italic">Default value: false</span>
+								<span class="desc">Triggers the display of invalid visual state.</span>
+							</td>
+							<td>none</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h3>Events</h3>
+					<table>
+						<tr>
+							<th>Event</th>
+							<th>Event Detail</th>
+						</tr>
+						<tr>
+							<td>
+								<span class="bold">Type</span> : 'changed'</span>
 
-			function initDoc() {
-				articlesNav = document.querySelector("#articlesNav");
-				componentsNav = document.querySelector("#componentsNav");
-				docsShell = document.querySelector("#docsShell");
-				navItems = document.querySelectorAll("mm-list-item");
+							</td>
+							<td>
+								<span class="arg">
+										<span class="bold">value</span> : String
+								<span class="desc">Value of the selected item, usually it&#39;s label</span>
+								</span>
+							</td>
+						</tr>
+					</table>
+				</section>
+			</div>
+			<div class="layout-push"></div>
+		</article>
+	</mm-docs-shell>
+	<script>
+		var name = "mm-dropdown",
+			articlesNav,
+			componentsNav,
+			docsShell,
+			navItems,
+			editor,
+			$example,
+			firstRun = true;
+
+		window.addEventListener("WebComponentsReady", function(e) {
+			initDoc();
+		});
+
+		function initDoc() {
+			if (firstRun) {
+				articlesNav = Polymer.dom(document).querySelector("#articlesNav");
+				componentsNav = Polymer.dom(document).querySelector("#componentsNav");
+				docsShell = Polymer.dom(document).querySelector("#docsShell");
+				navItems = Polymer.dom(document).querySelectorAll("mm-list-item");
 
 				// default expanded:
-				articlesNav.expanded = true;
-				componentsNav.expanded = false;
+				articlesNav.expanded = false;
+				componentsNav.expanded = true;
 
-				// Array.prototype.slice.call(navItems).forEach(function(item) {
-				// 	if (item.id === name) {
-				// 		item.selected = true;
-				// 		return;
-				// 	}
-				// });
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
 
-				articlesNav.addEventListener("docs-nav-selected", navigateToPage);
-				componentsNav.addEventListener("docs-nav-selected", navigateToPage);
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+				editor = ace.edit("editor-mm-dropdown");
+				editor.setTheme("ace/theme/chrome");
+				editor.session.setUseWrapMode(true);
+				editor.session.setMode("ace/mode/html");
+				editor.getSession().on('change', _.debounce(update, 500));
+
+				$example = $("#example-" + name);
+				firstRun = false;
 			}
+		}
 
-			function navigateToPage(e) {
-				console.log("navigateToPage: ", e.detail.value);
-				// if(e.detail.value) {
-				// 	window.location = path + e.detail.value;
-				// } 
+		function update(e) {
+			$example.empty().html(editor.session.getValue());
+			// hacks to retrigger the scripts in example:
+			// TODO: Check if this blows everything up in 1.0
+			window.dispatchEvent(new Event('WebComponentsReady'));
+		}
+
+		function navigateToPage(e) {
+			console.log("navigateToPage: ", e.detail.value);
+			if (e.detail.value) {
+				window.location = e.detail.value;
 			}
-		</script>
-	</body>
+		}
+	</script>
+</body>
+
 </html>
