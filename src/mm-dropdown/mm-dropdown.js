@@ -316,9 +316,7 @@
 		},
 
 		_lockWidth: function() {
-			if (this.fitparent) {
-				this.$.target.style.width = '';
-			} else if (this.buttonWidth > 0) {
+			if (!this.fitparent && this.buttonWidth > 0) {
 				this.$.target.style.width = this.buttonWidth + 'px';
 			} else {
 				return;

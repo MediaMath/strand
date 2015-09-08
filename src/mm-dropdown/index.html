@@ -98,6 +98,11 @@
 			<mm-dropdown id="dataTest" overflow="visible" max-items="10" overflow-width="200" placeholder="Some Longer Label">
 			</mm-dropdown>
 			<hr/>
+
+			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+			<mm-dropdown id="dataTestShort" placeholder="Some Label">
+			</mm-dropdown>
+			<hr/>
 			
 			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
 			<mm-dropdown placeholder="Some Longer Label" value="0" max-items="7">
@@ -275,6 +280,8 @@
 			var ddlHide,
 				$d,
 				dataTest,
+				dataTestHidden,
+				dataTestShort,
 				dynamicItems = [],
 				dataItems = [];
 
@@ -291,7 +298,8 @@
 				// init dynamic data test:
 				dataTest = document.querySelector("#dataTest");
 				dataTestHidden = document.querySelector("#dataTestHidden");
-				dataTest.data = dataTestHidden.data = dataItems;
+				dataTestShort = document.querySelector("#dataTestShort");
+				dataTest.data = dataTestHidden.data = dataTestShort.data = dataItems;
 				dataTest.value = dataTestHidden.value = 1;
 				
 				// init jQuery test:
