@@ -3,6 +3,7 @@
 	{{> head}}
 	<body unresolved>
 		<mm-docs-shell id="docsShell" version="{{revision}}" mobile-header="Strand Docs">
+			{{> sidebar}}
 			<article class="layout-article">
 				<div class="docs-content">
 					<h1>{{name}}</h1>
@@ -130,7 +131,6 @@
 				<div class="layout-push"></div>
 			</article>
 			{{> footer}}
-			{{> sidebar}}
 		</mm-docs-shell>
 		<script>
 			var name = "{{name}}",
@@ -141,7 +141,6 @@
 				editor,
 				$example,
 				firstRun = true; 
-
 
 			window.addEventListener("WebComponentsReady", function(e) {
 				console.log("document - WebComponentsReady");
