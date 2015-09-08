@@ -115,9 +115,13 @@ section:last-child {
 	min-height: 100%;
 }
 
-.footer,
+.layout-footer,
 .layout-push {
 	position: relative;
+}
+
+.layout-footer {
+	background: $footerColor;
 }
 
 .mini-subhead {
@@ -168,9 +172,6 @@ section:last-child {
 	}
 }
 
-.footer {
-	background: $footerColor;
-}
 
 .docs-footer {
 	padding: 2.5em;
@@ -467,7 +468,7 @@ table {
 		}
 	}
 
-	.footer,
+	.layout-footer,
 	.layout-push {
 		height: $footerWideHeight;
 	}
@@ -526,7 +527,7 @@ table {
 		}
 	}
 
-	.footer,
+	.layout-footer,
 	.layout-push {
 		height: $footerWideHeight;
 	}
@@ -543,7 +544,7 @@ table {
 		margin-bottom: -$footerSkinnyHeight;
 	}
 
-	.footer,
+	.layout-footer,
 	.layout-push {
 		height: $footerSkinnyHeight;
 	}

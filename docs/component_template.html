@@ -3,7 +3,6 @@
 	{{> head}}
 	<body unresolved>
 		<mm-docs-shell id="docsShell" version="{{revision}}" mobile-header="Strand Docs">
-			{{> sidebar}}
 			<article class="layout-article">
 				<div class="docs-content">
 					<h1>{{name}}</h1>
@@ -131,6 +130,7 @@
 				<div class="layout-push"></div>
 			</article>
 			{{> footer}}
+			{{> sidebar}}
 		</mm-docs-shell>
 		<script>
 			var name = "{{name}}",
@@ -142,7 +142,9 @@
 				$example,
 				firstRun = true; 
 
+
 			window.addEventListener("WebComponentsReady", function(e) {
+				console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
@@ -178,6 +180,7 @@
 			}
 
 			function update(e) {
+				console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
 				// hacks to retrigger the scripts in example:
 				// TODO: Check if this blows everything up in 1.0

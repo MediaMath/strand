@@ -12,7 +12,6 @@
 <dom-module id="mm-docs-shell">
 	<link rel="import" type="css" href="mm-docs-shell.css"/>
 	<template>
-		
 		<main class="layout-body">
 			<div id="mobileHeader" style$="{{ _updateMobileHead(mobileHeaderHeightCalc) }}">
 				<div class="mobile-header-box" style$="{{ _updateMobileHeadBox(mobileHeaderHeight, unit) }}">
@@ -20,14 +19,11 @@
 					<mm-header size="large">{{mobileHeader}}</mm-header>
 				</div>
 			</div>
-
 			<div id="mainContent" style$="{{ _updateMainContent(paddingLeftCalc) }}">
 				<content select=".layout-article"></content>
-				<content select=".footer"></content>
+				<content select=".layout-footer"></content>
 			</div>
-
 			<div id="blocker" on-tap="_blockerTap"></div>
-			
 			<nav id="mainNav" style$="{{ _updateMainNav(navWidth, unit, navLeftCalc) }}">
 				<div class="logo-area" style$="{{ _updateLogoArea(navWidth, unit, logoAreaHeight) }}">
 					<content select=".docs-logo"></content>
@@ -36,9 +32,7 @@
 					<content select="mm-docs-nav"></content>
 				</div>
 			</nav>
-
 		</main>
 	</template>
-
 </dom-module>
 <script src="mm-docs-shell.js"></script>

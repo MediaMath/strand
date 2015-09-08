@@ -135,7 +135,6 @@
 		},
 
 		resizeHandler: function(e) {
-			// this.job("resize", this.resize);
 			this.debounce("resize", this.resize);
 		},
 

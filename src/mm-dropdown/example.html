@@ -16,13 +16,15 @@
 <!-- Data Dropdown Example -->
 <mm-dropdown id="dataDdl" placeholder="Data Dropdown"></mm-dropdown>
 <script>
-    window.addEventListener("polymer-ready", function(e) {
+    window.addEventListener("WebComponentsReady", function(e) {
+    	console.log("example - WebComponentsReady");
+
         var dataDdl = document.querySelector("#dataDdl");
         
         dataDdl.data = [
-            { value: "1", label: "Item Number 1" },
-            { value: "2", label: "Item Number 2" },
-            { value: "3", label: "Item Number 3" }
+            { value: "1", name: "Item Number 1" },
+            { value: "2", name: "Item Number 2" },
+            { value: "3", name: "Item Number 3" }
         ];
     });
 </script>
