@@ -4,13 +4,13 @@
 	<body unresolved>
 		<mm-docs-shell id="docsShell" version="{{revision}}" mobileHeader="Strand Docs">
 			{{> sidebar}}
+			{{> footer}}
 			<article class="layout-article">
 				<div class="docs-content article">
 					{{{article}}}
 				</div>
 				<div class="layout-push"></div>
 			</article>
-			{{> footer}}
 		</mm-docs-shell>
 		<script>
 			var name = "{{name}}",
