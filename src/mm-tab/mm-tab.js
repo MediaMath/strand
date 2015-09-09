@@ -45,7 +45,9 @@
 					var node = document.importNode(importNodes[i],true);
 					importContainer.content.appendChild(node);
 				}
-				if(this._callback) importContainer.addEventListener('dom-change', this._callback);
+				if(this._callback) importContainer.addEventListener('dom-change', function() {
+					this.async(this._callback);
+				}.bind(this));
 				Polymer.dom(this).appendChild(importContainer);
 
 				this._contentLoaded = true;

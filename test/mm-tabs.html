@@ -87,12 +87,12 @@
 			it("should load external content imperatively and have a callback", function(done) {
 				var a = document.querySelector('#testTab3');
 				a.loadExternal('test-mm-tabs-aux.html', function() {
-					flush(function() {
+					// flush(function() {
 						var tabContent = Polymer.dom(a.root).querySelector('content'),
 							nodes = Polymer.dom(tabContent).getDistributedNodes();
 						nodes[2].id.should.equal('aux2');
 						done();
-					});
+					// });
 				});
 				a.active = true;
 			});
