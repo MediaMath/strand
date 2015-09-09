@@ -30,41 +30,60 @@
 				value: '',
 				observer: '_loadExternal'
 			},
+
 			_contentLoaded: {
 				observer: '_fireCallback',
 				type: Boolean,
 				value: false
-			},
+			}
 		},
 
 		_fireCallback: function() {
 			if(this.callback) this.async(this.callback);
 		},
 
-		_loadExternal: function() {
-			if(this.url && this.active && !this._contentLoaded) this.async(function() {
+		_importNodes: function(importDoc) {
+			if(importDoc) {
+				var importContainer = document.createElement('template','dom-bind');
+				var importNodes = importDoc.body.childNodes;
+				for(var i=0; i<importNodes.length; i++) {
+					var node = document.importNode(importNodes[i],true);
+					importContainer.content.appendChild(node);
+				}
+				Polymer.dom(this).appendChild(importContainer);
 
-				this.importHref(this.url, function(e) {
+				this._contentLoaded = true;
 
-					var importContainer = document.createElement('template','dom-bind');
-					var importNodes = e.target.import.body.childNodes;
-					for(var i=0; i<importNodes.length; i++) {
-						importContainer.content.appendChild(importNodes[i]);
-					}
-					Polymer.dom(this).appendChild(importContainer);
-
-					this._contentLoaded = true;
-
-					this.fire('loaded', {
-						label: this.tabLabel,
-						target: this,
-					});
-
-				}, function(err) {
-					console.error(err);
+				this.fire('loaded', {
+					label: this.tabLabel,
+					target: this,
 				});
-				
-			});
+			}
+		},
+
+		_loadExternal: function() {
+			if(this.active && !this._contentLoaded) {
+				var importDoc,
+					existing = document.head.querySelector('link[href="'+this.url+'"]');
+
+				if(existing) {
+
+					importDoc = existing.import;
+					this._importNodes(importDoc);
+
+				} else if(this.url) {
+
+					this.importHref(this.url,
+						function(e) {
+							importDoc = e.target.import;
+							this._importNodes(importDoc);
+						},
+						function(error) {
+							console.error(error);
+						});
+
+				}
+			}
 		},
 
 		loadExternal: function(path, callback) {

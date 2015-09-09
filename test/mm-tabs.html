@@ -26,8 +26,8 @@
 	</mm-tabs>
 
 	<mm-tabs id="testTabs">
-		<mm-tab tab-label="First" id="testTab1"></mm-tab>
-		<mm-tab tab-label="Second" id="testTab2"></mm-tab>
+		<mm-tab tab-label="First" id="testTab1" url="test-mm-tabs-aux.html"></mm-tab>
+		<mm-tab tab-label="Second" id="testTab2" url="test-mm-tabs-aux.html"></mm-tab>
 		<mm-tab tab-label="Third" id="testTab3"></mm-tab>
 	</mm-tabs>
 
@@ -69,27 +69,25 @@
 				a.nodeName.should.equal("MM-TAB");
 			});
 
-			// it("should fire a `loaded` event", function(done) {
-			// 	var a = document.querySelector('#testTab1');
-			// 	a.addEventListener('loaded', function(detail) {
-			// 		done();
-			// 	});
-			// 	a.active = true;
-			// });
+			it("should load external content", function() {
+				var a = document.querySelector('#testTab1');
+				var tabContent = Polymer.dom(a.root).querySelector('content').getDistributedNodes();
+				tabContent[0].id.should.equal('aux');
+			});
 
-			// it("should lazy-load external content", function(done) {
-			// 	var a = document.querySelector('#testTab2');
-			// 	a.addEventListener('loaded', function(detail) {
-			// 		done();
-			// 	});
-			// 	a.active = true;
-			// });
+			it("should fire a `loaded` event", function(done) {
+				var a = document.querySelector('#testTab2');
+				a.addEventListener('loaded', function(detail) {
+					done();
+				});
+				a.active = true;
+			});
 
 			it("should load external content imperatively", function(done) {
 				var a = document.querySelector('#testTab3');
 				a.loadExternal('test-mm-tabs-aux.html', function() {
-					var ext = a.querySelector('template');
-					ext.should.exist;
+					var tabContent = Polymer.dom(a.root).querySelector('content').getDistributedNodes();
+					tabContent[2].id.should.equal('aux2');
 					done();
 				});
 				a.active = true;
