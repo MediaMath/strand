@@ -36,6 +36,11 @@
 	top: 10px;
 	right: 15px;
 	cursor: pointer;
+	color: #aaa;
+
+	&:hover {
+		color: $color-A2;
+	}
 }
 
 #container {

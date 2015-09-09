@@ -14,10 +14,6 @@
 		],
 		
 		properties: {
-			ver: {
-				type: String,
-				value: "<<version>>"
-			},
 			type: {
 				type: String,
 				value: "primary",
@@ -41,18 +37,6 @@
 			error: {
 				type: Boolean,
 				value: false
-			}
-		},
-
-		PRIMARY_ICON_COLOR: Colors.D0,
-		SECONDARY_ICON_COLOR: Colors.A2,
-		
-		ready: function() {
-			// if there is an icon - colorize it:
-			var items = Array.prototype.slice.call(Polymer.dom(this.$.icon).getDistributedNodes()),
-				primaryColor = (this.type !== "primary") ? this.SECONDARY_ICON_COLOR : this.PRIMARY_ICON_COLOR;
-			if (items.length) {
-				items[0].setAttribute("primary-color", primaryColor);
 			}
 		},
 

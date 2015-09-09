@@ -15,10 +15,6 @@
 		],
 
 		properties: {
-			PRIMARY_ICON_COLOR: {
-				type:String, 
-				value: Colors.A18 
-			},
 			direction: {
 				type: String,
 				value: false

@@ -18,11 +18,7 @@
 
 ._mm_icon {
 	display: block;
-	color: var(--icon-color);
-	
-	&:hover {
-		color: var(--icon-hover-color);
-	}
+	color: inherit;
 }
 
 [class^="icon-"], [class*=" icon-"] {

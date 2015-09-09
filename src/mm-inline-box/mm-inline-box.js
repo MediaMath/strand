@@ -11,10 +11,10 @@
 		LINE_HEIGHT: 18,
 
 		iconMap: {
-			info:    { type: "info",    color: Colors.D3 },
-			success: { type: "success", color: Colors.B6 },
-			warning: { type: "warning", color: Colors.E5 },
-			error:   { type: "warning", color: Colors.C3 }
+			info:    { type: "info" },
+			success: { type: "success" },
+			warning: { type: "warning" },
+			error:   { type: "warning" }
 		},
 
 		properties: {
