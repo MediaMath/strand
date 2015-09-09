@@ -32,14 +32,9 @@
 			},
 
 			_contentLoaded: {
-				observer: '_fireCallback',
 				type: Boolean,
 				value: false
 			}
-		},
-
-		_fireCallback: function() {
-			if(this.callback) this.async(this.callback);
 		},
 
 		_importNodes: function(importDoc) {
@@ -50,6 +45,7 @@
 					var node = document.importNode(importNodes[i],true);
 					importContainer.content.appendChild(node);
 				}
+				if(this._callback) importContainer.addEventListener('dom-change', this._callback);
 				Polymer.dom(this).appendChild(importContainer);
 
 				this._contentLoaded = true;
@@ -88,7 +84,7 @@
 
 		loadExternal: function(path, callback) {
 			this.url = path;
-			this.callback = callback;
+			this._callback = callback;
 		}
 
 	});
