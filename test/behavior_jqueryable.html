@@ -4,11 +4,13 @@
 	<meta charset="utf-8">
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
-	<script src="TestHelper.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script>
 		var should = chai.should();
 	</script>
-	<link rel="import" href="./behavior_jqueryable_import.html">
+	<link rel="import" href="./behavior_jqueryable_import.html"/>
+	<link rel="import" href="../build/mm-dropdown/mm-dropdown.html"/>
+	<link rel="import" href="../build/mm-list-item/mm-list-item.html"/>
 </head>
 <body>
 
@@ -96,8 +98,19 @@
 				should.not.exist(error);
 			});
 
+			it("should add/remove items from DDL", function() {
+				var $test = $("#test");
+				$("<mm-list-item>Testing 123</mm-list-item>").appendTo($test);
+				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(1);
+				$test.find("mm-list-item").remove();
+				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(1); //fails (not ideal)
+				$test.html(""); 
+				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(0); //succeeds
+			});
+
 		});
 	</script>
 
+	<mm-dropdown id="test"></mm-dropdown>
 </body>
 </html>
