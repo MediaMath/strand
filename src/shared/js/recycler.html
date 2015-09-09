@@ -681,8 +681,8 @@ This code may only be used under the BSD style license found at http://mediamath
 	Recycler.prototype._process = function (destructive) {
 		var fence = this._fence;
 		var iface = this._continuumInterface;
-		var lower = 0|iface.getIndexAtElevation(+fence.getLower() || 0);
-		var upper = 0|iface.getIndexAtElevation(+fence.getUpper() || 0);
+		var lower = 0|iface.getIndexAtElevation(+fence.getLower() || 0, this);
+		var upper = 0|iface.getIndexAtElevation(+fence.getUpper() || 0, this);
 		var placeholders = this._placeholders;
 		var available = this._available;
 		var alpha = this.getLowestIndex();

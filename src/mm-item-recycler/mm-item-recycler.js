@@ -382,13 +382,13 @@ found here: https://github.com/Polymer/core-list
 			viewportHeight -= (this._headerHeight + this._footerHeight);
 			this._viewportHeight = viewportHeight;
 
-			this._assignMiddleHeight(this._getItemHeight(0));
+			this._assignMiddleHeight(this._viewportHeight || 1);
 			this._repositionHeader();
 			this._repositionFooter();
 			this._repositionMiddle();
 			this._repositionExtent();
 
-			this._recycler.setFrame(0, this._getItemHeight(0), 0|this.itemHeight, 0|this.itemHeight);
+			this._recycler.setFrame(0, this._middleHeight, 0|this.itemHeight, 0|this.itemHeight);
 
 			//Initialize scrollTop to supplied index
 			this.scrollToIndex(0|this.index);

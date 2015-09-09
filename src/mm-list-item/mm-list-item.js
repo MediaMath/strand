@@ -48,6 +48,10 @@
 			"modified":"updateTitleHandler"
 		},
 
+		attached: function () {
+			this.debounce("update-title",this.updateTitle,0);
+		},
+
 		updateTitleHandler: function() {
 			this.debounce("update-title",this.updateTitle,0);
 		},
