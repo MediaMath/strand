@@ -20,6 +20,30 @@
 						<h3>Example Output</h3>
 						<div class="content-box example" id="example-{{name}}">{{{example}}}</div>
 					</section>
+
+					{{#properties.length}}
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Properties</th>
+								<th>Options</th>
+							</tr>
+							{{#properties}}
+							<tr>
+								<td>
+									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
+									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
+									{{#description}}<span class="desc">{{description}}</span>{{/description}}
+								</td>
+								<td>{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</td>
+							</tr>
+							{{/properties}}
+						</table>
+					</section>
+					{{/properties.length}}
+
+					<!--
 					<section>
 						<h3>Attributes</h3>
 						<table>
@@ -39,6 +63,8 @@
 							{{/attributes}}
 						</table>
 					</section>
+					-->
+
 					{{#methods.length}}
 					<section>
 						<h3>Public Methods</h3>
@@ -70,27 +96,7 @@
 						</table>
 					</section>
 					{{/methods.length}}
-					{{#properties.length}}
-					<section>
-						<h3>Public Properties</h3>
-						<table>
-							<tr>
-								<th>Properties</th>								
-								<th>Options</th>
-							</tr>
-							{{#properties}}
-							<tr>
-								<td>
-									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
-									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
-									{{#description}}<span class="desc">{{description}}</span>{{/description}}
-								</td>
-								<td>{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</td>
-							</tr>
-							{{/properties}}
-						</table>
-					</section>
-					{{/properties.length}}
+
 					{{#events.length}}
 					<section>
 						<h3>Events</h3>
@@ -108,9 +114,12 @@
 								<td>
 									{{#detail}}
 									<span class="arg">
-										<span class="bold">{{name}}</span> : {{type}}
+										<span class="bold">{{name}}</span> : <span class="italic">{{type}}</span>&nbsp;
 										{{#description}}<span class="desc">{{description}}</span>{{/description}}
 									</span>
+									{{/detail}}
+									{{^detail}}
+									none
 									{{/detail}}
 								</td>
 							</tr>

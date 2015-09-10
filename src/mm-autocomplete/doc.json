@@ -3,17 +3,25 @@
 	"description":"A fully-styled dropdown list containing multiple options.",
 	"attributes": [
 		{
-			"name":"placeholder",
+			"name":"search",
 			"type":"String",
-			"description":"Default text which appears on the dropdown button ('Select One').",
+			"description":"Sets the visual state of the input, adding a search icon. mm-autocomplete is searchable by default.",
 			"optional":true,
-			"default":"Select",
-			"options":[]
+			"default":"true",
+			"options":["true", "false"]
+		},
+		{
+			"name":"clear",
+			"type":"String",
+			"description":"Sets the visual state of the input when content has been entered, adding a clear icon. mm-autocomplete is clear enabled by default.",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"]
 		},
 		{
 			"name":"overflow",
 			"type":"String",
-			"description":"Allows long list items to overflow when the list is opened.",
+			"description":"Instructs the dropdown panel, which contains the search results, to truncate or show the full text of each result. Longer text will be truncated by default, unless this attribute (or property) is set to 'visible'.",
 			"optional":true,
 			"default":"hidden",
 			"options":["hidden", "visible"]
@@ -21,130 +29,203 @@
 		{
 			"name":"overflowWidth",
 			"type":"Number",
-			"description":"If set, will adjust the overflow container's width in pixels. Otherwise use the internal item width",
+			"description":"Instructs the dropdown panel to clamp it's width at the specified number. Useful when an overflow is desired, but horizontal page real estate is limited.",
 			"optional":true,
-			"default":"0",
-			"options":[]
+			"default":"hidden"
 		},
 		{
-			"name":"maxitems",
-			"type":"Int",
-			"description":"The maximum viewable number of items to display in the list, others will be hidden and wil incur scrolling.",
+			"name":"direction",
+			"type":"String",
+			"description":"Instructs the dropdown panel, which contains the search results, to to display above or below the text input field. By default, the dropdown panel will dosplay below the input. Options correspont to a compass paradigme i.e. - 'north' ('n') or 'south' ('s').",
 			"optional":true,
-			"default":"none",
-			"options":[]
-		},
-		{
-			"name":"fitparent",
-			"type":"Boolean",
-			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
-			"optional":true,
-			"default":"null",
-			"options":[]
+			"default":"s",
+			"options":["n", "s"]
 		},
 		{
 			"name":"disabled",
 			"type":"Boolean",
-			"description":"Disable the item",
+			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":[]
-		}
-	],
-	"methods": [
-		{
-			"name":"open",
-			"description":"Expand the dropdown.",
-			"arguments":[]
+			"options":["true", "false"]
 		},
 		{
-			"name":"close",
-			"description":"Collapse the dropdown.",
-			"arguments":[]
+			"name":"error",
+			"type":"Boolen",
+			"description":"Sets the visual state of the input field to have a red outline, denoting an error state.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
 		},
 		{
-			"name":"toggle",
-			"description":"Close dropdown if it is open, otherwise open it.",
-			"arguments":[]
-		},
-		{
-			"name":"reset",
-			"description":"Reset dropdown to default state.",
-			"arguments":[]
-		},
-		{
-			"name":"bindModel",
-			"description":"Bind a property on the given model to the input's value.",
-			"arguments":[
-				{
-					"name":"model",
-					"type":"Object",
-					"optional":false,
-					"default":"undefined",
-					"description":"The model object to update with value changes.  If the model has a '.set()' method, .set(property, inputValue) will be used (otherwise the property field of the model will be assigned directly)."
-				},
-				{
-					"name":"property",
-					"type":"String",
-					"optional":false,
-					"default":"undefined",
-					"description":"The property on the model that should be bound to the input's value."
-				}
-			]
-		}
-	],
-	"properties":[
-		{
-			"name":"data",
-			"type":"Array",
-			"description":"Array of value / label objects for data-driven dropdown (eg. [{value: '0', label:'Item Label'}, ...]). Setting this will override any internal mm-list-items.",
-			"default":"null"
+			"name":"fitparent",
+			"type":"Boolen",
+			"description":"Sets the width of the component to fill the width of it's parent element.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
 		},
 		{
 			"name":"placeholder",
 			"type":"String",
-			"description":"Default text which appears on the dropdown button ('Select').",
-			"default":"Select"
-		},
-		{
-			"name":"value",
-			"type":"String",
-			"description":"The current value of the selected item.",
-			"default":"null"
+			"description":"The placeholder text displayed in the input prior to user interaction.",
+			"optional":true,
+			"default":"Search"
 		},
 		{
 			"name":"maxItems",
 			"type":"Number",
-			"description":"The maximum number of items the dropdown will show before scrolling is enabled (zero and null indicate 'unlimited').",
+			"description":"Limits the number of list items displayed in the dropdown panel, allowing the list to scroll vertically if necessary.",
+			"optional":true,
+			"default":"null"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"description":"The value of the input, or the value of the selected item from the dropdown panel. Items which appear in the dropdown panel list can be configured as desired (see 'data' for more information).",
+			"optional":false,
+			"default":"null"
+		},
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The data which populates the dropdown panel list, expressed as an array of objects with key value pairs i.e. - [ { name: 'name', value: 'value' }, {...} ].",
+			"optional":false,
 			"default":"null"
 		},
 		{
 			"name":"state",
 			"type":"String",
-			"description":"The state of the dropdown (may be 'opened' or 'closed').",
-			"default":"'closed'"
+			"description":"Sets the visual state of the element.",
+			"optional":false,
+			"default":"closed",
+			"options":["opened", "closed"]
 		},
 		{
-			"name":"fit",
+			"name":"isClosed",
 			"type":"Boolean",
-			"description":"Whether or not the dropdown should scale itself to fit the width of it's parent.",
-			"default":"false"
+			"description":"Returns a boolean corresponding to the visual state of the element.",
+			"optional":false,
+			"default":"true"
 		},
 		{
-			"name":"error",
-			"type":"Boolean",
-			"description":"Triggers the display of invalid visual state.",
-			"default":"false"
+			"name":"selectedIndex",
+			"type":"Number",
+			"description":"An integer representing the index of the selected list item from the dropdown panel. As the list items will be filtered upon user interaction - the number returned will correspond with the index of the item in original data set (see 'data' for more information).",
+			"optional":false,
+			"default":"true"
+		},
+		{
+			"name":"items",
+			"type":"Array",
+			"description":"Returns only the filtered search data used to populate the element. Only available after a value has been applied.",
+			"optional":false,
+			"default":"[]"
+		},
+		{
+			"name":"domItems",
+			"type":"Array",
+			"description":"Returns an array of mm-list-items which populate the dropdown panel. Only available after a value has been applied.",
+			"optional":false,
+			"default":"[]"
+		},
+		{
+			"name":"itemHeight",
+			"type":"Number",
+			"description":"Returns the offsetHeight of a single mm-list-item used to populate the dropdown panel.",
+			"optional":false,
+			"default":"[]"
+		}
+	],
+	"methods": [
+		{
+			"name":"open",
+			"description":"Instructs the component to open.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"String",
+					"optional":true,
+					"default":"false",
+					"description":"Used to allow or suppress the firing of an 'open' event (see 'events' for more information)."
+				}
+			]
+		},
+		{
+			"name":"close",
+			"description":"Instructs the component to close.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"String",
+					"optional":true,
+					"default":"false",
+					"description":"Used to allow or suppress the firing of a 'close' event (see 'events' for more information)."
+				}
+			]
+		},
+		{
+			"name":"reset",
+			"description":"Resets the component to it's default display state, and clears any value."
+		},
+		{
+			"name":"toggle",
+			"description":"Toggles the visual state of the component between 'opened' and 'closed'.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"String",
+					"optional":true,
+					"default":"false",
+					"description":"Used to allow or suppress the firing of an 'open' or 'close' event, depending on the component's current state (see 'events' for more information)."
+				}
+			]
 		}
 	],
 	"events": [
+		{
+			"type": "open"
+		},
+		{
+			"type": "close"
+		},
 		{
 			"type": "changed",
 			"detail": [
 				{
 					"name":"value",
 					"type":"String",
-					"description":"Value of the selected item, usually it's label"
+					"description":"The value of the selected mm-list-item. If no value was supplied, it will return the text content of the list item."
+				}
+			]
+		},
+		{
+			"type": "selected",
+			"detail": [
+				{
+					"name":"item",
+					"type":"Object",
+					"description":"The data object which was selected."
+				},
+				{
+					"name":"index",
+					"type":"Number",
+					"description":"The index of data object which was selected."
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value property of data object which was selected."
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"description":"The name property of data object which was selected."
+				},
+				{
+					"name":"selected",
+					"type":"Boolean",
+					"description":"TODO: data obj doesn't actually have a selected property."
 				}
 			]
 		}
