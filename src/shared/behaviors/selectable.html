@@ -3,15 +3,15 @@
 (function (scope) {
 	var Selectable = {
 		properties: {
-			filterElementType: {
+			_filterElementType: {
 				type: String,
 				value: "mm-list-item"
 			},
-			filter: {
+			_filter: {
 				type: Boolean,
 				value: true
 			},
-			searchable: {
+			_searchable: {
 				type: Boolean,
 				value: false
 			},
@@ -20,7 +20,7 @@
 				value: false,
 				observer: '_selectedIndexChanged'
 			},
-			highlightedIndex: {
+			_highlightedIndex: {
 				type: Number,
 				value: null,
 				observer: '_highlightedIndexChanged'
@@ -29,14 +29,14 @@
 
 		get items() {
 			var itemsArr = null,
-				elementType = this.filterElementType;
+				elementType = this._filterElementType;
 
 			// this needs to work for light dom, local dom (stamped dom-repeats), and
 			// for data... searchable data represents another case where it is a subset
 			// of the data provided to the host component
-			if (this.filter) {
+			if (this._filter) {
 				if (this.data) {
-					itemsArr = !this.searchable ? this.data : this.searchData;
+					itemsArr = !this._searchable ? this.data : this._searchData;
 				} else {
 					itemsArr = this.getLightDOM().filter(function(el) { return el.localName === elementType; });
 				}

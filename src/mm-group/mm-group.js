@@ -32,11 +32,11 @@
 				reflectToAttribute: true,
 				observer: "_valueChanged"
 			},
-			filter: {
+			_filter: {
 				type: Boolean,
 				value: false
 			},
-			filterElementType: {
+			_filterElementType: {
 				type: String,
 				value: "*"
 			},

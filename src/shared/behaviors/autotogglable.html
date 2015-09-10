@@ -38,7 +38,7 @@
 		},
 
 		_triggerChanged: function(trigger, oldTrigger) {
-			var scope = this.scope || document;
+			var scope = this._scope || document;
 
 			this._removeListener(oldTrigger);
 

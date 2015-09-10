@@ -12,15 +12,15 @@
 		is: 'mm-pulldown-button',
 
 		properties: {
-			scope: {
+			_scope: {
 				type: Object,
 				value: function() { return this; }
 			},
-			panel: {
+			_panel: {
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
-			target: {
+			_target: {
 				type: Object,
 				value: function() { return this.$.target; }
 			},
@@ -48,19 +48,12 @@
 				type: Boolean,
 				value: false
 			},
-			iconColor: {
-				type: String,
-				computed: "_iconColor(type)"
-			},
 			overflowWidth: {
 				type: Number,
 				value: null
 			},
 			layout: String
 		},
-
-		PRIMARY_ICON_COLOR: Colors.D0,
-		SECONDARY_ICON_COLOR: Colors.A2,
 
 		behaviors: [
 			StrandTraits.Stylable,
@@ -72,17 +65,8 @@
 
 		ready: function() {
 			if(!this.toggleTrigger) {
-				this.toggleTrigger = this.target;
+				this.toggleTrigger = this._target;
 			}
-
-			this.async(function(){
-				// colorize the icons
-				var icon = Polymer.dom(this.$.icon).getDistributedNodes();
-
-				if (icon.length > 0) {
-					icon[0].primaryColor = this.iconColor;
-				}
-			});
 		},
 
 		open: function(silent) {
@@ -93,6 +77,7 @@
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			this._highlightedIndex = null;
 			inherited.apply(this, [silent]);
 		},
 
@@ -112,18 +97,12 @@
 					oldSelected = this.items[oldIndex],
 					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
-				newSelected.selected = true;
-
 				this.fire('selected', {
 					item: newSelected,
 					index: newIndex,
 					value: value,
-					selected: newSelected.selected
+					selected: true
 				});
-			}
-
-			if(typeof oldIndex === 'number') { 
-				this.items[oldIndex].selected = false;
 			}
 		},
 
@@ -136,18 +115,14 @@
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {
 			var o = {};
-			o["button"] = true;
-			o["fit"] = fitparent;
-			o["invalid"] = error;
+			o.button = true;
+			o.fit = fitparent;
+			o.invalid = error;
 			o[type] = true;
 			o[state] = true;
-			o["top"] = (direction === 'n');
-			o["bottom"] = (direction === 's');
+			o.top = (direction === 'n');
+			o.bottom = (direction === 's');
 			return this.classBlock(o);
-		},
-
-		_iconColor: function(type) {
-			return (this.type === "primary") ? this.PRIMARY_ICON_COLOR : this.SECONDARY_ICON_COLOR;
 		}
 	});
 

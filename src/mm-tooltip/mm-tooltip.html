@@ -16,7 +16,9 @@
 		<style include="fonts-style"></style>
 		<div id="container" class$="{{_updateClass(auto)}}" style$="{{_containerStyle}}">
 			<content select="label"></content>
-			<template is="dom-if" if="{{auto}}"><mm-icon type="delete" class="close-icon" width="8" height="8" primary-color="[[CLOSE_ICON_COLOR]]" hover-color="[[CLOSE_ICON_HOVER]]"></mm-icon></template>
+			<template is="dom-if" if="{{auto}}">
+				<mm-icon type="delete" class="close-icon" width="8" height="8"></mm-icon>
+			</template>
 		</div>
 	</template>
 </dom-module>

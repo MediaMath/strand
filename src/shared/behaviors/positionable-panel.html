@@ -17,7 +17,7 @@
 				value: 's',
 				reflectToAttribute: true
 			},
-			containerOffset: {
+			_containerOffset: {
 				type: Number,
 				value: 0
 			},
@@ -78,7 +78,7 @@
 				}
 			}
 
-			panelRect.toCSS(this.panel);
+			panelRect.toCSS(this._panel);
 		},
 
 		_flipDirection: function(direction) {
@@ -88,7 +88,7 @@
 		},
 
 		_getOffset: function(panelA, panelB, boundaryA, boundaryB, panelSize, targetSize) {
-			var offset = this.containerOffset;
+			var offset = this._containerOffset;
 			var maxOffset = (panelSize - this.boundaryOffset * 2) / 2 - this._tipSize;
 
 			if (panelA + offset < boundaryA) {

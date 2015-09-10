@@ -41,6 +41,11 @@ $bg-color: $color-A1;
 			cursor: pointer;
 			top: 8px;
 			right: 8px;
+			color: $color-A4;
+
+			&:hover {
+				color: $color-F0;
+			}
 		}
 
 		& > ::content a {

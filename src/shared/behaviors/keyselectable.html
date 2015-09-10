@@ -21,20 +21,20 @@
 		},
 
 		_highlightPrev: function() {
-			if(typeof this.highlightedIndex !== 'number') this.highlightedIndex = 0;
+			if(typeof this._highlightedIndex !== 'number') this._highlightedIndex = 0;
 			else {
-				var newIndex = this.highlightedIndex - 1;
+				var newIndex = this._highlightedIndex - 1;
 				if(newIndex < 0) newIndex = this.items.length-1;
-				this.highlightedIndex = newIndex;
+				this._highlightedIndex = newIndex;
 			}
 		},
 
 		_highlightNext: function() {
-			if(typeof this.highlightedIndex !== 'number') this.highlightedIndex = 0;
+			if(typeof this._highlightedIndex !== 'number') this._highlightedIndex = 0;
 			else {
-				var newIndex = this.highlightedIndex + 1;
+				var newIndex = this._highlightedIndex + 1;
 				if(newIndex >= this.items.length) newIndex = 0;
-				this.highlightedIndex = newIndex;
+				this._highlightedIndex = newIndex;
 			}
 		},
 
@@ -57,7 +57,7 @@
 		},
 
 		_onEnter: function(e) {
-			this.selectedIndex = this.highlightedIndex;
+			this.selectedIndex = this._highlightedIndex;
 			this.close();
 		},
 
@@ -92,7 +92,7 @@
 			var target = Polymer.dom(e).path[0];
 			var targetIndex = this.items.indexOf(target);
 			if(targetIndex >= 0) {
-				this.highlightedIndex = targetIndex;
+				this._highlightedIndex = targetIndex;
 			}
 		},
 
@@ -102,11 +102,11 @@
 
 		_updateContainerScroll: function() {
 			if(this.data) {
-				this.$.itemRecycler.scrollToIndex(this.highlightedIndex);
+				this.$.itemRecycler.scrollToIndex(this._highlightedIndex);
 			} else {
-				var highlightedItem = this.items[this.highlightedIndex];
+				var highlightedItem = this.items[this._highlightedIndex];
 				if(highlightedItem) {
-					var panelRect = this.panel.getBoundingClientRect(),
+					var panelRect = this._panel.getBoundingClientRect(),
 						focusRect = highlightedItem.getBoundingClientRect();
 
 					if(focusRect.top < panelRect.top) {

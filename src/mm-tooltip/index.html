@@ -98,27 +98,35 @@
 				background: #ff0000;
 			}
 
+			mm-icon[type=info] {
+				color: #666;
+			}
+
+			mm-icon[type=warning] {
+				color: #FED01A;
+			}
+
 		</style>
   </head>
   <body>
 
   	<div class="col c1">
   		<p>
-			<span class="bold">Tooltip:</span> Message Layout Default <mm-icon id="defaultTarg" type="info" width="14" height="14" primary-color="#666666"></mm-icon>
+			<span class="bold">Tooltip:</span> Message Layout Default <mm-icon id="defaultTarg" type="info" width="14" height="14"></mm-icon>
 			<mm-tooltip target="#defaultTarg">
 				<label>I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Layout with Custom Text Style <mm-icon class="custom-targ" type="info" width="14" height="14" primary-color="#666666"></mm-icon>
+			<span class="bold">Tooltip:</span> Layout with Custom Text Style <mm-icon class="custom-targ" type="info" width="14" height="14"></mm-icon>
 			<mm-tooltip target=".custom-targ">
 				<label class="tip-msg" target="">I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Layout with Custom Width <mm-icon id="widthTarg" type="warning" width="14" height="14" primary-color="#FED01A"></mm-icon>
+			<span class="bold">Tooltip:</span> Layout with Custom Width <mm-icon id="widthTarg" type="warning" width="14" height="14"></mm-icon>
 			<mm-tooltip tip-width="150" target="#widthTarg">
 				<label>I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
@@ -139,7 +147,7 @@
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip <mm-icon id="custom2Targ" type="info" width="14" height="14" primary-color="#666666"></mm-icon>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip <mm-icon id="custom2Targ" type="info" width="14" height="14"></mm-icon>
 			<mm-tooltip tip-width="200" auto="false" target="#custom2Targ">
 				<label class="special-msg"><span class="bold">Lorem Ipsum: </span>is simply dummy text of the <a href="http://www.example.com" target="_blank">this and stuff</a> printing and typesetting industry.</label>
 			</mm-tooltip>

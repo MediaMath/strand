@@ -12,11 +12,11 @@
 		is: 'mm-autocomplete',
 
 		properties: {
-			panel: {
+			_panel: {
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
-			target: {
+			_target: {
 				type: Object,
 				value: function() { return this.$.target; }
 			},
@@ -31,10 +31,6 @@
 			overflow: {
 				type: String,
 				value: "hidden"
-			},
-			type: {
-				type: String,
-				value: "secondary"
 			},
 			direction: {
 				type: String,
@@ -53,17 +49,9 @@
 				value: false,
 				reflectToAttribute: true
 			},
-			iconColor: {
-				type: String,
-				computed: "_iconColor(type)"
-			},
 			placeholder: {
 				type: String,
 				value: "Search",
-			},
-			searchable: {
-				type: Boolean,
-				value: true
 			},
 			maxItems: {
 				type: Number,
@@ -72,21 +60,22 @@
 			},
 			value: {
 				type: String,
-				value: false,
 				reflectToAttribute: true
+			},
+			width: Number,
+			_searchable: {
+				type: Boolean,
+				value: true
 			},
 			data: {
 				type: Array,
 				value: null
 			},
-			searchData: {
+			_searchData: {
 				type: Array,
 				value: function() { return []; },
 				notify: true
-			},
-			width: Number,
-			layout: String,
-			changedFlag: Boolean
+			}
 		},
 
 		behaviors: [
@@ -97,8 +86,7 @@
 			StrandTraits.PositionableDropdown
 		],
 
-		LAYOUT_TYPE: "dropdown",
-		SECONDARY_ICON_COLOR: Colors.A2,
+		_selectedIndexChangedFlag: false,
 
 		open: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "open");
@@ -111,16 +99,18 @@
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			this._highlightedIndex = null;
 			inherited.apply(this, [silent]);
 		},
 
 		reset: function() {
 			this.value = null;
 			this.selectedIndex = null;
-			this.changedSelectedFlag = false;
-			if (this.data) {
+			this._highlightedIndex = null;
+			this._selectedIndexChangedFlag = false;
+			if(this.data) {
 				this.data.forEach(function(item) {
-					if (item.selected === true) item.selected = false;
+					if (item.highlighted) item.highlighted = null;
 				});
 			}
 			if(this.state === this.STATE_OPENED) this.close();
@@ -140,21 +130,21 @@
 			if (value === null || value === '') {
 				this.reset();
 			} else {
-				if(!this.changedFlag) {
+				if(!this._selectedIndexChangedFlag) {
 					this._search(value);
 					this.value = value;
 				}
-				this.changedFlag = false;
+				this._selectedIndexChangedFlag = false;
 			}
 		},
 
 		_search: function(value) {
 			if(this.data && value) {
-				this.searchData = this.data.filter(this._textfilter.bind(this, value));
+				this._searchData = this.data.filter(this._textfilter.bind(this, value));
 
 				// wait a tick to ensure we have searchitems
 				this.async(function(){
-					if(value && this.searchData.length > 0) { 
+					if(value && this._searchData.length > 0) { 
 						this.open();
 					} else {
 						this.close();
@@ -170,17 +160,8 @@
 			return val !== "" && (it.indexOf(val) > -1);
 		},
 
-		_selectItemByValue: function(value) {
-			this.async(function() {
-				var item = this.items.filter(function(el) {
-					return String(el.value) === String(value) || String(el.textContent.trim()) === String(value)
-				})[0];
-				if(item) this.selectedIndex = this.items.indexOf(item);
-			});
-		},
-
 		_updateSelectedItem: function(e) {
-			var targetIndex = this.searchData.indexOf(this.$.domRepeat.itemForElement(e.target));
+			var targetIndex = this._searchData.indexOf(this.$.domRepeat.itemForElement(e.target));
 
 			if(targetIndex >= 0) {
 				this.selectedIndex = targetIndex;
@@ -197,54 +178,41 @@
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
-			// zero is a valid index
-			var nullNewIndex = newIndex === false || newIndex === null,
-				nullOldIndex = oldIndex === false || oldIndex === null;
-
-			if(!nullNewIndex && newIndex !== oldIndex) {
-				var newSelected = this.items[newIndex],
+			if(typeof newIndex === 'number') {
+				var newSearchDataObj = this._searchData[newIndex],
+					newDataIndex = this.data.indexOf(newSearchDataObj),
+					newSelected = this.data[newDataIndex],
 					value = newSelected.value ? newSelected.value : newSelected.name;
 
-				this.changedFlag = true;
+				this._selectedIndexChangedFlag = true;
 				this.value = value;
 				this.$.target.value = newSelected.name;
-				this.set('searchData.' + newIndex + '.selected', true);
 
 				this.fire('selected', {
 					item: newSelected,
 					index: newIndex,
 					value: this.value,
-					selected: newSelected.selected
+					selected: true
 				});
 
 				this.fire('changed', { value: value });
 			}
-
-			if(!nullOldIndex && oldIndex !== newIndex) {
-				var oldSelected = this.items[oldIndex];
-				if (oldSelected) this.set('searchData.' + oldIndex + '.selected', false);
-			}
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {
-			var nullNewIndex = newIndex === false || newIndex === null,
-				nullOldIndex = oldIndex === false || oldIndex === null;
-
-			if(!nullNewIndex && newIndex !== oldIndex) {
-				this.set('searchData.' + newIndex + '.highlighted', true);
+			if(typeof newIndex === 'number') {
+				this.set('_searchData.' + newIndex + '.highlighted', true);
 			}
-
-			if(!nullOldIndex && oldIndex !== newIndex) {
-				this.set('searchData.' + oldIndex + '.highlighted', false);
+			if(typeof oldIndex === 'number') {
+				this.set('_searchData.' + oldIndex + '.highlighted', false);
 			}
-
 			this._updateContainerScroll();
 		},
 
 		_updateContainerScroll: function() {
-			var highlightedItem = this.domItems[this.highlightedIndex];
+			var highlightedItem = this.domItems[this._highlightedIndex];
 			if(highlightedItem) {
-				var panelRect = this.panel.getBoundingClientRect(),
+				var panelRect = this._panel.getBoundingClientRect(),
 					focusRect = highlightedItem.getBoundingClientRect();
 
 				if(focusRect.top < panelRect.top) {
@@ -264,8 +232,7 @@
 	 	_setMaxHeight: function(maxItems) {
 			var actualMax = Math.min(this.domItems.length, maxItems);
 			this.$.list.style.height = this.itemHeight * actualMax + 'px';
-	 	},
+	 	}
 
-		_iconColor: function() {},
 	});
 })(window.Strand = window.Strand || {});

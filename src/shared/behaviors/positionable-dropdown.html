@@ -25,7 +25,7 @@
 		open: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
 
-			this._origRect = this._origRect || Rectangle.fromElement(this.panel);
+			this._origRect = this._origRect || Rectangle.fromElement(this._panel);
 			this.disableScroll();
 			inherited.apply(this, [silent]);
 		},
@@ -83,7 +83,7 @@
 				this.$.itemRecycler.xScroll = "none";
 			}
 
-			panelRect.toCSS(this.panel,true);
+			panelRect.toCSS(this._panel,true);
 		},
 
 		_updateDirection: function(direction, winRect, panelRect, targetRect, originRect) {

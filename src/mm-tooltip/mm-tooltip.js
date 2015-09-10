@@ -10,13 +10,10 @@
 		],
 
 		properties: {
-			CLOSE_ICON_COLOR: {
-				type: String,
-				value: Colors.A4
-			},
-			CLOSE_ICON_HOVER: {
-				type: String,
-				value: Colors.F0
+			target: {
+				type: Object,
+				value: null,
+				observer: '_positionableTargetChanged'
 			},
 			auto: { 
 				type: Boolean,
@@ -37,24 +34,27 @@
 
 		attached: function() {
 			this.async(function() {
-				if (this.target) {
-					this.target.addEventListener('mouseover', this._overHandler.bind(this));
-					this.target.addEventListener('mouseout', this._outHandler.bind(this));
-					this.target.style.cursor = 'pointer';
+				if (this._target) {
+					this._target.addEventListener('mouseover', this._overHandler.bind(this));
+					this._target.addEventListener('mouseout', this._outHandler.bind(this));
+					this._target.style.cursor = 'pointer';
 				}
 			});
 		},
 
 		removed: function() {
-			if (this.target) {
-				this.target.removeEventListener('mouseover', this._overHandler.bind(this));
-				this.target.removeEventListener('mouseout', this._outHandler.bind(this));
-				this.target.style.cursor = 'default';
+			if (this._target) {
+				this._target.removeEventListener('mouseover', this._overHandler.bind(this));
+				this._target.removeEventListener('mouseout', this._outHandler.bind(this));
+				this._target.style.cursor = 'default';
 			}
 		},
 
-		// see StrandTraits.AutoClosable for 'open' & 'close'
-		// also see positionable-tip where we extend 'open' & 'close' 
+		_positionableTargetChanged: function() {
+			// use the private target api
+			this._target = this.target;
+		},
+
 		_overHandler: function(e) {
 			this.open();
 		},

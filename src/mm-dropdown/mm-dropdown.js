@@ -14,11 +14,11 @@
 		is: 'mm-dropdown',
 
 		properties: {
-			scope: {
+			_scope: {
 				type: Object,
 				value: function() { return this; }
 			},
-			panel: {
+			_panel: {
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
@@ -26,7 +26,7 @@
 				type: Object,
 				value: function() { return this.$.itemRecycler; }
 			},
-			target: {
+			_target: {
 				type: Object,
 				value: function() { return this.$.target; }
 			},
@@ -38,7 +38,7 @@
 				type: String,
 				value: 'hidden'
 			},
-			type: {
+			_type: {
 				type: String,
 				value: 'secondary'
 			},
@@ -72,9 +72,6 @@
 				type: Array,
 				notify: true,
 				observer: '_dataChanged'
-			},
-			SECONDARY_ICON_COLOR: {
-				value: Colors.A2
 			},
 			layout: String
 		},
@@ -124,7 +121,7 @@
 		reset: function() {
 			this.value = null;
 			this.selectedIndex = null;
-			highlightedIndex = null;
+			this._highlightedIndex = null;
 			if(this.state === this.STATE_OPENED) this.close();
 		},
 
@@ -342,13 +339,13 @@
 
 		_updateButtonClass: function(direction, fitparent, error, state, type) {
 			var o = {};
-			o['button'] = true;
-			o['fit'] = fitparent;
-			o['invalid'] = error;
+			o.button = true;
+			o.fit = fitparent;
+			o.invalid = error;
 			o[type] = true;
 			o[state] = true;
-			o['top'] = (direction === 'n');
-			o['bottom'] = (direction === 's');
+			o.top = (direction === 'n');
+			o.bottom = (direction === 's');
 			return this.classBlock(o);
 		}
 	});

@@ -9,16 +9,16 @@
 	Positionable = {
 
 		properties: {
-			scope: {
+			_scope: {
 				type: Object,
 				value: function() { return document; } // assumes the scope will be the document if not specified
 			},
-			panel: {
+			_panel: {
 				type: Object,
 				value: function() { return this; },
 				observer: '_panelChanged',
 			},
-			target: {
+			_target: {
 				type: Object,
 				value: null,
 				observer: '_targetChanged'
@@ -41,7 +41,7 @@
 
 		ready: function() {
 			if(!this.toggleTrigger) {
-				this.toggleTrigger = this.target;
+				this.toggleTrigger = this._target;
 			}
 		},
 
@@ -54,18 +54,18 @@
 		},
 
 		update: function () {
-			if(!this.target) return;
+			if(!this._target) return;
 			this._updatePosition();
 		},
 
 		_updatePosition: function() {},
 
 		get metrics() {
-			return Rectangle.fromElement(this.panel);
+			return Rectangle.fromElement(this._panel);
 		},
 
 		get targetMetrics() {
-			return this.target && Rectangle.fromElement(this.target);
+			return this._target && Rectangle.fromElement(this._target);
 		},
 
 		get windowMetrics() {
@@ -78,8 +78,8 @@
 
 		_targetChanged: function(target, oldTarget) {
 			if(typeof target === 'string') {
-				this.target = this.scope === document ? 
-				document.querySelector(target) : Polymer.dom(this.scope).querySelector(target);
+				this._target = this._scope === document ? 
+				document.querySelector(target) : Polymer.dom(this._scope).querySelector(target);
 			}
 		},
 
@@ -87,16 +87,16 @@
 			this.async(function() {
 				if (newState === this.STATE_OPENED) {
 					this.update();
-					this.panel.style.clip = "auto";
+					this._panel.style.clip = "auto";
 				} else {
-					this.panel.style.clip = "rect(0,0,0,0)";
+					this._panel.style.clip = "rect(0,0,0,0)";
 				}
 			});
 		},
 
 		_boundaryOffsetChanged: function(boundaryOffset) {
 			this.async(function() {
-				this.panel.style.padding = boundaryOffset + 'px';				
+				this._panel.style.padding = boundaryOffset + 'px';				
 			});
 		}
 

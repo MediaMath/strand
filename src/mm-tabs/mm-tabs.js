@@ -15,11 +15,10 @@
 		],
 
 		properties: {
-			filterElementType: {
+			_filterElementType: {
 				type: String,
 				value: "mm-tab"
 			},
-
 			inner: {
 				type: Boolean,
 				value: false,
