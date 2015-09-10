@@ -1,0 +1,41 @@
+<script>
+(function (scope) {
+	scope.AjaxPlugin = function(pluginQueue) {
+		this.queue = [];
+		if (pluginQueue) {
+			this.queue = pluginQueue.map(function(p) {
+				if (typeof p === "function")
+					return new p();
+			});
+		}
+	};
+	scope.AjaxPlugin.prototype = {
+		register: function(plugin) {
+			if (typeof plugin === "function") {
+				var instance = new plugin();
+				this.queue.push(instance);
+			}
+		},
+
+		processRequest: function(data) {
+			return this.process("requestHandler", data);
+		},
+
+		processResponse: function(data) {
+			return this.process("responseHandler", data);
+		},
+
+		process: function(method, data) {
+			data = data || {};
+			return this.queue.reduce(function(prev, curr) {
+				var out;
+				if (curr[method])
+					var out = curr[method](prev);
+				if(curr.reset)
+					curr.reset();
+				return out || prev;
+			}, data);
+		}
+	};
+})(window.StrandLib = window.StrandLib || {}); 
+</script>
