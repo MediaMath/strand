@@ -1,0 +1,47 @@
+<link rel="import" href="ajaxplugin.html"/>
+<link rel="import" href="storage.html"/>
+<link rel="import" href="datautils.html"/>
+<script>
+(function(scope) {
+  var DataUtils = StrandLib.DataUtils;
+  var Storage = StrandLib.Storage;
+
+    scope.AjaxCSRFPlugin = function AjaxCSRFPlugin(enable, useCache, header) {
+      this.enabled = enable;
+      this.useCache = useCache;
+      this.header = header || "X-CSRF-Token";
+      if (this.useCache) {
+        this.storage = new Storage("csrf");
+        this.token = this.storage.value;
+      }
+    }
+
+    AjaxCSRFPlugin.prototype = {
+
+      requestHandler:function(ajaxOpts) {
+          if (this.enabled && ajaxOpts && this.token) {
+              var csrf = DataUtils.param(this.csrfHeader, this.token);
+              ajaxOpts.headers.push(csrf);
+          }
+          return ajaxOpts;
+      },
+
+      responseHandler:function(response) {
+        var ajax = DataUtils.getPathValue("instance",response);
+        var hasHeader = ajax.xhr.getAllResponseHeaders().indexOf(this.csrfHeader) !== -1;
+        if (hasHeader && this.enabled) {
+          var csrf = ajax.xhr.getResponseHeader(this.csrfHeader);
+          this.token = csrf;
+          if (this.useCache) {
+            this.storage.value = csrf;
+          }
+        }
+        return response;
+      },
+      reset:function() {
+
+      }
+    };
+}(window.StrandLib = window.StrandLib || {}));
+
+</script>
