@@ -245,9 +245,11 @@ This code may only be used under the BSD style license found at http://mediamath
 		var count = this._items.length();
 		var current = _reference;
 		var elevation = 0;
+		var continuous = 0|true;
 
 		if (from < index) {
 			from = index;
+			continuous = 0|false;
 		}
 
 		if (to > count) {
@@ -278,7 +280,9 @@ This code may only be used under the BSD style license found at http://mediamath
 					}
 				}
 
-				this._boundEagerRange(from);
+				if (continuous) {
+					this._boundEagerRange(from);
+				}
 			}
 		}
 	};

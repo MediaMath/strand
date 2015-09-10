@@ -158,28 +158,24 @@ This code may only be used under the BSD style license found at http://mediamath
 		return this._continuum.terminate(index);
 	};
 
-	ContinuumInterface.prototype.getIndexAtElevation = function (elevation, recycler) {
+	ContinuumInterface.prototype.getIndexAtElevation = function (elevation, recycler, ceiling) {
 		var continuum = this._continuum;
 		var count = 0|continuum.getDiscreteCount();
 		var position = +continuum.getElevation(count) || 0;
 
 		if (elevation > position) {
-			return this._getUnknownIndexAtElevation(elevation, continuum, count, recycler);
+			return this._getUnknownIndexAtElevation(elevation, continuum, count, recycler, ceiling);
 		} else {
-			return this._getKnownIndexAtElevation(elevation, continuum, count, 0, position);
+			return this._getKnownIndexAtElevation(elevation, continuum, count, 0, ceiling);
 		}
 	};
 
-	ContinuumInterface.prototype._getKnownIndexAtElevation = function (elevation, continuum, count, start, known) {
+	ContinuumInterface.prototype._getKnownIndexAtElevation = function (elevation, continuum, count, start, ceiling) {
 		var position = 0;
 		var index = 0;
 		var lower = start;
 		var upper = count;
 		var limit = count;
-
-		//if (elevation === known) {
-		//	return count;
-		//}
 
 		for (limit; limit; limit--) {
 			index = (lower + upper) >> 1;
@@ -188,6 +184,8 @@ This code may only be used under the BSD style license found at http://mediamath
 				upper = index;
 			} else if (index > lower) {
 				lower = index;
+			} else if (ceiling && elevation === position) {
+				return index - 1;
 			} else {
 				return index;
 			}
@@ -196,7 +194,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		return -1;
 	};
 
-	ContinuumInterface.prototype._getUnknownIndexAtElevation = function (elevation, continuum, count, recycler) {
+	ContinuumInterface.prototype._getUnknownIndexAtElevation = function (elevation, continuum, count, recycler, ceiling) {
 		var position = 0;
 		var delta = 1;
 		var limit = count;
@@ -225,7 +223,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		} while (delta = (delta << 1) >>> 0)
 
 		if (delta) {
-			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, position);
+			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, ceiling);
 		} else {
 			return -1;
 		}
@@ -583,9 +581,10 @@ This code may only be used under the BSD style license found at http://mediamath
 			snake = snake.getTail();
 		}
 
-		while (snake = (snake && snake.getTail())) {
+		while (snake) {
 			outer = snake.body.getOuterIndex();
 			iface.notify(snake.body.getInnerIndex(), outer, outer, this);
+			snake = snake.getTail();
 		}
 
 		this._process(NONDESTRUCTIVE);
@@ -681,8 +680,8 @@ This code may only be used under the BSD style license found at http://mediamath
 	Recycler.prototype._process = function (destructive) {
 		var fence = this._fence;
 		var iface = this._continuumInterface;
-		var lower = 0|iface.getIndexAtElevation(+fence.getLower() || 0, this);
-		var upper = 0|iface.getIndexAtElevation(+fence.getUpper() || 0, this);
+		var lower = 0|iface.getIndexAtElevation(+fence.getLower() || 0, this, 0|false);
+		var upper = 0|iface.getIndexAtElevation(+fence.getUpper() || 0, this, 0|true);
 		var placeholders = this._placeholders;
 		var available = this._available;
 		var alpha = this.getLowestIndex();
