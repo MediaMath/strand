@@ -124,13 +124,10 @@ module.exports = function(grunt) {
 			},
 			fonts:{
 				options:{
-					data:{
-						module:'shared-fonts',
-						//style:grunt.file.read("build/shared/fonts/fonts.css")
-					}
+					data:{}
 				},
 				files:{
-					'<%= build_dir %>/shared/fonts/shared-fonts.html': "<%= template_dir %>/style_module_template.html"
+					'<%= build_dir %>/shared/fonts/fonts.html': "<%= template_dir %>/font_template.html"
 				}
 			}
 		},
