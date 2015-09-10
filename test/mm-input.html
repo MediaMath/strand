@@ -45,7 +45,7 @@
 			});
 
 			it("should have the correct type", function(done) {
-				var a = new MMInput();
+				var a = new Strand.Input();
 				a.type = "email";
 				setTimeout(function() {
 					a.type.should.equal("email");
@@ -53,40 +53,10 @@
 				}, 150);
 			});
 
-			it("should have data", function(done) {
-				var a = new MMInput(),
-					data = [
-						{name: "text"}, 
-						{name: "password"}, 
-						{name: "email"}, 
-						{name: "number"}, 
-						{name: "tel"}, 
-						{name: "search"}, 
-						{name: "url"}
-					];
-				a.data = data;
-				setTimeout(function() {
-					a.data.should.equal(data);
-					done();
-				}, 150);
-			});
-
-			it("should accept data as a string, and parse", function(done) {
-				var a = document.querySelector("#search"),
-					data = '[{"name":"text"},{"name":"password"},{"name":"email"},{"name":"number"},{"name":"tel"},{"name":"search"},{"name":"url"}]';
-				should.exist(a.data);
-				a.data = data;
-				setTimeout(function() {
-					a.data[2].should.deep.equal({name:"email"});
-					a.data[6].should.deep.equal({name:"url"});
-					done();
-				}, 150);
-			});
-
 			it("should display search icon if search = true", function(done) {
 				var a = document.querySelector("#search"),
-					icon = a.shadowRoot.querySelector("#icon"),
-					input = a.shadowRoot.querySelector("#input"),
+					icon = Polymer.dom(a.root).querySelector("#icon"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					iconDisplay = null,
 					inputPaddingRight = null;
 				should.exist(a.search);
@@ -103,8 +73,8 @@
 
 			it("should display close icon / clear button if clear = true", function(done) {
 				var a = document.querySelector("#clear"),
-					clearBtn = a.shadowRoot.querySelector("#clearBtn"),
-					input = a.shadowRoot.querySelector("#input"),
+					clearBtn = Polymer.dom(a.root).querySelector("#clearBtn"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					iconDisplay = null,
 					inputPaddingRight = null;
 				should.exist(a.clear);
@@ -121,7 +91,7 @@
 
 			it("should validate email if validation: 'email'", function(done) {
 				var a = document.querySelector("#email"),
-					input = a.shadowRoot.querySelector("#input"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					expectedColor = TestHelper.hexToRgb(Colors.C12),
 					error = null,
 					errorClass = null;
@@ -142,7 +112,7 @@
 
 			it("should validate empty if validation: 'empty'", function(done) {
 				var a = document.querySelector("#empty"),
-					input = a.shadowRoot.querySelector("#input"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					expectedColor = TestHelper.hexToRgb(Colors.C12),
 					error = null,
 					errorClass = null;
@@ -163,7 +133,7 @@
 
 			it("should validate empty if validation: 'empty'", function(done) {
 				var a = document.querySelector("#empty"),
-					input = a.shadowRoot.querySelector("#input"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					expectedColor = TestHelper.hexToRgb(Colors.C12),
 					error = null,
 					errorClass = null;
@@ -182,7 +152,7 @@
 
 			it("should validate int if validation: 'int'", function(done) {
 				var a = document.querySelector("#int"),
-					input = a.shadowRoot.querySelector("#input"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					expectedColor = TestHelper.hexToRgb(Colors.C12),
 					error = null,
 					errorClass = null;
@@ -201,7 +171,7 @@
 
 			it("should validate decimal if validation: 'decimal'", function(done) {
 				var a = document.querySelector("#decimal"),
-					input = a.shadowRoot.querySelector("#input"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					expectedColor = TestHelper.hexToRgb(Colors.C12),
 					error = null,
 					errorClass = null;
@@ -220,7 +190,7 @@
 
 			it("should validate alpha if validation: 'alpha'", function(done) {
 				var a = document.querySelector("#alpha"),
-					input = a.shadowRoot.querySelector("#input"),
+					input = Polymer.dom(a.root).querySelector("input"),
 					expectedColor = TestHelper.hexToRgb(Colors.C12),
 					error = null,
 					errorClass = null;
@@ -233,21 +203,6 @@
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
-					done();
-				}, 150);
-			});
-
-			it("should bind values to it's model", function(done) {
-				var a = document.querySelector("#search"),
-					model = {name:"blah"};
-
-				a.bindModel(model, "name");
-				should.exist(a.model);
-				should.exist(a.property);
-				a.value = "socks";
-
-				setTimeout(function() {
-					a.model.name.should.equal("socks");
 					done();
 				}, 150);
 			});

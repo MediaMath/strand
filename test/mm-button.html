@@ -32,16 +32,6 @@
 				a.nodeName.should.equal("MM-BUTTON");
 			});
 
-			it("should set icon primaryColor if an icon is present", function(done) {
-				var a = document.querySelector("#btnIcon"),
-					color = a.PRIMARY_ICON_COLOR;
-
-				setTimeout(function() {
-					Polymer.dom(a).querySelector("mm-icon").getAttribute("primary-color").should.equal(color);
-					done();
-				}, 150);
-			});
-
 			it("width of '#btnIcon' should be 146px if it rendered correctly", function(done) {
 				var a = document.querySelector("#btnIcon"),
 					width = 0;
