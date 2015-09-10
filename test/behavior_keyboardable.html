@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/keyboardable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-keyboardable">
+		<template>
+			<content select="*"></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is: 'test-keyboardable',
+				behaviors: [StrandTraits.Keyboardable],
+
+				properties: {
+					alphaCounter: {type: Number, value: 0},
+					numCounter: {type: Number, value: 0}
+				},
+
+				listeners: {
+					'keydown': '_routeKeyEvent'
+				},
+
+				_onUp: function() { this.up = true; },
+				_onDown: function() { this.down = true; },
+				_onLeft: function() { this.left = true; },
+				_onRight: function() { this.right = true; },
+
+				_onAlpha: function() {
+					this.alphaCounter++;
+				},
+				_onNum: function() {
+					this.numCounter++;
+				}
+			});
+		});
+	</script>
+
+	<test-keyboardable tabIndex="1" id="testElem"></test-keyboardable>
+
+	<script>
+		document.addEventListener("keydown", function(e) {
+			console.log("key pressed: "+e.keyCode);
+		});
+		document.getElementById('testElem').addEventListener('keydown', function(e) {
+			console.log("test elem got a key event:");
+			console.log(e);
+		});
+
+		fireKeyEvent = function(keyCode) {
+			var kbArgs = ['keydown', true, true, window, 0, 0, 0, 0, 0, keyCode];
+
+			// Works in Blink
+			var ke1 = new Event('Event');
+			if(ke1.initEvent) ke1.initEvent.apply(ke1,kbArgs);
+			else if(ke1.initKeyEvent) ke1.initKeyEvent.apply(ke1,kbArgs);
+			else if(ke1.initKeyboardEvent) ke1.initKeyboardEvent.apply(ke1,kbArgs);
+			ke1.keyCode = keyCode;
+			ke1.which = keyCode;
+
+			// Works in Gecko
+			var ke2 = new KeyboardEvent('keydown', {
+				char: String.fromCharCode(keyCode),
+				charCode: keyCode,
+				code: keyCode,
+				key: String.fromCharCode(keyCode),
+				keyCode: keyCode,
+				which: keyCode,
+				type: 'keydown'
+			});
+			if(ke2.initEvent) ke2.initEvent.apply(ke2,kbArgs);
+			else if(ke2.initKeyEvent) ke2.initKeyEvent.apply(ke2,kbArgs);
+			else if(ke2.initKeyboardEvent) ke2.initKeyboardEvent.apply(ke2,kbArgs);
+
+			try {
+				document.activeElement.dispatchEvent(ke1);
+			} catch(e) {
+				console.log('ke1 failed');
+				try {
+					document.activeElement.dispatchEvent(ke2);
+				} catch(e) {
+					throw new Error("Can't simulate keyboard events in your browser 😦");
+				}
+			}
+		}
+
+		describe('keyboardable', function() {
+
+			it('should route key events', function() {
+				var a = document.querySelector('#testElem');
+				a.focus();
+
+				fireKeyEvent(a.KEYS.UP);
+				fireKeyEvent(a.KEYS.DOWN);
+				fireKeyEvent(a.KEYS.LEFT);
+				fireKeyEvent(a.KEYS.RIGHT);
+
+				should.equal((a.up && a.down && a.right && a.left), true);
+			});
+
+
+			it('should route key events for ranges of keycodes', function() {
+				var a = document.querySelector('#testElem');
+				a.focus();
+
+				var alpha = 'ABCDE',
+					num = '12345';
+
+				for(var i=0; i<5; i++) {
+					fireKeyEvent(alpha.charCodeAt(i));
+					fireKeyEvent(num.charCodeAt(i));
+				}
+
+				a.alphaCounter.should.equal(5);
+				a.numCounter.should.equal(5);
+			});
+
+		});
+
+	</script>
+</body>
+</html>
