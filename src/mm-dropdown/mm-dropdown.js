@@ -115,6 +115,7 @@
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			this._highlightedIndex = null;
 			inherited.apply(this, [silent]);
 		},
 
@@ -152,10 +153,7 @@
 				targetIndex = this.items.indexOf(target);
 			}
 
-			if(targetIndex >= 0) {
-				this.selectedIndex = targetIndex;
-				this.close();
-			}
+			if(targetIndex >= 0) this.selectedIndex = targetIndex;
 		},
 
 		// Dom handling
@@ -230,7 +228,8 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if (typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex],
-					value = newSelected.value.toString() ? newSelected.value.toString() : newSelected.textContent.trim();
+					value = newSelected.value.toString() ? newSelected.value.toString() : newSelected.textContent.trim(),
+					name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
 				
 				this.value = value;
 
@@ -244,6 +243,7 @@
 					item: newSelected,
 					index: newIndex,
 					value: value,
+					name: name,
 					selected: newSelected.selected
 				});
 
@@ -259,6 +259,8 @@
 					oldSelected.selected = false;
 				}
 			}
+			
+			this.close();
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {

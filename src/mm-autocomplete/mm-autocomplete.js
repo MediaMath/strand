@@ -60,7 +60,8 @@
 			},
 			value: {
 				type: String,
-				reflectToAttribute: true
+				reflectToAttribute: true,
+				observer: "_valueChanged"
 			},
 			width: Number,
 			_searchable: {
@@ -106,6 +107,7 @@
 		reset: function() {
 			this.value = null;
 			this.selectedIndex = null;
+			this.$.target.clearInput();
 			this._highlightedIndex = null;
 			this._selectedIndexChangedFlag = false;
 			if(this.data) {
@@ -124,17 +126,15 @@
 			}
 		},
 
-		_changeHandler: function(e) {
-			var value = e.detail.value;
+		_valueChanged: function(newVal, oldVal) {
+			var value = newVal;
 
 			if (value === null || value === '') {
 				this.reset();
 			} else {
 				if(!this._selectedIndexChangedFlag) {
 					this._search(value);
-					this.value = value;
 				}
-				this._selectedIndexChangedFlag = false;
 			}
 		},
 
@@ -162,11 +162,7 @@
 
 		_updateSelectedItem: function(e) {
 			var targetIndex = this._searchData.indexOf(this.$.domRepeat.itemForElement(e.target));
-
-			if(targetIndex >= 0) {
-				this.selectedIndex = targetIndex;
-				this.close();
-			}
+			if(targetIndex >= 0) this.selectedIndex = targetIndex;
 		},
 
 		get itemHeight() {
@@ -182,21 +178,24 @@
 				var newSearchDataObj = this._searchData[newIndex],
 					newDataIndex = this.data.indexOf(newSearchDataObj),
 					newSelected = this.data[newDataIndex],
-					value = newSelected.value ? newSelected.value : newSelected.name;
+					value = newSelected.value ? newSelected.value : newSelected.name,
+					name = newSelected.name;
 
 				this._selectedIndexChangedFlag = true;
-				this.value = value;
-				this.$.target.value = newSelected.name;
+				this.value = (value === name) ? value : name;
 
 				this.fire('selected', {
 					item: newSelected,
 					index: newIndex,
-					value: this.value,
+					value: value,
+					name: name,
 					selected: true
 				});
 
 				this.fire('changed', { value: value });
 			}
+			
+			this.close();
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {

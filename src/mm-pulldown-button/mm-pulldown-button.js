@@ -84,11 +84,7 @@
 		_updateSelectedItem: function(e) {
 			var target = Polymer.dom(e).path[0],
 				targetIndex = this.items.indexOf(target);
-
-			if(targetIndex >= 0) {
-				this.selectedIndex = targetIndex;
-				this.close();
-			}
+			if(targetIndex >= 0) this.selectedIndex = targetIndex;
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
@@ -104,6 +100,8 @@
 					selected: true
 				});
 			}
+			
+			this.close();
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {
