@@ -66,6 +66,13 @@ describe("DataUtils", function() {
 		StrandLib.DataUtils.setPathValue(pathString);
 	});
 
+	it("should fail gracefully when requesting a path that does not exist on an object", function() {
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		should.equal(StrandLib.DataUtils.getPathValue(path,{}), null);
+		should.equal(StrandLib.DataUtils.getPathValue(pathString,{}), null);
+	});
+
 	it("it should set a value on an object given a path", function() {
 		var o = {
 			a:{
