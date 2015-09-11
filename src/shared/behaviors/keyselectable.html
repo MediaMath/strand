@@ -13,10 +13,26 @@
 
 		listeners: {
 			'keydown': '_handleKeydown',
+
 			'mouseover': '_handleMouseover',
 		},
 
+		properties: {
+			maxItems: {
+				type: Number,
+				value: 10
+			},
+
+			_mouseoverEnabled: {
+				type: Boolean,
+				value: true
+			}
+		},
+
 		_handleKeydown: function(e) {
+			this._mouseoverEnabled = false;
+			if(!this._maxIndex)
+				this._maxIndex = this.items ? this.items.length-1 : 0;
 			this._routeKeyEvent(e);
 		},
 
@@ -24,7 +40,7 @@
 			if(typeof this._highlightedIndex !== 'number') this._highlightedIndex = 0;
 			else {
 				var newIndex = this._highlightedIndex - 1;
-				if(newIndex < 0) newIndex = this.items.length-1;
+				if(newIndex < this._minIndex) newIndex = this._maxIndex;
 				this._highlightedIndex = newIndex;
 			}
 		},
@@ -33,7 +49,7 @@
 			if(typeof this._highlightedIndex !== 'number') this._highlightedIndex = 0;
 			else {
 				var newIndex = this._highlightedIndex + 1;
-				if(newIndex >= this.items.length) newIndex = 0;
+				if(newIndex > this._maxIndex) newIndex = this._minIndex;
 				this._highlightedIndex = newIndex;
 			}
 		},
@@ -68,31 +84,35 @@
 
 		_onPgUp: function(e) {
 			e.preventDefault();
-			var curr = this.items.indexOf(this.focusedItem);
-			this.focusedItem = this.items[Math.max(0,curr-25)];
+			this._highlightedIndex = Math.max(this._highlightedIndex-this.maxItems,this._minIndex);
 		},
 
 		_onPgDown: function(e) {
 			e.preventDefault();
-			var curr = this.items.indexOf(this.focusedItem);
-			this.focusedItem = this.items[Math.min(this.items.length-1,curr+25)];
+			this._highlightedIndex = Math.min(this._highlightedIndex+this.maxItems,this._maxIndex);
 		},
 
 		_onHome: function(e) {
 			e.preventDefault();
-			this.focusedItem = this.items[0];
+			this._highlightedIndex = this._minIndex;
 		},
 
 		_onEnd: function(e) {
 			e.preventDefault();
-			this.focusedItem = this.items[this.items.length-1];
+			this._highlightedIndex = this._maxIndex;
 		},
 
 		_handleMouseover: function(e) {
-			var target = Polymer.dom(e).path[0];
-			var targetIndex = this.items.indexOf(target);
-			if(targetIndex >= 0) {
-				this._highlightedIndex = targetIndex;
+			document.addEventListener('mousemove', function() {
+				this._mouseoverEnabled = true;
+			}.bind(this));
+
+			if(this._mouseoverEnabled) {
+				var target = Polymer.dom(e).path[0];
+				var targetIndex = this.items.indexOf(target);
+				if(targetIndex >= 0) {
+					this._highlightedIndex = targetIndex;
+				}
 			}
 		},
 
@@ -106,7 +126,7 @@
 			} else {
 				var highlightedItem = this.items[this._highlightedIndex];
 				if(highlightedItem) {
-					var panelRect = this._panel.getBoundingClientRect(),
+					var panelRect = this.$.items.getBoundingClientRect(),
 						focusRect = highlightedItem.getBoundingClientRect();
 
 					if(focusRect.top < panelRect.top) {
