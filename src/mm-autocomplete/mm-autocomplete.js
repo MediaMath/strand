@@ -20,6 +20,10 @@
 				type: Object,
 				value: function() { return this.$.target; }
 			},
+			_stackTarget: {
+				type: Object,
+				value: function() { return this.$.panel; }
+			},
 			search: {
 				type: String,
 				value: "true",
@@ -39,6 +43,7 @@
 			disabled: {
 				type: Boolean,
 				value: false,
+				reflectToAttribute: true
 			},
 			error: {
 				type: Boolean,
@@ -82,6 +87,7 @@
 		behaviors: [
 			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
+			StrandTraits.Stackable,
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoClosable,
 			StrandTraits.PositionableDropdown
@@ -186,7 +192,7 @@
 
 				this.fire('selected', {
 					item: newSelected,
-					index: newIndex,
+					index: newDataIndex,
 					value: value,
 					name: name,
 					selected: true
@@ -194,7 +200,7 @@
 
 				this.fire('changed', { value: value });
 			}
-			
+
 			this.close();
 		},
 

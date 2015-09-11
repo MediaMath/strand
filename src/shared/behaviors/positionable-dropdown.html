@@ -87,13 +87,14 @@
 		},
 
 		_updateDirection: function(direction, winRect, panelRect, targetRect, originRect) {
+			var offset = 1;
 			switch(direction) {
 				case 'n':
-					panelRect.top = targetRect.top - panelRect.height;
+					panelRect.top = targetRect.top - panelRect.height + offset;
 					panelRect.left = targetRect.left;
 					break;
 				case 's':
-					panelRect.top = targetRect.top + targetRect.height;
+					panelRect.top = targetRect.top + targetRect.height - offset;
 					panelRect.left = targetRect.left;
 					break;
 			}

@@ -30,7 +30,7 @@
 				type: Object,
 				value: function() { return this.$.target; }
 			},
-			stackTarget: {
+			_stackTarget: {
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
@@ -45,6 +45,7 @@
 			disabled: {
 				type: Boolean,
 				value: false,
+				reflectToAttribute: true
 			},
 			error: {
 				type: Boolean,

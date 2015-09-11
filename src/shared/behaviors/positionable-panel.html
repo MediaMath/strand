@@ -15,7 +15,8 @@
 			direction: {
 				type: String,
 				value: 's',
-				reflectToAttribute: true
+				reflectToAttribute: true,
+				observer: "_directionChanged"
 			},
 			_containerOffset: {
 				type: Number,
@@ -31,8 +32,10 @@
 			}
 		},
 
-		ready: function() {
-			this._originalDirection = this.direction;
+		_originalDirection: null,
+
+		_directionChanged: function(newVal, oldVal) {
+			this._originalDirection = newVal;
 		},
 
 		_updatePosition: function() {
