@@ -55,46 +55,17 @@
 		document.addEventListener("keydown", function(e) {
 			console.log("key pressed: "+e.keyCode);
 		});
-		document.getElementById('testElem').addEventListener('keydown', function(e) {
-			console.log("test elem got a key event:");
-			console.log(e);
-		});
 
-		fireKeyEvent = function(keyCode) {
-			var kbArgs = ['keydown', true, true, window, 0, 0, 0, 0, 0, keyCode];
+		var generateKeyEvent = function(code) {
+			var kb = new Event('Event', { keyCode: code });
+				conArgs = ['keydown', true, true, window, 0, 0, 0, 0, 0, code];
+			
+			if(kb.initKeyboardEvent) kb.initKeyboardEvent.apply(kb, conArgs);
+			else if(kb.initKeyEvent) kb.initKeyEvent.apply(kb, conArgs);
+			else if(kb.initEvent) kb.initEvent.apply(kb, conArgs);
+			kb.keyCode = code;
 
-			// Works in Blink
-			var ke1 = new Event('Event');
-			if(ke1.initEvent) ke1.initEvent.apply(ke1,kbArgs);
-			else if(ke1.initKeyEvent) ke1.initKeyEvent.apply(ke1,kbArgs);
-			else if(ke1.initKeyboardEvent) ke1.initKeyboardEvent.apply(ke1,kbArgs);
-			ke1.keyCode = keyCode;
-			ke1.which = keyCode;
-
-			// Works in Gecko
-			var ke2 = new KeyboardEvent('keydown', {
-				char: String.fromCharCode(keyCode),
-				charCode: keyCode,
-				code: keyCode,
-				key: String.fromCharCode(keyCode),
-				keyCode: keyCode,
-				which: keyCode,
-				type: 'keydown'
-			});
-			if(ke2.initEvent) ke2.initEvent.apply(ke2,kbArgs);
-			else if(ke2.initKeyEvent) ke2.initKeyEvent.apply(ke2,kbArgs);
-			else if(ke2.initKeyboardEvent) ke2.initKeyboardEvent.apply(ke2,kbArgs);
-
-			try {
-				document.activeElement.dispatchEvent(ke1);
-			} catch(e) {
-				console.log('ke1 failed');
-				try {
-					document.activeElement.dispatchEvent(ke2);
-				} catch(e) {
-					throw new Error("Can't simulate keyboard events in your browser 😦");
-				}
-			}
+			return kb;
 		}
 
 		describe('keyboardable', function() {
@@ -103,10 +74,14 @@
 				var a = document.querySelector('#testElem');
 				a.focus();
 
-				fireKeyEvent(a.KEYS.UP);
-				fireKeyEvent(a.KEYS.DOWN);
-				fireKeyEvent(a.KEYS.LEFT);
-				fireKeyEvent(a.KEYS.RIGHT);
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.UP));
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.RIGHT));
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.DOWN));
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.LEFT));
+				// fireKeyEvent(a.KEYS.UP);
+				// fireKeyEvent(a.KEYS.DOWN);
+				// fireKeyEvent(a.KEYS.LEFT);
+				// fireKeyEvent(a.KEYS.RIGHT);
 
 				should.equal((a.up && a.down && a.right && a.left), true);
 			});
@@ -120,8 +95,8 @@
 					num = '12345';
 
 				for(var i=0; i<5; i++) {
-					fireKeyEvent(alpha.charCodeAt(i));
-					fireKeyEvent(num.charCodeAt(i));
+					a._routeKeyEvent(generateKeyEvent(alpha.charCodeAt(i)));
+					a._routeKeyEvent(generateKeyEvent(num.charCodeAt(i)));
 				}
 
 				a.alphaCounter.should.equal(5);
