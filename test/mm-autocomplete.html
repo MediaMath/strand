@@ -16,81 +16,83 @@
 <body>
 
 <mm-autocomplete id="ac"></mm-autocomplete>
+<mm-autocomplete id="ac2"></mm-autocomplete>
 
 <script>
-	document.addEventListener("WebComponentsReady", function() {
-		var dataTest = document.getElementById('ac');
-		dataTest.data = [
-			{name: "abelian", value: "abelian"},
-			{name: "pylorus", value: "pylorus"},
-			{name: "hainault", value: "hainault"},
-			{name: "omnidirectional", value: "omnidirectional"},
-			{name: "pul", value: "pul"},
-			{name: "antipastos", value: "antipastos"},
-			{name: "unwaxed", value: "unwaxed"},
-			{name: "mira", value: "mira"},
-			{name: "subconferential", value: "subconferential"},
-			{name: "chromolithographic", value: "chromolithographic"},
-			{name: "cocainism", value: "cocainism"},
-			{name: "united", value: "united"},
-			{name: "conroy", value: "conroy"},
-			{name: "marsden", value: "marsden"},
-			{name: "zoon", value: "zoon"},
-			{name: "axiopoenus", value: "axiopoenus"},
-			{name: "quarrion", value: "quarrion"},
-			{name: "eliminated", value: "eliminated"},
-			{name: "postcode", value: "postcode"},
-		]
-	});
-
 	describe("mm-autocomplete", function() {
-	
+
+		var data = [
+				{name: "abelian", value: "abelian"},
+				{name: "pylorus", value: "pylorus"},
+				{name: "hainault", value: "hainault"},
+				{name: "omnidirectional", value: "omnidirectional"},
+				{name: "pul", value: "pul"},
+				{name: "antipastos", value: "antipastos"},
+				{name: "unwaxed", value: "unwaxed"},
+				{name: "mira", value: "mira"},
+				{name: "subconferential", value: "subconferential"},
+				{name: "chromolithographic", value: "chromolithographic"},
+				{name: "cocainism", value: "cocainism"},
+				{name: "united", value: "united"},
+				{name: "conroy", value: "conroy"},
+				{name: "marsden", value: "marsden"},
+				{name: "zoon", value: "zoon"},
+				{name: "axiopoenus", value: "axiopoenus"},
+				{name: "quarrion", value: "quarrion"},
+				{name: "eliminated", value: "eliminated"},
+				{name: "postcode", value: "postcode"},
+			],
+			ac = document.querySelector('#ac');
+
 		it("should have an element constructor", function() {
 			var a = new Strand.AutoComplete();
 			a.nodeName.should.equal("MM-AUTOCOMPLETE");
 		});
 
+		it("should have data", function() {		
+			ac.data = data;
+			ac.data.should.equal(data);
+		});
+
+		it("should build a list of matching data", function() {
+			ac.value = 'abelian';
+			ac._searchData.should.have.length(1);
+			ac._searchData[0].value.should.equal('abelian');
+		});
+
 		it("should open if there are matching items", function(done) {
-			var ac = document.getElementById('ac');
 			ac.value = 'a';
-
 			setTimeout(function() {
-				ac.panel.state.should.equal(ac.panel.STATE_OPENED);
+				ac.state.should.equal(ac.STATE_OPENED);
 				done();
-			}, 100);
+			},100);
 		});
 
-		it("should not open if there are no matches", function(done) {
-			var ac = document.getElementById('ac');
+		it("should close if there are no matching items", function(done) {
 			ac.value = 'abcdefghijkl';
-
 			setTimeout(function() {
-				ac.panel.state.should.equal(ac.panel.STATE_CLOSED);
+				ac.state.should.equal(ac.STATE_CLOSED);
 				done();
-			}, 100);
+			},100);
 		});
 
-		it("should filter items", function(done) {
-			var ac = document.getElementById('ac');
-			ac.value = 'ab';
-
-			setTimeout(function() {
-				ac.searchItems.length.should.equal(1);
-				should.equal(ac.panel.$.container.firstElementChild.value, ac.searchItems[0].value);			
-				done();
-			}, 100);
+		it("should update value on selection", function() {
+			ac.value = 'a';
+			var tmp = ac._searchData[0].value;
+			ac.selectedIndex = 0;
+			ac.value.should.equal(tmp);
 		});
 
-		it("should update value when selected", function(done) {
-			var ac = document.getElementById('ac');
-			ac.value = 'om';
-			
-			setTimeout(function() {
-				var expected = ac.panel.$.container.firstElementChild.value;
-				ac.selectedItem = ac.panel.$.container.firstElementChild;
-				ac.value.should.equal(expected);
-				done();
-			}, 100);
+		it("should fire a selected event", function() {
+			var ac2 = document.querySelector('#ac2'),
+				s = sinon.spy();
+			ac2.data = data;
+			ac2.addEventListener('selected', s);
+			ac2.value = 'a';
+			ac2.selectedIndex = 1;
+
+			s.should.have.been.calledOnce;
+			s.args[0][0].detail.should.have.keys('item','index','value','name','selected');
 		});
 
 	});
