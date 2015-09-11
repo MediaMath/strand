@@ -1,13 +1,18 @@
 <link rel="import" href="datautils.html"/>
 <script>
 (function(scope) {
-	scope.AjaxBusterPlugin = function AjaxBusterPlugin(enabled, name) {
-		this.enabled = enabled;
+
+	var DataUtils = StrandLib.DataUtils;
+
+	scope.AjaxBusterPlugin = function (name, enabled) {
 		this.name = name || "nocache";
+		this.enabled = !(enabled===false);
 	};
-	AjaxBuster.prototype = {
+
+	scope.AjaxBusterPlugin.prototype = {
 		requestHandler: function(ajaxOptions) {
-			if (this.enabled) {
+			var qp = DataUtils.getPathValue("queryParams", ajaxOptions);
+			if (this.enabled && qp) {
 				ajaxOptions.queryParams.push(DataUtils.param(this.name, Date.now()));
 			}
 		},
