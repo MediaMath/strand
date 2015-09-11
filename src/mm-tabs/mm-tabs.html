@@ -15,7 +15,6 @@
 <dom-module id="mm-tabs">
 	<link rel="import" type="css" href="mm-tabs.css"/>
 	<template>
-		<style include="fonts-style"></style>
 		<ul id="tabBar" class$="{{tabBarPosition}}" style$="{{_updateStyle(tabBarPosition,tabBarOffset)}}">
 			<template id="tabList" is="dom-repeat" items="{{_tabs}}">
 			<li active$="{{item.active}}" on-tap="_handleTap">

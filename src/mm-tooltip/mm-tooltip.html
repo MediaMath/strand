@@ -13,7 +13,6 @@
 <dom-module id="mm-tooltip">
 	<link rel="import" type="css" href="mm-tooltip.css"/>
 	<template>
-		<style include="fonts-style"></style>
 		<div id="container" class$="{{_updateClass(auto)}}" style$="{{_containerStyle}}">
 			<content select="label"></content>
 			<template is="dom-if" if="{{auto}}">

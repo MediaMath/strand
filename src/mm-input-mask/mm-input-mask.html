@@ -20,7 +20,6 @@
 <dom-module id="mm-input-mask">
 	<link href="mm-input-mask.css" rel="import" type="css">
 	<template>
-		<style include="fonts-style"></style>
 		<div id="pseudo">
 			<template is="dom-repeat" id="domRepeat" items="{{maskConfig}}"><template is="dom-if" if="{{item.type}}"><input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" style$="{{ _groupStyle(item.*, value) }}" class="mask" disabled$="{{item.disabled}}" layout$="{{layout}}" value$="{{item.value}}"
 						on-focus="_handleFocus"
