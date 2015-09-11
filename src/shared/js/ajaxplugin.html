@@ -14,6 +14,8 @@
 			if (typeof plugin === "function") {
 				var instance = new plugin();
 				this.queue.push(instance);
+			} else if (typeof plugin === "object") {
+				this.queue.push(plugin);
 			}
 		},
 
