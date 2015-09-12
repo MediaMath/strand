@@ -44,12 +44,12 @@
   </head>
   <body>
 	<button id="switch">toggle</button>
-	<div id="toggle" style="display: none">
+	<div id="toggle" style="display: auto">
 		<mm-item-recycler id="itemRecycler" item-template="templateItem">
 			<template id="templateItem">
 				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 					<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
-
+<!--
 					<mm-dropdown placeholder="Some Very Long Name" data="{{model.dd.dropdownData}}" value="{{model.dd.dropDownValue}}"></mm-dropdown>
 
 					<!--
@@ -117,6 +117,10 @@
 					toggle.style.display = "";
 				}
 			};
+
+			setTimeout(function () {
+				itemRecycler.data = data.slice(data.length >> 2, data.length >> 1);
+			}, 3000);
 
 		// 	setTimeout(function () {
 		// 		itemRecycler.style.height = (2 * itemRecycler.offsetHeight) + "px";

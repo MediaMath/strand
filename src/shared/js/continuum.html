@@ -368,7 +368,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		if (count > at) {
 			this._items.useSlice(0, at);
-			this.__lowerBoundEagerRange(at);
+			this._lowerBoundEagerRange(at);
 			return 0|true;
 		} else {
 			return 0|(count === at);

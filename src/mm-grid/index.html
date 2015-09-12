@@ -123,6 +123,10 @@
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
+
+			setTimeout(function () {
+				app.data = data.slice(data.length >> 2, data.length >> 1);
+			}, 3000);
 		});
 	</script>
 </body>

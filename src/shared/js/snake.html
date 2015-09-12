@@ -130,7 +130,13 @@ This code may only be used under the BSD style license found at http://mediamath
 			this._count = 0;
 		};
 
-		SnakeType.prototype.getHead = function () {
+		SnakeType.prototype.setBody = function (body) {
+			this.body = body;
+			return this;
+		};
+
+		SnakeType.prototype.getHead = function (extra) {
+			var repeat = 0|extra;
 			var snake = this._head;
 
 			if (!snake ||
@@ -138,13 +144,22 @@ This code may only be used under the BSD style license found at http://mediamath
 				if (this === snake ||
 					this !== this._validLeader()) {
 					snake = null;
+				} else {
+					while (snake && repeat-- > 0) {
+						snake = snake.getTail(0);
+					}
+				}
+			} else {
+				while (snake && repeat-- > 0) {
+					snake = snake.getHead(0);
 				}
 			}
 
 			return snake;
 		};
 
-		SnakeType.prototype.getTail = function () {
+		SnakeType.prototype.getTail = function (extra) {
+			var repeat = 0|extra;
 			var snake = this._tail;
 
 			if (!snake ||
@@ -152,6 +167,14 @@ This code may only be used under the BSD style license found at http://mediamath
 				if (this === snake ||
 					this !== this._validLeader()) {
 					snake = null;
+				} else {
+					while (snake && repeat-- > 0) {
+						snake = snake.getHead(0);
+					}
+				}
+			} else {
+				while (snake && repeat-- > 0) {
+					snake = snake.getTail(0);
 				}
 			}
 
@@ -208,16 +231,37 @@ This code may only be used under the BSD style license found at http://mediamath
 			head._tail = snake;
 		};
 
-		SnakeType.prototype.dropAnyway = function () {
-			return this._dropSnake(this._head, this._tail);
+		SnakeType.prototype.dropAnyway = function (extra) {
+			var repeat = arguments.length ? 0|extra : 1;
+			var snake = this;
+
+			while (snake && repeat-- > 0) {
+				snake = snake._dropSnake(snake._head, snake._tail);
+			}
+
+			return snake;
 		};
 
-		SnakeType.prototype.dropHeadwise = function () {
-			return this._dropSnake(this._head, null);
+		SnakeType.prototype.dropHeadwise = function (extra) {
+			var repeat = arguments.length ? 0|extra : 1;
+			var snake = this;
+
+			while (snake && repeat-- > 0) {
+				snake = snake._dropSnake(snake._head, null);
+			}
+
+			return snake;
 		};
 
-		SnakeType.prototype.dropTailwise = function () {
-			return this._dropSnake(null, this._tail);
+		SnakeType.prototype.dropTailwise = function (extra) {
+			var repeat = arguments.length ? 0|extra : 1;
+			var snake = this;
+
+			while (snake && repeat-- > 0) {
+				snake = snake._dropSnake(null, snake._tail);
+			}
+
+			return snake;
 		};
 
 		SnakeType.prototype._dropSnake = function (headwise, tailwise) {
@@ -250,14 +294,14 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		SnakeType.prototype.eachHeadwise = function (method, context, optional, extra, params) {
 			var leader = this._validLeader();
-			var snake = this === leader ? this.getTail() : this.getHead();
+			var snake = this === leader ? this.getTail() : this;
 
 			return this._each(this.getHead, leader, snake, method, context, optional, extra, params);
 		};
 
 		SnakeType.prototype.eachTailwise = function (method, context, optional, extra, params) {
 			var leader = this._validLeader();
-			var snake = this === leader ? this.getHead() : this.getTail();
+			var snake = this === leader ? this.getHead() : this;
 
 			return this._each(this.getTail, leader, snake, method, context, optional, extra, params);
 		};

@@ -215,6 +215,123 @@
 
 			});
 
+			it("should handle resource relinquishment", function() {
+
+				var TALLNESS = 33;
+				var aliases = {};
+				var heights = [];
+				var elevations = [];
+				var visibles = [];
+				var getter = function (idx) { return TALLNESS; };
+				var limiter = function (request) { return -1; };
+				var handler = function (inner, young, old, recycler) {
+						if (young > -1) {
+							heights[young] = recycler.getHeightAtIndex(young);
+							elevations[young] = recycler.getElevationAtIndex(young);
+						}
+
+						if (young !== old) {
+							if (old < 0) {
+								should.not.exist(aliases[inner]);
+								young.should.not.be.lessThan(0);
+							}
+
+							aliases[inner] = young;
+
+							if (young < 0) {
+								old.should.not.be.lessThan(0);
+								aliases[inner] = null;
+							}
+						}
+					};
+
+
+
+				var recyc = null;
+				var index = 0;
+				var count = 0;
+
+
+
+				heights = [];
+				elevations = [];
+				recyc = new Recycler(getter, limiter, handler);
+
+				recyc.setFrame(13 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12;
+				count = 5;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [12, 13, 14, 15, 16]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+				recyc.setHeightAtIndex(4, 0);
+				recyc.setHeightAtIndex(5, 0);
+				recyc.setHeightAtIndex(6, 0);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12 + 3;
+				count = 5;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [15, 16, 17, 18, 19]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+				recyc.setHeightAtIndex(12 + 3 + 1, 0);
+				recyc.setHeightAtIndex(12 + 3 + 2, 0);
+				recyc.setHeightAtIndex(12 + 3 + 3, 0);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12 + 3;
+				count = 5 + 3;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [15, 16, 17, 18, 19, 20, 21, 22]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+
+
+				recyc.truncate(0);
+				recyc.getFrameUpperBound().should.equal(0);
+				recyc.getFrameLowerBound().should.equal(0);
+
+			});
+
 		});
 	</script>
 

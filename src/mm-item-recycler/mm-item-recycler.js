@@ -368,7 +368,11 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		initializeRecycler: function() {
-			this._recycler.truncate(0);
+			if (this._recycler.truncate(0)) {
+				this._scrollTop = 0;
+				this.$.pane.scrollTop = 0;
+				this.itemHeight = 0;
+			}
 			this.initializeViewport();
 		},
 
@@ -479,7 +483,7 @@ found here: https://github.com/Polymer/core-list
 				this._removeBoundResponse(bound, id, index);
 				Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
 				bound = binds[index] = null;
-				while (!binds[--count]) {
+				while (count > 0 && !binds[--count]) {
 					binds.pop();
 				}
 				count++;
