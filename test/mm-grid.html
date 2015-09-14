@@ -16,13 +16,13 @@
 
 			it("should have a default template", function() {
 				var grid = document.querySelector("#testgrid");
-				should.exist(grid.itemTemplate);
+				should.exist(grid.$.defaultTemplate);
 			});
 
 			it("should have a custom template", function() {
 				var grid = document.querySelector("#testgrid2");
 				var customTemplate = document.querySelector("#customTemplate");
-				grid.itemTemplate.should.equal(customTemplate);
+				grid.itemTemplateElement.should.equal(customTemplate);
 			});
 			
 			it("should have columns", function() {
@@ -45,8 +45,8 @@
 					data.push({id: i, foo: "foo", bar: "bar"});
 				}
 				grid.data = data;
-				grid.async(function(){
-					var items = grid.shadowRoot.querySelectorAll("mm-grid-item");
+				flush(function(){
+					var items = Polymer.dom(grid.root).querySelector('mm-item-recycler').querySelectorAll("mm-grid-item");
 					items.length.should.be.greaterThan(0);
 					done();
 				});
@@ -54,7 +54,7 @@
 
 			it("should select all items", function() {
 				var grid = document.querySelector("#testgrid");
-				grid.selectAll(null, null, {checked: true});
+				grid.selectAll({target: {checked: true}});
 				grid.data.every(function(item){ return item.selected === true; }).should.equal(true);
 			});
 
@@ -64,7 +64,7 @@
 		<mm-grid-column field="foo">Foo</mm-grid-column>
 		<mm-grid-column field="bar">Bar</mm-grid-column>
 	</mm-grid>
-	<mm-grid id="testgrid2" itemTemplate="customTemplate">
+	<mm-grid id="testgrid2" item-template="customTemplate">
 		<mm-grid-column field="foo">Foo</mm-grid-column>
 		<mm-grid-column field="bar">Bar</mm-grid-column>
 		<template id="customTemplate">
