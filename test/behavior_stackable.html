@@ -36,15 +36,17 @@
 			<div id="panel"></div>
 		</template>
 		<script>
-			Polymer({
-				is:"test-stackable-panel",
-				properties: {
-					stackTarget: {
-						type: Object,
-						value: function() { return this.$.panel; }
-					}
-				},
-				behaviors:[StrandTraits.Stackable]
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-stackable-panel",
+					properties: {
+						stackTarget: {
+							type: Object,
+							value: function() { return this.$.panel; }
+						}
+					},
+					behaviors:[StrandTraits.Stackable]
+				});
 			});
 		</script>
 	</dom-module>
@@ -96,7 +98,7 @@
 			});
 
 			it("should apply z-index on stackTarget, if specified", function() {
-				var t = Polymer.dom(document).querySelector("#test3"),
+				var t = document.querySelector("#test3"),
 					panel = Polymer.dom(t.root).querySelector("#panel"),
 					panelIndex = panel.style.zIndex;
 
@@ -104,7 +106,7 @@
 			});
 
 			it("should move to top", function(done) {
-				var t = Polymer.dom(document).querySelector("#test1"),
+				var t = document.querySelector("#test1"),
 					topIndex = null;
 				
 				t._initialized = true;
