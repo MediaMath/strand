@@ -66,19 +66,6 @@
 				}, 150);
 			});
 
-			it("the inner icon color should be 'Colors.D0' if default", function(done) {
-				var a = document.querySelector("#cbx"),
-					aInner = Polymer.dom(a.root).querySelector("mm-icon").$.iconGlyph,
-					expectedColor = TestHelper.hexToRgb(Colors.D0),
-					color = null;
-
-				setTimeout(function() {
-					color = TestHelper.getRgbNoSpace(aInner, "color");
-					color.should.equal(expectedColor);
-					done();
-				}, 150);
-			});
-
 			it("should set icon primaryColor if custom icon is set", function(done) {
 				var a = document.querySelector("#cbxIcon"),
 					aInner = Polymer.dom(a.root).querySelector("mm-icon"),
