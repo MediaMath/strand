@@ -22,6 +22,7 @@
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
+			// TODO: underscore name(?) update where applicable
 			itemRecycler: {
 				type: Object,
 				value: function() { return this.$.itemRecycler; }

@@ -22,23 +22,23 @@
 	</mm-dropdown>
 
 	<div style="width:500px;">
-		<mm-dropdown id="ddlFit" placeholder="some longer label" maxItems="3" fitparent>
-			<mm-list-item>mm-list-item 01</mm-list-item>
-			<mm-list-item>mm-list-item 02</mm-list-item>
-			<mm-list-item>mm-list-item 03</mm-list-item>
-			<mm-list-item>mm-list-item 04</mm-list-item>
-			<mm-list-item>mm-list-item 05</mm-list-item>
-			<mm-list-item>mm-list-item 06</mm-list-item>
-			<mm-list-item>mm-list-item 07</mm-list-item>
-			<mm-list-item>mm-list-item 08</mm-list-item>
-			<mm-list-item>mm-list-item 09</mm-list-item>
-			<mm-list-item>mm-list-item 10</mm-list-item>
-			<mm-list-item>mm-list-item 11</mm-list-item>
-			<mm-list-item>mm-list-item 12</mm-list-item>
-			<mm-list-item>mm-list-item 13</mm-list-item>
-			<mm-list-item>mm-list-item 14</mm-list-item>
-			<mm-list-item>mm-list-item 15</mm-list-item>
-			<mm-list-item>mm-list-item 16</mm-list-item>
+		<mm-dropdown id="ddlFit" placeholder="some longer label" max-items="4" fitparent>
+			<mm-list-item value="item01">mm-list-item 01</mm-list-item>
+			<mm-list-item value="item02">mm-list-item 02</mm-list-item>
+			<mm-list-item value="item03">mm-list-item 03</mm-list-item>
+			<mm-list-item value="item04">mm-list-item 04</mm-list-item>
+			<mm-list-item value="item05">mm-list-item 05</mm-list-item>
+			<mm-list-item value="item06">mm-list-item 06</mm-list-item>
+			<mm-list-item value="item07">mm-list-item 07</mm-list-item>
+			<mm-list-item value="item08">mm-list-item 08</mm-list-item>
+			<mm-list-item value="item09">mm-list-item 09</mm-list-item>
+			<mm-list-item value="item10">mm-list-item 10</mm-list-item>
+			<mm-list-item value="item11">mm-list-item 11</mm-list-item>
+			<mm-list-item value="item12">mm-list-item 12</mm-list-item>
+			<mm-list-item value="item13">mm-list-item 13</mm-list-item>
+			<mm-list-item value="item14">mm-list-item 14</mm-list-item>
+			<mm-list-item value="item15">mm-list-item 15</mm-list-item>
+			<mm-list-item value="item16">mm-list-item 16</mm-list-item>
 		</mm-dropdown>
 	</div>
 
@@ -66,11 +66,11 @@
 				var ddlFit = document.querySelector("#ddlFit"),
 					width = 0;
 
-				setTimeout(function() {
+				flush(function() {
 					width = TestHelper.widthIntRounded(ddlFit);
 					width.should.equal(500);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should toggle", function() {
@@ -82,38 +82,43 @@
 				ddl.state.should.equal(ddl.STATE_CLOSED);
 			});
 
-			// TODO: mm-close-panel related post refactor(?)
-
-			it("should be able to select item by value", function(done) {
+			it("should be able to select item by value as a number", function(done) {
 				var ddl = document.getElementById('ddl');
-				setTimeout(function() {
-					ddl.selectItemByValue(2);
-					ddl.selectedItem.should.equal(ddl.items[1]);
+
+				ddl.value = 2;
+				flush(function() {
+					ddl.selectedIndex.should.equal(1);
 					done();
-				}, 150);
+				});
+			});
+
+			it("should be able to select item by value as a string", function(done) {
+				var ddl = document.getElementById('ddl');
+
+				ddl.value = "3";
+				flush(function() {
+					ddl.selectedIndex.should.equal(2);
+					done();
+				});
 			});
 
 			it("should update label when selected", function(done) {
-				var ddl = document.getElementById('ddl');
-				setTimeout(function() {
-					ddl.selectItemByValue(2);
-					ddl.selectedItem.innerText.should.equal(ddl.target.querySelector('label').innerText);
+				var ddl = document.getElementById('ddl'),
+					selectedItem = null
+					selectedItemName = null,
+					label = null;
+
+				ddl.selectedIndex = 2;
+				flush(function() {
+					selectedItem = ddl.items[ddl.selectedIndex];
+					selectedItemName = selectedItem.textContent.trim();
+					label = ddl._target.querySelector('label').textContent.trim();
+					label.should.equal(selectedItemName);
 					done();
-				}, 150);
+				});
 			});
 
-
-			it("should fire 'selected' event when selected", function() {
-				var ddl = document.getElementById('ddl');
-				var selectSpy = sinon.spy(function(e) { return e.detail; });
-				ddl.addEventListener("selected", selectSpy);
-				ddl.selectItemByValue(3);
-				selectSpy.returnValues[0].item.should.equal(ddl.selectedItem);
-				selectSpy.returnValues[0].index.should.equal(2);
-				selectSpy.returnValues[0].value.should.equal(ddl.selectedItem.value);
-				selectSpy.returnValues[0].selected.should.equal(true);
-			});
-
+			/*
 			it("should be Jqueryable", function(done) {
 				var a = $('#ddlJquery');
 				for(var i=0; i<100; i++) {
@@ -145,6 +150,55 @@
 					done();
 				}, 150);
 			});
+
+			TODO: max-items, data dropdown
+			
+			*/
+
+			it("should dispatch a selected event", function(done) {
+				var ddl = document.getElementById("ddlFit"),
+					s = sinon.spy();
+
+				ddl.addEventListener("selected", s);
+				ddl.selectedIndex = 0;
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			it("should dispatch a selected event with the correct event detail", function(done) {
+				var ddl = document.getElementById("ddlFit"),
+					evt = null,
+					item = null;
+
+				ddl.addEventListener("selected", function(e) {
+					evt = e.detail;
+
+					evt.item.should.exist;
+					evt.index.should.exist;
+					evt.value.should.exist;
+					evt.name.should.exist;
+					evt.selected.should.exist;
+
+					evt.item.should.be.an('object');
+					evt.index.should.be.a('number');
+					evt.value.should.be.a('string');
+					evt.name.should.be.a('string');
+					evt.selected.should.be.a('boolean');
+
+					evt.item.should.equal(Polymer.dom(ddl).querySelectorAll('mm-list-item')[4]);
+					evt.index.should.equal(4);
+					evt.value.should.equal('item05');
+					evt.name.should.equal('mm-list-item 05');
+					evt.selected.should.equal(true);
+					
+					done();
+				});
+
+				ddl.selectedIndex = 4;
+			});
+
 		});
 
 	</script>
