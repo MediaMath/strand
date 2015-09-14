@@ -150,7 +150,7 @@
 
 				// wait a tick to ensure we have searchitems
 				this.async(function(){
-					this._maxIndex = this._searchData.length;
+					this._maxIndex = this._searchData.length-1;
 					if(value && this._searchData.length > 0) {
 						this.open();
 					} else {
