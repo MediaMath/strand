@@ -19,9 +19,12 @@
 	<script>
 	/*jshint -W030 */
 
-	var SyncTest = Polymer({
-		is:"test-syncable",
-		behaviors:[StrandTraits.Syncable],
+	var SyncTest;
+	HTMLImports.whenReady(function() {
+		SyncTest = Polymer({
+			is:"test-syncable",
+			behaviors:[StrandTraits.Syncable],
+		});
 	});
 
 	/** begin tests **/

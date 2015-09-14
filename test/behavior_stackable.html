@@ -19,9 +19,11 @@
 			<content id="content"></content>
 		</template>
 		<script>
-			Polymer({
-				is:"test-stackable",
-				behaviors:[StrandTraits.Stackable]
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-stackable",
+					behaviors:[StrandTraits.Stackable]
+				});
 			});
 		</script>
 	</dom-module>

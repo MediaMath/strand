@@ -19,11 +19,14 @@
 	<script>
 	/*jshint -W030 */
 
-	var PageTest = Polymer({
-		is:"test-pageable",
-		behaviors:[StrandTraits.Pageable]
+	var PageTest;
+	HTMLImports.whenReady(function() {
+		PageTest = Polymer({
+			is:"test-pageable",
+			behaviors:[StrandTraits.Pageable]
+		});
 	});
-
+	
 	/** begin tests **/
 
 	describe("syncable", function() {

@@ -23,9 +23,11 @@
 				}
 			</style>
 			<script>
-				Polymer({
-					is:"test-sizeresponsible",
-					behaviors:[StrandTraits.SizeResponsible]
+				HTMLImports.whenReady(function() {
+					Polymer({
+						is:"test-sizeresponsible",
+						behaviors:[StrandTraits.SizeResponsible]
+					});
 				});
 			</script>
 		</dom-module>

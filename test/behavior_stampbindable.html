@@ -18,14 +18,16 @@
 			<input id="input" value="{{text::input}}">
 		</template>
 		<script>
-			Polymer({
-				is:"test-binding",
-				properties: {
-					text: {
-						type: String,
-						notify: true,
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-binding",
+					properties: {
+						text: {
+							type: String,
+							notify: true,
+						},
 					},
-				},
+				});
 			});
 		</script>
 	</dom-module>
@@ -35,14 +37,16 @@
 			<test-binding id="bound" text="{{datum.input}}"></test-binding>
 		</template>
 		<script>
-			Polymer({
-				is:"test-stamping",
-				properties: {
-					datum: {
-						type: Object,
-						notify: true,
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-stamping",
+					properties: {
+						datum: {
+							type: Object,
+							notify: true,
+						},
 					},
-				},
+				});
 			});
 		</script>
 	</dom-module>
@@ -55,11 +59,13 @@
 			<content></content>
 		</template>
 		<script>
-			Polymer({
-				is:"test-templatizing",
-				behaviors:[
-					StrandTraits.StampBindable,
-				],
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-templatizing",
+					behaviors:[
+						StrandTraits.StampBindable,
+					],
+				});
 			});
 		</script>
 	</dom-module>
@@ -72,11 +78,13 @@
 			<content></content>
 		</template>
 		<script>
-			Polymer({
-				is:"test-patch",
-				behaviors:[
-					Polymer.Templatizer,
-				],
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-patch",
+					behaviors:[
+						Polymer.Templatizer,
+					],
+				});
 			});
 		</script>
 	</dom-module>

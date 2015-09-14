@@ -25,14 +25,16 @@
 	</dom-module>
 	<script>
 
-		Polymer({
-			is:"test-gettable",
-			behaviors:[StrandTraits.DomGettable]
-		});
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is:"test-gettable",
+				behaviors:[StrandTraits.DomGettable]
+			});
 
-		Polymer({
-			is:"test-compget",
-			behaviors:[StrandTraits.DomGettable]
+			Polymer({
+				is:"test-compget",
+				behaviors:[StrandTraits.DomGettable]
+			});
 		});
 
 	</script>

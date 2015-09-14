@@ -18,21 +18,24 @@
 	</dom-module>
 	<script>
 
-		var TestSome = Polymer({
-			is:"test-semaphore",
-			behaviors:[StrandTraits.Debouncable],
-			debouncers:{
-				test:{
-					keys:["a","b","c"],
-					type:StrandTraits.Debouncable.SOME,
-					callback:Function()
+		var TestSome;
+		HTMLImports.whenReady(function() {
+			TestSome = Polymer({
+				is:"test-semaphore",
+				behaviors:[StrandTraits.Debouncable],
+				debouncers:{
+					test:{
+						keys:["a","b","c"],
+						type:StrandTraits.Debouncable.SOME,
+						callback:Function()
+					}
+				},
+				properties:{
+					a:{value: "", notify: true},
+					b:{value: "", notify: true},
+					c:{value: "", notify: true},
 				}
-			},
-			properties:{
-				a:{value: "", notify: true},
-				b:{value: "", notify: true},
-				c:{value: "", notify: true},
-			}
+			});
 		});
 
 	</script>
@@ -44,21 +47,24 @@
 	</dom-module>
 	<script>
 
-		var TestAll = Polymer({
-			is:"test-all",
-			behaviors:[StrandTraits.Debouncable],
-			debouncers:{
-				test:{
-					keys:["a","b","c"],
-					type:StrandTraits.Debouncable.ALL,
-					callback:Function()
+		var TestAll;
+		HTMLImports.whenReady(function() {
+			TestAll = Polymer({
+				is:"test-all",
+				behaviors:[StrandTraits.Debouncable],
+				debouncers:{
+					test:{
+						keys:["a","b","c"],
+						type:StrandTraits.Debouncable.ALL,
+						callback:Function()
+					}
+				},
+				properties:{
+					a:{value: "", notify: true},
+					b:{value: "", notify: true},
+					c:{value: "", notify: true},
 				}
-			},
-			properties:{
-				a:{value: "", notify: true},
-				b:{value: "", notify: true},
-				c:{value: "", notify: true},
-			}
+			});
 		});
 
 	</script>
