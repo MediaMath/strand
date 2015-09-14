@@ -42,7 +42,7 @@
 					fillStyle = getComputedStyle(fill);
 
 				should.equal(
-					parseFloat(containerStyle.width)-2*parseFloat(containerStyle.borderWidth),
+					parseFloat(containerStyle.width)-parseFloat(containerStyle.borderLeftWidth)-parseFloat(containerStyle.borderRightWidth),
 					parseFloat(fillStyle.width)
 				);
 			});
