@@ -184,10 +184,10 @@
 			it("should not have a value before we have clicked anything", function() {
 				var editselect = document.querySelector("#editselect");
 				editselect.should.have.property("value");
-				editselect.value.should.equal("");
+				editselect.value.should.equal(false);
 
 				var $editselect = $("#editselect");
-				$editselect.val().should.equal("");
+				$editselect.val().should.equal(false);
 			});
 
 			it("should have a value after select the first radio", function(done) {

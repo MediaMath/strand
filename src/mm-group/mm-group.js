@@ -80,6 +80,7 @@
 						this.addEventListener('click', this._updateSelectedItem);
 						break;
 					case "mm-radio":
+						this._radioSelected(); // Check for pre-selected values
 						this.addEventListener('selected', this._radioSelected);
 						break;
 					default:
