@@ -4,7 +4,7 @@
 	"attributes": [
 		{
 			"name":"search",
-			"type":"String",
+			"type":"Boolean",
 			"description":"Sets the visual state of the input, adding a search icon. mm-autocomplete is searchable by default.",
 			"optional":true,
 			"default":"true",
@@ -12,7 +12,7 @@
 		},
 		{
 			"name":"clear",
-			"type":"String",
+			"type":"Boolean",
 			"description":"Sets the visual state of the input when content has been entered, adding a clear icon. mm-autocomplete is clear enabled by default.",
 			"optional":true,
 			"default":"true",
@@ -31,7 +31,8 @@
 			"type":"Number",
 			"description":"Instructs the dropdown panel to clamp it's width at the specified number. Useful when an overflow is desired, but horizontal page real estate is limited.",
 			"optional":true,
-			"default":"hidden"
+			"default":"hidden",
+			"attribute":"overflow-width"
 		},
 		{
 			"name":"direction",
@@ -39,7 +40,8 @@
 			"description":"Instructs the dropdown panel, which contains the search results, to to display above or below the text input field. By default, the dropdown panel will dosplay below the input. Options correspont to a compass paradigme i.e. - 'north' ('n') or 'south' ('s').",
 			"optional":true,
 			"default":"s",
-			"options":["n", "s"]
+			"options":["n", "s"],
+			"reflect":true
 		},
 		{
 			"name":"disabled",
@@ -47,7 +49,8 @@
 			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"]
+			"options":["true", "false"],
+			"reflect":true
 		},
 		{
 			"name":"error",
@@ -77,7 +80,8 @@
 			"type":"Number",
 			"description":"Limits the number of list items displayed in the dropdown panel, allowing the list to scroll vertically if necessary.",
 			"optional":true,
-			"default":"null"
+			"default":"null",
+			"attribute":"max-items"
 		},
 		{
 			"name":"value",
@@ -106,35 +110,40 @@
 			"type":"Boolean",
 			"description":"Returns a boolean corresponding to the visual state of the element.",
 			"optional":false,
-			"default":"true"
+			"default":"true",
+			"attribute":"N/A"
 		},
 		{
 			"name":"selectedIndex",
 			"type":"Number",
 			"description":"An integer representing the index of the selected list item from the dropdown panel. As the list items will be filtered upon user interaction - the number returned will correspond with the index of the item in original data set (see 'data' for more information).",
 			"optional":false,
-			"default":"true"
+			"default":"true",
+			"attribute":"N/A"
 		},
 		{
 			"name":"items",
 			"type":"Array",
 			"description":"Returns only the filtered search data used to populate the element. Only available after a value has been applied.",
 			"optional":false,
-			"default":"[]"
+			"default":"[]",
+			"attribute":"N/A"
 		},
 		{
 			"name":"domItems",
 			"type":"Array",
 			"description":"Returns an array of mm-list-items which populate the dropdown panel. Only available after a value has been applied.",
 			"optional":false,
-			"default":"[]"
+			"default":"[]",
+			"attribute":"N/A"
 		},
 		{
 			"name":"itemHeight",
 			"type":"Number",
 			"description":"Returns the offsetHeight of a single mm-list-item used to populate the dropdown panel.",
 			"optional":false,
-			"default":"[]"
+			"default":"[]",
+			"attribute":"N/A"
 		}
 	],
 	"methods": [
@@ -225,7 +234,7 @@
 				{
 					"name":"selected",
 					"type":"Boolean",
-					"description":"TODO: data obj doesn't actually have a selected property."
+					"description":"The selected state of the item."
 				}
 			]
 		}

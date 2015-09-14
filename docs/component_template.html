@@ -21,27 +21,35 @@
 						<div class="content-box example" id="example-{{name}}">{{{example}}}</div>
 					</section>
 
-					{{#properties.length}}
+					{{#attributes.length}}
 					<section>
 						<h3>Public Properties</h3>
 						<table>
 							<tr>
-								<th>Properties</th>
-								<th>Options</th>
+								<th>Property</th>
+								<th>Description</th>
 							</tr>
-							{{#properties}}
+							{{#attributes}}
 							<tr>
 								<td>
-									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
-									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
-									{{#description}}<span class="desc">{{description}}</span>{{/description}}
+									<span class="bold">{{name}} : </span><span class="italic">{{type}}&nbsp;{{#optional}}(optional){{/optional}}</span><br/>
+									{{#default}}
+									default : <span class="italic">{{default}}</span><br/>
+									{{/default}}
+									options : <span class="italic">{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</span><br/>
+									attribute : <span class="italic">{{#attribute}}{{attribute}}{{/attribute}}{{^attribute}}{{name}}{{/attribute}}</span><br/>
+									reflected to attribute : <span class="italic">{{#reflect}}yes{{/reflect}}{{^reflect}}no{{/reflect}}</span>
 								</td>
-								<td>{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</td>
+								<td>
+									{{#description}}
+									<span class="desc">{{description}}</span>
+									{{/description}}
+								</td>
 							</tr>
-							{{/properties}}
+							{{/attributes}}
 						</table>
 					</section>
-					{{/properties.length}}
+					{{/attributes.length}}
 
 					<!--
 					<section>
@@ -76,14 +84,14 @@
 							{{#methods}}
 							<tr>
 								<td>
-									<span class="bold">{{name}}</span>(<span>{{#arguments}}<span class="option">{{name}}</span>{{/arguments}}</span>){{#optional}} (Optional){{/optional}}
+									<span class="bold">{{name}}</span>(<span>{{#arguments}}<span class="italic option">{{name}}</span>{{/arguments}}</span>){{#optional}} (optional){{/optional}}<br/>
 									{{#description}}<span class="desc">{{description}}</span>{{/description}}
 								</td>
 								<td>
 									{{#arguments}}
 									<span class="arg">
-										<span class="bold">{{name}}</span> : {{type}}{{#optional}} (Optional){{/optional}}
-										{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
+										<span class="bold">{{name}} : </span><span class="italic">{{type}}{{#optional}}&nbsp;(optional){{/optional}}</span><br/>
+										{{#default}}default : <span class="italic">{{default}}</span>{{/default}}<br/>
 										{{#description}}<span class="desc">{{description}}</span>{{/description}}
 									</span>
 									{{/arguments}}
@@ -114,7 +122,7 @@
 								<td>
 									{{#detail}}
 									<span class="arg">
-										<span class="bold">{{name}}</span> : <span class="italic">{{type}}</span>&nbsp;
+										<span class="bold">{{name}}</span> : <span class="italic">{{type}}</span><br/>
 										{{#description}}<span class="desc">{{description}}</span>{{/description}}
 									</span>
 									{{/detail}}
@@ -152,7 +160,7 @@
 				firstRun = true; 
 
 			window.addEventListener("WebComponentsReady", function(e) {
-				console.log("document - WebComponentsReady");
+				// console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
@@ -187,10 +195,9 @@
 			}
 
 			function update(e) {
-				console.log("update was called!");
+				// console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
-				// hacks to retrigger the scripts in example:
-				// TODO: Check if this blows everything up in 1.0
+				// hack to retrigger the scripts in example:
 				window.dispatchEvent(new Event('WebComponentsReady'));
 			}
 
