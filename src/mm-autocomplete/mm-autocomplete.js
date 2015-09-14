@@ -141,6 +141,7 @@
 				if(!this._selectedIndexChangedFlag) {
 					this._search(value);
 				}
+				this._selectedIndexChangedFlag = false;
 			}
 		},
 
@@ -218,7 +219,7 @@
 		_updateContainerScroll: function() {
 			var highlightedItem = this.domItems[this._highlightedIndex];
 			if(highlightedItem) {
-				var panelRect = this._panel.getBoundingClientRect(),
+				var panelRect = this.$.list.getBoundingClientRect(),
 					focusRect = highlightedItem.getBoundingClientRect();
 
 				if(focusRect.top < panelRect.top) {

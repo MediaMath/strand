@@ -126,7 +126,7 @@
 			} else {
 				var highlightedItem = this.items[this._highlightedIndex];
 				if(highlightedItem) {
-					var panelRect = this.$.items.getBoundingClientRect(),
+					var panelRect = this.$.list.getBoundingClientRect(),
 						focusRect = highlightedItem.getBoundingClientRect();
 
 					if(focusRect.top < panelRect.top) {
