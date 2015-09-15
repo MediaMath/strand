@@ -8,7 +8,10 @@ Polymer({
 	is: 'mm-grid-item',
 
 	properties: {
-		model: Object,
+		model: {
+			type: Object,
+			value: null
+		},
 		scope: Object
 	},
 
