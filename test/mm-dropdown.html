@@ -9,8 +9,7 @@
 		var should = chai.should();
 	</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-	<link rel="import" href="../build/mm-dropdown/mm-dropdown.html">
-	<link rel="import" href="../build/mm-list-item/mm-list-item.html">
+	<link rel="import" href="../build/strand.html">
 </head>
 <body>
 
@@ -72,6 +71,7 @@
 
 			it("should have an element constructor", function() {
 				var a = new Strand.Dropdown();
+				a.should.exist;
 				a.nodeName.should.equal("MM-DROPDOWN");
 			});
 
@@ -201,36 +201,24 @@
 				});
 			});
 
-			it("should dispatch a selected event", function(done) {
+			it("should fire a selected event with the correct event detail if non-data dropdown", function(done) {
 				var ddl = document.getElementById("ddlFit"),
-					s = sinon.spy();
+					s = sinon.spy(),
+					evt = null;
+				
+				ddl.addEventListener('selected', s);
+				ddl.selectedIndex = 4;
 
-				ddl.addEventListener("selected", s);
-				ddl.selectedIndex = 0;
 				flush(function() {
+					evt = s.args[0][0].detail;
+					
 					should.equal(s.calledOnce, true);
-					done();
-				});
-			});
-
-			it("should dispatch a selected event with the correct event detail if non-data dropdown", function(done) {
-				var ddl = document.getElementById("ddlFit"),
-					evt = null,
-					item = null;
-
-				ddl.addEventListener("selected", function(e) {
-					evt = e.detail;
-
-					evt.item.should.exist;
-					evt.index.should.exist;
-					evt.value.should.exist;
-					evt.name.should.exist;
-					evt.selected.should.exist;
+					evt.should.have.keys('item','index','value','name','selected');
 
 					evt.item.should.be.an('object');
 					evt.index.should.be.a('number');
+					evt.name.should.be.an('string');
 					evt.value.should.be.a('string');
-					evt.name.should.be.a('string');
 					evt.selected.should.be.a('boolean');
 
 					evt.item.should.equal(Polymer.dom(ddl).querySelectorAll('mm-list-item')[4]);
@@ -238,43 +226,30 @@
 					evt.value.should.equal('item05');
 					evt.name.should.equal('mm-list-item 05');
 					evt.selected.should.equal(true);
-					
+
 					done();
 				});
-
-				ddl.selectedIndex = 4;
 			});
 
 			it("should dispatch a selected event with the correct event detail if data dropdown", function(done) {
 				var ddl = document.getElementById("ddlData"),
-					evt = null,
-					item = null;
+					s = sinon.spy(),
+					evt = null;
+				
+				ddl.addEventListener('selected', s);
+				ddl.selectedIndex = 4;
 
-				ddl.addEventListener("selected", function(e) {
-					evt = e.detail;
-
-					evt.item.should.exist;
-					evt.index.should.exist;
-					evt.value.should.exist;
-					evt.name.should.exist;
-					evt.selected.should.exist;
+				flush(function() {
+					evt = s.args[0][0].detail;
+					
+					should.equal(s.calledOnce, true);
+					evt.should.have.keys('item','index','value','name','selected');
 
 					evt.item.should.be.an('object');
-					evt.index.should.be.a('number');
-					evt.value.should.be.a('string');
-					evt.name.should.be.a('string');
-					evt.selected.should.be.a('boolean');
-					
 					evt.item.should.equal(ddl.items[4]);
-					evt.index.should.equal(4);
-					evt.value.should.equal('4');
-					evt.name.should.equal('No.4 Readable Very Long Name Here');
-					evt.selected.should.equal(true);
-					
+
 					done();
 				});
-
-				ddl.selectedIndex = 4;
 			});
 
 		});

@@ -9,9 +9,7 @@
 		var should = chai.should();
 	</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-	<link rel="import" href="../build/mm-autocomplete/mm-autocomplete.html">
-	<link rel="import" href="../build/mm-pulldown-panel/mm-pulldown-panel.html">
-	<link rel="import" href="../build/mm-list-item/mm-list-item.html">
+	<link rel="import" href="../build/strand.html">
 </head>
 <body>
 
@@ -22,30 +20,31 @@
 	describe("mm-autocomplete", function() {
 
 		var data = [
-				{name: "abelian", value: "abelian"},
-				{name: "pylorus", value: "pylorus"},
-				{name: "hainault", value: "hainault"},
-				{name: "omnidirectional", value: "omnidirectional"},
-				{name: "pul", value: "pul"},
-				{name: "antipastos", value: "antipastos"},
-				{name: "unwaxed", value: "unwaxed"},
-				{name: "mira", value: "mira"},
-				{name: "subconferential", value: "subconferential"},
-				{name: "chromolithographic", value: "chromolithographic"},
-				{name: "cocainism", value: "cocainism"},
-				{name: "united", value: "united"},
-				{name: "conroy", value: "conroy"},
-				{name: "marsden", value: "marsden"},
-				{name: "zoon", value: "zoon"},
-				{name: "axiopoenus", value: "axiopoenus"},
-				{name: "quarrion", value: "quarrion"},
-				{name: "eliminated", value: "eliminated"},
-				{name: "postcode", value: "postcode"},
+				{name: "abelian", 				value: "value00"},
+				{name: "pylorus", 				value: "value01"},
+				{name: "hainault", 				value: "value02"},
+				{name: "omnidirectional", 		value: "value03"},
+				{name: "pul", 					value: "value04"},
+				{name: "antipastos", 			value: "value05"},
+				{name: "unwaxed", 				value: "value06"},
+				{name: "mira", 					value: "value07"},
+				{name: "subconferential", 		value: "value08"},
+				{name: "chromolithographic", 	value: "value09"},
+				{name: "cocainism", 			value: "value10"},
+				{name: "united", 				value: "value11"},
+				{name: "conroy", 				value: "value12"},
+				{name: "marsden", 				value: "value13"},
+				{name: "zoon", 					value: "value14"},
+				{name: "axiopoenus", 			value: "value15"},
+				{name: "quarrion", 				value: "value16"},
+				{name: "eliminated", 			value: "value17"},
+				{name: "postcode", 				value: "value18"},
 			],
 			ac = document.querySelector('#ac');
 
 		it("should have an element constructor", function() {
 			var a = new Strand.AutoComplete();
+			a.should.exist;
 			a.nodeName.should.equal("MM-AUTOCOMPLETE");
 		});
 
@@ -54,45 +53,67 @@
 			ac.data.should.equal(data);
 		});
 
-		it("should build a list of matching data", function() {
-			ac.value = 'abelian';
-			ac._searchData.should.have.length(1);
-			ac._searchData[0].value.should.equal('abelian');
+		it("should build a list of matching search data", function() {
+			ac.value = 'a';
+			ac._searchData.should.have.length(13);
+			ac._searchData[0].value.should.equal('value00');
 		});
 
 		it("should open if there are matching items", function(done) {
-			ac.value = 'a';
-			setTimeout(function() {
+			flush(function() {
 				ac.state.should.equal(ac.STATE_OPENED);
 				done();
-			},100);
+			});
 		});
 
 		it("should close if there are no matching items", function(done) {
 			ac.value = 'abcdefghijkl';
-			setTimeout(function() {
+			flush(function() {
 				ac.state.should.equal(ac.STATE_CLOSED);
 				done();
-			},100);
+			});
 		});
 
-		it("should update value on selection", function() {
+		it("should update value on selection", function(done) {
 			ac.value = 'a';
-			var tmp = ac._searchData[0].value;
 			ac.selectedIndex = 0;
-			ac.value.should.equal(tmp);
+			
+			flush(function() {
+				ac.value.should.equal("abelian");
+				done();
+			});
 		});
 
-		it("should fire a selected event", function() {
+		it("should fire a selected event with the correct event detail", function(done) {
 			var ac2 = document.querySelector('#ac2'),
-				s = sinon.spy();
-			ac2.data = data;
+				s = sinon.spy(),
+				evt = null;
+			
 			ac2.addEventListener('selected', s);
+			ac2.data = data;
 			ac2.value = 'a';
 			ac2.selectedIndex = 1;
 
-			s.should.have.been.calledOnce;
-			s.args[0][0].detail.should.have.keys('item','index','value','name','selected');
+			flush(function() {
+				evt = s.args[0][0].detail;
+
+				should.equal(s.calledOnce, true);
+				evt.should.have.keys('item','index','value','name','selected');
+
+				evt.item.should.be.an('object');
+				evt.index.should.be.a('number');
+				evt.name.should.be.an('string');
+				evt.value.should.be.a('string');
+				evt.selected.should.be.a('boolean');
+
+				evt.item.should.equal(ac2._searchData[1]);
+				evt.index.should.equal(2);
+				evt.value.should.equal('value02');
+				evt.name.should.equal('hainault');
+				evt.selected.should.equal(true);
+
+				done();
+			});
 		});
 
 	});

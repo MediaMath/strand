@@ -91,45 +91,31 @@
 				});
 			});
 
-			it("should dispatch a selected event", function(done) {
+			it("should fire a selected event with the correct event detail", function(done) {
 				var a = document.getElementById("pdb"),
-					s = sinon.spy();
+					s = sinon.spy(),
+					evt = null;
 
 				a.addEventListener("selected", s);
 				a.selectedIndex = 0;
 				flush(function() {
+					evt = s.args[0][0].detail;
+
 					should.equal(s.calledOnce, true);
-					done();
-				});
-			});
-
-			it("should dispatch a selected event with the correct event detail", function(done) {
-				var a = document.getElementById("pdb"),
-					evt = null,
-					item = null;
-
-				a.addEventListener("selected", function(e) {
-					evt = e.detail;
-
-					evt.item.should.exist;
-					evt.index.should.exist;
-					evt.value.should.exist;
-					evt.selected.should.exist;
+					evt.should.have.keys('item','index','value','selected');
 
 					evt.item.should.be.an('object');
 					evt.index.should.be.a('number');
 					evt.value.should.be.a('string');
 					evt.selected.should.be.a('boolean');
 
-					evt.item.should.equal(Polymer.dom(a).querySelectorAll('mm-list-item')[1]);
-					evt.index.should.equal(1);
-					evt.value.should.equal('Option 2');
+					evt.item.should.equal(Polymer.dom(a).querySelectorAll('mm-list-item')[0]);
+					evt.index.should.equal(0);
+					evt.value.should.equal('Option 1');
 					evt.selected.should.equal(true);
-					
+
 					done();
 				});
-
-				a.selectedIndex = 1;
 			});
 
 		});
