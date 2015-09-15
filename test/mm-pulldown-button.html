@@ -67,7 +67,7 @@
 				a.state.should.equal(a.STATE_CLOSED);
 			});
 
-			it("should set panel width correctly", function(done) {
+			it("should overflow or truncate panel correctly", function(done) {
 				var overflow = document.getElementById("pdbOverflow"),
 					truncate = document.getElementById("pdbTruncate"),
 					overflowTargetWidth = null,

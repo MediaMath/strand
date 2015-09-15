@@ -49,11 +49,24 @@
 		<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 	</mm-dropdown>
 
+	<mm-dropdown placeholder="select one" overflow="hidden" id="ddlTruncate" unresolved>
+		<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
+		<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
+		<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
+		<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
+	</mm-dropdown>
+
 	<mm-dropdown id="ddlJquery"></mm-dropdown>
 
-	<mm-dropdown id="ddlLarge"></mm-dropdown>
+	<mm-dropdown id="ddlData" max-items="10" placeholder="Some Longer Label"></mm-dropdown>
 
 	<script type="text/javascript">
+
+		var dataItems = [];
+
+		for (var i=0; i < 100; i++) {
+			dataItems.push({ value: String(i), name: "No." + i + " Readable Very Long Name Here" });
+		}
 
 		describe("mm-dropdown", function() {
 
@@ -118,42 +131,75 @@
 				});
 			});
 
-			/*
-			it("should be Jqueryable", function(done) {
-				var a = $('#ddlJquery');
+			it("should overflow or truncate panel correctly", function(done) {
+				var overflow = document.getElementById("ddlOverflow"),
+					truncate = document.getElementById("ddlTruncate"),
+					overflowTargetWidth = null,
+					overflowPanelWidth = null,
+					truncateTargetWidth = null,
+					truncatePanelWidth = null;
+
+				overflow.open();
+				truncate.open();
+
+				flush(function() {
+					overflowTargetWidth = TestHelper.widthIntRounded(overflow._target);
+					overflowPanelWidth = TestHelper.widthIntRounded(overflow._panel);
+					overflowTargetWidth.should.be.lessThan(overflowPanelWidth);
+
+					truncateTargetWidth = TestHelper.widthIntRounded(truncate._target);
+					truncatePanelWidth = TestHelper.widthIntRounded(truncate._panel);
+					truncateTargetWidth.should.equal(truncatePanelWidth);
+					
+					done();
+				});
+			});
+
+			it("should be able to add mm-list-items via Jquery/Jqueryable", function(done) {
+				var a = $('#ddlJquery'),
+					b = document.getElementById('ddlJquery'),
+					items = null;
+				
 				for(var i=0; i<100; i++) {
 					var item = $("<mm-list-item id='item" + i +"'>List Item Here" + i + "</mm-list-item>");
 					item.appendTo(a);
 				}
 
-				setTimeout(function() {
-					var b = document.getElementById('ddlJquery');
-					b.panel.$.container.children.length.should.equal(102); // 2 additional children should be <template>s
+				flush(function() {
+					items = Polymer.dom(b).querySelectorAll('mm-list-item'); 
+					items.length.should.equal(100);
 					done();
-				}, 150);
+				});
 			});
 
-			it("should clamp height", function(done) {
-				var a = document.getElementById('ddlLarge');
-				for(var i=0; i<10; i++) {
-					var item = document.createElement('mm-list-item');
-					item.innerText = "mm-list-item " + i;
-					a.appendChild(item);
-				}
-				a.open();
+			it("should be populated dynamically if data dropdown", function(done) {
+				var ddl = document.getElementById("ddlData"),
+					items = null;
 
-				setTimeout(function() {
-					var panelRect = a.panel.getBoundingClientRect();
-					panelRect.height.should.be.lessThan(window.innerHeight);
-					panelRect.top.should.be.at.least(0);
-					panelRect.bottom.should.be.at.most(window.innerHeight);
+				ddl.data = dataItems;
+
+				flush(function() {
+					ddl.items.should.exist;
+					ddl.items[0].should.be.an('object');
+					ddl.items.length.should.equal(100);
 					done();
-				}, 150);
+				});
 			});
 
-			TODO: max-items, data dropdown
-			
-			*/
+			it("should set panel height correctly based upon maxItems", function(done) {
+				var ddl = document.querySelector('#ddlData'),
+					list = null,
+					listHeight = null;
+
+				ddl.open();
+
+				flush(function() {
+					list = ddl.$.list;
+					listHeight = TestHelper.heightIntRounded(list);
+					listHeight.should.equal(ddl.maxItems * ddl.itemHeight);
+					done();
+				});
+			});
 
 			it("should dispatch a selected event", function(done) {
 				var ddl = document.getElementById("ddlFit"),
@@ -167,7 +213,7 @@
 				});
 			});
 
-			it("should dispatch a selected event with the correct event detail", function(done) {
+			it("should dispatch a selected event with the correct event detail if non-data dropdown", function(done) {
 				var ddl = document.getElementById("ddlFit"),
 					evt = null,
 					item = null;
@@ -191,6 +237,38 @@
 					evt.index.should.equal(4);
 					evt.value.should.equal('item05');
 					evt.name.should.equal('mm-list-item 05');
+					evt.selected.should.equal(true);
+					
+					done();
+				});
+
+				ddl.selectedIndex = 4;
+			});
+
+			it("should dispatch a selected event with the correct event detail if data dropdown", function(done) {
+				var ddl = document.getElementById("ddlData"),
+					evt = null,
+					item = null;
+
+				ddl.addEventListener("selected", function(e) {
+					evt = e.detail;
+
+					evt.item.should.exist;
+					evt.index.should.exist;
+					evt.value.should.exist;
+					evt.name.should.exist;
+					evt.selected.should.exist;
+
+					evt.item.should.be.an('object');
+					evt.index.should.be.a('number');
+					evt.value.should.be.a('string');
+					evt.name.should.be.a('string');
+					evt.selected.should.be.a('boolean');
+					
+					evt.item.should.equal(ddl.items[4]);
+					evt.index.should.equal(4);
+					evt.value.should.equal('4');
+					evt.name.should.equal('No.4 Readable Very Long Name Here');
 					evt.selected.should.equal(true);
 					
 					done();
