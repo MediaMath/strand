@@ -68,6 +68,10 @@
 				reflectToAttribute: true,
 				observer: "_valueChanged"
 			},
+			_name: {
+				type: String,
+				observer: "_nameChanged"
+			},
 			width: Number,
 			_searchable: {
 				type: Boolean,
@@ -133,13 +137,17 @@
 		},
 
 		_valueChanged: function(newVal, oldVal) {
-			var value = newVal;
+			if(!this._selectedIndexChangedFlag) {
+				this._name = newVal;
+			}
+		},
 
-			if (value === null || value === '') {
+		_nameChanged: function(newVal, oldVal) {
+			if (newVal === null || newVal === '') {
 				this.reset();
 			} else {
 				if(!this._selectedIndexChangedFlag) {
-					this._search(value);
+					this._search(newVal);
 				}
 				this._selectedIndexChangedFlag = false;
 			}
@@ -190,7 +198,8 @@
 					name = newSelected.name;
 
 				this._selectedIndexChangedFlag = true;
-				this.value = (value === name) ? value : name;
+				this.value = value;
+				this._name = (value === name) ? value : name;
 
 				this.fire('selected', {
 					item: newSelected,
