@@ -26,8 +26,8 @@
 	</mm-tabs>
 
 	<mm-tabs id="testTabs">
-		<mm-tab tab-label="First" id="testTab1" url="test-mm-tabs-aux.html"></mm-tab>
-		<mm-tab tab-label="Second" id="testTab2" url="test-mm-tabs-aux.html"></mm-tab>
+		<mm-tab tab-label="First" id="testTab1" url="imports/test-mm-tabs-aux.html"></mm-tab>
+		<mm-tab tab-label="Second" id="testTab2" url="imports/test-mm-tabs-aux.html"></mm-tab>
 		<mm-tab tab-label="Third" id="testTab3"></mm-tab>
 	</mm-tabs>
 
@@ -86,7 +86,7 @@
 
 			it("should load external content imperatively and have a callback", function(done) {
 				var a = document.querySelector('#testTab3');
-				a.loadExternal('test-mm-tabs-aux.html', function() {
+				a.loadExternal('imports/test-mm-tabs-aux.html', function() {
 					// flush(function() {
 						var tabContent = Polymer.dom(a.root).querySelector('content'),
 							nodes = Polymer.dom(tabContent).getDistributedNodes();
