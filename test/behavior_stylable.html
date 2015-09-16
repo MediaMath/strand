@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/stylable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-stylable">
+		<template>
+			<div id="container" class$="{{_computeClasses(containerClass)}}" style$="{{_computeStyles(background,color)}}">
+				<content></content>
+			</div>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestStylable = Polymer({
+				is: 'test-stylable',
+				behaviors: [StrandTraits.Stylable],
+
+				properties: {
+					containerClass: String,
+					background: String,
+					color: String
+				},
+
+				_computeClasses: function(containerClass) {
+					var o = {};
+					o[containerClass] = true;
+					return this.classBlock(o);
+				},
+
+				_computeStyles: function(background,color) {
+					return this.styleBlock({
+						backgroundColor: background,
+						color: color
+					});
+				}
+			});
+		});
+	</script>
+
+	<test-stylable id="testStylable">
+		<p>Test</p>
+	</test-stylable>
+
+	<script>
+		describe('Stylable', function() {
+			
+			it('should generate inline styles', function() {
+
+				var testStylable = document.querySelector('#testStylable');
+				testStylable.background = 'rgb(255, 0, 0)';
+				testStylable.color = 'rgb(0, 0, 255)';
+
+				var compStyle = getComputedStyle(testStylable.$.container);
+				compStyle.backgroundColor.should.equal(testStylable.background);
+				compStyle.color.should.equal(testStylable.color);
+
+			});
+
+			it('should generate classes', function() {
+
+				var testStylable = document.querySelector('#testStylable');
+				testStylable.containerClass = 'test';
+				testStylable.$.container.classList.contains(testStylable.containerClass).should.be.ok;
+
+			});
+
+		});
+	</script>
+
+</body>
+</html>
