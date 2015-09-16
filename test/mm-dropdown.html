@@ -61,13 +61,13 @@
 
 	<script type="text/javascript">
 
-		var dataItems = [];
-
-		for (var i=0; i < 100; i++) {
-			dataItems.push({ value: String(i), name: "No." + i + " Readable Very Long Name Here" });
-		}
-
 		describe("mm-dropdown", function() {
+
+			var dataItems = [];
+
+			for (var i=0; i < 100; i++) {
+				dataItems.push({ value: String(i), name: "No." + i + " Readable Very Long Name Here" });
+			}
 
 			it("should have an element constructor", function() {
 				var a = new Strand.Dropdown();
