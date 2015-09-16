@@ -15,16 +15,7 @@
 		],
 
 		properties: {
-			PRIMARY_ICON_COLOR: {
-				type: String,
-				value: Colors.D0
-			},
 			icon: {
-				type: String,
-				value: false,
-				reflectToAttribute: true,
-			},
-			iconColor: {
 				type: String,
 				value: false,
 				reflectToAttribute: true,
@@ -49,10 +40,6 @@
 			partial: { 
 				type: Boolean,
 				computed: "_partialState(state)"
-			},
-			checkedIconColor: {
-				type: String,
-				computed: "_checkedIconColor(checked)"
 			}
 		},
 
@@ -69,10 +56,6 @@
 
 		_partialState: function(state) {
 			return state === this.PARTIAL_STATE;
-		},
-
-		_checkedIconColor: function(checked) {
-			return checked ? this.iconColor : false;
 		},
 
 		checkedChanged: function(newVal, oldVal) {

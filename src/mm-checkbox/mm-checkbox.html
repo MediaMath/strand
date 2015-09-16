@@ -15,16 +15,16 @@
 	<template>
 		<template is="dom-if" if="{{icon}}">
 			<div class$="{{ updateClass(icon, state) }}">
-				<mm-icon class="icon" type="{{icon}}" primary-color="{{checkedIconColor}}" width="16" height="16"></mm-icon>
+				<mm-icon class="icon" type="{{icon}}" width="16" height="16"></mm-icon>
 			</div>
 		</template>
 		<template is="dom-if" if="{{!icon}}">
 			<div id="checkbox" class$="{{ updateClass(icon, state) }}">
 				<template is="dom-if" if="{{checked}}">
-					<mm-icon class="check" type="check" width="10" height="10" primary-color="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+					<mm-icon class="check" type="check" width="10" height="10"></mm-icon>
 				</template>
 				<template is="dom-if" if="{{partial}}">
-					<mm-icon class="dash" type="partial" width="8" height="8" primary-color="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+					<mm-icon class="dash" type="partial" width="8" height="8"></mm-icon>
 				</template>
 			</div>
 		</template>

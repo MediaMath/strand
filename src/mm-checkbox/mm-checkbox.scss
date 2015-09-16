@@ -18,11 +18,21 @@
 	cursor: pointer;
 	white-space: nowrap;
 	@include user-select(none);
+
+	.icon {
+		color: inherit;
+	}
 }
 
 :host([disabled]){
 	opacity: 0.5;
 	pointer-events:none;
+}
+
+:host[checked] {
+	.icon {
+		color: inherit;
+	}
 }
 
 @include fit();
@@ -69,6 +79,7 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
+		color: $color-D0;
 	}
 
 	.dash {
