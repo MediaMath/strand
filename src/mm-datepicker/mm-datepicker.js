@@ -24,12 +24,6 @@
 		is: 'mm-datepicker',
 
 		properties: {
-
-			target: {
-				type: String,
-				value: ''
-			},
-
 			useTimezone: {
 				type: Boolean,
 				value: true

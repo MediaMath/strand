@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
 (function(scope) {
 
 	scope.Tooltip = Polymer({
@@ -10,11 +16,6 @@
 		],
 
 		properties: {
-			target: {
-				type: Object,
-				value: null,
-				observer: '_positionableTargetChanged'
-			},
 			auto: { 
 				type: Boolean,
 				value: false, 
@@ -48,11 +49,6 @@
 				this._target.removeEventListener('mouseout', this._outHandler.bind(this));
 				this._target.style.cursor = 'default';
 			}
-		},
-
-		_positionableTargetChanged: function() {
-			// use the private target api
-			this._target = this.target;
 		},
 
 		_overHandler: function(e) {

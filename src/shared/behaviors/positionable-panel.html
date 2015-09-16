@@ -18,6 +18,11 @@
 				reflectToAttribute: true,
 				observer: "_directionChanged"
 			},
+			target: {
+				type: String,
+				value: null,
+				observer: '_positionableTargetChanged'
+			},
 			_containerOffset: {
 				type: Number,
 				value: 0
@@ -36,6 +41,10 @@
 
 		_directionChanged: function(newVal, oldVal) {
 			this._originalDirection = newVal;
+		},
+
+		_positionableTargetChanged: function() {
+			this._target = this.target;
 		},
 
 		_updatePosition: function() {
