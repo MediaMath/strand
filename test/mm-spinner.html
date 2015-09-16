@@ -23,6 +23,40 @@
 				a.nodeName.should.equal("MM-SPINNER");
 			});
 
+			it("should set height/width based on radius", function() {
+				var spinner = document.querySelector('#spinner'),
+					spinnerRect = spinner.getBoundingClientRect();
+				spinnerRect.height.should.equal(spinner.radius*2);
+				spinnerRect.width.should.equal(spinner.radius*2);
+			});
+
+			it("should animate", function() {
+				var spinner = document.querySelector('#spinner'),
+					spinnerStyle = getComputedStyle(spinner.$.spinner);
+				should.equal(parseFloat(spinnerStyle.animationDuration).toPrecision(5), (1/spinner.speed).toPrecision(5));
+				should.equal(spinnerStyle.animationTimingFunction, 'steps('+spinner.numTicks+', end)');
+			});
+
+			it("should stop the animation", function(done) {
+				var spinner = document.querySelector('#spinner'),
+					spinnerStyle = function() { return getComputedStyle(spinner.$.spinner); }
+				spinner.stop();
+				flush(function() {
+					spinnerStyle().animationPlayState.should.equal('paused');
+					done();
+				});
+			});
+
+			it("should restart the animation", function(done) {
+				var spinner = document.querySelector('#spinner'),
+					spinnerStyle = function() { return getComputedStyle(spinner.$.spinner); }
+				spinner.start();
+				flush(function() {
+					spinnerStyle().animationPlayState.should.equal('running');
+					done();
+				});
+			});
+
 		});
 		
 	</script>
