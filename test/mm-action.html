@@ -30,18 +30,21 @@
 
 		describe("mm-action", function() {
 	
-			it("should have an element constructor", function() {
+			it("should exist", function() {
 				var a = new Strand.Action();
 				a.nodeName.should.equal("MM-ACTION");
 			});
 
 			it("should set icon primaryColor if an icon is present", function(done) {
 				var a = document.querySelector("#awesome"),
-					color = a.PRIMARY_ICON_COLOR;
+					color = TestHelper.hexToRgb(Colors.D0);
 
 				a.async(function() {
-					var items = Array.prototype.slice.call(Polymer.dom(a.$.icon).getDistributedNodes());
-					items[0].getAttribute("primary-color").should.equal(color);
+					var items = Array.prototype.slice.call(Polymer.dom(a.$.icon).getDistributedNodes()),
+						icon = items[0],
+						iconColor = TestHelper.getRgbNoSpace(icon, "color");
+
+					iconColor.should.equal(color);
 					done();
 				});
 			});

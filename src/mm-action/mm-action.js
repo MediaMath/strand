@@ -40,16 +40,6 @@
 			}
 		},
 
-		PRIMARY_ICON_COLOR: Colors.D0,
-
-		ready: function() {
-			// if there is an icon - colorize it:
-			var items = Array.prototype.slice.call(Polymer.dom(this.$.icon).getDistributedNodes());
-			if (items.length) {
-				items[0].setAttribute("primary-color", this.PRIMARY_ICON_COLOR);
-			}
-		},
-
 		updateClass: function(underline) {
 			var o = {};
 			o["action"] = true;
