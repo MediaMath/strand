@@ -40,10 +40,6 @@
 			return Math.round(this.getPropertyValue(elem, "height").replace("px", ''));
 		},
 
-		// textColorNoSpace: function(elem) {
-		// 	return this.getPropertyValue(elem, "color").replace(/\s+/g, '');
-		// },
-
 		getRgbNoSpace: function(elem, property) {
 			return this.getPropertyValue(elem, property).replace(/\s+/g, '');
 		}

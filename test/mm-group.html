@@ -197,13 +197,12 @@
 				var first = document.querySelector("#editfirst");
 				first.checked = true;
 
-				setTimeout(function() {
+				flush(function() {
 					editselect.should.have.property("value");
 					editselect.value.should.equal("Rad Group Item 1");
-
 					$editselect.val().should.equal("Rad Group Item 1");
 					done();
-				}, 300); // higher ms settimeout was necessary with the compiled lib.html (idk why?)
+				}); // higher ms settimeout was necessary with the compiled lib.html (idk why?)
 			});
 
 			// Horizontal Radio Group:
@@ -214,7 +213,7 @@
 					firstMarginRight = 0,
 					lastMarginRight = 0;
 
-				setTimeout(function() {
+				flush(function() {
 					firstItem = a.items[0];
 					lastItem = a.items[a.items.length-1];
 					firstMarginRight = TestHelper.getPropertyValue(firstItem, "margin-right");
@@ -222,7 +221,7 @@
 					firstMarginRight.should.equal("20px");
 					lastMarginRight.should.not.equal("20px");
 					done();
-				}, 150);
+				});
 			});
 
 			it("should have display: inline-flex if align = 'horizontal'", function(done) {
@@ -230,23 +229,23 @@
 					display = null,
 					inlineFlex = false;
 
-				setTimeout(function() {
+				flush(function() {
 					display = TestHelper.getPropertyValue(a, "display");
 					inlineFlex = display === "inline-flex" || display === "-webkit-inline-flex";
 					inlineFlex.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should justify content if align = 'horizontal' and fitparent", function(done) {
 				var a = document.querySelector("#editselect"),
 					justify = null;
 
-				setTimeout(function() {
+				flush(function() {
 					justify = TestHelper.getPropertyValue(a, "justify-content") ? TestHelper.getPropertyValue(a, "justify-content") : TestHelper.getPropertyValue(a, "-webkit-justify-content");
 					justify.should.equal("space-between");
 					done();
-				}, 150);
+				});
 			});
 
 			// Vertical Radio Group:
@@ -254,11 +253,11 @@
 				var a = document.querySelector("#vertical"),
 					display = null;
 
-				setTimeout(function() {
+				flush(function() {
 					display = TestHelper.getPropertyValue(a, "flex-direction") ? TestHelper.getPropertyValue(a, "flex-direction") : TestHelper.getPropertyValue(a, "-webkit-flex-direction");
 					display.should.equal("column");
 					done();
-				}, 150);
+				});
 			});
 
 			// Button Group
@@ -273,7 +272,7 @@
 					alignCenter = null,
 					alignLast = null;
 
-				setTimeout(function() {
+				flush(function() {
 					items = a.items;
 					alignFirst = items[0].getAttribute("layout");
 					alignCenter = items[1].getAttribute("layout");
@@ -282,7 +281,7 @@
 					alignCenter.should.equal("hgroup-center");
 					alignLast.should.equal("hgroup-right");
 					done();
-				}, 150);
+				});
 			});
 
 			it("items should have equal width if align = 'horizontal' and fitparent", function(done) {
@@ -292,7 +291,7 @@
 					items = null,
 					allEqual = false;
 
-				setTimeout(function() {
+				flush(function() {
 					items = a.items;
 					width = TestHelper.widthIntRounded(a);
 					items.forEach(function(item) {
@@ -303,7 +302,7 @@
 					width.should.equal(600);
 					allEqual.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			// Vertical Button Group
@@ -314,7 +313,7 @@
 					alignCenter = null,
 					alignLast = null;
 
-				setTimeout(function() {
+				flush(function() {
 					items = a.items;
 					alignFirst = items[0].getAttribute("layout");
 					alignCenter = items[1].getAttribute("layout");
@@ -323,7 +322,7 @@
 					alignCenter.should.equal("vgroup-center");
 					alignLast.should.equal("vgroup-bottom");
 					done();
-				}, 150);
+				});
 			});
 
 			// Mixed Grouping Scenarios
@@ -334,14 +333,14 @@
 					alignFirst = null,
 					alignLast = null;
 
-				setTimeout(function() {
+				flush(function() {
 					items = a.items;
 					alignFirst = items[0].getAttribute("layout");
 					alignLast = items[items.length-1].getAttribute("layout");
 					alignFirst.should.equal("hgroup-left");
 					alignLast.should.equal("hgroup-right");
 					done();
-				}, 150);
+				});
 			});
 
 		});

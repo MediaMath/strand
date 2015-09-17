@@ -58,7 +58,7 @@
 					ffTn = false,
 					isArimo = false;
 
-				setTimeout(function() {
+				flush(function() {
 					ffLrg = TestHelper.getPropertyValue(lrgDiv, "font-family").indexOf("Arimo") !== -1;
 					ffMed = TestHelper.getPropertyValue(medDiv, "font-family").indexOf("Arimo") !== -1;
 					ffSm = TestHelper.getPropertyValue(smDiv, "font-family").indexOf("Arimo") !== -1;
@@ -67,7 +67,7 @@
 					isArimo = ffLrg === ffMed === ffSm === ffNrm === ffTn;
 					isArimo.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should have the correct font size", function(done) {
@@ -87,7 +87,7 @@
 					ffNrm = "",
 					ffTn = "";
 
-				setTimeout(function() {
+				flush(function() {
 					ffLrg = TestHelper.getPropertyValue(lrgDiv, "font-size");
 					ffMed = TestHelper.getPropertyValue(medDiv, "font-size");
 					ffSm = TestHelper.getPropertyValue(smDiv, "font-size");
@@ -99,7 +99,7 @@
 					ffNrm.should.equal("11px");
 					ffTn.should.equal("9px");
 					done();
-				}, 150);
+				});
 			});
 
 			it("normal and tiny should have text-transform: uppercase", function(done) {
@@ -111,13 +111,13 @@
 					ffTn = "",
 					upper = false;
 
-				setTimeout(function() {
+				flush(function() {
 					ffNrm = TestHelper.getPropertyValue(nrmDiv, "text-transform");
 					ffTn = TestHelper.getPropertyValue(tnDiv, "text-transform");
 					upper = ffNrm === ffTn;
 					upper.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("normal should have color Colors.D2", function(done) {
@@ -126,11 +126,11 @@
 					expectedColor = TestHelper.hexToRgb(Colors.D2),
 					color = null;
 
-				setTimeout(function() {
+				flush(function() {
 					color = TestHelper.getRgbNoSpace(nrmDiv, "color");
 					color.should.equal(expectedColor);
 					done();
-				}, 150);
+				});
 			});
 
 		});

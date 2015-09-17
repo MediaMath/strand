@@ -21,9 +21,7 @@
 		describe("mm-popover", function() {
 	
 			it("should have an element constructor", function() {
-				var a = new Strand.Popover(),
-					t = document.querySelector("#target");
-				a.target = t;
+				var a = new Strand.Popover();
 				a.nodeName.should.equal("MM-POPOVER");
 			});
 

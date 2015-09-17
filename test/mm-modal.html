@@ -12,7 +12,9 @@
 </head>
 <body>
 
-	<mm-modal id="modal"></mm-modal>
+	<mm-modal id="testModal">
+		<div></div>
+	</mm-modal>
 
 	<script type="text/javascript">
 
@@ -23,28 +25,45 @@
 				a.nodeName.should.equal("MM-MODAL");
 			});
 
-			it("should be visible when shown", function() {
-				var a = new Strand.Modal();
+			it("should be visible when shown", function(done) {
+				var a = document.querySelector("#testModal"),
+					display = null;
+
 				a.show();
-				a.async(function(){
-					a.visible.should.equal(true);
+
+				flush(function(){
+					display = TestHelper.getPropertyValue(a, "display");
+					a.hidden.should.equal(false);
+					display.should.equal("block");
+					done();
 				});
 			});
 
-			it("should not be visible when hidden", function() {
-				var a = new Strand.Modal();
+			it("should not be visible when hidden", function(done) {
+				var a = document.querySelector("#testModal"),
+					display = null;
+
 				a.hide();
-				a.async(function(){
-					a.visible.should.equal(false);
+
+				flush(function(){
+					display = TestHelper.getPropertyValue(a, "display");
+					a.hidden.should.equal(true);
+					display.should.equal("none");
+					done();
 				});
 			});
 
-			it("should disable document scroll if noscroll flag is set", function() {
-				var a = new Strand.Modal();
+			it("should disable document scroll if noscroll flag is set", function(done) {
+				var a = document.querySelector("#testModal"),
+					overflow = null;
+
 				a.noscroll = true;
 				a.show();
-				a.async(function(){
-					document.body.style.overflow.should.equal("hidden");
+
+				flush(function(){
+					overflow = TestHelper.getPropertyValue(document.body, "overflow");
+					overflow.should.equal("hidden");
+					done();
 				});
 			});
 

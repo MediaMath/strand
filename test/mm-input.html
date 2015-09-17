@@ -38,19 +38,19 @@
 			it("should default to type: 'text' if set to an unexpected string", function(done) {
 				var a = new Strand.Input();
 				a.type = "skittles";
-				setTimeout(function() {
+				flush(function() {
 					a.type.should.equal("text");
 					done();
-				}, 150);
+				});
 			});
 
 			it("should have the correct type", function(done) {
 				var a = new Strand.Input();
 				a.type = "email";
-				setTimeout(function() {
+				flush(function() {
 					a.type.should.equal("email");
 					done();
-				}, 150);
+				});
 			});
 
 			it("should display search icon if search = true", function(done) {
@@ -61,13 +61,13 @@
 					inputPaddingRight = null;
 				should.exist(a.search);
 				a.search = true;
-				setTimeout(function() {
+				flush(function() {
 					iconDisplay = TestHelper.getPropertyValue(icon, "display");
 					inputPaddingRight = TestHelper.getPropertyValue(input, "padding-right");
 					iconDisplay.should.equal("block");
 					inputPaddingRight.should.equal("25px");
 					done();
-				}, 150);
+				});
 
 			});
 
@@ -80,13 +80,13 @@
 				should.exist(a.clear);
 				a.clear = true;
 				a.value = "blah";
-				setTimeout(function() {
+				flush(function() {
 					iconDisplay = TestHelper.getPropertyValue(clearBtn, "display");
 					inputPaddingRight = TestHelper.getPropertyValue(input, "padding-right");
 					iconDisplay.should.equal("block");
 					inputPaddingRight.should.equal("25px");
 					done();
-				}, 150);
+				});
 			});
 
 			it("should validate email if validation: 'email'", function(done) {
@@ -101,13 +101,13 @@
 				a.validation.should.equal("email");
 				a.value = "blah";
 
-				setTimeout(function() {
+				flush(function() {
 					error = TestHelper.getRgbNoSpace(input, "border-left-color");
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should validate empty if validation: 'empty'", function(done) {
@@ -122,13 +122,13 @@
 				a.validation.should.equal("empty");
 				a.value = "";
 
-				setTimeout(function() {
+				flush(function() {
 					error = TestHelper.getRgbNoSpace(input, "border-left-color");
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should validate empty if validation: 'empty'", function(done) {
@@ -141,13 +141,13 @@
 				a.validation.should.equal("empty");
 				a.value = "";
 
-				setTimeout(function() {
+				flush(function() {
 					error = TestHelper.getRgbNoSpace(input, "border-left-color");
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should validate int if validation: 'int'", function(done) {
@@ -160,13 +160,13 @@
 				a.validation.should.equal("int");
 				a.value = "blah";
 
-				setTimeout(function() {
+				flush(function() {
 					error = TestHelper.getRgbNoSpace(input, "border-left-color");
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should validate decimal if validation: 'decimal'", function(done) {
@@ -179,13 +179,13 @@
 				a.validation.should.equal("decimal");
 				a.value = "blah";
 
-				setTimeout(function() {
+				flush(function() {
 					error = TestHelper.getRgbNoSpace(input, "border-left-color");
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should validate alpha if validation: 'alpha'", function(done) {
@@ -198,13 +198,13 @@
 				a.validation.should.equal("alpha");
 				a.value = "Blah blah";
 
-				setTimeout(function() {
+				flush(function() {
 					error = TestHelper.getRgbNoSpace(input, "border-left-color");
 					errorClass = Array.prototype.slice.call(input.classList).indexOf("invalid") > -1;
 					error.should.equal(expectedColor);
 					errorClass.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 		});

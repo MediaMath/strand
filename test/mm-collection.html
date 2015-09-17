@@ -15,56 +15,58 @@
 
 describe("mm-collection", function() {
 
-  it("should create models", function() {
-    var c = new MMCollection();
-    c.create({ id: 10, name:"aces" }, false);
-    c.data.should.have.length(1);
-    c.data[0].data.id.should.equal(10);
-  });
+  // TODO - looks like this is old
+  
+  // it("should create models", function() {
+  //   var c = new MMCollection();
+  //   c.create({ id: 10, name:"aces" }, false);
+  //   c.data.should.have.length(1);
+  //   c.data[0].data.id.should.equal(10);
+  // });
 
-  it("should detect cid conflicts", function() {
-  	var c = new MMCollection();
-  	var m = new MMModel();
-  	m.data = {cats:true, dogs:true};
-  	m.cid = 0;
-  	c.add(m);
-  	should.throw(function() {
-  		c.add(m);
-  	}, "Model Conflict - matching cIDs");
-  });
+  // it("should detect cid conflicts", function() {
+  // 	var c = new MMCollection();
+  // 	var m = new MMModel();
+  // 	m.data = {cats:true, dogs:true};
+  // 	m.cid = 0;
+  // 	c.add(m);
+  // 	should.throw(function() {
+  // 		c.add(m);
+  // 	}, "Model Conflict - matching cIDs");
+  // });
 
-  it("should return models at indicies", function() {
-  	var c = new MMCollection();
-    c.create({ id: 10, name:"aces" }, false);
-    c.get(0).should.be.an("object");
-    c.getData(0).name.should.equal("aces");
-  });
+  // it("should return models at indicies", function() {
+  // 	var c = new MMCollection();
+  //   c.create({ id: 10, name:"aces" }, false);
+  //   c.get(0).should.be.an("object");
+  //   c.getData(0).name.should.equal("aces");
+  // });
 
-  it("should support each on every model", function() {
-  	var c = new MMCollection();
-  	for(var i =0; i< 10; i++) {
-  		c.create({ id: i, name:"aces"+i }, false);
-  	}
-  	c.create({id: 0, name:"aces11"});
-  	var inc = 0;
-  	c.each(function(m) {
-  		m.should.be.an("object");
-  		inc++;
-  	});
-  	inc.should.equal(11);
-  });
+  // it("should support each on every model", function() {
+  // 	var c = new MMCollection();
+  // 	for(var i =0; i< 10; i++) {
+  // 		c.create({ id: i, name:"aces"+i }, false);
+  // 	}
+  // 	c.create({id: 0, name:"aces11"});
+  // 	var inc = 0;
+  // 	c.each(function(m) {
+  // 		m.should.be.an("object");
+  // 		inc++;
+  // 	});
+  // 	inc.should.equal(11);
+  // });
 
-  it("should find models matching constraining objects using where", function() {
-  	var c = new MMCollection();
-  	for(var i =0; i< 10; i++) {
-  		c.create({ id: i, name:"aces"+i }, false);
-  	}
-  	c.create({id: 0, name:"aces11"});
+  // it("should find models matching constraining objects using where", function() {
+  // 	var c = new MMCollection();
+  // 	for(var i =0; i< 10; i++) {
+  // 		c.create({ id: i, name:"aces"+i }, false);
+  // 	}
+  // 	c.create({id: 0, name:"aces11"});
 
-  	c.where({name:"aces2"}, true).should.have.length(1);
-  	c.where({name:1}).should.have.length(11);
-  	c.where({id:0}, true).should.have.length(2);
-  });
+  // 	c.where({name:"aces2"}, true).should.have.length(1);
+  // 	c.where({name:1}).should.have.length(11);
+  // 	c.where({id:0}, true).should.have.length(2);
+  // });
 
 });
 </script>

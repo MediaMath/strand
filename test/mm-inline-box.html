@@ -29,7 +29,7 @@
 				var a = new Strand.InlineBox();
 				should.exist(a.type);
 				should.equal(a.type, "info");
-			});å
+			});
 
 			it("should assign corect icon when type is changed", function() {
 				var a = document.querySelector("#warning"),
@@ -44,7 +44,7 @@
 					noBorder = null,
 					noPadding = null;
 
-				setTimeout(function() {
+				flush(function() {
 					noBorder = TestHelper.getPropertyValue(a, "border-left-width");
 					noPadding = TestHelper.getPropertyValue(a, "padding-left");
 					noBorder = noBorder.indexOf("0px") !== -1;
@@ -52,7 +52,7 @@
 					noBorder.should.equal(true);
 					noPadding.should.equal(true);
 					done();
-				}, 0);
+				});
 			});
 
 		});
