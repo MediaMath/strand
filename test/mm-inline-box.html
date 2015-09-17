@@ -29,18 +29,7 @@
 				var a = new Strand.InlineBox();
 				should.exist(a.type);
 				should.equal(a.type, "info");
-			});
-
-
-			it("should assign corect primaryColor when type is changed", function() {
-				var a = document.querySelector("#warning"),
-					expectedColor = Colors.C3,
-					outputColor = null;
-
-				a.type = "error";
-				outputColor = a.$.icon.primaryColor;
-				outputColor.should.equal(expectedColor);
-			});
+			});å
 
 			it("should assign corect icon when type is changed", function() {
 				var a = document.querySelector("#warning"),
