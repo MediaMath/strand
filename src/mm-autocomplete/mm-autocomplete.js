@@ -32,14 +32,6 @@
 				type: String,
 				value: "true",
 			},
-			overflow: {
-				type: String,
-				value: "hidden"
-			},
-			direction: {
-				type: String,
-				value: "s",
-			},
 			disabled: {
 				type: Boolean,
 				value: false,

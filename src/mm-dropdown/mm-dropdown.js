@@ -35,10 +35,6 @@
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
-			overflow: {
-				type: String,
-				value: 'hidden'
-			},
 			_type: {
 				type: String,
 				value: 'secondary'

@@ -16,6 +16,14 @@
 				type: Object,
 				value : null
 			},
+			_offset: {
+				type: Number,
+				value: 1
+			},
+			overflow: {
+				type: String,
+				value: 'hidden'
+			},
 			overflowWidth: {
 				type: Number,
 				value: false
@@ -87,14 +95,13 @@
 		},
 
 		_updateDirection: function(direction, winRect, panelRect, targetRect, originRect) {
-			var offset = 1;
 			switch(direction) {
 				case 'n':
-					panelRect.top = targetRect.top - panelRect.height + offset;
+					panelRect.bottom = targetRect.top + this._offset;
 					panelRect.left = targetRect.left;
 					break;
 				case 's':
-					panelRect.top = targetRect.top + targetRect.height - offset;
+					panelRect.top = targetRect.bottom - this._offset;
 					panelRect.left = targetRect.left;
 					break;
 			}

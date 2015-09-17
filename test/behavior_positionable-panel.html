@@ -10,16 +10,14 @@
 	</script>
 	<link rel="import" href="../bower_components/polymer/polymer.html"/>
 	<link rel="import" href="../build/shared/behaviors/positionable-panel.html"/>
-	<link rel="import" href="../build/shared/behaviors/stackable.html"/>
-	<link rel="import" href="../build/shared/behaviors/autotogglable.html"/>
 	<style>
 		#target {
 			position: absolute;
-			width: 1px;
-			height: 1px;
+			width: 10px;
+			height: 10px;
 			background: #0000FF;
 			top: 0px;
-			left:0px;
+			left:10px;
 		}
 	</style>
 </head>
@@ -36,8 +34,8 @@
 
 			#container {
 				position: relative;
-				width: 1px;
-				height: 1px;
+				width: 10px;
+				height: 10px;
 				background: #ff0000;
 			}
 
@@ -51,20 +49,16 @@
 			HTMLImports.whenReady(function() {
 				Polymer({
 					is:"test-positionable-panel",
-					behaviors:[
-						StrandTraits.AutoTogglable,
-						StrandTraits.Stackable,
-						StrandTraits.PositionablePanel
-					],
+					behaviors:[StrandTraits.PositionablePanel],
 					properties: {
 						boundaryOffset: {
 							type: Number,
-							value: 1
+							value: 10
 						},
-						_tipSize: {
-							type: Number,
-							value: 0
-						}
+						// _tipSize: {
+						// 	type: Number,
+						// 	value: 0
+						// }
 					}
 				});
 			});
@@ -85,13 +79,27 @@
 				a.direction.should.equal("s");
 			});
 
+			// TODO - look into the offset math here:
+			// it("should be positioned properly for 'south'", function() {
+			// 	var a = document.querySelector("#testPanel"),
+			// 		t = document.querySelector("#target"),
+			// 		panelMetrics = a.metrics,
+			// 		targetMetrics = a.targetMetrics,
+			// 		offset = a.boundaryOffset;
+
+			// 	panelMetrics.should.exist;
+			// 	targetMetrics.should.exist;
+			// 	panelMetrics.left.should.equal(targetMetrics.left - offset);
+			// 	panelMetrics.top.should.equal(targetMetrics.bottom);
+			// });
+
 			it("should open in direction 'north' when direction is changed", function(done) {
 				var a = document.querySelector("#testPanel"),
 					t = document.querySelector("#target");
 
 				a.close();
-				target.style.left = "1px";
-				target.style.top = "3px";
+				target.style.left = "10px";
+				target.style.top = "30px";
 
 				a.direction = "n";
 				a.open();
@@ -106,12 +114,10 @@
 				var a = document.querySelector("#testPanel"),
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
-					windowMetrics = a.windowMetrics,
 					targetMetrics = a.targetMetrics,
 					offset = a.boundaryOffset;
 
 				panelMetrics.should.exist;
-				windowMetrics.should.exist;
 				targetMetrics.should.exist;
 				panelMetrics.left.should.equal(targetMetrics.left - offset);
 				panelMetrics.bottom.should.equal(targetMetrics.top);
@@ -122,8 +128,8 @@
 					t = document.querySelector("#target");
 
 				a.close();
-				target.style.left = "3px";
-				target.style.top = "1px";
+				target.style.left = "30px";
+				target.style.top = "10px";
 				a.open();
 
 				flush(function() {
@@ -136,12 +142,10 @@
 				var a = document.querySelector("#testPanel"),
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
-					windowMetrics = a.windowMetrics,
 					targetMetrics = a.targetMetrics,
 					offset = a.boundaryOffset;
 
 				panelMetrics.should.exist;
-				windowMetrics.should.exist;
 				targetMetrics.should.exist;
 				panelMetrics.left.should.equal(targetMetrics.left - offset);
 				panelMetrics.top.should.equal(targetMetrics.bottom);
@@ -152,8 +156,8 @@
 					t = document.querySelector("#target");
 
 				a.close();
-				target.style.left = "3px";
-				target.style.top = "1px";
+				target.style.left = "30px";
+				target.style.top = "10px";
 
 				a.direction = "w";
 				a.open();
@@ -168,12 +172,10 @@
 				var a = document.querySelector("#testPanel"),
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
-					windowMetrics = a.windowMetrics,
 					targetMetrics = a.targetMetrics,
 					offset = a.boundaryOffset;
 
 				panelMetrics.should.exist;
-				windowMetrics.should.exist;
 				targetMetrics.should.exist;
 				panelMetrics.right.should.equal(targetMetrics.left);
 				panelMetrics.top.should.equal(targetMetrics.top - offset);
@@ -185,7 +187,7 @@
 
 				a.close();
 				target.style.left = "0px";
-				target.style.top = "1px";
+				target.style.top = "10px";
 				a.open();
 
 				flush(function() {
@@ -198,12 +200,10 @@
 				var a = document.querySelector("#testPanel"),
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
-					windowMetrics = a.windowMetrics,
 					targetMetrics = a.targetMetrics,
 					offset = a.boundaryOffset;
 
 				panelMetrics.should.exist;
-				windowMetrics.should.exist;
 				targetMetrics.should.exist;
 				panelMetrics.left.should.equal(targetMetrics.right);
 				panelMetrics.top.should.equal(targetMetrics.top - offset);

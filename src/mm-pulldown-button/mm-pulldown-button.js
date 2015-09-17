@@ -24,17 +24,9 @@
 				type: Object,
 				value: function() { return this.$.target; }
 			},
-			overflow: {
-				type: String,
-				value: "hidden"
-			},
 			type: {
 				type: String,
 				value: "primary"
-			},
-			direction: {
-				type: String,
-				value: "s",
 			},
 			disabled: {
 				type: Boolean,
