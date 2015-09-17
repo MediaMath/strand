@@ -9,6 +9,11 @@
 		var should = chai.should();
 	</script>
 	<link rel="import" href="../build/strand.html">
+	<style>
+		#cbxIcon {
+			color: #008000;
+		}
+	</style>
 </head>
 <body>
 
@@ -18,7 +23,7 @@
 		<label>Checkbox With Label</label>
 	</mm-checkbox>
 
-	<mm-checkbox id="cbxIcon" checked="true" icon="check" iconColor="#008000">
+	<mm-checkbox id="cbxIcon" checked="true" icon="check">
 		<label>Check me out</label>
 	</mm-checkbox>
 
@@ -35,10 +40,10 @@
 				var a = document.querySelector("#cbx");
 				a.setAttribute("checked", null);
 
-				setTimeout(function() {
+				flush(function() {
 					a.value.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("should have a style of 'selected' applied to the inner #checkbox div", function(done) {
@@ -47,11 +52,11 @@
 					cssClass = "selected",
 					hasSelected = null;
 
-				setTimeout(function() {
+				flush(function() {
 					hasSelected = aInner.classList.contains(cssClass);
 					hasSelected.should.equal(true);
 					done();
-				}, 150);
+				});
 			});
 
 			it("width of '#cbxLabel' should be 148px if it rendered correctly", function(done) {
@@ -59,24 +64,24 @@
 					style = null,
 					width = 0;
 
-				setTimeout(function() {
+				flush(function() {
 					width = TestHelper.widthIntRounded(a);
 					width.should.equal(148);
 					done();
-				}, 150);
+				});
 			});
 
-			it("should set icon primaryColor if custom icon is set", function(done) {
+			it("should set the correct icon color if a custom icon is set", function(done) {
 				var a = document.querySelector("#cbxIcon"),
 					aInner = Polymer.dom(a.root).querySelector("mm-icon"),
-					expectedColor = a.iconColor,
+					expectedColor = TestHelper.hexToRgb("#008000"),
 					color = null;
 
-				setTimeout(function() {
-					color = aInner.primaryColor;
+				flush(function() {
+					color = TestHelper.getRgbNoSpace(aInner, "color");
 					color.should.equal(expectedColor);
 					done();
-				}, 150);
+				});
 			});
 
 		});
