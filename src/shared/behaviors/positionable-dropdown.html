@@ -2,7 +2,6 @@
 <link rel="import" href="../js/rectangle.html">
 <link rel="import" href="../js/behaviorutils.html"/>
 <link rel="import" href="positionable-panel.html"/>
-<link rel="import" href="nonscrollable.html"/>
 <script type="text/javascript">
 (function(scope) {
 
@@ -34,14 +33,12 @@
 			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
 
 			this._origRect = this._origRect || Rectangle.fromElement(this._panel);
-			this.disableScroll();
 			inherited.apply(this, [silent]);
 		},
 
 		close: function(silent) {
 			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "close");
 
-			this.enableScroll();
 	 		inherited.apply(this, [silent]);
 		},
 
@@ -107,19 +104,6 @@
 			}
 		},
 
-		// *************************
-		// TODO: Clamp the height of the panel?
-		// *************************
-		_clampHeight: function(winRect, panelRect, targetRect) {
-			var top = targetRect.top - this.boundaryOffset,
-				bottom = winRect.height - targetRect.bottom - this.boundaryOffset;
-			// *************************
-			// TODO: what we actually want is maxHeight, not settable via Rectangle
-			// *************************
-			// panelRect.height = Math.min(this._origRect.height, Math.max(top,bottom));
-			this.$.container.style.maxHeight = Math.max(top, bottom) + "px";
-		},
-
 		_boundaryOffsetChanged: function() {
 			// override
 		}
@@ -127,7 +111,6 @@
 
 	scope.PositionableDropdown = [
 		scope.PositionablePanel,
-		scope.NonScrollable,
 		PositionableDropdown
 	];
 

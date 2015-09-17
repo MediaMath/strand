@@ -13,11 +13,11 @@
 	<style>
 		#target {
 			position: absolute;
-			width: 10px;
-			height: 10px;
+			width: 100px;
+			height: 30px;
 			background: #0000FF;
 			top: 0px;
-			left:10px;
+			left: 220px;
 		}
 	</style>
 </head>
@@ -34,8 +34,8 @@
 
 			#container {
 				position: relative;
-				width: 10px;
-				height: 10px;
+				width: 200px;
+				height: 200px;
 				background: #ff0000;
 			}
 
@@ -54,11 +54,7 @@
 						boundaryOffset: {
 							type: Number,
 							value: 10
-						},
-						// _tipSize: {
-						// 	type: Number,
-						// 	value: 0
-						// }
+						}
 					}
 				});
 			});
@@ -73,34 +69,50 @@
 		
 		describe("behavior_positionable-panel", function() {
 
-			it("should open in direction 'south' by default", function() {
+			function horizontalCenter(target, panel) {
+				return {
+					panelCenter: panel.left + panel.width/2,
+					targetCenter: target.left + target.width/2
+				}
+			}
+
+			function verticalCenter(target, panel) {
+				return {
+					panelCenter: panel.top + panel.height/2,
+					targetCenter: target.top + target.height/2
+				}
+			}
+
+			it("should open in direction 'south' by default", function(done) {
 				var a = document.querySelector("#testPanel");
+				
 				a.open();
-				a.direction.should.equal("s");
+
+				flush(function() {
+					a.direction.should.equal("s");
+					done();
+				});
 			});
 
-			// TODO - look into the offset math here:
-			// it("should be positioned properly for 'south'", function() {
-			// 	var a = document.querySelector("#testPanel"),
-			// 		t = document.querySelector("#target"),
-			// 		panelMetrics = a.metrics,
-			// 		targetMetrics = a.targetMetrics,
-			// 		offset = a.boundaryOffset;
+			it("should be positioned properly for 'south'", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target"),
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics,
+					c = horizontalCenter(targetMetrics, panelMetrics);
 
-			// 	panelMetrics.should.exist;
-			// 	targetMetrics.should.exist;
-			// 	panelMetrics.left.should.equal(targetMetrics.left - offset);
-			// 	panelMetrics.top.should.equal(targetMetrics.bottom);
-			// });
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				c.panelCenter.should.equal(c.targetCenter);
+				panelMetrics.top.should.equal(targetMetrics.bottom);
+			});
 
 			it("should open in direction 'north' when direction is changed", function(done) {
 				var a = document.querySelector("#testPanel"),
 					t = document.querySelector("#target");
 
 				a.close();
-				target.style.left = "10px";
-				target.style.top = "30px";
-
+			 target.style.top = "220px";
 				a.direction = "n";
 				a.open();
 
@@ -115,11 +127,11 @@
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
 					targetMetrics = a.targetMetrics,
-					offset = a.boundaryOffset;
+					c = horizontalCenter(targetMetrics, panelMetrics);
 
 				panelMetrics.should.exist;
 				targetMetrics.should.exist;
-				panelMetrics.left.should.equal(targetMetrics.left - offset);
+				c.panelCenter.should.equal(c.targetCenter);
 				panelMetrics.bottom.should.equal(targetMetrics.top);
 			});
 
@@ -128,8 +140,7 @@
 					t = document.querySelector("#target");
 
 				a.close();
-				target.style.left = "30px";
-				target.style.top = "10px";
+				target.style.top = "0px";
 				a.open();
 
 				flush(function() {
@@ -143,11 +154,11 @@
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
 					targetMetrics = a.targetMetrics,
-					offset = a.boundaryOffset;
+					c = horizontalCenter(targetMetrics, panelMetrics);
 
 				panelMetrics.should.exist;
 				targetMetrics.should.exist;
-				panelMetrics.left.should.equal(targetMetrics.left - offset);
+				c.panelCenter.should.equal(c.targetCenter);
 				panelMetrics.top.should.equal(targetMetrics.bottom);
 			});
 
@@ -156,9 +167,7 @@
 					t = document.querySelector("#target");
 
 				a.close();
-				target.style.left = "30px";
-				target.style.top = "10px";
-
+				target.style.top = "110px";
 				a.direction = "w";
 				a.open();
 
@@ -173,12 +182,12 @@
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
 					targetMetrics = a.targetMetrics,
-					offset = a.boundaryOffset;
+					c = verticalCenter(targetMetrics, panelMetrics);
 
 				panelMetrics.should.exist;
 				targetMetrics.should.exist;
 				panelMetrics.right.should.equal(targetMetrics.left);
-				panelMetrics.top.should.equal(targetMetrics.top - offset);
+				c.panelCenter.should.equal(c.targetCenter);
 			});
 
 			it("should correctly flip direction 'west' to 'east' when panel is out of bounds", function(done) {
@@ -187,7 +196,6 @@
 
 				a.close();
 				target.style.left = "0px";
-				target.style.top = "10px";
 				a.open();
 
 				flush(function() {
@@ -201,12 +209,12 @@
 					t = document.querySelector("#target"),
 					panelMetrics = a.metrics,
 					targetMetrics = a.targetMetrics,
-					offset = a.boundaryOffset;
+					c = c = verticalCenter(targetMetrics, panelMetrics);
 
 				panelMetrics.should.exist;
 				targetMetrics.should.exist;
 				panelMetrics.left.should.equal(targetMetrics.right);
-				panelMetrics.top.should.equal(targetMetrics.top - offset);
+				c.panelCenter.should.equal(c.targetCenter);
 			});
 
 		});
