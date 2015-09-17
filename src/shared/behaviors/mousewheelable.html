@@ -6,23 +6,25 @@
 
 */
 (function (scope) {
-	// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
-	var support = "onwheel" in document.createElement("div") ? "wheel" : 
-		document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
-
 	scope.MouseWheelable = {
 
 		attached: function() {
-			this.addEventListener(support, this._onWheel);
+			this.addEventListener(this.support, this._onWheel);
 		},
 
 		detached: function() {
-			this.removeEventListener(support, this._onWheel);
+			this.removeEventListener(this.support, this._onWheel);
 		},
 
 		_onWheel: function(e) {
 			// override this abstract method
 		},
+
+		get support() {
+			// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
+			return "onwheel" in document.createElement("div") ? "wheel" : 
+			document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
+		}
 
 	 };
 

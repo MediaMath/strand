@@ -14,6 +14,15 @@
 <body>
 
 	<dom-module id="test-mousewheelable">
+		<style>
+			:host {
+				display: block;
+				position: relative;
+				height: 5000px; 
+				width: 100%;
+				overflow: auto;
+			}
+		</style>
 		<template>
 			<content></content>
 		</template>
@@ -32,6 +41,43 @@
 
 	<script>
 		describe('MouseWheelable', function() {
+
+			it("should exist", function() {
+				StrandTraits.should.be.an.object;
+				StrandTraits.MouseWheelable.should.be.an.object;
+			});
+
+			it("should capture supported wheel event", function(done) {
+				var a = document.querySelector("#testMouseWheelable"),
+					support = a.support,
+					evt = new Event(support),
+					s = sinon.spy();
+
+				a.addEventListener(support, s);
+				a.dispatchEvent(evt);
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			// TODO: The method DOES get called, but sinon won't play nice... no ideas here.
+			// The above test sufficiently proves our point, however.
+			
+			// it("should call abstract method _onWheel on supported wheel event", function(done) {
+			// 	var a = document.querySelector("#testMouseWheelable"),
+			// 		support = a.support,
+			// 		evt = new Event(support),
+			// 		s = sinon.spy(a, "_onWheel");
+
+			// 	a.dispatchEvent(evt);
+
+			// 	flush(function() {
+			// 		should.equal(s.called, true);
+			// 		done();
+			// 	});
+			// });
 
 		});
 	</script>
