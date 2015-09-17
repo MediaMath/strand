@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/mousewheelable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-mousewheelable">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestMouseWheelable = Polymer({
+				is: 'test-mousewheelable',
+				behaviors: [StrandTraits.MouseWheelable]
+			});
+		});
+	</script>
+
+	<test-mousewheelable id="testMouseWheelable"></test-mousewheelable>
+
+	<script>
+		describe('MouseWheelable', function() {
+
+		});
+	</script>
+
+</body>
+</html>
