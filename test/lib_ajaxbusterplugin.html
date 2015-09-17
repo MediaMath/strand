@@ -26,15 +26,10 @@ describe("AjaxBusterPlugin", function() {
 		pq.register(StrandLib.AjaxBusterPlugin);
 		var plug = pq.queue[0];
 		var spy1 = sinon.spy(plug, "requestHandler"); 
-		var spy2 = sinon.spy(plug, "responseHandler"); 
-		var spy3 = sinon.spy(plug, "reset"); 
 
 		pq.processRequest({test:'test'});
-		pq.processResponse({test:'test'});
 		
 		spy1.calledOnce.should.be.true;
-		spy2.calledOnce.should.be.true;
-		spy3.calledTwice.should.be.true;
 
 	});
 
@@ -54,7 +49,7 @@ describe("AjaxBusterPlugin", function() {
 		data.queryParams.should.have.length(1);
 		data.queryParams[0].name.should.contain("nocache");
 		
-		buster = new StrandLib.AjaxBusterPlugin("cacheBuster", true);
+		buster = new StrandLib.AjaxBusterPlugin({name:"cacheBuster"});
 		data = {queryParams:[]};
 		buster.requestHandler(data);
 		data.queryParams.should.have.length(1);
@@ -63,7 +58,10 @@ describe("AjaxBusterPlugin", function() {
 	});
 
 	it("should stop when disabled", function() {
-		var buster = new StrandLib.AjaxBusterPlugin("test", false);
+		var buster = new StrandLib.AjaxBusterPlugin({
+			name:"test", 
+			enabled: false
+		});
 		var data = {queryParams:[]};
 		buster.requestHandler(data);
 		data.queryParams.should.have.length(0);
