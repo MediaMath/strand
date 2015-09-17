@@ -23,7 +23,13 @@
 		HTMLImports.whenReady(function() {
 			window.TestValidatable = Polymer({
 				is: 'test-validatable',
-				behaviors: [StrandTraits.Validatable]
+				behaviors: [StrandTraits.Validatable],
+				properties: {
+					value: {
+						type: String,
+						notify: true
+					}
+				}
 			});
 		});
 	</script>
@@ -32,6 +38,46 @@
 
 	<script>
 		describe('Validatable', function() {
+
+			it('should exist', function() {
+				StrandTraits.should.exist;
+				StrandTraits.Validatable.should.exist;
+			});
+
+			it('should validate according to a rule', function() {
+				var v = document.querySelector('#testValidatable'),
+					valid = 'drnick@example.net',
+					invalid = '^&!@*';
+				v.validation = 'email';
+				v.validate(valid).should.equal(true);
+				v.validate(invalid).should.equal(false);	
+			});
+
+			it('should validate according to multiple rules', function() {
+				var v = document.querySelector('#testValidatable'),
+					valid = 'abc',
+					invalid = '    ';
+				v.validation = 'alpha|empty|blank';
+				v.validate(valid).should.equal(true);
+				v.validate(invalid).should.equal(false);
+			});
+
+			it('should set an error property', function() {
+				var v = document.querySelector('#testValidatable');
+				v.validation = 'email';
+				v.value = '!!';
+				v.error.should.equal(true);
+			});
+
+			it('should not set error if there is no value', function() {
+				var v = document.querySelector('#testValidatable');
+				v.validation = 'email';
+				v.validate(null).should.equal(false);
+				v.value = 'drnick@example.net';
+				v.error.should.equal(false);
+				v.value = null;
+				v.error.should.equal(false);
+			});
 
 		});
 	</script>
