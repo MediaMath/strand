@@ -27,14 +27,12 @@ describe("AjaxPlugin", function() {
 		var plug = pq.queue[0];
 		var spy1 = sinon.spy(plug, "requestHandler"); 
 		var spy2 = sinon.spy(plug, "responseHandler"); 
-		var spy3 = sinon.spy(plug, "reset"); 
 
 		pq.processRequest({test:'test'});
 		pq.processResponse({test:'test'});
 		
 		spy1.calledOnce.should.be.true;
 		spy2.calledOnce.should.be.true;
-		spy3.calledTwice.should.be.true;
 
 	});
 
@@ -47,7 +45,10 @@ describe("AjaxPlugin", function() {
 	});
 
 	it("should write a value when one is passed via constructor", function() {
-		var csrf = new StrandLib.AjaxCSRFPlugin(false, null, true, "presetPRESETpreset");
+		var csrf = new StrandLib.AjaxCSRFPlugin({
+			useCache:false,
+			token:"presetPRESETpreset"
+		});
 		var data = {headers:[]};
 		csrf.requestHandler(data);
 		data.headers.should.have.length(1);
@@ -56,7 +57,12 @@ describe("AjaxPlugin", function() {
 	});	
 
 	it("should support variable header names", function() {
-		var csrf = new StrandLib.AjaxCSRFPlugin(false, "X-H-TEST", true, "presetPRESETpreset");
+		var csrf = new StrandLib.AjaxCSRFPlugin({
+			useCache:false,
+			header: "X-H-TEST", 
+			enabled: true, 
+			token:"presetPRESETpreset"
+		});
 		var data = {headers:[]};
 		csrf.requestHandler(data);
 		data.headers.should.have.length(1);
@@ -83,9 +89,9 @@ describe("AjaxPlugin", function() {
 			}
 		};
 
-		var csrf = new StrandLib.AjaxCSRFPlugin(false);
+		var csrf = new StrandLib.AjaxCSRFPlugin({useCache:false});
 		csrf.responseHandler(response);
-		csrf.token.should.equal("presetPRESETpreset");
+		csrf.config.token.should.equal("presetPRESETpreset");
 
 		//check to see if we sign the next request correctly
 		var data = {headers:[]};
@@ -118,11 +124,11 @@ describe("AjaxPlugin", function() {
 
 		var csrf = new StrandLib.AjaxCSRFPlugin(true);
 		csrf.responseHandler(response);
-		csrf.token.should.equal("presetPRESETpreset");
+		csrf.config.token.should.equal("presetPRESETpreset");
 
 		//check to see if we sign the next request correctly
 		csrf = new StrandLib.AjaxCSRFPlugin(true);
-		csrf.token.should.equal("presetPRESETpreset"); //from Storage
+		csrf.config.token.should.equal("presetPRESETpreset"); //from Storage
 		var data = {headers:[]};
 		csrf.requestHandler(data);
 		data.headers.should.have.length(1);
@@ -134,7 +140,7 @@ describe("AjaxPlugin", function() {
 
 	it("should stop when disabled", function() {
 
-		var csrf = new StrandLib.AjaxCSRFPlugin(null, null, false);
+		var csrf = new StrandLib.AjaxCSRFPlugin({enabled:false});
 		var data = {headers:[]};
 		csrf.requestHandler(data);
 		data.headers.should.have.length(0);

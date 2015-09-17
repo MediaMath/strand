@@ -6,14 +6,17 @@
 	var DataUtils = StrandLib.DataUtils;
 	var Storage = StrandLib.Storage;
 
-	scope.AjaxCSRFPlugin = function (useCache, header, enabled, token) {
-		this.enabled = !(enabled===false);
-		this.useCache = !(enabled===false);
-		this.header = header || "X-CSRF-Token";
-		this.token = token;
-		if (this.useCache) {
+	scope.AjaxCSRFPlugin = function (config) {
+		this.config = DataUtils.copy({
+			useCache:true,
+			header:"X-CSRF-Token",
+			enabled:true, 
+			token:""
+		}, config);
+
+		if (this.config.useCache) {
 			this.storage = new Storage("csrf");
-			this.token = token || this.storage.value;
+			this.config.token = this.config.token || this.storage.value;
 		}
 	};
 
@@ -21,8 +24,8 @@
 
 		requestHandler:function(ajaxOpts) {
 			var headers = DataUtils.getPathValue("headers", ajaxOpts);
-			if (this.enabled && headers && this.token) {
-				var csrf = DataUtils.param(this.header, this.token);
+			if (this.config.enabled && headers && this.config.token) {
+				var csrf = DataUtils.param(this.config.header, this.config.token);
 				headers.push(csrf);
 			}
 			return ajaxOpts;
@@ -30,18 +33,15 @@
 
 		responseHandler:function(response) {
 			var xhr = DataUtils.getPathValue("instance.xhr",response);
-			var hasHeader = xhr && xhr.getAllResponseHeaders().indexOf(this.header) !== -1;
-			if (hasHeader && this.enabled) {
-		  		var csrf = xhr.getResponseHeader(this.header);
-		  		this.token = csrf;
-		  		if (this.useCache) {
+			var hasHeader = xhr && xhr.getAllResponseHeaders().indexOf(this.config.header) !== -1;
+			if (hasHeader && this.config.enabled) {
+		  		var csrf = xhr.getResponseHeader(this.config.header);
+		  		this.config.token = csrf;
+		  		if (this.config.useCache) {
 					this.storage.value = csrf;
 				}
 			}
 			return response;
-		},
-		reset:function() {
-
 		}
 	};
 }(window.StrandLib = window.StrandLib || {}));
