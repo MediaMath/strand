@@ -32,9 +32,11 @@
 
 			it("should animate", function() {
 				var spinner = document.querySelector('#spinner'),
-					spinnerStyle = getComputedStyle(spinner.$.spinner);
-				should.equal(parseFloat(spinnerStyle.animationDuration).toPrecision(5), (1/spinner.speed).toPrecision(5));
-				should.equal(spinnerStyle.animationTimingFunction, 'steps('+spinner.numTicks+', end)');
+					spinnerStyle = getComputedStyle(spinner.$.spinner),
+					animationDuration = spinnerStyle.animationDuration || spinnerStyle['-webkit-animation-duration'],
+					animationTimingFunction = spinnerStyle.animationTimingFunction || spinnerStyle['-webkit-animation-timing-function'];
+				should.equal(parseFloat(animationDuration).toPrecision(5), (1/spinner.speed).toPrecision(5));
+				should.equal(animationTimingFunction, 'steps('+spinner.numTicks+', end)');
 			});
 
 			it("should stop the animation", function(done) {
@@ -42,7 +44,8 @@
 					spinnerStyle = function() { return getComputedStyle(spinner.$.spinner); }
 				spinner.stop();
 				flush(function() {
-					spinnerStyle().animationPlayState.should.equal('paused');
+					var animationPlayState = spinnerStyle().animationPlayState || spinnerStyle()['-webkit-animation-play-state'];
+					animationPlayState.should.equal('paused');
 					done();
 				});
 			});
@@ -52,7 +55,8 @@
 					spinnerStyle = function() { return getComputedStyle(spinner.$.spinner); }
 				spinner.start();
 				flush(function() {
-					spinnerStyle().animationPlayState.should.equal('running');
+					var animationPlayState = spinnerStyle().animationPlayState || spinnerStyle()['-webkit-animation-play-state'];
+					animationPlayState.should.equal('running');
 					done();
 				});
 			});
