@@ -42,6 +42,14 @@ describe("AjaxPlugin", function() {
 		api.responseHandler([]);
 	});
 
+	it("should pass through response", function() {
+		var api = new StrandLib.AjaxAPIPlugin();
+		var test = {a:1};
+		test2 = api.responseHandler(test);
+		test2.a.should.equal(1);
+		test2.should.equal(test);
+	});
+
 	it("should handle no config options with a noop", function() {
 		var xhr = sinon.useFakeXMLHttpRequest();
 		var request;
@@ -51,23 +59,76 @@ describe("AjaxPlugin", function() {
 		var x = new XMLHttpRequest();
 		x.open("get", "/", true);
 		request.respond(200, { 
-			"Content-Type": "application/json",
-			"X-CSRF-Token": "presetPRESETpreset" 
+			"Content-Type": "application/json"
 		}, '{ "id": 1 }');
 
 		var response = {
+			response:{id:1},
 			instance:{
 				xhr:x
 			}
 		};
 
 		var api = new StrandLib.AjaxAPIPlugin();
+		api.responseHandler(response);
+		should.exist(response.marshalled);
+		response.marshalled.should.deep.equal({id:1});
+
+		xhr.restore();
+	});	
+
+	it("should marshall", function() {
+		var xhr = sinon.useFakeXMLHttpRequest();
+		var request;
+		xhr.onCreate = function(req) {
+			request = req;
+		};
+		var x = new XMLHttpRequest();
+		x.open("get", "/", true);
+		request.respond(200, { 
+			"Content-Type": "application/json"
+		}, '{ "id": 1 }');
+
+		var response = {
+			response:{id:1},
+			instance:{
+				xhr:x
+			}
+		};
+
+		var api = new StrandLib.AjaxAPIPlugin();
+		api.responseHandler(response);
+		should.exist(response.marshalled);
+		response.marshalled.should.deep.equal({id:1});
 
 		xhr.restore();
 	});	
 
 	it("should stop when disabled", function() {
+		var xhr = sinon.useFakeXMLHttpRequest();
+		var request;
+		xhr.onCreate = function(req) {
+			request = req;
+		};
+		var x = new XMLHttpRequest();
+		x.open("get", "/", true);
+		request.respond(200, { 
+			"Content-Type": "application/json"
+		}, '{ "id": 1 }');
 
+		var response = {
+			response:{id:1},
+			instance:{
+				xhr:x
+			}
+		};
+
+		var api = new StrandLib.AjaxAPIPlugin(null, null, false);
+		var r = api.responseHandler(response);
+		r.should.equal(response);
+		should.not.exist(r.marshalled);
+
+		xhr.restore();
 	});
 
 });

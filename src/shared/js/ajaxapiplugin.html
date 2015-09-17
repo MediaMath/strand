@@ -6,11 +6,18 @@
 
 	scope.AjaxAPIPlugin = function (defaultMethod, marshaller, enabled) {
 		this.defaultMethod = defaultMethod || "noop";
-		this.marshaller = marshaller || {noop:function() {}};
+		this.marshaller = marshaller || {noop:function(o) {return o}};
 		this.enabled = !(enabled===false);
 	};
 
 	scope.AjaxAPIPlugin.prototype = {
+
+		requestHandler: function(ajaxOpts) {
+			if (this.enabled && ajaxOpts) {
+				
+			}
+		},
+
 		responseHandler: function(response) {
 
 			if (this.enabled && response) {
