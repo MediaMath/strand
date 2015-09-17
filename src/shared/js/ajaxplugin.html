@@ -10,9 +10,12 @@
 		}
 	};
 	scope.AjaxPlugin.prototype = {
-		register: function(plugin) {
+
+		register: function(plugin, config) {
 			if (typeof plugin === "function") {
 				var instance = new plugin();
+				if (config)
+					instance.config = config;
 				this.queue.push(instance);
 			} else if (typeof plugin === "object") {
 				this.queue.push(plugin);
@@ -29,6 +32,7 @@
 
 		process: function(method, data) {
 			data = data || {};
+			config = this.config;
 			return this.queue.reduce(function(prev, curr) {
 				var out;
 				if (curr[method])

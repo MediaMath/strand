@@ -1,0 +1,26 @@
+<link rel="import" href="datautils.html"/>
+<script>
+(function(scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+
+	scope.AjaxAPIPlugin = function (defaultMethod, marshaller, enabled) {
+		this.defaultMethod = defaultMethod || "noop";
+		this.marshaller = marshaller || {noop:function() {}};
+		this.enabled = !(enabled===false);
+	};
+
+	scope.AjaxAPIPlugin.prototype = {
+		responseHandler: function(response) {
+
+			if (this.enabled && response) {
+				var opt = DataUtils.getPathValue("instance.responseMarshaller", response);
+				var marshaller = this.marshaller[opt || this.defaultMethod];
+				DataUtils.setPathValue("marshalled", response, DataUtils.getPathValue("response", response));
+			}
+
+			return response;
+		}
+	};
+}(window.StrandLib = window.StrandLib || {}));
+</script>
