@@ -7,7 +7,7 @@
   <script src="TestHelper.js"></script>
   <script>
     var should = chai.should();
-    var xhr = sinon.useFakeXMLHttpRequest(); //prevent requests from actually calling
+    // var xhr = sinon.useFakeXMLHttpRequest(); //prevent requests from actually calling
   </script>
   <link rel="import" href="../build/strand.html">
 </head>
@@ -23,6 +23,7 @@ describe("mm-ajax", function() {
 
     it("should update internal options with bound changes", function(done) {
         var aj = document.querySelector("#ajax1");
+        var xhr = sinon.useFakeXMLHttpRequest(); //prevent requests from actually calling
         aj.url = "///"
         flush(function() {
             aj.ajax.options.url.should.equal("///");
@@ -63,6 +64,8 @@ describe("mm-ajax", function() {
 
     it("should pass through the 'latest' xhr call", function() {
         var aj = document.querySelector("#ajax1");
+        var xhr = sinon.useFakeXMLHttpRequest(); //prevent requests from actually calling
+
         aj.xhr.respond(200, { "Content-Type": "application/json" }, '{ "id": 1 }');
         aj.status.should.equal(200);
         aj.state.should.equal(4);
