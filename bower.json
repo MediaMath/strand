@@ -34,10 +34,11 @@
     "*.md"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#1.1.3",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#0.7.12",
+    "eventdispatcherjs": "mrdoob/eventdispatcher.js#57d849444a",
     "moment": "~2.10.6",
     "moment-range": "~2.0.3",
+    "polymer": "Polymer/polymer#1.1.3",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#0.7.12",
     "zousan": "~1.3.0"
   },
   "devDependencies": {
