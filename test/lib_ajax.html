@@ -117,10 +117,10 @@ describe("Ajax", function() {
 		result.should.equal("test=1&test2=tester");
 
 		result = a.setRequestData("POST", "multipart/form-data", data);
-		result.toString().should.equal("[object FormData]");
+		result.should.be.instanceof(FormData);
 
 		result = a.setRequestData("POST", "multipart/form-data", data);
-		result.toString().should.equal("[object FormData]");
+		result.should.be.instanceof(FormData);
 
 		//test override scenarios
 		result = a.setRequestData("POST", "application/json", data, "string body");

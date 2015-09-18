@@ -61,22 +61,27 @@
 			});
 
 			it("should have an icon if type is present", function() {
-				var withType = document.querySelector('#dialogWithType .content-top mm-icon');
+				var withTypeDialog = document.querySelector('#dialogWithType'),
+					withType = Polymer.dom(withTypeDialog.root).querySelector('.content-top mm-icon');
 				withType.should.exist;
-				var withNoType = document.querySelector('#dialog .content-top mm-icon');
+				var withNoTypeDialog = document.querySelector('#dialog'),
+					withNoType = Polymer.dom(withNoTypeDialog.root).querySelector('.content-top mm-icon');
 				should.not.exist(withNoType);
 			});
 
 			it("should have a header if header is present", function() {
-				var withHeader = document.querySelector('#dialogWithHeader .content-top mm-header');
+				var withHeaderDialog = document.querySelector('#dialogWithHeader'),
+					withHeader = Polymer.dom(withHeaderDialog.root).querySelector('.content-top mm-header');
 				withHeader.should.exist;
-				var withNoHeader = document.querySelector('#dialog .content-top mm-header');
+				var withNoHeaderDialog = document.querySelector('#dialog'),
+					withNoHeader = Polymer.dom(withNoHeaderDialog.root).querySelector('.content-top mm-header');
 				should.not.exist(withNoHeader);
 			});
 
 			it("should have a single 'OK' button by default", function() {
-				var button = document.querySelector('#dialog mm-button');
-				button.querySelector('label').innerHTML.should.equal('OK');
+				var dialog = document.querySelector('#dialog');
+				var button = Polymer.dom(dialog.root).querySelector('mm-button');
+				button.querySelector('label').textContent.should.equal('OK');
 			});
 
 			it("should have configurable action/buttons", function() {
@@ -96,8 +101,8 @@
 						.childNodes
 						.filter(function(el) { return el.localName === 'mm-button' });
 				buttonNodes.length.should.equal(2);
-				buttonNodes[0].querySelector('label').innerHTML.should.equal('Custom Label');
-				actionNodes[0].querySelector('label').innerHTML.should.equal('Custom Action');
+				buttonNodes[0].querySelector('label').textContent.should.equal('Custom Label');
+				actionNodes[0].querySelector('label').textContent.should.equal('Custom Action');
 			});
 
 			it("should have working button callbacks", function() {
@@ -122,24 +127,26 @@
 
 			it("should not be dismissable by default", function() {
 				var a = new Strand.Dialog();
+				var modal = a.$.dialogInnerModal;
 				a.dismiss.should.be.false;
-				a.$.dialogInnerModal.hidden.should.be.true;
+				modal.hidden.should.be.true;
 				a.show();
-				a.$.dialogInnerModal.hidden.should.be.false;
-				var blocker = a.querySelector('#blocker');
+				modal.hidden.should.be.false;
+				var blocker = Polymer.dom(modal.root).querySelector('#blocker');
 				a.fire('click',{},{node:blocker});
-				a.$.dialogInnerModal.hidden.should.be.false;
+				modal.hidden.should.be.false;
 			});
 
 			it("should be dismissable if dismiss is true", function() {
 				var a = new Strand.Dialog();
+				var modal = a.$.dialogInnerModal;
 				a.dismiss = true;
-				a.$.dialogInnerModal.hidden.should.be.true;
+				modal.hidden.should.be.true;
 				a.show();
-				a.$.dialogInnerModal.hidden.should.be.false;
-				var blocker = a.querySelector('#blocker');
+				modal.hidden.should.be.false;
+				var blocker = Polymer.dom(modal.root).querySelector('#blocker');
 				a.fire('click',{},{node:blocker});
-				a.$.dialogInnerModal.hidden.should.be.true;
+				modal.hidden.should.be.true;
 			});
 		});
 
