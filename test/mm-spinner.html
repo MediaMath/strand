@@ -24,15 +24,14 @@
 			});
 
 			it("should set height/width based on radius", function() {
-				var spinner = document.querySelector('#spinner'),
-					spinnerRect = spinner.getBoundingClientRect();
-				spinnerRect.height.should.equal(spinner.radius*2);
-				spinnerRect.width.should.equal(spinner.radius*2);
+				var spinner = document.querySelector('#spinner');
+				TestHelper.heightIntRounded(spinner).should.equal(spinner.radius*2);
+				TestHelper.widthIntRounded(spinner).should.equal(spinner.radius*2);
 			});
 
 			it("should animate", function() {
 				var spinner = document.querySelector('#spinner'),
-					spinnerStyle = getComputedStyle(spinner.$.spinner),
+					spinnerStyle = TestHelper.style(spinner.$.spinner),
 					animationDuration = spinnerStyle.animationDuration || spinnerStyle['-webkit-animation-duration'],
 					animationTimingFunction = spinnerStyle.animationTimingFunction || spinnerStyle['-webkit-animation-timing-function'];
 				should.equal(parseFloat(animationDuration).toPrecision(5), (1/spinner.speed).toPrecision(5));
@@ -40,22 +39,22 @@
 			});
 
 			it("should stop the animation", function(done) {
-				var spinner = document.querySelector('#spinner'),
-					spinnerStyle = function() { return getComputedStyle(spinner.$.spinner); }
+				var spinner = document.querySelector('#spinner');
 				spinner.stop();
 				flush(function() {
-					var animationPlayState = spinnerStyle().animationPlayState || spinnerStyle()['-webkit-animation-play-state'];
+					var spinnerStyle = TestHelper.style(spinner.$.spinner);
+					var animationPlayState = spinnerStyle.animationPlayState || spinnerStyle['-webkit-animation-play-state'];
 					animationPlayState.should.equal('paused');
 					done();
 				});
 			});
 
 			it("should restart the animation", function(done) {
-				var spinner = document.querySelector('#spinner'),
-					spinnerStyle = function() { return getComputedStyle(spinner.$.spinner); }
+				var spinner = document.querySelector('#spinner');
 				spinner.start();
 				flush(function() {
-					var animationPlayState = spinnerStyle().animationPlayState || spinnerStyle()['-webkit-animation-play-state'];
+					var spinnerStyle = TestHelper.style(spinner.$.spinner);
+					var animationPlayState = spinnerStyle.animationPlayState || spinnerStyle['-webkit-animation-play-state'];
 					animationPlayState.should.equal('running');
 					done();
 				});
