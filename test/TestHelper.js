@@ -32,6 +32,10 @@
 			return style.getPropertyValue(property);
 		},
 
+		getPropIntRounded: function(elem, property) {
+			return Math.round(this.getPropertyValue(elem, property).replace("px", ''));
+		},
+
 		widthIntRounded: function(elem) {
 			return Math.round(this.getPropertyValue(elem, "width").replace("px", ''));
 		},

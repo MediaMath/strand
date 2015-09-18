@@ -12,9 +12,10 @@
 </head>
 <body>
 
-	<div id="target"></div>
-	<div id="newTarget"></div>	
-	<mm-popover id="popover" target="#target"></mm-popover>
+	<div id="target"></div>	
+	<mm-popover id="popover" target="#target">
+		<mm-footer></mm-footer>
+	</mm-popover>
 
 	<script type="text/javascript">
 
@@ -25,39 +26,13 @@
 				a.nodeName.should.equal("MM-POPOVER");
 			});
 
-			// it("should fire 'opened' when stateChanged", function() {
-			// 	var a = document.querySelector("#popover"),
-			// 		s = sinon.spy();
+			it("should add 'hasFooter' class", function() {
+				var a = document.querySelector("#popover"),
+					classes = Array.prototype.slice.call(a.classList);
+				classes.indexOf("hasFooter").should.equal(0);
+		 	});
 
-			// 	a.addEventListener("opened", s);
-			// 	a.stateChanged(a.STATE_CLOSED, a.STATE_OPENED);
-			// 	should.equal(s.calledOnce, true);
-			// });
-
-			// it("should fire 'closed' when stateChanged", function() {
-			// 	var a = document.querySelector("#popover"),
-			// 		s = sinon.spy();
-
-			// 	a.addEventListener("closed", s);
-			// 	a.stateChanged(a.STATE_OPENED, a.STATE_CLOSED);
-			// 	should.equal(s.calledOnce, true);
-			// });
-
-			// it("should correctly pass target to it's internal mm-close-panel", function(done) {
-			// 	var a = document.querySelector("#popover"),
-			// 		ot = document.querySelector("#target"),
-			// 		nt = document.querySelector("#newTarget"),
-			// 		c = a.$.closePanel;
-
-			// 	a.targetChanged(ot, nt);
-
-			// 	a.async(function(){
-			// 		c.target.should.equal(nt);
-			// 		done();
-		 // 		});
-		 // 	});
-
-		});
+		}); 
 
 	</script>
 

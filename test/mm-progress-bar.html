@@ -22,10 +22,13 @@
 		describe("mm-progress-bar", function() {
 
 			it("should set height and width", function() {
-				var pbContainer = document.querySelector('#setDimensions .bar'),
-					containerStyle = getComputedStyle(pbContainer);
-				should.equal(parseInt(containerStyle.width), 100);
-				should.equal(parseInt(containerStyle.height), 12);
+				var a = document.querySelector('#setDimensions'),
+					innerBar = Polymer.dom(a.root).querySelector('.bar'),
+					barWidth = TestHelper.widthIntRounded(innerBar, 'width'),
+					barHeight = TestHelper.heightIntRounded(innerBar, 'height');
+
+				barWidth.should.equal(100);
+				barHeight.should.equal(12);
 			});
 			
 			it("should have an indeterminate state", function() {
@@ -36,22 +39,20 @@
 			});
 
 			it("should have a filled bar when indeterminate", function() {
-				var container = document.querySelector('#indet .bar'),
-					fill = document.querySelector('#indet .fill'),
-					containerStyle = getComputedStyle(container),
-					fillStyle = getComputedStyle(fill);
+				var a = document.querySelector('#indet'),
+					fill = Polymer.dom(a.root).querySelector('.fill'),
+					bar = Polymer.dom(a.root).querySelector('.bar'),
+					fillWidth = TestHelper.widthIntRounded(fill, 'width'),
+					barWidth = TestHelper.widthIntRounded(bar, 'width'),
+					borderLeftWidth = TestHelper.getPropIntRounded(bar, 'border-left-width'),
+					borderRightWidth = TestHelper.getPropIntRounded(bar, 'border-right-width');
 
-				should.equal(
-					parseFloat(containerStyle.width)-parseFloat(containerStyle.borderLeftWidth)-parseFloat(containerStyle.borderRightWidth),
-					parseFloat(fillStyle.width)
-				);
+				should.equal(barWidth - (borderLeftWidth + borderRightWidth), fillWidth);
 			});
 
 			it("should clamp percentComplete to be between 0 and 100", function() {
 				var pb = document.querySelector('#clamp');
-				pb.percentComplete.should.be.a('number')
-					.and.be.at.least(0)
-					.and.be.at.most(100);
+				pb.percentComplete.should.be.a('number').and.be.at.least(0).and.be.at.most(100);
 			});
 		});
 
