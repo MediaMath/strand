@@ -20,6 +20,10 @@
 				type: Number,
 				value: 0
 			},
+			initContentHeight: {
+				type: Number,
+				value: 0
+			},
 		},
 
 		listeners: {
@@ -58,6 +62,8 @@
 			var barSize = viewportHeight * viewportHeight / contentHeight;
 
 			this.scrollBarSize = barSize < this.MIN_BAR_SIZE ? this.MIN_BAR_SIZE : barSize;
+			this.initContentHeight = contentHeight;
+
 			this._scrollRange = viewportHeight - this.scrollBarSize;
 			this._contentRange = contentHeight - viewportHeight;
 
@@ -71,7 +77,11 @@
 
 		_onWheel: function(e) {
 			e.preventDefault();
-			this._contentPosition += e.deltaY;
+			this.updateViewport(e.deltaY);
+		},
+
+		updateViewport: function (delta) {
+			this._contentPosition += delta;
 			this._clampToContentPosition();
 			this._applyPositions();
 		},
@@ -94,7 +104,7 @@
 			this._contentPosition = this._scrollPosition * this._contentRange / this._scrollRange;
 		},
 
-		_applyPositions: function(scrollTop) {
+		_applyPositions: function() {
 			if (this.interface &&
 				this.interface.applyPositions) {
 				this.interface.applyPositions(this._scrollPosition, this._contentPosition);

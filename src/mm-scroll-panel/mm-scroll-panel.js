@@ -22,7 +22,7 @@
 		return this._scrollPanel._applyPositions.apply(this._scrollPanel, arguments);
 	};
 
-	Polymer({
+	scope.ScrollPanel = Polymer({
 		is: 'mm-scroll-panel',
 
 		behaviors: [
