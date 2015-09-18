@@ -12,6 +12,8 @@
 </head>
 <body>
 
+	<mm-textarea id="testArea"></mm-textarea>
+
 	<script type="text/javascript">
 
 		describe("mm-textarea", function() {
@@ -19,6 +21,19 @@
 			it("should have an element constructor", function() {
 				var a = new Strand.Textarea();
 				a.nodeName.should.equal("MM-TEXTAREA");
+			});
+
+			it("should fire a changed event when the value changes", function(done) {
+				var a = document.querySelector("#testArea"),
+					s = sinon.spy();
+
+				a.addEventListener("changed", s);
+				a.value = "qwerty";
+
+				flush(function(){
+					should.equal(s.calledOnce, true);
+					done();
+				});
 			});
 
 		});
