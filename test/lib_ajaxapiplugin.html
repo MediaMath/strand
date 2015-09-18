@@ -25,11 +25,13 @@ describe("AjaxPlugin", function() {
 		var pq = new StrandLib.AjaxPlugin();
 		pq.register(StrandLib.AjaxAPIPlugin);
 		var plug = pq.queue[0];
+		var spy1 = sinon.spy(plug, "requestHandler"); 
 		var spy2 = sinon.spy(plug, "responseHandler"); 
 
 		pq.processRequest({test:'test'});
 		pq.processResponse({test:'test'});
 		
+		spy1.calledOnce.should.be.true;
 		spy2.calledOnce.should.be.true;
 
 	});
@@ -40,14 +42,23 @@ describe("AjaxPlugin", function() {
 		api.responseHandler(-1);
 		api.responseHandler({});
 		api.responseHandler([]);
+
+		api.requestHandler(null);
+		api.requestHandler(-1);
+		api.requestHandler({});
+		api.requestHandler([]);
 	});
 
-	it("should pass through response", function() {
+	it("should pass through", function() {
 		var api = new StrandLib.AjaxAPIPlugin();
 		var test = {a:1};
 		test2 = api.responseHandler(test);
 		test2.a.should.equal(1);
 		test2.should.equal(test);
+
+		test3 = api.requestHandler(test);
+		test3.a.should.equal(1);
+		test3.should.equal(test);
 	});
 
 	it("should handle no config options with a noop", function() {
@@ -77,7 +88,32 @@ describe("AjaxPlugin", function() {
 		xhr.restore();
 	});	
 
-	it("should marshall", function() {
+	it("should marshall request", function() {
+		var api = new StrandLib.AjaxAPIPlugin();
+		api.config.data = {test:1};
+		var data = {};
+		api.requestHandler(data);
+		should.exist(data.body);
+		data.body.test.should.equal(1);
+
+		var data2 = {};
+		var api2 = new StrandLib.AjaxAPIPlugin({
+				defaultRequest:"unstack",
+				marshaller: {
+					unstack: function(o) {return o.test; }
+				},
+				data:{
+					test:{
+						a:1
+					}
+				}
+			});
+		api2.requestHandler(data2);
+		data2.should.deep.equal({body:{a:1}});
+
+	});
+
+	it("should marshall response", function() {
 		var xhr = sinon.useFakeXMLHttpRequest();
 		var request;
 		xhr.onCreate = function(req) {
@@ -123,7 +159,7 @@ describe("AjaxPlugin", function() {
 			}
 		};
 
-		var api = new StrandLib.AjaxAPIPlugin(null, null, false);
+		var api = new StrandLib.AjaxAPIPlugin({enabled:false});
 		var r = api.responseHandler(response);
 		r.should.equal(response);
 		should.not.exist(r.marshalled);

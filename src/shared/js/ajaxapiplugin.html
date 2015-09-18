@@ -4,25 +4,33 @@
 
 	var DataUtils = StrandLib.DataUtils;
 
-	scope.AjaxAPIPlugin = function (defaultMethod, marshaller, enabled) {
-		this.defaultMethod = defaultMethod || "noop";
-		this.marshaller = marshaller || {noop:function(o) {return o}};
-		this.enabled = !(enabled===false);
+	scope.AjaxAPIPlugin = function (config) {
+
+		this.config = DataUtils.copy({
+			defaultRequest:"noop", 
+			defaultResponse:"noop", 
+			marshaller:{noop:function(o) {return o;}}, 
+			enabled:true,
+		}, config);
+
 	};
 
 	scope.AjaxAPIPlugin.prototype = {
 
 		requestHandler: function(ajaxOpts) {
-			if (this.enabled && ajaxOpts) {
-				
+			if (this.config.enabled && ajaxOpts) {
+				var marshaller = this.config.marshaller[ajaxOpts.requestMarshaller || this.config.defaultRequest];
+				var data = marshaller(this.config.data || ajaxOpts.body);
+				DataUtils.setPathValue("body", ajaxOpts, data);
 			}
+			return ajaxOpts;
 		},
 
 		responseHandler: function(response) {
 
-			if (this.enabled && response) {
+			if (this.config.enabled && response) {
 				var opt = DataUtils.getPathValue("instance.responseMarshaller", response);
-				var marshaller = this.marshaller[opt || this.defaultMethod];
+				var marshaller = this.config.marshaller[opt || this.config.defaultResponse];
 				DataUtils.setPathValue("marshalled", response, DataUtils.getPathValue("response", response));
 			}
 
