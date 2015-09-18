@@ -39,7 +39,7 @@
 				a.width.should.equal(28);
 				a.height.should.equal(28);
 
-				setTimeout(function() {
+				flush(function() {
 					fontSize = TestHelper.getPropertyValue(aInner, "font-size");
 					width = TestHelper.widthIntRounded(aInner);
 					height = TestHelper.heightIntRounded(aInner);
@@ -47,7 +47,7 @@
 					height.should.equal(28);
 					width.should.equal(28);
 					done();
-				}, 150);
+				});
 			});
 
 		});

@@ -36,11 +36,11 @@
 				var a = document.querySelector("#btnIcon"),
 					width = 0;
 
-				setTimeout(function() {
+				flush(function() {
 					width = TestHelper.widthIntRounded(a);
 					width.should.equal(146);
 					done();
-				}, 150);
+				});
 
 			});
 
@@ -48,11 +48,11 @@
 				var a = document.querySelector("#btnSec"),
 					width = 0;
 
-				setTimeout(function() {
+				flush(function() {
 					width = TestHelper.widthIntRounded(a);
 					width.should.equal(500);
 					done();
-				}, 150);
+				});
 
 			});
 
@@ -62,11 +62,11 @@
 					secondaryColor = TestHelper.hexToRgb(Colors.A2),
 					color = null;
 
-				setTimeout(function() {
+				flush(function() {
 					color = TestHelper.getRgbNoSpace(bInner, "color");
 					color.should.equal(secondaryColor);
 					done();
-				}, 150);
+				});
 			});
 
 			it("button color should be Colors.D0 if type 'primary'", function(done) {
@@ -75,11 +75,11 @@
 					primaryColor = TestHelper.hexToRgb(Colors.D0),
 					color = null;
 
-				setTimeout(function() {
+				flush(function() {
 					color = TestHelper.getRgbNoSpace(bInner, "color");
 					color.should.equal(primaryColor); 
 					done();
-				}, 150);
+				});
 			});
 			
 		});
