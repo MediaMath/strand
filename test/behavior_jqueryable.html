@@ -8,11 +8,26 @@
 	<script>
 		var should = chai.should();
 	</script>
-	<link rel="import" href="./imports/behavior_jqueryable_import.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html">
 	<link rel="import" href="../build/mm-dropdown/mm-dropdown.html"/>
 	<link rel="import" href="../build/mm-list-item/mm-list-item.html"/>
 </head>
 <body>
+
+	<dom-module id="test-recursion">
+		<template>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-recursion",
+					behaviors:[
+						StrandTraits.Jqueryable,
+					],
+				});
+			});
+		</script>
+	</dom-module>
 
 	<script>
 		describe("Jqueryable", function() {
