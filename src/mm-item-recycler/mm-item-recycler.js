@@ -32,6 +32,7 @@ found here: https://github.com/Polymer/core-list
 		this.instance = null;
 		this.element = null;
 		this.value = null;
+		this.pendingResponse = 0|false;
 	}
 
 	BoundReference.prototype = Object.create(null);
@@ -50,6 +51,11 @@ found here: https://github.com/Polymer/core-list
 		this.boundMap = {};
 	}
 
+	function _assignYoungFromBoundReducer (reduction, bound, index) {
+		reduction[index] = bound.young;
+		return reduction;
+	}
+
 
 
 	Polymer({
@@ -58,7 +64,6 @@ found here: https://github.com/Polymer/core-list
 		behaviors: [
 			StrandTraits.StampBindable,
 			StrandTraits.WindowNotifier,
-			StrandTraits.DomWatchable,
 			StrandTraits.SizeResponsible,
 		],
 
@@ -97,20 +102,9 @@ found here: https://github.com/Polymer/core-list
 				value: 0,
 				notify: true,
 			},
-			listHeight: {
+			_desiredIndex: {
 				type: Number,
-				value: 0,
-				readOnly: true,
-			},
-			viewportWidth: {
-				type: Number,
-				value: 0,
-				notify: true,
-			},
-			disabled: {
-				type: Boolean,
-				value: false,
-				reflectToAttribute: true
+				value: -1,
 			},
 			_bindingList: {
 				type: Array,
@@ -143,6 +137,10 @@ found here: https://github.com/Polymer/core-list
 				value: 0,
 			},
 			_extentHeight: {
+				type: Number,
+				value: 0,
+			},
+			_viewportHeight: {
 				type: Number,
 				value: 0,
 			},
@@ -266,6 +264,7 @@ found here: https://github.com/Polymer/core-list
 
 				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				itemRecycler._repositionFooter();
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
 		},
 
@@ -280,6 +279,7 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				itemRecycler._repositionMiddle();
 				itemRecycler._repositionFooter();
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
 		},
 
@@ -293,6 +293,7 @@ found here: https://github.com/Polymer/core-list
 
 				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				itemRecycler._repositionFooter();
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
 		},
 
@@ -302,20 +303,38 @@ found here: https://github.com/Polymer/core-list
 			var delta = +(bound.element.offsetHeight - height) || 0;
 			var itemRecycler = bound.itemRecycler;
 			var itemHeight = 0;
+			var change = 0;
 
 			if (delta) {
 				bound.height += delta;
 				if (!itemRecycler.itemHeight && bound.height) {
 					itemRecycler.itemHeight = itemHeight = bound.height;
-					itemRecycler._deltaMiddleHeight((itemRecycler._getDataLength() - 1) * (0|itemHeight));
+					change = (itemRecycler._getDataLength() - 1) * (0|itemHeight);
+					itemRecycler._deltaMiddleHeight(change);
 					itemRecycler._recycler.repadFrame(0|itemHeight, 0|itemHeight);
+					if (itemRecycler._desiredIndex > -1) {
+						//Initialize scrollTop to supplied index
+						itemRecycler.debounce("scrollToIndex", itemRecycler.scrollToIndex);
+					}
 				}
 				itemRecycler._changeOffsetsAfter(bound, delta);
 				itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height);
 				itemRecycler._deltaMiddleHeight(delta);
 				itemRecycler._repositionHeader();
 				itemRecycler._repositionFooter();
+				if (delta + change) {
+					itemRecycler._paneResponse(null);
+				}
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+			} else if (bound.pendingResponse) {
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
+
+			bound.pendingResponse = 0|false;
+		},
+
+		_settleDown: function () {
+			this.fire("presentation-settled");
 		},
 
 		_changeOffsetsAfter: function (reference, delta) {
@@ -394,31 +413,37 @@ found here: https://github.com/Polymer/core-list
 
 			this._recycler.setFrame(0, this._middleHeight, 0|this.itemHeight, 0|this.itemHeight);
 
-			//Initialize scrollTop to supplied index
-			this.scrollToIndex(0|this.index);
+			if (this._desiredIndex < 0) {
+				this._desiredIndex = 0|this.index;
+			}
 		},
 
 		scrollToIndex: function(value, force) {
 			var direction = (+force || 0)
-			var index = 0|value;
+			var index = 0|(arguments.length ? value : this._desiredIndex);
 			var count = 0|(this.data && this.data.length);
 			var upper = 0;
 			var lower = 0;
 
 			if (index > -1 &&
 				index < count) {
-				lower = this._recycler.getElevationAtIndex(index);
+				if (index < this._getDataLength()) {
+					lower = this._recycler.getElevationAtIndex(index);
 
-				if (direction < 0 || lower <= this._scrollTop) {
-					this.$.pane.scrollTop = lower;
-				} else {
-					upper = this._recycler.getElevationAtIndex(index + 1);
-					if (upper > this._scrollTop + this._viewportHeight) {
-						this.$.pane.scrollTop = upper - this._viewportHeight;
+					if (direction < 0 || lower <= this._scrollTop) {
+						this.$.pane.scrollTop = lower;
+					} else {
+						upper = this._recycler.getElevationAtIndex(index + 1);
+						if (upper > this._scrollTop + this._viewportHeight) {
+							this.$.pane.scrollTop = upper - this._viewportHeight;
+						}
 					}
-				}
 
-				return 0|true;
+					return 0|true;
+				} else {
+
+					return 0|null;
+				}
 			} else {
 				return 0|false;
 			}
@@ -428,11 +453,18 @@ found here: https://github.com/Polymer/core-list
 			var delta = e.target.scrollTop - this._scrollTop;
 			this._scrollTop = e.target.scrollTop;
 
-			if (!this.disabled) {
-				this._repositionHeader();
-				this._repositionFooter();
-				this._recycler.translateFrame(delta);
+			this._repositionHeader();
+			this._repositionFooter();
+			this._recycler.translateFrame(delta);
+
+			if (delta > 0) {
+				this.index = this._recycler.getHighestIndex();
+			} else {
 				this.index = this._recycler.getLowestIndex();
+			}
+
+			if (this._desiredIndex === this.index) {
+				this._desiredIndex = -1;
 			}
 		},
 
@@ -445,7 +477,11 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_getDataLength: function () {
-			return 0|(this.data && this.data.length);
+			if (!this.itemHeight) {
+				return 0|(this.data && this.data.length) ? 1 : 0;
+			} else {
+				return 0|(this.data && this.data.length);
+			}
 		},
 
 		_handleRecycling: function (id, young, old, recycler) {
@@ -478,6 +514,7 @@ found here: https://github.com/Polymer/core-list
 				Polymer.dom(this.$.middle).appendChild(bound.element);
 				responder = this._addBoundResponse(bound, id, index);
 				this.async(responder); // defer validation of the height
+				bound.pendingResponse = 0|true;
 			} else if (young < 0) {
 				bound = binds[index];
 				this._removeBoundResponse(bound, id, index);
@@ -509,6 +546,8 @@ found here: https://github.com/Polymer/core-list
 					this._rebaseTransform();
 				}
 			}
+
+			this.debounce("settle-down", this._settleDown, 1);
 		},
 
 		_calculateStaticPositionOffset: function (place, binds) {
@@ -645,6 +684,20 @@ found here: https://github.com/Polymer/core-list
 
 
 
+		pathAtIndex: function (index) {
+			return 0|index;
+		},
+
+		indexFromPath: function (first) {
+			if (!Array.isArray(first)) {
+				return 0|first;
+			} else if (first.length === 1) {
+				return 0|first[0];
+			} else {
+				return -1;
+			}
+		},
+
 		getHeightAtIndex: function () {
 			var recycled = null;
 			if (this.itemHeight) {
@@ -655,6 +708,95 @@ found here: https://github.com/Polymer/core-list
 				return recycled && recycled.offsetHeight || null;
 			}
 		},
+
+		getMaterializedIndices: function (use) {
+			var indices = Array.isArray(use) ? use : [];
+			var binds = this._bindingList;
+			return binds && binds.reduce(_assignYoungFromBoundReducer, indices);
+		},
+
+		_getMaterializedBoundAtIndex: function (index) {
+			var young = 0|index,
+				bound = null,
+				binds = this._bindingList,
+				count = binds.length,
+				index = 0;
+
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
+				if (bound.young === young) {
+					return bound;
+				}
+			}
+
+			return null;
+		},
+
+		hasMaterializedIndex: function (index) {
+			if (this._getMaterializedBoundAtIndex(index)) {
+				return 0|true;
+			} else {
+				return 0|false;
+			}
+		},
+
+		querySelectorAtIndex: function (selector, index) {
+			var bound = this._getMaterializedBoundAtIndex(index);
+
+			if (bound &&
+				bound.element) {
+				return Polymer.dom(bound.element).querySelector(selector);
+			} else {
+				return null;
+			}
+		},
+
+		querySelectorAllAtIndex: function (selector, index) {
+			var bound = this._getMaterializedBoundAtIndex(index);
+
+			if (bound &&
+				bound.element) {
+				return Polymer.dom(bound.element).querySelectorAll(selector);
+			} else {
+				return null;
+			}
+		},
+
+		getBoundingClientRectAtIndex: function (index) {
+			var bound = this._getMaterializedBoundAtIndex(index);
+
+			if (bound &&
+				bound.element) {
+				return bound.element.getBoundingClientRect();
+			} else {
+				return null;
+			}
+		},
+
+		querySelectorOfHeader: function (selector) {
+			return Polymer.dom(this.$.header).querySelector(selector);
+		},
+
+		querySelectorAllOfHeader: function (selector) {
+			return Polymer.dom(this.$.header).querySelectorAll(selector);
+		},
+
+		getBoundingClientRectOfHeader: function () {
+			return this.$.header.getBoundingClientRect();
+		},
+
+		querySelectorOfFooter: function (selector) {
+			return Polymer.dom(this.$.footer).querySelector(selector);
+		},
+
+		querySelectorAllOfFooter: function (selector) {
+			return Polymer.dom(this.$.footer).querySelectorAll(selector);
+		},
+
+		getBoundingClientRectOfFooter: function () {
+			return this.$.footer.getBoundingClientRect();
+		},
+
 	});
 
 })(window.Strand = window.Strand || {});

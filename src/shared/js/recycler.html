@@ -530,9 +530,9 @@ This code may only be used under the BSD style license found at http://mediamath
 		var index = 0;
 		var clamp = 0|(amount > limit);
 
-		if (!arguments.length) {
-			limit = amount;
-			clamp = 0|true;
+		if (!arguments.length || limit < 0) {
+			limit = 1 + iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|true);
+			clamp = 0|(amount > limit);
 		}
 
 		if (clamp) {

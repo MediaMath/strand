@@ -8,25 +8,20 @@
 (function (scope) {
 	var StampBindable = {
 
-		wasTemplateTemplatized: function (template) {
-			return 0|!!template.hasOwnProperty("_content");
-		},
-
 		templatize: function (original) {
 			var helper = null;
 			var instance = null;
-			if (!this.wasTemplateTemplatized(original)) {
+			var template = original;
+			if (original.innerHTML.trim()) {
 				// an attempt to handle templates that have not passed through Polymer.Annotations_parseTemplate()
 				// (https://github.com/Polymer/polymer/issues/2181)
-				helper = document.createElement("template");
-				helper.content.appendChild(original);
-				Polymer.Templatizer.templatize.call(this, helper);
-				instance = this.stamp();
-				Polymer.Templatizer.templatize.call(this, original); // so true === !!this.wasTemplateTemplatized(original)
-				Polymer.Templatizer.templatize.call(this, instance.root.querySelector("template"));
-			} else {
-				Polymer.Templatizer.templatize.call(this, original);
+				helper = document.createElement("template", "mm-stampbindable-template");
+				helper.innerHTML = original.outerHTML;
+				Polymer.Templatizer.templatize.call(helper, helper);
+				instance = Polymer.Templatizer.stamp.call(helper);
+				template = instance.root.querySelector("template");
 			}
+			Polymer.Templatizer.templatize.call(this, template);
 		},
 	 };
 
@@ -34,5 +29,12 @@
 		Polymer.Templatizer,
 		StampBindable,
 	];
+
+	Polymer({
+		is: 'mm-stampbindable-template',
+		extends: 'template',
+		behaviors: [Polymer.Templatizer],
+	});
+
 })(window.StrandTraits = window.StrandTraits || {}); 
 </script>

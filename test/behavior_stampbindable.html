@@ -106,19 +106,6 @@
 	<script>
 		describe("StampBindable", function() {
 
-			it("should rely on ._content to detect pre-templatization", function() {
-				var element = document.querySelector("#test1");
-				var external = document.querySelector("#external2");
-				var template = document.createElement("template");
-
-				(!!element.wasTemplateTemplatized(element.$.internal)).should.equal(true);
-				(!!element.wasTemplateTemplatized(external)).should.equal(false);
-
-				(!!element.wasTemplateTemplatized(template)).should.equal(false);
-				element.templatize(template);
-				(!!element.wasTemplateTemplatized(template)).should.equal(true);
-			});
-
 			it("should propagate changes with custom behavior", function() {
 				var element = document.querySelector("#test1");
 				var external = document.querySelector("#external2");

@@ -330,6 +330,30 @@
 				recyc.getFrameUpperBound().should.equal(0);
 				recyc.getFrameLowerBound().should.equal(0);
 
+
+
+				recyc.setFrame(13 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				recyc.setFrame(5 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(4 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(9 * TALLNESS);
+
+				recyc.truncate(-1);
+
+				recyc.getFrameLowerBound().should.equal(4 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(9 * TALLNESS);
+
+				recyc.repadFrame(TALLNESS, 4 * TALLNESS);
+				recyc.repadFrame(TALLNESS, TALLNESS);
+
+				recyc.cull();
+
+				recyc.getFrameLowerBound().should.equal(4 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(9 * TALLNESS);
 			});
 
 		});
