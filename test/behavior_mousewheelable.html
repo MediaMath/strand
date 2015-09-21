@@ -32,7 +32,11 @@
 		HTMLImports.whenReady(function() {
 			window.TestMouseWheelable = Polymer({
 				is: 'test-mousewheelable',
-				behaviors: [StrandTraits.MouseWheelable]
+				behaviors: [StrandTraits.MouseWheelable],
+				_onWheel: function(e) {
+					e.preventDefault();
+					console.log("_onWheel", e);
+				},
 			});
 		});
 	</script>
@@ -62,7 +66,8 @@
 				});
 			});
 
-			// TODO: The method DOES get called, but sinon won't play nice... no ideas here.
+			// TODO: Spend some more time looking into this at some point:
+			// http://stackoverflow.com/questions/25578112/spying-on-a-method-with-sinon-method-bound-to-event-listener-method-was-execut
 			// The above test sufficiently proves our point, however.
 			
 			// it("should call abstract method _onWheel on supported wheel event", function(done) {
