@@ -188,13 +188,12 @@
 
 			it("should set panel height correctly based upon maxItems", function(done) {
 				var ddl = document.querySelector('#ddlData'),
-					list = null,
+					list = Polymer.dom(ddl.root).querySelector("#list"),
 					listHeight = null;
 
 				ddl.open();
 
 				flush(function() {
-					list = ddl.$.list;
 					listHeight = TestHelper.heightIntRounded(list);
 					listHeight.should.equal(ddl.maxItems * ddl.itemHeight);
 					done();

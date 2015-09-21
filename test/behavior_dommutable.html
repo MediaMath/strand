@@ -148,21 +148,6 @@
 				});
 			});
 
-			it("should respond to data manipulation", function(done) {
-				var a = document.querySelector("#muteTest"),
-					p = document.querySelector("#origText"),
-					span = p.querySelector("span"),
-					s = sinon.spy();
-
-				a.addEventListener("modified", s);
-				span.dataset.id = "someNewId";
-
-				flush(function() {
-					should.equal(s.calledOnce, true);
-					done();
-				});
-			});
-
 		});
 
 </script>
