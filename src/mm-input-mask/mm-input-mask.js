@@ -379,7 +379,11 @@
 			while(check.length < item.max) {
 				check += "S";
 			}
-			w = Measure.textWidth(this.$.input.$$('input'),check);
+			if (!item.value && item.placeholder) {
+				w = Measure.textWidth(null,check,'13px Arimo italic');
+			} else {
+				w = Measure.textWidth(this.$.input.$$('input'),check);
+			}
 
 			return this.styleBlock({
 				width: w+"px"
