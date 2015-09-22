@@ -5,7 +5,7 @@
 		{
 			"name":"state",
 			"type":"String",
-			"description":"The display state of the checkbox.",
+			"description":"Sets the visual state of the checkbox.",
 			"optional":true,
 			"default":"none",
 			"options":["unchecked", "partial", "checked"]
@@ -13,34 +13,28 @@
 		{
 			"name":"checked",
 			"type":"Boolean",
-			"description":"Checked attribute.",
+			"description":"Instructs the checkbox to display it's 'checked' state. Adds the expected 'checked' attribute, like a native <input type='checkbox'>.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"]
+			"options":["true", "false"],
+			"reflect": true
 		},
 		{
 			"name":"disabled",
 			"type":"Boolean",
-			"description":"Disable the item",
+			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"]
+			"options":["true", "false"],
+			"reflect":true
 		},
 		{
 			"name":"icon",
 			"type":"String",
-			"description":"Turns the checkbox into a custom icon, using icons found in mm-icon.",
+			"description":"If set, transforms the checkbox graphic into an icon (for icon options see: mm-icon).",
 			"optional":true,
-			"default":"null",
-			"options":["*see mm-icon for options"]
-		},
-		{
-			"name":"icon-color",
-			"type":"String",
-			"description":"The hex value to color the icon, passed thru to the underlying mm-icon",
-			"optional":true,
-			"default":"null",
-			"options":[]
+			"default":"none",
+			"options":["*see mm-icon"]
 		}
 	],
 	"events": [
@@ -50,58 +44,9 @@
 				{
 					"name":"state",
 					"type":"String",
-					"description":"The new .checked state of the checkbox ('unchecked', 'checked', or 'partial')."
+					"description":"The current state of the checkbox. Will report 'unchecked', 'checked', or 'partial' state."
 				}
 			]
-		}
-	],
-	"methods":[
-		{
-			"name":"bindModel",
-			"description":"Bind a property on the given model to the input's value.",
-			"arguments":[
-				{
-					"name":"model",
-					"type":"Object",
-					"optional":false,
-					"default":"undefined",
-					"description":"The model object to update with value changes.  If the model has a '.set()' method, .set(property, inputValue) will be used (otherwise the property field of the model will be assigned directly)."
-				},
-				{
-					"name":"property",
-					"type":"String",
-					"optional":false,
-					"default":"undefined",
-					"description":"The property on the model that should be bound to the input's value."
-				}
-			]
-		}
-	],
-	"properties":[
-		{
-			"name":"checked",
-			"type":"Boolean",
-			"description":"Whether or not the checkbox is checked.",
-			"default":"false"
-		},
-		{
-			"name":"state",
-			"type":"String",
-			"description":"String representation of the the checkboxes .checked state ('unchecked', 'checked', or 'partial').",
-			"default":"'unchecked'"
-		},
-		{
-			"name":"icon",
-			"type":"String",
-			"description":"Turns the checkbox into a custom icon, using icons found in mm-icon.",
-			"default":"null",
-			"options":["*see mm-icon for options"]
-		},
-		{
-			"name":"iconColor",
-			"type":"String",
-			"description":"The hex value to color the icon, passed thru to the underlying mm-icon",
-			"default":"null"
 		}
 	]
 }

@@ -23,21 +23,21 @@
 			state: {
 				type: String,
 				value: "unchecked",
-				observer: "stateChanged"
+				observer: "_stateChanged"
 			},
 			checked: { 
 				type: Boolean,
 				reflectToAttribute: true,
 				value: null,
 				notify: true,
-				observer: "checkedChanged",
+				observer: "_checkedChanged",
 			},
 			disabled: { 
 				type: Boolean,
 				value: false, 
 				reflectToAttribute: true 
 			},
-			partial: { 
+			_partial: { 
 				type: Boolean,
 				computed: "_partialState(state)"
 			}
@@ -51,16 +51,16 @@
 		value: null,
 
 		listeners: {
-			"tap" : "toggleChecked"
+			"tap" : "_toggleChecked"
 		},
 
 		_partialState: function(state) {
 			return state === this.PARTIAL_STATE;
 		},
 
-		checkedChanged: function(newVal, oldVal) {
+		_checkedChanged: function(newVal, oldVal) {
 			if (newVal !== null) {
-				this.debounce("stateChecked", this.handleCheckedChange);
+				this.debounce("stateChecked", this._handleCheckedChange);
 
 				// also handle value - which should mirror "checked"
 				this.value = newVal;
@@ -68,7 +68,7 @@
 			}
 		},
 
-		handleCheckedChange: function() {
+		_handleCheckedChange: function() {
 			if (!this.checked) {
 				this.state = this.UNCHECKED_STATE;
 			} else if (this.checked) {
@@ -76,12 +76,12 @@
 			}
 		},
 
-		stateChanged: function(newVal, oldVal) {
-			this.debounce("stateChecked", this.handleStateChange);
+		_stateChanged: function(newVal, oldVal) {
+			this.debounce("stateChecked", this._handleStateChange);
 			this.fire("changed", { state: this.state }, true);
 		},
 
-		handleStateChange: function() {
+		_handleStateChange: function() {
 			if (this.state === this.PARTIAL_STATE) {
 				this.checked = null;
 			} else if (this.state === this.UNCHECKED_STATE) {
@@ -91,11 +91,11 @@
 			}
 		},
 
-		toggleChecked: function(e) {
+		_toggleChecked: function(e) {
 			this.checked = !this.checked;
 		},
 
-		updateClass: function(icon, state) {
+		_updateClass: function(icon, state) {
 			var o = {};
 			o.checkbox = !icon ? true : false;
 			o["checkbox-icon"] = icon ? true : false;

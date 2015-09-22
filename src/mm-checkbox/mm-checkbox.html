@@ -14,16 +14,16 @@
 	<link rel="import" type="css" href="mm-checkbox.css"/>
 	<template>
 		<template is="dom-if" if="{{icon}}">
-			<div class$="{{ updateClass(icon, state) }}">
+			<div class$="{{ _updateClass(icon, state) }}">
 				<mm-icon class="icon" type="{{icon}}" width="16" height="16"></mm-icon>
 			</div>
 		</template>
 		<template is="dom-if" if="{{!icon}}">
-			<div id="checkbox" class$="{{ updateClass(icon, state) }}">
+			<div id="checkbox" class$="{{ _updateClass(icon, state) }}">
 				<template is="dom-if" if="{{checked}}">
 					<mm-icon class="check" type="check" width="10" height="10"></mm-icon>
 				</template>
-				<template is="dom-if" if="{{partial}}">
+				<template is="dom-if" if="{{_partial}}">
 					<mm-icon class="dash" type="partial" width="8" height="8"></mm-icon>
 				</template>
 			</div>
