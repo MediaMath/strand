@@ -38,7 +38,7 @@ describe("AjaxPlugin", function() {
 				spy3();
 			}
 		};
-		pq.register(TestPlugin);
+		pq.register("test", TestPlugin);
 		pq.processRequest({test:'test'});
 		pq.processResponse({test:'test'});
 		spy1.calledOnce.should.be.true;
@@ -50,7 +50,7 @@ describe("AjaxPlugin", function() {
 	it("should handle empty plugins", function() {
 		function EmptyPlugin() {};
 		var pg = new StrandLib.AjaxPlugin();
-		pg.register(EmptyPlugin);
+		pg.register("empty",EmptyPlugin);
 		pg.processResponse();
 		pg.processRequest();
 		//basically just looking for error trap here
@@ -71,12 +71,30 @@ describe("AjaxPlugin", function() {
 				return response;
 			}
 		};
-		pq.register(TestPlugin);
-		pq.register(TestPlugin);
+		pq.register("test1",TestPlugin);
+		pq.register("test2",TestPlugin);
 		var t1 = pq.processRequest({test:'test'});
 		var t2 = pq.processResponse({test:'test'});
 		t1.should.deep.equal({test:'test',count:2});
 		t2.should.deep.equal({test:'test'});
+	});
+
+	it("should get plugin configs by name", function() {
+		function EmptyPlugin() { this.config = {pass:false} };
+		function PassPlugin() { this.config = {pass:true} };
+		var pq = new StrandLib.AjaxPlugin();
+		pq.register("test1", EmptyPlugin);
+		pq.register("cats", EmptyPlugin);
+		pq.register("test2", PassPlugin);
+		pq.getConfig("test2").pass.should.equal(true);
+		pq.getConfig("test1").pass.should.equal(false);
+
+		//fail gracefully
+		should.equal(pq.getConfig("i dont exist"), null);
+
+		var fail = new StrandLib.AjaxPlugin();
+		should.equal(fail.getConfig("test1"), null);
+		should.equal(fail.getConfig("i dont exist"), null);
 	});
 
 });

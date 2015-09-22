@@ -1,4 +1,4 @@
-<link rel="import" href="../js/storage.html"/>
+<link rel="import" href="../js/sync.html"/>
 <link rel="import" href="../js/datautils.html"/>
 <link rel="import" href="../js/ajax.html"/>
 <link rel="import" href="../behaviors/domgettable.html"/>
@@ -13,74 +13,21 @@
 (function(scope) {
 
 	var DataUtils = StrandLib.DataUtils;
-	var Storage = StrandLib.Storage;
-	var Ajax = StrandLib.Ajax;
-
-	var __csrf;
-
-	function _getParamBase(obj) {
-		obj = obj || {};
-		return {
-			params: obj.queryparam || [],
-			urlParams: obj.urlparam || [],
-			headers: obj.header || []
-		};
-	}
-
-	function _copyOptions() {
-		var args = DataUtils.clone(arguments);
-		var init = _getParamBase();
-		return args.reduce(function(prev, cur) {
-			if (DataUtils.isType(cur,"object")) {
-				for(var i in cur) {
-					switch(i) {
-						case "params":
-						case "headers":
-						case "urlParams":
-							if (cur[i].length > 0) {
-								prev[i] = cur[i];
-							}
-							break;
-						default:
-							prev[i] = cur[i];
-							break;
-					}
-				}
-			}
-
-			return prev;
-		}, init);
-	}
+	var Sync = StrandLib.Sync;
 
 	var Syncable = {
 		properties: {
-			_csrf: {
+			_sync: {
 				type:Object,
-				value: function() {
-					var csrf = new Storage("csrf","localStorage");
-					__csrf = csrf.value;
-					return csrf;
-				}
-			},
-			_globals: {
-				type:Object,
-				value: function() {
-					var globals = new Storage("globals","localStorage");
-					if (globals.value === null) globals.value = {};
-					return globals;
-				}
-			},
-
-			_ajax: {
-				type:Object,
-				value: function() {
-					return new Ajax(this.options);
+				value:function() {
+					return new Sync();
 				}
 			},
 
 			endpoint:{
 				type:String,
-				value:"/"
+				value:"/",
+				observer:"_updateEndpoint"
 			},
 
 			auto:{
@@ -101,7 +48,8 @@
 						withCredentials:false,
 						concurrency:4
 					};
-				}
+				},
+				observer:"_updateOptions"
 			},
 
 			data: {
@@ -123,17 +71,20 @@
 					return {
 						noop:function(o) {return o;}
 					};
-				}
+				},
+				observer:"_updateMarshaller"
 			},
 
 			responseMarshaller: {
 				type:String,
-				value:"noop"
+				value:"noop",
+				observer:"_updateMarshaller"
 			},
 
 			requestMarshaller: {
 				type:String,
-				value:"noop"
+				value:"noop",
+				observer:"_updateMarshaller"
 			},
 
 			cacheGlobals: {
@@ -143,57 +94,72 @@
 
 			cacheCsrf:{
 				type:Boolean,
-				value:false
+				value:false,
+				observer:"_updateCSRF"
 			},
 			csrfHeader:{
 				type:String,
-				value:"X-CSRF-Token"
+				value:"X-CSRF-Token",
+				observer:"_updateCSRF"
 			},
-			csrfToken:{
-				type:String,
-				value: function() { return __csrf; }
-			},
-
 			cacheBuster: {
 				type:Boolean,
 				value:true,
+				observer:"_updateBuster"
 			},
 			
 		},
 
 		get: function(data, options) {
-			return this.sync(Ajax.GET, data, options);
+			return this._sync.get(data, options);
 		},
 
 		post: function(data, options) {
-			return this.sync(Ajax.POST, data, options);
+			return this._sync.get(data, options);
 		},
 
 		put: function(data, options) {
-			return this.sync(Ajax.PUT, data, options);
+			return this._sync.get(data, options);
 		},
 
 		delete: function (data, options) {
-			return this.sync(Ajax.DELETE, data, options);
+			return this._sync.get(data, options);
 		},
 
 		sync: function(method, data, options) {
-			method = method || Ajax.GET;
-			var marshaller = this.apiMarshaller[DataUtils.getPathValue("requestMarshaller",options) || this.requestMarshaller];
-			data = marshaller( data || this.body );
+			return this._sync.sync(method, data, options);
+		},
 
-			var configOpts = this._getDomConfig(method, this.domObject);
+		_updateEndpoint: function() {
+			this._sync.endpoint = this.endpoint;
+		},
 
-			// options = DataUtils.copy({method:method, url:this.endpoint}, options, configOpts, this.options);
-			options = _copyOptions({method:method, url:this.endpoint}, options, configOpts, this.options);
+		_updateOptions: function() {
+			this._sync.options = this.options;
+		},
 
-			this._getCacheBuster(this.cacheBuster, options.params);
-			this._setCSRFHeader(method, options.headers);
+		_updateMarshaller: function() {
 
-			var promise = this._ajax.exec( data, options );
-			promise.then(this._handleResult.bind(this), this._handleError.bind(this));
+			this._sync.apiConfig = DataUtils.copy(this._sync.apiConfig, {
+				marshaller:this.apiMarshaller,
+				defaultRequest:this.requestMarshaller,
+				defaultResponse:this.responseMarshaller
+			});
+		},
 
-			return promise;
+		_updateCSRF: function() {
+			this._sync.csrfConfig = DataUtils.copy(this._sync.csrfConfig, {
+				enabled:this.cacheCsrf,
+				useCache:this.cacheCsrf,
+				header:this.csrfHeader
+			});
+		},
+
+		_updateBuster: function() {
+			this._sync.busterConfig = DataUtils.copy(this._sync.busterConfig, {
+				enabled:this.cacheBuster,
+				name: typeof this.cacheBuster === "string" ? this.cacheBuster : "nocache"
+			});
 		},
 
 		_getDomConfig: function(method, domObject) {
@@ -219,72 +185,16 @@
 			}
 		},
 
-		_getCacheBuster: function(cacheBuster, queryParams) {
-			if (this.cacheBuster) {
-				queryParams = queryParams || [];
-
-				var name = "nocache";
-				if (typeof this.cacheBuster === "string" && this.cacheBuster.length > 0) {
-					name = this.cacheBuster;
-				}
-				queryParams.push({
-					name: name,
-					value: Date.now()
-				});
-			}
-		},
-
-		_getCSRFHeader: function(result) {
-
-			if (this.csrf && result && result.instance) {
-				var ajax =  result.instance;
-				var hasHeader = ajax.xhr.getAllResponseHeaders().indexOf(this.csrfHeader) !== -1;
-				if (hasHeader) {
-					var csrf = ajax.xhr.getResponseHeader(this.csrfHeader);
-					__csrf = csrf;
-					this.csrfToken = csrf;
-					if (this.cacheCsrf) {
-						this._csrf.value = csrf;
-					}
-				}
-			}
-		},
-
-		_setCSRFHeader: function(method, headers) {
-			if (this.csrf && __csrf) {
-				var csrf = DataUtils.param(this.csrfHeader, __csrf );
-				if (method === Ajax.GET) {
-					headers.push(csrf);
-				} else {
-					headers.push(csrf);
-				}
-			}
-		},
-
-		_handleResult: function(result) {
-
-			this._getCSRFHeader(result);
-			this.fire("data-ready",result);
-
-			if (this.saveResponse) {
-				var opt = DataUtils.getPathValue("instance.responseMarshaller", result);
-				var marshaller = this.apiMarshaller[opt || this.responseMarshaller];
-				this.set("data", marshaller(DataUtils.getPathValue("response",result)));
-			}
-		},
-
 		_handleError: function(error) {
 			this.fire("data-error",error);
 		},
 
-		_getParamBase:_getParamBase,
-
 		setGlobal: function(key, value) {
-			this._globals.set(key,value);
+			this._sync.setGlobal(key, value);
 		},
 
 		getGlobal: function(key) {
-			return this._globals.get(key);
+			return this._sync.getGlobal(key);
 		}
 	};
 	scope.Syncable = [

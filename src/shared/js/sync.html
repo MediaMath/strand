@@ -64,14 +64,15 @@
 			concurrency:4
 		}, options);
 		this.data = data || {};
+
 		this.domHook = domHook;
 
 		this._ajax = new Ajax();
 		this._plugin = new AjaxPlugin();
 
-		this._plugin.register(AjaxCSRFPlugin);
-		this._plugin.register(AjaxBusterPlugin);
-		this._plugin.register(AjaxAPIPlugin);
+		this._plugin.register("csrf", AjaxCSRFPlugin);
+		this._plugin.register("buster", AjaxBusterPlugin);
+		this._plugin.register("api", AjaxAPIPlugin);
 	};
 
 	scope.Sync.prototype = {
@@ -96,23 +97,14 @@
 			method = method || Ajax.GET;
 			var configOpts;
 
-			// var marshaller = this.apiMarshaller[DataUtils.getPathValue("requestMarshaller",options) || this.requestMarshaller];
-			// data = marshaller( data || this.body );
-
-			//var configOpts = this._getDomConfig(method, this.domObject);
 			if (this.domHook)
 				configOpts = this.domHook(method, this, options);
 
-			// options = DataUtils.copy({method:method, url:this.endpoint}, options, configOpts, this.options);
 			options = _copyOptions({method:method, url:this.endpoint}, options, configOpts, this.options);
 
 			options = this._plugin.processRequest(options);
 
-			// this._getCacheBuster(this.cacheBuster, options.params);
-			// this._setCSRFHeader(method, options.headers);
-
-			// var promise = this._ajax.exec( data, options );
-			var promise = this._ajax.exec(options);
+			var promise = this._ajax.exec(null, options);
 			promise.then(this._handleResult.bind(this), this._handleError.bind(this));
 
 			return promise;
@@ -120,29 +112,16 @@
 
 		_handleResult: function(result) {
 
-			// this._getCSRFHeader(result);
-			// this.fire("data-ready",result);
 			this.dispatchEvent(new CustomEvent("data-ready", result));
 
-			result = this.plugin.processResponse(result);
-
-			// if (this.saveResponse) {
-			// 	var opt = DataUtils.getPathValue("instance.responseMarshaller", result);
-			// 	var marshaller = this.apiMarshaller[opt || this.responseMarshaller];
-			// 	this.set("data", marshaller(DataUtils.getPathValue("response",result)));
-			// }
+			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
 				this.data = result.marshalled;
-
-				// var opt = DataUtils.getPathValue("instance.responseMarshaller", result);
-				// var marshaller = this.apiMarshaller[opt || this.responseMarshaller];
-				// this.set("data", marshaller(DataUtils.getPathValue("response",result)));
 			}
 		},
 
 		_handleError: function(error) {
-			// this.fire("data-error",error);
 			this.dispatchEvent(new CustomEvent("data-error", error));
 		},
 
@@ -152,7 +131,20 @@
 
 		getGlobal: function(key) {
 			return globals.get(key);
-		}
+		},
+
+		//expose plugin config
+		get csrfConfig() {
+			return this._plugin.getConfig("csrf");
+		},
+
+		get busterConfig() {
+			return this._plugin.getConfig("buster");
+		},
+
+		get apiConfig() {
+			return this._plugin.getConfig("api");
+		},
 	};
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);

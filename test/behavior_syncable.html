@@ -40,10 +40,6 @@
 
 			var sync = new SyncTest();
 			sync.auto = false;
-			sync.should.have.property("_csrf");
-			sync.should.have.property("_globals");
-			sync._csrf.should.be.an.instanceof(StrandLib.Storage);
-			sync._globals.should.be.an.instanceof(StrandLib.Storage);
 
 			sync.setGlobal.should.be.a.function;
 			sync.getGlobal.should.be.a.function;
@@ -61,8 +57,10 @@
 
 			var sync = new SyncTest();
 			sync.auto=false;
-			sync.should.have.property("_ajax");
-			sync._ajax.should.be.an.instanceof(StrandLib.Ajax);
+			sync.should.have.property("_sync");
+			sync._sync.should.have.property("_ajax");
+			sync._sync.should.be.an.instanceof(StrandLib.Sync);
+			sync._sync._ajax.should.be.an.instanceof(StrandLib.Ajax);
 
 
 		});
@@ -87,12 +85,7 @@
 
 		});
 
-		it("should implement basic CSRF support", function() {
-
-			var sync = new SyncTest();
-			sync.auto = false;
-			sync.csrf = true;
-			sync.cacheCsrf = true;
+		it("should implement basic CSRF support", function(done) {
 
 			var xhr = sinon.useFakeXMLHttpRequest();
 			var request;
@@ -100,11 +93,19 @@
 				request = req;
 			};
 
-			var a = new StrandLib.Ajax();
-			var mock = {
-				instance:a
-			};
-			a.exec({},{url:"//test.com"});
+			var sync = new SyncTest();
+			sync.auto = false;
+			sync.csrf = true;
+			sync.cacheCsrf = true;
+
+			sync.endpoint = "//test.com";
+			sync.get().then(function() {
+				xhr.restore();
+				sync._sync.csrfConfig.token.should.equal("abcdefghijklmnopqrst");
+				JSON.parse(localStorage["csrf"]).should.equal('abcdefghijklmnopqrst');
+				done();
+			}, done);
+
 			request.respond(200, 
 				{ 
 					"Content-Type": "application/json",
@@ -112,20 +113,6 @@
 				},
 				'[{ "id": 12, "comment": "Hey there" }]'
 			);
-
-			sync._getCSRFHeader(mock);
-			sync.csrfToken.should.equal("abcdefghijklmnopqrst");
-			sync._csrf.value.should.equal("abcdefghijklmnopqrst");
-
-			var test = [];
-			sync._setCSRFHeader(StrandLib.Ajax.GET, test);
-			test.should.have.length(1);
-			test[0].should.deep.equal({
-				name:"X-CSRF-Token",
-				value:"abcdefghijklmnopqrst"
-			});
-
-			xhr.restore();
 
 		});
 
@@ -192,7 +179,28 @@
 				'[{ "id": 101, "comment": "Stuff" }]'
 			);
 			spy.calledOnce.should.be.true;
-			
+		});
+
+		it("should support saving a request", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+			var sync = new SyncTest();
+			sync.get().then(function(response) {
+				//marshaller is noop
+				response.marshalled.should.deep.equal([{ "id": 101, "comment": "Stuff" }]);
+				response.response.should.deep.equal([{ "id": 101, "comment": "Stuff" }]);
+				done();
+			});
+			request.respond(200, 
+				{ 
+					"Content-Type": "application/json"
+				},
+				'[{ "id": 101, "comment": "Stuff" }]'
+			);
+
 		});
 
 	});

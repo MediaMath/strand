@@ -1,5 +1,9 @@
+<link rel="import" href="datautils.html"/>
 <script>
 (function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+
 	scope.AjaxPlugin = function(pluginQueue) {
 		this.queue = [];
 		if (pluginQueue) {
@@ -11,15 +15,15 @@
 	};
 	scope.AjaxPlugin.prototype = {
 
-		register: function(plugin, config) {
-			if (typeof plugin === "function") {
-				var instance = new plugin();
-				if (config)
-					instance.config = config;
-				this.queue.push(instance);
-			} else if (typeof plugin === "object") {
-				this.queue.push(plugin);
+		register: function(name, plugin, config) {
+			var instance = typeof plugin === "function" ? new plugin() : plugin;
+			if (config) {
+				instance.config = DataUtils.copy(instance.config,config);
 			}
+			if (name) {
+				instance.name = name;
+			}
+			this.queue.push(instance);
 		},
 
 		processRequest: function(data) {
@@ -41,6 +45,16 @@
 					curr.reset();
 				return out || prev;
 			}, data);
+		},
+
+		getConfig: function (name) {
+			if(this.queue.length > 0) {
+				var result = this.queue.filter(function(instance) {
+					return instance.name === name;
+				});
+				return DataUtils.getPathValue("0.config",result);
+			}
+			return null;
 		}
 	};
 })(window.StrandLib = window.StrandLib || {}); 
