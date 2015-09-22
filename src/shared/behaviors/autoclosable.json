@@ -1,4 +1,5 @@
 {
 	"name": "Autoclosable",
-	"description": "Closes the element if the user clicks outside of the element or its target"
+	"description": "Closes the element if the user clicks outside of the element or its target",
+	"behaviors":["closable"]
 }

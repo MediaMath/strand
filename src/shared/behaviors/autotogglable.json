@@ -8,5 +8,6 @@
 			"description":"An HTMLElement which toggles the element's visual state when clicked. A selector may also be passed as a String.",
 			"optional":false
 		}
-	]
+	],
+	"behaviors":["closable"]
 }

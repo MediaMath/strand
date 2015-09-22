@@ -1,6 +1,5 @@
 {
 	"name": "DomGettable",
 	"description": "",
-	"attributes": [],
-	"methods": []
+	"behaviors": ["dommutable", "lightdomgettable"]
 }

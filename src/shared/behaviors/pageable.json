@@ -35,5 +35,6 @@
 			"name":"sync",
 			"description":""
 		}
-	]
+	],
+	"behaviors": ["syncable"]
 }

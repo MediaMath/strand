@@ -18,5 +18,6 @@
 			"default":"[]",
 			"attribute":"N/A"
 		}
-	]
+	],
+	"behaviors": ["lightdomgettable"]
 }
