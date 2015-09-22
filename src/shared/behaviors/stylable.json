@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name":"Stylable",
+	"description":"Provides convenience methods that serialize objects into inline style/classes for attribute binding"
 }

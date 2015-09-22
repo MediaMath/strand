@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name":"Jqueryable",
+	"description":"Lets Jquery to play nice with Strand elements by overriding Node instance methods to use Polymer.dom api"
 }

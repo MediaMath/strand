@@ -1,5 +1,72 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name": "Closable",
+	"description": "Allows an element to track a binary opened/closed state.",
+	"attributes": [
+		{
+			"name":"state",
+			"type":"String",
+			"description":"Sets the visual state of the element.",
+			"optional":false,
+			"default":"closed",
+			"options":["opened", "closed"]
+		},
+		{
+			"name":"isClosed",
+			"type":"Boolean",
+			"description":"Returns a boolean corresponding to the visual state of the element.",
+			"optional":false,
+			"default":"true",
+			"attribute":"N/A"
+		},
+		{
+			"name":"STATE_CLOSED",
+			"type":"String",
+			"description": "The value of the state property when the element is closed",
+			"default": "opened",
+			"attribute": "N/A"
+		},
+		{
+			"name":"STATE_OPENED",
+			"type":"String",
+			"description": "The value of the state property when the element is opened",
+			"default": "opened",
+			"attribute": "N/A"
+		}
+	],
+	"methods": [
+		{
+			"name":"open",
+			"description":"Instructs the component to open.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"String",
+					"optional":true,
+					"default":"false",
+					"description":"Used to allow or suppress the firing of an 'open' event (see 'events' for more information)."
+				}
+			]
+		},
+		{
+			"name":"close",
+			"description":"Instructs the component to close.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"String",
+					"optional":true,
+					"default":"false",
+					"description":"Used to allow or suppress the firing of a 'close' event (see 'events' for more information)."
+				}
+			]
+		}
+	],
+	"events": [
+		{
+			"type": "open"
+		},
+		{
+			"type": "close"
+		}
+	]
 }

@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name":"LightDomGettable",
+	"description":"Provides a convenience method to get the element's light DOM children"
 }

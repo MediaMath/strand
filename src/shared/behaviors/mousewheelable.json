@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name":"MouseWheelable",
+	"description":"Provides a stub for cross-browser mouse wheel events"
 }

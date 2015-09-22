@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name": "Debouncable",
+	"description": "Listens for property-changed events and calls Polymer.Base.debounce based on a `debouncers` property."
 }

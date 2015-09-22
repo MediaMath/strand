@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name": "Falsifiable",
+	"description": "Makes the element set Boolean properties to false if the corresponding attribute is set to \"false\""
 }

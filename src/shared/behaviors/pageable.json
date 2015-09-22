@@ -1,5 +1,39 @@
 {
-	"name":"",
+	"name":"Pageable",
 	"description":"",
-	"attributes": []
+	"attributes": [
+		{
+			"name":"page",
+			"type":"Number",
+			"description":"",
+			"default": 0,
+			"required": true
+		},
+		{
+			"name":"pageSize",
+			"type":"Number",
+			"description":"",
+			"default": 10,
+			"required": true
+		},
+		{
+			"name":"pageOptions",
+			"type":"Object",
+			"description":""
+		}
+	],
+	"methods": [
+		{
+			"name":"nextPage",
+			"description":""
+		},
+		{
+			"name":"prevPage",
+			"description":""
+		},
+		{
+			"name":"sync",
+			"description":""
+		}
+	]
 }

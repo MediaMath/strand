@@ -1,5 +1,22 @@
 {
-	"name":"",
+	"name":"Positionable",
 	"description":"",
-	"attributes": []
+	"attributes": [
+		{
+			"name":"panelOffset",
+			"type":"Number",
+			"description":"The amount of space, in px, between the panel and associated target",
+			"attribute":"panel-offset",
+			"default": 0,
+			"required": true
+		},
+		{
+			"name":"boundaryOffset",
+			"type":"Number",
+			"description":"The minimum about of space between the panel and ",
+			"attribute":"panel-offset",
+			"default": 10,
+			"required": true
+		}
+	]
 }

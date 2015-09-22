@@ -1,5 +1,4 @@
 {
-	"name":"",
-	"description":"",
-	"attributes": []
+	"name":"Resizable",
+	"description":"Provides a stub callback for when the element resizes"
 }
