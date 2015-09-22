@@ -26,7 +26,6 @@
 			date: {
 				type: Object,
 				notify: true,
-				reflectToAttribute: true,
 				observer: '_dateChangeHandler'
 			},
 			pairDate: {
@@ -53,6 +52,11 @@
 				type: Boolean,
 				value: false,
 				observer: '_changeHandler'
+			},
+			disabled: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
 			},
 			_headers: {
 				type: Array,

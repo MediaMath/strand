@@ -14,10 +14,6 @@
 		],
 
 		properties: {
-			ver:{
-				type:String,
-				value:"<<version>>",
-			},
 			href: {
 				type: String,
 				value: false,
@@ -42,8 +38,8 @@
 
 		updateClass: function(underline) {
 			var o = {};
-			o["action"] = true;
-			o["underline"] = underline;
+			o.action = true;
+			o.underline = underline;
 			return this.classBlock(o);
 		}
 

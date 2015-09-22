@@ -31,6 +31,10 @@
 			},
 			layout: { 
 				type: String,
+				reflectToAttribute: true 
+			},
+			selected: { 
+				type: String,
 				value: false, 
 				reflectToAttribute: true 
 			},
@@ -42,9 +46,9 @@
 
 		updateClass: function(fitparent, error, type) {
 			var o = {};
-			o["button"] = true;
-			o["fit"] = fitparent;
-			o["invalid"] = error;
+			o.button = true;
+			o.fit = fitparent;
+			o.invalid = error;
 			o[type] = true; 
 			return this.classBlock(o);
 		}

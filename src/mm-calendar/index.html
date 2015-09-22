@@ -39,9 +39,12 @@
 		<mm-calendar id="cal2" disable-future="true"></mm-calendar>
 		<mm-calendar id="cal3" disabled></mm-calendar>
 		<template id="calPair" is="dom-bind">
-			<mm-calendar id="cal4" mode="left" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true"></mm-calendar>
-			<mm-calendar id="cal5" mode="right" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true"></mm-calendar>
+			<div>
+				<mm-calendar id="cal4" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true"></mm-calendar>
+				<mm-calendar id="cal5" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true"></mm-calendar>
+			</div>
 		</template>
+
 		<script>
 			var cal1, cal2, cal3;
 
