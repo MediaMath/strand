@@ -62,10 +62,13 @@
 	</head>
 	<body>
 
+
 		<mm-button id="dpb">
 			<label>datepicker target</label>
 		</mm-button>
 		<mm-datepicker start-enabled end-enabled start-enabled-label="Start" end-enabled-label="End" id="dp" target="#dpb"></mm-datepicker>
+
+
 		<!-- <template id="tmp" is="auto-binding">
 			<div vertical layout class="controller">
 				<span id="show" on-tap="{{op}}"><b>Start:</b>{{$.dp2.start}} <b>End:</b>{{$.dp2.end}}</span>
@@ -94,6 +97,15 @@
 			</div>
 		</template> -->
 		<!-- <mm-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></mm-datepicker> -->
+
+		<!-- <template is="dom-bind" id="t">
+			<mm-button id="btn">
+				<label>Select a Date</label>
+			</mm-button>
+			<mm-datepicker id="dp" target="#btn" start-enabled end-enabled use-timezone="false" use-range="false">
+			</mm-datepicker>
+		</template> -->
+
 		<script>
 			var dp,
 				tmp,

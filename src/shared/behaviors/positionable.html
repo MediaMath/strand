@@ -20,7 +20,6 @@
 			},
 			_target: {
 				type: Object,
-				value: null,
 				observer: '_targetChanged'
 			},
 			state: {
@@ -78,8 +77,10 @@
 
 		_targetChanged: function(target, oldTarget) {
 			if(typeof target === 'string') {
-				this._target = this._scope === document ? 
-				document.querySelector(target) : Polymer.dom(this._scope).querySelector(target);
+				this.async(function() {
+					this._target = this._scope === document ? 
+					document.querySelector(target) : Polymer.dom(this._scope).querySelector(target);
+				});
 			}
 		},
 

@@ -151,12 +151,19 @@
 				type: String,
 				value: null
 			},
-			//internals
 			endDate: {
 				type: String,
 				value: null,
 				notify: true,
 				observer: '_validateEnd'
+			},
+			timezone: {
+				type: Object,
+				value: null
+			},
+			state: {
+				type: String,
+				value: 'closed'
 			},
 			endTime: {
 				type: String,
@@ -168,30 +175,21 @@
 				value: function() { return moment().endOf('day').format('a'); },
 				notify: true
 			},
-			timezone: {
-				type: Object,
-				value: null
-			},
-
-			state: {
-				type: String,
-				value: 'closed'
-			},
-
-			duration: {
+			//internals
+			_duration: {
 				computed: '_getDuration(startDate,endDate)'
 			},
-			datesValid: {
+			_datesValid: {
 				computed: '_areDatesValid(startDate,endDate)'
 			}
-
 		},
 
 		behaviors: [
 			StrandTraits.AutoTogglable,
 			StrandTraits.Stackable,
 			StrandTraits.PositionablePanel,
-			StrandTraits.Debouncable
+			StrandTraits.Debouncable,
+			StrandTraits.Falsifiable
 		],
 
 		debouncers: {
