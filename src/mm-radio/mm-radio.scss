@@ -85,21 +85,21 @@
 
 // layout modes for radio
 // horizontal
-:host([layout=hgroup-left]),
-:host([layout=hgroup-center]) {
+:host([_layout=hgroup-left]),
+:host([_layout=hgroup-center]) {
 	margin-right: 20px;
 }
 
-:host([layout=hgroup-right]) {
+:host([_layout=hgroup-right]) {
 	margin-right: 0;
 }
 
 // vertical
-:host([layout=vgroup-top]),
-:host([layout=vgroup-center]) {
+:host([_layout=vgroup-top]),
+:host([_layout=vgroup-center]) {
 	margin-bottom: 10px;
 }
 
-:host([layout=vgroup-bottom]) {
+:host([_layout=vgroup-bottom]) {
 	margin-bottom: 0;
 }

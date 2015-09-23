@@ -43,7 +43,7 @@
 			checked: { 
 				value:false,
 				type: Boolean,
-				observer: 'checkedChanged',
+				observer: '_checkedChanged',
 				reflectToAttribute:true 
 			},
 			disabled: { 
@@ -53,23 +53,23 @@
 			},
 			group: { 
 				type: String,
-				observer: 'groupChanged'
+				observer: '_groupChanged'
 			},
 			fitparent: { 
 				type: String,
 				reflectToAttribute:true 
 			},
-			layout: {
+			_layout: {
 				type: String,
 				reflectToAttribute:true
 			}
 		},
 
 		listeners: {
-			'tap': 'handleTap'
+			'tap': '_handleTap'
 		},
 
-		groupChanged: function(newGroup, oldGroup) {
+		_groupChanged: function(newGroup, oldGroup) {
 			if (oldGroup) {
 				_removeGroup(this, oldGroup);
 			}
@@ -80,14 +80,14 @@
 			_removeGroup(this);
 		},
 
-		checkedChanged: function() {
+		_checkedChanged: function() {
 			if (this.checked) {
 				_checkGroup(this);
 				this.fire("selected", {item: this, checked: this.checked});
 			}
 		},
 
-		handleTap: function(e) {
+		_handleTap: function(e) {
 			if (!this.disabled) {
 				this.checked = true;
 			}

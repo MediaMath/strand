@@ -3,11 +3,11 @@
 	"description":"A modal container and semi-transparent blocker view to display developer defined content.",
 	"attributes": [
 		{
-			"name":"visible",
+			"name":"hidden",
 			"type":"Boolean",
 			"description":"The visible state of the modal and blocker.",
 			"optional":true,
-			"default":"false",
+			"default":"true",
 			"options":["true", "false"]
 		},
 		{
@@ -47,24 +47,5 @@
 			"arguments":[]
 		}
 	],
-	"properties":[
-		{
-			"name":"visible",
-			"type":"string",
-			"description":"The visible state of the modal and blocker.",
-			"default":"false"
-		},
-		{
-			"name":"width",
-			"type":"int",
-			"description":"The pixel width of the modal window.",
-			"default":"600"
-		},
-		{
-			"name":"dismiss",
-			"type":"string",
-			"description":"Whether or not the modal can be dismissed by the user.",
-			"default":"true"
-		}
-	]
+	"behaviors": ["stackable"]
 }
