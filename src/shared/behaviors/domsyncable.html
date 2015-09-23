@@ -52,13 +52,13 @@
 
 		domObjectChanged: function(domObject) {
 			if (this.auto && this.auto !== "save") {
-				this.debounce("dom", this._sync.get, this.autoDebounce);
+				this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
 			}
 		},
 
 		_dataChanged:function(oldData, newData) {
 			if (this.auto && this.auto !== "load") {
-				this.debounce("dom", this._sync.post, this.autoDebounce);
+				this.debounce("dom", this._sync.post.bind(this._sync), this.autoDebounce);
 			}
 		}
 	};

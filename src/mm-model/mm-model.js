@@ -10,14 +10,17 @@
 		is:"mm-model",
 
 		properties: {
-			mid:{
-				type:String,
-				value:null,
-				observer:"_modelId"
+			_sync:{
+				type:StrandLib.Sync,
+				value:function() {
+					return new StrandLib.Sync();
+				}
 			},
-			cid:{
-				type:String,
-				value:null,
+			_model:{
+				type:StrandLib.Model,
+				value:function() {
+					return new StrandLib.Model(null, null, this._sync);
+				}
 			},
 			collection:{
 				type:Strand.Collection,
@@ -27,12 +30,6 @@
 				type:String,
 				value:"Sync",
 			},
-			data:{
-				type:Object,
-				value: function() {
-					return {};
-				}
-			},
 			defaults:{
 				type:Object,
 				value: function() {
@@ -41,15 +38,17 @@
 			}
 		},
 
-		observers: [
-			"_dataId(data.id)",
-			"_modelId(mId)"
+		behaviors:[
+			StrandTraits.DomSyncable
 		],
 
+		ready:function() {
+			this.linkPaths("_model.data","data");
+			this.linkPaths("data","_model.data");
+		},
+
 		init: function(data) {
-			if (Object.keys(this.data).length === 0) {
-				this.data = data || this.defaults;
-			}
+			this._model.init(data);
 		},
 		
 		adapterChanged: function(oldAdapter, newAdapter) {
@@ -82,38 +81,51 @@
 		},
 
 		clear: function() {
-			this.data = {};
+			this._model.clear();
 		},
 
 		getData: function(path) {
-			return this.get("data."+path);
+			return this._model.get(path);
 		},
 
 		setData: function(path, value) {
-			this.set("data."+path,value);
+			this._model.set(path, value);
 		},
 
 		toJSON: function() {
-			return JSON.stringify(this.data);
+			return this._model.toJSON();
 		},
 
 		get connection() {
-			return this.adapterInstance;
+			return this._model.connection;
 		},
 
-		_modelId: function(mid) {
-			// this.debounce("mid", Function("this.data.id = " + String(mid)));
-			this.debounce("mid", function() {
-				this.data.id = mid;
-			});
+		//proxy accessors to _model.data
+
+		get mId() {
+			return this._model.mId;
 		},
 
-		_dataId: function(did) {
-			// this.debounce("mid", Function("this.mid = " + String(this.data.id)));
-			this.debounce("mid", function() {
-				this.mId = this.data.id;
-			});
+		get cId() {
+			return this._model.cId;
 		},
+
+		set mId(i) {
+			this._model.mId = i;
+		},
+
+		set cId(i) {
+			this._model.cId = i;
+		},
+
+		get data() {
+			return this._model.data;
+		},
+
+		set data(i) {
+			this._model.data = i;
+			this.fire("data-changed");
+		}
 
 	});
 })(window.Strand = window.Strand || {}); 

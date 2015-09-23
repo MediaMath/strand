@@ -1,14 +1,23 @@
-<link rel="import" href="../../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="datautils.html"/>
+<link rel="import" href="sync.html"/>
+<link rel="import" href="eventdispatcher.html"/>
 <script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
 (function (scope) {
 
-	scope.Model = function(data, ajax, opts, sync, collection) {
+	var DataUtils = StrandLib.DataUtils;
+
+	scope.Model = function(data, opts, sync, collection) {
 		this.data = data || {};
-		this._ajax = ajax || new StrandLib.Ajax();
 		this._opts = opts;
-		this._sync = sync;
+		this._sync = sync || new StrandLib.Sync;
 		this.collection = collection;
-		if (this.collection && this.collection._cidFactory && this.data.id) {
+		if (this.collection && this.collection._cidFactory) {
 			this._cid = this.collection._cidFactory();
 		}
 	};
@@ -28,21 +37,22 @@
 		},
 
 		init: function(data) {
-			if (Object.keys(this.data).length === 0) {
-				this.data = data || this.defaults;
-			}
+			this.data = DataUtils.copy({}, this.data, data);
+			this.dispatchEvent(new CustomEvent("data-changed"));
 		},
 
 		clear: function() {
 			this.data = {};
+			this.dispatchEvent(new CustomEvent("data-changed"));
 		},
 
 		get: function(path) {
-			return Polymer.Base.get(path, this.data);
+			return DataUtils.getPathValue(path, this.data);
 		},
 
 		set: function(path, value) {
-			Polymer.Base.set(path, value, this.data);
+			this.dispatchEvent(new CustomEvent("data-changed"));
+			DataUtils.setPathValue(path, this.data, value);
 		},
 
 		toJSON: function() {
@@ -50,10 +60,12 @@
 		},
 
 		get connection() {
-			return this._ajax;
+			return this._sync;
 		},
 
 	};
+
+	EventDispatcher.prototype.apply(scope.Model.prototype);
 
 })(window.StrandLib = window.StrandLib || {}); 
 </script>

@@ -8,6 +8,7 @@
   <script>
     var should = chai.should();
   </script>
+  <!-- <link rel="import" href="../build/strand.html"> -->
   <link rel="import" href="../build/strand.html">
 </head>
 <body>
@@ -70,5 +71,12 @@ describe("mm-collection", function() {
 
 });
 </script>
+<template is="dom-bind">
+	<mm-collection data="{{items}}">
+	</mm-collection>
+	<template is="dom-repeat" items="{{items}}">
+		<span>{{item.id}}</span><span>{{item.name}}</span>
+	</template>
+</template>
 </body>
 </html>
