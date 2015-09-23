@@ -3,74 +3,277 @@
 	"description":"A single and dual (range) date/time picker component including numeric and calendar based inputs",
 	"attributes": [
 		{
-			"name":"use-timezone",
-			"type":"boolean",
-			"description":"Enables timezone dropdown when true (requires external tz data)",
+			"name":"useTimezone",
+			"type":"Boolean",
+			"description":"When set to true, instructs the component to display a timezone dropdown. Requires configuration data for timezones (see: timezones).",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"options":["true", "false"],
+			"attribute":"use-timezone"
 		},
 		{
-			"name":"use-range",
-			"type":"boolean",
-			"description":"Enables date range dropdown for preselected ranges",
+			"name":"useRange",
+			"type":"Boolean",
+			"description":"When set to true, instructs the component to display a date range dropdown. Requires configuration data range presets (see: rangePresets).",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"options":["true", "false"],
+			"attribute":"use-range"
 		},
 		{
-			"name":"use-time",
-			"type":"boolean",
-			"description":"Enables input boxes for time selection",
+			"name":"useTime",
+			"type":"Boolean",
+			"description":"When set to true, instructs the component to display inputs for time selection.",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"options":["true", "false"],
+			"attribute":"use-time"
 		},
 		{
-			"name":"use-commit",
-			"type":"boolean",
-			"description":"Shows a footer which contains save/close buttons. Without pressing save the data is not persisted to the start/end binds",
+			"name":"useCommit",
+			"type":"Boolean",
+			"description":"When set to true, instructs the component to display a footer bar which contains 'save' and 'close' buttons. Requires that the user click 'save' to persist the selection for start and end dates (see: 'start' and 'end').",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"options":["true", "false"],
+			"attribute":"use-commit"
 		},
 		{
-			"name":"reset-on-close",
-			"type":"boolean",
-			"description":"When useCommit is true and resetOnClose is true, the picker will be reset to default values when closed if a user does not press the save button",
+			"name":"resetOnClose",
+			"type":"Boolean",
+			"description":"When set to true, instructs the component reset when closed. Dependant upon the setting for useCommit, requires that the user click 'save' or the component will be reset to default values when closed.",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"options":["true", "false"],
+			"attribute":"reset-on-close"
 		},
 		{
 			"name":"dual",
-			"type":"boolean",
-			"description":"When true, the datepicker shows a start and end date panel for ranges",
+			"type":"Boolean",
+			"description":"When set to true, instructs the component to display a start and end calendar panel.",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"options":["true", "false"]
 		},
 		{
-			"name":"date-format",
-			"type":"string",
-			"description":"moment.js format string used for date formatting--note that the input mask needs to be edited independently for format changes",
+			"name":"dateFormat",
+			"type":"String",
+			"description":"The moment.js format string used for date formatting. Please note that support for additional formats would require the internal input mask configuration to be edited (see: mm-input-mask).",
 			"optional":true,
 			"default":"MM/DD/YYYY",
-			"options":[]
+			"options":["MM/DD/YYYY", "DD/MM/YYYY"],
+			"attribute":"date-format"
 		},
 		{
-			"name":"time-format",
-			"type":"string",
-			"description":"moment.js format string used for time formatting--note that markup currently only supports 12 hour time with a fixed dropdown.",
+			"name":"timeFormat",
+			"type":"String",
+			"description":"The moment.js format string used for time formatting. Please note that mm-datepicker currently only supports 12 hour time.",
 			"optional":true,
-			"default":"",
-			"options":[]
+			"default":"hh:mm a",
+			"attribute":"time-format"
+		},
+		{
+			"name":"timeOnlyFormat",
+			"type":"String",
+			"description":"Returns the moment.js 12 hour time format without meridian value.",
+			"default":"none",
+			"attribute":"N/A"
+		},
+		{
+			"name":"rangeValue",
+			"type":"string",
+			"description":"Returns the currently selected range value, as defined in range presets (see: rangePresets).",
+			"optional":true,
+			"default":"none",
+			"attribute":"N/A"
+		},		
+		{
+			"name":"rangePresets",
+			"type":"Array",
+			"description":"Configuration data used to populate the range pressets dropdown. Requires an array of objects which should contain a name, start, and end property. The 'name' property sets the dropdown item's label. The 'start' and 'end' properties require JS Date objects. The supplied 'start' and 'end' dates will set the mm-datepicker's date range.",
+			"optional":true,
+			"default":"none",
+			"attribute":"N/A"
+		},		
+		{
+			"name":"rangeDescription",
+			"type":"String",
+			"description":"The placeholder string used to populate the range preset dropdown prior to selection.",
+			"optional":true,
+			"default":"Select a Predefined Date Range",
+			"attribute":"range-description"
+		},		
+		{
+			"name":"timezoneDescription",
+			"type":"string",
+			"description":"The placeholder string used to populate the timezone dropdown prior to selection.",
+			"default":"Select a Timezone",
+			"attribute":"timezone-description"
+		},		
+		{
+			"name":"timezones",
+			"type":"Array",
+			"description":"Configuration data used to populate the timezone dropdown. Requires an array of objects which should contain a name and value property. The 'name' property sets the dropdown item's label. The 'value' property sets the mm-datepicker's timezone.",
+			"optional":true,
+			"default":"none",
+			"attribute":"N/A"
+		},		
+		{
+			"name":"start",
+			"type":"Date",
+			"description":"The selected start date. In a dual configuration, this is the selected start date. In single configuration, this will be the only date available.",
+			"default":"none",
+			"attribute":"N/A"
+		},		
+		{
+			"name":"startEnabled",
+			"type":"Boolean",
+			"description":"The default value for the start enabled checkbox which appears when startEnabledLabel is specified (see: startEnabledLabel).",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"],
+			"attribute":"start-enabled"
+		},
+		{
+			"name":"startUserEnabled",
+			"type":"Boolean",
+			"description":"If true, will display a start enabled checkbox, allowing the user to control the start enabled checkbox state.",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"],
+			"attribute":"start-user-enabled"
+		},		
+		{
+			"name":"allowedStart",
+			"type":"Date",
+			"description":"If set, does not allow selection of a date prior to the specified value.",
+			"optional":true,
+			"default":"none",
+			"attribute":"N/A"
+		},			
+		{
+			"name":"startLabel",
+			"type":"String",
+			"description":"The label text for the blue header which appears in the top left section of the mm-datepicker.",
+			"optional":true,
+			"default":"Start",
+			"attribute":"start-label"
+		},		
+		{
+			"name":"startEnabledLabel",
+			"type":"String",
+			"description":"If set, instructs the component to display a start enabled checkbox. Typically used when the mm-datepicker needs to be constrained to a particular start date. This also the text which will be displayed next to the checkbox.",
+			"optional":true,
+			"default":"none",
+			"attribute":"start-enabled-label"
+		},
+		{
+			"name":"startDate",
+			"type":"String",
+			"description":"A string in the specified dateFormat (see: dateFormat) used to set the mm-datepicker's default start date.",
+			"optional":true,
+			"default":"none",
+			"attribute":"start-date"
+		},		
+		{
+			"name":"startTime",
+			"type":"Date",
+			"description":"A date object representing the desired default start time, used to set the time input field.",
+			"default":"12:00",
+			"attribute":"N/A"
+		},		
+		{
+			"name":"startTimePeriod",
+			"type":"String",
+			"description":"Sets the value of the meridian dropdown located next to the start time input field.",
+			"default":"am",
+			"options":["am", "pm"],
+			"attribute":"N/A"
+		},	
+		{
+			"name":"end",
+			"type":"Date",
+			"description":"The selected end date. In a dual configuration, this is the selected end date. In single configuration, this will be the only date available.",
+			"default":"none",
+			"attribute":"N/A"
+		},	
+		{
+			"name":"endEnabled",
+			"type":"Boolean",
+			"description":"The default value for the end enabled checkbox which appears when endEnabledLabel is specified (see: endEnabledLabel).",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"],
+			"attribute":"start-enabled"
+		},
+		{
+			"name":"endUserEnabled",
+			"type":"Boolean",
+			"description":"If true, will display a end enabled checkbox, allowing the user to control the end enabled checkbox state.",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"],
+			"attribute":"end-user-enabled"
+		},	
+		{
+			"name":"allowedEnd",
+			"type":"Date",
+			"description":"If set, does not allow selection of a date after to the specified value.",
+			"optional":true,
+			"default":"none",
+			"attribute":"N/A"
+		},	
+		{
+			"name":"endLabel",
+			"type":"String",
+			"description":"The label text for the blue header which appears in the top right section of the mm-datepicker.",
+			"optional":true,
+			"default":"End",
+			"attribute":"end-label"
+		},
+		{
+			"name":"endEnabledLabel",
+			"type":"String",
+			"description":"If set, instructs the component to display a end enabled checkbox. Typically used when the mm-datepicker needs to be constrained to a particular end date. This also the text which will be displayed next to the checkbox.",
+			"optional":true,
+			"default":"none",
+			"attribute":"end-enabled-label"
+		},
+		{
+			"name":"endDate",
+			"type":"String",
+			"description":"A string in the specified dateFormat (see: dateFormat) used to set the mm-datepicker's default end date.",
+			"optional":true,
+			"default":"none",
+			"attribute":"end-date"
+		},
+		{
+			"name":"endTime",
+			"type":"Date",
+			"description":"A date object representing the desired default end time, used to set the time input field.",
+			"default":"11:59",
+			"attribute":"N/A"
+		},		
+		{
+			"name":"endTimePeriod",
+			"type":"String",
+			"description":"Sets the value of the meridian dropdown located next to the end time input field.",
+			"default":"am",
+			"options":["am", "pm"],
+			"attribute":"N/A"
+		},
+		{
+			"name":"timezone",
+			"type":"String",
+			"description":"Returns a string representing the selected timezone, as specified in data configuration for timezones (see: timezones)",
+			"default":"none",
+			"attribute":"N/A"
 		}
 	],
 	"methods": [
 		{
 			"name":"reset",
-			"description":"Resets the selected date either to the start/end value or to the values specified in arguments",
+			"description":"Resets the selected 'start' and 'end' dates either to their default values, or to the values specified in arguments",
 			"arguments":[
 				{
 					"name":"start",
@@ -89,162 +292,11 @@
 			]
 		},
 		{
-			"name":"open",
-			"description":"Shows the datepicker instance"
-		},
-		{
-			"name":"close",
-			"description":"Closes the datepicker instance"
-		},
-		{
 			"name":"save",
 			"description":"Behaves simliarly to close, excecpt that any pending values are commited (when "
 		}
 	],
-	"properties":[
-		{
-			"name":"target",
-			"type":"string",
-			"description":"Element id or class to attach datepicker.",
-			"optional":false,
-			"default":"",
-			"options":[]
-		},
-
-		{
-			"name":"rangeValue",
-			"type":"string",
-			"description":"The currently selected range value for preset ranges",
-			"default":""
-		},		
-		{
-			"name":"rangePresets",
-			"type":"Array",
-			"description":"An array of objects which should contain a name, start and end property. Name is a string representing the preset's label. start and end should be JS Date objects that specify a valid start and end range to be selected.",
-			"default":"null"
-		},		
-		{
-			"name":"rangeDescription",
-			"type":"string",
-			"description":"A string used for the range dropdown's default text",
-			"default":"Select a Predefined Date Range"
-		},		
-		{
-			"name":"timezoneDescription",
-			"type":"string",
-			"description":"A string used for the timezone dropdown's default text",
-			"default":"Select a Timezone"
-		},		
-		{
-			"name":"timezones",
-			"type":"Array",
-			"description":"An array of objects each with a label and value property. Label is displayed in the dropdown and when present value is used for the timezone property exposed on the component.",
-			"default":""
-		},		
-		{
-			"name":"start",
-			"type":"Date",
-			"description":"In dual configuration this is the selected start date. In single configuration this is the only date available.",
-			"default":"null"
-		},		
-		{
-			"name":"startEnabled",
-			"type":"boolean",
-			"description":"Default value for the enable/disable checkbox which appears when startEnabledLabel is specified",
-			"default":""
-		},
-		{
-			"name":"startUserEnableable",
-			"type":"boolean",
-			"description":"Determines if the user is able to control the start enabled checkbox state.",
-			"default":"true"
-		},		
-		{
-			"name":"startEnabledLabel",
-			"type":"string",
-			"description":"A label used for the start checkbox. Typically this is used for scenarios where there is a 'parent' date that the picker must constrain to",
-			"default":"null"
-		},		
-		{
-			"name":"startLabel",
-			"type":"string",
-			"description":"The label for the lefthand section of the picker when in dual mode. Typically this is the start date.",
-			"default":"start"
-		},		
-		{
-			"name":"startDate",
-			"type":"string",
-			"description":"A string in the dateformat used for the default",
-			"default":"null"
-		},		
-		{
-			"name":"startTime",
-			"type":"Date",
-			"description":"A date object representing the default time to use in the time input.",
-			"default":"12:00"
-		},		
-		{
-			"name":"startTimePeriod",
-			"type":"string",
-			"description":"The meridian value to default the meridian dropdown to",
-			"default":"am"
-		},		
-				{
-			"name":"end",
-			"type":"Date",
-			"description":"In dual configuration this is the selected end date. In single configuration this is the only date available.",
-			"default":"null"
-		},		
-		{
-			"name":"endEnabled",
-			"type":"boolean",
-			"description":"Default value for the enable/disable checkbox which appears when endEnabledLabel is specified",
-			"default":""
-		},
-		{
-			"name":"endUserEnabled",
-			"type":"boolean",
-			"description":"Determines if the user is able to control the end enabled checkbox state.",
-			"default":"true"
-		},	
-		{
-			"name":"endEnabledLabel",
-			"type":"string",
-			"description":"A label used for the end checkbox. Typically this is used for scenarios where there is a 'parent' date that the picker must constrain to",
-			"default":"null"
-		},		
-		{
-			"name":"endLabel",
-			"type":"string",
-			"description":"The label for the lefthand section of the picker when in dual mode. Typically this is the end date.",
-			"default":"end"
-		},		
-		{
-			"name":"endDate",
-			"type":"string",
-			"description":"A string in the dateformat used for the default",
-			"default":"null"
-		},		
-		{
-			"name":"endTime",
-			"type":"Date",
-			"description":"A date object representing the default time to use in the time input.",
-			"default":"12:00"
-		},		
-		{
-			"name":"endTimePeriod",
-			"type":"string",
-			"description":"The meridian value to default the meridian dropdown to",
-			"default":"am"
-		}	
-	],
 	"events": [
-		{
-			"type": "opened"
-		},
-		{
-			"type": "closed"
-		},
 		{
 			"type": "saved",
 			"detail": [
@@ -260,5 +312,16 @@
 				}
 			]
 		}
+	],
+	"behaviors": [
+		"closable",
+		"autoclosable",
+		"autotogglable",
+		"windownotifier",
+		"stackable",
+		"positionable",
+		"positionablepanel",
+		"debouncable",
+		"falsifiable"
 	]
 }
