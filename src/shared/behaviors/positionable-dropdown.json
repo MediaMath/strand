@@ -16,6 +16,5 @@
 			"description":"The maximum width of the dropdown panel, after which it will truncate its content. If overflowWidth is set, the element will ignore its overflow property.",
 			"optional":true
 		}
-	],
-	"behaviors":["positionable-panel"]
+	]
 }

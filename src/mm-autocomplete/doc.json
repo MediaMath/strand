@@ -19,31 +19,6 @@
 			"options":["true", "false"]
 		},
 		{
-			"name":"overflow",
-			"type":"String",
-			"description":"Instructs the dropdown panel, which contains the search results, to truncate or show the full text of each result. Longer text will be truncated by default, unless this attribute (or property) is set to 'visible'.",
-			"optional":true,
-			"default":"hidden",
-			"options":["hidden", "visible"]
-		},
-		{
-			"name":"overflowWidth",
-			"type":"Number",
-			"description":"Instructs the dropdown panel to clamp it's width at the specified number. Useful when an overflow is desired, but horizontal page real estate is limited.",
-			"optional":true,
-			"default":"hidden",
-			"attribute":"overflow-width"
-		},
-		{
-			"name":"direction",
-			"type":"String",
-			"description":"Instructs the dropdown panel, which contains the search results, to to display above or below the text input field. By default, the dropdown panel will dosplay below the input. Options correspont to a compass paradigme i.e. - 'north' ('n') or 'south' ('s').",
-			"optional":true,
-			"default":"s",
-			"options":["n", "s"],
-			"reflect":true
-		},
-		{
 			"name":"disabled",
 			"type":"Boolean",
 			"description":"Sets the visual and interaction state to be disabled.",
@@ -98,33 +73,9 @@
 			"default":"null"
 		},
 		{
-			"name":"state",
-			"type":"String",
-			"description":"Sets the visual state of the element.",
-			"optional":false,
-			"default":"closed",
-			"options":["opened", "closed"]
-		},
-		{
-			"name":"isClosed",
-			"type":"Boolean",
-			"description":"Returns a boolean corresponding to the visual state of the element.",
-			"optional":false,
-			"default":"true",
-			"attribute":"N/A"
-		},
-		{
-			"name":"selectedIndex",
+			"name":"itemHeight",
 			"type":"Number",
-			"description":"An integer representing the index of the selected list item from the dropdown panel. As the list items will be filtered upon user interaction - the number returned will correspond with the index of the item in original data set (see 'data' for more information).",
-			"optional":false,
-			"default":"true",
-			"attribute":"N/A"
-		},
-		{
-			"name":"items",
-			"type":"Array",
-			"description":"Returns only the filtered search data used to populate the element. Only available after a value has been applied.",
+			"description":"Returns the offsetHeight of a single mm-list-item used to populate the dropdown panel.",
 			"optional":false,
 			"default":"[]",
 			"attribute":"N/A"
@@ -136,68 +87,15 @@
 			"optional":false,
 			"default":"[]",
 			"attribute":"N/A"
-		},
-		{
-			"name":"itemHeight",
-			"type":"Number",
-			"description":"Returns the offsetHeight of a single mm-list-item used to populate the dropdown panel.",
-			"optional":false,
-			"default":"[]",
-			"attribute":"N/A"
 		}
 	],
 	"methods": [
 		{
-			"name":"open",
-			"description":"Instructs the component to open.",
-			"arguments":[
-				{
-					"name":"silent",
-					"type":"String",
-					"optional":true,
-					"default":"false",
-					"description":"Used to allow or suppress the firing of an 'open' event (see 'events' for more information)."
-				}
-			]
-		},
-		{
-			"name":"close",
-			"description":"Instructs the component to close.",
-			"arguments":[
-				{
-					"name":"silent",
-					"type":"String",
-					"optional":true,
-					"default":"false",
-					"description":"Used to allow or suppress the firing of a 'close' event (see 'events' for more information)."
-				}
-			]
-		},
-		{
 			"name":"reset",
 			"description":"Resets the component to it's default display state, and clears any value."
-		},
-		{
-			"name":"toggle",
-			"description":"Toggles the visual state of the component between 'opened' and 'closed'.",
-			"arguments":[
-				{
-					"name":"silent",
-					"type":"String",
-					"optional":true,
-					"default":"false",
-					"description":"Used to allow or suppress the firing of an 'open' or 'close' event, depending on the component's current state (see 'events' for more information)."
-				}
-			]
 		}
 	],
 	"events": [
-		{
-			"type": "open"
-		},
-		{
-			"type": "close"
-		},
 		{
 			"type": "changed",
 			"detail": [
@@ -238,5 +136,17 @@
 				}
 			]
 		}
+	],
+	"behaviors": [
+		"stylable",
+		"keyselectable",
+		"stackable",
+		"jqueryable",
+		"closable",
+		"autoclosable",
+		"windownotifier",
+		"positionable",
+		"positionable-panel",
+		"positionable-dropdown"
 	]
 }

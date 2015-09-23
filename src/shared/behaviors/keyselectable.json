@@ -1,5 +1,4 @@
 {
 	"name":"KeySelectable",
-	"description":"Interfaces keyboard events with the Selectable behavior",
-	"behaviors":["selectable","keyboardable"]
+	"description":"Interfaces keyboard events with the Selectable behavior"
 }

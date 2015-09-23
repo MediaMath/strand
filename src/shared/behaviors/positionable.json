@@ -18,6 +18,5 @@
 			"default": 10,
 			"required": true
 		}
-	],
-	"behaviors": ["windownotifier","autoclosable"]
+	]
 }

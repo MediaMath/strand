@@ -18,6 +18,5 @@
 			"optional":false,
 			"default":null
 		}
-	],
-	"behaviors": ["positionable"]
+	]
 }
