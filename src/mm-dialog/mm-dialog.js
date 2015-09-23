@@ -19,11 +19,11 @@
 		properties: {
 			type: {
 				type: String,
-				value: ''
+				value: 'info',
+				reflectToAttribute: true
 			},
 			header: {
-				type: String,
-				value: ''
+				type: String
 			},
 			width: {
 				type: Number,
@@ -35,11 +35,7 @@
 				value: false
 			},
 			noscroll: Boolean,
-
-			icon: {
-				type: Object,
-				computed: '_getIconAttributes(type)'
-			},
+			stackType: String,
 			actions: {
 				type: Array,
 				value: function() {
@@ -51,8 +47,13 @@
 						}
 					}];
 				}
+			},
+			_icon: {
+				type: Object,
+				computed: '_getIconAttributes(type)'
 			}
 		},
+
 
 		_handleClick: function(e) {
 			e.preventDefault();

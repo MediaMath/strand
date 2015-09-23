@@ -1,82 +1,72 @@
 {
 	"name":"mm-dialog",
-	"description":"A wrapper around mm-modal used to quickly create dialog boxes",
+	"description":"A wrapper around mm-modal used to quickly create fully styled dialog boxes.",
 	"attributes": [
 		{
 			"name":"type",
 			"type":"String",
-			"description":"The type of message this is, which determines the icon/icon color",
-			"optional":true,
-			"default":"",
-			"options":["error", "info", "success","warning"]
+			"description":"Instructs the component to display a specific icon to denote the message type i.e. - 'error' or 'warning'.",
+			"default":"info",
+			"options":["error", "info", "success","warning"],
+			"reflect": true
 		},
 		{
 			"name":"header",
 			"type":"String",
-			"description":"Text to display in the header of dialog window",
+			"description":"The header text to be displayed in the header of dialog window.",
 			"optional":true,
 			"default":""
 		},
 		{
 			"name":"width",
 			"type":"int",
-			"description":"The pixel width of the dialog window",
+			"description":"Sets the width, in pixels, of the dialog window.",
 			"optional":true,
-			"default":"600",
-			"options":[]
+			"default":"600"
 		},
 		{
-			"name":"noscroll",
+			"name":"hidden",
+			"type":"string",
+			"description":"Returns the visible state of the dialog window. Can be used in binding scenarios as an alternative to show or hide the dialog.",
+			"optional":true,
+			"default":"true",
+			"options":["true", "false"]
+		},
+		{
+			"name":"dismiss",
 			"type":"Boolean",
-			"description":"Disable page scrolling while the dialog is open",
+			"description":"If set, determines whether or not the dialog can be dismissed without user action (see: actions).",
 			"optional":true,
 			"default":"false",
 			"options":["true", "false"]
 		},
 		{
-			"name":"dismiss",
+			"name":"noscroll",
 			"type":"Boolean",
-			"description":"Whether or not the dialog can be dismissed by the user without a response",
+			"description":"If set, will disable page scrolling while the dialog is displayed.",
 			"optional":true,
-			"default":"true",
+			"default":"false",
 			"options":["true", "false"]
+		},
+		{
+			"name":"actions",
+			"type":"Array",
+			"description":"An array of objects representing the actions to be displayed in the footer of the dialog. Each object provided should follow the format { label: String, type: String, callback: Function }. The property 'label' sets the name of the action. The property 'type' ('primary', 'secondary', or 'action') sets the button type. The property 'callback' may take optional arguments for the event object and the mm-dialog node.",
+			"optional":true,
+			"default":"label: 'OK', type: 'secondary', callback: function(e,host) { host.hide(); }",
+			"options":"*for property 'type': primary, secondary, action",
+			"attribute":"N/A"
 		}
 	],
 	"methods": [
 		{
 			"name":"show",
-			"description":"Shows the dialog.",
-			"arguments":[]
+			"description":"Shows the dialog."
 		},
 		{
 			"name":"hide",
-			"description":"Hides the dialog.",
-			"arguments":[]
+			"description":"Hides the dialog."
 		}
 	],
-	"properties":[
-		{
-			"name":"hidden",
-			"type":"string",
-			"description":"The visible state of the dialog window and blocker.",
-			"default":"true"
-		},
-		{
-			"name":"width",
-			"type":"int",
-			"description":"The pixel width of the dialog window.",
-			"default":"450"
-		},
-		{
-			"name":"dismiss",
-			"type":"string",
-			"description":"Whether or not the dialog can be dismissed by the user without a response.",
-			"default":"false"
-		},
-		{
-			"name":"actions",
-			"type":"array",
-			"description":"An array of actions/buttons to show in the footer, of the form {label: String, type: String, callback: Function}. type should be either \"primary\" or \"secondary\". callback may take optional arguments for the event object and the mm-dialog node."
-		}
-	]
+	"behaviors": [ "stackable" ]
 }

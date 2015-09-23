@@ -1,15 +1,24 @@
-<mm-dialog id="testDialog"
-	type="info"
-	header="It works"
-	width="250">
-	<p>You didn't break it</p>
-</mm-dialog>
+<template is="dom-bind">
 
-<p>
-	<mm-button id="showBtn">
-		<label>Show Dialog</label>
-	</mm-button>
-</p>
+	<mm-dialog id="testDialog"
+		type="{{dialogType}}"
+		header="Call me Ishmael.">
+		<p>Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.</p>
+	</mm-dialog>
+	
+	<div>
+		<mm-dropdown value="{{dialogType}}" placeholder="Choose Dialog Type">
+			<mm-list-item value="info">Info</mm-list-item>
+			<mm-list-item value="success">Success</mm-list-item>
+			<mm-list-item value="warning">Warning</mm-list-item>
+			<mm-list-item value="error">Error</mm-list-item>
+		</mm-dropdown>
+		<mm-button id="showBtn" disabled="{{!dialogType}}">
+			<label>Show Dialog</label>
+		</mm-button>
+	</div>
+	
+</template>
 
 <script>
 	window.addEventListener("WebComponentsReady", function() { 
@@ -25,7 +34,7 @@
 			},
 			{
 				label: "OK",
-				type: "Primary",
+				type: "primary",
 				callback: function(e,host) {
 					host.fire('confirm');
 					host.hide();
@@ -33,13 +42,12 @@
 			}
 		];
 
-		sb.addEventListener('click', showDialog);
+		sb.addEventListener('click', function showDialog(e) {
+			td.show();
+		});
+
 		td.addEventListener('confirm', function() {
 			console.log('Confirmed.');
 		});
-
-		function showDialog(e) {
-			td.show();
-		}
 	});
 </script>

@@ -19,6 +19,7 @@
 			hidden: {
 				type:Boolean,
 				value:true,
+				notify:true,
 				reflectToAttribute:true
 			},
 			dismiss: {

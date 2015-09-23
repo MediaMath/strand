@@ -17,9 +17,9 @@
 	<link rel="import" type="css" href="mm-dialog.css"/>
 
 	<template>
-		<mm-modal id="dialogInnerModal" width="[[width]]" dismiss="[[dismiss]]" noscroll="[[noscroll]]" hidden="{{hidden}}">
+		<mm-modal id="dialogInnerModal" width="[[width]]" dismiss="[[dismiss]]" noscroll="[[noscroll]]" stack-type="{{stackType}}" hidden="{{hidden}}">
 			<div class="content-top">
-				<template is="dom-if" if="{{type}}"><mm-icon height="25" width="25" type="{{icon.type}}"></mm-icon></template>
+				<template is="dom-if" if="{{type}}"><mm-icon height="25" width="25" type="{{_icon.type}}"></mm-icon></template>
 				<template is="dom-if" if="{{header}}"><mm-header size="large">{{header}}</mm-header></template>
 				<div id="dialogMessage"><content></content></div>
 			</div>
