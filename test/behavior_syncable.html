@@ -192,6 +192,7 @@
 				//marshaller is noop
 				response.marshalled.should.deep.equal([{ "id": 101, "comment": "Stuff" }]);
 				response.response.should.deep.equal([{ "id": 101, "comment": "Stuff" }]);
+				xhr.restore();
 				done();
 			});
 			request.respond(200, 
@@ -203,8 +204,49 @@
 
 		});
 
+		it("should convert dom params into a request", function(done) {
+			
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+			
+			var sync = document.querySelector("#sync1");
+
+			sync.get().then(function(response) {
+
+				request.requestHeaders.should.be.an.object;
+				request.requestHeaders.should.deep.equal({
+					'x-labs-test':'labs',
+					'x-test':'someVal'
+				});
+				
+				request.url.should.contain("/123/innerUrl?nocache=");
+				request.url.should.contain("&innerQuery=inner123&queryTest=123");
+
+				xhr.restore();
+				done();
+			});
+			request.respond(200, 
+				{ 
+					"Content-Type": "application/json"
+				},
+				'[{ "id": 101, "comment": "Stuff" }]'
+			);
+		});
+
 	});
 	</script>
-	<!-- <test-syncable auto="false"></test-syncable> -->
+	<test-syncable id="sync1" auto="false">
+		<input-params>
+			<queryParam name="queryTest" value="123"></queryParam>
+			<queryParam name="innerQuery">inner123</queryParam>
+			<urlParam value="123"></urlParam>
+			<urlParam>innerUrl</urlParam>
+			<header name="x-labs-test">labs</header>
+			<header name="x-test" value="someVal"></header>
+		</input-params>
+	</test-syncable>
 </body>
 </html>

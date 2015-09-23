@@ -2,6 +2,7 @@
 <link rel="import" href="../js/datautils.html"/>
 <link rel="import" href="../js/ajax.html"/>
 <link rel="import" href="../behaviors/domgettable.html"/>
+<link rel="import" href="../behaviors/domsyncable.html"/>
 <link rel="import" href="../behaviors/falsifiable.html"/>
 <script>
 /**
@@ -12,8 +13,18 @@
 */
 (function(scope) {
 
+	function _getParamBase(obj) {
+		obj = obj || {};
+		return {
+			params: obj.queryparam || [],
+			urlParams: obj.urlparam || [],
+			headers: obj.header || []
+		};
+	}
+
 	var DataUtils = StrandLib.DataUtils;
 	var Sync = StrandLib.Sync;
+	var Ajax = StrandLib.Ajax;
 
 	var Syncable = {
 		properties: {
@@ -30,10 +41,6 @@
 				observer:"_updateEndpoint"
 			},
 
-			auto:{
-				type:Boolean,
-				value:true,
-			},
 			autoDebounce:{
 				type:Number,
 				value:200
@@ -162,29 +169,6 @@
 			});
 		},
 
-		_getDomConfig: function(method, domObject) {
-			var domConfig = method === Ajax.GET ? this.domObject["input-params"] : this.domObject["output-params"];
-			domConfig = _getParamBase(domConfig) || _getParamBase();
-
-			return {
-				headers: domConfig.headers.map(DataUtils.nodeToParam),
-				params: domConfig.params.map(DataUtils.nodeToParam),
-				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
-			};
-		},
-
-		domObjectChanged: function(domObject) {
-			if (this.auto && this.auto !== "save") {
-				this.debounce("dom", this.get, this.autoDebounce);
-			}
-		},
-
-		_dataChanged:function(oldData, newData) {
-			if (this.auto && this.auto !== "load") {
-				this.debounce("dom", this.post, this.autoDebounce);
-			}
-		},
-
 		_handleError: function(error) {
 			this.fire("data-error",error);
 		},
@@ -200,6 +184,7 @@
 	scope.Syncable = [
 		scope.DomGettable,
 		scope.Falsifiable,
+		scope.DomSyncable,
 		Syncable,
 	];
 }(window.StrandTraits = window.StrandTraits || {}));
