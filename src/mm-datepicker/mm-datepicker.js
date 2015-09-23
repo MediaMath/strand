@@ -315,7 +315,7 @@
 					shouldSave = shouldSave && value.length == 5 && moment(value).isValid();
 				break;
 			}
-			if(shouldSave) this.save(_,_,true);
+			if(shouldSave) this._save(_,_,true);
 		},
 
 		reset: function(start, end) {
@@ -387,7 +387,7 @@
 			}
 		},
 
-		save: function(e,_,silent) {
+		_save: function(e,_,silent) {
 			var sd = moment(this.startDate);
 			var st = moment(this.startTime + ' ' + this.startTimePeriod, this.timeFormat);
 			sd.set({'hours': st.hours(), 'minutes': st.minutes()});
@@ -404,6 +404,10 @@
 				this.close();
 			}
 		},
+
+		save: function() {
+			this._save();
+		}
 
 	});
 
