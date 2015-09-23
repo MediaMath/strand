@@ -83,7 +83,7 @@
 		@include buttonSelected($color-A20, $color-A9, $color-A20);
 	}
 
-	/* layout modes for button */
+	/* _layout modes for button */
 	&.opened.bottom {
 		border-radius: 4px 4px 0px 0px;
 	}
@@ -93,9 +93,9 @@
 	}
 }
 
-/* layout modes for button */
+/* _layout modes for button */
 /* horizontal */
-:host([layout=hgroup-left]) {
+:host([_layout=hgroup-left]) {
 	.button  {
 		border-radius: 4px 0px 0px 4px;
 	}
@@ -109,7 +109,7 @@
 	}
 }
 
-:host([layout=hgroup-center]) {
+:host([_layout=hgroup-center]) {
 	margin-left: -1px;
 
 	.button,
@@ -119,7 +119,7 @@
 	}
 }
 
-:host([layout=hgroup-right]) {
+:host([_layout=hgroup-right]) {
 	margin-left:-1px;
 
 	.button {
@@ -136,21 +136,21 @@
 }
 
 /* vertical */
-:host([layout=vgroup-top]),
-:host([layout=vgroup-center]),
-:host([layout=vgroup-left]) {
+:host([_layout=vgroup-top]),
+:host([_layout=vgroup-center]),
+:host([_layout=vgroup-left]) {
 	.button {
 		@include justify-content(center);
 	}
 }
 
-:host([layout=vgroup-top]) {
+:host([_layout=vgroup-top]) {
 	.button {
 		border-radius: 4px 4px 0px 0px;
 	}
 }
 
-:host([layout=vgroup-center]) {
+:host([_layout=vgroup-center]) {
 	margin-top: -1px;
 
 	.button{
@@ -158,7 +158,7 @@
 	}
 }
 
-:host([layout=vgroup-bottom]) {
+:host([_layout=vgroup-bottom]) {
 	margin-top: -1px;
 	
 	.button {
