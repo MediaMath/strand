@@ -273,7 +273,7 @@
 	"methods": [
 		{
 			"name":"reset",
-			"description":"Resets the selected 'start' and 'end' dates either to their default values, or to the values specified in arguments",
+			"description":"Resets the selected 'start' and 'end' dates either to their default values, or to the values specified in arguments.",
 			"arguments":[
 				{
 					"name":"start",
@@ -293,7 +293,7 @@
 		},
 		{
 			"name":"save",
-			"description":"Behaves simliarly to close, excecpt that any pending values are commited (when "
+			"description":"Commits any pending date or date range values selected, and closes the mm-datepicker."
 		}
 	],
 	"events": [
@@ -303,12 +303,12 @@
 				{
 					"name":"start",
 					"type":"Date",
-					"description":"Start date the user has chosen"
+					"description":"The start date the user has chosen."
 				},
 				{
 					"name":"end",
 					"type":"Date",
-					"description":"End date the user has chosen"
+					"description":"The end date the user has chosen."
 				}
 			]
 		}
