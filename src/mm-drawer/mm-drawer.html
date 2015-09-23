@@ -10,7 +10,7 @@
 <dom-module id="mm-drawer">
   <link rel="import" type="css" href="mm-drawer.css">
   <template>
-		<div id="container" class$="{{ _computeClass(expanded) }}" style$="{{ _computeStyle(height) }}">
+		<div id="container" class$="{{ _computeClass(expanded) }}" style$="{{ _computeStyle(_height) }}">
 			<div id="content">
 				<content select="*"></content>
 			</div>

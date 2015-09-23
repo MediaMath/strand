@@ -12,19 +12,15 @@
 		properties: {
 			label: {
 				type: String,
-				value: ''
-			},
-			height: {
-				type: Number,
-				computed: '_computeDrawerHeight(expanded,openedHeight,closedHeight)'
+				value:''
 			},
 			openedLabel: {
 				type: String,
-				value: ''
+				value:''
 			},
 			closedLabel: {
 				type: String,
-				value: ''
+				value:''
 			},
 			openedHeight: {
 				type: Number,
@@ -43,6 +39,10 @@
 				value: false,
 				notify: true,
 				observer: '_expandedChanged'
+			},
+			_height: {
+				type: Number,
+				computed: '_computeDrawerHeight(expanded,openedHeight,closedHeight)'
 			},
 			_showLabel: {
 				type: Boolean,
@@ -63,7 +63,7 @@
 		},
 
 		_computeLabel: function(label,openedLabel,closedLabel,expanded) {
-			if(openedLabel && closedLabel) {
+			if (openedLabel && closedLabel) {
 				return (expanded) ? openedLabel : closedLabel;
 			} else {
 				return label;
@@ -93,11 +93,11 @@
 			return this.classBlock(o);
 		},
 
-		_computeStyle: function(height) {
+		_computeStyle: function(_height) {
 			return this.styleBlock({
-				height: height + 'px'
+				height: _height + 'px'
 			});
-		},
+		}
 	});
 
 })(window.Strand = window.Strand || {});
