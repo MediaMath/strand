@@ -22,8 +22,7 @@
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
-			// TODO: underscore name(?) update where applicable
-			itemRecycler: {
+			_itemRecycler: {
 				type: Object,
 				value: function() { return this.$.itemRecycler; }
 			},
@@ -194,7 +193,7 @@
 
 			if (this.items.length > 0) {
 				if (this.data) {
-					itemHeight = 0|this.$.itemRecycler.getHeightAtIndex(0);
+					itemHeight = 0|this._itemRecycler.getHeightAtIndex(0);
 				} else {
 					itemHeight = this.items[0].offsetHeight;
 				}
@@ -203,7 +202,7 @@
 		},
 
 		get buttonWidth() {
-			return Math.ceil(Rectangle.fromElement(this.$.target).width);
+			return Rectangle.fromElement(this.$.target).width;
 		},
 
 		get paddingWidth() {
@@ -332,7 +331,7 @@
 			this.$.list.style.height = this.itemHeight * actualMax + 'px';
 			
 			if (this.data) {
-				this.$.itemRecycler.style.height = this.itemHeight * actualMax + 'px';
+				this._itemRecycler.style.height = this.itemHeight * actualMax + 'px';
 				this.$.list.style.overflowY = "hidden";
 			}
 	 	},

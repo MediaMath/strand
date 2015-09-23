@@ -3,138 +3,95 @@
 	"description":"A fully-styled dropdown list containing multiple options.",
 	"attributes": [
 		{
-			"name":"placeholder",
-			"type":"String",
-			"description":"Default text which appears on the dropdown button ('Select One').",
-			"optional":true,
-			"default":"Select",
-			"options":[]
-		},
-		{
-			"name":"overflow",
-			"type":"String",
-			"description":"Allows long list items to overflow when the list is opened.",
-			"optional":true,
-			"default":"hidden",
-			"options":["hidden", "visible"]
-		},
-		{
-			"name":"overflowWidth",
-			"type":"Number",
-			"description":"If set, will adjust the overflow container's width in pixels. Otherwise use the internal item width",
-			"optional":true,
-			"default":"0",
-			"options":[]
-		},
-		{
-			"name":"maxitems",
-			"type":"Int",
-			"description":"The maximum viewable number of items to display in the list, others will be hidden and wil incur scrolling.",
-			"optional":true,
-			"default":"none",
-			"options":[]
-		},
-		{
-			"name":"fitparent",
-			"type":"Boolean",
-			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
-			"optional":true,
-			"default":"null",
-			"options":[]
-		},
-		{
 			"name":"disabled",
 			"type":"Boolean",
-			"description":"Disable the item",
+			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":[]
-		}
-	],
-	"methods": [
-		{
-			"name":"open",
-			"description":"Expand the dropdown.",
-			"arguments":[]
-		},
-		{
-			"name":"close",
-			"description":"Collapse the dropdown.",
-			"arguments":[]
-		},
-		{
-			"name":"toggle",
-			"description":"Close dropdown if it is open, otherwise open it.",
-			"arguments":[]
-		},
-		{
-			"name":"reset",
-			"description":"Reset dropdown to default state.",
-			"arguments":[]
-		},
-		{
-			"name":"bindModel",
-			"description":"Bind a property on the given model to the input's value.",
-			"arguments":[
-				{
-					"name":"model",
-					"type":"Object",
-					"optional":false,
-					"default":"undefined",
-					"description":"The model object to update with value changes.  If the model has a '.set()' method, .set(property, inputValue) will be used (otherwise the property field of the model will be assigned directly)."
-				},
-				{
-					"name":"property",
-					"type":"String",
-					"optional":false,
-					"default":"undefined",
-					"description":"The property on the model that should be bound to the input's value."
-				}
-			]
-		}
-	],
-	"properties":[
-		{
-			"name":"data",
-			"type":"Array",
-			"description":"Array of value / label objects for data-driven dropdown (eg. [{value: '0', label:'Item Label'}, ...]). Setting this will override any internal mm-list-items.",
-			"default":"null"
-		},
-		{
-			"name":"placeholder",
-			"type":"String",
-			"description":"Default text which appears on the dropdown button ('Select').",
-			"default":"Select"
-		},
-		{
-			"name":"value",
-			"type":"String",
-			"description":"The current value of the selected item.",
-			"default":"null"
-		},
-		{
-			"name":"maxItems",
-			"type":"Number",
-			"description":"The maximum number of items the dropdown will show before scrolling is enabled (zero and null indicate 'unlimited').",
-			"default":"null"
-		},
-		{
-			"name":"state",
-			"type":"String",
-			"description":"The state of the dropdown (may be 'opened' or 'closed').",
-			"default":"'closed'"
-		},
-		{
-			"name":"fit",
-			"type":"Boolean",
-			"description":"Whether or not the dropdown should scale itself to fit the width of it's parent.",
-			"default":"false"
+			"options":["true", "false"],
+			"reflect":true
 		},
 		{
 			"name":"error",
 			"type":"Boolean",
-			"description":"Triggers the display of invalid visual state.",
-			"default":"false"
+			"description":"When set, will display an invalid visual state - a red line around the dropdown button. This property can be used to provide user feedback for validation.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"fitparent",
+			"type":"Boolean",
+			"description":"When set, instructs the component to fill the width of its parent container.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"placeholder",
+			"type":"String",
+			"description":"Sets the default text which appears on the dropdown button.",
+			"optional":true,
+			"default":"Select"
+		},
+		{
+			"name":"maxItems",
+			"type":"Number",
+			"description":"Sets the maximum viewable number of items in the list. If set, the list will become scrollable.",
+			"optional":true,
+			"default":"*if data driven: 10, otherwise: none",
+			"attribute":"max-items"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"description":"Sets or returns the value of the currently selected item.",
+			"default":"none"
+		},
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The data which populates the dropdown panel list, expressed as an array of objects with key value pairs i.e. - [ { name: 'name', value: 'value' }, {...} ]. If a data array is provided to mm-dropdown, it will ONLY be populated by the provided data, as it does not support mixing dom and data configuration.",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"itemHeight",
+			"type":"Number",
+			"description":"Returns the height of a single item in the dropdown panel list.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly":true
+		},
+		{
+			"name":"buttonWidth",
+			"type":"Number",
+			"description":"Returns the width of the dropdown button.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly": true
+		},
+		{
+			"name":"paddingWidth",
+			"type":"Number",
+			"description":"Returns the cumulative width of the padding of the dropdown button i.e. - paddingLeft + paddingRight.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly": true
+		},
+		{
+			"name":"borderWidth",
+			"type":"Number",
+			"description":"Returns the cumulative width of the border of the dropdown button i.e. - borderLeft + borderRight.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly": true
+		}
+	],
+	"methods": [
+		{
+			"name":"reset",
+			"description":"Resets the dropdown to it's default state."
 		}
 	],
 	"events": [
@@ -144,9 +101,52 @@
 				{
 					"name":"value",
 					"type":"String",
-					"description":"Value of the selected item, usually it's label"
+					"description":"The value of the selected mm-list-item. If no value was supplied, it will return the text content of the list item."
+				}
+			]
+		},
+		{
+			"type": "selected",
+			"detail": [
+				{
+					"name":"item",
+					"type":"Object",
+					"description":"The data object which was selected."
+				},
+				{
+					"name":"index",
+					"type":"Number",
+					"description":"The index of data object which was selected."
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value property of data object which was selected."
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"description":"The name property of data object which was selected."
+				},
+				{
+					"name":"selected",
+					"type":"Boolean",
+					"description":"The selected state of the item."
 				}
 			]
 		}
+	],
+	"behaviors": [
+		"stylable",
+		"keyselectable",
+		"stackable",
+		"jqueryable",
+		"closable",
+		"autoclosable",
+		"autotogglable",
+		"windownotifier",
+		"positionable",
+		"positionable-panel",
+		"positionable-dropdown"
 	]
 }
