@@ -91,7 +91,7 @@
 			},
 			startEnabled: {
 				type: Boolean,
-				value: false
+				value: true
 			},
 			startUserEnabled: {
 				type: Boolean,
@@ -133,7 +133,7 @@
 			},
 			endEnabled: {
 				type: Boolean,
-				value: false
+				value: true
 			},
 			endUserEnabled: {
 				type: Boolean,
