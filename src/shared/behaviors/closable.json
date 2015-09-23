@@ -23,14 +23,16 @@
 			"type":"String",
 			"description": "The value of the state property when the element is closed",
 			"default": "opened",
-			"attribute": "N/A"
+			"attribute": "N/A",
+			"readOnly":true
 		},
 		{
 			"name":"STATE_OPENED",
 			"type":"String",
 			"description": "The value of the state property when the element is opened",
 			"default": "opened",
-			"attribute": "N/A"
+			"attribute": "N/A",
+			"readOnly":true
 		}
 	],
 	"methods": [

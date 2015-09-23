@@ -13,7 +13,7 @@
 		{
 			"name":"boundaryOffset",
 			"type":"Number",
-			"description":"The minimum about of space between the panel and ",
+			"description":"The minimum about of space between the panel and the viewport boundary",
 			"attribute":"panel-offset",
 			"default": 10,
 			"required": true

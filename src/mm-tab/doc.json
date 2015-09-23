@@ -3,9 +3,10 @@
 	"description":"A single tab.",
 	"attributes": [
 		{
-			"name": "tab-label",
+			"name": "tabLabel",
 			"type": "String",
 			"optional": false,
+			"attribute": "tab-label",
 			"default": "",
 			"description": "The text displayed on the tab"
 		},
@@ -49,35 +50,6 @@
 					"description":"The callback to run when the tab is loaded. "
 				}
 			]
-		}
-	],
-	"properties": [
-		{
-			"name":"active",
-			"type":"Boolean",
-			"optional": true,
-			"default": "false",
-			"description": "Whether this tab is active. There should only be one active tab at a time. If no active tab is set, the first tab defaults to active."
-		},
-		{
-			"name": "icon",
-			"type": "String",
-			"optional": true,
-			"default": "",
-			"description": "The name of an mm-icon displayed next to the tab label"
-		},
-		{
-			"name": "tabLabel",
-			"type": "String",
-			"optional": false,
-			"default": "",
-			"description": "The text displayed on the tab"
-		},
-		{
-			"name": "url",
-			"type": "String",
-			"optional": true,
-			"description": "Path to an html document, if loading an external view into the tab. Use the loadExternal method if a callback is required when the tab loads."
 		}
 	]
 }

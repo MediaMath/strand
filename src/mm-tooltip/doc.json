@@ -3,69 +3,22 @@
 	"description":"A custom styled tooltip which accepts variable and partially styleable content.",
 	"attributes": [
 		{
-			"name":"tip-width",
-			"type":"int",
-			"description":"The desired width of the tooltip.",
-			"optional":true,
-			"default":"Defaults to content width"
-		},
-		{
-			"name":"target",
-			"type":"String",
-			"description":"The desired target for the tooltip, as a class or id ('.class-name' or '#targetId'). This is required to get mm-tooltip up-and-running.",
-			"default":"null"
-		},
-		{
-			"name":"auto",
-			"type":"Boolean",
-			"description":"Instructs the tooltip to stay visible even after the user has rolled out of the target area.",
-			"optional":true,
-			"default":"true",
-			"options":["true", "false"]
-		},
-		{
-			"name":"direction",
-			"type":"String",
-			"description":"Where the tooltip is positioned relative to it's target area, in 'compass' coordinates.",
-			"optional":true,
-			"default":"top",
-			"options":["n", "s", "e", "w"]
-		}
-	],
-	"methods": [
-		{
-			"name":"open",
-			"description":"Instructs the tooltip to be displayed."
-		},
-		{
-			"name":"close",
-			"description":"Instructs the tooltip to be hidden."
-		}
-	],
-	"properties":[
-		{
 			"name":"tipWidth",
-			"type":"int",
+			"type":"Number",
 			"description":"The desired width of the tooltip.",
-			"default":"Defaults to content width"
-		},
-		{
-			"name":"target",
-			"type":"Object",
-			"description":"Object reference derived from the class or id ('.class-name' or '#targetId') provided as an attribute. Optionally, an object can be passed dynamically. This is required to get mm-tooltip up-and-running.",
-			"default":"null"
+			"optional":true,
+			"attribute": "tip-width",
+			"default":"Defaults to content width",
+			"reflect":true
 		},
 		{
 			"name":"auto",
 			"type":"Boolean",
 			"description":"Instructs the tooltip to stay visible even after the user has rolled out of the target area.",
-			"default":"Defaults to content width"
-		},
-		{
-			"name":"direction",
-			"type":"String",
-			"description":"Where the tooltip is positioned relative to it's target area, in 'compass' coordinates.",
-			"default":"top"
+			"optional":true,
+			"default":false,
+			"reflect":true
 		}
-	]
+	],
+	"behaviors":["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]
 }
