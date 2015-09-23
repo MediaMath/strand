@@ -97,6 +97,25 @@ describe("AjaxPlugin", function() {
 		should.equal(fail.getConfig("i dont exist"), null);
 	});
 
+	it("should get plugin instances by name", function() {
+		function EmptyPlugin() { this.config = {pass:false} };
+		function PassPlugin() { this.config = {pass:true} };
+		var pq = new StrandLib.AjaxPlugin();
+		pq.register("test1", EmptyPlugin);
+		pq.register("cats", EmptyPlugin);
+		pq.register("test2", PassPlugin);
+		
+		pq.getInstance("test2").should.be.instanceOf(PassPlugin);
+		pq.getInstance("test1").should.be.instanceOf(EmptyPlugin);
+
+		//fail gracefully
+		should.equal(pq.getInstance("i dont exist"), null);
+
+		var fail = new StrandLib.AjaxPlugin();
+		should.equal(fail.getInstance("test1"), null);
+		should.equal(fail.getInstance("i dont exist"), null);
+	});
+
 });
 </script>
 </body>
