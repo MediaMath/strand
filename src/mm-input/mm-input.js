@@ -71,7 +71,7 @@
 				value: false, 
 				reflectToAttribute: true
 			},
-			layout: { 
+			_layout: { 
 				type: String,
 				value: false, 
 				reflectToAttribute: true 
