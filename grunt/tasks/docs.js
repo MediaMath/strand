@@ -17,10 +17,12 @@ function mergeDocArray(doc, behavior) {
 		return behavior;
 	}
 	behavior.forEach(function(obj) {
-		p[obj.name] = obj;
+		if(obj.name) p[obj.name] = obj;
+		else if(obj.type) p[obj.type] = obj;
 	});
 	doc.forEach(function(obj) {
-		p[obj.name] = obj;
+		if(obj.name) p[obj.name] = obj;
+		else if(obj.type) p[obj.type] = obj;
 	});
 	return Object.keys(p).map(function(key) {
 		return p[key];
