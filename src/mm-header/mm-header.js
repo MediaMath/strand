@@ -10,10 +10,6 @@
 		is:"mm-header",
 
 		properties: {
-			ver:{
-				value:"<<version>>",
-				type:String
-			},
 			size: {
 				value:"large",
 				type:String,
@@ -21,7 +17,7 @@
 			}
 		},
 
-		headerClass: function(size) {
+		_headerClass: function(size) {
 			return "header-"+size;
 		}
 	});
