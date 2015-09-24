@@ -36,13 +36,13 @@ This code may only be used under the BSD style license found at http://mediamath
 		function resetTriggers(element){
 			// non-optimal hack to avoid console errors if the dom doesn't exist
 			// specifically - mm-item-recycler getItemHeight method:
-			if (!element || 
-				!element.__resizeTriggers__ ||
-				!element.__resizeTriggers__.firstElementChild ||
-				!element.__resizeTriggers__.lastElementChild ||
-				!element.__resizeTriggers__.firstElementChild.firstElementChild) {
-				return;
-			}
+			// if (!element || 
+			// 	!element.__resizeTriggers__ ||
+			// 	!element.__resizeTriggers__.firstElementChild ||
+			// 	!element.__resizeTriggers__.lastElementChild ||
+			// 	!element.__resizeTriggers__.firstElementChild.firstElementChild) {
+			// 	return;
+			// }
 
 			var triggers = element.__resizeTriggers__,
 				expand = triggers.firstElementChild,

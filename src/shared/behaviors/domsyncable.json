@@ -1,0 +1,27 @@
+{
+	"name": "DomSyncable",
+	"description": "Keeps dom config and domObject in sync.",
+	"attributes":[
+		{
+			"name":"auto",
+			"type":"Boolean",
+			"description":"TODO",
+			"default":"true",
+			"options":["true", "false"]
+		}
+	],
+	"methods":[
+		{
+			"name" : "domObjectChanged",
+			"description" : "TODO",
+			"arguements" : [
+				{
+					"name":"domObject",
+					"type":"Object",
+					"description":"An object used for JS configuration.",
+					"default":"{}"
+				}
+			]
+		}
+	]
+}
