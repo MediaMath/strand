@@ -1,6 +1,7 @@
 <link rel="import" href="../js/datautils.html"/>
-<link rel="import" href="../js/behaviorutils.html"/>
+<!-- <link rel="import" href="../js/behaviorutils.html"/> -->
 <link rel="import" href="syncable.html"/>
+<link rel="import" href="domsyncable.html"/>
 <script>
 /**
  * @license
@@ -13,6 +14,11 @@
 	var DataUtils = StrandLib.DataUtils;
 
 	var Pageable = {
+
+		ready: function() {
+			console.log(this._sync);
+			this._sync.pageConfig.enabled = true;
+		},
 
 		properties: {
 			page:{
@@ -36,7 +42,8 @@
 						body:false,
 						pageType:Pageable.PAGE_TYPE_OFFSET,
 					};
-				}
+				},
+				observer:"_pageOptionsChanged"
 			}
 		},
 
@@ -52,33 +59,16 @@
 				this.page--;
 		},
 
-		sync:function(method, data, options) {
-			
-			var opts = this.pageOptions;
-			options = this._getParamBase(options);
-			var page = opts.pageType === this.PAGE_TYPE_OFFSET ? this.page * this.pageSize : this.page;
-
-			if (opts.url) {
-				if (opts.pageName) options.urlParams.push(DataUtils.param(opts.pageName, page));
-				if (opts.sizeName) options.urlParams.push(DataUtils.param(opts.sizeName, this.pageSize));
-			}
-			if (this.pageOptions.query) {
-				if (opts.pageName) options.params.push(DataUtils.param(opts.pageName, page));
-				if (opts.sizeName) options.params.push(DataUtils.param(opts.sizeName, this.pageSize));
-			}
-			if (this.pageOptions.body && DataUtils.isType(data, "object")) {
-				if (opts.pageName) data[opts.pageName] = page;
-				if (opts.sizeName) data[opts.sizeName] = this.pageSize;
-					
-			}
-			var sync = StrandLib.BehaviorUtils.findSuper(scope.Syncable, "sync");
-			return sync.apply(this, [method,data,options]);
-		},
-
 		_pageChanged:function() {
+			var paging = {
+				page:this.page,
+				pageSize:this.pageSize
+			};
+			this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging);
+
 			if (this.auto && this.auto !== "save" && this.page >= 0) {
 				if (this.autoDebounce !== -1) {
-					this.debounce("dom", this.get, this.autoDebounce);
+					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
 				} else {
 					this.get();
 				}
@@ -86,12 +76,28 @@
 		},
 
 		_pageSizeChanged: function() {
+			var paging = {
+				page:this.page,
+				pageSize:this.pageSize
+			};
+			this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging);
+
 			if (this.auto && this.auto !== "Save" && this.pageSize > 0) {
 				if (this.autoDebounce !== -1) {
-					this.debounce("dom", this.get, this.autoDebounce);
+					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
 				} else {
 					this.get();
 				}
+			}
+		},
+
+		_pageOptionsChanged: function() {
+			if (this._sync.pageConfig) {
+				var paging = {
+					page:this.page,
+					pageSize:this.pageSize
+				};
+				this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging, this.pageOptions);
 			}
 		}
 
@@ -99,6 +105,7 @@
 
 	scope.Pageable = [
 		scope.Syncable,
+		scope.DomSyncable,
 		Pageable,
 	];
 }(window.StrandTraits = window.StrandTraits || {}));
