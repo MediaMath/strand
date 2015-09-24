@@ -23,7 +23,7 @@ describe("AjaxPlugin", function() {
 	it("should handle basic plugin support", function() {
 
 		var pq = new StrandLib.AjaxPlugin();
-		pq.register(StrandLib.AjaxCSRFPlugin);
+		pq.register("test",StrandLib.AjaxCSRFPlugin);
 		var plug = pq.queue[0];
 		var spy1 = sinon.spy(plug, "requestHandler"); 
 		var spy2 = sinon.spy(plug, "responseHandler"); 
