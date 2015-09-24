@@ -30,8 +30,13 @@
 				type: String,
 				value: false,
 				reflectToAttribute: true,
-				observer: "_valueChanged"
+				observer: '_valueChanged'
 			},
+			// TODO: multiselectable
+			// multi: {
+			// 	type: Boolean,
+			// 	value: false
+			// },
 			_filter: {
 				type: Boolean,
 				value: false
@@ -39,10 +44,6 @@
 			_filterElementType: {
 				type: String,
 				value: "*"
-			},
-			multi: {
-				type: Boolean,
-				value: false
 			},
 			_type: {
 				type: String,
@@ -98,7 +99,7 @@
 		ready: function() {
 			// if no group ID is specified, generate a UID
 			if(!this.group){
-				this.group = this.createId();
+				this.group = this._createId();
 			}
 
 			if (!this.align) {
@@ -213,7 +214,7 @@
 			this.fire("changed", { value: newVal });
 		},
 
-		createId: function() {
+		_createId: function() {
 			var timestamp = new Date().valueOf(),
 				rndNum	= Math.floor((Math.random()*99)+1),
 				groupId = 'g' + rndNum + '_' + timestamp;
