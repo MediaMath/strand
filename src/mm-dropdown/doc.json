@@ -37,7 +37,7 @@
 		{
 			"name":"maxItems",
 			"type":"Number",
-			"description":"Sets the maximum viewable number of items in the list. If set, the list will become scrollable.",
+			"description":"Limits the number of list items displayed in the dropdown panel, allowing the list to scroll vertically if necessary.",
 			"optional":true,
 			"default":"*if data driven: 10, otherwise: none",
 			"attribute":"max-items"

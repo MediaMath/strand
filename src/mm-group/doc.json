@@ -1,6 +1,6 @@
 {
 	"name":"mm-group",
-	"description":"A mechanism for grouping components - for button bars, search groups, and radio groups",
+	"description":"A mechanism for grouping components - for button bars, search groups, and radio groups. Button bars and radio groups will respond with respond with 'changed' and 'selected' states and events. Currently, all 'mixed' component grouping mechanisms are for positioning and styling concerns only.",
 	"attributes": [
 		{
 			"name":"fitparent",
@@ -39,6 +39,7 @@
 	"events": [
 		{
 			"type": "changed",
+			"disclaimer" : "*Applies to mm-groups which contain mm-radio buttons only.",
 			"detail": [
 				{
 					"name":"value",
@@ -49,6 +50,7 @@
 		},
 		{
 			"type": "selected",
+			"disclaimer" : "*Applies to mm-groups which contain mm-buttons only.",
 			"detail": [
 				{
 					"name":"item",

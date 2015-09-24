@@ -5,7 +5,7 @@
 		{
 			"name":"type",
 			"type": "String",
-			"description":"Sets the type of the icon to be displayed.",
+			"description":"A string value for the name of the desired icon. Sets the type of icon to be displayed. See the options for naming and example for visual reference.",
 			"optional":true,
 			"default":"plus",
 			"options":[
