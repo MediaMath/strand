@@ -1,57 +1,37 @@
 {
 	"name":"mm-inline-box",
-	"description":"Several fully-styled inline messages - for use with validation success and failure states, etra info, etc.",
+	"description":"Several fully-styled inline messages. Ideal for displaying validation success and failure states, or extra information.",
 	"attributes": [
 		{
 			"name":"type",
 			"type":"String",
-			"description":"The type of inline message styling to be applied.",
-			"default":"none",
-			"options":["error", "warning", "info", "success"]
+			"description":"Instructs the component to display a specific icon and styling which denote the message type i.e. - 'error' or 'warning'.",
+			"default":"info",
+			"options":["error", "info", "success","warning"],
+			"reflect": true
 		},
 		{
 			"name":"maxlines",
 			"type":"String",
-			"description":"The maximum viewable number of lines to display in the box, others will be hidden and wil incur scrolling.",
+			"description":"Limits the number of lines of text displayed in the message box, allowing vertical scrolling if necessary.",
 			"default":"none",
-			"optional":true,
-			"options":[]
+			"optional":true
 		},
 		{
-			"name":"fit",
-			"type":"Boolean",
-			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"name":"fitparent",
+			"type":"Boolen",
+			"description":"Sets the width of the component to fill the width of it's parent element.",
 			"optional":true,
-			"default":"null",
-			"options":[]
+			"default":"false",
+			"options":["true", "false"]
 		},
 		{
 			"name":"layout",
 			"type":"String",
-			"description":"Instructs the component to display as a styled box or a message only.",
+			"description":"Instructs the component to display as a styled box, or message only.",
 			"optional":true,
 			"default":"default",
 			"options":["default", "message"]
-		}
-	],
-	"properties":[
-		{
-			"name":"maxlines",
-			"type":"Number",
-			"description":"The maximum viewable number of lines to display in the box, others will be hidden and wil incur scrolling.",
-			"default":"1"
-		},
-		{
-			"name":"type",
-			"type":"String",
-			"description":"The type of inline message styling to be applied. Valid values are ('error','warning','success' and 'info')",
-			"default":"info"
-		},
-		{
-			"name":"layout",
-			"type":"String",
-			"description":"Instructs the component to display as a styled box or a message only. Valid values are ('default', 'message')",
-			"default":"info"
 		}
 	]
 }

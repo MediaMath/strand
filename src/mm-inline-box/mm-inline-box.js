@@ -8,9 +8,8 @@
 
 	scope.InlineBox = Polymer({
 		is: 'mm-inline-box',
-		LINE_HEIGHT: 18,
 
-		iconMap: {
+		_iconMap: {
 			info:    { type: "info" },
 			success: { type: "success" },
 			warning: { type: "warning" },
@@ -26,19 +25,32 @@
 			maxlines: {
 				type: Number
 			},
-			icon: {
+			fitparent: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			layout: { 
+				type: String,
+				reflectToAttribute: true 
+			},
+			_icon: {
 				type: Object,
-				computed: 'getIconAttributes(type)'
+				computed: '_getIconAttributes(type)'
 			}
 		},
 
-		getContentStyle: function(maxlines) {
+		LINE_HEIGHT: 18,
+		TYPE_DEFAULT: "default",
+		TYPE_MESSAGE: "message",
+
+		_getContentStyle: function(maxlines) {
 			var maxHeight = maxlines ? maxlines * this.LINE_HEIGHT + "px" : "none";
 			return "max-height: " + maxHeight;
 		},
 
-		getIconAttributes: function(type) {
-			return this.iconMap[type];
+		_getIconAttributes: function(type) {
+			return this._iconMap[type];
 		}
 	});
 
