@@ -93,10 +93,10 @@
 			it("should parse mask sets into a data array", function() {
 				var t2 = document.querySelector("#test3");
 
-				t2.maskConfig.should.have.length(6);
-				t2.maskConfig[0].should.have.keys("type","value","style");
-				t2.maskConfig[0].type.should.equal(0);
-				t2.maskConfig[1].should.have.keys("index", "id", "max", "min", "rule", "restrict", "args", "auto", "type", "style", "loaded", "value", "placeholder", "disabled");
+				t2._maskConfig.should.have.length(6);
+				t2._maskConfig[0].should.have.keys("type","value","style");
+				t2._maskConfig[0].type.should.equal(0);
+				t2._maskConfig[1].should.have.keys("index", "id", "max", "min", "rule", "restrict", "args", "auto", "type", "style", "loaded", "value", "placeholder", "disabled");
 
 			});
 

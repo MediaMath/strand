@@ -1,0 +1,37 @@
+{
+	"name":"mm-list-item",
+	"description":"An element used to wrap individual items in components that require lists of items, such as mm-dropdown and mm-menu.",
+	"attributes": [
+		{
+			"name":"selected",
+			"type":"String",
+			"reflect":"true",
+			"default":"false",
+			"optional":"true",
+			"description":"Whether or not this item is currently selected. This can be set as an attribute to provide a default value."
+		},
+		{
+			"name":"highlighted",
+			"type":"Boolean",
+			"reflect":"true",
+			"default":"false",
+			"optional":"true",
+			"description":"Whether or not this item is highlighted. The user can highlight an item by mousing over it or navigating using the keyboard arrow keys."
+		},
+		{
+			"name":"title",
+			"type":"String",
+			"default":"",
+			"optional":"true",
+			"description":"Native HTML attribute. A String of text to show when hovering over this mm-list-item, useful for displaying the full label in contexts where available space is limited (e.g. an mm-dropdown with overflow=hidden)"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"default":"",
+			"optional":"true",
+			"description":"The actual value associated with this list item. Useful in situations where displaying a human-readable name is preferred to the actual value."
+		}
+	],
+	"events": []
+}
