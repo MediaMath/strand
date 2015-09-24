@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/ajaxplugin.html"/>
+	<link rel="import" href="../build/shared/js/ajaxpageplugin.html"/>
+</head>
+<body>
+<script>
+describe("AjaxPagePlugin", function() {
+
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.AjaxPlugin.should.be.an.object;
+		StrandLib.AjaxPagePlugin.should.be.an.object;
+	});
+
+	it("should handle basic plugin support", function() {
+
+		var pq = new StrandLib.AjaxPlugin();
+		pq.register("test",StrandLib.AjaxPagePlugin);
+		var plug = pq.queue[0];
+		var spy1 = sinon.spy(plug, "requestHandler"); 
+		var spy2 = sinon.spy(plug, "responseHandler"); 
+
+		pq.processRequest({test:'test'});
+		pq.processResponse({test:'test'});
+		
+		spy1.calledOnce.should.be.true;
+		spy2.calledOnce.should.be.true;
+
+	});
+
+	it("should handle malformed param objects", function() {
+		var page = new StrandLib.AjaxPagePlugin();
+		page.requestHandler(null);
+		page.requestHandler(-1);
+		page.requestHandler({});
+		page.requestHandler([]);
+	});
+
+	it("should support query paging", function() {
+		var pg = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			//query is default
+		});
+
+		var result = pg.requestHandler({});
+		result.should.have.property("params");
+		result.params.should.have.length(2);
+		result.params[0].name.should.equal('page_offset');
+		result.params[0].value.should.equal(0);
+		result.params[1].name.should.equal('page_limit');
+		result.params[1].value.should.equal(10);
+
+	});
+
+	it("should support url paging", function() {
+		var pg = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			query:false,
+			url:true
+		});
+		var result = pg.requestHandler({});
+		result.should.have.property("urlParams");
+		result.urlParams.should.have.length(4);
+		result.urlParams.should.deep.equal([
+			"page_offset",
+			0,
+			"page_limit",
+			10
+		]);
+	});
+
+	it("should support req body paging", function() {
+		var pg = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			query:false,
+			body:true,
+		});
+		var result = pg.requestHandler({body:{}});
+		result.body.should.be.an.object;
+		result.body.should.have.property('page_offset');
+		result.body.should.have.property('page_limit');
+		result.body.page_offset.should.equal(0);
+		result.body.page_limit.should.equal(10);
+
+	});
+
+	it("should support variable page name param", function() {
+		var pg = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			pageName:"toaster"
+		});
+		var result = pg.requestHandler({body:{}});
+		result.params.should.have.length(2);
+		result.params[0].name.should.equal("toaster");
+	});
+
+	it("should support variable page size param", function() {
+		var pg = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			sizeName:"toaster"
+		});
+		var result = pg.requestHandler({body:{}});
+		result.params.should.have.length(2);
+		result.params[1].name.should.equal("toaster");
+	});
+
+	it("should support index or offset (record) style paging", function() {
+		var pg1 = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			pageType:"offset",
+			page:2,
+		});
+		var result1 = pg1.requestHandler({body:{}});
+		result1.params[0].value.should.equal(20);
+
+		var pg2 = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			pageType:"index",
+			page:2
+		});
+		var result2 = pg2.requestHandler({body:{}});
+		result2.params[0].value.should.equal(2);
+	});
+
+	it("should stop when disabled", function() {
+		//disabled is default for paging since only collections need it
+		var pg = new StrandLib.AjaxPagePlugin();
+		var result = pg.requestHandler({params:[]});
+		result.params.should.have.length(0);
+
+	});
+
+});
+</script>
+</body>
+</html>
