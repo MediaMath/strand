@@ -23,7 +23,8 @@
 			"description":"Sets or returns the visible state of the feedback message.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"]
+			"options":["true", "false"],
+			"attribute": "message-visible"
 		}
 	],
 	"methods": [
