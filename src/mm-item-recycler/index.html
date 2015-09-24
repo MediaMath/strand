@@ -44,7 +44,7 @@
   </head>
   <body>
 	<button id="switch">toggle</button>
-	<div id="toggle" style="display: auto">
+	<div id="toggle" style="display: none">
 		<mm-item-recycler id="itemRecycler" item-template="templateItem">
 			<template id="templateItem">
 				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
@@ -115,6 +115,7 @@
 					toggle.style.display = "none"
 				} else {
 					toggle.style.display = "";
+					itemRecycler.initialize();
 				}
 			};
 

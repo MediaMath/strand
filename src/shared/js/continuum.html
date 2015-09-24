@@ -216,7 +216,12 @@ This code may only be used under the BSD style license found at http://mediamath
 			this._segment(index)) {
 			current = this._items.get(index);
 
-			if (!current.knowsElevation()) {
+			if (index === this._indexWithLazyExtent) {
+				if (current.knowsHeight()) {
+					this._boundEagerRange(index + 1);
+				}
+				current.reset(previous.getExtent()).rebit(KNOWN_ELEVATION);
+			} else if (!current.knowsElevation()) {
 				current.reset(previous.getExtent()).rebit(KNOWN_ELEVATION);
 			}
 		}
@@ -227,8 +232,7 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Continuum.prototype._lowerBoundEagerRange = function (index) {
-		if (index < this._indexWithLazyExtent ||
-			index === this._indexWithLazyExtent + 1) {
+		if (index < this._indexWithLazyExtent) {
 			this._boundEagerRange(index);
 		}
 	};

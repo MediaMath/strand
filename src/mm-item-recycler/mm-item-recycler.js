@@ -51,11 +51,6 @@ found here: https://github.com/Polymer/core-list
 		this.boundMap = {};
 	}
 
-	function _assignYoungFromBoundReducer (reduction, bound, index) {
-		reduction[index] = bound.young;
-		return reduction;
-	}
-
 
 
 	Polymer({
@@ -116,7 +111,11 @@ found here: https://github.com/Polymer/core-list
 				type: Boolean,
 				value: false,
 			},
-			itemHeight: {
+			_initializable: {
+				type: Boolean,
+				value: false,
+			},
+			_itemHeight: {
 				type: Number,
 				value: 0,
 			},
@@ -168,8 +167,14 @@ found here: https://github.com/Polymer/core-list
 				value: function () {
 					return new Recycler(
 						this._getItemHeight.bind(this),
-						this._getDataLength.bind(this),
+						this._getQueriableLength.bind(this),
 						this._handleRecycling.bind(this));
+				},
+			},
+			_measurements: {
+				type: Object,
+				value: function () {
+					return new Continuum(this._getItemHeight.bind(this));
 				},
 			},
 			data: {
@@ -180,11 +185,11 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		listeners: {
-			"pane.scroll": "scrollHandler",
+			"pane.scroll": "_scrollHandler",
 		},
 
 		observers: [
-			"initialize(data, itemTemplate, itemTemplateElement)",
+			"_needsInitialization(data, itemTemplate, itemTemplateElement)",
 			"_scopeChanged(scope.*)",
 			"_dataChanged(data.*)",
 		],
@@ -246,8 +251,13 @@ found here: https://github.com/Polymer/core-list
 			this.removeResizeListener(this._responders.extent, this.$.extent);
 		},
 
+		_settleDown: function () {
+			this.fire("presentation-settled");
+		},
+
 		_extentResponse: function (e) {
-			if (this._waiting) {
+			if (this._waiting &&
+				this.$.extent.offsetHeight > 0) {
 				this._waiting = false;
 				this.initialize();
 			}
@@ -302,24 +312,28 @@ found here: https://github.com/Polymer/core-list
 			var height = bound.height;
 			var delta = +(bound.element.offsetHeight - height) || 0;
 			var itemRecycler = bound.itemRecycler;
-			var itemHeight = 0;
 			var change = 0;
+			var initialization = true;
+
+			bound.height += delta;
+			itemRecycler._measurements.setHeight(bound.young, bound.height);
 
 			if (delta) {
-				bound.height += delta;
-				if (!itemRecycler.itemHeight && bound.height) {
-					itemRecycler.itemHeight = itemHeight = bound.height;
-					change = (itemRecycler._getDataLength() - 1) * (0|itemHeight);
-					itemRecycler._deltaMiddleHeight(change);
-					itemRecycler._recycler.repadFrame(0|itemHeight, 0|itemHeight);
-					if (itemRecycler._desiredIndex > -1) {
-						//Initialize scrollTop to supplied index
-						itemRecycler.debounce("scrollToIndex", itemRecycler.scrollToIndex);
+				if (bound.height) {
+					if (!itemRecycler._itemHeight) {
+						change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
+						itemRecycler.async(itemRecycler._modifyPadding, 1);
+						if (itemRecycler._desiredIndex > -1) {
+							//Initialize scrollTop to supplied index
+							itemRecycler.async(itemRecycler.scrollToIndex);
+						}
+					} else if (itemRecycler._itemHeight < 0) {
+						change = itemRecycler._accommodateGlobalHeightAdjustment(0|!initialization, bound, delta);
+						itemRecycler.async(itemRecycler._modifyPadding, 1);
 					}
 				}
 				itemRecycler._changeOffsetsAfter(bound, delta);
-				itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height);
-				itemRecycler._deltaMiddleHeight(delta);
+				itemRecycler._deltaMiddleHeight(itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height));
 				itemRecycler._repositionHeader();
 				itemRecycler._repositionFooter();
 				if (delta + change) {
@@ -330,16 +344,69 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
 
+			if (itemRecycler._itemHeight < 0) {
+				itemRecycler._itemHeight = -itemRecycler._itemHeight;
+			}
+
 			bound.pendingResponse = 0|false;
 		},
 
-		_settleDown: function () {
-			this.fire("presentation-settled");
+		_accommodateGlobalHeightAdjustment: function (initialization, bound, delta) {
+			var adjustment = 0|(bound.height + this._itemHeight);
+			var change = 0;
+
+			this._itemHeight = 0|bound.height;
+
+			if (initialization) {
+				change = (this._getDataLength() - 1) * adjustment;
+				this._deltaMiddleHeight(change);
+			} else {
+				this._measurements.terminate(0);
+				change = (this._getDataLength() * bound.height) - delta - this._middleHeight;
+				this._deltaMiddleHeight(change);
+				this._recycler.transactHeightMutations(this._reinitTxn, this, bound);
+			}
+
+			return change;
+		},
+
+		_reinitTxn: function (fn, itemRecycler, bound) {
+			var transactor = this;
+			var count = itemRecycler._getDataLength();
+			var index = 0;
+
+			for (index = 0; index < count; index++) {
+				if (index !== bound.young) {
+					transactor.assignHeightAtIndex(index, itemRecycler._itemHeight);
+				}
+			}
+		},
+
+		_modifyPadding: function () {
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
+			var offset = 0;
+
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
+				if (bound &&
+					bound.offset !== offset) {
+					bound.offset = offset;
+					this._repositionBound(bound);
+				}
+				offset += bound.height;
+			}
+
+			if (this._itemHeight > 0) {
+				this._recycler.repadFrame(0|this._itemHeight, 0|this._itemHeight);
+			}
 		},
 
 		_changeOffsetsAfter: function (reference, delta) {
 			var binds = this._bindingList;
-			var count = 0|(binds && binds.length);
+			var count = 0|(delta && binds && binds.length);
 			var index = 0;
 			var bound = null;
 
@@ -353,17 +420,23 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
+		_needsInitialization: function () {
+			this._initializable = false;
+			this.initialize();
+		},
+
 		initialize: function () {
 			if (!this.data) {
-				return;
+				return 0|false;
 			} else if (!this.initializeTemplateBind()) {
-				return;
+				return 0|false;
 			} else if (this.$.extent.offsetHeight < 1) {
 				this._waiting = true;
-				return;
+				return 0|false;
 			} else {
+				this._waiting = false;
 				this.debounce("initializeRecycler", this.initializeRecycler);
-				return;
+				return 0|true;
 			}
 		},
 
@@ -375,7 +448,6 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if(!this.itemTemplateElement) {
-				//throw new Error("mm-item-recycler: Item template does not exist!");
 				return 0|false;
 			} else {
 				if (this._templatized !== this.itemTemplateElement) {
@@ -387,15 +459,26 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		initializeRecycler: function() {
-			if (this._recycler.truncate(0)) {
-				this._scrollTop = 0;
-				this.$.pane.scrollTop = 0;
-				this.itemHeight = 0;
+			if (!this._initializable) {
+				if (this._recycler.truncate(0)) {
+					this._scrollTop = 0;
+					this.$.pane.scrollTop = 0;
+					this._itemHeight = 0;
+				}
+
+				this._measurements.terminate(0);
+
+				this._initializeViewport();
+
+				this._initializable = true;
+				this._waiting = false;
+				return 0|true;
+			} else {
+				return 0|false;
 			}
-			this.initializeViewport();
 		},
 
-		initializeViewport: function() {
+		_initializeViewport: function() {
 			var viewportHeight = this.$.pane.offsetHeight;
 
 			this._headerHeight = this.$.header.offsetHeight;
@@ -411,7 +494,7 @@ found here: https://github.com/Polymer/core-list
 			this._repositionMiddle();
 			this._repositionExtent();
 
-			this._recycler.setFrame(0, this._middleHeight, 0|this.itemHeight, 0|this.itemHeight);
+			this._recycler.setFrame(0, this._middleHeight, 0|this._itemHeight, 0|this._itemHeight);
 
 			if (this._desiredIndex < 0) {
 				this._desiredIndex = 0|this.index;
@@ -424,19 +507,26 @@ found here: https://github.com/Polymer/core-list
 			var count = 0|(this.data && this.data.length);
 			var upper = 0;
 			var lower = 0;
+			var change = 0;
 
 			if (index > -1 &&
 				index < count) {
 				if (index < this._getDataLength()) {
 					lower = this._recycler.getElevationAtIndex(index);
 
-					if (direction < 0 || lower <= this._scrollTop) {
+					if (direction < 0 || (!direction && this._scrollTop >= lower)) {
 						this.$.pane.scrollTop = lower;
+						change = this._scrollTop - lower;
 					} else {
 						upper = this._recycler.getElevationAtIndex(index + 1);
-						if (upper > this._scrollTop + this._viewportHeight) {
+						if (direction > 0 || this._scrollTop < upper - this._viewportHeight) {
 							this.$.pane.scrollTop = upper - this._viewportHeight;
+							change = this._scrollTop - (upper - this._viewportHeight);
 						}
+					}
+
+					if (!change) {
+						this._desiredIndex = -1;
 					}
 
 					return 0|true;
@@ -449,13 +539,14 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		scrollHandler: function(e) {
-			var delta = e.target.scrollTop - this._scrollTop;
-			this._scrollTop = e.target.scrollTop;
+		scrollBy: function (amount) {
+			var delta = +amount || 0;
 
-			this._repositionHeader();
-			this._repositionFooter();
-			this._recycler.translateFrame(delta);
+			if (delta) {
+				this._repositionHeader();
+				this._repositionFooter();
+				this._recycler.translateFrame(delta);
+			}
 
 			if (delta > 0) {
 				this.index = this._recycler.getHighestIndex();
@@ -468,32 +559,61 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_getItemHeight: function () {
-			if (!this.itemHeight) {
-				return this._viewportHeight || 1;
+		_scrollHandler: function(e) {
+			var delta = e.target.scrollTop - this._scrollTop;
+			var diff = this._middleHeight - this._viewportHeight;
+
+			this._scrollTop = e.target.scrollTop;
+
+			if (this._scrollTop > diff) {
+				delta -= this._scrollTop - diff;
+				this._scrollTop = diff;
+				this.scrollBy(delta);
+				this.$.pane.scrollTop = this._scrollTop;
 			} else {
-				return this.itemHeight;
+				this.scrollBy(delta);
+			}
+		},
+
+		inferOffviewHeightsAfterNextMutation: function () {
+			if (this._itemHeight > 0) {
+				this._itemHeight = -this._itemHeight;
+				this._measurements.terminate(0);
 			}
 		},
 
 		_getDataLength: function () {
-			if (!this.itemHeight) {
-				return 0|(this.data && this.data.length) ? 1 : 0;
+			var count = 0|(this.data && this.data.length);
+			if (!this._itemHeight) {
+				return count ? 1 : 0;
 			} else {
-				return 0|(this.data && this.data.length);
+				return count;
+			}
+		},
+
+		_getQueriableLength: function (preferredCount, minimumAffirmativeCount, recycler) {
+			return this._getDataLength();
+		},
+
+		_getItemHeight: function (atIndex, recycler) {
+			if (!this._itemHeight) {
+				return this._viewportHeight || 1;
+			} else if (this._itemHeight < 0) {
+				return -this._itemHeight;
+			} else {
+				return this._itemHeight;
 			}
 		},
 
 		_handleRecycling: function (id, young, old, recycler) {
-			var index = 0|id,
-				bound = null,
-				binds = this._bindingList,
-				count = binds.length,
-				place = 0,
-				height = 0,
-				content = null,
-				responder = null,
-				offset = this._calculateStaticPositionOffset(index, binds);
+			var index = 0|id;
+			var bound = null;
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var place = 0;
+			var height = 0;
+			var content = null;
+			var offset = this._calculateStaticPositionOffset(index, binds);
 
 			if (old < 0) {
 				while (count < index) {
@@ -512,9 +632,7 @@ found here: https://github.com/Polymer/core-list
 				this.toggleClass("recycler-panel", true, bound.element);
 				Polymer.dom(bound.element).appendChild(content);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
-				responder = this._addBoundResponse(bound, id, index);
-				this.async(responder); // defer validation of the height
-				bound.pendingResponse = 0|true;
+				this._addBoundResponse(bound, id, index);
 			} else if (young < 0) {
 				bound = binds[index];
 				this._removeBoundResponse(bound, id, index);
@@ -532,8 +650,21 @@ found here: https://github.com/Polymer/core-list
 				if (old !== young) {
 					bound.instance.set("model", this.data[young]);
 				}
-				place = bound.location = recycler.getElevationAtIndex(young);
-				height = recycler.getHeightAtIndex(young);
+
+				if (this._measurements.isHeightKnown(young)) {
+					height = this._measurements.getHeight(young);
+				} else {
+					height = recycler.getHeightAtIndex(young);
+					bound.pendingResponse = 0|true;
+					this.debounce(young, this._getBoundResponse(bound, id, index)); // defer validation of the height
+				}
+
+				if (this._measurements.isElevationKnown(young)) {
+					place = bound.location = this._measurements.getElevation(young);
+				} else {
+					place = bound.location = recycler.getElevationAtIndex(young);
+				}
+
 				this._changeOffsetsAfter(bound, height - bound.height);
 				bound.height = height;
 				bound.offset = offset;
@@ -572,6 +703,10 @@ found here: https://github.com/Polymer/core-list
 			return responder;
 		},
 
+		_getBoundResponse: function (bound, id, index) {
+			return this._responders.boundMap[id];
+		},
+
 		_removeBoundResponse: function (bound, id, index) {
 			var responder = this._responders.boundMap[id];
 			this.removeResizeListener(responder, bound.element);
@@ -580,10 +715,10 @@ found here: https://github.com/Polymer/core-list
 
 		_rebaseTransform: function () {
 			var binds = this._bindingList;
-			var minimum = binds.reduce(this._minimumElevationReducer, this._someBoundLocation(binds));
+			var minimum = binds ? binds.reduce(this._minimumElevationReducer, this._someBoundLocation(binds)) : 0;
 
 			this._transformBaseline = minimum;
-			binds.forEach(this._rebaseEachTransform, this);
+			binds && binds.forEach(this._rebaseEachTransform, this);
 			this._applyTransform();
 		},
 
@@ -698,9 +833,13 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
+		hasMeasuredAnItem: function () {
+			return 0|(this._itemHeight ? true : false);
+		},
+
 		getHeightAtIndex: function () {
 			var recycled = null;
-			if (this.itemHeight) {
+			if (this._itemHeight) {
 				return this._recycler.getHeightAtIndex.apply(this._recycler, arguments);
 			} else {
 				// especially relevant when measurements are available before mutation observer fires
@@ -712,19 +851,25 @@ found here: https://github.com/Polymer/core-list
 		getMaterializedIndices: function (use) {
 			var indices = Array.isArray(use) ? use : [];
 			var binds = this._bindingList;
-			return binds && binds.reduce(_assignYoungFromBoundReducer, indices);
+			return binds && binds.reduce(this._assignYoungFromBoundReducer, indices);
+		},
+
+		_assignYoungFromBoundReducer: function (reduction, bound, index) {
+			reduction[index] = bound ? bound.young : -1;
+			return reduction;
 		},
 
 		_getMaterializedBoundAtIndex: function (index) {
-			var young = 0|index,
-				bound = null,
-				binds = this._bindingList,
-				count = binds.length,
-				index = 0;
+			var young = 0|index;
+			var bound = null;
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
 
 			for (index = 0; index < count; index++) {
 				bound = binds[index];
-				if (bound.young === young) {
+				if (bound &&
+					bound.young === young) {
 					return bound;
 				}
 			}

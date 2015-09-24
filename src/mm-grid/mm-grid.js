@@ -226,10 +226,14 @@
 		////// Toggle //////
 		expandAll: function(e, d, sender) {
 			this.expanded = !this.expanded;
-			this.$.viewport.inferDefaultHeightFromNextResize(this.expanded);
-			this.data.forEach(function(item) {
-				item.expanded = this.expanded;
+			this.$.viewport.inferOffviewHeightsAfterNextMutation();
+			this.data.forEach(function(item, index) {
+				this.set("data." + index + ".expanded", this.expanded);
 			}.bind(this));
-		}
+		},
+
+		requestInitialization: function () {
+			return this.$.viewport.initialize();
+		},
 	});
 })();

@@ -346,7 +346,11 @@
 			o.top = (direction === 'n');
 			o.bottom = (direction === 's');
 			return this.classBlock(o);
-		}
+		},
+
+		requestInitialization: function () {
+			return this.$.itemRecycler.initialize();
+		},
 	});
 
 })(window.Strand = window.Strand || {});

@@ -39,7 +39,7 @@
 				height: 100%;
 			}
 		</style>
-		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable item-template="customTemplate">
+		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate">
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
 			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
@@ -93,7 +93,7 @@
 				{field: "dimensions", label: "Dimensions", width: "15%", align:"right"}
 			],
 			app, 
-			NUM_ITEMS = 163; // a prime number -- definitely not divisible evenly into a number of recycled panels
+			NUM_ITEMS = 163;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem();
@@ -125,7 +125,7 @@
 			app.data = data;
 
 			setTimeout(function () {
-				app.data = data.slice(data.length >> 2, data.length >> 1);
+				//app.data = data.slice(data.length >> 2, data.length >> 1);
 			}, 3000);
 		});
 	</script>

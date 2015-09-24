@@ -75,7 +75,7 @@
 				Polymer.dom(container).appendChild(recycler);
 
 				waitFor(function () {
-					if (!recycler.itemHeight) {
+					if (!recycler.hasMeasuredAnItem()) {
 						throw Error("no item height yet")
 					}
 				}, function () {
@@ -122,7 +122,7 @@
 				Polymer.dom(container).appendChild(recycler);
 
 				waitFor(function () {
-					if (!recycler.itemHeight) {
+					if (!recycler.hasMeasuredAnItem()) {
 						throw Error("no item height yet")
 					}
 				}, function () {

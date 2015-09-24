@@ -212,12 +212,20 @@ This code may only be used under the BSD style license found at http://mediamath
 		do {
 			lower = upper;
 			upper += delta;
-			limit = 0|this._getFirstUnavailableIndex.call(null, upper, recycler);
+			limit = 0|this._getFirstUnavailableIndex.call(null, upper, lower + 1, recycler);
 
 			if (limit > -1 &&
 				upper > limit) {
 				upper = limit;
-				delta = 0;
+				if (upper > lower) {
+					delta = 1;
+				} else {
+					upper = lower;
+					delta = 0;
+					break;
+				}
+			} else {
+				delta = (delta << 1) >>> 0;
 			}
 
 			position = +continuum.getElevation(upper) || 0;
@@ -226,9 +234,8 @@ This code may only be used under the BSD style license found at http://mediamath
 				continue;
 			}
 
-			delta = 1;
 			break;
-		} while (delta = (delta << 1) >>> 0)
+		} while (delta)
 
 		if (delta) {
 			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, ceiling);
@@ -272,11 +279,140 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 
-	function Solver () {
+	var NumberList = Snake.prototype.implementationFactory();
 
+	var IndexRangeList = Snake.prototype.implementationFactory();
+
+	function IndexRange (index, range) {
+		this._index = 0|index;
+		this._range = 0|range;
 	}
 
-	Solver.prototype.solve = function (destructive, iface, lower, upper, alpha, omega, placeholders, available, recycler) {
+	IndexRange.prototype.getIndex = function () {
+		return this._index;
+	};
+
+	IndexRange.prototype.getRange = function () {
+		return this._range;
+	};
+
+	IndexRange.prototype.setRange = function (range) {
+		this._range = 0|range;
+	};
+
+	IndexRange.prototype.contains = function (index) {
+		var value = 0|index;
+		return 0|(value < this._index + this._range && value > this._index - 1);
+	};
+
+	IndexRange.prototype.begin = function (index) {
+		var value = 0|index;
+
+		if (this.contains(value)) {
+			return 0|true;
+		} else if (value === this._index - 1) {
+			this._index--;
+			this._range++;
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+	IndexRange.prototype.end = function (index) {
+		var value = 0|index;
+
+		if (this.contains(value)) {
+			return 0|true;
+		} else if (value === this._index + this._range) {
+			this._range++;
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+
+
+	function makeIndexRange(index, range) {
+		return new IndexRange(index, range);
+	}
+
+	function Ledger () {
+		this._handled = IndexRangeList.prototype.provide();
+		this._handled.addHead().body = makeIndexRange(0, 0);
+	}
+
+	Ledger.prototype.untrackAll = function () {
+		this._handled = IndexRangeList.prototype.provide();
+		this._handled.addHead().body = makeIndexRange(0, 0);
+	};
+
+	Ledger.prototype.track = function (young) {
+		var handled = this._handled,
+			before = this._greatestNotOverHandled(young, handled),
+			after = before ? before.getTail(0) : handled.getHead(0);
+
+		if (before && before.body.end(young)) {
+			if (after && after.body.begin(young)) {
+				before.body.setRange(after.body.getRange() + after.body.getIndex() - before.body.getIndex());
+				after.dropAnyway(1);
+			}
+		} else if (!after || !after.body.begin(young)) {
+			if (before) {
+				before.addTail().body = makeIndexRange(young, 1);
+			} else {
+				handled.addHead().body = makeIndexRange(young, 1);
+			}
+		}
+	};
+
+	Ledger.prototype._greatestNotOverHandled = function (young, handled) {
+		var iterator = handled.getHead(0),
+			indexRange = iterator.body,
+			start = indexRange.getIndex(),
+			limit = indexRange.getRange() + start,
+			result = null;
+
+		while (limit < young) {
+			result = iterator;
+			iterator = iterator.getTail(0);
+			if (!iterator) {
+				break;
+			}
+			indexRange = iterator.body;
+			start = indexRange.getIndex();
+			limit = indexRange.getRange() + start;
+		}
+
+		return result;
+	};
+
+	Ledger.prototype.wasTracked = function (index) {
+		var value = 0|index,
+			iterator = this._greatestNotOverHandled(value, this._handled);
+		return 0|(iterator && iterator.body.contains(value));
+	};
+
+
+
+	function makePlaceholder(inner) {
+		return new Placeholder(inner);
+	}
+
+	function Solver () {
+		var placeholder = makePlaceholder(0);
+
+		this._placeholders = null;
+		this._placeholders = new Snake(null, null);
+		this._placeholders.addHead().body = placeholder;
+
+		this._available = NumberList.prototype.provide();
+	}
+
+	Solver.prototype.solve = function (destructive, iface, lower, upper, alpha, omega, recycler) {
+		var placeholders = this._placeholders;
+		var available = this._available;
 		var currentCount = 1 + omega - alpha;
 
 		var deltaLower = lower - alpha;
@@ -477,16 +613,97 @@ This code may only be used under the BSD style license found at http://mediamath
 		this._windUp(iface, placeholders, count - 1, recycler);
 	};
 
+	Solver.prototype.getLowestIndex = function () {
+		var snake = this._placeholders.getHead(0);
+		return snake ? snake.body.getOuterIndex() : -1;
+	};
+
+	Solver.prototype.getHighestIndex = function () {
+		var snake = this._placeholders.getTail();
+		return snake ? snake.body.getOuterIndex() : -2;
+	};
+
+	Solver.prototype.propagateHeightChangeAtIndex = function (index, iface, recycler) {
+		var at = 0|index,
+			snake = this._placeholders.getHead(0),
+			outer = 0;
+
+		while (snake && at > snake.body.getOuterIndex()) {
+			snake = snake.getTail();
+		}
+
+		while (snake) {
+			outer = snake.body.getOuterIndex();
+			iface.notify(snake.body.getInnerIndex(), outer, outer, recycler);
+			snake = snake.getTail();
+		}
+	};
+
+
+
+	function Transactor (iface) {
+		this._index = -1;
+		this._height = 0;
+		this._delta = 0;
+		this._continuumInterface = null;
+		this._continuumInterface = iface;
+	}
+
+	Transactor.prototype.getHeight = function () {
+		return this._height;
+	};
+
+	Transactor.prototype.setHeight = function (height) {
+		this._height = height;
+	};
+
+	Transactor.prototype.getDelta = function () {
+		return this._delta;
+	};
+
+	Transactor.prototype.setDelta = function (delta) {
+		this._delta = delta;
+	};
+
+	Transactor.prototype.getCandidate = function () {
+		return this._index;
+	};
+
+	Transactor.prototype.resetCandidate = function () {
+		this._index = -1;
+	};
+
+	Transactor.prototype._considerCandidate = function (index, delta) {
+		if (delta) {
+			if (this._index < 0 ||
+				this._index > index) {
+				this._index = index;
+			}
+		}
+	};
+
+	Transactor.prototype.assignHeightAtIndex = function (index, height) {
+		var iface = this._continuumInterface;
+		var delta = iface.setHeight.apply(iface, arguments);
+		this.setHeight(+height || 0);
+		this.setDelta(+delta || 0);
+		this._considerCandidate(0|index, +delta || 0);
+	};
+
+	Transactor.prototype.adjustHeightAtIndex = function (index, delta) {
+		var iface = this._continuumInterface;
+		var height = iface.adjustHeight.apply(iface, arguments);
+		this.setHeight(+height || 0);
+		this.setDelta(+delta || 0);
+		this._considerCandidate(0|index, +delta || 0);
+	};
+
+
+
 
 
 	var NONDESTRUCTIVE = 0;
 	var DESTRUCTIVE = 1 << 0;
-
-	var NumberList = Snake.prototype.implementationFactory();
-
-	function makePlaceholder(inner) {
-		return new Placeholder(inner);
-	}
 
 	function provideContinuum (initialHeightGetter) {
 		return new Continuum(initialHeightGetter);
@@ -497,24 +714,18 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		var recycler = this;
 
-		var placeholder = makePlaceholder(0);
-
 		var continuum = (providerIsFunction ? continuumProvider : provideContinuum)(function (index, contin) {
 				return initialHeightGetter.call(recycler, index, recycler);
 			});
 
 		this._fence = new Fence(0, 0, 0, 0);
 
-		this._placeholders = null;
-		this._placeholders = new Snake(null, null);
-		this._placeholders.addHead().body = placeholder;
-
-		this._available = NumberList.prototype.provide();
-
 		this._continuumInterface = null;
 		this._continuumInterface = new ContinuumInterface(continuum, firstUnavailableIndexGetter, indexChangeListener);
 
 		this._solver = new Solver();
+
+		this._transactor = new Transactor(this._continuumInterface);
 
 		this._process();
 	}
@@ -529,9 +740,10 @@ This code may only be used under the BSD style license found at http://mediamath
 		var limit = 0|capacity;
 		var index = 0;
 		var clamp = 0|(amount > limit);
+		var ceiling = true;
 
 		if (!arguments.length || limit < 0) {
-			limit = 1 + iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|true);
+			limit = 1 + iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|ceiling);
 			clamp = 0|(amount > limit);
 		}
 
@@ -553,8 +765,6 @@ This code may only be used under the BSD style license found at http://mediamath
 		var count = inUse - alpha;
 		var lower = limit - count;
 		var upper = lower - 1;
-		var placeholders = this._placeholders;
-		var available = this._available;
 		var solver = this._solver;
 		var size = 0;
 		var above = 0;
@@ -592,44 +802,53 @@ This code may only be used under the BSD style license found at http://mediamath
 			return 0|false;
 		}
 
-		solver.solve(DESTRUCTIVE, iface, lower, upper, alpha, omega, placeholders, available, this);
+		solver.solve(DESTRUCTIVE, iface, lower, upper, alpha, omega, this);
 		return 0|true;
 	};
 
 	Recycler.prototype.getLowestIndex = function () {
-		var snake = this._placeholders.getHead(0);
-		return snake ? snake.body.getOuterIndex() : -1;
+		return this._solver.getLowestIndex();
 	};
 
 	Recycler.prototype.getHighestIndex = function () {
-		var snake = this._placeholders.getTail();
-		return snake ? snake.body.getOuterIndex() : -2;
+		return this._solver.getHighestIndex();
 	};
+
+	Recycler.prototype.transactHeightMutations = function (transaction, extra, context, params) {
+		var transactor = this._transactor;
+		var index = -1;
+
+		transactor.resetCandidate();
+
+		transaction.apply(transactor, arguments);
+
+		index = transactor.getCandidate();
+
+		if (index > -1) {
+			this._solver.propagateHeightChangeAtIndex(index, this._continuumInterface, this);
+
+			this._process(NONDESTRUCTIVE);
+		}
+	};
+
+	function _recyclerAdjustHeightAtIndex (fn, index, delta) {
+		var transactor = this;
+		transactor.adjustHeightAtIndex(index, delta);
+	}
 
 	Recycler.prototype.adjustHeightAtIndex = function (index, delta) {
-		return this._continuumInterface.adjustHeight.apply(this._continuumInterface, arguments);
+		this.transactHeightMutations(_recyclerAdjustHeightAtIndex, index, delta);
+		return this._transactor.getHeight();
 	};
 
+	function _recyclerAssignHeightAtIndex (fn, index, height) {
+		var transactor = this;
+		transactor.assignHeightAtIndex(index, height);
+	}
+
 	Recycler.prototype.setHeightAtIndex = function (index, height) {
-		var result = this._continuumInterface.setHeight.apply(this._continuumInterface, arguments),
-			at = 0|index,
-			iface = this._continuumInterface,
-			snake = this._placeholders.getHead(0),
-			outer = 0;
-
-		while (snake && at > snake.body.getOuterIndex()) {
-			snake = snake.getTail();
-		}
-
-		while (snake) {
-			outer = snake.body.getOuterIndex();
-			iface.notify(snake.body.getInnerIndex(), outer, outer, this);
-			snake = snake.getTail();
-		}
-
-		this._process(NONDESTRUCTIVE);
-
-		return result;
+		this.transactHeightMutations(_recyclerAssignHeightAtIndex, index, height);
+		return this._transactor.getDelta();
 	};
 
 	Recycler.prototype.getHeightAtIndex = function (index) {
@@ -649,6 +868,10 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	Recycler.prototype.isHeightKnownAtIndex = function (index) {
 		return this._continuumInterface.isHeightKnown.apply(this._continuumInterface, arguments);
+	};
+
+	Recycler.prototype.getConcreteCount = function () {
+		return this._continuumInterface.getDiscreteCount();
 	};
 
 	Recycler.prototype.getFramePlacement = function () {
@@ -720,13 +943,36 @@ This code may only be used under the BSD style license found at http://mediamath
 	Recycler.prototype._process = function (destructive) {
 		var fence = this._fence;
 		var iface = this._continuumInterface;
-		var lower = 0|iface.getIndexAtElevation(+fence.getLower() || 0, this, 0|false);
-		var upper = 0|iface.getIndexAtElevation(+fence.getUpper() || 0, this, 0|true);
-		var placeholders = this._placeholders;
-		var available = this._available;
+		var less = +fence.getLower() || 0;
+		var more = +fence.getUpper() || 0;
+		var ceiling = true;
+		var lower = 0|iface.getIndexAtElevation(less, this, 0|!ceiling);
+		var upper = 0|iface.getIndexAtElevation(more, this, 0|ceiling);
 		var alpha = this.getLowestIndex();
 		var omega = this.getHighestIndex();
 		var solver = this._solver;
+		var span = 0;
+
+
+		if (lower < 0 &&
+			upper < 0) {
+			span = iface.getElevation(iface.getDiscreteCount());
+
+			if (less > span) {
+				less -= (more - span);
+				more = span;
+				span = -1;
+			} else if (more < 0) {
+				more -= less;
+				less = 0;
+				span = -1;
+			}
+
+			if (span < 0) {
+				lower = 0|iface.getIndexAtElevation(less, this, 0|!ceiling);
+				upper = 0|iface.getIndexAtElevation(more, this, 0|ceiling);
+			}
+		}
 
 		if (lower < 0) {
 			lower = 0;
@@ -736,7 +982,7 @@ This code may only be used under the BSD style license found at http://mediamath
 			upper = -1 + (0|iface.getDiscreteCount());
 		}
 
-		return solver.solve(destructive, iface, lower, upper, alpha, omega, placeholders, available, this);
+		return solver.solve(destructive, iface, lower, upper, alpha, omega, this);
 	};
 
 
