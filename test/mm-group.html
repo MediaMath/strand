@@ -274,9 +274,9 @@
 
 				flush(function() {
 					items = a.items;
-					alignFirst = items[0].getAttribute("layout");
-					alignCenter = items[1].getAttribute("layout");
-					alignLast = items[items.length-1].getAttribute("layout");
+					alignFirst = items[0].getAttribute("_layout");
+					alignCenter = items[1].getAttribute("_layout");
+					alignLast = items[items.length-1].getAttribute("_layout");
 					alignFirst.should.equal("hgroup-left");
 					alignCenter.should.equal("hgroup-center");
 					alignLast.should.equal("hgroup-right");
@@ -315,9 +315,9 @@
 
 				flush(function() {
 					items = a.items;
-					alignFirst = items[0].getAttribute("layout");
-					alignCenter = items[1].getAttribute("layout");
-					alignLast = items[items.length-1].getAttribute("layout");
+					alignFirst = items[0].getAttribute("_layout");
+					alignCenter = items[1].getAttribute("_layout");
+					alignLast = items[items.length-1].getAttribute("_layout");
 					alignFirst.should.equal("vgroup-top");
 					alignCenter.should.equal("vgroup-center");
 					alignLast.should.equal("vgroup-bottom");
@@ -335,8 +335,8 @@
 
 				flush(function() {
 					items = a.items;
-					alignFirst = items[0].getAttribute("layout");
-					alignLast = items[items.length-1].getAttribute("layout");
+					alignFirst = items[0].getAttribute("_layout");
+					alignLast = items[items.length-1].getAttribute("_layout");
 					alignFirst.should.equal("hgroup-left");
 					alignLast.should.equal("hgroup-right");
 					done();

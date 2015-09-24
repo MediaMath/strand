@@ -62,9 +62,9 @@
 
 			var d1 = document.getElementById('d1');
 			d1.open();
-			d1.height.should.equal(d1.openedHeight);
+			d1._height.should.equal(d1.openedHeight);
 			d1.close();
-			d1.height.should.equal(d1.closedHeight);			
+			d1._height.should.equal(d1.closedHeight);			
 
 		});
 
@@ -82,7 +82,7 @@
 			c4.appendChild(added);
 			d4.open();
 
-			d4.height.should.equal(d4.openedHeight);
+			d4._height.should.equal(d4.openedHeight);
 			d4.openedHeight.should.equal(cached);
 
 		});
@@ -101,7 +101,7 @@
 			c5.appendChild(added);
 			d5.open();
 
-			d5.height.should.equal(d5.openedHeight);
+			d5._height.should.equal(d5.openedHeight);
 			d5.openedHeight.should.equal(cached+400);
 
 		});

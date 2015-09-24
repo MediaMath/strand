@@ -34,12 +34,15 @@
 	<script>
 		describe('AutoTogglable', function() {
 
-			it('should get a toggleTrigger from a selector', function() {
+			it('should get a toggleTrigger from a selector', function(done) {
 				var toggle = document.querySelector('#testAutoTogglable'),
 					trigger = document.querySelector('#testTrigger');
 				
 				toggle.toggleTrigger = '#testTrigger';
-				toggle.toggleTrigger.should.equal(trigger);
+				flush(function() {
+					toggle.toggleTrigger.should.equal(trigger);
+					done();
+				});
 			});
 
 			it('should toggle when the trigger is clicked', function() {

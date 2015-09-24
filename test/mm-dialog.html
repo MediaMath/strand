@@ -60,13 +60,10 @@
 				a.$.dialogInnerModal.hidden.should.equal(false);
 			});
 
-			it("should have an icon if type is present", function() {
+			it("should have an icon and set type correctly", function() {
 				var withTypeDialog = document.querySelector('#dialogWithType'),
 					withType = Polymer.dom(withTypeDialog.root).querySelector('.content-top mm-icon');
-				withType.should.exist;
-				var withNoTypeDialog = document.querySelector('#dialog'),
-					withNoType = Polymer.dom(withNoTypeDialog.root).querySelector('.content-top mm-icon');
-				should.not.exist(withNoType);
+				withType.type.should.equal('warning');
 			});
 
 			it("should have a header if header is present", function() {
