@@ -1,4 +1,21 @@
 {
 	"name": "Debouncable",
-	"description": "Listens for property-changed events and calls Polymer.Base.debounce based on a `debouncers` property."
+	"description": "Listens for property-changed events and calls Polymer.Base.debounce based on a `debouncers` property.",
+	"attributes" : [
+		{
+			"name" : "debouncers",
+			"type":"String",
+			"description":"An array of property-changed events in the format { keys: Array, type: String, callback: Function(key, debouncer) }.",
+			"default":"closed",
+			"options":["opened", "closed"]
+		},
+		{
+			"name" : "resetDebouncer",
+			"type":"Boolean",
+			"description":"TODO",
+			"optional":true,
+			"default":"closed",
+			"options":["true", "false"]
+		}
+	]
 }

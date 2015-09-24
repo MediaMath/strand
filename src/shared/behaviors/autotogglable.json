@@ -1,12 +1,12 @@
 {
 	"name": "AutoTogglable",
-	"description": "Toggles the element's state based on click events on a trigger element",
+	"description": "Toggles the component's visual state when clicking upon a trigger element.",
 	"attributes": [
 		{
 			"name":"toggleTrigger",
 			"type":"Object or String",
-			"description":"An HTMLElement which toggles the element's visual state when clicked. A selector may also be passed as a String.",
-			"optional":false
+			"description":"An HTMLElement which, when clicked, toggles the component's visual state. A selector may also be passed as a String.",
+			"attribute":"toggle-trigger"
 		}
 	]
 }
