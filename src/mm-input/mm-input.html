@@ -23,10 +23,10 @@
 			maxlength$="{{maxlength}}" 
 			disabled="{{disabled}}" 
 			style$="{{ _updateStyle(icon, width, fitparent, clear) }}" />
-		<div id="icon" class="icon-holder" style$="{{ _updateIcon(icon, clearVisible) }}">
+		<div id="icon" class="icon-holder" style$="{{ _updateIcon(icon, _clearVisible) }}">
 			<mm-icon type="{{icon}}" width="14" height="14"></mm-icon>
 		</div>
-		<div id="clearBtn" class="clear-btn" on-tap="clearInput" style$="{{ _updateClear(clearVisible) }}">
+		<div id="clearBtn" class="clear-btn" on-tap="clearInput" style$="{{ _updateClear(_clearVisible) }}">
 			<mm-icon type="fail" width="14" height="14"></mm-icon>
 		</div>
 	</template>

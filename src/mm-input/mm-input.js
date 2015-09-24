@@ -76,7 +76,7 @@
 				value: false, 
 				reflectToAttribute: true 
 			},
-			clearVisible: {
+			_clearVisible: {
 				type: Boolean,
 				value: false
 			}
@@ -102,31 +102,31 @@
 			}
 		},
 
-		_updateIcon: function(icon, clearVisible) {
-			var visible = icon && !clearVisible;
+		_updateIcon: function(icon, _clearVisible) {
+			var visible = icon && !_clearVisible;
 			return this.styleBlock({
 				display: visible ? "block" : "none"
 			});
 		},
 
-		_updateClear: function(clearVisible) {
+		_updateClear: function(_clearVisible) {
 			return this.styleBlock({
-				display: clearVisible ? "block" : "none"
+				display: _clearVisible ? "block" : "none"
 			});
 		}, 
 		
 		_valueChanged: function(newVal, oldVal) {
 			if (newVal && newVal.length > 0) {
-				this.clearVisible = this.clear;
+				this._clearVisible = this.clear;
 			} else {
-				this.clearVisible = false;
+				this._clearVisible = false;
 			}
 			this.fire("changed", { value: newVal });
 		},
 
 		clearInput: function(e) {
 			this.value = null;
-			this.clearVisible = false;
+			this._clearVisible = false;
 		},
 
 		_updateStyle: function(icon, width, fitparent, clear) {
