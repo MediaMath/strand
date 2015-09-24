@@ -44,7 +44,10 @@
 		font-family: Arimo, sans-serif !important;
 		font-size: 13px !important;
 		line-height: 2.231em !important;
-		@include placeholder { font-style: italic; }
+		@include placeholder {
+			font-size: 13px !important;
+			font-style: italic;
+		}
 	}
 
 	.mask {

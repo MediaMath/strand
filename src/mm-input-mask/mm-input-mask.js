@@ -131,24 +131,20 @@
 				value: null,
 				observer: '_valueChanged'
 			},
-			mask: {
-				type: String,
-				value: "",
-			},
-			maskConfig: {
+			_maskConfig: {
 				type: Array,
 				value: null,
 				notify: true,
 			},
-			seps: {
+			_seps: {
 				type: Array,
 				value: null
 			},
-			groups: {
+			_groups: {
 				type: Array,
 				value: null,
 			},
-			groupSel: {
+			_groupSel: {
 				type: Array,
 				value: null
 			},
@@ -207,9 +203,9 @@
 		},
 
 		_disabledChanged: function(newDisabled) {
-			if(this.maskConfig)
-				for(var i=0; i<this.maskConfig.length; i++)
-					this.set('maskConfig.'+i+'.disabled',newDisabled);
+			if(this._maskConfig)
+				for(var i=0; i<this._maskConfig.length; i++)
+					this.set('_maskConfig.'+i+'.disabled',newDisabled);
 		},
 
 		_placeholderChanged: function(newPlaceholder) {
@@ -222,21 +218,21 @@
 			if (!type) type = "value";
 			//clear case
 			if (value === "" || value === null) {
-				for(var i=0; i<this.groups.length; i++) {
-					var g = this.groups[i];
+				for(var i=0; i<this._groups.length; i++) {
+					var g = this._groups[i];
 					g[type] = "";
 				}
 				return [];
 			}
 			//chunk our values and assign them to sub fields
 			else {
-				var sepReg = "[" +  this.seps.map(function (sep) {
+				var sepReg = "[" +  this._seps.map(function (sep) {
 						return sep.value;
 					}).join("")+ "]+",
-					base = this.maskConfig.map(function(item) {
+					base = this._maskConfig.map(function(item) {
 						switch(item.type) {
 							case _types.GROUP:
-								item = this.groups.filter(function(g) {
+								item = this._groups.filter(function(g) {
 									return g.id === item.id;
 								})[0];
 								var src = this.get("restrict.source",item) || ".*";
@@ -269,12 +265,12 @@
 			if (!type) type = "value";
 			if (!valArray) valArray = [];
 			var g, value;
-			for(var i=0; i<this.groups.length; i++) {
-				g = this.groups[i];
+			for(var i=0; i<this._groups.length; i++) {
+				g = this._groups[i];
 				value = valArray.length > 0 ? valArray[i] : "";
-				index = this.maskConfig.indexOf(g);
-				modelPath = 'maskConfig.'+index+'.'+type;
-				inputPath = 'groupSel.'+i+'.'+type;
+				index = this._maskConfig.indexOf(g);
+				modelPath = '_maskConfig.'+index+'.'+type;
+				inputPath = '_groupSel.'+i+'.'+type;
 
 				this.set(modelPath, value);
 				this.set(inputPath, value);
@@ -290,7 +286,7 @@
 		},
 
 		_parseMask: function() {
-			this.sepsLen = 0; //used to check 'empty' state for placeholder styling
+			this._sepsLen = 0; //used to check 'empty' state for placeholder styling
 			var nodes = Polymer.dom(this).children,
 				maskConfig = [],
 				groups = [],
@@ -333,7 +329,7 @@
 
 					case "SEP":
 						var chars = node.attributes.chars.value;
-						this.sepsLen += chars.length;
+						this._sepsLen += chars.length;
 						var s = {
 							type:_types.SEP, 
 							value:chars, 
@@ -347,16 +343,16 @@
 						break;
 				}
 			}
-			this.maskConfig = maskConfig;
-			this.seps = seps;
-			this.groups = groups;
+			this._maskConfig = maskConfig;
+			this._seps = seps;
+			this._groups = groups;
 
 			this.loader.add("Arimo").then(function(e) {
 				this._arimoLoaded = true;
 				this.async(function() {
-					this.groups.forEach(function(group) {
-						var index = this.maskConfig.indexOf(group);
-						var path = 'maskConfig.'+index+'.loaded';
+					this._groups.forEach(function(group) {
+						var index = this._maskConfig.indexOf(group);
+						var path = '_maskConfig.'+index+'.loaded';
 						this.set(path,true);
 						},this);
 					});
@@ -365,7 +361,7 @@
 
 		_sepClass: function(val) {
 			if(!val) var val = "";
-			var placeholder = val.length <= this.sepsLen;
+			var placeholder = val.length <= this._sepsLen;
 			return this.classBlock({
 				sep: true,
 				placeholder: placeholder
@@ -375,23 +371,30 @@
 		_groupStyle: function(changed) {
 			var item = changed.base;
 			var w = 0.0;
+			var m = 0.0;
 			var check = item.value || item.placeholder || "";
 			while(check.length < item.max) {
 				check += "S";
 			}
 			if (!item.value && item.placeholder) {
-				w = Measure.textWidth(null,check,'13px Arimo italic');
+				w = Measure.textWidth(null,check,'oblique 400 13px Arimo');
+				if(check[check.length-1]==='Y') {
+					// Workaround for issue where 'Y' gets cut off if last letter in placeholder
+					w+=1.2;
+					m-=1.2;
+				}
 			} else {
 				w = Measure.textWidth(this.$.input.$$('input'),check);
 			}
 
 			return this.styleBlock({
-				width: w+"px"
+				width: w+"px",
+				marginRight: m+"px"
 			});
 		},
 
 		_updateGroups: function() {
-			this.groupSel = this.groups.map(function(o) {
+			this._groupSel = this._groups.map(function(o) {
 				return Polymer.dom(this.root).querySelector("#"+o.id);
 			}.bind(this));
 		},
@@ -457,21 +460,21 @@
 		},
 
 		_focusLeft: function(target) {
-			var idx = this.groupSel.indexOf(target);
+			var idx = this._groupSel.indexOf(target);
 			if (idx > 0) {
 				idx--;
-				this.groupSel[idx].focus();
-				return this.groupSel[idx];
+				this._groupSel[idx].focus();
+				return this._groupSel[idx];
 			}
 			return target;
 		},
 
 		_focusRight: function(target) {
-			var idx = this.groupSel.indexOf(target);
+			var idx = this._groupSel.indexOf(target);
 			idx++;
-			if (idx < this.groupSel.length) {
-				this.groupSel[idx].focus();
-				return this.groupSel[idx];
+			if (idx < this._groupSel.length) {
+				this._groupSel[idx].focus();
+				return this._groupSel[idx];
 			}
 			return target;
 		},
@@ -487,7 +490,7 @@
 		},
 
 		_getGroup: function(target) {
-			return this.groups[this.groupSel.indexOf(target)];
+			return this._groups[this._groupSel.indexOf(target)];
 		},
 
 		_cellKey: function(e) {
@@ -539,15 +542,15 @@
 		_onOther: function(e) { e.preventDefault(); },
 
 		_updateGroupValues: function() {
-			for(var i=0; i<this.groupSel.length; i++) {
-				var item = this.$.domRepeat.itemForElement(this.groupSel[i]);
-				item.value = this.groupSel[i].value;
+			for(var i=0; i<this._groupSel.length; i++) {
+				var item = this.$.domRepeat.itemForElement(this._groupSel[i]);
+				item.value = this._groupSel[i].value;
 			}
 		},
 
 		_cellVal: function(e) {
 			this._updateGroupValues();
-			var val = this.maskConfig.reduce(function(prev,item) {
+			var val = this._maskConfig.reduce(function(prev,item) {
 				return item.value ? prev + item.value : prev;
 			},"");
 			if (val !== this.value) {
