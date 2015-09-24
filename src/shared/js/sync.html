@@ -6,6 +6,7 @@
 <link rel="import" href="ajaxcsrfplugin.html"/>
 <link rel="import" href="ajaxbusterplugin.html"/>
 <link rel="import" href="ajaxapiplugin.html"/>
+<link rel="import" href="ajaxpageplugin.html"/>
 
 <script>
 /**
@@ -22,6 +23,7 @@
 	var AjaxCSRFPlugin = StrandLib.AjaxCSRFPlugin;
 	var AjaxBusterPlugin = StrandLib.AjaxBusterPlugin;
 	var AjaxAPIPlugin = StrandLib.AjaxAPIPlugin;
+	var AjaxPagePlugin = StrandLib.AjaxPagePlugin;
 	var Ajax = StrandLib.Ajax;
 
 	var globals = new Storage("globals","localStorage");
@@ -79,6 +81,7 @@
 		this._plugin.register("csrf", AjaxCSRFPlugin);
 		this._plugin.register("buster", AjaxBusterPlugin);
 		this._plugin.register("api", AjaxAPIPlugin);
+		this._plugin.register("page", AjaxPagePlugin);
 	};
 
 	scope.Sync.prototype = {
@@ -151,6 +154,10 @@
 		get apiConfig() {
 			return this._plugin.getConfig("api");
 		},
+
+		get pageConfig() {
+			return this._plugin.getConfig("page");
+		}
 	};
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);
