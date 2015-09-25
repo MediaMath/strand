@@ -16,6 +16,7 @@
 		this.data = data || {};
 		this._opts = opts;
 		this._sync = sync || new StrandLib.Sync;
+		this._cid = -1;
 		this.collection = collection;
 		if (this.collection && this.collection._cidFactory) {
 			this._cid = this.collection._cidFactory();
@@ -34,6 +35,10 @@
 
 		get cId() {
 			return this._cid;
+		},
+
+		set cId(input) {
+			this._cid = input;
 		},
 
 		init: function(data) {

@@ -16,7 +16,7 @@
 	var DataUtils = StrandLib.DataUtils;
 
 	function _generateCid(collection, model) {
-		model.cid = ++collection._cidIndex;
+		model.cId = ++collection._cidIndex;
 	}
 
 	function _triggerDataEvent(instance) {
@@ -49,10 +49,11 @@
 			this._silent = silent;
 
 			if(!(model instanceof Model)) {
-				console.log("not a model!");
+				//TODO: (dlasky) may need to pass sync here as well
+				model = new Model(model, null, null, this);
 			}
 
-			if (!model.cId && !model.mId) {
+			if (!model.cId || model.cId === -1) {
 				_generateCid(this, model);
 			}
 
@@ -70,6 +71,10 @@
 		},
 
 		getDataAt: function(index) {
+			return DataUtils.getPathValue("data", this.getModelAt(index));
+		},
+
+		getModelAt: function(index) {
 			return this.data[index];
 		},
 
