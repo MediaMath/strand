@@ -1,5 +1,26 @@
 {
 	"name":"Stackable",
-	"description":"",
-	"attributes": []
+	"description":"Controls z-index stacking for components.",
+	"attributes": [
+		{
+			"name":"depth",
+			"description":"Returns the z-index depth of the element.",
+			"readOnly":true,
+			"default":"0",
+			"attribute":"N/A"
+		},
+		{
+			"name":"stackType",
+			"description":"Sets or returns the stacking type for the element. Stacking types are 'ui' which starts at an index of 10000, 'modal' which starts at index 20000, and 'tooltip' which starts at index 30000.",
+			"default":"ui",
+			"attribute":"stack-type",
+			"options":["ui", "modal", "tooltip"]
+		}
+	],
+	"methods":[
+		{
+			"name":"moveToTop",
+			"description":"Instructs the element to move to the top index of it's stacking type."
+		}
+	]
 }

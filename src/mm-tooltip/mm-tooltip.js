@@ -25,6 +25,10 @@
 			direction: {
 				value: 'n'
 			},
+			stackType:{
+				type: String,
+				value: "tooltip"
+			},
 			tipWidth: {
 				type: Number,
 				value: false, // if not set, assume it should be the width of it's content
