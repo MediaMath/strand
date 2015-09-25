@@ -99,30 +99,8 @@ This code may only be used under the BSD style license found at http://mediamath
 		var animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
 	}
 	
-	/*
-	function createStyles() {
-		if (!stylesCreated) {
-			//opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
-			var css = (animationKeyframes ? animationKeyframes : '') +
-					'.resize-triggers { ' + (animationStyle ? animationStyle : '') + 'visibility: hidden; opacity: 0; } ' +
-					'.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
-				head = document.head || document.getElementsByTagName('head')[0],
-				style = document.createElement('style');
-			
-			style.type = 'text/css';
-			if (style.styleSheet) {
-				style.styleSheet.cssText = css;
-			} else {
-				style.appendChild(document.createTextNode(css));
-			}
-
-			head.appendChild(style);
-			stylesCreated = true;
-		}
-	}
-	*/
-	
 	scope.SizeResponsible = {
+
 		properties: {
 			_alias:{
 				type: Object,
@@ -132,15 +110,15 @@ This code may only be used under the BSD style license found at http://mediamath
 			},
 		},
 
-	addResizeListener: function(fn, target){
+		addResizeListener: function(fn, target){
 			var element = target || this;
 			var nameSpace = " " + this.tagName.toLocaleLowerCase() + " ";
 
-			if (attachEvent) element.attachEvent('onresize', fn);
-			else {
+			if (attachEvent) {
+				element.attachEvent('onresize', fn);
+			} else {
 				if (!element.__resizeTriggers__) {
 					if (getComputedStyle(element).position == 'static') element.style.position = 'relative';
-					// createStyles();
 					element.__resizeLast__ = {};
 					element.__resizeListeners__ = [];
 					element.__resizeTriggers__ = document.createElement('div');
@@ -154,9 +132,9 @@ This code may only be used under the BSD style license found at http://mediamath
 					element.addEventListener('scroll', scrollListener, true);
 
 					/* Listen for a css animation to detect element display/re-attach */
-					animationstartevent && element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
-						if(e.animationName == animationName)
-							resetTriggers(element);
+					animationstartevent && 
+					element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
+						if(e.animationName == animationName) resetTriggers(element);
 					});
 				}
 				element.__resizeListeners__.push(fn);
@@ -173,7 +151,7 @@ This code may only be used under the BSD style license found at http://mediamath
 						element.__resizeTriggers__ = !Polymer.dom(element).removeChild(element.__resizeTriggers__);
 				}
 			}
-		},
+		}
 
 	};
 
