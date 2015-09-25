@@ -6,20 +6,6 @@
 */
 (function (scope) {
 
-	// function _generateCid(collection, model) {
-	// 	model.cid = ++collection._cidIndex;
-	// }
-
-	// function _triggerDataEvent(instance) {
-	// 	if (!instance._silent) {
-	// 		instance.fire("data-changed", {
-	// 			data:instance.data
-	// 		});
-	// 	} else {
-	// 		instance._silent = false;
-	// 	}
-	// }
-
 	var DataUtils = StrandLib.DataUtils;
 
 	scope.Collection = Polymer({
@@ -29,15 +15,7 @@
 		_cidIndex: 0,
 
 		properties: {
-			// adapter:{},
-			// _adapterInstance:{},
-			// dirtyFetch:{},
-			// data:{
-			// 	type:Array,
-			// 	value: function() {
-			// 		return [];
-			// 	}
-			// }
+
 			_sync: {
 				type:StrandLib.Sync,
 				value: function() {
