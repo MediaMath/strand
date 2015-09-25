@@ -44,7 +44,7 @@
 			"description":"Shows an estimated duration of time between selected start and end dates",
 			"optional":true,
 			"default":"true",
-			"options":[]
+			"attribute":"use-duration"
 		},
 		{
 			"name":"resetOnClose",
