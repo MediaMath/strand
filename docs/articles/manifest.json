@@ -9,5 +9,8 @@
 	{
 		"key":"grid_intro",
 		"children":["grid_config", "grid_data_integration"]
+	},
+	{
+		"key":"migration_guide"
 	}
 ]
