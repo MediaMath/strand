@@ -13,11 +13,11 @@
 		{
 			"name":"items",
 			"type":"Array",
-			"description":"Returns a list of the items that may be selected from.",
+			"description":"Returns a list of the items that may be selected. In some case these will be data objects, and light dom children in others.",
 			"optional":false,
 			"default":"[]",
+			"readOnly":true,
 			"attribute":"N/A"
 		}
-	],
-	"behaviors": ["lightdomgettable"]
+	]
 }
