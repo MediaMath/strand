@@ -1,36 +1,34 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
-  <script src="../bower_components/web-component-tester/browser.js"></script>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
 	<script src="TestHelper.js"></script>
-  <script>
-    var should = chai.should();
-  </script>
-  <!-- <link rel="import" href="../build/strand.html"> -->
-  <link rel="import" href="../build/mm-model/mm-model.html">
+	<script>
+		var should = chai.should();
+	</script>
+	<!-- <link rel="import" href="../build/strand.html"> -->
+	<link rel="import" href="../build/mm-model/mm-model.html">
 </head>
 <body>
 <script>
 
-  describe("mm-model", function() {
+	describe("mm-model", function() {
 
-  	it("should exist", function() {
-		Strand.should.be.an.object;
-		Strand.Model.should.be.a.function;
-  	});
+		it("should exist", function() {
+			Strand.should.be.an.object;
+			Strand.Model.should.be.a.function;
+		});
 
-    it("should get and set model ids", function() {
-    	var test = document.querySelector("#ids");
-    	test.data.id = 1234;
-    	test.mId.should.equal(1234);
-    	test.mId = 7890;
-    	test.data.id.should.equal(7890);
-
-    });
-
-  });
+		it("should get and set model ids", function() {
+			var test = document.querySelector("#ids");
+			test.data.id = 1234;
+			test.mId.should.equal(1234);
+			test.mId = 7890;
+			test.data.id.should.equal(7890);
+		});
+	});
 </script>
 <mm-model id="ids"></mm-model>
 </body>
