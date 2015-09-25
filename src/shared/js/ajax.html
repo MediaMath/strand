@@ -2,6 +2,7 @@
 <link rel="import" href="request.html"/>
 <link rel="import" href="requestqueue.html"/>
 <link rel="import" href="zousan.html"/>
+<link rel="import" href="eventdispatcher.html"/>
 <script>
 /**
  * @license
@@ -10,6 +11,8 @@
 
 */
 (function (scope) {
+
+	var _eventPrefix = "ajax-";
 
 	function _paramaterize(name, value) {
 		return encodeURIComponent(name) + "=" + encodeURIComponent(value);
@@ -115,19 +118,21 @@
 		abort: function() {
 			if (this.current) {
 				this.current.abort();
+				this.dispatchEvent(new CustomEvent(_eventPrefix + "abort", {instance:this}));
 			}
 		},
 
 		abortQueue: function(queueName) {
 			_getQueue(queueName).running.abort();
+			this.dispatchEvent(new CustomEvent(_eventPrefix + "abort-queue", {instance:this}));
 		},
 
 		handleProgress: function(e) {
-			// this.fire("data-progress", {
-			// 	percent: e.totalSize/e.position,
-			// 	total: e.totalSize,
-			// 	current: e.position
-			// });
+			this.dispatchEvent(new CustomEvent(_eventPrefix + "progress", {
+				percent: e.totalSize/e.position,
+				total: e.totalSize,
+				current: e.position
+			}));
 		},
 
 		addHeader: function(name, value) {
@@ -216,7 +221,7 @@
 				try {
 					data = JSON.parse(data);
 				} catch(e) {
-					// this.fire("data-error", {error: e.message, instance: this});
+					this.dispatchEvent(new CustomEvent(_eventPrefix + "error", {error:e, instance:this}));
 				}
 			}
 			if ( StrandLib.DataUtils.isType(data, "array") ) {
@@ -246,6 +251,8 @@
 			return this.current && this.current.xhr;
 		}
 	};
+
+	EventDispatcher.prototype.apply(Ajax.prototype);
 
 	scope.Ajax = Ajax;
 
