@@ -21,6 +21,6 @@
 					"description":"An object containing the classes to be used in attribute binding."
 				}
 			]
-		},
+		}
 	]
 }
