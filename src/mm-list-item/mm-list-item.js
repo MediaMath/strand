@@ -29,7 +29,7 @@
 				value:true
 			},
 			observeCharacterData: {
-				value: true
+				value:true
 			},
 			title: {
 				type:String,
@@ -37,22 +37,21 @@
 				reflectToAttribute: true
 			},
 			value: {
-				type: String,
-				value: ""
+				type: String
 			}
 		},
 
 		listeners:{
-			"added":"updateTitleHandler",
-			"removed":"updateTitleHandler",
-			"modified":"updateTitleHandler"
+			"added":"_updateTitleHandler",
+			"removed":"_updateTitleHandler",
+			"modified":"_updateTitleHandler"
 		},
 
 		attached: function () {
 			this.debounce("update-title",this.updateTitle,0);
 		},
 
-		updateTitleHandler: function() {
+		_updateTitleHandler: function() {
 			this.debounce("update-title",this.updateTitle,0);
 		},
 
