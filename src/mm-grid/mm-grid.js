@@ -63,16 +63,26 @@
 			isLoading: {
 				type: Boolean,
 				value: false
+			},
+			expanded: {
+				type: Boolean,
+				value: false,
 			}
 		},
-
-		expanded: false,
 
 		listeners: {
 			'column-resize-start': 'onColumnResizeStart',
 			'column-resize': 'onColumnResize',
 			'column-resize-end': 'onColumnResizeEnd',
 			'item-selected': 'onItemSelected'
+		},
+
+		observers: [
+			"_expansionChanged(expanded)",
+		],
+
+		_expansionChanged: function (expanded) {
+			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
 		attached: function() {
@@ -225,7 +235,7 @@
 
 		////// Toggle //////
 		expandAll: function(e, d, sender) {
-			this.expanded = !this.expanded;
+			this.set("expanded", !this.expanded);
 			this.$.viewport.inferOffviewHeightsAfterNextMutation();
 			this.data.forEach(function(item, index) {
 				this.set("data." + index + ".expanded", this.expanded);

@@ -15,7 +15,7 @@
 					<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
 						<mm-checkbox on-tap="onItemSelected" checked="{{model.selected}}"></mm-checkbox>
 					</div>
-					<div class="_mm_column toggle" hidden$="{{!scope.expandable}}">
+					<div id="carat" class="_mm_column toggle" hidden$="{{!scope.expandable}}">
 						<mm-icon width="10" height="10" type="carat" on-tap="onItemExpanded"></mm-icon>
 					</div>
 				<div id="columnContainer">

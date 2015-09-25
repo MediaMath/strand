@@ -15,6 +15,14 @@ Polymer({
 		scope: Object
 	},
 
+	observers: [
+		"_expansionChanged(model.expanded)",
+	],
+
+	_expansionChanged: function (expanded) {
+		this.toggleClass("expanded", !!expanded, this.$.carat);
+	},
+
 	_computeColumnValue: function(field, model, modelChange) {
 		// var path = Path.get(field),
 		// 	dataPath = Path.get("data." + field),

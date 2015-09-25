@@ -45,6 +45,7 @@ found here: https://github.com/Polymer/core-list
 	BoundValue.prototype = Object.create(null);
 
 	function ResponderStore (itemRecycler) {
+		this.scroll = null;
 		this.pane = null;
 		this.header = null;
 		this.footer = null;
@@ -155,6 +156,7 @@ found here: https://github.com/Polymer/core-list
 				type: Object,
 				value: function () {
 					var responders = new ResponderStore(this);
+					responders.scroll = this._scrollHandler.bind(this);
 					responders.pane = this._paneResponse.bind(this);
 					responders.header = this._headerResponse.bind(this);
 					responders.footer = this._footerResponse.bind(this);
@@ -182,10 +184,6 @@ found here: https://github.com/Polymer/core-list
 				value: null,
 				notify: true,
 			},
-		},
-
-		listeners: {
-			"pane.scroll": "_scrollHandler",
 		},
 
 		observers: [
@@ -238,6 +236,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		attached: function () {
+			this.$.pane.addEventListener("scroll", this._responders.scroll, true);
 			this.addResizeListener(this._responders.pane, this.$.pane);
 			this.addResizeListener(this._responders.header, this.$.header);
 			this.addResizeListener(this._responders.footer, this.$.footer);
@@ -245,6 +244,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		detached: function () {
+			this.$.pane.removeEventListener("scroll", this.responders.scroll);
 			this.removeResizeListener(this._responders.pane, this.$.pane);
 			this.removeResizeListener(this._responders.header, this.$.header);
 			this.removeResizeListener(this._responders.footer, this.$.footer);
@@ -559,11 +559,11 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_scrollHandler: function(e) {
-			var delta = e.target.scrollTop - this._scrollTop;
+		_scrollResponse: function () {
+			var delta = this.$.pane.scrollTop - this._scrollTop;
 			var diff = this._middleHeight - this._viewportHeight;
 
-			this._scrollTop = e.target.scrollTop;
+			this._scrollTop = this.$.pane.scrollTop;
 
 			if (this._scrollTop > diff) {
 				delta -= this._scrollTop - diff;
@@ -572,6 +572,15 @@ found here: https://github.com/Polymer/core-list
 				this.$.pane.scrollTop = this._scrollTop;
 			} else {
 				this.scrollBy(delta);
+			}
+		},
+
+		_scrollHandler: function(e) {
+			e.stopImmediatePropagation();
+
+			if (e.target === this.$.pane) {
+				this._scrollResponse();
+				this.debounce("work", this._scrollResponse);
 			}
 		},
 

@@ -16,16 +16,12 @@
 	<template>
 		<mm-item-recycler id="viewport" gpu="{{gpu}}" viewport-width="{{viewportWidth}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}">
 			<div id="header" style$="{{_computeViewportWidth(viewportWidth)}}">
-				<template is="dom-if" if="{{selectable}}">
-					<div class="_mm_column checkbox">
-						<mm-checkbox id="selectAll" on-tap="selectAll" state="{{_selectAllState}}"></mm-checkbox>
-					</div>
-				</template>
-				<template is="dom-if" if="{{expandable}}">
-					<div class="_mm_column toggle">
-						<mm-icon width="10" height="10" type="expand-all" on-tap="expandAll"></mm-icon>
-					</div>
-				</template>
+				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
+					<mm-checkbox id="selectAll" on-tap="selectAll" state="{{_selectAllState}}"></mm-checkbox>
+				</div>
+				<div id="carat" class="_mm_column toggle" hidden$="{{!expandable}}">
+					<mm-icon width="10" height="10" type="expand-all" on-tap="expandAll"></mm-icon>
+				</div>
 				<div id="columnContainer">
 					<content id="columns" select="mm-grid-column"></content>
 				</div>
