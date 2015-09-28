@@ -60,11 +60,11 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 ::content .expansion-row {
 	border-bottom: 1px solid $color-A9;
 	padding: 10px 10px 10px 40px;
-	display: flex;
+	@include display(flex);
 }
 
 ::content .expansion-col {
 	margin-right: 20px;
-	flex-grow: 1;
+	@include flex-grow(1);
 }
 

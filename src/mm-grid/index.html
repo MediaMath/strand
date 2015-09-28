@@ -48,7 +48,7 @@
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
 			<template id="customTemplate">
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}">
 					<div field="actions">
 						<mm-tooltip model="{{model}}" tipWidth="150">
 							<mm-icon width="15" height="15" type="actions"></mm-icon>
@@ -117,6 +117,8 @@
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				selected: false,
 				expanded: false,
+				//style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
+				style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
 			});
 		}
 

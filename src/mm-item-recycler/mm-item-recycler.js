@@ -576,10 +576,8 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_scrollHandler: function(e) {
-			e.stopImmediatePropagation();
-
 			if (e.target === this.$.pane) {
-				this._scrollResponse();
+				e.stopImmediatePropagation();
 				this.debounce("work", this._scrollResponse);
 			}
 		},
