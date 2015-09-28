@@ -13,6 +13,7 @@
 			"name":"itemTemplate",
 			"type":"String / Object",
 			"description":"A string pointing to a custom item template ID or template DOM fragment",
+			"attribute":"item-template",
 			"optional":true,
 			"default":"",
 			"options":[]
@@ -20,6 +21,7 @@
 		{
 			"name":"viewportWidth",
 			"type":"Integer",
+			"attribute":"viewport-width",
 			"description":"The width in pixels of the internal grid viewport. (For grids that expand beyond their container)",
 			"optional":true,
 			"default":"",
@@ -44,6 +46,7 @@
 		{
 			"name":"sortField",
 			"type":"String",
+			"attribute": "sort-field",
 			"description":"Set/Get the current sort data field",
 			"optional":true,
 			"default":"",
@@ -52,17 +55,17 @@
 		{
 			"name":"sortOrder",
 			"type":"Integer",
+			"attribute": "sort-order",
 			"description":"Set/Get the current sort order",
 			"optional":true,
 			"default":"",
-			"options":[]
-		}
-	],
-	"methods": [],
-	"properties":[
+			"options":[-1,0,1]
+		},
 		{
 			"name":"selected",
 			"type":"Array",
+			"readOnly":true,
+			"attribute":"N/A",
 			"description":"Returns array of selected items.",
 			"default":"[]",
 			"options":[]
@@ -75,6 +78,7 @@
 			"options":[]
 		}
 	],
+	"methods": [],
 	"events": [],
 	"articles": ["grid_intro", "grid_config", "grid_data_integration"]
 }

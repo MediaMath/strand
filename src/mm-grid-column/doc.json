@@ -31,8 +31,9 @@
 			"name":"minWidth",
 			"type":"Integer",
 			"description":"The minimum width of the column in pixels when resizing",
+			"attribute":"min-width",
 			"optional":true,
-			"default":"",
+			"default":"75",
 			"options":[]
 		},
 		{
@@ -40,20 +41,21 @@
 			"type":"Boolean",
 			"description":"Enable dynamic resizing for this column",
 			"optional":true,
-			"default":"",
+			"default":"false",
 			"options":[]
 		},
 		{
 			"name":"sort",
 			"type":"Boolean",
-			"description":"Enable sort events / indicators for this column",
+			"description":"Enable sort events/indicators for this column",
 			"optional":true,
-			"default":"",
+			"default":"false",
 			"options":[]
 		},
 		{
 			"name":"sortField",
 			"type":"String",
+			"attribute":"sort-field",
 			"description":"The field to sort on - dispatched with 'column-sort' event",
 			"optional":true,
 			"default":"column 'field' value",
@@ -62,6 +64,7 @@
 		{
 			"name":"sortOrder",
 			"type":"Integer",
+			"attribute":"sort-order",
 			"description":"The sort direction - Ascending/None/Descending represented as an integer by 1 / 0 / -1",
 			"optional":true,
 			"default":"0",
