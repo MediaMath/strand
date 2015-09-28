@@ -225,7 +225,7 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if (typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex],
-					value = newSelected.value.toString() ? newSelected.value.toString() : newSelected.textContent.trim(),
+					value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim(),
 					name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
 				
 				this.value = value;

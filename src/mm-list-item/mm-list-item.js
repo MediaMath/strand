@@ -37,7 +37,8 @@
 				reflectToAttribute: true
 			},
 			value: {
-				type: String
+				type: String,
+				value: false
 			}
 		},
 
