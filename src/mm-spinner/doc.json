@@ -69,7 +69,7 @@
 			"type":"String",
 			"description":"Whether or not the animation is running.",
 			"optional":true,
-			"default":false,
+			"default":"false",
 			"reflect":true
 		}
 	],

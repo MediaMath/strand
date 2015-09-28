@@ -16,7 +16,7 @@
 			"type":"Boolean",
 			"description":"Instructs the tooltip to stay visible even after the user has rolled out of the target area.",
 			"optional":true,
-			"default":false,
+			"default":"false",
 			"reflect":true
 		}
 	],

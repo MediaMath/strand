@@ -20,7 +20,7 @@
 			"type":"Boolean",
 			"description":"Whether or not the component should update the local store when its value changes. If auto is set to false, save or sync must be called to save the component's value to the local store.",
 			"optional":true,
-			"default":false
+			"default":"false"
 		}
 	],
 	"methods": [
