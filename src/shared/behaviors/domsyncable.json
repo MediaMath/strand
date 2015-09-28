@@ -1,27 +1,15 @@
 {
 	"name": "DomSyncable",
-	"description": "Keeps dom config and domObject in sync.",
+	"description": "A behavior applied over any sync or syncable containers which will attempt to call get or post when the dom configuration changes.",
 	"attributes":[
 		{
 			"name":"auto",
 			"type":"Boolean",
-			"description":"TODO",
+			"description":"When true, changes to dom configuration will result in AJAX calls being made on the parent object.",
 			"default":"true",
 			"options":["true", "false"]
 		}
 	],
 	"methods":[
-		{
-			"name" : "domObjectChanged",
-			"description" : "TODO",
-			"arguements" : [
-				{
-					"name":"domObject",
-					"type":"Object",
-					"description":"An object used for JS configuration.",
-					"default":"{}"
-				}
-			]
-		}
 	]
 }

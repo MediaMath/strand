@@ -1,6 +1,6 @@
 {
 	"name": "Debouncable",
-	"description": "Listens for property-changed events and calls Polymer.Base.debounce based on a `debouncers` property.",
+	"description": "Listens for multiple property changed events to occur and only dispatches an event when all observed properties have changed.",
 	"attributes" : [
 		{
 			"name" : "debouncers",
@@ -12,7 +12,7 @@
 		{
 			"name" : "resetDebouncer",
 			"type":"Boolean",
-			"description":"TODO",
+			"description":"When true the semaphore state is reset on each 'tick' of the debouncer, so it is only ever triggered when calls occur within the same tick.",
 			"optional":true,
 			"default":"closed",
 			"options":["true", "false"]
