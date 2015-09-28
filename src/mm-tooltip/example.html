@@ -1,6 +1,9 @@
-<!-- You must use a template tag to populate the tooltip -->
+<style>
+	#defaultTarg { color: #438ECA; margin-bottom: 20px; }
+</style>
+
 <!-- Default Example -->
-<mm-icon id="defaultTarg" type="info" width="14" height="14" primary-color="#666666"></mm-icon>
+<mm-icon id="defaultTarg" type="info" width="14" height="14"></mm-icon>
 <mm-tooltip target="#defaultTarg">
 	<label>Hi there, I'm a tooltip.</label>
 </mm-tooltip>
@@ -10,4 +13,3 @@
 <mm-tooltip tip-width="200" auto="false" target="#actionTarg">
 	<label><span class="bold">Hi there: </span>you'll have to click the x to dismiss me. Here's a <a href="http://www.example.com" target="_blank">link</a>, too!</label>
 </mm-tooltip>
-

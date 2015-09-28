@@ -13,14 +13,17 @@
 		{
 			"name":"error",
 			"type":"Boolean",
+			"optional":true,
 			"description":"Triggers the display of invalid visual state.",
 			"default":"false"
 		},
 		{
 			"name":"rules",
 			"type":"Object",
+			"optional":true,
 			"description":"Sets or returns an object containing methods for each type of validation to be performed.",
-			"default":"empty, int, decimal, email, alpha, whitespace, checked, blank"
+			"default":"empty, int, decimal, email, alpha, whitespace, checked, blank",
+			"attribute":"N/A"
 		}
 	],
 	"methods": [

@@ -17,7 +17,8 @@
 			"description":"Instructs the tooltip to stay visible even after the user has rolled out of the target area.",
 			"optional":true,
 			"default":"false",
-			"reflect":true
+			"reflect":true,
+			"options": ["true", "false"]
 		}
 	],
 	"behaviors":["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]

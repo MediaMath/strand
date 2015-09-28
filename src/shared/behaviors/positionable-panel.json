@@ -16,7 +16,7 @@
 			"type":"Object or String",
 			"description": "An HTMLElement that toggles the element's visual state when clicked. A valid selector may be passed to this attribute as a String.",
 			"optional":false,
-			"default":null
+			"default": "none"
 		}
 	]
 }

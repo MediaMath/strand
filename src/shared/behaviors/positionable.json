@@ -8,7 +8,7 @@
 			"description":"The amount of space, in px, between the panel and associated target.",
 			"optional":true,
 			"attribute":"panel-offset",
-			"default": 0
+			"default": "0"
 		},
 		{
 			"name":"boundaryOffset",
@@ -16,7 +16,7 @@
 			"description":"The minimum about of space between the panel and the viewport boundary.",
 			"optional":true,
 			"attribute":"boundary-offset",
-			"default": 10
+			"default": "10"
 		},
 		{
 			"name":"metrics",
