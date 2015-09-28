@@ -29,12 +29,13 @@
 	<body>
 		<dom-module id="x-test">
 			<template>
-				<mm-scroll-panel>
+				<mm-scroll-panel id="isp">
 					<content></content>
 				</mm-scroll-panel>
 			</template>
 		</dom-module>
 		<div class="holder">
+			
 			<mm-scroll-panel id="sp">
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>
@@ -77,8 +78,52 @@
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>
 			</mm-scroll-panel>
+			
 			<!-- test inside another component with light dom passed thru -->
-			<!-- <x-test id="sp"></x-test> -->
+			<!--
+			<x-test id="sp">
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+			</x-test>
+			-->
 		</div>
 		<div class="holder">
 			<mm-button id="addBtn">
@@ -130,7 +175,11 @@
 			}
 
 			function reset(e) {
-				sp.resetScroll();
+				if (sp.resetScroll) {
+					sp.resetScroll();
+				} else {
+					sp.$.isp.resetScroll();
+				}
 			}
 
 			// test inside another component with light dom passed thru:
