@@ -31,17 +31,10 @@
 		],
 		
 		properties: {
-			tabIndex: {
-				type: Number,
-				value: 0
-			},
-			resizeTarget: {
-				value: function() { return this.$.holder }
-			},
 			mutationTarget: {
 				value: function() { return this.$.holder }
 			},
-			scrollbarInterface: {
+			_scrollbarInterface: {
 				type: Object,
 				value: function () {
 					return new ScrollbarInterface(this);
