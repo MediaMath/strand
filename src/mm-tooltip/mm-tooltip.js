@@ -12,15 +12,15 @@
 		behaviors: [
 			StrandTraits.Stackable,
 			StrandTraits.PositionablePanel,
-			StrandTraits.Stylable
+			StrandTraits.Stylable,
+			StrandTraits.Falsifiable
 		],
 
 		properties: {
 			auto: { 
 				type: Boolean,
-				value: false, 
-				refelctToAttribute: true,
-				observer: '_autoChanged'
+				value: true,
+				refelctToAttribute: true
 			},
 			direction: {
 				value: 'n'
@@ -60,7 +60,7 @@
 		},
 
 		_outHandler: function(e) {
-			if(!this.auto) {
+			if(this.auto) {
 				this.close();
 			}
 		},
@@ -69,15 +69,9 @@
 			this.style.width = newVal + 'px';
 		},
 
-		_autoChanged: function(newVal, oldVal) {
-			if (newVal && typeof newVal === 'string') {
-				newVal = JSON.parse(newVal.toLowerCase());
-			}
-		},
-
 		_updateClass: function(auto) {
 			var o = {};
-			o.auto = auto;
+			o.auto = !auto;
 			return this.classBlock(o);
 		},
 
