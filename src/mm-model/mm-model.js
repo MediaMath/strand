@@ -48,7 +48,7 @@
 		},
 
 		init: function(data) {
-			this._model.init(data);
+			this._model.init(data || this.defaults);
 		},
 		
 		adapterChanged: function(oldAdapter, newAdapter) {

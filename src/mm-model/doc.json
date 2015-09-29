@@ -3,7 +3,7 @@
 	"description":"Simple model component for 2 way binding to model data",
 	"attributes": [
 		{
-			"name":"mid",
+			"name":"mId",
 			"type":"String",
 			"description":"Model id. This is mapped to data.id when it exists.",
 			"optional":true,
@@ -11,7 +11,7 @@
 			"options":[]
 		},
 		{
-			"name":"cid",
+			"name":"cId",
 			"type":"Collection id. This is assigned to models when they are used in a collection and may be used to reference them temporarily if they have not recieved a server side id.",
 			"description":"",
 			"optional":true,
@@ -19,12 +19,12 @@
 			"options":[]
 		},
 		{
-			"name":"auto",
-			"type":"Boolean/String",
-			"description":"Setting for the adapter to automatically sync data to and from server when params or data change",
+			"name":"data",
+			"type":"Object",
+			"description":"The data this model stores.",
 			"optional":true,
-			"default":"false",
-			"options":["false","true","load","save"]
+			"default":"{}",
+			"options":[]
 		},
 		{
 			"name":"collection",
@@ -37,7 +37,7 @@
 		{
 			"name":"adapter",
 			"type":"string",
-			"description":"A constructor string for the adapter to inflate for this model to persist changes to that API. This is typically of the format MMAdapterAPINAME",
+			"description":"Futureproofing string for API marshalling",
 			"optional":true,
 			"default":"''",
 			"options":[]
@@ -45,7 +45,7 @@
 		{
 			"name":"connector",
 			"type":"Object",
-			"description":"A read-only reference to the inflated adapter used for persisting server changes",
+			"description":"A read-only reference to the Sync instance responsible for syncing to the server",
 			"optional":true,
 			"default":"{}",
 			"options":[]
@@ -56,14 +56,6 @@
 			"description":"An object hash used to pre-fill a model with data for use in repeating model scenarios.  Used in conjuction with init() method",
 			"optional":true,
 			"default":"null",
-			"options":[]
-		},
-		{
-			"name":"data",
-			"type":"Object",
-			"description":"The data this model stores.",
-			"optional":true,
-			"default":"{}",
 			"options":[]
 		}
 	],
@@ -149,5 +141,8 @@
 				}
 			]
 		}
+	],
+	"behaviors":[
+		"DomSyncable"
 	]
 }

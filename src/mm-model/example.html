@@ -1,7 +1,12 @@
-<template is="auto-binding">
-	<mm-model id="model">
+<script>
+	window.addEventListener("WebComponentsReady", function() {
+		document.querySelector("#model").data = {name:'test',link:'http://strand.mediamath.com'};
+	});
+</script>
+<template is="dom-bind">
+	<mm-model id="model" data="{{data}}" auto="false">
 	</mm-model>
-	<mm-input value="{{$.model.data.name}}"></mm-input>
-	<mm-input value="{{$.model.data.link}}"></mm-input>
-	<mm-action href="{{$.model.data.link}}"><label>{{$.model.data.name}}</label></mm-action>
+	<mm-input value="{{data.name}}"></mm-input>
+	<mm-input value="{{data.link}}"></mm-input>
+	<mm-action href="{{data.link}}"><label>{{data.name}}</label></mm-action>
 </template>
