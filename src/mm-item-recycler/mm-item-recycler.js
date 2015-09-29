@@ -244,7 +244,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		detached: function () {
-			this.$.pane.removeEventListener("scroll", this.responders.scroll);
+			this.$.pane.removeEventListener("scroll", this._responders.scroll);
 			this.removeResizeListener(this._responders.pane, this.$.pane);
 			this.removeResizeListener(this._responders.header, this.$.header);
 			this.removeResizeListener(this._responders.footer, this.$.footer);
