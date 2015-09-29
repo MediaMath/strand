@@ -149,6 +149,7 @@
 		_handleResponse: function(resp) {
 			if (resp.response)
 				this.set("response", resp.response);
+			this.fire("data-ready", resp);
 		},
 
 		_handleError: function(error) {
@@ -159,6 +160,7 @@
 
 		_handleProgress: function(progress) {
 			this.progress = progress;
+			this.fire("data-progress", progress);
 		},
 
 		addHeader: function(name, value) {
