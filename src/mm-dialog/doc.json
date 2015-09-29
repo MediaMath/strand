@@ -29,24 +29,21 @@
 			"type":"string",
 			"description":"Returns the visible state of the dialog window. Can be used in binding scenarios as an alternative to show or hide the dialog.",
 			"optional":true,
-			"default":"true",
-			"options":["true", "false"]
+			"default":"true"
 		},
 		{
 			"name":"dismiss",
 			"type":"Boolean",
 			"description":"If set, determines whether or not the dialog can be dismissed without user action (see: actions).",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"noscroll",
 			"type":"Boolean",
 			"description":"If set, will disable page scrolling while the dialog is displayed.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"actions",

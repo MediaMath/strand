@@ -59,24 +59,21 @@
 			"type":"Boolean",
 			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
 			"optional":true,
-			"default":"false",
-			"options":["true","false"]
+			"default":"false"
 		},
 		{
 			"name":"disabled",
 			"type":"Boolean",
 			"description":"Disable the item",
 			"optional":true,
-			"default":"false",
-			"options":["true","false"]
+			"default":"false"
 		},
 		{
 			"name":"error",
 			"type":"Boolean",
 			"optional":true,
 			"description":"Triggers the display of invalid visual state.",
-			"default":"false",
-			"options":["true","false"]
+			"default":"false"
 		}
 	],
 	"events": [

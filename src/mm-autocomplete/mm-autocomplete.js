@@ -25,12 +25,12 @@
 				value: function() { return this.$.panel; }
 			},
 			search: {
-				type: String,
-				value: "true",
+				type: Boolean,
+				value: true,
 			},
 			clear: {
-				type: String,
-				value: "true",
+				type: Boolean,
+				value: true,
 			},
 			disabled: {
 				type: Boolean,

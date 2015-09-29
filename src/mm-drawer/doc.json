@@ -43,11 +43,10 @@
 		},
 		{
 			"name":"forceMeasure",
-			"type":"Number",
+			"type":"Boolean",
 			"description":"If set, forces the drawer to measure it's contents every time it is opened. By default, the drawer's initial height is cached (see: openedHeight).",
 			"default":"false",
 			"optional":true,
-			"options":["true", "false"],
 			"attribute":"force-measure"
 		},
 		{
@@ -55,8 +54,7 @@
 			"type":"Boolean",
 			"description":"Sets or returns the expanded state of the drawer. Changing the value will open or close the drawer.",
 			"default":"false",
-			"optional":true,
-			"options":["true", "false"]
+			"optional":true
 		}
 	],
 	"methods": [

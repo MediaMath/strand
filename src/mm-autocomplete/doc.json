@@ -7,16 +7,14 @@
 			"type":"Boolean",
 			"description":"Sets the visual state of the input, adding a search icon. mm-autocomplete is searchable by default.",
 			"optional":true,
-			"default":"true",
-			"options":["true", "false"]
+			"default":"true"
 		},
 		{
 			"name":"clear",
 			"type":"Boolean",
 			"description":"Sets the visual state of the input when content has been entered, adding a clear icon. mm-autocomplete is clear enabled by default.",
 			"optional":true,
-			"default":"true",
-			"options":["true", "false"]
+			"default":"true"
 		},
 		{
 			"name":"disabled",
@@ -24,7 +22,6 @@
 			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		},
 		{
@@ -32,16 +29,14 @@
 			"type":"Boolen",
 			"description":"Sets the visual state of the input field to have a red outline, denoting an error state.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"fitparent",
 			"type":"Boolen",
 			"description":"Sets the width of the component to fill the width of it's parent element.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"placeholder",

@@ -7,8 +7,7 @@
 			"type":"String",
 			"description":"Default text which appears in the textarea",
 			"optional":true,
-			"default":"false",
-			"options":[]
+			"default":"none"
 		},
 		{
 			"name":"type",
@@ -31,16 +30,14 @@
 			"type":"Boolean",
 			"description":"Display a search icon.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"clear",
 			"type":"Boolean",
 			"description":"Display a clear button when text is input.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"width",
@@ -82,8 +79,7 @@
 			"type":"Boolean",
 			"description":"Used to display a visual error state, can be set via validation or directly.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		}
 	],
 	"methods": [

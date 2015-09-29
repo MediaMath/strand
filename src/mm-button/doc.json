@@ -16,8 +16,7 @@
 			"type":"Boolean",
 			"description":"Sets the visual state to 'selected'. Ideal for use in scenario where it may be necessary to toggle the button's visual state (see: mm-group).",
 			"optional":true,
-			"default":"null",
-			"options":["true", "false"],
+			"default":"none",
 			"reflect":true
 		},
 		{
@@ -26,7 +25,6 @@
 			"description":"Sets the width of the component to fill the width of it's parent element.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		},
 		{
@@ -44,7 +42,6 @@
 			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		}
 	]

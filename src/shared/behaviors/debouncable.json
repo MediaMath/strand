@@ -15,7 +15,8 @@
 			"description":"When true the semaphore state is reset on each 'tick' of the debouncer, so it is only ever triggered when calls occur within the same tick.",
 			"optional":true,
 			"default":"closed",
-			"options":["true", "false"]
+			"options":["true", "false"],
+			"attribute":"N/A"
 		}
 	]
 }

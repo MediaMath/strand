@@ -16,7 +16,6 @@
 			"description":"Instructs the checkbox to display it's 'checked' state. Adds the expected 'checked' attribute, like a native <input type='checkbox'>.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect": true
 		},
 		{
@@ -25,7 +24,6 @@
 			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		},
 		{

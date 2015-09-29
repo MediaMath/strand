@@ -32,7 +32,6 @@
 			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		}
 	]
