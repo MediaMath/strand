@@ -21,13 +21,6 @@
 
 	function _triggerDataEvent(instance) {
 		instance.dispatchEvent(new CustomEvent("data-changed"));
-		// if (!instance._silent) {
-		// 	instance.fire("data-changed", {
-		// 		data:instance.data
-		// 	});
-		// } else {
-		// 	instance._silent = false;
-		// }
 	}
 
 	scope.Collection = function(data, opts, sync) {
