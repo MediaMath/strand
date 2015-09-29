@@ -34,6 +34,11 @@
 				value:10,
 				observer:"_pageSizeChanged"
 			},
+			index:{
+				type:Number,
+				value:0,
+				observer:"_indexChanged"
+			},
 			pageOptions:{
 				type:Object,
 				value:function() {
@@ -62,11 +67,20 @@
 				this.page--;
 		},
 
+		reset: function(silent) {
+			if(this.silent) {
+				this.page = 0;
+			} else {
+				this.set("page", 0);
+			}
+		},
+
 		_usePagingChanged: function() {
 			this._sync.pageConfig.enabled = this.usePaging;
 		},
 
 		_pageChanged:function() {
+			console.log(this.page);
 			var paging = {
 				page:this.page,
 				pageSize:this.pageSize
@@ -75,6 +89,7 @@
 
 			if (this.auto && this.auto !== "save" && this.page >= 0) {
 				if (this.autoDebounce !== -1) {
+					console.log("req")
 					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
 				} else {
 					this.get();
@@ -95,6 +110,15 @@
 				} else {
 					this.get();
 				}
+			}
+		},
+
+		_indexChanged: function(o, n) {
+			
+			if (this.pageOptions && this.pageOptions.pageType === Pageable.PAGE_TYPE_OFFSET) {
+				this.set("page", this.index);
+			} else {
+				this.set("page", Math.floor(this.index/this.pageSize));
 			}
 		},
 

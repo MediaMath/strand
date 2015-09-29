@@ -1,20 +1,27 @@
 {
 	"name":"Pageable",
-	"description":"",
+	"description":"A behavior that requires a base component with _sync exposed, interacts with sync's ajaxpageplugin to provide paging from a dom interface",
 	"attributes": [
 		{
 			"name":"page",
 			"type":"Number",
-			"description":"",
+			"description":"the current page number",
 			"default": 0,
 			"required": true
 		},
 		{
 			"name":"pageSize",
 			"type":"Number",
-			"description":"",
+			"description":"the current number of records requested per page",
 			"default": 10,
 			"required": true
+		},
+		{
+			"name":"index",
+			"type":"Number",
+			"description":"the current record offset. this is used for binding to item recycled UI components",
+			"default":"0",
+			"required":false
 		},
 		{
 			"name":"pageOptions",

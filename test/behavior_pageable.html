@@ -59,6 +59,51 @@
 
 		});
 
+		it("should update on index change", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.autoDebounce = 0;
+
+			flush(function() {
+				page.index = 20;
+				page.page.should.equal(20);
+				flush(function() {
+					request.url.should.contain("page_offset=20");
+					request.url.should.contain("page_limit=10");
+					xhr.restore();
+					done();
+				});
+			}.bind(this));
+		});
+
+		it("should update on index change", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.autoDebounce = 0;
+			page.pageOptions = {pageType: page.PAGE_TYPE_INDEX};
+
+			flush(function() {
+				page.index = 20;
+				page.page.should.equal(2);
+				flush(function() {
+					request.url.should.contain("page_offset=2&");
+					request.url.should.contain("page_limit=10");
+					xhr.restore();
+					done();
+				});
+			}.bind(this));
+		});
+
 	});
 	</script>
 <!-- 	<test-pageable id="test" auto="true"></test-pageable> -->
