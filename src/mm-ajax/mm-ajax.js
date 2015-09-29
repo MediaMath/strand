@@ -37,6 +37,11 @@
 				value:"",
 				observer:"_updateAjax"
 			},
+			response:{
+				type:Object,
+				value:function() { return {}; },
+				notify:true,
+			},
 			contentType:{
 				type:String,
 				value: 'application/x-www-form-urlencoded',
@@ -82,9 +87,11 @@
 		},
 
 		ready: function() {
-			if (this._validateAjax()) {
-				this.ajax.exec();
-			}
+			this.async(function() {
+				if (this._validateAjax()) {
+					this.exec();
+				}
+			});
 		},
 
 		_updateAjax: function() {
@@ -92,7 +99,7 @@
 			this.debounce("options", function() {
 				this.ajax.options = StrandLib.DataUtils.copy(this.ajax.options, {
 					contentType:this.contentType,
-					responseTyle:this.responseType,
+					responseType:this.responseType,
 					method:this.method,
 					url:this.url,
 					body:this.body,
@@ -116,6 +123,7 @@
 		exec: function(data, options) {
 			var p = this.ajax.exec(data, options);
 			this.ajax.current.progress = this.handleProgress;
+			p.then(this._handleResponse.bind(this), this._handleError.bind(this));
 			return p;
 		},
 
@@ -134,11 +142,22 @@
 			}
 		},
 
-		handleAbort: function(e) {
+		_handleAbort: function(e) {
 			this.fire("data-abort", e);
 		},
 
-		handleProgress: function(progress) {
+		_handleResponse: function(resp) {
+			if (resp.response)
+				this.set("response", resp.response);
+		},
+
+		_handleError: function(error) {
+			if(error.response)
+				this.set("response", error.response);
+			this.fire("data-error", error);
+		},	
+
+		_handleProgress: function(progress) {
 			this.progress = progress;
 		},
 
