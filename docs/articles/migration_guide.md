@@ -31,6 +31,28 @@ Previously, a `bindModel` method was provided as a convenience to bind a propert
 
 ---
 
+##Removal of unresolved attribute
+Previously, if an attribute of `unresolved` was added to a component, that attribute would be removed by Polymer 0.5 when the component was upgraded. Currently, the `unresolved` attribute may be used on the `body` element only.
+
+Before:
+```html
+<mm-dropdown placeholder="Select One" unresolved>
+	...
+</mm-dropdown>
+
+```
+
+After:
+```html
+<body unresolved>
+	<mm-dropdown placeholder="Select One">
+		...
+	</mm-dropdown>
+</body>
+```
+
+---
+
 ##mm-icon
 `primaryColor` and `hoverColor` properties have been deprecated. Color should instead be configured in stylesheets.
 
