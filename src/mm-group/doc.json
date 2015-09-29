@@ -8,7 +8,6 @@
 			"description":"Sets the width of the component to fill the width of it's parent element.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		},
 		{

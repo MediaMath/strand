@@ -8,7 +8,6 @@
 			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"reflect":true
 		},
 		{
@@ -16,16 +15,14 @@
 			"type":"Boolean",
 			"description":"When set, will display an invalid visual state - a red line around the dropdown button. This property can be used to provide user feedback for validation.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"fitparent",
 			"type":"Boolean",
 			"description":"When set, instructs the component to fill the width of its parent container.",
 			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
+			"default":"false"
 		},
 		{
 			"name":"placeholder",
