@@ -1,3 +1,4 @@
+<link rel="import" href="nonscrollable.html">
 <script>
 /**
  * @license
@@ -34,11 +35,13 @@
 
 	 	open: function(silent) {
 	 		this.state = this.STATE_OPENED;
+	 		this.disableScroll();
 	 		!silent && this.fire("open");
 	 	},
 
 	 	close: function(silent) {
 	 		this.state = this.STATE_CLOSED;
+	 		this.enableScroll();
 	 		!silent && this.fire("close");
 	 	},
 
@@ -52,10 +55,13 @@
 
 	 	_checkClosed: function(state) {
 	 		return state === this.STATE_CLOSED;
-	 	},
+	 	}
 
 	 };
 
-	 scope.Closable = Closable;
+	scope.Closable = [
+		scope.NonScrollable,
+		Closable
+	];
 })(window.StrandTraits = window.StrandTraits || {}); 
 </script>

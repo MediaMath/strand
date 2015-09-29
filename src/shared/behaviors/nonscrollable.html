@@ -1,0 +1,77 @@
+<link rel="import" href="../js/rectangle.html">
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function(scope) {
+	// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
+	var _onWheel = "onwheel" in document.createElement("div") ? "wheel" : null,
+		_onMouseWheel = document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll",
+		_support = _onWheel || _onMouseWheel,
+		_instance = null,
+		_previousOverflow = null,
+		Rectangle = StrandLib.Rectangle;
+
+
+	function _disableScroll(instance) {
+		_instance = instance;
+		window.addEventListener(_support, _handler, false);
+		window.addEventListener("keydown", _handler, false);
+
+		_previousOverflow = document.body.style.overflow;
+		document.body.style.overflow = "hidden";
+	}
+
+	function _enableScroll() {
+		_instance = null;
+		window.removeEventListener(_support, _handler, false);
+		window.removeEventListener("keydown", _handler, false);
+		document.body.style.overflow = _previousOverflow;
+	}
+
+	function _boundaryCheck(x, y, bounds) {
+		if (x >= bounds.x && x < bounds.x + bounds.width &&
+			y >= bounds.y && y < bounds.y + bounds.height) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function _handler(e) {
+		var x = e.clientX,
+			y = e.clientY,
+			bounds = Rectangle.fromElement(_instance._panel),
+			allow = _boundaryCheck(x, y, bounds);
+
+		if (!allow) {
+			if (!e.keyCode || [37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				e.returnValue = false;  
+			}
+		}
+	}
+	
+	scope.NonScrollable = {
+		properties: {
+			disableScroll: {
+				type: Boolean,
+				value: true
+			}
+		},
+
+		disableScroll: function() {
+			if (this.disableScroll) _disableScroll(this);
+		},
+		
+		enableScroll: function() {
+			if (this.disableScroll) _enableScroll();
+		}
+	};
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>
