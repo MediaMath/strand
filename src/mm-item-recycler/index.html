@@ -72,7 +72,7 @@
 			ddDataArr = [],
 			itemRecycler,
 			header,
-			NUM_ITEMS = 10 * 10;
+			NUM_ITEMS = 15;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem(i);
@@ -97,6 +97,7 @@
 				file: "Creative_File_" + i + ".swf",
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				//style: "transition: height 2s; height: 50px",
+				style: index < 12 ? "" : "height: 90px",
 				size: 50,
 				dd:{
 					dropdownData: ddDataArr,
@@ -120,7 +121,7 @@
 			};
 
 			setTimeout(function () {
-				itemRecycler.data = data.slice(data.length >> 2, data.length >> 1);
+				//itemRecycler.data = data.slice(data.length >> 2, data.length >> 1);
 			}, 3000);
 
 		// 	setTimeout(function () {

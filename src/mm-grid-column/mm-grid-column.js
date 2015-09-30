@@ -66,9 +66,6 @@ Polymer({
 			type: Boolean,
 			value: false
 		},
-		info: {
-			type: String
-		},
 		resize: {
 			type: Boolean,
 			value: false

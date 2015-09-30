@@ -7,16 +7,14 @@
 			"type":"Object",
 			"description":"The data object for this grid item.",
 			"optional":false,
-			"default":"",
-			"options":[]
+			"default":""
 		},
 		{
 			"name":"scope",
 			"type":"Object",
-			"description":"The content scope for this grid item - defaults to the grid in which it lives.",
+			"description":"The content scope for this grid item - typically the grid in which it lives.",
 			"optional":false,
-			"default":"",
-			"options":[]
+			"default":"the grid in which it lives"
 		}
 	],
 	"methods": [],

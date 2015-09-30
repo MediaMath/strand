@@ -19,9 +19,10 @@
 				<mm-icon width="10" height="10" type="carat" on-tap="_onItemExpanded"></mm-icon>
 			</div>
 			<div id="columnContainer">
-				<template is="dom-repeat" items="{{_columnsFromScope(scope.columnChanges)}}" as="column">
-					<div class="_mm_column" style$="{{_computeColumnStyle(column.width)}}">
-							<span>[[_computeColumnValue(column.field, model, model.*)]]</span>
+				<template is="dom-repeat" items="{{scope._columns}}" as="column">
+					<div class$="{{_computeColumnClass(column.align)}}" style$="{{_computeColumnStyle(column.width)}}">
+						<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
+						<span hidden$="{{_isOverridden(column.field)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
 					</div>
 				</template>
 			</div>
@@ -32,6 +33,9 @@
 		<template is="dom-if" if="{{model.expanded}}" restamp="true">
 			<content id="expansion" select=".expansion"></content>
 		</template>
+		<div style="display: none;">
+			<content id="catchall" select="*"></content>
+		</div>
 	</template>
 </dom-module>
 <script src="mm-grid-item.js"></script>

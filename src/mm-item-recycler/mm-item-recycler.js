@@ -577,7 +577,8 @@ found here: https://github.com/Polymer/core-list
 
 			this._scrollTop = this.$.pane.scrollTop;
 
-			if (this._scrollTop > diff) {
+			if (diff < this._scrollTop &&
+				diff > 0) {
 				delta -= this._scrollTop - diff;
 				this._scrollTop = diff;
 				this.scrollBy(delta);

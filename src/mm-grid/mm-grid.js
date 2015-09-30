@@ -31,10 +31,6 @@
 				notify: true,
 				observer: "_columnsChanged",
 			},
-			columnChanges: {
-				type: Number,
-				value: 1,
-			},
 			scope: {
 				type: Object,
 				notify: true,
@@ -112,34 +108,8 @@
 			}
 		},
 
-		getColumns: function (precached) {
-			var columns = this._columns;
-			var count = 0;
-			var index = 0;
-			if (columns) {
-				count = this._columns.length;
-				if (Array.isArray(precached) &&
-					count === precached.length) {
-					for (index = 0; index < count; index++) {
-						if (columns[index] !== precached[index]) {
-							columns = null;
-							break;
-						}
-					}
-
-					if (columns) {
-						return precached;
-					}
-				}
-				return this._columns.slice();
-			} else {
-				return null;
-			}
-		},
-		
 		_columnsChanged: function() {
 			this._columnsMap = arrayToMap(this._columns, "field");
-			this.set("columnChanges", (this.columnChanges + 1) >>> 0);
 		},
 
 		_setInitialColumnWidth: function() {
@@ -158,6 +128,8 @@
 		////// Selection //////
 		_onItemSelected: function(e, d, sender) {
 			var selected = this.selected,
+				model = d,
+				index = Array.isArray(this.data) ? this.data.indexOf(model) : -1,
 				state = "unchecked";
 
 			if(selected.length > 0) {
@@ -168,18 +140,23 @@
 				state = "checked";
 			}
 
+			if (model && index > -1) {
+				this.set("data."+index+".selected", model.selected);
+			}
+
 			this._selectAllState = state;
 		},
 
-		_selectAll: function(e) {
-			this.setSelectionAll(e.target.checked);
+		_toggleAllSelections: function(e) {
+			this.setAllSelections(e.target.checked);
 		},
 
 		setAllSelections: function (checked) {
 			var value = !!checked;
 			this._selectAllState = value ? "checked" : "unchecked";
 			this.data.forEach(function(item, i) {
-				this.set('data.'+i+'.selected', value)
+				var path = 'data.'+i+'.selected';
+				this.set(path, value);
 			}, this);
 		},
 
@@ -216,7 +193,7 @@
 		},
 
 		_resizeColumns: function(field, val) {
-			var target = this.columnsMap[field];
+			var target = this._columnsMap[field];
 			var targetIndex = this._columns.indexOf(target);
 
 			////// Overflow Resizing //////

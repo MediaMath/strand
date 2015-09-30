@@ -7,65 +7,58 @@
 			"type":"String",
 			"description":"The data field/key to render into this column.",
 			"optional":false,
-			"default":"",
-			"options":[]
+			"default":""
 		},
 		{
 			"name":"label",
 			"type":"String",
 			"description":"The label for this column - optionally put the label into the HTML Content.",
 			"optional":true,
-			"default":"",
-			"options":[]
+			"default":""
 		},
 		{
 			"name":"width",
 			"type":"String",
 			"description":"The width of this column in percent or pixels.",
 			"optional":true,
-			"default":"",
-			"options":[]
+			"default":""
 		},
 		
 		{
 			"name":"minWidth",
 			"type":"Integer",
-			"description":"The minimum width of the column in pixels when resizing",
+			"description":"The minimum width of the column in pixels when resizing.",
 			"attribute":"min-width",
 			"optional":true,
-			"default":"75",
-			"options":[]
+			"default":"75"
 		},
 		{
 			"name":"resize",
 			"type":"Boolean",
-			"description":"Enable dynamic resizing for this column",
+			"description":"Enable dynamic resizing for this column.",
 			"optional":true,
-			"default":"false",
-			"options":[]
+			"default":"false"
 		},
 		{
 			"name":"sort",
 			"type":"Boolean",
-			"description":"Enable sort events/indicators for this column",
+			"description":"Enable sort events/indicators for this column.",
 			"optional":true,
-			"default":"false",
-			"options":[]
+			"default":"false"
 		},
 		{
 			"name":"sortField",
 			"type":"String",
 			"attribute":"sort-field",
-			"description":"The field to sort on - dispatched with 'column-sort' event",
+			"description":"The field to sort on - dispatched with 'column-sort' event.",
 			"optional":true,
-			"default":"column 'field' value",
-			"options":[]
+			"default":"column 'field' value"
 		},
 		{
 			"name":"sortOrder",
 			"type":"Integer",
 			"attribute":"sort-order",
-			"description":"The sort direction - Ascending/None/Descending represented as an integer by 1 / 0 / -1",
+			"description":"The sort direction - Ascending/None/Descending represented as an integer by 1 / 0 / -1 .",
 			"optional":true,
 			"default":"0",
 			"options":["1", "0", "-1"]
@@ -73,7 +66,7 @@
 		{
 			"name":"align",
 			"type":"String",
-			"description":"Align column content to left of right",
+			"description":"Align column content to left of right.",
 			"optional":true,
 			"default":"left",
 			"options":["left", "right"]
@@ -88,12 +81,12 @@
 				{
 					"name":"field",
 					"type":"String",
-					"description":"The sortField / field to sort"
+					"description":"The sortField / field to sort."
 				},
 				{
 					"name":"val",
 					"type":"Integer",
-					"description":"The sort order"
+					"description":"The sort order."
 				}
 			]
 		},
@@ -103,12 +96,12 @@
 				{
 					"name":"field",
 					"type":"String",
-					"description":"The column's field"
+					"description":"The column's field."
 				},
 				{
 					"name":"val",
 					"type":"Integer",
-					"description":"The column's offsetLeft value"
+					"description":"The column's offsetLeft value."
 				}
 			]
 		},
@@ -118,12 +111,12 @@
 				{
 					"name":"field",
 					"type":"String",
-					"description":"The column's field"
+					"description":"The column's field."
 				},
 				{
 					"name":"val",
 					"type":"Integer",
-					"description":"The desired resize width value"
+					"description":"The desired resize width value."
 				}
 			]
 		},
@@ -133,12 +126,12 @@
 				{
 					"name":"field",
 					"type":"String",
-					"description":"The column's field"
+					"description":"The column's field."
 				},
 				{
 					"name":"val",
 					"type":"Integer",
-					"description":"The actual resized width value"
+					"description":"The actual resized width value."
 				}
 			]
 		}

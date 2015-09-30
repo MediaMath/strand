@@ -14,9 +14,6 @@
 		<div class="_mm_container">
 			<div class="left-items">
 				<div id="label"></div>
-				<template is="dom-if" if="{{info}}">
-					<mm-icon id="info" width="14" height="14" type="info" primaryColor="{{INFO_ICON_COLOR}}"></mm-icon>
-				</template>
 			</div>
 			<template is="dom-if" if="{{sortOrder}}">
 				<mm-icon id="sort" width="10" height="10" type="sort" class$="{{_computeSortClass(sortOrder)}}" primaryColor="{{SORT_ICON_COLOR}}"></mm-icon>
