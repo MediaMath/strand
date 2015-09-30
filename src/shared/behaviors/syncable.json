@@ -77,22 +77,22 @@
 	"methods": [
 		{
 			"name":"get",
-			"description":"Shortcut method for GET calls",
+			"description":"Shortcut method for GET calls. Returns an A+ promise.",
 			"arguments":[]
 		},
 		{
 			"name":"post",
-			"description":"Shortcut method for POST calls",
+			"description":"Shortcut method for POST calls. Returns an A+ promise.",
 			"arguments":[]
 		},
 		{
 			"name":"put",
-			"description":"Shortcut method for PUT calls",
+			"description":"Shortcut method for PUT calls. Returns an A+ promise.",
 			"arguments":[]
 		},
 		{
 			"name":"delete",
-			"description":"Shortcut method for DELETE calls",
+			"description":"Shortcut method for DELETE calls. Returns an A+ promise.",
 			"arguments":[]
 		},
 		{
@@ -155,6 +155,49 @@
 				}
 			]
 		}
+	],
+	"events":[
+		{
+			"type": "data-ready",
+			"detail": [
+				{
+					"name":"response",
+					"type":"Object",
+					"description":"Raw response data from server"
+				},
+				{
+					"name":"marshalled",
+					"type":"Object",
+					"description":"The marshalled response data from the server."
+				},
+				{
+					"name":"instance",
+					"type":"StrandLib.Request",
+					"description":"The instance of the request that generated this response."
+				}
+			]
+		},
+		{
+			"type": "data-error",
+			"detail": [
+				{
+					"name":"error",
+					"type":"String",
+					"description":"Error description text"
+				},
+				{
+					"name":"instance",
+					"type":"StrandLib.Request",
+					"description":"The request object that threw the error"
+				},
+				{
+					"name":"response",
+					"type":"Object",
+					"description":"The server response if any was provided."
+				}
+			]
+		}
+
 	],
 	"behaviors":["domgettable","falsifiable"]
 }
