@@ -89,6 +89,11 @@
 		{
 			"name":"reset",
 			"description":"Resets the dropdown to it's default state."
+		},
+		{
+			"name":"requestInitialization",
+			"description":"Under especially unusual circumstances, the dropdown may not initialize (nor render) properly.  This method can be invoked to correct any such issue.  Generally, developers should never need to call this method - however, it should be idempotent (and thus safe to call multiple times successively).",
+			"arguments":[]
 		}
 	],
 	"events": [
