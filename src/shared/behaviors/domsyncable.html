@@ -37,6 +37,11 @@
 			this._sync.domHook = function(method) {
 				return this._getDomConfig(method, this.domObject);
 			}.bind(this);
+			this.async(function() {
+				if (this.auto && this.auto !== "save" && this.endpoint) {
+					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+				}
+			});
 		},
 
 		_getDomConfig: function(method, domObject) {

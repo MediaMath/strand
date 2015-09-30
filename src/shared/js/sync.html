@@ -127,6 +127,7 @@
 
 			if (this.saveResponse) {
 				this.data = result.marshalled;
+				this.dispatchEvent(new CustomEvent("data-saved", result));
 			}
 		},
 

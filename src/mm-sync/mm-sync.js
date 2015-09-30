@@ -6,9 +6,9 @@
 */
 (function (scope) {
 
-	scope.Sync = {
+	scope.Sync = Polymer({
 		is:"mm-sync",
-		behaviors:[StrandTraits.Syncable]
-	};
+		behaviors:[StrandTraits.Syncable],
+	});
 
 })(window.Strand = window.Strand || {});

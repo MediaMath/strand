@@ -59,17 +59,10 @@
 				observer:"_updateOptions"
 			},
 
-			data: {
-				type:Object,
-				value: function() {
-					return {};
-				},
-				observe:"_dataChanged"
-			},
-
 			saveResponse: {
 				type:Boolean,
-				value:true
+				value:true,
+				observer:"_updateResponse"
 			},
 
 			apiMarshaller:{
@@ -115,6 +108,11 @@
 				observer:"_updateBuster"
 			},
 			
+		},
+
+		ready: function() {
+			//TODO: determine a better way of passing this change through
+			this._sync.addEventListener("data-saved", function() { this.fire("data-changed") }.bind(this));
 		},
 
 		get: function(data, options) {
@@ -169,6 +167,10 @@
 			});
 		},
 
+		_updateResponse: function() {
+			this._sync.saveResponse = this.saveResponse;
+		},
+
 		_handleError: function(error) {
 			this.fire("data-error",error);
 		},
@@ -179,6 +181,14 @@
 
 		getGlobal: function(key) {
 			return this._sync.getGlobal(key);
+		},
+
+		get data() {
+			return this._sync.data;
+		},
+
+		set data(input) {
+			this._sync.data = input;
 		}
 	};
 	scope.Syncable = [
