@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function() {
+(function(scope) {
 
 	function arrayToMap(arr, key){
 		return arr.reduce(function(map, obj) {
@@ -13,7 +13,7 @@
 		}, {});
 	}
 
-	Polymer({
+	scope.Grid = Polymer({
 
 		is: 'mm-grid',
 
@@ -254,4 +254,5 @@
 			return string + id;
 		}
 	});
-})();
+
+})(window.Strand = window.Strand || {});
