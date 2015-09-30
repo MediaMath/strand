@@ -1,9 +1,9 @@
-#Data Integration with mm-grid
+# Data Integration with mm-grid
 
-##Basic Data Integration
+## Basic Data Integration
 It is quite straightforward to get an array of data into the grid. And because of 2-way binding, there are no render or update methods to worry about. Any changes to your data will automatically be reflected in the grid.
 
-###Example
+### Example
 Given an array of data like this:
 
 ```javascript
@@ -24,10 +24,10 @@ All we have to do is assign the "userData" array to the `data` property on the g
 This will kick off the grid lifecycle and generate our item-recycled grid-items!
 
 
-##Data Components
+## Data Components
 `mm-grid` plays nicely with our set of [data components](article_data_comps_intro.html). With two-way binding we eliminate the boilerplate code that would be required to wire these components together. All that is required is a bit of up-front configuration. In order to get an understanding of how data components work, please read more about using them [here](article_data_comps_intro.html).
 
-###Searchable Grid Example
+### Searchable Grid Example
 Let's imagine that we have a service that provides a collection of "users" that we can retrieve. We can easily set up a searchable grid. We will add an `mm-collection` — configured to retrieve what we need, our `mm-grid` — configured to display the data fields we need, and an `mm-input` with its value bound to our mm-collection's `<queryParam>` tags. Changes to the input value will automatically trigger a change in the collection, which will fetch the appropriate results and update the grid — all through two-way binding.
 
 ```html
@@ -52,7 +52,7 @@ Let's imagine that we have a service that provides a collection of "users" that 
 
 Data components also have the ability to take care of things like paging in the grid. As a user scrolls down the grid, the collection will automatically fetch the next set of results to display. This is handled by binding the `index` properties of the collection and grid together (as seen above).
 
-###Sortable Grid Example
+### Sortable Grid Example
 Another grid use case that ties in nicely with data components is sorting. Like searching, it can be achieved solely by two-way binding. Adding the appropriate binds to the `sort-order` and `sort-field` attributes on the grid, and enabling the `sort` flags on the desired grid-columns will get this running. Example below:
 
 ```html

@@ -12,4 +12,4 @@ Sub-components that are used with mm-grid:
 * [mm-item-recycler](mm-item-recycler.html): reuses DOM elements to boost rendering performance
 
 
-####Continue Reading &#8594; [Configuring mm-grid](article_grid_config.html)
+#### Continue Reading &#8594; [Configuring mm-grid](article_grid_config.html)
