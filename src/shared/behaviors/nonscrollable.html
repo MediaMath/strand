@@ -21,15 +21,13 @@
 		window.addEventListener(_support, _handler, false);
 		window.addEventListener("keydown", _handler, false);
 
-		_previousOverflow = document.body.style.overflow;
-		document.body.style.overflow = "hidden";
 	}
 
 	function _enableScroll() {
 		_instance = null;
 		window.removeEventListener(_support, _handler, false);
 		window.removeEventListener("keydown", _handler, false);
-		document.body.style.overflow = _previousOverflow;
+
 	}
 
 	function _boundaryCheck(x, y, bounds) {
@@ -41,13 +39,28 @@
 		}
 	}
 
-	function _handler(e) {
-		var x = e.clientX,
-			y = e.clientY,
-			bounds = Rectangle.fromElement(_instance._panel),
-			allow = _boundaryCheck(x, y, bounds);
+	function _nodeCheck(node) {
+		if (node.scrollHeight > node.offsetHeight) {
+			return true;
+		} else {
+			if (node.children.length > 0) {
+				return Array.prototype.slice.apply(node.children).map(_nodeCheck).reduce(function(t, p) { return t || p});
+			}
+		}
+		return false;
+	}
 
-		if (!allow) {
+	function _handler(e) {
+		var nc;
+		if (_instance && _instance._panel.___scrollable !== undefined) {
+			nc = _instance._panel.___scrollable;
+		} else {
+			nc = _instance && _nodeCheck(_instance._panel);
+			_instance._panel.___scrollable = nc;
+		}
+		var allow = _instance && _boundaryCheck(e.clientX, e.clientY, Rectangle.fromElement(_instance._panel));
+
+		if ( !allow || !nc) {
 			if (!e.keyCode || [37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
@@ -64,12 +77,22 @@
 			}
 		},
 
+		observers:["_updateScroll(state)"],
+
+		_updateScroll: function(state) {
+			if (state === "opened") {
+				this.debounce("nonscrollable_d",this.disableScroll);
+			} else {
+				this.debounce("nonscrollable_e",this.enableScroll);
+			}
+		},
+
 		disableScroll: function() {
 			if (this.disableScroll) _disableScroll(this);
 		},
 		
 		enableScroll: function() {
-			if (this.disableScroll) _enableScroll();
+			if (this.state === "closed" && this.disableScroll) _enableScroll();
 		}
 	};
 
