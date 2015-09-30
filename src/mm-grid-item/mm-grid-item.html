@@ -12,24 +12,19 @@
 	<link rel="import" type="css" href="mm-grid-item.css"/>
 	<template>
 		<div class="_mm_item" hidden$="{{!model}}">
-					<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
-						<mm-checkbox on-tap="onItemSelected" checked="{{model.selected}}"></mm-checkbox>
+			<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
+				<mm-checkbox on-tap="_onItemSelected" checked="{{model.selected}}"></mm-checkbox>
+			</div>
+			<div id="carat" class="_mm_column toggle" hidden$="{{!scope.expandable}}">
+				<mm-icon width="10" height="10" type="carat" on-tap="_onItemExpanded"></mm-icon>
+			</div>
+			<div id="columnContainer">
+				<template is="dom-repeat" items="{{_columnsFromScope(scope.columnChanges)}}" as="column">
+					<div class="_mm_column" style$="{{_computeColumnStyle(column.width)}}">
+							<span>[[_computeColumnValue(column.field, model, model.*)]]</span>
 					</div>
-					<div id="carat" class="_mm_column toggle" hidden$="{{!scope.expandable}}">
-						<mm-icon width="10" height="10" type="carat" on-tap="onItemExpanded"></mm-icon>
-					</div>
-				<div id="columnContainer">
-					<template is="dom-repeat" items="{{scope.columns}}" as="column">
-						<div class="_mm_column" style$="{{_computeColumnStyle(column.width)}}">
-							<!-- <template is="dom-if" if="[[!_computeOverride(scope.columnOverrideMap, column.field)]]"> -->
-								<span>[[_computeColumnValue(column.field, model, model.*)]]</span>
-							<!-- </template> -->
-<!-- 							<template is="dom-if" if="{{scope.columnOverrideMap[column.field]}}">
-								<content select="[field='{{column.field}}']"></content>
-							</template> -->
-						</div>
-					</template>
-				</div>
+				</template>
+			</div>
 		</div>
 		<template is="dom-if" if="{{!model}}">
 			<mm-spinner id="loader" radius="12" fill-color="#333333"></mm-spinner>

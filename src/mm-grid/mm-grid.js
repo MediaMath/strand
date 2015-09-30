@@ -5,8 +5,6 @@
 
 */
 (function() {
-	// Hack for grid flickering issue:
-	// window.addEventListener("mousewheel", function(){});
 
 	function arrayToMap(arr, key){
 		return arr.reduce(function(map, obj) {
@@ -25,12 +23,17 @@
 				value: "2d",
 			},
 			data: Array,
-			columns: {
+			_columns: {
 				type: Array,
 				value: function() {
 					return [];
 				},
 				notify: true,
+				observer: "_columnsChanged",
+			},
+			columnChanges: {
+				type: Number,
+				value: 1,
 			},
 			scope: {
 				type: Object,
@@ -42,7 +45,6 @@
 			index: Number,
 			itemTemplate: String,
 			itemTemplateElement: Object,
-			viewportWidth: Number,
 			_selectAllState: {
 				type: String,
 				value: 'unchecked'
@@ -71,14 +73,16 @@
 		},
 
 		listeners: {
-			'column-resize-start': 'onColumnResizeStart',
-			'column-resize': 'onColumnResize',
-			'column-resize-end': 'onColumnResizeEnd',
-			'item-selected': 'onItemSelected'
+			'column-resize-start': '_onColumnResizeStart',
+			'column-resize': '_onColumnResize',
+			'column-resize-end': '_onColumnResizeEnd',
+			'column-sort': "_onColumnSort",
+			'item-selected': '_onItemSelected',
 		},
 
 		observers: [
 			"_expansionChanged(expanded)",
+			"_onSortChanged(sortField, sortOrder)",
 		],
 
 		_expansionChanged: function (expanded) {
@@ -92,49 +96,67 @@
 
 			this.itemTemplateElement = this.itemTemplateElement || this.$.defaultTemplate;
 
-			this.async(this.initialize);
+			this.async(this._initialize);
 		},
 
-		initialize: function() {
-			// this.$.list.style.paddingTop = this.$.header.offsetHeight + "px";
-			this.initializeColumns();
-			this.setInitialColumnWidth();
+		_initialize: function() {
+			this._initializeColumns();
+			this._setInitialColumnWidth();
 		},
 
-		initializeColumns: function() {
+		_initializeColumns: function() {
 			var nodes = Polymer.dom(this.$.columns).getDistributedNodes();
 			if(nodes.length > 0) {
-				this.columnsExist = true;
-				this.columns = Array.prototype.slice.call(nodes);
-				this.columnsMap = arrayToMap(this.columns, "field");
+				this._columns = Array.prototype.slice.call(nodes);
+				this._columnsMap = arrayToMap(this._columns, "field");
+			}
+		},
 
-				// var item = this.itemTemplate.createInstance(this);
-				// this.columnOverrideMap = this.columns.reduce(function(map, column){
-				// 	map[column.field] = item.querySelector('[field="' + column.field + '"]') !== null;
-				// 	return map;
-				// }, {});
+		getColumns: function (precached) {
+			var columns = this._columns;
+			var count = 0;
+			var index = 0;
+			if (columns) {
+				count = this._columns.length;
+				if (Array.isArray(precached) &&
+					count === precached.length) {
+					for (index = 0; index < count; index++) {
+						if (columns[index] !== precached[index]) {
+							columns = null;
+							break;
+						}
+					}
+
+					if (columns) {
+						return precached;
+					}
+				}
+				return this._columns.slice();
+			} else {
+				return null;
 			}
 		},
 		
-		columnsChanged: function() {
-			this.columnsMap = arrayToMap(this.columns, "field");
+		_columnsChanged: function() {
+			this._columnsMap = arrayToMap(this._columns, "field");
+			this.set("columnChanges", (this.columnChanges + 1) >>> 0);
 		},
 
-		setInitialColumnWidth: function() {
-			var setInitialWidth = this.columns.every(function(column){
+		_setInitialColumnWidth: function() {
+			var setInitialWidth = this._columns.every(function(column){
 				return column.width === null || column.width === undefined;
 			});
 
 			if(setInitialWidth) {
-				var initialWidth = 100 / this.columns.length;
-				this.columns.forEach(function(column) {
+				var initialWidth = 100 / this._columns.length;
+				this._columns.forEach(function(column) {
 					column.width = initialWidth + "%";
 				});
 			}
 		},
 
 		////// Selection //////
-		onItemSelected: function(e, d, sender) {
+		_onItemSelected: function(e, d, sender) {
 			var selected = this.selected,
 				state = "unchecked";
 
@@ -149,10 +171,15 @@
 			this._selectAllState = state;
 		},
 
-		selectAll: function(e) {
-			var checked = e.target.checked;
+		_selectAll: function(e) {
+			this.setSelectionAll(e.target.checked);
+		},
+
+		setAllSelections: function (checked) {
+			var value = !!checked;
+			this._selectAllState = value ? "checked" : "unchecked";
 			this.data.forEach(function(item, i) {
-				this.set('data.'+i+'.selected', checked)
+				this.set('data.'+i+'.selected', value)
 			}, this);
 		},
 
@@ -163,83 +190,82 @@
 		},
 
 		////// Resizing //////
-		onColumnResizeStart: function(e) {
+		_onColumnResizeStart: function(e) {
 			this._columnOffset = e.detail.val;
 		},
 
-		onColumnResize: function(e){
+		_onColumnResize: function(e){
 			var x = this._columnOffset + e.detail.val - this.$.viewport.scrollLeft;
 			this.translate3d(x + "px", 0, 0, this.$.separator);
-			this.showSeparator();
+			this._showSeparator();
 		},
 
-		showSeparator: function() {
+		_showSeparator: function() {
 			this.$.separator.classList.add("visible");
 			document.body.style.cursor = "col-resize";
 		},
 
-		hideSeparator: function() {
+		_hideSeparator: function() {
 			this.$.separator.classList.remove("visible");
 			document.body.style.cursor = "";
 		},
 
-		onColumnResizeEnd: function(e) {
-			this.resizeColumns(e.detail.field, e.detail.val);
-			this.hideSeparator();
+		_onColumnResizeEnd: function(e) {
+			this._resizeColumns(e.detail.field, e.detail.val);
+			this._hideSeparator();
 		},
 
-		resizeColumns: function(field, val) {
+		_resizeColumns: function(field, val) {
 			var target = this.columnsMap[field];
-			var targetIndex = this.columns.indexOf(target);
+			var targetIndex = this._columns.indexOf(target);
 
 			////// Overflow Resizing //////
-			this.columns.forEach(function(column, index) {
+			this._columns.forEach(function(column, index) {
 				if(column.width.indexOf("%") !== -1){
-					// column.width = column.offsetWidth + "px";
 					column.set('width', column.offsetWidth + 'px');
 				}
-				this.notifyPath("scope.columns."+index+".width", column.width);
+				this.notifyPath("scope._columns."+index+".width", column.width);
 			}, this);
-
-			if (!this.viewportWidth) {
-				this.viewportWidth = this.$.header.offsetWidth;
-			}
-
-			this.viewportWidth += val;
-		},
-
-		_computeViewportWidth: function (viewportWidth) {
-			var value = viewportWidth ? viewportWidth + 'px' : '100%';
-			return 'width: ' + value;
 		},
 
 		////// Sorting //////
-		onSortChanged: function() {
+		_onSortChanged: function() {
 			this.sortBy(this.sortField, this.sortOrder);
 		},
 
-		onColumnSort: function(e) {
+		_onColumnSort: function(e) {
 			this.sortField = e.detail.field;
 			this.sortOrder = e.detail.val;
 		},
 
 		sortBy: function(field, order) {
-			this.columns.forEach(function(column){
-				if(column.sortField === field){
-					column.sortOrder = order || column.SORT_ASCENDING;
-				} else {
-					column.sortOrder = column.SORT_DEFAULT;
+			var sortOrder = arguments.length > 1 ? order : null;
+			this._columns.forEach(function(column){
+				column.sortOrder = column.SORT_DEFAULT;
+
+				if (column.sortField === field) {
+					if (sortOrder === column.SORT_ASCENDING ||
+						sortOrder === column.SORT_DESCENDING) {
+						column.sortOrder = sortOrder;
+					} else if (sortOrder === null) {
+						column.sortOrder = column.SORT_ASCENDING;
+					}
 				}
 			});
 		},
 
 		////// Toggle //////
-		expandAll: function(e, d, sender) {
-			this.set("expanded", !this.expanded);
+		_toggleAllExpansions: function(e, d, sender) {
+			this.setAllExpansions(!this.expanded);
+		},
+
+		setAllExpansions: function (expanded) {
+			var value = !!expanded;
+			this.set("expanded", value);
 			this.$.viewport.inferOffviewHeightsAfterNextMutation();
 			this.data.forEach(function(item, index) {
 				this.set("data." + index + ".expanded", this.expanded);
-			}.bind(this));
+			}, this);
 		},
 
 		requestInitialization: function () {

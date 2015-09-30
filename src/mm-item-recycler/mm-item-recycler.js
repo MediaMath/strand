@@ -509,6 +509,8 @@ found here: https://github.com/Polymer/core-list
 			var lower = 0;
 			var change = 0;
 
+			this._desiredIndex = -1;
+
 			if (index > -1 &&
 				index < count) {
 				if (index < this._getDataLength()) {
@@ -525,18 +527,31 @@ found here: https://github.com/Polymer/core-list
 						}
 					}
 
-					if (!change) {
-						this._desiredIndex = -1;
+					if (change) {
+						this._desiredIndex = index;
 					}
 
 					return 0|true;
 				} else {
-
 					return 0|null;
 				}
 			} else {
 				return 0|false;
 			}
+		},
+
+		_determineIndex: function () {
+			var value = this._scrollTop;
+			var index = this._recycler.getLowestIndex() + 1;
+			var limit = this._recycler.getHighestIndex() + 1;
+
+			for (index; index < limit; index++) {
+				if (this._recycler.getElevationAtIndex(index) > value) {
+					break;
+				}
+			}
+
+			this.index = index - 1;
 		},
 
 		scrollBy: function (amount) {
@@ -548,14 +563,11 @@ found here: https://github.com/Polymer/core-list
 				this._recycler.translateFrame(delta);
 			}
 
-			if (delta > 0) {
-				this.index = this._recycler.getHighestIndex();
-			} else {
-				this.index = this._recycler.getLowestIndex();
-			}
+			this._determineIndex();
 
-			if (this._desiredIndex === this.index) {
-				this._desiredIndex = -1;
+			if (this._desiredIndex > -1 &&
+				this.hasMeasuredAnItem()) {
+				this.debounce("seek", this.scrollToIndex);
 			}
 		},
 

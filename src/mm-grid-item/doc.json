@@ -5,7 +5,7 @@
 		{
 			"name":"model",
 			"type":"Object",
-			"description":"The data object for this grid item",
+			"description":"The data object for this grid item.",
 			"optional":false,
 			"default":"",
 			"options":[]
@@ -13,7 +13,7 @@
 		{
 			"name":"scope",
 			"type":"Object",
-			"description":"The content scope for this grid item - defaults to the grid in which it lives",
+			"description":"The content scope for this grid item - defaults to the grid in which it lives.",
 			"optional":false,
 			"default":"",
 			"options":[]
@@ -28,7 +28,7 @@
 				{
 					"name":"model",
 					"type":"Object",
-					"description":"The selected data object"
+					"description":"The selected data object."
 				}
 			]
 		},
@@ -38,7 +38,7 @@
 				{
 					"name":"expanded",
 					"type":"Boolean",
-					"description":"The current expanded state"
+					"description":"The current expanded state."
 				}
 			]
 		}

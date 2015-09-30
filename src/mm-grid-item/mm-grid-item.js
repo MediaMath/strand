@@ -12,7 +12,8 @@ Polymer({
 			type: Object,
 			value: null
 		},
-		scope: Object
+		scope: Object,
+		_columns: Object,
 	},
 
 	observers: [
@@ -23,13 +24,11 @@ Polymer({
 		this.toggleClass("expanded", !!expanded, this.$.carat);
 	},
 
-	_computeColumnValue: function(field, model, modelChange) {
-		// var path = Path.get(field),
-		// 	dataPath = Path.get("data." + field),
-		// 	val = path.getValueFrom(model);
+	_columnsFromScope: function () {
+		return this._columns = this.scope.getColumns(this._columns || null);
+	},
 
-		// val = val !== undefined && val !== "" ? val : dataPath.getValueFrom(model);
-		// return val;
+	_computeColumnValue: function(field, model, modelChange) {
 		return model ? model[field] : "";
 	},
 
@@ -37,12 +36,12 @@ Polymer({
 		return 'width: ' + value;
 	},
 
-	onItemSelected: function(e, detail, sender) {
+	_onItemSelected: function(e, detail, sender) {
 		e.stopImmediatePropagation();
 		this.fire("item-selected", this.model);
 	},
 
-	onItemExpanded: function(e, detail, sender) {
+	_onItemExpanded: function(e, detail, sender) {
 		e.stopImmediatePropagation();
 		this.set("model.expanded", !this.model.expanded);
 		this.async(function () {

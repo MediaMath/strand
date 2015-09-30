@@ -14,13 +14,13 @@
 <dom-module id="mm-grid">
 	<link rel="import" type="css" href="mm-grid.css"/>
 	<template>
-		<mm-item-recycler id="viewport" gpu="{{gpu}}" viewport-width="{{viewportWidth}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}">
-			<div id="header" style$="{{_computeViewportWidth(viewportWidth)}}">
+		<mm-item-recycler id="viewport" gpu="{{gpu}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}">
+			<div id="header">
 				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
 					<mm-checkbox id="selectAll" on-tap="selectAll" state="{{_selectAllState}}"></mm-checkbox>
 				</div>
 				<div id="carat" class="_mm_column toggle" hidden$="{{!expandable}}">
-					<mm-icon width="10" height="10" type="expand-all" on-tap="expandAll"></mm-icon>
+					<mm-icon width="10" height="10" type="expand-all" on-tap="_toggleAllExpansions"></mm-icon>
 				</div>
 				<div id="columnContainer">
 					<content id="columns" select="mm-grid-column"></content>

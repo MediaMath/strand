@@ -7,19 +7,46 @@
 Polymer({
 	is: 'mm-grid-column',
 
-	SORT_ICON_COLOR: Colors.A2,
-	INFO_ICON_COLOR: Colors.A4,
-
-	SORT_DEFAULT: 0,
-	SORT_ASCENDING: 1,
-	SORT_DESCENDING: -1,
-	
-	SORT_EVENT: "column-sort",
-	RESIZE_EVENT: "column-resize",
-	RESIZE_START_EVENT: "column-resize-start",
-	RESIZE_END_EVENT: "column-resize-end",
-
 	properties: {
+
+		SORT_ICON_COLOR: {
+			type: String,
+			value: Colors.A2,
+		},
+		INFO_ICON_COLOR: {
+			type: String,
+			value: Colors.A4,
+		},
+
+		SORT_DEFAULT: {
+			type: Number,
+			value: 0,
+		},
+		SORT_ASCENDING: {
+			type: Number,
+			value: 1,
+		},
+		SORT_DESCENDING: {
+			type: Number,
+			value: -1,
+		},
+		SORT_EVENT: {
+			type: String,
+			value: "column-sort",
+		},
+		RESIZE_EVENT: {
+			type: String,
+			value: "column-resize",
+		},
+		RESIZE_START_EVENT: {
+			type: String,
+			value: "column-resize-start",
+		},
+		RESIZE_END_EVENT: {
+			type: String,
+			value: "column-resize-end",
+		},
+
 		field: {
 			type: String
 		},
@@ -72,7 +99,7 @@ Polymer({
 		this.$.label.setAttribute("title", this.label);
 	},
 
-	toggleSort: function() {
+	_toggleSort: function() {
 		this.sortOrder = this.sortOrder === this.SORT_ASCENDING ? this.SORT_DESCENDING : this.SORT_ASCENDING;
 	},
 
@@ -86,7 +113,7 @@ Polymer({
 
 	_handleTap: function() {
 		if(this.sort) {
-			this.toggleSort();
+			this._toggleSort();
 			this.fire(this.SORT_EVENT, { field: this.sortField, val: this.sortOrder });
 		}
 	},
