@@ -102,6 +102,26 @@
 	],
 	"methods": [
 		{
+			"name":"createId",
+			"description":"Creates a unique identification string for positionable elements nested within an mm-grid. This will be necessary when using mm-menu, mm-popover, or mm-tooltip within a custom mm-grid-item (see: mm-popover, mm-tooltip, mm-menu).",
+			"arguments":[
+				{
+					"name":"string",
+					"type":"String",
+					"optional":false,
+					"default":"none",
+					"description":"The unique string to be used to identify the element."
+				},
+				{				
+					"name":"id",
+					"type":"Number",
+					"optional":false,
+					"default":"none",
+					"description":"The model.id for the mm-grid-item."
+				}
+			]
+		},
+		{
 			"name":"setAllSelections",
 			"description":"Sets all of the grid's items to be selected or deselected according to the provided parameter.",
 			"arguments":[

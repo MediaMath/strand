@@ -250,7 +250,7 @@
 		},
 
 		////// Util //////
-		_createId: function(string, id) {
+		createId: function(string, id) {
 			return string + id;
 		}
 	});
