@@ -39,7 +39,7 @@
 		_originalDirection: null,
 
 		_directionChanged: function(newVal, oldVal) {
-			this._originalDirection = newVal;
+			if (newVal !== 'c') this._originalDirection = newVal;
 		},
 
 		_positionableTargetChanged: function() {
@@ -66,14 +66,19 @@
 				);
 				this._containerStyle = 'left: ' + offset + 'px';
 
+				// center over target
+				if (targetRect.top-panelRect.height < winRect.top && targetRect.bottom+panelRect.height > winRect.bottom) {
+					this.direction = 'c';
+					this._updateDirection(this.direction, panelRect, targetRect);
+				}
 				// window boundary flip:
-				if (panelRect.top < winRect.top || panelRect.bottom > winRect.bottom) {
+				else if (panelRect.top < winRect.top || panelRect.bottom > winRect.bottom) {
 					this.direction = this._flipDirection(this.direction);
 					this._updateDirection(this.direction, panelRect, targetRect);
 				}
 			} else {
 				offset = this._getOffset(
-					panelRect.top ,
+					panelRect.top,
 					panelRect.bottom,
 					winRect.top, 
 					winRect.bottom, 
@@ -82,8 +87,13 @@
 				);
 				this._containerStyle = 'top: ' + offset + 'px';
 				
+				// center over target
+				if (targetRect.left-panelRect.width < winRect.left && targetRect.right+panelRect.width > winRect.right) {
+					this.direction = 'c';
+					this._updateDirection(this.direction, panelRect, targetRect);
+				}
 				// window boundary flip:
-				if (panelRect.left < winRect.left || panelRect.right > winRect.right) {
+				else if (panelRect.left < winRect.left || panelRect.right > winRect.right) {
 					this.direction = this._flipDirection(this.direction);
 					this._updateDirection(this.direction, panelRect, targetRect);
 				}
@@ -131,6 +141,9 @@
 				case 'w':
 					panelRect.top = targetRect.top + vCenter;
 					panelRect.left = (targetRect.left - panelRect.width) - this.panelOffset;
+				case 'c':
+					panelRect.top = targetRect.top + vCenter;
+					panelRect.left = targetRect.left + hCenter;
 					break;
 			}
 		},
