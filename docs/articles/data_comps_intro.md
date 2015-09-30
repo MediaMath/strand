@@ -1,4 +1,4 @@
-# Introducing Data Components
+# Introduction to Data Components
 
 ## High Level Overview
 

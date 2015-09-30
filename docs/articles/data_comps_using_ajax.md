@@ -1,4 +1,4 @@
-# Using MM-Ajax
+# Using mm-ajax
 
 ## Overview 
 MM-Ajax is an extremely low level wrapper for the base XMLHttpRequest object present in all modern browsers. It exposes this functionality and accounts for some of the more common serialization scenarios in a matter consistent with jQuery's serialize method, as well as having higher level abstractions for resetting the request and managing raw inputs such as headers. See the [component documentation page](mm-ajax.html) for more details.
