@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="mm-button.html">
 		<style type="text/css">
 			body, html {
@@ -73,38 +73,27 @@
 				display: block;
 				float: left;
 			}
-
-			mm-button[unresolved] {
-				/*opacity: 0;*/
-				display: none;
-			}
-
-			mm-button {
-				/*opacity: 1;
-				transition: opacity 1s;*/
-			}
-
 		</style>
 	</head>
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Primary</p>
-			<mm-button unresolved>
+			<mm-button>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary disabled</p>
-			<mm-button disabled="true" unresolved>
+			<mm-button disabled="true">
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary selected</p>
-			<mm-button selected="true" unresolved>
+			<mm-button selected="true">
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary fit to parent</p>
-			<mm-button fitparent="true" unresolved>
+			<mm-button fitparent="true">
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
@@ -113,17 +102,17 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Secondary</p>
-			<mm-button type="secondary" unresolved>
+			<mm-button type="secondary">
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary disabled</p>
-			<mm-button type="secondary" disabled unresolved>
+			<mm-button type="secondary" disabled>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary fit to parent</p>
-			<mm-button type="secondary" fitparent="true" unresolved>
+			<mm-button type="secondary" fitparent="true">
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
@@ -131,20 +120,20 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Primary with icon</p>
-			<mm-button unresolved>
-				<mm-icon type="plus" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<mm-button>
+				<mm-icon type="plus" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with icon disabled</p>
-			<mm-button disabled="true" unresolved>
-				<mm-icon type="plus" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<mm-button disabled="true">
+				<mm-icon type="plus" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with icon and fit to parent</p>
-			<mm-button fitparent="true" unresolved>
-				<mm-icon type="plus" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<mm-button fitparent="true">
+				<mm-icon type="plus" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
@@ -152,20 +141,20 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Secondary with icon</p>
-			<mm-button type="secondary" unresolved>
-				<mm-icon type="delete" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<mm-button type="secondary">
+				<mm-icon type="delete" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary with icon disabled</p>
-			<mm-button type="secondary" disabled unresolved>
-				<mm-icon type="delete" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<mm-button type="secondary" disabled>
+				<mm-icon type="delete" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary with icon fit to parent</p>
-			<mm-button type="secondary" fitparent="" unresolved>
-				<mm-icon type="delete" width="12" height="12" shapeRendering="auto" optimize="true"></mm-icon>
+			<mm-button type="secondary" fitparent="">
+				<mm-icon type="delete" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>

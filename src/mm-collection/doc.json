@@ -3,52 +3,12 @@
 	"description":"A simple collection wrapper component useful for 2 way binding to lists of data",
 	"attributes": [
 		{
-			"name":"batchSync",
-			"type":"Boolean",
-			"description":"Manages adapter batch mode. When true and POSTing a collection, the adapter will make individual model calls instead of trying to post the data in a single call",
-			"optional":true,
-			"default":"false",
-			"options":["true","false"]
-		},
-		{
 			"name":"adapter",
 			"type":"string",
-			"description":"A constructor string for the adapter to inflate for this model to persist changes to that API. This is typically of the format MMAdapterAPINAME",
+			"description":"Futureproofing for API marshalling",
 			"optional":true,
 			"default":"''",
 			"options":[]
-		},
-		{
-			"name":"dirtyFetch",
-			"type":"Boolean",
-			"description":"Indicates that the sorting has changed for the collection so the next fetch should replace all existing data with clean server data.  Generally only used by adapters",
-			"optional":true,
-			"default":"false",
-			"options":["true","false"]
-		},
-		{
-			"name":"isLoading",
-			"type":"Boolean",
-			"description":"Bindable flag to determine if the collection is loading data or not. This is useful for binding a loading indicator's display to.",
-			"optional":true,
-			"default":"false",
-			"options":["true","false"]
-		},
-		{
-			"name":"auto",
-			"type":"Boolean/String",
-			"description":"Setting for the adapter to automatically sync data to and from server when params or data change",
-			"optional":true,
-			"default":"false",
-			"options":["false","true","load","save"]
-		},
-		{
-			"name":"sparse",
-			"type":"Boolean",
-			"description":"Determines if the collection.data should retain empty places for pages that have not yet been fetched. This is useful for showing accurate scrollbars in bound grids.",
-			"optional":true,
-			"default":"",
-			"options":["true","false"]
 		},
 		{
 			"name":"data",
@@ -56,38 +16,6 @@
 			"description":"The array that this collection stores its data in",
 			"optional":true,
 			"default":"[]",
-			"options":[]
-		},
-		{
-			"name":"page",
-			"type":"Number",
-			"description":"The current page number of records to retrieve",
-			"optional":true,
-			"default":"",
-			"options":[]
-		},
-		{
-			"name":"pageSize",
-			"type":"Number",
-			"description":"How many records to retrieve for each call. ",
-			"optional":true,
-			"default":"10",
-			"options":[]
-		},
-		{
-			"name":"index",
-			"type":"Number",
-			"description":"Index is the raw record that the collection is currently 'pointed' at. This is essentially the page * pageSize with some readahead values",
-			"optional":true,
-			"default":"0",
-			"options":[]
-		},
-		{
-			"name":"indexOffset",
-			"type":"Number",
-			"description":"The readahead value used to calculate index. This is useful for fast scrolling lists like grids where the data should be retrieved ahead of users's actions where possible",
-			"optional":true,
-			"default":"0",
 			"options":[]
 		}
 	],
@@ -140,7 +68,7 @@
 			]
 		},
 		{
-			"name":"get",
+			"name":"getModelAt",
 			"description":"Retreieves a model by niave index",
 			"arguments":[
 				{
@@ -153,7 +81,7 @@
 			]
 		},
 		{
-			"name":"getData",
+			"name":"getDataAt",
 			"description":"Retrieves the data for a model at a niave index",
 			"arguments":[
 				{
@@ -256,24 +184,9 @@
 					"description":"When matchValues is false, the filter will return any models that have the same keys as the matching object. When true the values will be considered as well when filtering."
 				}
 			]
-		},
-		{
-			"name":"invalidate",
-			"description":"Invalidates the collection when sorting has changed. This assumes that all current data is now invalid and should be replaced with the next fetch.",
-			"arguments":[
-			]
 		}
 	],
-	"events": [
-		{
-			"type": "",
-			"detail": [
-				{
-					"name":"",
-					"type":"",
-					"description":""
-				}
-			]
-		}
+	"behaviors": [
+		"Pageable"
 	]
 }

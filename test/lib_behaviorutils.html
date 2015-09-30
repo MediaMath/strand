@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/behaviorutils.html"/>
+</head>
+<body>
+<script>
+describe("Ajax", function() {
+
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.BehaviorUtils.should.be.an.object;
+	});
+
+	it("should support calling down a polymer behavior chain", function() {
+		var chain = [
+			{test:sinon.spy()},
+			{test:sinon.spy()},
+			{test:sinon.spy()}
+		];
+		var scope = {};
+		scope.behaviors = chain;
+
+		StrandLib.BehaviorUtils.callProtochain("test", scope, []);
+		chain.forEach(function(obj) {
+			obj.test.calledOnce.should.be.true;
+		});
+	});
+
+	it("should support finding the nearest super method in a behavior chain", function() {
+		
+		var win = Function();
+		var lose = Function();
+
+		var chain = [
+			{test:lose},
+			{},
+			{test2:lose},
+			{test:win}
+		]
+		var res = StrandLib.BehaviorUtils.findSuper(chain, "test");
+		res.should.equal(win);
+
+		var obj = {
+			test:win,
+			test2:lose
+		};
+
+		var res = StrandLib.BehaviorUtils.findSuper(obj, "test");
+		res.should.equal(win);
+
+		var chain2 = [
+			{},
+			{test:win},
+			{}
+		];
+		var res = StrandLib.BehaviorUtils.findSuper(chain2, "test");
+		res.should.equal(win);
+	});
+
+	it ("should support nested chain behaviors (pre flattened) in a behavior chain", function() {
+
+		var win = Function();
+		var lose = Function();
+
+		var chain1 = [
+			{test:lose},
+			{test:win}
+		];
+
+		var chain2 = [
+			{test:lose},
+			chain1,
+			{}
+		];
+
+		var chain3 = [
+			{test:lose},
+			chain2,
+		];
+
+		var res = StrandLib.BehaviorUtils.findSuper(chain2, "test");
+		res.should.equal(win);
+
+		var res2 = StrandLib.BehaviorUtils.findSuper(chain3, "test");
+		res2.should.equal(win);
+
+	});
+
+});
+</script>
+</body>
+</html>

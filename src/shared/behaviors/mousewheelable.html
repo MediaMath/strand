@@ -1,0 +1,36 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
+	var _onWheel = "onwheel" in document.createElement("div") ? "wheel" : null,
+		_onMouseWheel = document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll",
+		_support = _onWheel || _onMouseWheel;
+
+	scope.MouseWheelable = {
+
+		get support() {
+			return _support;
+		},
+
+		attached: function() {
+			this.addEventListener(this.support, this._onWheel);
+		},
+
+		detached: function() {
+			this.removeEventListener(this.support, this._onWheel);
+		},
+
+		_onWheel: function(e) {
+			// override this abstract method
+		}
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

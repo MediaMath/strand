@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="TestHelper.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/shared/js/rectangle.html" />
+</head>
+<body>
+  <script>
+
+    describe("Rectangle Library", function() {
+
+      it("should exist", function() {
+        StrandLib.should.be.an.object;
+        StrandLib.Rectangle.should.be.an.object;
+      });
+
+      it("should reflect left for left overlap with default mode (position)", function() {
+        var rect = StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.TOP;
+        var overlap = StrandLib.Rectangle.SIDE.LEFT;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.RIGHT | StrandLib.Rectangle.SIDE.TOP);
+
+      });
+
+      it ("should reflect right for right overlap with default mode (position)", function() {
+        var rect = StrandLib.Rectangle.SIDE.RIGHT | StrandLib.Rectangle.SIDE.TOP;
+        var overlap = StrandLib.Rectangle.SIDE.RIGHT;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.TOP);
+      });
+
+      it("should reflect left for right overlap with mode align", function() {
+        var rect = StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.TOP;
+        var overlap = StrandLib.Rectangle.SIDE.RIGHT;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT, "align");
+
+        output.should.equal(StrandLib.Rectangle.SIDE.RIGHT | StrandLib.Rectangle.SIDE.TOP);
+
+      });
+
+      it ("should reflect right for right overlap with mode align", function() {
+        var rect = StrandLib.Rectangle.SIDE.RIGHT | StrandLib.Rectangle.SIDE.TOP;
+        var overlap = StrandLib.Rectangle.SIDE.LEFT;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT, "align");
+
+        output.should.equal(StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.TOP);
+      });
+
+      it ("should reflect vertically for top overlap", function() {
+        var rect = StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.TOP;
+        var overlap = StrandLib.Rectangle.SIDE.TOP;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.TOP | StrandLib.Rectangle.SIDE.BOTTOM);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.BOTTOM);
+      });
+
+      it ("should reflect vertically for bottom overlap", function() {
+        var rect = StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.BOTTOM;
+        var overlap = StrandLib.Rectangle.SIDE.BOTTOM;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.TOP | StrandLib.Rectangle.SIDE.BOTTOM);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.TOP);
+      });
+
+      it("should adjust to the left side for right overlap with center align", function() {
+        var rect = StrandLib.Rectangle.SIDE.CENTER;
+        var overlap = StrandLib.Rectangle.SIDE.RIGHT;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.LEFT);
+      });
+
+      it("should adjust to the right side for left overlap with center align", function() {
+        var rect = StrandLib.Rectangle.SIDE.CENTER;
+        var overlap = StrandLib.Rectangle.SIDE.LEFT;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.RIGHT);
+      });
+
+      it("should keep centered for 0 overlap with center align", function() {
+        var rect = StrandLib.Rectangle.SIDE.CENTER;
+        var overlap = 0;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.LEFT | StrandLib.Rectangle.SIDE.RIGHT);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.CENTER);
+      });
+
+      it("should adjust to the bottom side for top overlap with vcenter align", function() {
+        var rect = StrandLib.Rectangle.SIDE.VCENTER;
+        var overlap = StrandLib.Rectangle.SIDE.TOP;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.BOTTOM | StrandLib.Rectangle.SIDE.TOP);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.BOTTOM);
+      });
+
+      it("should adjust to the top side for bottom overlap with vcenter align", function() {
+        var rect = StrandLib.Rectangle.SIDE.VCENTER;
+        var overlap = StrandLib.Rectangle.SIDE.BOTTOM;
+        var output = StrandLib.Rectangle.fixBits(rect, overlap, StrandLib.Rectangle.SIDE.BOTTOM | StrandLib.Rectangle.SIDE.TOP);
+
+        output.should.equal(StrandLib.Rectangle.SIDE.TOP);
+      });
+
+    });
+  </script>
+
+</body>
+</html>

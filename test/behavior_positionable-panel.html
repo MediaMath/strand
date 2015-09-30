@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/positionable-panel.html"/>
+	<style>
+		#target {
+			position: absolute;
+			width: 100px;
+			height: 30px;
+			background: #0000FF;
+			top: 0px;
+			left: 220px;
+		}
+	</style>
+</head>
+<body>
+
+	<dom-module id="test-positionable-panel">
+		<style>
+			
+			:host {
+				display: block;
+				position: fixed;
+				background: #eee;
+			}
+
+			#container {
+				position: relative;
+				width: 200px;
+				height: 200px;
+				background: #ff0000;
+			}
+
+		</style>
+		<template>
+			<div id="container" style$="{{_containerStyle}}">
+				<content id="content"></content>
+			</div>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-positionable-panel",
+					behaviors:[StrandTraits.PositionablePanel],
+					properties: {
+						boundaryOffset: {
+							type: Number,
+							value: 10
+						}
+					}
+				});
+			});
+		</script>
+	</dom-module>
+
+	<div id="target"></div>
+
+	<test-positionable-panel id="testPanel" target="#target"></test-positionable-panel>
+
+	<script>
+		
+		describe("behavior_positionable-panel", function() {
+
+			function horizontalCenter(target, panel) {
+				return {
+					panelCenter: panel.left + panel.width/2,
+					targetCenter: target.left + target.width/2
+				}
+			}
+
+			function verticalCenter(target, panel) {
+				return {
+					panelCenter: panel.top + panel.height/2,
+					targetCenter: target.top + target.height/2
+				}
+			}
+
+			it("should open in direction 'south' by default", function(done) {
+				var a = document.querySelector("#testPanel");
+				
+				a.open();
+
+				flush(function() {
+					a.direction.should.equal("s");
+					done();
+				});
+			});
+
+			it("should be positioned properly for 'south'", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target"),
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics,
+					c = horizontalCenter(targetMetrics, panelMetrics);
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				c.panelCenter.should.equal(c.targetCenter);
+				panelMetrics.top.should.equal(targetMetrics.bottom);
+			});
+
+			it("should open in direction 'north' when direction is changed", function(done) {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target");
+
+				a.close();
+			 target.style.top = "220px";
+				a.direction = "n";
+				a.open();
+
+				flush(function() {
+					a.direction.should.equal("n");
+					done();
+				});
+			});
+
+			it("should be positioned properly for 'north'", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target"),
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics,
+					c = horizontalCenter(targetMetrics, panelMetrics);
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				c.panelCenter.should.equal(c.targetCenter);
+				panelMetrics.bottom.should.equal(targetMetrics.top);
+			});
+
+			it("should correctly flip direction 'north' to 'south' when panel is out of bounds", function(done) {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target");
+
+				a.close();
+				target.style.top = "0px";
+				a.open();
+
+				flush(function() {
+					a.direction.should.equal("s");
+					done();
+				});
+			});
+
+			it("should be positioned properly for 'south'", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target"),
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics,
+					c = horizontalCenter(targetMetrics, panelMetrics);
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				c.panelCenter.should.equal(c.targetCenter);
+				panelMetrics.top.should.equal(targetMetrics.bottom);
+			});
+
+			it("should open in direction 'west' when direction is changed", function(done) {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target");
+
+				a.close();
+				target.style.top = "110px";
+				a.direction = "w";
+				a.open();
+
+				flush(function() {
+					a.direction.should.equal("w");
+					done();
+				});
+			});
+
+			it("should be positioned properly for 'west'", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target"),
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics,
+					c = verticalCenter(targetMetrics, panelMetrics);
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				panelMetrics.right.should.equal(targetMetrics.left);
+				c.panelCenter.should.equal(c.targetCenter);
+			});
+
+			it("should correctly flip direction 'west' to 'east' when panel is out of bounds", function(done) {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target");
+
+				a.close();
+				target.style.left = "0px";
+				a.open();
+
+				flush(function() {
+					a.direction.should.equal("e");
+					done();
+				});
+			});
+
+			it("should be positioned properly for 'east'", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target"),
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics,
+					c = c = verticalCenter(targetMetrics, panelMetrics);
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				panelMetrics.left.should.equal(targetMetrics.right);
+				c.panelCenter.should.equal(c.targetCenter);
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

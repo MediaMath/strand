@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/ajax.html"/>
+</head>
+<body>
+<script>
+describe("Ajax", function() {
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.Ajax.should.be.an.object;
+	});
+
+	it("should accept options", function() {
+		var o = {something:1};
+		var a = new StrandLib.Ajax(o);
+		a.options.something.should.equal(1);
+	});
+
+	it("should have sensible defaults", function() {
+		var a = new StrandLib.Ajax();
+		a.options.should.deep.equal({
+			contentType:"application/x-www-form-urlencoded",
+			method:"GET",
+			withCredentials:false,
+			timeout:10000
+		});
+	});
+
+	it("should serialize url params",function() {
+		var a = new StrandLib.Ajax();
+		var result = a.serializeUrl("http://www.mediamath.com",["a","b","c"]);
+		result.should.equal("http://www.mediamath.com/a/b/c");
+
+		//trailing slash
+		result = a.serializeUrl("http://www.mediamath.com/",["a","b","c"]);
+		result.should.equal("http://www.mediamath.com/a/b/c");
+
+		result = a.serializeUrl("http://www.mediamath.com/",["a",12345,"c"]);
+		result.should.equal("http://www.mediamath.com/a/12345/c");
+
+	});
+
+	it("should serialize data", function() {
+
+		var a = new StrandLib.Ajax();
+		var result = a.serialize({a:1,b:"test",c:2});
+		result.should.deep.equal(["a=1", "b=test", "c=2"]);
+
+		result = a.serialize({
+			a:{b:{c:1}},
+			z:10
+		});
+		result.should.deep.equal(["a%5Bb%5D%5Bc%5D=1","z=10"]);
+
+	});
+
+	it("should serialize formdata", function() {
+
+		var FormDataT = function() { this.count = 0; this.hash={}};
+		FormDataT.prototype = {
+			append: function(name, value) {
+				this.hash[name] = value;
+				this.count++;
+			}
+		};
+
+		var a = new StrandLib.Ajax();
+		var fd = new FormDataT();
+		var data = {a:1,b:"test",c:2};
+		a.serialize(data, fd.append.bind(fd));
+		fd.count.should.equal(3);
+		fd.hash.should.deep.equal(data);
+
+	});
+
+	it("should serialize params", function() {
+
+		var a = new StrandLib.Ajax();
+		var DU = StrandLib.DataUtils;
+		var params = [DU.param("test",123), DU.param("aces","acesss")];
+
+		var result = a.serializeParams("http://www.mediamath.com?", params);
+		result.should.equal("http://www.mediamath.com?aces=acesss&test=123");
+
+		result = a.serializeParams("http://www.mediamath.com", params);
+		result.should.equal("http://www.mediamath.com?aces=acesss&test=123");
+
+		result = a.serializeParams("https://www.mm.net", [DU.param("aces","acess")]);
+		result.should.equal("https://www.mm.net?aces=acess");
+
+	});
+
+	it("should set request data based on the request options", function() {
+		var a = new StrandLib.Ajax();
+		var data = {
+			test:1,
+			test2:"tester"
+		};
+		var result = a.setRequestData("GET", "application/json", data);
+		should.equal(result, undefined);
+
+		result = a.setRequestData("POST", "application/json", data);
+		result.should.deep.equal(data);
+
+		result = a.setRequestData("PUT", "application/x-www-form-urlencoded", data);
+		result.should.equal("test=1&test2=tester");
+
+		result = a.setRequestData("DELETE", "application/x-www-form-urlencoded", data);
+		result.should.equal("test=1&test2=tester");
+
+		result = a.setRequestData("POST", "multipart/form-data", data);
+		result.should.be.instanceof(FormData);
+
+		result = a.setRequestData("POST", "multipart/form-data", data);
+		result.should.be.instanceof(FormData);
+
+		//test override scenarios
+		result = a.setRequestData("POST", "application/json", data, "string body");
+		result.should.deep.equal(data);
+
+		result = a.setRequestData("POST", "application/json", "string body", data);
+		result.should.deep.equal("string body");
+
+		result = a.setRequestData("POST", "application/json", data, {test:2, nonover:"aces"});
+		result.test.should.equal(1);
+		result.nonover.should.equal("aces");
+
+	});
+
+	it("should preflight requests via factory", function() {
+		var a = new StrandLib.Ajax();
+		var req = a._requestFactory({},{});
+		req.should.be.instanceof(StrandLib.Request);
+
+		req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST});
+		req.method.should.equal(StrandLib.Ajax.POST);
+		req.body.should.equal("a=1");
+
+		req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST, contentType:"application/json"});
+		req.body.should.deep.equal({a:1});
+
+		req = a._requestFactory(null,{
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"http://www.mediamath.com",
+			urlParams:[
+				"test",
+				"test2"
+			],
+			params:[{
+				name:"testq",
+				value:"testq2"
+			}],
+			headers:[{
+				name:"X-Internet-Device",
+				value:"Yes"
+			}]
+		});
+		req.url.should.equal("http://www.mediamath.com/test/test2?testq=testq2");
+		req.headers.should.deep.equal([{
+			name:"X-Internet-Device",
+			value:"Yes"
+		}]);
+		should.equal(req.body, undefined);
+
+	});
+
+	it("should call after preflighting", function(done) {
+		var a = new StrandLib.Ajax({
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"/ajax",
+
+		});
+		a.exec().then(function() {
+			done();
+		},function() {
+			done();
+		});
+	});
+
+	it("should support queue selection", function() {
+		var a = new StrandLib.Ajax();
+		a._getQueue().should.equal(a.requests);
+		should.equal(a._getQueue("test"),undefined);
+		a._getQueue("test",true).should.deep.equal([]);
+	});
+
+	it("should expose promises for every call", function() {
+		Zousan.suppressUncaughtRejectionError = true;
+		var a = new StrandLib.Ajax({url:"", method:"get"});
+		a.exec().should.be.an.instanceof(Zousan);
+		a.queue().should.be.an.instanceof(Zousan);
+		a.execQueue().should.be.an.instanceof(Zousan);
+	});
+
+	it("should preflight requests via queing mechanism", function() {
+		var a = new StrandLib.Ajax();
+		a.queue(null, {
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"http://www.mediamath.com",
+			urlParams:[
+				"test",
+				"test2"
+			],
+			params:[{
+				name:"testq",
+				value:"testq2"
+			}],
+			headers:[{
+				name:"X-Internet-Device",
+				value:"Yes"
+			}]
+		}, "testQ");
+		var q = a._getQueue("testQ");
+		should.exist(q);
+		q.should.have.length(1);
+		var req = q[0];
+		should.exist(req);
+
+		req.url.should.equal("http://www.mediamath.com/test/test2?testq=testq2");
+		req.headers.should.deep.equal([{
+			name:"X-Internet-Device",
+			value:"Yes"
+		}]);
+		should.equal(req.body, undefined);
+
+	});
+
+	it("should run a queue after it has been filled", function() {
+		var a = new StrandLib.Ajax();
+		var a = new StrandLib.Ajax({
+			method:StrandLib.Ajax.GET,
+			contentType:"application/json",
+			url:"/ajax",
+
+		});
+		a.queue(null, null, "tq");
+		a.execQueue("tq").then(function() {
+			done();
+		},function() {
+			done();
+		});
+	});
+
+});
+</script>
+</body>
+</html>

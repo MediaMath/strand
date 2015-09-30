@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html"/>
+</head>
+<body>
+	<dom-module id="test-pageable">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+	/*jshint -W030 */
+
+	var PageTest;
+	HTMLImports.whenReady(function() {
+		PageTest = Polymer({
+			is:"test-pageable",
+			behaviors:[StrandTraits.Pageable]
+		});
+	});
+	
+	/** begin tests **/
+
+	describe("Pageable", function() {
+
+		it("should exist", function() {
+			StrandTraits.should.be.an.object;
+			StrandTraits.Pageable.should.be.an.array;
+		});
+
+		it("should update on page size change", function(done) {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.autoDebounce = 0;
+
+			flush(function() {
+				page.nextPage();
+				page.page.should.equal(1);
+				flush(function() {
+					request.url.should.contain("page_offset=10");
+					request.url.should.contain("page_limit=10");
+					xhr.restore();
+					done();
+				});
+			}.bind(this));
+
+		});
+
+		it("should update on index change", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.autoDebounce = 0;
+
+			flush(function() {
+				page.index = 20;
+				page.page.should.equal(20);
+				flush(function() {
+					request.url.should.contain("page_offset=20");
+					request.url.should.contain("page_limit=10");
+					xhr.restore();
+					done();
+				});
+			}.bind(this));
+		});
+
+		it("should update on index change", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.autoDebounce = 0;
+			page.pageOptions = {pageType: page.PAGE_TYPE_INDEX};
+
+			flush(function() {
+				page.index = 20;
+				page.page.should.equal(2);
+				flush(function() {
+					request.url.should.contain("page_offset=2&");
+					request.url.should.contain("page_limit=10");
+					xhr.restore();
+					done();
+				});
+			}.bind(this));
+		});
+
+	});
+	</script>
+<!-- 	<test-pageable id="test" auto="true"></test-pageable> -->
+</body>
+</html>

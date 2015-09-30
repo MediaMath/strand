@@ -19,22 +19,34 @@
 	line-height: 0em;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }
 
 @include fit();
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }
 
-::shadow input[type=text]:focus {
-	box-shadow: none;
+.hidden {
+	display: none;
 }
 
-#recycler {
-	height: 100%;
+#itemRecycler {
+	height: 0px;
+}
+
+#itemRecycler[hidden] {
+	display: none;
+}
+
+#container {
+	width: 100%;
+}
+
+#caratIcon {
+	color: $color-A2;
 }

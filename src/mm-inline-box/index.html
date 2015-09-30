@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-	<link rel="import" href="../mm-icon/mm-icon.html">
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<link rel="import" href="mm-inline-box.html">
 	<style type="text/css">
 			body, html {
@@ -79,27 +78,27 @@
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Inline Box:</span> Message Layout</p>
-			<mm-inline-box id="ddd" unresolved type="error" layout="message">
+			<mm-inline-box id="ddd" type="error" layout="message">
 				Error some text is here.
 			</mm-inline-box>
 			<hr/>
 			<p><span class="bold">Inline Box:</span> Error</p>
-			<mm-inline-box unresolved type="error">
+			<mm-inline-box type="error">
 				Error some text is here.
 			</mm-inline-box>
 			<hr/>
 			<p><p><span class="bold">Inline Box:</span> Warning</p>
-			<mm-inline-box unresolved type="warning">
+			<mm-inline-box type="warning">
 				Warning some text is here.
 			</mm-inline-box>
 			<hr/>
 			<p><span class="bold">Inline Box:</span> Success</p>
-			<mm-inline-box unresolved type="success">
+			<mm-inline-box type="success">
 				Success some text is here.
 			</mm-inline-box>
 			<hr/>
 			<p><span class="bold">Inline Box:</span> Info</p>
-			<mm-inline-box unresolved type="info">
+			<mm-inline-box type="info">
 				Info some text is here.
 			</mm-inline-box>
 			<hr/>
@@ -107,19 +106,19 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Inline Box:</span> Error fit to parent</p>
-			<mm-inline-box type="error" fitparent="true" unresolved>
+			<mm-inline-box type="error" fitparent="true">
 				Warning some text is here.
 			</mm-inline-box>
 			<hr/>
 			<p><span class="bold">Inline Box:</span> Warning with verbose content and max lines (wrap to longest text)</p>
-			<mm-inline-box type="warning" maxlines="10" unresolved>
+			<mm-inline-box type="warning" maxlines="10">
 				Error some text is here Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 				<br/><br/>
 				It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 			</mm-inline-box>
 			<hr/>
 			<p><span class="bold">Inline Box:</span> Success with verbose content, max lines and line breaks (wrap to longest text)</p>
-			<mm-inline-box type="success" maxlines="5" unresolved>
+			<mm-inline-box type="success" maxlines="5">
 				Error some text is here<br/>Lorem Ipsum is simply dummy text
 				<br/><br/>
 				of the printing and typesetting industry.
@@ -135,7 +134,7 @@
 			</mm-inline-box>
 			<hr/>
 			<p><span class="bold">Inline Box:</span> Info with verbose content, max lines, line breaks and fit to parent</p>
-			<mm-inline-box type="info" maxlines="5" fitparent unresolved>
+			<mm-inline-box type="info" maxlines="5" fitparent>
 				Error some text is here<br/>Lorem Ipsum is simply dummy text
 				<br/><br/>
 				of the printing and typesetting industry.

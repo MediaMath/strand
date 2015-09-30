@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<link rel="import" href="mm-grid.html">
-	<link rel="import" href="../mm-input/mm-input.html">
 	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
+	<link rel="import" href="../mm-list-item/mm-list-item.html">
+	<link rel="import" href="../mm-menu/mm-menu.html">
 	<link rel="import" href="../mm-tooltip/mm-tooltip.html">
 	<style type="text/css">
 		html, body {
@@ -20,7 +22,6 @@
 			display: none;
 		}
 
-		/* comment out for recycle="false" */
 		mm-grid {
 			height: 100%;
 		}
@@ -31,9 +32,6 @@
 	</style>
 </head>
 <body>
-	<!--
-	<polymer-element name="test-app" attributes="data" noscript>
-		<template>
 		<style type="text/css">
 			:host {
 				display: block;
@@ -43,8 +41,7 @@
 				height: 100%;
 			}
 		</style>
-		<mm-checkbox checked="{{selectable}}"></mm-checkbox>
-		<mm-grid id="mmTestGrid" itemTemplate="customTemplate" selectable="{{selectable}}" unresolved data="{{data}}">
+		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate">
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
 			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
@@ -53,94 +50,53 @@
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
 			<template id="customTemplate">
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}">
 					<div field="actions">
-						<mm-tooltip model="{{model}}" tipWidth="150">
-							<mm-icon width="15" height="15" type="actions"></mm-icon>
-							<template>
-								<label>I'm a tooltip for Creative - {{model.name}}</label>
-							</template>
+
+						
+						<mm-icon width="15" height="15" type="actions" id="{{_createId('tooltip', model.id)}}"></mm-icon>
+						<mm-tooltip model="{{model}}" target$="{{_createId('#tooltip', model.id)}}">
+							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 						</mm-tooltip>
+						
+
+						<!--
+						<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
+						<mm-menu id="testMenu" direction="s" offset="15" target$="{{_createId('#menu', model.id)}}">
+							<mm-list-item value="m1">menu item 1</mm-list-item>
+							<mm-list-item value="m2">menu item 2</mm-list-item>
+							<mm-list-item value="m3">menu item 3</mm-list-item>
+							<mm-list-item value="m4">menu item 4</mm-list-item>
+							<mm-list-item value="m5">menu item 5</mm-list-item>
+						</mm-menu>
+						-->
+
 					</div>
 					<div field="name">
-						Creative - {{model.name}}
+						Creative - <span>{{model.name}}</span>
 					</div>
 					<div class="expansion">
 						<div class="expansion-row">
 							<div class="expansion-col">
 								<h4>Expanded Content</h4>
-								{{model.name}}
+								<span>{{model.name}}</span>
 							</div>
 							<div class="expansion-col">
 								<h4>Expanded Advertiser</h4>
-								{{model.advertiser}}
+								<span>{{model.advertiser}}</span>
 							</div>
 							<div class="expansion-col">
 								<h4>Expanded Concept</h4>
-								{{model.concept}}
+								<span>{{model.concept}}</span>
 							</div>
 						</div>
 						<div class="expansion-row">
-							<div class="expansion-col">Expanded Content - {{model.content}}</div>
+							<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
 						</div>
 					</div>
 				</mm-grid-item>
 			</template>
 		</mm-grid>
-		</template>
-	</polymer-element>
-	<div class="container">
-		<test-app></test-app>
-	</div>
-	-->
-	<div class="container">
-		<mm-grid id="mmTestGrid" itemTemplate="customTemplate" selectable="{{selectable}}" unresolved data="{{data}}">
-			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-			<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
-			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
-			<mm-grid-column width="10%" field="actions"></mm-grid-column>
-			<template id="customTemplate">
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
-					<div field="actions">
-						<mm-tooltip model="{{model}}" tipWidth="150">
-							<mm-icon width="15" height="15" type="actions"></mm-icon>
-							<template>
-								<label>I'm a tooltip for Creative - {{model.name}}</label>
-							</template>
-						</mm-tooltip>
-					</div>
-					<div field="name">
-						Creative - {{model.name}}
-					</div>
-					<div class="expansion">
-						<div class="expansion-row">
-							<div class="expansion-col">
-								<h4>Expanded Content</h4>
-								{{model.name}}
-							</div>
-							<div class="expansion-col">
-								<h4>Expanded Advertiser</h4>
-								{{model.advertiser}}
-							</div>
-							<div class="expansion-col">
-								<h4>Expanded Concept</h4>
-								{{model.concept}}
-							</div>
-						</div>
-						<div class="expansion-row">
-							<div class="expansion-col">Expanded Content - {{model.content}}</div>
-						</div>
-					</div>
-				</mm-grid-item>
-			</template>
-		</mm-grid>
-	</div>
-
-	<div style="width:100%; height: 600px; background: #ff0000;"></div>
-
 	<script type="text/javascript">
 		var data = [],
 			columns = [
@@ -152,7 +108,7 @@
 				{field: "dimensions", label: "Dimensions", width: "15%", align:"right"}
 			],
 			app, 
-			NUM_ITEMS = 307; // a prime number -- definitely not divisible evenly into a number of recycled panels
+			NUM_ITEMS = 300;
 
 		for(var i=0; i<NUM_ITEMS; i++) {
 			generateItem();
@@ -173,13 +129,21 @@
 				concept: "Concept No. " + i,
 				type: "swf",
 				file: "Creative_File_" + i + ".swf",
-				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300))
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
+				selected: false,
+				expanded: false,
+				//style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
+				style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
 			});
 		}
 
-		window.addEventListener("polymer-ready", function() {
-			app = document.querySelector("#mmTestGrid"); // document.querySelector("test-app");
+		window.addEventListener("WebComponentsReady", function() {
+			app = document.querySelector("#mmTestGrid");
 			app.data = data;
+
+			setTimeout(function () {
+				//app.data = data.slice(data.length >> 2, data.length >> 1);
+			}, 3000);
 		});
 	</script>
 </body>

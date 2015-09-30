@@ -5,33 +5,34 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../shared/js/windownotifier.html">
+<link rel="import" href="../shared/behaviors/windownotifier.html">
+<link rel="import" href="../shared/behaviors/stylable.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
 <link rel="import" href="../mm-header/mm-header.html">
-<polymer-element name="mm-docs-shell" attributes="">
+<dom-module id="mm-docs-shell">
+	<link rel="import" type="css" href="mm-docs-shell.css"/>
 	<template>
-		<link href="mm-docs-shell.css" rel="stylesheet" type="text/css"/>
 		<main class="layout-body">
-			<div id="mobileHeader" style="height: {{mobileHeaderHeightCalc}};">
-				<div class="mobile-header-box" style="height: {{mobileHeaderHeight + unit}};">
-					<mm-icon type="drag-drop" width="{{menuIconWidth}}" height="{{menuIconHeight}}" primaryColor="{{menuIconColor}}" on-tap="{{menuTap}}"></mm-icon>
+			<div id="mobileHeader" style$="{{ _updateMobileHead(mobileHeaderHeightCalc) }}">
+				<div class="mobile-header-box" style$="{{ _updateMobileHeadBox(mobileHeaderHeight, unit) }}">
+					<mm-icon type="drag-drop" width="{{menuIconWidth}}" height="{{menuIconHeight}}" primary-color="{{menuIconColor}}" on-tap="_menuTap"></mm-icon>
 					<mm-header size="large">{{mobileHeader}}</mm-header>
 				</div>
 			</div>
-			<div id="mainContent" style="padding-left:{{paddingLeftCalc}};">
+			<div id="mainContent" style$="{{ _updateMainContent(paddingLeftCalc) }}">
 				<content select=".layout-article"></content>
-				<content select=".footer"></content>
+				<content select=".layout-footer"></content>
 			</div>
-			<div id="blocker" on-tap="{{blockerTap}}"></div>
-			<nav id="mainNav" style="width:{{navWidth + unit}}; left:{{navLeftCalc}};">
-				<div class="logo-area" style="width:{{navWidth + unit}}; height:{{logoAreaHeight + unit}}">
+			<div id="blocker" on-tap="_blockerTap"></div>
+			<nav id="mainNav" style$="{{ _updateMainNav(navWidth, unit, navLeftCalc) }}">
+				<div class="logo-area" style$="{{ _updateLogoArea(navWidth, unit, logoAreaHeight) }}">
 					<content select=".docs-logo"></content>
 				</div>
-				<div class="nav-content" style="height: calc(100% - {{logoAreaHeight + unit}});" touch-action="pan-y">
+				<div class="nav-content" style$="{{ _updateNavContent(logoAreaHeight, unit) }}" touch-action="pan-y">
 					<content select="mm-docs-nav"></content>
 				</div>
 			</nav>
 		</main>
 	</template>
-	<script src="mm-docs-shell.js"></script>
-</polymer-element>
+</dom-module>
+<script src="mm-docs-shell.js"></script>

@@ -1,0 +1,203 @@
+{
+	"name":"Syncable",
+	"description":"Behavior that adds ajax call behavior to a component. Designed for model/collection usage.",
+	"attributes": [
+		{
+			"name":"endpoint",
+			"type":"String",
+			"description":"The base url (any urlParams are appended to this) to use for http calls.",
+			"optional":false,
+			"default":"//",
+			"options":[]
+		},
+		{
+			"name":"options",
+			"type":"Object",
+			"description":"",
+			"optional":true,
+			"default":"{contentType: 'application/x-www-form-urlencoded', timeout: 10000, withCredentials: false, concurrency: 4}",
+			"options":[]
+		},
+		{
+			"name":"saveResponse",
+			"type":"Boolean",
+			"description":"Determines if the api response should be persisted back to the data property. This is useful for throwing away server responses to POST calls where you do not want to overwrite the view model",
+			"optional":true,
+			"attribute":"save-response",
+			"default":"true",
+			"options":[]
+		},
+		{
+			"name":"apiMarshaller",
+			"type":"Object",
+			"description":"An object which can be used to marshall api responses into a more front-end friendly format.  Keys in the object should be functions and should match names passed either in sync options or to response/requestMarshaller. In both cases the keyed method is called with the local data and it is expected to return the proper format for the API.",
+			"attribute":"api-marshaller",
+			"default":"{noop:function(){}}"
+		},
+		{
+			"name":"responseMarshaller",
+			"type":"String",
+			"description":"The deafult key to call in apiMarshaller when a response is recieved from the server.",
+			"attribute":"response-marshaller",
+			"default":"noop"
+		},
+		{
+			"name":"requestMarshaller",
+			"type":"String",
+			"description":"The default key to call in apiMarshaller when a request is being generated.",
+			"attribute":"request-marshaller",
+			"default":"noop"
+
+		},
+		{
+			"name":"cacheCsrf",
+			"type":"Boolean",
+			"description":"If true, any captured CSRF headers will be cached to localStorage for later use across page reloads.",
+			"optional":true,
+			"attribute":"cache-csrf",
+			"default":"false",
+			"options":["true","false"]
+		},
+		{
+			"name":"csrfHeader",
+			"type":"String",
+			"description":"A string value representing the request/response header to look for and pass CSRF tokens on in a given request/response.",
+			"optional":true,
+			"attribute":"csrf-header"
+		},
+		{
+			"name":"cacheBuster",
+			"type":"Boolean/String",
+			"description":"When true, requests will append a manual queryParam containing a timestamped values for older servers that do not support nocache headers. When set to a string value the string will be used as the queryParam name.",
+			"optional":true,
+			"default":"true",
+			"attribute":"cache-buster"
+		}
+	],
+	"methods": [
+		{
+			"name":"get",
+			"description":"Shortcut method for GET calls. Returns an A+ promise.",
+			"arguments":[]
+		},
+		{
+			"name":"post",
+			"description":"Shortcut method for POST calls. Returns an A+ promise.",
+			"arguments":[]
+		},
+		{
+			"name":"put",
+			"description":"Shortcut method for PUT calls. Returns an A+ promise.",
+			"arguments":[]
+		},
+		{
+			"name":"delete",
+			"description":"Shortcut method for DELETE calls. Returns an A+ promise.",
+			"arguments":[]
+		},
+		{
+			"name":"sync",
+			"description":"Base ajax method that all shortcuts call.",
+			"arguments":[
+				{
+					"name":"method",
+					"type":"String",
+					"optional":false,
+					"default":"GET",
+					"description":"string to specify the operational mode you want to use for syncing. (typically GET/POST)"
+				},
+				{
+					"name":"data",
+					"type":"String",
+					"optional":true,
+					"default":"undefined",
+					"description":"Object used to override request body data for a POST request. Ignored in get requests in favor of options.params"
+				},
+				{
+					"name":"options",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Object used to override ajax options passed to the request.  This is mixed in with default options then passed to the request."
+				}
+			]
+		},
+		{
+			"name":"setGlobal",
+			"description":"Sets a global value that can be retrieved on any other sync or adapter instance. Useful for persisting a subset of user settings.",
+			"arguments":[
+				{
+					"name":"key",
+					"type":"String",
+					"optional":false,
+					"default":"null",
+					"description":"Key to use for global variable (retrievable on any mm-sync or adapter instance."
+				},
+				{
+					"name":"value",
+					"type":"Any",
+					"optional":false,
+					"default":"",
+					"description":"Value to use for global variable. Objects are ok for cached data as it is stringified before storage when nessary."
+				}
+			]
+		},
+		{
+			"name":"getGlobal",
+			"description":"Retreive a global value from the global storage context",
+			"arguments":[
+				{
+					"name":"key",
+					"type":"string",
+					"optional":false,
+					"default":"",
+					"description":"returns the value of the global or null if not found."
+				}
+			]
+		}
+	],
+	"events":[
+		{
+			"type": "data-ready",
+			"detail": [
+				{
+					"name":"response",
+					"type":"Object",
+					"description":"Raw response data from server"
+				},
+				{
+					"name":"marshalled",
+					"type":"Object",
+					"description":"The marshalled response data from the server."
+				},
+				{
+					"name":"instance",
+					"type":"StrandLib.Request",
+					"description":"The instance of the request that generated this response."
+				}
+			]
+		},
+		{
+			"type": "data-error",
+			"detail": [
+				{
+					"name":"error",
+					"type":"String",
+					"description":"Error description text"
+				},
+				{
+					"name":"instance",
+					"type":"StrandLib.Request",
+					"description":"The request object that threw the error"
+				},
+				{
+					"name":"response",
+					"type":"Object",
+					"description":"The server response if any was provided."
+				}
+			]
+		}
+
+	],
+	"behaviors":["domgettable","falsifiable"]
+}

@@ -1,72 +1,91 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
-  <script src="../bower_components/web-component-tester/browser.js"></script>
-  <script src="TestHelper.js"></script>
-  <script>
-    var should = chai.should();
-  </script>
-  <link rel="import" href="../build/strand.html">
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<!-- <link rel="import" href="../build/strand.html"> -->
+	<link rel="import" href="../build/mm-collection/mm-collection.html">
+	<link rel="import" href="../build/mm-model/mm-model.html">
 </head>
 <body>
 <script>
 
 describe("mm-collection", function() {
 
-  it("should create models", function() {
-    var c = new MMCollection();
-    c.create({ id: 10, name:"aces" }, false);
-    c.data.should.have.length(1);
-    c.data[0].data.id.should.equal(10);
-  });
+	it("should exist", function() {
+		Strand.should.be.an.object;
+		Strand.Collection.should.be.a.function;
+	});
 
-  it("should detect cid conflicts", function() {
-  	var c = new MMCollection();
-  	var m = new MMModel();
-  	m.data = {cats:true, dogs:true};
-  	m.cid = 0;
-  	c.add(m);
-  	should.throw(function() {
-  		c.add(m);
-  	}, "Model Conflict - matching cIDs");
-  });
+	it("should have add", function() {
+		var col = document.querySelector("#col");
+		col.should.have.property("add");
+		col.add.should.be.a.function;
+	});
 
-  it("should return models at indicies", function() {
-  	var c = new MMCollection();
-    c.create({ id: 10, name:"aces" }, false);
-    c.get(0).should.be.an("object");
-    c.getData(0).name.should.equal("aces");
-  });
+	it("should create models", function() {
+		var c = new Strand.Collection();
+		c.create({ id: 10, name:"aces" }, false);
+		c.data.should.have.length(1);
+		c.data[0].data.id.should.equal(10);
+	});
 
-  it("should support each on every model", function() {
-  	var c = new MMCollection();
-  	for(var i =0; i< 10; i++) {
-  		c.create({ id: i, name:"aces"+i }, false);
-  	}
-  	c.create({id: 0, name:"aces11"});
-  	var inc = 0;
-  	c.each(function(m) {
-  		m.should.be.an("object");
-  		inc++;
-  	});
-  	inc.should.equal(11);
-  });
+	it("should detect cid conflicts", function() {
+		var c = new Strand.Collection();
+		var m = new Strand.Model();
+		m.data = {cats:true, dogs:true};
+		m.cid = 0;
+		c.add(m);
+		should.throw(function() {
+			c.add(m);
+		}, "Model Conflict - matching id's, use force flag to add manually");
+	});
 
-  it("should find models matching constraining objects using where", function() {
-  	var c = new MMCollection();
-  	for(var i =0; i< 10; i++) {
-  		c.create({ id: i, name:"aces"+i }, false);
-  	}
-  	c.create({id: 0, name:"aces11"});
+	it("should return models at indicies", function() {
+		var c = new Strand.Collection();
+		c.create({ id: 10, name:"aces" }, false);
+		c.getDataAt(0).should.be.an("object");
+		c.getDataAt(0).name.should.equal("aces");
+	});
 
-  	c.where({name:"aces2"}, true).should.have.length(1);
-  	c.where({name:1}).should.have.length(11);
-  	c.where({id:0}, true).should.have.length(2);
-  });
+	it("should support each on every model", function() {
+		var c = new Strand.Collection();
+		for(var i =0; i<= 10; i++) {
+			c.create({ id: i, name:"aces"+i }, false);
+		}
+		var inc = 0;
+		c.each(function(m) {
+			m.should.be.an("object");
+			inc++;
+		});
+		inc.should.equal(11);
+	});
+
+	it("should find models matching constraining objects using where", function() {
+		var c = new Strand.Collection();
+		for(var i =0; i< 10; i++) {
+			c.create({ id: i, name:"aces"+i }, false);
+		}
+		c.create({id: 11, name:"aces11"});
+
+		c.where({name:"aces2"}, true).should.have.length(1);
+		c.where({name:1}).should.have.length(11);
+		c.where({id:0}, true).should.have.length(1);
+	});
 
 });
 </script>
+<template is="dom-bind">
+	<mm-collection id="col" data="{{items}}">
+	</mm-collection>
+	<template is="dom-repeat" items="{{items}}">
+		<span>{{item.id}}</span><span>{{item.name}}</span>
+	</template>
+</template>
 </body>
 </html>

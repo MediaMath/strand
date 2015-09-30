@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/ajaxbusterplugin.html"/>
+	<link rel="import" href="../build/shared/js/ajaxplugin.html"/>
+</head>
+<body>
+<script>
+describe("AjaxBusterPlugin", function() {
+
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.AjaxPlugin.should.be.an.object;
+		StrandLib.AjaxBusterPlugin.should.be.an.object;
+	});
+
+	it("should handle basic plugin support", function() {
+
+		var pq = new StrandLib.AjaxPlugin();
+		pq.register("test",StrandLib.AjaxBusterPlugin);
+		var plug = pq.queue[0];
+		var spy1 = sinon.spy(plug, "requestHandler"); 
+
+		pq.processRequest({test:'test'});
+		
+		spy1.calledOnce.should.be.true;
+
+	});
+
+	it("should handle malformed param objects", function() {
+		var buster = new StrandLib.AjaxBusterPlugin();
+		buster.requestHandler(null);
+		buster.requestHandler(-1);
+		buster.requestHandler({});
+		buster.requestHandler([]);
+	});
+
+	it("should append querystring given arguments", function() {
+		var buster = new StrandLib.AjaxBusterPlugin();
+		var data = {params:[]};
+
+		buster.requestHandler(data);
+		data.params.should.have.length(1);
+		data.params[0].name.should.contain("nocache");
+		
+		buster = new StrandLib.AjaxBusterPlugin({name:"cacheBuster"});
+		data = {params:[]};
+		buster.requestHandler(data);
+		data.params.should.have.length(1);
+		data.params[0].name.should.contain("cacheBuster");
+
+	});
+
+	it("should stop when disabled", function() {
+		var buster = new StrandLib.AjaxBusterPlugin({
+			name:"test", 
+			enabled: false
+		});
+		var data = {params:[]};
+		buster.requestHandler(data);
+		data.params.should.have.length(0);
+		should.not.exist(data.params[0]);
+	});
+
+
+});
+</script>
+</body>
+</html>

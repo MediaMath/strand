@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/mousewheelable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-mousewheelable">
+		<style>
+			:host {
+				display: block;
+				position: relative;
+				height: 5000px; 
+				width: 100%;
+				overflow: auto;
+			}
+		</style>
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestMouseWheelable = Polymer({
+				is: 'test-mousewheelable',
+				behaviors: [StrandTraits.MouseWheelable],
+				_onWheel: function(e) {
+					e.preventDefault();
+					console.log("_onWheel", e);
+				},
+			});
+		});
+	</script>
+
+	<test-mousewheelable id="testMouseWheelable"></test-mousewheelable>
+
+	<script>
+		describe('MouseWheelable', function() {
+
+			it("should exist", function() {
+				StrandTraits.should.be.an.object;
+				StrandTraits.MouseWheelable.should.be.an.object;
+			});
+
+			it("should capture supported wheel event", function(done) {
+				var a = document.querySelector("#testMouseWheelable"),
+					support = a.support,
+					evt = new Event(support),
+					s = sinon.spy();
+
+				a.addEventListener(support, s);
+				a.dispatchEvent(evt);
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			// TODO: Spend some more time looking into this at some point:
+			// http://stackoverflow.com/questions/25578112/spying-on-a-method-with-sinon-method-bound-to-event-listener-method-was-execut
+			// The above test sufficiently proves our point, however.
+			
+			// it("should call abstract method _onWheel on supported wheel event", function(done) {
+			// 	var a = document.querySelector("#testMouseWheelable"),
+			// 		support = a.support,
+			// 		evt = new Event(support),
+			// 		s = sinon.spy(a, "_onWheel");
+
+			// 	a.dispatchEvent(evt);
+
+			// 	flush(function() {
+			// 		should.equal(s.called, true);
+			// 		done();
+			// 	});
+			// });
+
+		});
+	</script>
+
+</body>
+</html>

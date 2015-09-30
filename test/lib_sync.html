@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/sync.html"/>
+</head>
+<body>
+<script>
+describe("Sync", function() {
+
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.Sync.should.be.an.object;
+	});
+
+
+});
+</script>
+</body>
+</html>

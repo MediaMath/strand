@@ -5,18 +5,16 @@
 		{
 			"name":"placeholder",
 			"type":"String",
-			"description":"Default text which appears in the textarea",
+			"description":"Default text which appears in the textarea.",
 			"optional":true,
 			"default":"none",
-			"options":[]
+			"reflect":true
 		},
 		{
-			"name":"validation",
+			"name":"value",
 			"type":"String",
-			"description":"Define which type of validation the textarea should perform.",
-			"optional":true,
-			"default":"none",
-			"options":["empty", "int", "decimal", "email", "alpha"]
+			"description":"The current textarea contents as a string.",
+			"default":"none"
 		},
 		{
 			"name":"mono",
@@ -24,15 +22,14 @@
 			"description":"Use a monospaced font - good for code.",
 			"optional":true,
 			"default":"none",
-			"options":["true", "false"]
+			"reflect":true
 		},
 		{
 			"name":"rows",
 			"type":"Int",
 			"description":"Native - Number of vertical rows of text.",
 			"optional":true,
-			"default":"10",
-			"options":[]
+			"default":"10"
 		},
 		{
 			"name":"width",
@@ -40,7 +37,7 @@
 			"description":"Native - width of the textarea in pixels.",
 			"optional":true,
 			"default":"native default",
-			"options":[]
+			"reflect":true
 		},
 		{
 			"name":"height",
@@ -48,89 +45,47 @@
 			"description":"Native - height of the textarea in pixels.",
 			"optional":true,
 			"default":"default to rows",
-			"options":[]
+			"reflect":true
 		},
 		{
 			"name":"maxlength",
 			"type":"Int",
 			"description":"Native - maximum number of characters.",
 			"optional":true,
-			"default":"none",
-			"options":[]
+			"default":"none"
 		},
 		{
-			"name":"fit",
+			"name":"fitparent",
 			"type":"Boolean",
 			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
 			"optional":true,
-			"default":"null",
-			"options":[]
+			"default":"false"
 		},
 		{
 			"name":"disabled",
 			"type":"Boolean",
 			"description":"Disable the item",
 			"optional":true,
-			"default":"false",
-			"options":[]
-		}
-	],
-	"methods": [
-		{
-			"name":"validate",
-			"description":"Tells the component to validate its current contents against the validator method",
-			"arguments":[]
-		},
-		{
-			"name":"validator",
-			"description":"A method called by validate to check the current field contents. Overwrite this method to provide custom validation. Custom method should return true if validation passes.",
-			"arguments":[]
-		},
-		{
-			"name":"bindModel",
-			"description":"provides a backbone model or a POJO to the component which will be updated when its value changes",
-			"arguments":[
-				{
-					"name":"model",
-					"type":"Object",
-					"optional":false,
-					"default":"undefined",
-					"description":"The instance of the backbone model or javascript object to be updated when the component value changes"
-				},
-				{
-					"name":"property",
-					"type":"String",
-					"optional":false,
-					"default":"undefined",
-					"description":"The property on the model object to store the updated value on."
-				}
-			]
-		}
-	],
-	"properties":[
-		{
-			"name":"value",
-			"type":"String",
-			"description":"the current textarea contents as a string",
-			"default":"''"
-		},
-		{
-			"name":"placeholder",
-			"type":"String",
-			"description":"the current placeholder value for the textarea when no contents are set",
-			"default":"''"
-		},
-		{
-			"name":"disabled",
-			"type":"Boolean",
-			"description":"the current status of the textarea. When true user input will not be accepted and the field is greyed out.",
 			"default":"false"
 		},
 		{
 			"name":"error",
 			"type":"Boolean",
+			"optional":true,
 			"description":"Triggers the display of invalid visual state.",
 			"default":"false"
 		}
-	]
+	],
+	"events": [
+		{
+			"type":"changed",
+			"detail": [
+				{
+					"name":"value",
+					"type":"The new value of the textarea."
+				}
+			]
+		}
+	],
+	"behaviors": ["stylable","validatable"]
 }

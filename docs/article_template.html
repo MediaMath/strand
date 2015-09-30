@@ -4,13 +4,13 @@
 	<body unresolved>
 		<mm-docs-shell id="docsShell" version="{{revision}}" mobileHeader="Strand Docs">
 			{{> sidebar}}
+			{{> footer}}
 			<article class="layout-article">
 				<div class="docs-content article">
 					{{{article}}}
 				</div>
 				<div class="layout-push"></div>
 			</article>
-			{{> footer}}
 		</mm-docs-shell>
 		<script>
 			var name = "{{name}}",
@@ -19,15 +19,15 @@
 				docsShell,
 				navItems; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			window.addEventListener('WebComponentsReady', function() {
 				initDoc();
 			});
 
 			function initDoc() {
-				articlesNav = document.querySelector("#articlesNav");
-				componentsNav = document.querySelector("#componentsNav");
-				docsShell = document.querySelector("#docsShell");
-				navItems = document.querySelectorAll("mm-list-item");
+				articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+				componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+				docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+				navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
 
 				// default expanded:
 				articlesNav.expanded = true;

@@ -3,62 +3,7 @@
 	"description":"A fully-styled pulldown button, with multiple options.",
 	"attributes": [
 		{
-			"name":"type",
-			"type":"String",
-			"description":"The type of styling to be applied to the button",
-			"optional":true,
-			"default":"primary",
-			"options":["primary", "secondary"]
-		},
-		{
-			"name":"overflow",
-			"type":"String",
-			"description":"Allows long list items to overflow when the list is opened",
-			"optional":true,
-			"default":"hidden",
-			"options":["hidden", "visible"]
-		},
-		{
-			"name":"disabled",
-			"type":"Boolean",
-			"description":"Disable the item",
-			"optional":true,
-			"default":"false",
-			"options":[]
-		}
-	],
-	"methods": [
-		{
-			"name":"open",
-			"description":"Expand the dropdown.",
-			"arguments":[]
-		},
-		{
-			"name":"close",
-			"description":"Collapse the dropdown.",
-			"arguments":[]
-		},
-		{
-			"name":"toggle",
-			"description":"Close dropdown if it is open, otherwise open it.",
-			"arguments":[]
-		}
-	],
-	"properties":[
-		{
-			"name":"state",
-			"type":"String",
-			"description":"the current status of the pulldown panel ('open' or 'closed')",
-			"default":"'closed'"
-		},
-		{
-			"name":"overflow",
-			"type":"String",
-			"description":"determines the behavior for the dropdown. when overflow is 'show' the items in the dropdown area will not constrain to the button width. 'hidden' will truncate the items to the button's width.",
-			"default":"'hidden'"
-		},
-		{
-			"name":"fit",
+			"name":"fitparent",
 			"type":"Boolean",
 			"description":"determines if the button fits to its parent container's width. when true the button will effectively be width:100%",
 			"default":"false"
@@ -74,6 +19,14 @@
 			"type":"Boolean",
 			"description":"Triggers the display of invalid visual state.",
 			"default":"false"
+		},
+		{
+			"name":"type",
+			"type":"String",
+			"description":"The type of styling to be applied to the button",
+			"optional":true,
+			"default":"primary",
+			"options":["primary", "secondary"]
 		}
 	],
 	"events":[
@@ -107,5 +60,6 @@
 				}
 			]
 		}
-	]
+	],
+	"behaviors":["closable","autoclosable","stackable","stylable","positionable","positionable-dropdown"]
 }

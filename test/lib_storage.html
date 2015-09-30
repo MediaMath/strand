@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/storage.html"/>
+</head>
+<body>
+	<script>
+
+	describe("Storage", function() {
+		
+		it("should exist", function() {
+			StrandLib.Storage.should.be.a.function;
+		});
+
+		it("should store things", function() {
+			var st1 = new StrandLib.Storage("test");
+			st1.value = "testing";
+			st1.value.should.equal("testing");
+			st1.value = {a:1};
+			st1.value.should.deep.equal({a:1});
+		});
+
+		it("should allow retrieval on a 2nd instance", function() {
+			var st1 = new StrandLib.Storage("test");
+			var st2 = new StrandLib.Storage("test");
+
+			st1.value = "testing";
+			st2.value.should.equal("testing");
+
+			st1.value = [1,2,3];
+			st2.value.should.deep.equal([1,2,3]);
+		});
+
+		it("should save complex objects", function() {
+			var st1 = new StrandLib.Storage("test");
+			st1.value = {};
+			st1.set("test", 222);
+			st1.value.test.should.equal(222);
+
+			st1.clear();
+			st1.set("test", 100);
+			st1.value.test.should.equal(100);
+		});
+
+		it("should report a boolean for key status", function() {
+			var st1 = new StrandLib.Storage("test");
+			st1.value = "Testing";
+			st1.hasKey().should.equal(true);
+			st1.hasKey(Math.random() + "").should.equal(false);
+		});
+
+		it("should clear values", function() {
+			var st1 = new StrandLib.Storage("test");
+			st1.clear();
+			should.equal(st1.value, null);
+		});
+
+		
+	});
+	</script>
+</body>
+</html>

@@ -4,11 +4,14 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 -->
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<polymer-element name="mm-model" attributes="" constructor="MMModel">
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/js/model.html"/>
+<link rel="import" href="../shared/behaviors/domsyncable.html"/>
+
+<dom-module id="mm-model">
+	<link rel="import" type="css" href="mm-model.css"/>
 	<template>
-		<link href="mm-model.css" rel="stylesheet" type="text/css"/>
 		<content id="content"></content>
 	</template>
 	<script src="mm-model.js"></script>
-</polymer-element>
+</dom-module>

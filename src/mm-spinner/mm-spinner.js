@@ -4,17 +4,17 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function(){
-	function _getVendorStyle(property, value) {
-		var obj = {},
-			uppercaseProp = property.charAt(0).toUpperCase() + property.slice(1);
-
-		obj["-webkit" + uppercaseProp] = value;
-		obj["-moz" + uppercaseProp] = value;
-		obj["-ms" + uppercaseProp] = value;
-		obj["-o" + uppercaseProp] = value;
-		obj[property] = value;
-
+(function(scope){
+	function _getVendorStyle(styles) {
+		var obj = {};
+		for(var property in styles) {
+			var uppercaseProp = property.charAt(0).toUpperCase() + property.slice(1);
+			obj["-webkit" + uppercaseProp] = styles[property];
+			obj["-moz" + uppercaseProp] = styles[property];
+			obj["-ms" + uppercaseProp] = styles[property];
+			obj["-o" + uppercaseProp] = styles[property];
+			obj[property] = styles[property];
+		}
 		return obj;
 	}
 
@@ -27,24 +27,60 @@
 		};
 	}
 
-	Polymer('mm-spinner', {
-		ver:"<<version>>",
+	scope.Spinner = Polymer({
+		is: 'mm-spinner',
+
+		behaviors: [
+			StrandTraits.Stylable
+		],
 		
-		publish: {
-			radius: 9,
-			innerRadius: 0.5,
-			lineWidth: 0.5,
-			lineWeight: 0.5,
-			numTicks: 12,
-			fillColor: "#ffffff",
-			bgColor: null,
-			speed: 1.33,
-			paused: {value: false, reflect: true}
+		properties: {
+			radius: {
+				type: Number,
+				value: 9
+			},
+			diameter: {
+				type: Number,
+				computed: '_computeDiameter(radius)'
+			},
+			innerRadius: {
+				type: Number,
+				value: 0.5,
+			},
+			lineWidth: {
+				type: Number,
+				value: 0.5,
+			},
+			lineWeight: {
+				type: Number,
+				value: 0.5,
+			},
+			numTicks: {
+				type: Number,
+				value: 12,
+			},
+			fillColor: {
+				type: String,
+				value: "#ffffff",
+			},
+			bgColor: {
+				type: String,
+				value: null,
+			},
+			speed: {
+				type: Number,
+				value: 1.33,
+			},
+			paused: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			}
 		},
 
-		observe: {
-			'radius innerRadius lineWidth lineWeight numTicks fillColor bgColor speed': '_initialize'
-		},
+		observers: [
+			'_initialize(radius, innerRadius, lineWidth, lineWeight, numTicks, fillColor, bgColor, speed)'
+		],
 
 		_strokeOffset: 0.1,
 
@@ -52,17 +88,21 @@
 			this._initialize();
 		},
 
-		_initialize: function() {
-			this.job("initialize", this.initialize, 0);
+		_computeDiameter: function(radius) {
+			return radius*2;
 		},
 
-		initialize: function() {
+		_initialize: function() {
+			this.debounce("initialize", this._draw, 0);
+		},
+
+		_draw: function() {
 			this.style.width = this.style.height = this.radius * 2 + "px";
 			if(this.bgColor) {
 				this.style.backgroundColor = this.bgColor;
 			}
 
-			this.resetAnimation();
+			this._resetAnimation();
 
 			var canvas = this.$.spinner,
 				context = canvas.getContext('2d'),
@@ -90,32 +130,37 @@
 			context.restore();
 		},
 
-		setAnimation: function() {
+		_setAnimation: function() {
 			var animationTime = 1 / this.speed,
 				animationSteps = this.numTicks,
 				animationState = this.paused ? "paused" : "running";
-
-			this.spinnerAnimation = _getVendorStyle("animation", "spin " + animationTime + "s steps(" + animationSteps + ", end) " + animationState + " infinite");
+			this.spinnerAnimation = this.styleBlock(_getVendorStyle({
+				animationName: "spin",
+				animationDuration: animationTime+"s",
+				animationTimingFunction: "steps(" + animationSteps + ", end)",
+				animationPlayState: animationState,
+				animationIterationCount: "infinite",
+			}));
 		},
 
-		resetAnimation: function() {
+		_resetAnimation: function() {
 			if(!this.resetAnimationFlag) {
 				this.resetAnimationFlag = true;
-				this.setAnimation();
+				this._setAnimation();
 			} else {
 				this.spinnerAnimation = null;
-				this.async(this.setAnimation);
+				this.async(this._setAnimation);
 			}
 		},
 
 		start: function() {
 			this.paused = false;
-			this.resetAnimation();
+			this._resetAnimation();
 		},
 
 		stop: function() {
 			this.paused = true;
-			this.resetAnimation();
+			this._resetAnimation();
 		}
 	});
-})();
+})(window.Strand = window.Strand || {});

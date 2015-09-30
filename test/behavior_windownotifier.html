@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/windownotifier.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-window-notifier">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestWindowNotifier = Polymer({
+				is: 'test-window-notifier',
+				behaviors: [StrandTraits.WindowNotifier]
+			});
+		});
+	</script>
+
+	<test-window-notifier id="testWindowNotifier"></test-window-notifier>
+
+	<script>
+		describe('WindowNotifier', function() {
+
+		});
+	</script>
+
+</body>
+</html>

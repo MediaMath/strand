@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/shared/js/request.html"/>
+</head>
+<body>
+  <script>
+  describe("Request", function() {
+
+  	it("should exist", function() {
+  		StrandLib.should.be.an.object;
+  		StrandLib.Request.should.be.an.object;
+  	});
+
+  	it("should fail without proper options", function(done) {
+
+  		var r = new StrandLib.Request({});
+  		var success = sinon.spy();
+  		var fail = sinon.spy();
+
+  		r.promise.should.be.a.function;
+  		r.promise.then(success, fail);
+  		r.exec();
+
+  		flush(function() {
+
+  			fail.calledOnce.should.be.true;
+  			success.calledOnce.should.be.false;
+  			done();
+
+  		});
+
+  	});
+
+
+  	it("should make an XHR", function(done) {
+  		var xhr = sinon.useFakeXMLHttpRequest();
+  		xhr.onCreate = sinon.spy();
+
+  		var r = new StrandLib.Request({
+  			url:"/",
+  			method:StrandLib.Request.POST,
+  		});
+
+  		xhr.onCreate.calledOnce.should.be.true;
+  		xhr.restore();
+  		done();
+
+  	});
+
+  	it("should make a POST", function(done) {
+  		var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+  		var r = new StrandLib.Request({
+  			url:"/",
+  			method:StrandLib.Request.POST
+  		});
+  		r.promise.then(function(out) {
+
+  			out.should.not.be.null;
+  			out.instance.should.equal(r);
+  			out.response.id.should.equal(1);
+  			done();
+
+  		}, done);
+  		r.exec();
+
+  		request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1 }');
+
+  		xhr.restore();
+  	});
+
+  	it("should make a GET", function(done) {
+  		var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+  		var r = new StrandLib.Request({
+  			url:"/",
+  			method:StrandLib.Request.GET
+  		});
+  		r.promise.then(function(out) {
+
+  			out.should.not.be.null;
+  			out.instance.should.equal(r);
+  			out.response.id.should.equal(1);
+  			done();
+
+  		}, done);
+  		r.exec();
+
+  		request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1 }');
+
+  		xhr.restore();
+  	});
+
+  	it("should fail on server failure", function(done) {
+  		var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+  		var r = new StrandLib.Request({
+  			url:"/",
+  			method:StrandLib.Request.GET
+  		});
+
+  		r.promise.then(done, function(err) {
+  			err.error.should.equal(500);
+  			err.response.error.should.equal(1);
+  			done();
+  		});
+  		r.exec();
+
+  		request.respond(500, { "Content-Type": "application/json" }, '{ "error": 1 }');
+
+  		xhr.restore();
+  	});
+
+  	it("should support text response type", function(done) {
+  		var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+  		var r = new StrandLib.Request({
+  			url:"/",
+  			method:StrandLib.Request.GET,
+  			responseType:"text"
+  		});
+  		r.promise.then(function(out) {
+
+  			out.should.not.be.null;
+  			out.instance.should.equal(r);
+  			out.response.should.equal("test");
+  			done();
+
+  		}, done);
+  		r.exec();
+
+  		request.respond(200, { "Content-Type": "text/plain" }, 'test');
+
+  		xhr.restore();
+  	});
+
+  	it("should support xml response type", function(done) {
+  		var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+  		var r = new StrandLib.Request({
+  			url:"/",
+  			method:StrandLib.Request.GET,
+  			responseType:"xml"
+  		});
+  		r.promise.then(function(out) {
+
+  			out.should.not.be.null;
+  			out.instance.should.equal(r);
+  			out.response.firstChild.textContent.should.equal("test");
+  			done();
+
+  		}, done);
+  		r.exec();
+
+  		request.respond(200, { "Content-Type": "text/xml" }, "<xml>test</xml>");
+
+  		xhr.restore();
+  	});
+
+    it("should support headers", function(done) {
+        var xhr = sinon.useFakeXMLHttpRequest();
+  		var request;
+
+  		xhr.onCreate = function(req) {
+  			request = req;
+  		};
+
+        var r = new StrandLib.Request({
+            url:"/",
+            method:StrandLib.Request.GET,
+            headers:[
+                {name:"x-test",value:"testval"},
+                {name:"x-test2",value:"things"}
+            ]
+        });
+
+        r.promise.then(function(out) {
+            request.requestHeaders.should.deep.equal({
+                "x-test":"testval",
+                "x-test2":"things"
+            })
+            done();
+        }, done);
+        r.exec();
+        request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1 }');
+        xhr.restore();
+    });
+
+
+  });
+  </script>
+</body>
+</html>

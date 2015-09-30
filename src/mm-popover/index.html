@@ -26,7 +26,7 @@
 				box-sizing: border-box;
 				display: block;
 				float: left;
-				padding: 0 20px;
+				padding: 40px;
 				font-size: 0;
 			}
 
@@ -88,90 +88,83 @@
 			}
 
 			#cpb {
-				position: relative;
+				position: absolute;
 			}
 
-			mm-popover[unresolved],
-			mm-button[unresolved] {
-				display: none;
-			}
-
-			mm-popover {}
 		</style>
 </head>
-<body>
 
-	<mm-button id="cpb" unresolved>
-		<label>open popover default (draggable)</label>
-	</mm-button>
-	<mm-popover id="popover" target="#cpb" unresolved>
-		<div class="body">
-			<mm-input></mm-input>
-		</div>
-		<mm-footer>
-			<mm-action id="closeLink" underline>
-				<label>Close</label>
-			</mm-action>
-			<mm-button id="applyBtn">
-				<label>Apply</label>
+<body style="height: 5000px;">
+	
+	<div>
+		<div class="col c0">
+			<mm-button id="cpb1">
+				<label>open popover</label>
 			</mm-button>
-		</mm-footer>
-	</mm-popover>
+		</div>
+	</div>
 
-<!-- 
-	<mm-button id="cpb" unresolved>
+	<div>
+		<mm-popover target="#cpb1" id="popover1" direction="s">
+			<div class="body">
+				<mm-input></mm-input>
+			</div>
+			<mm-footer>
+				<mm-action id="closeLink1" underline>
+					<label>Close</label>
+				</mm-action>
+				<mm-button id="applyBtn1">
+					<label>Apply</label>
+				</mm-button>
+			</mm-footer>
+		</mm-popover>
+	</div>
+
+	<mm-button id="cpb">
 		<label>open popover multiselect (draggable)</label>
 	</mm-button> 
-	<mm-popover id="popover" target="#cpb" mode="multiselect" valign="center" align="right" unresolved>
-		<mm-input search="true" layout="dropdown"></mm-input> 
-		<div class="body">
-			<mm-checkbox>
-				<label>Item One</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Two</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Three</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Four</label>
-			</mm-checkbox>
-			<mm-checkbox>
-				<label>Item Five</label>
-			</mm-checkbox>
-		</div>
-		<mm-footer>
-			<mm-action id="closeLink" underline>
-				<label>Close</label>
-			</mm-action>
-			<mm-button id="applyBtn">
-				<label>Apply</label>
-			</mm-button>
-		</mm-footer>
-	</mm-popover>
-  -->
+
+	<div>
+		<mm-popover id="popover" target="#cpb" direction="s">
+			<mm-input search="true" _layout="dropdown"></mm-input> 
+			<div class="body">
+				<mm-checkbox>
+					<label>Item One</label>
+				</mm-checkbox>
+				<mm-checkbox>
+					<label>Item Two</label>
+				</mm-checkbox>
+				<mm-checkbox>
+					<label>Item Three</label>
+				</mm-checkbox>
+			</div>
+			<mm-footer>
+				<mm-action id="closeLink" underline>
+					<label>Close</label>
+				</mm-action>
+				<mm-button id="applyBtn">
+					<label>Apply</label>
+				</mm-button>
+			</mm-footer>
+		</mm-popover>
+	</div>
+ 
 	<script>
 		var popover,
 			closeLink,
 			applyBtn,
-			drag = false,
-			btnStyle,
-			btnWidth,
-			btnHeight;
+			cpb,
+			offsetTop,
+			offsetLeft,
+			drag = false;
 
-		window.addEventListener("polymer-ready", function() {
-			console.log("polymer-ready");
-			popover = document.getElementById("popover");
-			closeLink = document.getElementById("closeLink");
-			applyBtn = document.getElementById("applyBtn");
-
-			btnStyle = window.getComputedStyle(cpb, null);
-			btnWidth = parseInt(btnStyle.getPropertyValue("width").split("px"));
-			btnHeight = parseInt(btnStyle.getPropertyValue("height").split("px"));
+		window.addEventListener("WebComponentsReady", function() {
+			popover 	= document.querySelector("#popover");
+			closeLink 	= document.querySelector("#closeLink");
+			applyBtn 	= document.querySelector("#applyBtn");
+			cpb 		= document.querySelector("#cpb");
 
 			document.addEventListener("mousemove", dragHandler);
-			cpb.addEventListener("click", cpbClickHandler);
 			cpb.addEventListener("mousedown", dragStart);
 			cpb.addEventListener("mouseup", dragStop);
 
@@ -179,12 +172,10 @@
 			applyBtn.addEventListener("click", applyHandler);
 		});
 
-		function cpbClickHandler(e) {
-			popover.toggle();
-		}
-
 		function dragStart(e) {
 			drag = true;
+			offsetLeft = e.pageX - cpb.offsetLeft;
+			offsetTop = e.pageY - cpb.offsetTop;
 		}
 
 		function dragStop(e) {
@@ -193,25 +184,26 @@
 
 		function dragHandler(e) {
 			if (drag) {
-				var left = e.pageX - btnWidth/2,
-					top = e.pageY - btnHeight/2;
+				e.preventDefault();
 
-				// console.log("e.pageX: " + e.pageX);
-				// console.log("e.pageY: " + e.pageY);
-				// console.log("left: " + e.pageX);
-				// console.log("top: " + e.pageY);
+				var left = e.pageX - offsetLeft,
+					top = e.pageY - offsetTop;
+
 				cpb.style.setProperty("left", left +"px");
 				cpb.style.setProperty("top", top +"px");
+				popover.update();
 			}
 		}
 
 		function closeHandler(e) {
 			e.preventDefault();
+			popover.close();
 			console.log("closeHandler");
 			console.log(e);
 		}
 
 		function applyHandler(e) {
+			popover.close();
 			console.log("applyHandler");
 			console.log(e);
 		}

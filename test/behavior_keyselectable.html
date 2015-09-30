@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/closable.html"/>
+	<link rel="import" href="../build/shared/behaviors/keyselectable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-keyselectable">
+		<template>
+			<content select="*"></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is: 'test-keyselectable',
+				behaviors: [StrandTraits.Closable, StrandTraits.KeySelectable],
+
+				properties: {
+					alphaCounter: {type: Number, value: 0},
+					numCounter: {type: Number, value: 0},
+					disabled: {type: Boolean, value: false},
+					_maxIndex: {type: Number, value: 1000},
+					maxItems: {type: Number, value: 10}
+				},
+
+				_handleKeydown: function(e) {
+					this._routeKeyEvent(e);
+				}
+			});
+		});
+	</script>
+
+	<test-keyselectable tabIndex="1" id="testElem"></test-keyselectable>
+
+	<script>
+		document.addEventListener("keydown", function(e) {
+			console.log("key pressed: "+e.keyCode);
+		});
+
+		var repeat = function(callback, times) {
+			for(var i=0; i<times; i++) callback();
+		};
+		var _ = new KeyboardEvent('KeyboardEvent');
+
+		describe('keyselectable', function() {
+			it('should open on keypress, if closed', function() {
+				var a = document.getElementById('testElem');
+				a.focus();
+				a.state.should.equal(a.STATE_CLOSED);
+				a._onDown(_);
+				a.state.should.equal(a.STATE_OPENED);
+			});
+
+			it('should increment highlightedIndex when down is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				repeat(a._onDown.bind(a, _), 5);
+				a._highlightedIndex.should.equal(tmp+5);
+			});
+
+			it('should decrement highlightedIndex when up is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				repeat(a._onUp.bind(a, _), 4);
+				a._highlightedIndex.should.equal(tmp-4);
+			});
+
+			it('should increment highlightedIndex by n when pg dn is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				a._onPgDown(_);
+				a._highlightedIndex.should.equal(tmp+a.maxItems);
+			});
+
+			it('should decrement highlightedIndex by n when pg up is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				a._onPgUp(_);
+				a._highlightedIndex.should.equal(tmp-a.maxItems);
+			});
+
+			it('should set highlightedIndex to 0 when home is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				a._onHome(_);
+				a._highlightedIndex.should.equal(a._minIndex);
+			});
+
+			it('should set highlightedIndex to last valid index when home is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				a._onEnd(_);
+				a._highlightedIndex.should.equal(a._maxIndex);
+			});
+
+			it('should set the selectedIndex to the highlightedIndex when enter is pressed', function() {
+				var a = document.getElementById('testElem'),
+					tmp = a._highlightedIndex;
+				a.focus();
+				a._onEnter(_);
+				a.selectedIndex.should.equal(a._highlightedIndex);
+			});
+
+			it('should close on esc', function() {
+				var a = document.getElementById('testElem');
+				a._onEsc(_);
+				a.state.should.equal(a.STATE_CLOSED);
+			})
+		});
+
+	</script>
+
+</body>
+</html>

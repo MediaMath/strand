@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/autoclosable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-autoclosable">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestAutoClosable = Polymer({
+				is: 'test-autoclosable',
+				behaviors: [StrandTraits.AutoClosable]
+			});
+		});
+	</script>
+
+	<test-autoclosable id="testAutoClosable"></test-autoclosable>
+
+	<script>
+		describe('AutoClosable', function() {
+
+			it('should not close on mouseup inside element', function() {
+				var testAutoClosable = document.querySelector('#testAutoClosable');
+				testAutoClosable.open();
+				testAutoClosable.fire('mouseup');
+				testAutoClosable.state.should.equal(testAutoClosable.STATE_OPENED);
+			});
+
+			it('should close on mouseup outside element', function() {
+				var testAutoClosable = document.querySelector('#testAutoClosable');
+				testAutoClosable.open();
+				testAutoClosable.fire('mouseup', null, {node: document});
+				testAutoClosable.state.should.equal(testAutoClosable.STATE_CLOSED);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

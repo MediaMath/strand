@@ -19,94 +19,103 @@
 	line-height: 0em;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }
 
 @include fit();
 
-#icon, #clearBtn {
+.icon-holder,
+.clear-btn {
 	width: 14px;
 	height: 14px;
 	position: absolute;
-	display: none;
 	right: 0;
 	top: 50%;
 	margin: -7px 8px 0 0;
+	
+	mm-icon {
+		color: $color-A18;
+	}
 }
 
-#clearBtn {
+
+.clear-btn {
 	display: none;
 	cursor: pointer;	
 }
 
-._mm_text_input {
+.text-input {
+	box-sizing: border-box;
 	height: 29px;
 	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
 	padding: 0 10px;
 }
 
 // layout modes for input
-._mm_text_input.opened.top {
+.text-input.top {
 	border-radius: 0px 0px 4px 4px;
 }
 
-._mm_text_input.opened.bottom{
+.text-input.bottom {
 	border-radius: 4px 4px 0px 0px;
 }
 
 // horizontal
-:host('[layout=hgroup-left]'){
-	._mm_text_input {
+:host-context([_layout=hgroup-left]),
+:host([_layout=hgroup-left]) {
+	.text-input {
 		border-radius: 4px 0px 0px 4px;
 		border-right: none;
 	}
 
-	._mm_text_input.opened.bottom{
+	.text-input.bottom {
 		border-radius: 4px 0px 0px 0px;
 	}
 
-	._mm_text_input.opened.top {
+	.text-input.top {
 		border-radius: 0px 0px 0px 4px;
 	}
 }
 
-:host('[layout=hgroup-center]') {
-	._mm_text_input {
+:host-context([_layout=hgroup-center]),
+:host([_layout=hgroup-center]) {
+	.text-input {
 		border-radius: 0 0 0 0;
 		border-left: none;
 		border-right: none;
 	}
 }
 
-:host('[layout=hgroup-right]') {
-	._mm_text_input {
+:host-context([_layout=hgroup-right]),
+:host([_layout=hgroup-right]) {
+	.text-input {
 		border-radius: 0px 4px 4px 0px;
 		border-left: none;
 	}
 
-	._mm_text_input.opened.bottom {
+	.text-input.bottom {
 		border-radius: 0px 4px 0px 0px;
 	}
 
-	._mm_text_input.opened.top {
+	.text-input.top {
 		border-radius: 0px 0px 4px 0px;
 	}
 }
 
 // dropdown - mm-input nested in a dropdown
-:host('[layout=dropdown]') {
+:host([_layout=dropdown]) {
 	display: block;
 	border-bottom: 1px solid $color-A8;
 
-	._mm_text_input {
+	.text-input {
 		border:none;
 		box-shadow: none;
 		border-radius: 0 0 0 0;
 	}
 
-	._mm_text_input:focus {
+	.text-input:focus {
 		box-shadow: none;
 	}
 }

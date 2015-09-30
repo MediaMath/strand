@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html"/>
+</head>
+<body>
+
+	<dom-module id="test-selectable">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestSelectable = Polymer({
+				is: 'test-selectable',
+				behaviors: [StrandTraits.Selectable],
+
+				_selectedIndexChanged: sinon.spy(),
+
+				_highlightedIndexChanged: sinon.spy()
+			});
+		});
+	</script>
+
+	<test-selectable id="lightItems1">
+		<mm-list-item>A</mm-list-item>
+		<mm-list-item>A</mm-list-item>
+		<mm-list-item>A</mm-list-item>
+	</test-selectable>
+
+	<test-selectable id="lightItems2">
+		<span>A</span>
+		<span>A</span>
+		<span>A</span>
+		<p>A</p>
+		<p>A</p>
+	</test-selectable>
+
+	<script>
+		describe('Selectable', function() {
+
+			it('should get items from light DOM', function() {
+				var light = document.querySelector('#lightItems1');
+				for(var i=0; i<light.items.length; i++) {
+					light.items[i].localName.should.equal('mm-list-item');
+				}
+				light.items.length.should.equal(3);
+			});
+
+			it('should get items from light DOM given a specific selector', function() {
+				var light2 = document.querySelector('#lightItems2');
+				light2._filterElementType = 'span';
+				for(var i=0; i<light2.items.length; i++) {
+					light2.items[i].localName.should.equal('span');
+				}
+				light2.items.length.should.equal(3);
+			});
+
+			it('should get items from data', function() {
+				var dataTest = new TestSelectable();
+				var data = [
+					{name: 'Test 1', value: 1},
+					{name: 'Test 2', value: 2},
+					{name: 'Test 3', value: 3}
+				];
+				dataTest.data = data;
+				dataTest.items.should.deep.equal(data);
+			});
+
+			it('should have a stub method _selectedIndexChanged', function() {
+				var selTest = new TestSelectable();
+				selTest.selectedIndex = 10;
+				selTest._selectedIndexChanged.should.have.been.calledWith(10);
+			});
+
+			it('should have a stub method _highlightedIndexChanged', function() {
+				var highlightTest = new TestSelectable();
+				highlightTest._highlightedIndex = 10;
+				highlightTest._highlightedIndexChanged.should.have.been.calledWith(10);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

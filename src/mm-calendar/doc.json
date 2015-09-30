@@ -1,48 +1,63 @@
 {
 	"name":"mm-calendar",
-	"description":"A simple calendar rendering component. Intended for use in mm-datepicker but can be used for stand alone date selection. Note that mm-calendar makes heavy use of moment.js",
+	"description":"A simple calendar rendering component. Intended for use in mm-datepicker but can be used for standalone date selection. Note: mm-calendar makes heavy use of moment.js",
 	"attributes": [
-		{
-			"name":"useTapSelect",
-			"type":"boolean",
-			"description":"sets a default tap handler that selects the current date. Generally only set to false for cases where a custom selection behavior is desired",
-			"optional":true,
-			"default":"true",
-			"options":[]
-		}
-	],
-	"properties":[
 		{
 			"name":"date",
 			"type":"Date",
-			"description":"The selected calendar date",
-			"default":"null"
+			"description":"The date object for the selected calendar date.",
+			"default":"none",
+			"attribute":"N/A"
 		},
 		{
 			"name":"pairDate",
 			"type":"Date",
-			"description":"A secondary date used to denote selection ranges for 2 picker scenarios",
-			"default":"null"
+			"description":"A secondary date object used to denote selection range. For use in a dual mm-datepicker scenario (see: mm-datepicker).",
+			"default":"none",
+			"attribute":"N/A"
 		},
 		{
 			"name":"viewDate",
 			"type":"Date",
-			"description":"The date object that represents the current month being viewed. Allows the viewable area to be altered without changing the selected date (if any).",
-			"default":"today's date"
+			"description":"Sets the cleandar month, if not specified will default the current month. When cycling through months, the viewDate will represent the month currently displayed.",
+			"default":"today's date",
+			"attribute":"N/A"
 		},
 		{
-			"name":"disablePast",
-			"type":"Date or boolean",
-			"description":"If true, dates after today's date will be disabled. If a date is specified dates after that date will be disabled",
-			"default":"false"
+			"name":"useTapSelect",
+			"type":"Boolean",
+			"description":"Sets a default tap handler that selects the current date. Generally only set to false for cases where a custom selection behavior is desired",
+			"optional":true,
+			"default":"true",
+			"attribute":"use-tap-select",
+			"reflect":true,
+			"options":["true", "false"]
 		},
 		{
 			"name":"disableFuture",
-			"type":"Date or boolean",
-			"description":"Behaves similarly to disablePast only for future dates",
-			"default":"false"
+			"type":"Date or Boolean",
+			"description":"If true, sets the visual display and interaction state of all dates following the current date to inactive. If a date object is passed, it will set all dates following the specified date to inactive.",
+			"default":"false",
+			"attribute":"disable-future"
+		},
+		{
+			"name":"disablePast",
+			"type":"Date or Boolean",
+			"description":"If true, sets the visual display and interaction state of all dates preceeding the current date to inactive. If a date object is passed, it will set all dates preceeding the specified date to inactive.",
+			"default":"false",
+			"attribute":"disable-past"
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"],
+			"reflect":true
 		}
 	],
+
 	"events": [
 		{
 			"type": "calendar-select",
@@ -50,17 +65,17 @@
 				{
 					"name":"date",
 					"type":"Date",
-					"description":"The date object that a user has selected"
+					"description":"The date object for the selected date."
 				},
 				{
 					"name":"target",
 					"type":"HTMLElement",
-					"description":"the dom node target for the tap that drove the calendar selection"
+					"description":"The dom node which triggered the calendar selection."
 				},
 				{
 					"name":"unix",
 					"type":"Number",
-					"description":"unix timestamp (seconds not millis) for the selected date"
+					"description":"The unix timestamp (in seconds, not milliseconds) for the selected date."
 				}
 			]
 		}

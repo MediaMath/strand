@@ -46,16 +46,17 @@ describe("mm-grid-column", function() {
   it("should respect minWidth when resizing", function() {
     var column = document.querySelector("#testcolumn");
     var e = new Event("testevent");
+    e.detail = {};
+    e.detail.dx = -999999;
     e.preventTap = function(){};
-    column.onTrackStart(e);
-    e.dx = -999999;
-    column.onTrack(e);
-    column.onTrackEnd(e);
+    column._handleGrabberDown(e);
+    column._onTrack(e);
+    column._onTrackEnd(e);
     column.width.should.equal(column.minWidth + "px");
   });
 
 });
 </script>
-  <mm-grid-column id="testcolumn" field="foo" minWidth="100" sort resize>Foo</mm-grid-column>
+  <mm-grid-column id="testcolumn" field="foo" min-width="100" sort resize>Foo</mm-grid-column>
 </body>
 </html>

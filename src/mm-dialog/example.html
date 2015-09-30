@@ -1,0 +1,53 @@
+<template is="dom-bind">
+
+	<mm-dialog id="testDialog"
+		type="{{dialogType}}"
+		header="Call me Ishmael.">
+		<p>Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.</p>
+	</mm-dialog>
+	
+	<div>
+		<mm-dropdown value="{{dialogType}}" placeholder="Choose Dialog Type">
+			<mm-list-item value="info">Info</mm-list-item>
+			<mm-list-item value="success">Success</mm-list-item>
+			<mm-list-item value="warning">Warning</mm-list-item>
+			<mm-list-item value="error">Error</mm-list-item>
+		</mm-dropdown>
+		<mm-button id="showBtn" disabled$="{{!dialogType}}">
+			<label>Show Dialog</label>
+		</mm-button>
+	</div>
+	
+</template>
+
+<script>
+	window.addEventListener("WebComponentsReady", function() { 
+		var sb = document.getElementById("showBtn"),
+			td = document.getElementById("testDialog");
+
+		td.actions = [
+			{
+				label: "Cancel",
+				callback: function(e,host) {
+					host.hide();
+				}
+			},
+			{
+				label: "OK",
+				type: "primary",
+				callback: function(e,host) {
+					host.fire('confirm');
+					host.hide();
+				}
+			}
+		];
+
+		sb.addEventListener('click', function showDialog(e) {
+			td.show();
+		});
+
+		td.addEventListener('confirm', function() {
+			console.log('Confirmed.');
+		});
+	});
+</script>

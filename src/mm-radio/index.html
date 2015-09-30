@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<link rel="import" href="../mm-group/mm-group.html">
 		<link rel="import" href="mm-radio.html">
@@ -92,16 +92,16 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Radio:</span> group (default)</p>
-			<mm-radio group="aces" unresolved>
+			<mm-radio group="aces">
 					<label>My Label 1</label>
 			</mm-radio>
-			<mm-radio group="aces" unresolved>
+			<mm-radio group="aces">
 					<label>My Label 2</label>
 			</mm-radio>
-			<mm-radio group="aces" unresolved>
+			<mm-radio group="aces">
 					<label>My Label 3</label>
 			</mm-radio>
-			<mm-radio group="aces" checked="true" disabled="true" unresolved>
+			<mm-radio group="aces" checked="true" disabled="true" >
 					<label>My Label 4</label>
 			</mm-radio>
 			<hr/>
@@ -135,18 +135,18 @@
 		<div class="vr">
 		</div>
 		<script>
-			window.addEventListener("polymer-ready", function() {
+			window.addEventListener("WebComponentsReady", function() {
 				// via vanilla JS:
 				var radioGroup = document.getElementById("rgv");
 				radioGroup.addEventListener("changed", function(e) {
-					console.log(e);
+					console.log(e.detail);
 					console.log("e.detail.value: " + e.detail.value);
 				});
 
 				// via jQuery:
 				var $radioGroup = $("#rgjq");
 				$radioGroup.on("changed", function(e) {
-					console.log(e);
+					console.log(e.originalEvent.detail);
 					console.log("e.originalEvent.detail.value: " + e.originalEvent.detail.value);
 				});
 			});

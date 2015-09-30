@@ -5,7 +5,7 @@
 		{
 			"name":"type",
 			"type": "String",
-			"description":"The name of the icon.",
+			"description":"A string value for the name of the desired icon. Sets the type of icon to be displayed. See the options for naming and example for visual reference.",
 			"optional":true,
 			"default":"plus",
 			"options":[
@@ -95,67 +95,22 @@
 				"video",
 				"warning",
 				"wireless"
-			]
+			],
+			"reflect":true
 		},
 		{
 			"name":"width",
 			"type":"Number",
-			"description":"the width of the icon in pixels",
+			"description":"Sets the width of the icon in pixels.",
 			"optional":true,
 			"default":"28"
 		},
 		{
 			"name":"height",
 			"type":"Number",
-			"description":"the height of the icon in pixels",
+			"description":"Sets the height of the icon in pixels.",
 			"optional":true,
 			"default":"28"
-		},
-		{
-			"name":"primaryColor",
-			"type":"String",
-			"description":"The hex value to color the icon",
-			"optional":true,
-			"default":"#333"
-		},
-		{
-			"name":"hoverColor",
-			"type":"String",
-			"description":"The hex value to color the icon upon hover",
-			"optional":true,
-			"default":"null"
-		}
-	],
-	"properties":[
-		{
-			"name":"width",
-			"type":"Number",
-			"description":"the width of the icon in pixels",
-			"default":"28"
-		},
-		{
-			"name":"height",
-			"type":"Number",
-			"description":"the height of the icon in pixels",
-			"default":"28"
-		},
-		{
-			"name":"type",
-			"type":"String",
-			"description":"the type of icon to display. values are identical to the type html attribute.",
-			"default":"plus"
-		},
-		{
-			"name":"primaryColor",
-			"type":"String",
-			"description":"The hex value to color the icon",
-			"default":"#333"
-		},
-		{
-			"name":"hoverColor",
-			"type":"String",
-			"description":"The hex value to color the icon upon hover",
-			"default":"null"
 		}
 	]
 }

@@ -5,9 +5,7 @@
 
 */
 @import "_bourbon";
-// fonts.scss 
-$font-url: "../fonts/p/"; // Proxima
-$mono-font-url: "../fonts/i/"; // Interstate
+// fonts.scss
 $font-url-arimo: "../fonts/a/"; // Arimo
 $font-url-icon: "../fonts/icon/"; // Icon 
 
@@ -18,42 +16,6 @@ $font-url-icon: "../fonts/icon/"; // Icon
     font-style: $style;
     src: url('#{$file-path}.woff') format('woff');
     }
-}
-
-@mixin proximaNovaRegular() {
-    @include font-face("ProximaNovaRegular", $font-url + "prwf");
-}
-
-@mixin proximaNovaLtBold() {
-    @include font-face("ProximaNovaLtBold", $font-url + "psbowf");
-}
-
-@mixin proximaNovaBold() {
-    @include font-face("ProximaNovaBold", $font-url + "pbowf");
-}
-
-@mixin proximaNovaSemiBold() {
-    @include font-face("ProximaNovaSemiBold", $font-url + "psbwf");
-}
-
-@mixin proximaNovaRegularItalic() {
-    @include font-face("ProximaNovaRegularItalic", $font-url + "priwf");
-}
-
-@mixin proximaNovaLtBoldItalic() {
-    @include font-face("ProximaNovaLtBoldItalic", $font-url + "psboiwf");
-}
-
-@mixin proximaNovaBoldItalic() {
-    @include font-face("ProximaNovaBoldItalic", $font-url + "pboiwf");
-}
-
-@mixin interstateMonoRegular() {
-    @include font-face("InterstateMonoRegular", $mono-font-url + "fbimr");
-}
-
-@mixin interstateMonoBold() {
-    @include font-face("InterstateMonoBold", $mono-font-url + "fbimbo");
 }
 
 // Arimo fonts
@@ -74,7 +36,6 @@ $font-url-icon: "../fonts/icon/"; // Icon
 }
 
 // Arimo Woff Only -- modern browsers - http://caniuse.com/#search=woff
-
 @mixin arimoRegularWoff() {
     @include font-face-woff("Arimo", $font-url-arimo + "arimo-regular", normal, normal);
 }

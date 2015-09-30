@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/model.html"/>
+</head>
+<body>
+<script>
+describe("Model", function() {
+
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.Model.should.be.an.object;
+	});
+
+
+});
+</script>
+</body>
+</html>

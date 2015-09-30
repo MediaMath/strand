@@ -4,10 +4,11 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 -->
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<polymer-element name="mm-localstore" attributes="name value auto" constructor="MMLocalStore">
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/js/storage.html"/>
+<dom-module id="mm-localstore">
+	<link rel="import" href="mm-localstore.css" type="css"/>
 	<template>
-		<link href="mm-localstore.css" rel="stylesheet" type="text/css"/>
 	</template>
-	<script src="mm-localstore.js"></script>
 </polymer-element>
+<script src="mm-localstore.js"></script>

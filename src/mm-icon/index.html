@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<link rel="import" href="mm-icon.html">
 	<style type="text/css">
 	  body, html {
@@ -36,20 +36,29 @@
 				margin:0;
 				padding: 0;
 			}
+
+			.actions {
+				color: #FF0000;
+			}
+
+			.actions:hover {
+				color: #00FF00;
+			}
+
 	</style>
 </head>
 <body>
 	<ul>
 		<li>
-			<mm-icon type="actions" width="32" height="32" primaryColor="#0000FF" hoverColor="#ff0000"></mm-icon>
+			<mm-icon class="actions" type="actions" width="32" height="32"></mm-icon>
 			<p>actions</p>
 		</li>
 		<li>
-			<mm-icon type="action" width="32" height="32" primaryColor="#00FF00" hoverColor="#ff0000"></mm-icon>
+			<mm-icon type="action" width="32" height="32"></mm-icon>
 			<p>action</p>
 		</li>
 		<li>
-			<mm-icon type="alerts" width="32" height="32" primaryColor="#000000" hoverColor="#ff0000"></mm-icon>
+			<mm-icon type="alerts" width="32" height="32"></mm-icon>
 			<p>alerts</p>
 		</li>
 		<li>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html">
+	<link rel="import" href="../build/shared/behaviors/stampbindable.html"/>
+</head>
+<body>
+
+	<dom-module id="test-binding">
+		<template>
+			<input id="input" value="{{text::input}}">
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-binding",
+					properties: {
+						text: {
+							type: String,
+							notify: true,
+						},
+					},
+				});
+			});
+		</script>
+	</dom-module>
+
+	<dom-module id="test-stamping">
+		<template>
+			<test-binding id="bound" text="{{datum.input}}"></test-binding>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-stamping",
+					properties: {
+						datum: {
+							type: Object,
+							notify: true,
+						},
+					},
+				});
+			});
+		</script>
+	</dom-module>
+
+	<dom-module id="test-templatizing">
+		<template>
+			<template id="internal">
+				<test-stamping datum="{{obj}}"></test-stamping>
+			</template>
+			<content></content>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-templatizing",
+					behaviors:[
+						StrandTraits.StampBindable,
+					],
+				});
+			});
+		</script>
+	</dom-module>
+
+	<dom-module id="test-patch">
+		<template>
+			<template id="internal">
+				<test-stamping datum="{{obj}}"></test-stamping>
+			</template>
+			<content></content>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-patch",
+					behaviors:[
+						Polymer.Templatizer,
+					],
+				});
+			});
+		</script>
+	</dom-module>
+
+	<template id="external2">
+		<test-stamping datum="{{obj}}"></test-stamping>
+	</template>
+
+	<template id="external3">
+		<test-stamping datum="{{obj}}"></test-stamping>
+	</template>
+
+	<test-templatizing id="test1"></test-templatizing>
+	<test-templatizing id="test2"></test-templatizing>
+
+	<test-patch id="test3a"></test-patch>
+	<test-patch id="test3b"></test-patch>
+
+	<script>
+		describe("StampBindable", function() {
+
+			it("should propagate changes with custom behavior", function() {
+				var element = document.querySelector("#test1");
+				var external = document.querySelector("#external2");
+				var instance = null;
+				var stamped = null;
+				var model = null;
+				var error = null;
+
+				element.templatize.should.not.equal(Polymer.Templatizer.templatize);
+				element.templatize(element.$.internal);
+
+				instance = element.stamp(model = {});
+				instance.set("obj", { input: "text", });
+
+				try {
+					instance.set("obj.input", "nothing");
+				} catch (e) {
+					error = error || e;
+				}
+
+
+
+				element = document.querySelector("#test2");
+
+				element.templatize.should.not.equal(Polymer.Templatizer.templatize);
+				element.templatize(external);
+
+				instance = element.stamp(model = {});
+				instance.set("obj", { input: "text", });
+
+				try {
+					instance.set("obj.input", "nothing");
+				} catch (e) {
+					error = error || e;
+				}
+
+				should.not.exist(error);
+			});
+
+			it("should fail to propagate changes with default behavior", function() {
+				var element = document.querySelector("#test3a");
+				var external = document.querySelector("#external3");
+				var instance = null;
+				var stamped = null;
+				var model = null;
+				var error = null;
+
+				element.templatize.should.equal(Polymer.Templatizer.templatize);
+				element.templatize(element.$.internal);
+
+				instance = element.stamp(model = {});
+				instance.set("obj", { input: "text", });
+
+				try {
+					instance.set("obj.input", "nothing");
+				} catch (e) {
+					error = error || e;
+				}
+
+
+
+				element = document.querySelector("#test3b");
+
+				element.templatize.should.equal(Polymer.Templatizer.templatize);
+				element.templatize(external);
+
+				instance = element.stamp(model = {});
+				instance.set("obj", { input: "text", });
+
+				try {
+					instance.set("obj.input", "nothing");
+				} catch (e) {
+					error = error || e;
+				}
+
+				should.exist(error);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

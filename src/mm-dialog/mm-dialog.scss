@@ -1,0 +1,53 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+@include fit();
+
+.content-top {
+	box-sizing: border-box;
+	margin: 32px 30px 30px;
+}
+
+.content-top mm-icon {
+	display: block;
+	float: left;
+	margin-right: -35px;
+	width: 25px;
+}
+
+:host-context([type="info"]) mm-icon {
+	color: $color-D3;
+}
+:host-context([type="success"]) mm-icon {
+	color: $color-B6;
+}
+:host-context([type="warning"]) mm-icon {
+	color: $color-E5;
+}
+:host-context([type="error"]) mm-icon {
+	color: $color-C3;
+}
+
+.content-top mm-header {
+	display: block;
+	margin-left: 35px;
+}
+.content-top mm-header:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	margin-bottom: 8px;
+	height: 0;
+	width: 100%;
+}
+
+#dialog-message {
+	clear: both;
+}

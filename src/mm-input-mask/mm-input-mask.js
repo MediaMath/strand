@@ -4,7 +4,10 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function () {
+(function(scope) {
+
+	var Measure = StrandLib.Measure,
+		FontLoader = StrandLib.FontLoader;
 
 	var _types = {
 		SEP:0,
@@ -36,7 +39,7 @@
 
 			if (first) {
 				if (imp > 1) {
-					field.value = "0" + input;
+					field.value = "0" + char;
 					return false;
 				}
 			} else if (second) {
@@ -48,12 +51,23 @@
 			return true;
 		},
 		hour24: function(char, input, group, field) {
-			//TODO: support for 24
 			var val = input+char,
 				first = field.selectionStart === 0,
 				second = field.selectionStart === 1,
 				imp = parseInt(char);
 
+			if(first) {
+				if (imp > 2) {
+					field.value = "0" + char;
+					return false;
+				}
+			} else if (second) {
+				if (imp > 4 && parseInt(input) === 2) {
+					field.value = input + "4";
+					return false;
+				}
+			}
+			return true;
 		},
 		minutes: function(char, input, group, field) {
 			var first = field.selectionStart === 0;
@@ -66,11 +80,12 @@
 			}
 			return true;
 		},
-		range:function(char, input, group, field) {
+		range: function(char, input, group, field) {
 			if (input.length < group.max) { return true; }
 			var i = parseInt(input),
 				rng = _parseRange(group.args);
-			return i >= rng[0] && i <= rng[1];
+			if(rng.length > 0) return i >= rng[0] && i <= rng[1]
+			else return true;
 		},
 		exact: function(char, input, group, field) {
 			return input === group.args;
@@ -99,13 +114,68 @@
 		return range.indexOf("-") !== -1;
 	};
 
-	Polymer('mm-input-mask', {
-		ver:"<<version>>",
+	scope.InputMask = Polymer({
+		is: 'mm-input-mask',
 
-		publish: {
-			mask:"",
-			rules:null,
-			restrict:null
+		behaviors: [
+			StrandTraits.DomGettable,
+			StrandTraits.Keyboardable,
+			StrandTraits.Stylable,
+		],
+
+		properties: {
+			value: {
+				type: String,
+				reflectToAttribute: true,
+				notify: true,
+				value: null,
+				observer: '_valueChanged'
+			},
+			_maskConfig: {
+				type: Array,
+				value: null,
+				notify: true,
+			},
+			_seps: {
+				type: Array,
+				value: null
+			},
+			_groups: {
+				type: Array,
+				value: null,
+			},
+			_groupSel: {
+				type: Array,
+				value: null
+			},
+			rules: {
+				type: Object,
+				value: _rules,
+			},
+			restrict: {
+				type: Object,
+				value: _restrict,
+			},
+			disabled: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true,
+				observer: '_disabledChanged'
+			},
+			placeholder: {
+				type: String,
+				reflectToAttribute: true,
+				value: null,
+				observer: '_placeholderChanged'
+			},
+			icon: {
+				type: String,
+				value: ""
+			},
+			_arimoLoaded: {
+				type: Boolean,
+				value: false
+			}
 		},
 
 		created: function() {
@@ -113,156 +183,59 @@
 			this.loader.add("Arimo");
 		},
 
-		ready: function() {
-
-			this.super();
-			if (!this.rules) {
-				this.rules = _rules;
-			}
-			if(!this.restrict) {
-				this.restrict = _restrict;
-			}
-			//TODO: remove this in favor of dom notifier
-			this.parseMask();
-
-		},
-
-		domReady: function() {
-			this.$.input.setAttribute("disabled",true);
-			this.updateGroups();
-		},
-
 		attached: function() {
-			this.$.input.addEventListener("focus", this.handleFocus.bind(this));
-			this.$.input.addEventListener("blur", this.handleBlur.bind(this));
+			this._updateGroups();
 		},
 
-		detached: function() {
-			this.$.input.removeEventListener("focus");
-			this.$.input.removeEventListener("blur");
+		clear: function() {
+			this.value = "";
 		},
 
-		parseMask: function() {
-			this.sepsLen = 0; //used to check 'empty' state for placeholder styling
-			var nodes = DataUtils.clone( this.$.content.getDistributedNodes() ),
-				groups = [],
-				seps = [];
-			this.maskConfig = nodes.map(function(node, index) {
-				switch(node.nodeName) {
-					case "GROUP":
-						var rng = _groupRange(node.getAttribute("size")),
-							rule = this.rules[node.getAttribute("rule")],
-							restrict = this.restrict[node.getAttribute("restrict")],
-							auto = node.getAttribute("autofill"),
-							args = node.textContent.trim(),
-							style = {
-								width:"auto"
-							};
-						if (restrict !== _restrict.numeric) style = {};
-
-						var o = {
-							index:index,
-							max:rng[1],
-							min:rng[0], 
-							rule:rule, 
-							restrict:restrict, 
-							args:args, 
-							auto:auto,
-							type:_types.GROUP, 
-							style:style,
-							loaded: false,
-							contentWidth:this.contentWidthHandler
-						};
-						groups.push(o);
-						return o;
-
-					case "SEP":
-						var chars = node.getAttribute("chars");
-						this.sepsLen += chars.length;
-						var s = {
-							type:_types.SEP, 
-							value:chars, 
-							style:{
-								sep:true, 
-								placeholder:true
-							}
-						};
-						seps.push(s);
-						return s;
-				}
-			}, this);
-			this.seps = seps;
-			this.groups = groups;
-
-
-			this.loader.add("Arimo").then(function(e) {
-
-				this.arimoLoaded = true;
-				this.async(function() {
-					this.groups.forEach(function(group) {
-						group.loaded = true;
-						},this);
-					});
-			}.bind(this));
-
-		},
-
-		contentWidthHandler: function(style, val, placeholder, loaded) {
-			var w = 0.0;
-			var check = val || placeholder || "";
-			while(check.length < this.max) {
-				check += "S";
-			}
-			if (!val && placeholder) {
-				w = Measure.textWidth(null, check, "italic 13px Arimo");
-			} else {
-				w = Measure.textWidth(null, check, "13px Arimo");
-			}
-			style.width = w + "px";
-			return style;
-		},
-
-		placeholderChanged: function(oldPlaceholder, newPlaceholder) {
-			this.applyValue(this.chunkValue(this.placeholder, "placeholder"), "placeholder");
-		},
-
-		valueChanged: function(oldValue, newValue) {
-			if (newValue) {
-				var placeholder = newValue.length <= this.sepsLen;
-				this.seps.forEach(function(sep) {
-					sep.style = {sep:true, placeholder:placeholder};
-				},this);
-			}
+		_valueChanged: function(newValue, oldValue) {
 			if (this.ignoreInternal) {
 				this.ignoreInternal = false;
 				return;
+			} else {
+				this.async(function() {
+					this._applyValue(this._chunkValue(newValue));
+				});
 			}
-			this.applyValue(this.chunkValue(newValue));
 		},
 
-		chunkValue: function(value, type) {
+		_disabledChanged: function(newDisabled) {
+			if(this._maskConfig)
+				for(var i=0; i<this._maskConfig.length; i++)
+					this.set('_maskConfig.'+i+'.disabled',newDisabled);
+		},
+
+		_placeholderChanged: function(newPlaceholder) {
+			this.async(function() {
+				this._applyValue(this._chunkValue(newPlaceholder,"placeholder"),"placeholder");
+			});
+		},
+
+		_chunkValue: function(value, type) {
 			if (!type) type = "value";
 			//clear case
 			if (value === "" || value === null) {
-				// for(var i=0; i<this.groups.length; i++) {
-				// 	var g = this.groups[i];
-				// 	g[type] = "";
-				// }
+				for(var i=0; i<this._groups.length; i++) {
+					var g = this._groups[i];
+					g[type] = "";
+				}
 				return [];
-
+			}
 			//chunk our values and assign them to sub fields
-			} else {
-				var sepReg = "[" +  this.seps.map(function (sep) {
+			else {
+				var sepReg = "[" +  this._seps.map(function (sep) {
 						return sep.value;
 					}).join("")+ "]+",
-					srcPath = Path.get("restrict.source"),
-					base = this.maskConfig.map(function(item) {
+					base = this._maskConfig.map(function(item) {
 						switch(item.type) {
 							case _types.GROUP:
-								item = this.groups.filter(function(g) {
-									return g.index === item.index;
+								item = this._groups.filter(function(g) {
+									return g.id === item.id;
 								})[0];
-								var src = srcPath.getValueFrom(item) || ".*";
+								var src = this.get("restrict.source",item) || ".*";
 								if (type === "placeholder") {
 									src = ".*";
 								}
@@ -288,66 +261,226 @@
 			}
 		},
 
-		applyValue:function(valArray, type) {
+		_applyValue: function(valArray, type) {
 			if (!type) type = "value";
 			if (!valArray) valArray = [];
 			var g, value;
-			for(var i=0; i<this.groups.length; i++) {
-				g = this.groups[i];
+			for(var i=0; i<this._groups.length; i++) {
+				g = this._groups[i];
 				value = valArray.length > 0 ? valArray[i] : "";
-				g[type] = value;
+				index = this._maskConfig.indexOf(g);
+				modelPath = '_maskConfig.'+index+'.'+type;
+				inputPath = '_groupSel.'+i+'.'+type;
+
+				this.set(modelPath, value);
+				this.set(inputPath, value);
 			}
 		},
 
-		updateGroups: function() {
-			this.groupSel = this.groups.map(function(o) {
-				return this.shadowRoot.querySelector("#mini"+o.index);
+		ready: function() {
+			this._parseMask();
+
+			this.async(function() {
+				this.$.input.$$("input").setAttribute("tabIndex",-1);
+			});
+		},
+
+		_parseMask: function() {
+			this._sepsLen = 0; //used to check 'empty' state for placeholder styling
+			var nodes = Polymer.dom(this).children,
+				maskConfig = [],
+				groups = [],
+				seps = [];
+
+			for(var i=0; i<nodes.length; i++) {
+				var node = nodes[i];
+				switch(node.nodeName) {
+					case "GROUP":
+						var rng = _groupRange(node.attributes.size.value),
+							rule = this.rules[node.attributes.rule.value],
+							restrict = this.restrict[node.attributes.restrict.value],
+							// auto = node.attributes.autofill.value,
+							auto = false,
+							args = node.textContent.trim(),
+							style = {
+								width:"auto"
+							};
+						if (restrict !== _restrict.numeric) style = {};
+
+						var o = {
+							index: i,
+							id:"mini"+i,
+							max:rng[1],
+							min:rng[0], 
+							rule:rule, 
+							restrict:restrict,
+							args:args, 
+							auto:auto,
+							type:_types.GROUP,
+							style:style,
+							loaded: false,
+							disabled: this.disabled,
+							value: '',
+							placeholder: ''
+						};
+						maskConfig.push(o);
+						groups.push(o);
+						break;
+
+					case "SEP":
+						var chars = node.attributes.chars.value;
+						this._sepsLen += chars.length;
+						var s = {
+							type:_types.SEP, 
+							value:chars, 
+							style: this.classBlock({
+								sep: true, 
+								placeholder: true
+							})
+						};
+						maskConfig.push(s);
+						seps.push(s);
+						break;
+				}
+			}
+			this._maskConfig = maskConfig;
+			this._seps = seps;
+			this._groups = groups;
+
+			this.loader.add("Arimo").then(function(e) {
+				this._arimoLoaded = true;
+				this.async(function() {
+					this._groups.forEach(function(group) {
+						var index = this._maskConfig.indexOf(group);
+						var path = '_maskConfig.'+index+'.loaded';
+						this.set(path,true);
+						},this);
+					});
 			}.bind(this));
 		},
 
-		handleFocus: function(e) {
-			this.updateGroups();
-			this.handleInputFocus();
+		_sepClass: function(val) {
+			if(!val) var val = "";
+			var placeholder = val.length <= this._sepsLen;
+			return this.classBlock({
+				sep: true,
+				placeholder: placeholder
+			});
 		},
 
-		handleInputFocus: function(e) {
-			this.$.input.setAttribute("forceFocus",true);
+		_groupStyle: function(changed) {
+			var item = changed.base;
+			var w = 0.0;
+			var m = 0.0;
+			var check = item.value || item.placeholder || "";
+			while(check.length < item.max) {
+				check += "S";
+			}
+			if (!item.value && item.placeholder) {
+				w = Measure.textWidth(null,check,'oblique 400 13px Arimo');
+				if(check[check.length-1]==='Y') {
+					// Workaround for issue where 'Y' gets cut off if last letter in placeholder
+					w+=1.2;
+					m-=1.2;
+				}
+			} else {
+				w = Measure.textWidth(this.$.input.$$('input'),check);
+			}
+
+			return this.styleBlock({
+				width: w+"px",
+				marginRight: m+"px"
+			});
 		},
 
-		handleBlur: function(e) {
-			this.$.input.removeAttribute("forceFocus");
+		_updateGroups: function() {
+			this._groupSel = this._groups.map(function(o) {
+				return Polymer.dom(this.root).querySelector("#"+o.id);
+			}.bind(this));
 		},
 
-		validateGroup: function(e, target) {
-			var val = String.fromCharCode(e.keyCode);
-			var group = this.getGroup(target);
+		_handleFocus: function(e) {
+			this._updateGroups();
+			this._handleInputFocus();       
+		},
+
+		_handleInputFocus: function(e) {
+			this.$.input.$$("input").setAttribute("forceFocus",true);
+		},
+
+		_handleBlur: function(e) {
+			this.$.input.$$("input").removeAttribute("forceFocus");
+		},
+
+		_handleCut: function(e) {
+			this._updateGroups();
+			setTimeout(this._cellVal.bind(this,e), 0);
+		},
+
+		_handlePaste: function(e) {
+			e.preventDefault();
+			var group = this._getGroup(e.target),
+				pasteData = e.clipboardData.getData('text/plain'),
+				max = group.max;
+			if(pasteData.length > group.max) this._applyValue(this._chunkValue(pasteData));
+			else if(this._validateGroup(e,e.target)) e.target.value = pasteData;
+			this._cellVal(e);
+		},
+
+		_isKeyboardShortcut: function(e) {
+			if(!(e instanceof KeyboardEvent)) return false;
+			else if(!e.metaKey && !e.ctrlKey) return false;
+			else switch(e.keyCode) {
+				case 65: // Select all (a)
+				case 67: // Copy (c)
+				case 88: // Cut (x)
+				case 86: // Paste (v)
+					return true;
+				break;
+				default:
+					return false;
+				break;
+			}
+		},
+
+		_validateGroup: function(e,target) {
+			var val;
+			if(e instanceof KeyboardEvent) val = String.fromCharCode(e.keyCode);
+			else if(e instanceof ClipboardEvent) val = e.clipboardData.getData('text/plain');
+
+			var group = this._getGroup(target);
+			// If alphanumeric throw out all modifiers except capital letters
+			if(group.restrict !== _restrict.all) {
+				if(e.altKey) return false;
+				if(e.shiftKey && (e.keyCode < 65 || e.keyCode > 90)) return false;
+			}
 			var restrict = group.restrict && _applyReg(group.restrict, val);
 			var rule = group.rule && group.rule(val, target.value, group, target);
 			return restrict && rule;
 		},
 
-		focusLeft: function(target) {
-			var idx = this.groupSel.indexOf(target);
+		_focusLeft: function(target) {
+			var idx = this._groupSel.indexOf(target);
 			if (idx > 0) {
 				idx--;
-				this.groupSel[idx].focus();
-				return this.groupSel[idx];
+				this._groupSel[idx].focus();
+				return this._groupSel[idx];
 			}
 			return target;
 		},
 
-		focusRight: function(target) {
-			var idx = this.groupSel.indexOf(target);
+		_focusRight: function(target) {
+			var idx = this._groupSel.indexOf(target);
 			idx++;
-			if (idx < this.groupSel.length) {
-				this.groupSel[idx].focus();
-				return this.groupSel[idx];
+			if (idx < this._groupSel.length) {
+				this._groupSel[idx].focus();
+				return this._groupSel[idx];
 			}
 			return target;
 		},
 
-		handleFill: function(target) {
-			var group = this.getGroup(target),
+		_handleFill: function(target) {
+			var group = this._getGroup(target),
 				delta = group.max - target.value.length;
 			if (group.auto && delta > 0) {
 				var o = new Array(delta+1).join(group.auto);
@@ -356,49 +489,68 @@
 			}
 		},
 
-		getGroup: function(target) {
-			return this.groups[this.groupSel.indexOf(target)];
+		_getGroup: function(target) {
+			return this._groups[this._groupSel.indexOf(target)];
 		},
 
-		cellKey: function(e) {
-			var target = e.target,
-				code = e.keyCode,
-				alpha = (code >= 48 && code <= 57),
-				numeric =  (code >= 65 && code <= 90),
-				alphaNumeric = alpha || numeric,
-				left = code === 37,
-				right = code === 39,
-				back = code === 8,
-				tab = code === 9,
-				selLength = target.selectionEnd - target.selectionStart,
-				max = this.getGroup(e.target).max;
-
-
-			if (back && target.value.length === 0 && selLength === 0) {
-				target = this.focusLeft(target);
-			} else
-			if (alphaNumeric && target.value.length === max && selLength === 0) {
-				target = this.focusRight(target);
-			} else
-			if (left && e.target.selectionStart === 0) {
-				target = this.focusLeft(target);
-			} else
-			if (right && e.target.selectionStart === max) {
-				target = this.focusRight(target);
-			}
-			if (alphaNumeric && !this.validateGroup(e, target) && selLength === 0) {
-				e.preventDefault();
-				if (target.value.length === max)
-					this.focusRight(target);
-			}
-			if (tab) {
-				this.handleFill(target);
-			}
-
+		_cellKey: function(e) {
+			this._updateGroups();
+			this._routeKeyEvent(e);
 		},
 
-		cellVal: function(e) {
-			var val = this.maskConfig.reduce(function(prev, item) {
+		_onAlpha: function(e) {
+			if(this._isKeyboardShortcut(e)) return;
+			var max = this._getGroup(e.target).max,
+				selLength = e.target.selectionEnd - e.target.selectionStart;
+			if(!this._validateGroup(e,e.target)) e.preventDefault();
+			else if(e.target.value.length === max && selLength === 0) this._validateGroup(e,this._focusRight(e.target));
+		},
+		_onNum: function(e) {
+			this._onAlpha(e);
+		},
+
+		_onLeft: function(e) {
+			if(e.target.selectionStart === 0) {
+				var oldTarget = e.target;
+				var newTarget = this._focusLeft(e.target);
+				if(oldTarget !== newTarget) newTarget.selectionStart = newTarget.selectionEnd = newTarget.value.length;
+			}
+		},
+		
+		_onRight: function(e) {
+			var max = this._getGroup(e.target).max,
+				selLength = e.target.selectionEnd - e.target.selectionStart;
+			if(e.target.selectionStart === e.target.value.length && selLength === 0) {
+				var oldTarget = e.target;
+				var newTarget = this._focusRight(e.target);
+				if(oldTarget !== newTarget) newTarget.selectionStart = newTarget.selectionEnd = 0;
+			}
+		},
+		
+		_onTab: function(e) {
+			this._handleFill(e.target);
+		},
+
+		_onBackspace: function(e) {
+			if(e.target.selectionStart === 0 && e.target.selectionEnd === 0) {
+				var newTarget = this._focusLeft(e.target);
+				newTarget.selectionStart = newTarget.selectionEnd = newTarget.value.length;
+				e.target = newTarget;
+			}
+		},
+
+		_onOther: function(e) { e.preventDefault(); },
+
+		_updateGroupValues: function() {
+			for(var i=0; i<this._groupSel.length; i++) {
+				var item = this.$.domRepeat.itemForElement(this._groupSel[i]);
+				item.value = this._groupSel[i].value;
+			}
+		},
+
+		_cellVal: function(e) {
+			this._updateGroupValues();
+			var val = this._maskConfig.reduce(function(prev,item) {
 				return item.value ? prev + item.value : prev;
 			},"");
 			if (val !== this.value) {
@@ -408,4 +560,5 @@
 		}
 
 	});
-})();
+
+})(window.Strand = window.Strand || {});

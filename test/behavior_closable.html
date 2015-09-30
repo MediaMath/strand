@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/closable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-closable">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestClosable = Polymer({
+				is: 'test-closable',
+				behaviors: [StrandTraits.Closable]
+			});
+		});
+	</script>
+
+	<script>
+		describe('Closable', function() {
+
+			it('should be closed initally', function() {
+				var testClosable = new TestClosable();
+				testClosable.state.should.equal(testClosable.STATE_CLOSED);
+			});
+
+			it('should fire an open event...', function() {
+				var testClosable = new TestClosable(),
+					cb = sinon.spy();
+				testClosable.addEventListener('open', cb);
+				testClosable.open();
+				cb.should.have.been.calledOnce;
+			});
+
+			it('...and a close event...', function() {
+				var testClosable = new TestClosable(),
+					cb = sinon.spy();
+				testClosable.state = testClosable.STATE_OPENED;
+				testClosable.addEventListener('close', cb);
+				testClosable.close();
+				cb.should.have.been.calledOnce;
+			});
+
+			it('...unless silent', function() {
+				var testClosable = new TestClosable(),
+					cb = sinon.spy();
+				testClosable.addEventListener('open', cb);
+				testClosable.addEventListener('close', cb);
+				testClosable.open(true);
+				testClosable.close(true);
+				cb.should.not.have.been.called;
+			});
+
+			it('should toggle', function() {
+				var testClosable = new TestClosable(),
+					initalState = testClosable.state;
+				testClosable.toggle();
+				testClosable.state.should.not.equal(initalState);
+				testClosable.toggle();
+				testClosable.state.should.equal(initalState);
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

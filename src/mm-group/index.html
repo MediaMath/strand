@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../mm-icon/mm-icon.html">
 		<link rel="import" href="../mm-button/mm-button.html">
 		<link rel="import" href="../mm-radio/mm-radio.html">
 		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
 		<link rel="import" href="../mm-input/mm-input.html">
-		<link rel="import" href="../mm-list/mm-list.html">
+		<link rel="import" href="../mm-autocomplete/mm-autocomplete.html">
 		<link rel="import" href="../mm-list-item/mm-list-item.html">
 		<link rel="import" href="mm-group.html">
 		<style type="text/css">
@@ -93,7 +93,7 @@
 	<body unresolved>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary)</p>
-			<mm-group>
+			<mm-group id="removeMe">
 				<mm-button type="secondary"><label>S</label></mm-button>
 				<mm-button type="secondary"><label>M</label></mm-button>
 				<mm-button type="secondary"><label>T</label></mm-button>
@@ -120,17 +120,17 @@
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Horizontal</p>
 			<mm-group align="" group="myRadGroup">
-				<mm-radio checked="true">
+				<mm-radio checked="true" value="rad0">
 					<label>Rad Group Item 1</label>
 				</mm-radio>
-				<mm-radio>
+				<mm-radio value="rad1">
 					<label>Rad Group Item 2</label>
 				</mm-radio>	
-				<mm-radio>
+				<mm-radio value="rad2">
 					<label>Rad Group Item 3</label>
 				</mm-radio>			
 			</mm-group>
-			<hr/>
+ 			<hr/>
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary) with fit to parent</p>
 			<mm-group horizontal fitparent>
 				<mm-button type="secondary"><label>Sun</label></mm-button>
@@ -163,7 +163,7 @@
 					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 				</mm-dropdown>
-				<mm-input placeholder="search and clear" search="true" clear="true" autocomplete="true"></mm-input>	
+				<mm-input placeholder="search and clear" search="true" clear="true"></mm-input>	
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> CSS width set for Dropdown &amp; Input</p>
@@ -174,7 +174,7 @@
 					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 				</mm-dropdown>
-				<mm-input id="si1" placeholder="search and clear" search="true" clear="true" autocomplete="true" width="300"></mm-input>	
+				<mm-autocomplete id="si1" placeholder="search and clear" search="true" clear="true" width="300"></mm-autocomplete>	
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> Fit to parent default</p>
@@ -185,12 +185,12 @@
 					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 				</mm-dropdown>
-				<mm-input id="si2" placeholder="search and clear" search="true" clear="true" autocomplete="true" fitparent="true"></mm-input>	
+				<mm-autocomplete id="si2" placeholder="search and clear" search="true" clear="true" fitparent="true"></mm-autocomplete>	
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span>  Reverse</p>
 			<mm-group align fitparent="true">
-				<mm-input id="si3" placeholder="search and clear" search="true" clear="true" autocomplete="true" fitparent="true"></mm-input>	
+				<mm-autocomplete id="si3" placeholder="search and clear" search="true" clear="true" fitparent="true"></mm-autocomplete>	
 				<mm-dropdown placeholder="select one" fitparent="true">
 					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
@@ -209,7 +209,7 @@
 					<mm-icon type="plus" width="10" height="10"></mm-icon>
 				</mm-button>
 			</mm-group>
-    		<hr/>
+    		<hr/>-->
 		</div>
 		<div class="vr"></div>
 		<div class="col c4">
@@ -281,20 +281,34 @@
 		<script>
 			var si1,
 				si2,
-				si3;
-			document.addEventListener("polymer-ready", function(e) {
+				si3,
+				data = [
+					{name: "apples", 	value: "apples"},
+					{name: "bears", 	value: "bears"},
+					{name: "candy", 	value: "candy"},
+					{name: "doggies", 	value: "doggies"},
+					{name: "elves", 	value: "elves"},
+					{name: "fireflies", value: "fireflies"},
+					{name: "godzilla",  value: "godzilla"}
+				];
+
+			document.addEventListener("WebComponentsReady", function(e) {
 				si1 = document.getElementById("si1");
 				si2 = document.getElementById("si2");
 				si3 = document.getElementById("si3");
-				si1.data = si2.data = si3.data = [
-					{name: "apples"},
-					{name: "bears"},
-					{name: "candy"},
-					{name: "doggies"},
-					{name: "elves"},
-					{name: "fireflies"},
-					{name: "godzilla"}
-				];
+
+				si1.data = data;
+				si2.data = data;
+				si3.data = data;
+
+				// log selected:
+				document.addEventListener("selected", function (e) {
+					console.log("selected", e.detail);
+				});
+
+				document.addEventListener("changed", function (e) {
+					console.log("changed", e.detail);
+				});
 			});
 		</script>
 	</body>

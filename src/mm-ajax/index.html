@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <style>
+  <style is="custom-style">
   div {
     width: 600px;
     height: 400px;
@@ -13,7 +13,7 @@
     margin-bottom: 10px;
   }
   </style>
-	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="mm-ajax.html"/>
     <link rel="import" href="../mm-textarea/mm-textarea.html"/>
     <link rel="import" href="../mm-input/mm-input.html"/>
@@ -21,8 +21,7 @@
   </head>
   <body>
 
-  <polymer-element name="test-result">
-    <template>
+  <dom-module id="test-result">
       <style>
       :host {
         display: block;
@@ -36,7 +35,7 @@
         overflow-y: scroll;
       }
       </style>
-
+    <template>
       <mm-ajax id="ajax" url="{{url}}" method="GET" params="{{params}}" auto response="{{response}}" on-data-error="{{log}}" on-data-ready="{{log}}" on-data-result="{{log}}" on-data-progress="{{log}}" on-data-abort="{{log}}" debug></mm-ajax>
       <mm-input id="url" value="{{url}}"></mm-input>
       <mm-input id="params" value="{{params}}"></mm-input>
@@ -50,7 +49,8 @@
 
     </template>
     <script type="text/javascript">
-    Polymer("test-result", {
+    Polymer({
+      is:'test-result',
       url: "http://localhost:8000/ajax",
       params: '[{"name":"cake","value":100}]',
       log: function(e) {
@@ -69,7 +69,7 @@
       }
     });
     </script>
-  </polymer-element>
+  </dom-module>
 
   <div><test-result></test-result></div>
 
@@ -93,7 +93,7 @@
     </mm-button>
   </div>
   <script>
-  window.addEventListener("polymer-ready", function(e) {
+  window.addEventListener("WebComponentsReady", function(e) {
     var a1 = document.querySelector("#a1"),
       b1 = document.querySelector("#b1"),
       a2 = document.querySelector("#a2"),

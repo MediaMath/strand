@@ -5,22 +5,34 @@
 		{
 			"name":"href",
 			"type":"String",
-			"description":"The link to use (if not using a click handler)",
+			"description":"Used for defining a hypertext source link, just like an <a> element.",
 			"optional":true,
 			"default":"none",
-			"options":[]
+			"reflect": true
 		},
 		{
 			"name":"underline",
 			"type":"Boolean",
-			"description":"Underline action text",
+			"description":"Instructs the component to underline the link text.",
 			"optional":true,
 			"default":"none",
-			"options":[]
+			"reflect": true
+		},
+		{
+			"name":"target",
+			"type":"String",
+			"description":"Used to specifies where to display the linked resource, just like an <a> element.",
+			"optional":true,
+			"default":"_self",
+			"reflect": true
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
 		}
-	],
-	"methods": [],
-	"properties":[],
-	"articles":[
 	]
 }

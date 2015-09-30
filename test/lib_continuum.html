@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/continuum.html"/>
+</head>
+<body>
+
+	<script>
+		describe("Continuum", function() {
+
+			it("should lazilly coordinate heights", function() {
+
+				var TALLNESS = 33;
+				var getter = function (idx) { return TALLNESS; };
+
+				var cont = new Continuum(getter);
+				var index = 0;
+				var offset = TALLNESS >> 1;
+				var multiple = 2;
+				var height = 0;
+				var amount = 0;
+				var limit = 0;
+
+
+
+				cont = new Continuum(getter);
+
+				index = 0;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				index = 1;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				index = 2;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+
+
+
+				cont = new Continuum(getter);
+
+				limit = 2;
+				index = limit;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(limit);
+				index = 1;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(limit);
+				index = 0;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(limit);
+
+			});
+
+			it("should properly account for custom heights", function() {
+
+				var TALLNESS = 33;
+				var getter = function (index) { return TALLNESS; };
+
+				var cont = new Continuum(getter);
+				var index = 0;
+				var offset = TALLNESS >> 1;
+				var multiple = 2;
+				var height = 0;
+				var amount = 0;
+
+
+
+				cont = new Continuum(getter);
+
+				multiple = 2;
+				index = 0;
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				(!!cont.isElevationKnown(index)).should.equal(true);
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS * multiple);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				cont.setHeight(index, multiple * TALLNESS);
+				index = 1;
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				(!!cont.isElevationKnown(index)).should.equal(true);
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS * multiple);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				cont.setHeight(index, multiple * TALLNESS);
+				index = 2;
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				(!!cont.isElevationKnown(index)).should.equal(true);
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS * multiple);
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+				cont.setHeight(index, multiple * TALLNESS);
+				index = 3;
+				amount = cont.getDiscreteCount();
+				amount.should.equal(index);
+
+			});
+
+			it("should properly account for height changes", function() {
+
+				var TALLNESS = 33;
+				var getter = function (index) { return TALLNESS; };
+				
+				var cont = new Continuum(getter);
+				var index = 0;
+				var offset = TALLNESS >> 1;
+				var multiple = 2;
+				var height = 0;
+				var amount = 0;
+				var limit = 0;
+
+
+
+				cont = new Continuum(getter);
+
+				offset = TALLNESS >> 1;
+				offset.should.be.greaterThan(0);
+				index = 13;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				index = 4;
+				(!!cont.isElevationKnown(index)).should.equal(true);
+				index = 2;
+				cont.setHeight(index, TALLNESS + offset);
+				index = 13;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				index = 6;
+				cont.setHeight(index, TALLNESS - offset);
+				index = 13;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+
+
+
+				cont = new Continuum(getter);
+
+				offset = TALLNESS >> 1;
+				offset.should.be.greaterThan(0);
+				index = 13;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				index = 4;
+				(!!cont.isElevationKnown(index)).should.equal(true);
+				index = 2;
+				cont.setHeight(index, TALLNESS + offset);
+				index = 13;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				index = 6;
+				cont.setHeight(index, TALLNESS - offset);
+				index = 10;
+				cont.setHeight(index, TALLNESS + offset);
+				index = 13;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS + offset);
+
+			});
+
+			it("should not inappropriately claim to know unknown elevations", function() {
+
+				var TALLNESS = 33;
+				var getter = function (index) { return TALLNESS; };
+				
+				var cont = new Continuum(getter);
+				var index = 0;
+				var offset = TALLNESS >> 1;
+				var multiple = 2;
+				var height = 0;
+				var amount = 0;
+				var limit = 0;
+
+
+
+				cont = new Continuum(getter);
+
+				index = 13;
+				height = cont.getElevation(index);
+				height.should.equal(index * TALLNESS);
+				index = 4;
+				(!!cont.isElevationKnown(index)).should.equal(true);
+				index = 2;
+				cont.setHeight(index, TALLNESS + offset);
+				index = 8;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				index = 13;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				index = 12;
+				(!!cont.isHeightKnown(index)).should.equal(true);
+				cont.getHeight(index);
+				index = 8;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+				index = 13;
+				(!!cont.isElevationKnown(index)).should.equal(false);
+
+			});
+
+		});
+	</script>
+
+</body>
+</html>

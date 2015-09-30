@@ -16,899 +16,954 @@ This code is based on the Google Polymer "core-list" component
 found here: https://github.com/Polymer/core-list
 */
 
-(function() {
-	// determine proper transform:
-	if (document.documentElement.style.transform !== undefined) {
-		function _setTransform(element, string) {
-			element.style.transform = string;
-		}
-	} else {
-		function _setTransform(element, string) {
-			element.style.webkitTransform = string;
-		}
+
+
+(function (scope) {
+
+	window.addEventListener("mousewheel", Function());
+
+	function BoundReference (itemRecycler, id) {
+		this.itemRecycler = itemRecycler;
+		this.id = id;
+		this.young = -1;
+		this.height = 0;
+		this.offset = 0;
+		this.location = 0;
+		this.instance = null;
+		this.element = null;
+		this.value = null;
+		this.pendingResponse = 0|false;
 	}
 
-	Polymer('mm-item-recycler', {
-		ver:"<<version>>",
+	BoundReference.prototype = Object.create(null);
 
-		publish: {
-			data: null,
-			scope: null,
-			index: 0,
-			itemTemplate: null,
-			itemHeight: 0,
-			itemsPerPanel: 5,
-			viewportWidth: 0,
-			disabled: false
+	function BoundValue () {
+		this.model = null;
+		this.scope = null;
+	}
+
+	BoundValue.prototype = Object.create(null);
+
+	function ResponderStore (itemRecycler) {
+		this.scroll = null;
+		this.pane = null;
+		this.header = null;
+		this.footer = null;
+		this.boundMap = {};
+	}
+
+
+
+	Polymer({
+		is: 'mm-item-recycler',
+
+		behaviors: [
+			StrandTraits.StampBindable,
+			StrandTraits.WindowNotifier,
+			StrandTraits.SizeResponsible,
+		],
+
+		properties: {
+			gpu: {
+				type: String,
+				value: "2d",
+			},
+			_gpuAssignedOnce: String,
+			xScroll: {
+				type: String,
+				value: "all",
+				reflectToAttribute: true,
+			},
+			scope: {
+				type: Object,
+				value: null,
+				notify: true,
+			},
+			itemTemplate: {
+				type: String,
+				// value: ""
+				value: false
+			},
+			itemTemplateElement: {
+				type: Object,
+				value: null,
+			},
+			_templatized: {
+				type: Object,
+				value: null,
+				readOnly: true,
+			},
+			index: {
+				type: Number,
+				value: 0,
+				notify: true,
+			},
+			_desiredIndex: {
+				type: Number,
+				value: -1,
+			},
+			_bindingList: {
+				type: Array,
+				value: function () {
+					return [];
+				},
+			},
+			_waiting: {
+				type: Boolean,
+				value: false,
+			},
+			_initializable: {
+				type: Boolean,
+				value: false,
+			},
+			_itemHeight: {
+				type: Number,
+				value: 0,
+			},
+			_transformBaseline: {
+				type: Number,
+				value: 0,
+			},
+			_headerHeight: {
+				type: Number,
+				value: 0,
+			},
+			_footerHeight: {
+				type: Number,
+				value: 0,
+			},
+			_middleHeight: {
+				type: Number,
+				value: 0,
+			},
+			_extentHeight: {
+				type: Number,
+				value: 0,
+			},
+			_viewportHeight: {
+				type: Number,
+				value: 0,
+			},
+			_scrollTop: {
+				type: Number,
+				value: 0,
+			},
+			_maxPixels: {
+				type: Number,
+				value: 1 << 24,
+			},
+			_responders: {
+				type: Object,
+				value: function () {
+					var responders = new ResponderStore(this);
+					responders.scroll = this._scrollHandler.bind(this);
+					responders.pane = this._paneResponse.bind(this);
+					responders.header = this._headerResponse.bind(this);
+					responders.footer = this._footerResponse.bind(this);
+					responders.extent = this._extentResponse.bind(this);
+					return responders;
+				},
+			},
+			_recycler: {
+				type: Object,
+				value: function () {
+					return new Recycler(
+						this._getItemHeight.bind(this),
+						this._getQueriableLength.bind(this),
+						this._handleRecycling.bind(this));
+				},
+			},
+			_measurements: {
+				type: Object,
+				value: function () {
+					return new Continuum(this._getItemHeight.bind(this));
+				},
+			},
+			data: {
+				type: Array,
+				value: null,
+				notify: true,
+			},
 		},
 
-		_scrollTop: 0,
-		extraItems: 5,
+		observers: [
+			"_needsInitialization(data, itemTemplate, itemTemplateElement)",
+			"_scopeChanged(scope.*)",
+			"_dataChanged(data.*)",
+		],
 
-		observe: {
-			'data': 'initialize'
-		},
+		_dataChanged: function (change) {
+			var prefix = "data.";
+			var offset = prefix.length;
+			var path = change.path;
+			var modelChanged = path.indexOf(prefix) === 0;
+			var delimiter = path.indexOf(".", offset);
+			var num = 0;
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
 
-		attached: function() {
-			window.onresize = this.resizeViewport.bind(this);
-		},
+			if (modelChanged &&
+				delimiter > offset) {
+				num = Number(path.slice(offset, delimiter));
+				if (!isNaN(num)) {
+					for (index; index < count; index++) {
+						bound = binds[index];
 
-		detached: function() {
-			window.onresize = null;
-		},
-
-		resizeViewport: function() {
-			var viewportHeight = this.offsetHeight,
-				ipp = 0|this.itemsPerPanel || 1,
-				physicalCount = this.recalculateCounts(viewportHeight, ipp),
-				amount = 0,
-				tail = this._physicalTail,
-				head = tail,
-				meta = null,
-				virtualDataIndex = 0,
-				panelCount = 0,
-				panelIndex = 0,
-				panels = null,
-				presentation = this._presentationMeta,
-				presentationCount = presentation.length,
-				presentationIndex = 0,
-				data = null,
-				reused = 0,
-				unusable = 0,
-				restore = new Array();
-
-			this._viewportHeight = viewportHeight - this.$.list.offsetTop;
-
-			for (presentationIndex = 0; presentationIndex < presentationCount; presentationIndex++) {
-				restore.push(presentation[presentationIndex].custom);
-				presentation[presentationIndex].custom = false;
-			}
-
-			this.simulatePanelResizeEvents(null);
-
-			for (presentationIndex = 0; presentationIndex < presentationCount; presentationIndex++) {
-				if (!presentation[presentationIndex].custom) {
-					presentation[presentationIndex].custom = restore[presentationIndex];
-				}
-			}
-
-			if (this._physicalCount < physicalCount) {
-				virtualDataIndex = (tail._virtualPanelIndex + 1) * ipp;
-				amount = physicalCount - this._physicalCount;
-				this._physicalCount = physicalCount;
-
-				this.expandData(amount, virtualDataIndex);
-
-				panelCount = amount / ipp;
-
-				if (panelCount) {
-					data = this._physicalData.slice(-amount);
-					panels = new Array(panelCount);
-					panelIndex = tail._virtualPanelIndex + 1;
-					presentation = this._presentationMeta.slice(panelIndex, panelIndex + panelCount);
-					reused = presentation.length;
-
-					meta = this._lazyMetadata(tail._virtualPanelIndex, tail._physicalPanelIndex);
-
-					this.expandItemsBefore(
-						tail.panel.nextElementSibling,
-						panels,
-						presentation,
-						data,
-						ipp,
-						meta.position + meta.height,
-						this.data.length - (panelIndex * ipp));
-
-					for (panelIndex = 0; panelIndex < panelCount; panelIndex++) {
-						panels[panelIndex]._physicalPanelIndex += this._physicalPanels.length;
-						panels[panelIndex]._virtualPanelIndex += tail._virtualPanelIndex + 1;
-						if (panels[panelIndex]._virtualPanelIndex * ipp >= this.data.length) {
-							unusable++;
+						if (bound &&
+							bound.young === num) {
+							bound.instance.notifyPath("model." + change.path.slice(delimiter + 1), change.value);
 						}
 					}
-
-					this._physicalTail = panels[panels.length -1];
-					head = panels[0];
-
-					tail.next = head;
-					head.prev = tail;
-
-					tail = this._physicalTail;
-					head = this._physicalHead;
-
-					while (unusable-- > 0) {
-						if (head._virtualPanelIndex < 1) {
-							break;
-						}
-
-						presentation.pop();
-
-						tail._virtualPanelIndex = head._virtualPanelIndex - 1;
-						head.prev = tail;
-						tail.next = head;
-						head = tail;
-						tail = head.prev;
-						head.prev = null;
-						tail.next = null;
-					}
-
-					this._physicalTail = tail;
-					this._physicalHead = head;
-
-					this._physicalPanels.push.apply(this._physicalPanels, panels);
-					this._presentationMeta.push.apply(this._presentationMeta, presentation.slice(reused));
-
 				}
-
-				this.refresh(true, 0);
 			}
 		},
 
-		initialize: function() {
-			if (!this.data) {
-				return;
-			}
+		_scopeChanged: function (change) {
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
 
-			if(this.dataLength == this.data.length) {
-				this.refresh(true, 0);
-				return;
-			}
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
 
-			if(!this.initialized) {
-				this.initialized = true;
-
-				this.initializeTemplateBind();
-
-				if(!this.itemHeight) {
-					this.getItemHeight(this.initializeRecycler.bind(this));
-				} else {
-					this.initializeRecycler();
+				if (bound) {
+					bound.instance.notifyPath(change.path, change.value);
 				}
+			}
+		},
+
+		attached: function () {
+			this.$.pane.addEventListener("scroll", this._responders.scroll, true);
+			this.addResizeListener(this._responders.pane, this.$.pane);
+			this.addResizeListener(this._responders.header, this.$.header);
+			this.addResizeListener(this._responders.footer, this.$.footer);
+			this.addResizeListener(this._responders.extent, this.$.extent);
+		},
+
+		detached: function () {
+			this.$.pane.removeEventListener("scroll", this._responders.scroll);
+			this.removeResizeListener(this._responders.pane, this.$.pane);
+			this.removeResizeListener(this._responders.header, this.$.header);
+			this.removeResizeListener(this._responders.footer, this.$.footer);
+			this.removeResizeListener(this._responders.extent, this.$.extent);
+		},
+
+		_settleDown: function () {
+			this.fire("presentation-settled");
+		},
+
+		_extentResponse: function (e) {
+			if (this._waiting &&
+				this.$.extent.offsetHeight > 0) {
+				this._waiting = false;
+				this.initialize();
+			}
+		},
+
+		_paneResponse: function (e) {
+			var itemRecycler = this;
+			var delta = +(itemRecycler.$.pane.offsetHeight - itemRecycler._viewportHeight) || 0;
+
+			delta -= (this._headerHeight + this._footerHeight);
+
+			if (delta) {
+				itemRecycler._viewportHeight += delta;
+
+				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				itemRecycler._repositionFooter();
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+			}
+		},
+
+		_headerResponse: function (e) {
+			var itemRecycler = this;
+			var delta = +(itemRecycler.$.header.offsetHeight - itemRecycler._headerHeight) || 0;
+
+			if (delta) {
+				itemRecycler._headerHeight += delta;
+				itemRecycler._viewportHeight -= delta;
+
+				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				itemRecycler._repositionMiddle();
+				itemRecycler._repositionFooter();
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+			}
+		},
+
+		_footerResponse: function (e) {
+			var itemRecycler = this;
+			var delta = +(itemRecycler.$.footer.offsetHeight - itemRecycler._footerHeight) || 0;
+
+			if (delta) {
+				itemRecycler._footerHeight += delta;
+				itemRecycler._viewportHeight -= delta;
+
+				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				itemRecycler._repositionFooter();
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+			}
+		},
+
+		_boundResponse: function (ev) {
+			var bound = this;
+			var height = bound.height;
+			var delta = +(bound.element.offsetHeight - height) || 0;
+			var itemRecycler = bound.itemRecycler;
+			var change = 0;
+			var initialization = true;
+
+			bound.height += delta;
+			itemRecycler._measurements.setHeight(bound.young, bound.height);
+
+			if (delta) {
+				if (bound.height) {
+					if (!itemRecycler._itemHeight) {
+						change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
+						itemRecycler.async(itemRecycler._modifyPadding, 1);
+						if (itemRecycler._desiredIndex > -1) {
+							//Initialize scrollTop to supplied index
+							itemRecycler.async(itemRecycler.scrollToIndex);
+						}
+					} else if (itemRecycler._itemHeight < 0) {
+						change = itemRecycler._accommodateGlobalHeightAdjustment(0|!initialization, bound, delta);
+						itemRecycler.async(itemRecycler._modifyPadding, 1);
+					}
+				}
+				itemRecycler._changeOffsetsAfter(bound, delta);
+				itemRecycler._deltaMiddleHeight(itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height));
+				itemRecycler._repositionHeader();
+				itemRecycler._repositionFooter();
+				if (delta + change) {
+					itemRecycler._paneResponse(null);
+				}
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+			} else if (bound.pendingResponse) {
+				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+			}
+
+			if (itemRecycler._itemHeight < 0) {
+				itemRecycler._itemHeight = -itemRecycler._itemHeight;
+			}
+
+			bound.pendingResponse = 0|false;
+		},
+
+		_accommodateGlobalHeightAdjustment: function (initialization, bound, delta) {
+			var adjustment = 0|(bound.height + this._itemHeight);
+			var change = 0;
+
+			this._itemHeight = 0|bound.height;
+
+			if (initialization) {
+				change = (this._getDataLength() - 1) * adjustment;
+				this._deltaMiddleHeight(change);
 			} else {
-				this.initializeRecycler();
+				this._measurements.terminate(0);
+				change = (this._getDataLength() * bound.height) - delta - this._middleHeight;
+				this._deltaMiddleHeight(change);
+				this._recycler.transactHeightMutations(this._reinitTxn, this, bound);
 			}
 
-			this.dataLength = this.data.length;
+			return change;
 		},
 
-		initializeTemplateBind: function() {
-			if(typeof this.itemTemplate === "string") {
-				this.itemTemplate = this.querySelector("#" + this.itemTemplate);
-			}
-			
-			if(!this.itemTemplate) {
-				throw new Error("mm-item-recycler: Item template does not exist!");
-				return;
-			}
-			
-			//Add polymer bindings if not present
-			if(!this.itemTemplate.bindingDelegate) {
-				this.itemTemplate.bindingDelegate = new PolymerExpressions;
+		_reinitTxn: function (fn, itemRecycler, bound) {
+			var transactor = this;
+			var count = itemRecycler._getDataLength();
+			var index = 0;
+
+			for (index = 0; index < count; index++) {
+				if (index !== bound.young) {
+					transactor.assignHeightAtIndex(index, itemRecycler._itemHeight);
+				}
 			}
 		},
 
-		getItemHeight: function(callback) {
-			var template = this.itemTemplate,
-				container = template.parentNode,
-				frag = template.createInstance({ model: this.data[0], scope: this.scope }),
-				elem = frag.firstElementChild;
+		_modifyPadding: function () {
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+			var bound = null;
+			var offset = 0;
 
-			this.onMutation(container, function() {
-				var ipp = 0|this.itemsPerPanel || 1;
-				this.itemHeight = elem.offsetHeight;
-				this.defaultPanelHeight = this.itemHeight * ipp;
-				container.removeChild(elem);
-				callback();
-			});
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
+				if (bound &&
+					bound.offset !== offset) {
+					bound.offset = offset;
+					this._repositionBound(bound);
+				}
+				offset += bound.height;
+			}
 
-			container.appendChild(frag);
+			if (this._itemHeight > 0) {
+				this._recycler.repadFrame(0|this._itemHeight, 0|this._itemHeight);
+			}
+		},
+
+		_changeOffsetsAfter: function (reference, delta) {
+			var binds = this._bindingList;
+			var count = 0|(delta && binds && binds.length);
+			var index = 0;
+			var bound = null;
+
+			for (index = 1 + (0|reference.id); index < count; index++) {
+				bound = binds[index];
+
+				if (bound) {
+					bound.offset += delta;
+					this._repositionBound(bound);
+				}
+			}
+		},
+
+		_needsInitialization: function () {
+			this._initializable = false;
+			this.initialize();
+		},
+
+		initialize: function () {
+			if (!this.data) {
+				return 0|false;
+			} else if (!this.initializeTemplateBind()) {
+				return 0|false;
+			} else if (this.$.extent.offsetHeight < 1) {
+				this._waiting = true;
+				return 0|false;
+			} else {
+				this._waiting = false;
+				this.debounce("initializeRecycler", this.initializeRecycler);
+				return 0|true;
+			}
+		},
+
+		initializeTemplateBind: function () {
+			if (!this.itemTemplateElement &&
+				this.itemTemplate &&
+				typeof this.itemTemplate === "string") {
+				this.itemTemplateElement = Polymer.dom(this).querySelector("template#" + this.itemTemplate);
+			}
+
+			if(!this.itemTemplateElement) {
+				return 0|false;
+			} else {
+				if (this._templatized !== this.itemTemplateElement) {
+					this._set_templatized(this.itemTemplateElement);
+					this.templatize(this.itemTemplateElement);
+				}
+				return 0|true;
+			}
 		},
 
 		initializeRecycler: function() {
-			this.initializeViewport();
-			this.initalizeData();
-			this.initializeItems();
-		},
+			if (!this._initializable) {
+				if (this._recycler.truncate(0)) {
+					this._scrollTop = 0;
+					this.$.pane.scrollTop = 0;
+					this._itemHeight = 0;
+				}
 
-		initializeViewport: function() {
-			var listHeight = this.itemHeight * this.data.length,
-				viewportHeight = this.offsetHeight,
-				ipp = 0|this.itemsPerPanel || 1;
+				this._measurements.terminate(0);
 
-			this._listHeight = listHeight;
-			this.$.list.style.height = (0|this._listHeight) + "px";
+				this._initializeViewport();
 
-			this._physicalCount = this.recalculateCounts(viewportHeight, ipp);
-			this._physicalHeight = this.itemHeight * this._physicalCount;
-
-			//Initialize scrollTop to supplied index
-			this.scrollToIndex(this.index);
-
-			this._inferDefaultHeight = false;
-
-			this._viewportHeight = viewportHeight - this.$.list.offsetTop;
-
-			this.async(this.resizeViewport);
-		},
-
-		recalculateCounts: function (viewportHeight, itemsPerPanel) {
-			var physicalCount = 0;
-
-			this._visibleCount = Math.ceil(viewportHeight / this.itemHeight);
-			physicalCount = this.disabled ? this.data.length : Math.min(this._visibleCount + this.extraItems, this.data.length);
-			// constrain _physicalCount to a multiple of itemsPerPanel
-			physicalCount = itemsPerPanel * (1 + (0|((physicalCount + itemsPerPanel - 1) / itemsPerPanel)));
-
-			return physicalCount;
-		},
-
-		viewportWidthChanged: function() {
-			this.$.list.style.width = this.viewportWidth + "px";
-		},
-
-		initalizeData: function() {
-			var limit = this.data.length;
-			this._physicalData = new Array(this._physicalCount);
-
-			for (var i = 0; i < this._physicalCount; ++i) {
-				this._physicalData[i] = {
-					model: i < limit ? this.data[i] : null,
-					scope: this.scope
-				};
-
-				this.updateItem(i, i);
+				this._initializable = true;
+				this._waiting = false;
+				return 0|true;
+			} else {
+				return 0|false;
 			}
 		},
 
-		expandData: function (amount, virtualDataIndex) {
-			var dataCount = this._physicalData.length,
-				physicalDataIndex = 0;
+		_initializeViewport: function() {
+			var viewportHeight = this.$.pane.offsetHeight;
 
-			while (amount-- > 0) {
-				physicalDataIndex = -1 + this._physicalData.push({
-					model: (virtualDataIndex < dataCount ? this.data[virtualDataIndex] : null),
-					scope: this.scope
-				});
+			this._headerHeight = this.$.header.offsetHeight;
+			this._footerHeight = this.$.footer.offsetHeight;
+			this._extentHeight = this.$.extent.offsetHeight;
 
-				this.updateItem(virtualDataIndex, physicalDataIndex);
+			viewportHeight -= (this._headerHeight + this._footerHeight);
+			this._viewportHeight = viewportHeight;
 
-				virtualDataIndex++;
+			this._assignMiddleHeight(this._viewportHeight || 1);
+			this._repositionHeader();
+			this._repositionFooter();
+			this._repositionMiddle();
+			this._repositionExtent();
+
+			this._recycler.setFrame(0, this._middleHeight, 0|this._itemHeight, 0|this._itemHeight);
+
+			if (this._desiredIndex < 0) {
+				this._desiredIndex = 0|this.index;
 			}
 		},
 
-		initializePhysical: function (observerFactory, target, panels, presentation, data, template, itemsPerPanel) {
+		scrollToIndex: function(value, force) {
+			var direction = (+force || 0)
+			var index = 0|(arguments.length ? value : this._desiredIndex);
+			var count = 0|(this.data && this.data.length);
+			var upper = 0;
+			var lower = 0;
+			var change = 0;
 
-			var itemList = document.createDocumentFragment(),
-				panelCount = panels.length,
-				panelIndex = 0,
-				itemIndex = 0,
-				dataCount = data.length,
-				physicalDataIndex = 0,
-				bound = null,
-				panelItems = null,
-				panelFragment = null,
-				itemFragment = null,
-				item = null,
-				physical = null;
+			this._desiredIndex = -1;
 
-			for (panelIndex = 0; panelIndex < panelCount; ++panelIndex) {
-				panelItems = new Array(itemsPerPanel);
-				panelFragment = document.createElement("DIV");
-				panelFragment.className += " recycler-panel";
+			if (index > -1 &&
+				index < count) {
+				if (index < this._getDataLength()) {
+					lower = this._recycler.getElevationAtIndex(index);
 
-				physical = panels[panelIndex] = {
-					panel: panelFragment,
-					items: panelItems,
-					next: null,
-					prev: physical,
-					observer: null,
-					adjustPositionsAbove: false,
-					_virtualPanelIndex: panelIndex,
-					_physicalPanelIndex: panelIndex
-				};
-
-				if (presentation.length > panelIndex) {
-					if (!presentation[panelIndex]) {
-						presentation[panelIndex] = new PresentationMetadata()
-					}
-				} else {
-					presentation.push(new PresentationMetadata());
-				}
-
-				physical.observer = observerFactory(target, physical, panelFragment);
-
-				if (physical.prev) {
-					// back-link the linked list
-					physical.prev.next = physical;
-				}
-
-				for (itemIndex = 0; itemIndex < itemsPerPanel; ++itemIndex) {
-					physicalDataIndex = itemIndex + panelIndex * itemsPerPanel;
-					bound = physicalDataIndex < dataCount ? data[physicalDataIndex] : null;
-					itemFragment = template.createInstance(bound);
-					item = itemFragment.firstElementChild;
-
-					item._transformValue = 0;
-					panelItems[itemIndex] = item;
-					panelFragment.appendChild(itemFragment);
-				}
-
-				itemList.appendChild(panelFragment);
-			}
-
-			return itemList;
-		},
-
-		initializePanels: function (panels, presentation, itemsPerPanel, offset, presumedItemHeight, totalItems) {
-
-			var panelCount = panels.length,
-				panelIndex = 0,
-				itemIndex = 0,
-				meta = null,
-				position = offset,
-				physical = null,
-				itemCount = 0,
-				delta = 0;
-
-			// initialize the panel positions and heights
-			for (panelIndex = 0; panelIndex < panelCount; ++panelIndex) {
-				physical = panels[panelIndex];
-				meta = presentation[physical._virtualPanelIndex];
-				meta.position = position;
-				if (meta.custom) {
-					position += meta.height;
-				} else {
-					meta.height = physical.panel.offsetHeight;
-					position += meta.height;
-
-					if (itemCount + itemsPerPanel < totalItems) {
-						delta += meta.height - (presumedItemHeight * itemsPerPanel);
-						itemCount += itemsPerPanel;
-					} else if (itemCount < totalItems) {
-						itemIndex = 0;
-						position -= meta.height;
-						meta.height = 0;
-						for (itemCount; itemCount < totalItems; ++itemCount) {
-							meta.height += physical.items[itemIndex++].offsetHeight;
-							delta -= presumedItemHeight;
-						}
-						delta += meta.height;
-						position += meta.height;
-						meta.custom = true;
+					if (direction < 0 || (!direction && this._scrollTop >= lower)) {
+						this.$.pane.scrollTop = lower;
+						change = this._scrollTop - lower;
 					} else {
-						position -= meta.height;
-						meta.height = 0;
-						meta.custom = true;
+						upper = this._recycler.getElevationAtIndex(index + 1);
+						if (direction > 0 || this._scrollTop < upper - this._viewportHeight) {
+							this.$.pane.scrollTop = upper - this._viewportHeight;
+							change = this._scrollTop - (upper - this._viewportHeight);
+						}
 					}
-				}
 
-				for (itemIndex = 0; itemIndex < itemsPerPanel; ++itemIndex) {
-					physical.items[itemIndex].addEventListener("item-resized", physical.observer);
+					if (change) {
+						this._desiredIndex = index;
+					}
+
+					return 0|true;
+				} else {
+					return 0|null;
+				}
+			} else {
+				return 0|false;
+			}
+		},
+
+		_determineIndex: function () {
+			var value = this._scrollTop;
+			var index = this._recycler.getLowestIndex() + 1;
+			var limit = this._recycler.getHighestIndex() + 1;
+
+			for (index; index < limit; index++) {
+				if (this._recycler.getElevationAtIndex(index) > value) {
+					break;
 				}
 			}
+
+			this.index = index - 1;
+		},
+
+		scrollBy: function (amount) {
+			var delta = +amount || 0;
 
 			if (delta) {
-				this.recalculateListHeight(delta);
+				this._repositionHeader();
+				this._repositionFooter();
+				this._recycler.translateFrame(delta);
+			}
+
+			this._determineIndex();
+
+			if (this._desiredIndex > -1 &&
+				this.hasMeasuredAnItem()) {
+				this.debounce("seek", this.scrollToIndex);
 			}
 		},
 
-		initializeItems: function() {
-			var template = this.itemTemplate,
-				container = template.parentNode,
-				panels = this._physicalPanels,
-				count = 0|(panels && panels.length),
-				index = 0,
-				itemList = null,
-				ipp = 0|this.itemsPerPanel || 1,
-				panelCount = this._physicalCount / ipp;
+		_scrollResponse: function () {
+			var delta = this.$.pane.scrollTop - this._scrollTop;
+			var diff = this._middleHeight - this._viewportHeight;
 
-			// Remove existing items
-			for (index = 0; index < count; ++index) {
-				container.removeChild(panels[index].panel);
-			}
+			this._scrollTop = this.$.pane.scrollTop;
 
-			this._physicalPanels = new Array(panelCount);
-			this._presentationMeta = new Array();
-
-			this.expandItemsBefore(
-				template.nextElementSibling,
-				this._physicalPanels,
-				this._presentationMeta,
-				this._physicalData,
-				ipp,
-				0,
-				this.data.length);
-
-			this._physicalHead = this._physicalPanels[0];
-			this._physicalTail = this._physicalPanels[panelCount - 1];
-
-			this.refresh(true, 0);
-		},
-
-		expandItemsBefore: function (element, panels, presentation, data, itemsPerPanel, offset, totalItems) {
-			var template = this.itemTemplate,
-				container = template.parentNode,
-				itemList = null;
-
-			itemList = this.initializePhysical(
-				this.panelHeightObserverFactory,
-				this,
-				panels,
-				presentation,
-				data,
-				template,
-				itemsPerPanel);
-
-			container.insertBefore(itemList, element);
-
-			this.initializePanels(
-				panels,
-				presentation,
-				itemsPerPanel,
-				offset,
-				this.itemHeight,
-				totalItems);
-		},
-
-		recalculateListHeight: function (delta) {
-			this._listHeight += (0|delta);
-			this.$.list.style.height = (0|this._listHeight) + "px";
-		},
-
-		simulatePanelResizeEvents: function (simulatedState) {
-			var panels = this._physicalPanels,
-				count = panels.length,
-				index = 0;
-
-			// must not walk head-to-tail here because observer() will cause a this.refresh() and linked-list shift
-			for (index = 0; index < count; index++) {
-				panels[index].observer.call(null, null, simulatedState);
-			}
-		},
-
-		determineEffectivePanelTruncation: function (physical, element, data) {
-			var truncate = 0,
-				ipp = 0|this.itemsPerPanel || 1,
-				total = this.data.length,
-				overflow = (physical._virtualPanelIndex * ipp) + ipp - total,
-				child = element.lastElementChild;
-
-			while ((overflow-- > 0) && child) {
-				truncate += child.offsetHeight;
-				child = child.previousElementSibling;
-			}
-
-			return 0|truncate;
-		},
-
-		panelHeightObserverFactory: function (recycler, physical, element) {
-			return function fn (ev, simulatedState) {
-				var meta = recycler._lazyMetadata(physical._virtualPanelIndex, physical._physicalPanelIndex),
-					data = physical,
-					state = 0|((ev && ev.detail) || simulatedState),
-					panelHeight = element.offsetHeight,
-					truncate = recycler.determineEffectivePanelTruncation(physical, element, recycler.data),
-					change = (panelHeight - truncate) - meta.height,
-					wasCustomMeasuredHeight = meta.custom,
-					delta = 0;
-
-				if (!element.parentNode) {
-					// ignore panels that have been removed -- they may trigger post-mortem
-					// (typically due to repeat invocations of initializeRecycler)
-					return;
-				}
-
-				meta.custom = true;
-				if (ev) {
-					physical.adjustPositionsAbove = false;
-					wasCustomMeasuredHeight = false;
-				}
-				if (change) {
-
-					panelHeight = meta.height + change;
-
-					if (state !== null && // on externally triggered "resize" event only
-						recycler._inferDefaultHeight &&
-						truncate === 0) { // only a panel with nothing truncated
-						change = 0;
-						recycler._inferDefaultHeight = false;
-						recycler.recalculatePresentationData(panelHeight, state);
-						meta.custom = true;
-					} else {
-						delta = 1;
-						meta.height = panelHeight; // alternatively this happens above in recalculatePresentationData()
-
-						if (!wasCustomMeasuredHeight) {
-							recycler.recalculateListHeight(0|change);
-						}
-
-						if (!wasCustomMeasuredHeight &&
-							physical.adjustPositionsAbove) {
-							physical.adjustPositionsAbove = false;
-							delta = -1;
-							recycler.shiftScrollTop(change);
-						}
-
-						if (physical.adjustPositionsAbove) {
-							physical.adjustPositionsAbove = false;
-							delta = -1;
-							do {
-								meta = recycler._lazyMetadata(data._virtualPanelIndex, data._physicalPanelIndex);
-								meta.position -= change;
-							} while (data = data.prev);
-						} else {
-							while (data = data.next) {
-								meta = recycler._lazyMetadata(data._virtualPanelIndex, data._physicalPanelIndex);
-								meta.position += change;
-							}
-						}
-					}
-
-					recycler.refresh(false, delta);
-				}
-				return 0|change;
-			};
-		},
-
-		inferDefaultHeightFromNextResize: function (state, defaultPanelHeight) {
-			var panelHeight = 0|defaultPanelHeight;
-
-			if (!panelHeight) {
-				this._inferDefaultHeight = true;
-				this.async(this.simulatePanelResizeEvents, state);
+			if (diff < this._scrollTop &&
+				diff > 0) {
+				delta -= this._scrollTop - diff;
+				this._scrollTop = diff;
+				this.scrollBy(delta);
+				this.$.pane.scrollTop = this._scrollTop;
 			} else {
-				this._inferDefaultHeight = false;
-				this.recalculatePresentationData(panelHeight, null);
+				this.scrollBy(delta);
 			}
 		},
 
-		recalculatePresentationData: function (defaultPanelHeight, state) {
-			var presentation = this._presentationMeta,
-				ipp = 0|this.itemsPerPanel || 1,
-				head = this._physicalHead,
-				tail = this._physicalTail,
-				lower = head._virtualPanelIndex,
-				upper = tail._virtualPanelIndex + 1,
-				obsolete = this.defaultPanelHeight,
-				change = 0,
-				total = this.data.length,
-				count = 0|((total + ipp - 1) / ipp),
-				meta = null,
-				overflow = 0,
-				truncate = 0,
-				panelPosition = 0,
-				panelHeight = 0,
-				correction = 0,
-				result = 0,
-				offsetTop = this.$.list.offsetTop,
-				offsetHeight = this.offsetHeight,
-				scrollTop = this._scrollTop;
+		_scrollHandler: function(e) {
+			if (e.target === this.$.pane) {
+				e.stopImmediatePropagation();
+				this.debounce("work", this._scrollResponse);
+			}
+		},
 
-			// recalculate off-DOM presentation information above viewport
-			change = propagateOffDOMChange(change, presentation, 0, lower, obsolete, defaultPanelHeight);
+		inferOffviewHeightsAfterNextMutation: function () {
+			if (this._itemHeight > 0) {
+				this._itemHeight = -this._itemHeight;
+				this._measurements.terminate(0);
+			}
+		},
 
-			result = change;
+		_getDataLength: function () {
+			var count = 0|(this.data && this.data.length);
+			if (!this._itemHeight) {
+				return count ? 1 : 0;
+			} else {
+				return count;
+			}
+		},
 
-			// recalculate on-DOM presentation information
-			do {
-				meta = this._lazyMetadata(head._virtualPanelIndex, head._physicalPanelIndex);
-				panelPosition = meta.position;
-				meta.position += change;
-				panelHeight = meta.height;
-				meta.height = defaultPanelHeight;
-				meta.custom = false;
+		_getQueriableLength: function (preferredCount, minimumAffirmativeCount, recycler) {
+			return this._getDataLength();
+		},
 
-				change += defaultPanelHeight - panelHeight;
+		_getItemHeight: function (atIndex, recycler) {
+			if (!this._itemHeight) {
+				return this._viewportHeight || 1;
+			} else if (this._itemHeight < 0) {
+				return -this._itemHeight;
+			} else {
+				return this._itemHeight;
+			}
+		},
 
-				if (scrollTop > panelPosition + panelHeight) {
-					result = change;
-				} else if (scrollTop > panelPosition) {
-					correction = (0|((scrollTop - panelPosition) / (panelHeight / ipp))) / ipp;
-					result += (defaultPanelHeight - panelHeight) * correction;
+		_handleRecycling: function (id, young, old, recycler) {
+			var index = 0|id;
+			var bound = null;
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var place = 0;
+			var height = 0;
+			var content = null;
+			var offset = this._calculateStaticPositionOffset(index, binds);
+
+			if (old < 0) {
+				while (count < index) {
+					count = binds.push(null);
 				}
-			} while (head !== tail && (head = head.next));
+				count = binds.push(bound = new BoundReference(this, id));
+				bound.value = new BoundValue(null, this.scope);
+				bound.instance = this.stamp(bound.value);
 
-			// recalculate offscreen presentation information below viewport
-			change = propagateOffDOMChange(change, presentation, upper, count, obsolete, defaultPanelHeight);
+				// assigning to the bound.value pre-stamp() is not sufficient -- must use bound.instance.set()
+				bound.instance.set("scope", this.scope);
+				bound.instance.set("model", this.data[young]);
 
-			// account for the last panel having "remainder" elements that overflow the virtual data length
-			if (overflow = (count * ipp - total)) {
-				meta = presentation.length < count ? null : presentation[count - 1];
-				if (!meta) {
-					truncate = overflow * (defaultPanelHeight - obsolete) / ipp;
-				} else {
-					truncate = overflow * (defaultPanelHeight) / ipp;
-					meta.height -= truncate;
+				content = Polymer.dom(bound.instance.root).querySelector("*");
+				bound.element = document.createElement("DIV");
+				this.toggleClass("recycler-panel", true, bound.element);
+				Polymer.dom(bound.element).appendChild(content);
+				Polymer.dom(this.$.middle).appendChild(bound.element);
+				this._addBoundResponse(bound, id, index);
+			} else if (young < 0) {
+				bound = binds[index];
+				this._removeBoundResponse(bound, id, index);
+				Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
+				bound = binds[index] = null;
+				while (count > 0 && !binds[--count]) {
+					binds.pop();
 				}
-				change -= truncate;
+				count++;
+			} else if (index < count) {
+				bound = binds[index];
 			}
 
-			change && this.recalculateListHeight(change);
+			if (bound) {
+				if (old !== young) {
+					bound.instance.set("model", this.data[young]);
+				}
 
-			this.defaultPanelHeight = defaultPanelHeight;
+				if (this._measurements.isHeightKnown(young)) {
+					height = this._measurements.getHeight(young);
+				} else {
+					height = recycler.getHeightAtIndex(young);
+					bound.pendingResponse = 0|true;
+					this.debounce(young, this._getBoundResponse(bound, id, index)); // defer validation of the height
+				}
 
-			this.shiftScrollTop(result);
+				if (this._measurements.isElevationKnown(young)) {
+					place = bound.location = this._measurements.getElevation(young);
+				} else {
+					place = bound.location = recycler.getElevationAtIndex(young);
+				}
+
+				this._changeOffsetsAfter(bound, height - bound.height);
+				bound.height = height;
+				bound.offset = offset;
+				bound.young = young;
+
+				if (place < this._maxPixels) {
+					this._repositionBound(bound);
+					this.debounce("rebase-transform", this._rebaseTransform, 250);
+				} else {
+					this._rebaseTransform();
+				}
+			}
+
+			this.debounce("settle-down", this._settleDown, 1);
+		},
+
+		_calculateStaticPositionOffset: function (place, binds) {
+			var limit = 0|place;
+			var index = 0;
+			var bound = null;
+			var offset = 0;
+
+			for (index; index < limit; index++) {
+				bound = binds[index];
+				offset += bound.height;
+			}
+
+			return offset;
+		},
+
+		_addBoundResponse: function (bound, id, index) {
+			var responder = this._boundResponse.bind(bound);
+			this._responders.boundMap[id] = null;
+			this._responders.boundMap[id] = responder;
+			this.addResizeListener(responder, bound.element);
+			return responder;
+		},
+
+		_getBoundResponse: function (bound, id, index) {
+			return this._responders.boundMap[id];
+		},
+
+		_removeBoundResponse: function (bound, id, index) {
+			var responder = this._responders.boundMap[id];
+			this.removeResizeListener(responder, bound.element);
+			this._responders.boundMap[id] = null;
+		},
+
+		_rebaseTransform: function () {
+			var binds = this._bindingList;
+			var minimum = binds ? binds.reduce(this._minimumElevationReducer, this._someBoundLocation(binds)) : 0;
+
+			this._transformBaseline = minimum;
+			binds && binds.forEach(this._rebaseEachTransform, this);
+			this._applyTransform();
+		},
+
+		_someBoundLocation: function (binds) {
+			var count = binds.length;
+			var index = 0;
+			var bound = null;
+			var result = 0;
+
+			for (index; index < count; index++) {
+				if (bound = binds[index]) {
+					result = bound.location;
+					break;
+				}
+			}
 
 			return result;
 		},
 
-		shiftScrollTop: function (change) {
-			var offsetTop = this.$.list.offsetTop,
-				offsetHeight = this.offsetHeight;
+		_minimumElevationReducer: function (reduction, bound) {
+			return !bound || reduction < bound.location ? reduction : bound.location;
+		},
 
-			if (this._scrollTop + change > this._listHeight - (offsetHeight - offsetTop)) {
-				this.scrollTop = this._scrollTop = this._listHeight - (offsetHeight - offsetTop);
-			} else if (this._scrollTop + change < 0) {
-				this.scrollTop = this._scrollTop = 0;
-			} else {
-				this.scrollTop = this._scrollTop = this._scrollTop + change;
+		_rebaseEachTransform: function (bound) {
+			if (bound) {
+				this._repositionBound(bound);
 			}
 		},
 
-		updateItem: function (virtualIndex, physicalIndex) {
-			return updateItem(this.data, virtualIndex, this._physicalData, physicalIndex);
-		},
-
-		scrollHandler: function(e) {
-			var delta = e.target.scrollTop - this._scrollTop;
-			this._scrollTop = e.target.scrollTop;
-
-			this.index = Math.floor(this._scrollTop / this.itemHeight);
-			if(!this.disabled) {
-				this.refresh(false, delta);
-			}
-		},
-
-		scrollToIndex: function(value) {
-			this.scrollTop = this._scrollTop = value * this.itemHeight;
-		},
-
-		_lazyMetadata: function (virtualPanelIndex, physicalPanelIndex) {
-			return _lazyMetadata(virtualPanelIndex, physicalPanelIndex, this._presentationMeta);
-		},
-
-		refresh: function(force, delta) {
-			var panels = this._physicalPanels,
-				presentation = this._presentationMeta,
-				presentationCount = presentation.length,
-				viewportHeight = this._viewportHeight,
-				padding = 0 + this.extraItems * this.itemHeight,
-				head = this._physicalHead,
-				tail = this._physicalTail,
-				truncate = 0,
-				ipp = 0|this.itemsPerPanel || 1,
-				total = this.data.length,
-				virtualPanelCount = 0|((total + ipp - 1) / ipp),
-				misaligned = null;
-
-			if (delta <= 0) {
-				// find physical that is "below" viewport
-				tail = refreshTail(
-					head,
-					tail,
-					presentation,
-					this._scrollTop + viewportHeight + padding,
-					this.defaultPanelHeight);
-				head = tail.next || head;
-			}
-
-			if (delta >= 0) {
-				// find physical that is "above" viewport
-				head = refreshHead(
-					head,
-					tail,
-					presentation,
-					this._scrollTop - padding,
-					this.defaultPanelHeight,
-					virtualPanelCount - 1);
-				tail = head.prev || tail;
-
-				if (presentationCount < virtualPanelCount &&
-					presentation.length >= virtualPanelCount) {
-					truncate = ((virtualPanelCount * ipp) - total) * this.defaultPanelHeight / ipp;
-					this._lazyMetadata(tail._virtualPanelIndex, tail._physicalPanelIndex).height -= truncate;
+		_gpu: function () {
+			if (!this._gpuAssignedOnce) {
+				this._gpuAssignedOnce = String(this.gpu);
+				switch (this._gpuAssignedOnce) {
+					default: this._gpuAssignedOnce = "2d";
+					case "3d":
+					case "2d":
 				}
-
 			}
 
-			head.prev = null;
-			tail.next = null;
+			return this._gpuAssignedOnce;
+		},
 
-			this._physicalHead = head;
-			this._physicalTail = tail;
-
-			misaligned = refreshPanels(panels, presentation, ipp, this.data, this._physicalData, 0|force);
-
-			if (misaligned) {
-				this.async(alignPanelsFactory(misaligned));
+		_setTranslation: function (value, target) {
+			switch (this._gpu()) {
+				case "3d": this.translate3d(0, value + "px", 0, target); break;
+				case "2d": target.style.top = value + "px"; break;
 			}
-		}
+		},
+
+		_repositionBound: function (bound) {
+			var position = bound.location - bound.offset - this._transformBaseline;
+			this._setTranslation(position, bound.element);
+		},
+
+		_applyTransform: function () {
+			this._restyleMiddleHeight();
+			this._repositionHeader();
+			this._repositionFooter();
+			this._repositionMiddle();
+			this._repositionExtent();
+		},
+
+		_restyleMiddleHeight: function () {
+			var height = (this._middleHeight - this._transformBaseline);
+			this.$.middle.style.height = (height) + "px";
+		},
+
+		_assignMiddleHeight: function (height) {
+			this._middleHeight = +height || 0;
+			this._restyleMiddleHeight();
+		},
+
+		_deltaMiddleHeight: function (delta) {
+			var height = (+delta || 0) + this._middleHeight;
+			this._assignMiddleHeight(height);
+		},
+
+		_repositionExtent: function () {
+			var position = -this._extentHeight + this._transformBaseline;
+			this._setTranslation(position, this.$.extent);
+		},
+
+		_repositionMiddle: function () {
+			var position = (this._headerHeight + this._transformBaseline);
+			this._setTranslation(position, this.$.middle);
+		},
+
+		_repositionHeader: function () {
+			var position = -(this._middleHeight - this._transformBaseline - this._scrollTop);
+			this._setTranslation(position, this.$.header);
+		},
+
+		_repositionFooter: function () {
+			var position = -(this._middleHeight - this._transformBaseline - this._scrollTop);
+			position += this._viewportHeight;
+			this._setTranslation(position, this.$.footer);
+		},
+
+
+
+		pathAtIndex: function (index) {
+			return 0|index;
+		},
+
+		indexFromPath: function (first) {
+			if (!Array.isArray(first)) {
+				return 0|first;
+			} else if (first.length === 1) {
+				return 0|first[0];
+			} else {
+				return -1;
+			}
+		},
+
+		hasMeasuredAnItem: function () {
+			return 0|(this._itemHeight ? true : false);
+		},
+
+		getHeightAtIndex: function () {
+			var recycled = null;
+			if (this._itemHeight) {
+				return this._recycler.getHeightAtIndex.apply(this._recycler, arguments);
+			} else {
+				// especially relevant when measurements are available before mutation observer fires
+				recycled = Polymer.dom(this.$.middle).querySelector(".recycler-panel");
+				return recycled && recycled.offsetHeight || null;
+			}
+		},
+
+		getMaterializedIndices: function (use) {
+			var indices = Array.isArray(use) ? use : [];
+			var binds = this._bindingList;
+			return binds && binds.reduce(this._assignYoungFromBoundReducer, indices);
+		},
+
+		_assignYoungFromBoundReducer: function (reduction, bound, index) {
+			reduction[index] = bound ? bound.young : -1;
+			return reduction;
+		},
+
+		_getMaterializedBoundAtIndex: function (index) {
+			var young = 0|index;
+			var bound = null;
+			var binds = this._bindingList;
+			var count = 0|(binds && binds.length);
+			var index = 0;
+
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
+				if (bound &&
+					bound.young === young) {
+					return bound;
+				}
+			}
+
+			return null;
+		},
+
+		hasMaterializedIndex: function (index) {
+			if (this._getMaterializedBoundAtIndex(index)) {
+				return 0|true;
+			} else {
+				return 0|false;
+			}
+		},
+
+		querySelectorAtIndex: function (selector, index) {
+			var bound = this._getMaterializedBoundAtIndex(index);
+
+			if (bound &&
+				bound.element) {
+				return Polymer.dom(bound.element).querySelector(selector);
+			} else {
+				return null;
+			}
+		},
+
+		querySelectorAllAtIndex: function (selector, index) {
+			var bound = this._getMaterializedBoundAtIndex(index);
+
+			if (bound &&
+				bound.element) {
+				return Polymer.dom(bound.element).querySelectorAll(selector);
+			} else {
+				return null;
+			}
+		},
+
+		getBoundingClientRectAtIndex: function (index) {
+			var bound = this._getMaterializedBoundAtIndex(index);
+
+			if (bound &&
+				bound.element) {
+				return bound.element.getBoundingClientRect();
+			} else {
+				return null;
+			}
+		},
+
+		querySelectorOfHeader: function (selector) {
+			return Polymer.dom(this.$.header).querySelector(selector);
+		},
+
+		querySelectorAllOfHeader: function (selector) {
+			return Polymer.dom(this.$.header).querySelectorAll(selector);
+		},
+
+		getBoundingClientRectOfHeader: function () {
+			return this.$.header.getBoundingClientRect();
+		},
+
+		querySelectorOfFooter: function (selector) {
+			return Polymer.dom(this.$.footer).querySelector(selector);
+		},
+
+		querySelectorAllOfFooter: function (selector) {
+			return Polymer.dom(this.$.footer).querySelectorAll(selector);
+		},
+
+		getBoundingClientRectOfFooter: function () {
+			return this.$.footer.getBoundingClientRect();
+		},
+
 	});
 
+})(window.Strand = window.Strand || {});
 
 
-	function nonNullReducer (a, b) {
-		return a !== null ? a : b;
-	}
-
-	function propagateOffDOMChange (offset, presentation, start, end, oldDefault, youngDefault) {
-
-		var change = offset,
-			amount = presentation.length,
-			index = 0,
-			meta = null;
-
-		// start is inclusive, end is exclusive
-		for (index = start; index < end; index++) {
-			if (index < amount) {
-				meta = presentation[index];
-				meta.position += change;
-				panelHeight = meta.height;
-				meta.height = youngDefault;
-				meta.custom = false;
-			} else {
-				panelHeight = oldDefault;
-			}
-
-			change += youngDefault - panelHeight;
-		}
-
-		return change;
-	}
-
-	function PresentationMetadata () {
-		this.position = 0;
-		this.height = 0;
-		this.custom = false;
-	}
-
-	function _lazyMetadata (virtualPanelIndex, physicalPanelIndex, presentation) {
-		var count = presentation.length;
-
-		if (virtualPanelIndex < count) {
-			return presentation[virtualPanelIndex];
-		}
-
-		do {
-			presentation.push(null);
-		} while (virtualPanelIndex > count++); // important post-increment
-
-		return presentation[virtualPanelIndex] = new PresentationMetadata();
-	}
-
-	function refreshTail (head, tail, presentation, limit, defaultPanelHeight) {
-
-		var headMeta = _lazyMetadata(head._virtualPanelIndex, head._physicalPanelIndex, presentation),
-			tailMeta = headMeta,
-			lazyMeta = headMeta;
-
-		do {
-			tailMeta = _lazyMetadata(tail._virtualPanelIndex, tail._physicalPanelIndex, presentation);
-			if (tailMeta.position < limit ||
-				head._virtualPanelIndex < 1) {
-				break;
-			}
-
-			tail.adjustPositionsAbove = true;
-			tail._virtualPanelIndex = head._virtualPanelIndex - 1;
-			lazyMeta = _lazyMetadata(tail._virtualPanelIndex, tail._physicalPanelIndex, presentation);
-			lazyMeta.height = lazyMeta.height || defaultPanelHeight;
-			lazyMeta.position = headMeta.position - lazyMeta.height;
-			tail.next = head;
-			head.prev = tail;
-			head = tail;
-			headMeta = lazyMeta;
-		} while (tail = tail.prev);
-
-		return tail;
-	}
-
-	function refreshHead (head, tail, presentation, limit, defaultPanelHeight, lastVirtualPanelIndex) {
-
-		var tailMeta = _lazyMetadata(tail._virtualPanelIndex, tail._physicalPanelIndex, presentation),
-			headMeta = tailMeta,
-			lazyMeta = tailMeta;
-
-		do {
-			headMeta = _lazyMetadata(head._virtualPanelIndex, head._physicalPanelIndex, presentation);
-			if (headMeta.position + headMeta.height > limit ||
-				tail._virtualPanelIndex + 1 > lastVirtualPanelIndex) {
-				break;
-			}
-
-			head.adjustPositionsAbove = false;
-			head._virtualPanelIndex = tail._virtualPanelIndex + 1;
-			lazyMeta = _lazyMetadata(head._virtualPanelIndex, head._physicalPanelIndex, presentation);
-			lazyMeta.height = lazyMeta.height || defaultPanelHeight;
-			lazyMeta.position = tailMeta.position + tailMeta.height;
-			head.prev = tail;
-			tail.next = head;
-			tail = head;
-			tailMeta = lazyMeta;
-		} while (head = head.next);
-
-		return head;
-	}
-
-	function refreshPanels (panels, presentation, itemsPerPanel, data, physicalData, force) {
-
-		var dataCount = data.length,
-			panelCount = panels.length,
-			panelIndex = 0,
-			physical = null,
-			meta = null,
-			position = 0,
-			misaligned = null;
-
-		for (panelIndex = 0; panelIndex < panelCount; panelIndex++) {
-			physical = panels[panelIndex];
-			meta = _lazyMetadata(physical._virtualPanelIndex, physical._physicalPanelIndex, presentation);
-			position = meta.position;
-			if (force || physical.panel._transformValue !== position) {
-				refreshItems(physical, panelIndex, itemsPerPanel, data, physicalData);
-				_setTransform(physical.panel, "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0," + position + ", 0, 1)");
-				physical.panel._transformValue = position;
-				if (misaligned) {
-					misaligned.push(physical);
-				} else {
-					misaligned = [physical];
-				}
-			}
-		}
-
-		return misaligned;
-	}
-
-	function refreshItems (panel, panelIndex, itemsPerPanel, data, physicalData) {
-		var dataCount = data.length,
-			oldPanelOffset = panel._virtualPanelIndex * itemsPerPanel,
-			youngPanelOffset = panelIndex * itemsPerPanel,
-			items = panel.items,
-			itemIndex = 0,
-			virtualDataIndex = 0;
-
-		for (itemIndex = 0; itemIndex < itemsPerPanel; itemIndex++) {
-			virtualDataIndex = itemIndex + oldPanelOffset;
-			if (virtualDataIndex < dataCount) {
-				updateItem(data, virtualDataIndex, physicalData, itemIndex + youngPanelOffset);
-			}
-		}
-	}
-
-	function updateItem (data, virtualIndex, physicalData, physicalIndex) {
-		var physicalDatum = physicalData[physicalIndex];
-
-		physicalDatum.model = data.length > virtualIndex ? data[virtualIndex] : null;
-	}
-
-	function alignPanelsFactory(panels) {
-		return function () {
-			panels.forEach(triggerPanelObserver);
-		};
-	}
-
-	function triggerPanelObserver (panel) {
-		panel.observer(null);
-	}
-
-})();

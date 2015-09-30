@@ -4,102 +4,128 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-model', {
-	ver:"<<version>>",
+(function (scope) {
+	scope.Model = Polymer({
 
-	publish: {
-		mid: "",
-		cid: "",
-		collection: null,
-		// recursiveChanges: false,
-		adapter: "",
-		adapterInstance: {},
-		defaults:null,
-		data:null,
-		auto:false,
-	},
+		is:"mm-model",
 
-	// deepPublish: {
-	// 	data:{},
-	// },
+		properties: {
+			_sync:{
+				type:StrandLib.Sync,
+				value:function() {
+					return new StrandLib.Sync();
+				}
+			},
+			_model:{
+				type:StrandLib.Model,
+				value:function() {
+					return new StrandLib.Model(null, null, this._sync);
+				}
+			},
+			collection:{
+				type:Strand.Collection,
+				value:null,
+			},
+			adapter:{
+				type:String,
+				value:"Sync",
+			},
+			defaults:{
+				type:Object,
+				value: function() {
+					return {};
+				}
+			}
+		},
 
-	ready: function() {
-		if (!this.data) this.data = {};
-	},
+		behaviors:[
+			StrandTraits.DomSyncable
+		],
 
-	observe: {
-		"data.id mid":"idHandler"
-	},
+		ready:function() {
+			this.linkPaths("_model.data","data");
+			this.linkPaths("data","_model.data");
+		},
 
-	init: function() {
-		if (Object.keys(this.data).length === 0) {
-			this.data = this.defaults;
+		init: function(data) {
+			this._model.init(data || this.defaults);
+		},
+		
+		adapterChanged: function(oldAdapter, newAdapter) {
+			if (typeof newAdapter === "string" && window[newAdapter]) {
+				this.adapterInstance = new window[newAdapter]();
+				this.adapterInstance.target = this;
+				this.adapterInstance.auto = this.auto;
+			}
+		},
+
+		autoChanged: function(oldAuto, newAuto) {
+			if (this.adapterInstance)
+				this.adapterInstance.auto = newAuto;
+		},
+
+		save: function() {
+			return this.connection.post();
+		},
+
+		update: function() {
+			return this.connection.put();
+		},
+
+		fetch: function() {
+			return this.connection.get();
+		},
+		
+		destroy: function() {
+			return this.connection.delete();
+		},
+
+		clear: function() {
+			this._model.clear();
+		},
+
+		getData: function(path) {
+			return this._model.get(path);
+		},
+
+		setData: function(path, value) {
+			this._model.set(path, value);
+		},
+
+		toJSON: function() {
+			return this._model.toJSON();
+		},
+
+		get connection() {
+			return this._model.connection;
+		},
+
+		//proxy accessors to _model.data
+
+		get mId() {
+			return this._model.mId;
+		},
+
+		get cId() {
+			return this._model.cId;
+		},
+
+		set mId(i) {
+			this._model.mId = i;
+		},
+
+		set cId(i) {
+			this._model.cId = i;
+		},
+
+		get data() {
+			return this._model.data;
+		},
+
+		set data(i) {
+			this._model.data = i;
+			this.fire("data-changed");
 		}
-	},
-	
-	adapterChanged: function(oldAdapter, newAdapter) {
-		if (typeof newAdapter === "string" && window[newAdapter]) {
-			this.adapterInstance = new window[newAdapter]();
-			this.adapterInstance.target = this;
-			this.adapterInstance.auto = this.auto;
-		}
-	},
 
-	autoChanged: function(oldAuto, newAuto) {
-		if (this.adapterInstance)
-			this.adapterInstance.auto = newAuto;
-	},
-
-	save: function() {
-		return this.connection.post();
-	},
-
-	update: function() {
-		return this.connection.put();
-	},
-
-	fetch: function() {
-		return this.connection.get();
-	},
-	
-	destroy: function() {
-		return this.connection.delete();
-	},
-
-	clear: function() {
-		this.data = {};
-	},
-
-	get: function(property, obj) {
-		obj = obj || this.data;
-
-		var p = Path.get(property);
-		return p.getValueFrom(obj);
-	},
-
-	set: function(property, value, obj) {
-		obj = obj || this.data;
-
-		var p = Path.get(property);
-		return p.setvalueFrom(obj, value);
-	},
-
-	toJSON: function() {
-		return JSON.stringify(this.data);
-	},
-
-	get connection() {
-		return this.adapterInstance;
-	},
-
-	idHandler: function(oldValue, newValue) {
-		if (this.mid !== newValue) {
-			this.mid = newValue;
-		}
-
-		if (this.data && this.data.id !== newValue) {
-			this.data.id = newValue;
-		}
-	},
-
-});
+	});
+})(window.Strand = window.Strand || {}); 

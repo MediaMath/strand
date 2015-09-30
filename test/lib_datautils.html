@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/datautils.html" />
+</head>
+<body>
+<script>
+describe("DataUtils", function() {
+	
+	it("should exist", function() {
+		StrandLib.should.be.an.object;
+		StrandLib.DataUtils.should.be.an.object;
+	});
+
+	it("should merge 2 param arrays with the latter arrays 'winning' conflicts", function() {
+		var a = [{name:"a", value:"1"},{name:"b", value:"2"},{name:"c",value:"3"}];
+		var b = [{name:"c",value:"CEE CEE CEE"}];
+		StrandLib.DataUtils.mergeParamLists(a, b).should.eql([
+			{name:"a", value:"1"},
+			{name:"b", value:"2"},
+			{name:"c",value:"CEE CEE CEE"}
+		]);
+	});
+
+	it("should merge 2 param arrays with just flat strings instead of param objects", function() {
+		var a = [];
+		var b = ["innerValue", 123];
+		StrandLib.DataUtils.mergeParamLists(a,b).should.eql(b);
+		var a = [1234];
+		StrandLib.DataUtils.mergeParamLists(a,b).should.eql([1234, "innerValue", 123]);
+	});
+
+	it("should support adama style query for serialization fo dom", function() {
+		var expected = {"with":[{"inner":"advertiser, agency"},{"inner":"rpt_margin_management_partial"},{"inner":"budget_flights"}],"full":[{"inner":"*"}],"sort":[{"inner":"status,-updated_on"}],"order":[{"inner":"descending"}],"page":[{"inner":"0"}]},
+		q = document.querySelector("#obj2").children;
+		StrandLib.DataUtils.objectifyDistributedNodes(q).should.eql(expected);
+	});
+
+	it("it should get a value from an object given a path", function() {
+		var o = {
+			a:{
+				b:{
+					c:1,
+					d:"two"
+				}
+			}
+		};
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		StrandLib.DataUtils.getPathValue(path, o).should.equal(1)
+		StrandLib.DataUtils.getPathValue(pathString, o).should.equal("two");
+	});
+
+	it("it should fail gracefully to get/set a value from an undefined obj", function() {
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		should.equal(StrandLib.DataUtils.getPathValue(path), null);
+		should.equal(StrandLib.DataUtils.getPathValue(pathString), null);
+		StrandLib.DataUtils.setPathValue(path);
+		StrandLib.DataUtils.setPathValue(pathString);
+	});
+
+	it("should fail gracefully when requesting a path that does not exist on an object", function() {
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		should.equal(StrandLib.DataUtils.getPathValue(path,{}), null);
+		should.equal(StrandLib.DataUtils.getPathValue(pathString,{}), null);
+	});
+
+	it("it should set a value on an object given a path", function() {
+		var o = {
+			a:{
+				b:{
+					c:1,
+					d:"two"
+				}
+			}
+		};
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		StrandLib.DataUtils.setPathValue(path, o, 2, false);
+		o.a.b.c.should.equal(2);
+		StrandLib.DataUtils.setPathValue(pathString, o, "three", false);
+		o.a.b.d.should.equal("three");
+	});
+
+	it("should set a value on an object creating any intermediary objects (not arrays currently) given a path", function() {
+		var o = {};
+		var path = ["a","b","c"];
+		var pathString = "a.b.d";
+		StrandLib.DataUtils.setPathValue(path, o, 2, true);
+		o.a.b.c.should.equal(2);
+		StrandLib.DataUtils.setPathValue(pathString, o, "three", true);
+		//shouldn't have stepped on previous
+		o.a.b.c.should.equal(2);
+		o.a.b.d.should.equal("three");
+	});
+
+});
+</script>
+	<div id="obj1">
+		<div what="yes" help="computer" class="pretty"></div>
+		<div>inner content</div>
+		<div zappo="true">something</div>
+	</div>
+	<div id="obj2">
+		<with>advertiser, agency</with>
+		<with>rpt_margin_management_partial</with>
+		<with>budget_flights</with>
+		<full>*</full>
+		<sort>status,-updated_on</sort>
+		<order>descending</order>
+		<page>0</page>
+	</div>
+
+</body>
+</html>

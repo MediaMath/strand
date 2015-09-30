@@ -1,16 +1,6 @@
 {
 	"name":"mm-scroll-panel",
 	"description":"A scrollable content container with custom scrollbars - for use in instances where native scrollbars interfere with layout",
-	"attributes": [
-		{
-			"name":"scope",
-			"type":"Object",
-			"description":"The scope of the light DOM items added to any mm-scroll-panel (for the purpose of internally responding to DOM mutation)",
-			"optional":true,
-			"default":"this",
-			"options":[]
-		}
-	],
 	"methods": [
 		{
 			"name":"resetScroll",
@@ -18,12 +8,5 @@
 			"arguments":[]
 		}
 	],
-	"properties":[
-		{
-			"name":"scope",
-			"type":"Object",
-			"description":"The scope of the light DOM items added to any mm-scroll-panel (for the purpose of internally responding to DOM mutation)",
-			"default":"this"
-		}
-	]
+	"behaviors":[ "dommutable", "mousewheelable" ]
 }

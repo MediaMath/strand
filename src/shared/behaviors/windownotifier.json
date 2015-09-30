@@ -1,0 +1,14 @@
+{
+	"name":"WindowNotifier",
+	"description":"Listens for scroll and resize events on the window, and notifies registered element instances which may need to respond.",
+	"methods": [
+		{
+			"name":"resize",
+			"description":"Abstract method, called when the widow resizes."
+		},
+		{
+			"name":"scroll",
+			"description":"Abstract method, called when the widow scrolls."
+		}
+	]
+}

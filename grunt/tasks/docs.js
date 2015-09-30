@@ -10,19 +10,40 @@ function lookupArticle(list, key) {
 	 return null;
 }
 
+function mergeDocArray(doc, behavior) {
+	var p = {};
+	if (!behavior) return doc;
+	if (!doc && behavior) {
+		return behavior;
+	}
+	behavior.forEach(function(obj) {
+		if(obj.name) p[obj.name] = obj;
+		else if(obj.type) p[obj.type] = obj;
+	});
+	doc.forEach(function(obj) {
+		if(obj.name) p[obj.name] = obj;
+		else if(obj.type) p[obj.type] = obj;
+	});
+	return Object.keys(p).map(function(key) {
+		return p[key];
+	});
+}
+
 module.exports = function(grunt) {
 
 	grunt.registerTask('build:docs', function() {
 		var modules = grunt.file.expand({cwd: "src"}, "mm-*/doc.json"),
 			articles = grunt.file.expand("docs/articles/*.md"),
 			articleMap = grunt.file.readJSON("docs/articles/manifest.json"),
+			behaviors = grunt.file.expand({cwd:"src/shared/behaviors"},"*.json"),
+			behaviorsMap = {},
 			mcheck = grunt.file.expand({cwd: "src"}, "mm-*/"),
 			moduleDoc,
 			moduleConfig,
 			examplePath,
 			moduleList = [],
 			articleList = [],
-			tasks = ['copy:docs'];
+			tasks = ['clean:docs', 'replace:bower', 'copy:docs'];
 
 		if (mcheck.length !== modules.length) {
 			grunt.log.error("Documentation missing for some modules!!");
@@ -42,6 +63,14 @@ module.exports = function(grunt) {
 				name: name,
 				link: link
 			};
+		});
+
+		behaviors.map(function(file) {
+			var f = "src/shared/behaviors/" + file;
+			var key = file.replace(".json","");
+			if (grunt.file.exists(f)) {
+				behaviorsMap[key] = grunt.file.readJSON(f);
+			}
 		});
 
 		articleMap = articleMap.map(function(section) {
@@ -68,6 +97,17 @@ module.exports = function(grunt) {
 				files: {}
 			};
 			examplePath = "src/" + doc.split("doc.json").join("example.html");
+
+			if (moduleDoc.behaviors) {
+				moduleDoc.behaviors.forEach(function(beh) {
+					var behavior = behaviorsMap[beh];
+					if (behavior) {
+						moduleDoc.attributes = mergeDocArray(moduleDoc.attributes, behavior.attributes);
+						moduleDoc.methods = mergeDocArray(moduleDoc.methods, behavior.methods);
+						moduleDoc.events = mergeDocArray(moduleDoc.events, behavior.events);
+					}
+				});
+			}
 
 			if (grunt.file.exists(examplePath)) {
 				moduleDoc.example = grunt.file.read(examplePath);
@@ -164,7 +204,15 @@ module.exports = function(grunt) {
 		]
 	});
 
-	grunt.registerTask('docs', ['clean:docs', 'build:dist', 'replace:bower', 'build:docs']);
+	grunt.config('jsonlint',{
+		docs:{
+			files:{
+				src:['<%= src_dir %>/mm-*/doc.json']
+			}
+		}
+	});
+
+	grunt.registerTask('docs', ['jsonlint','build:dist', 'build:docs', 'connect:docs', 'watch']);
 
 	grunt.config('gh-pages', {
 		options: {

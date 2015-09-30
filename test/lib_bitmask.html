@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="TestHelper.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/shared/js/bitmask.html"/>
+</head>
+<body>
+  <script>
+
+describe("Bitmask Library", function() {
+
+
+  it("should exist", function() {
+    StrandLib.should.be.an.object;
+    StrandLib.BitMask.should.be.an.object;
+  });
+
+  it("should create a mask", function() {
+    var m = new StrandLib.BitMask("A","B","C");
+    m.A.should.equal(1);
+    m.B.should.equal(2);
+    m.C.should.equal(4);
+  });
+
+});
+  </script>
+
+</body>
+</html>

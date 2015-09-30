@@ -1,0 +1,55 @@
+{
+	"name":"mm-tab",
+	"description":"A single tab.",
+	"attributes": [
+		{
+			"name": "tabLabel",
+			"type": "String",
+			"optional": false,
+			"attribute": "tab-label",
+			"default": "",
+			"description": "The text displayed on the tab"
+		},
+		{
+			"name": "icon",
+			"type": "String",
+			"optional": true,
+			"default": "",
+			"description": "The name of an mm-icon displayed next to the tab label"
+		},
+		{
+			"name": "url",
+			"type": "String",
+			"optional": true,
+			"description": "Path to an html document, if loading an external view into the tab. Use the loadExternal method if a callback is required when the tab loads."
+		},
+		{
+			"name": "active",
+			"type": "Boolean",
+			"optional": true,
+			"default": "false",
+			"description": "Whether this tab is active. There should only be one active tab at a time. If no active tab is set, the first tab defaults to active."
+		}
+	],
+	"methods": [
+		{
+			"name": "loadExternal",
+			"description": "Lazily load this tab's content from an external html document, and attach a callback for when the tab content is loaded",
+			"arguments": [
+				{
+					"name":"url",
+					"type":"String",
+					"optional":false,
+					"default":"",
+					"description":"Path to an html document to lazily load into the tab"
+				},
+				{
+					"name":"callback",
+					"type":"Function",
+					"optional":true,
+					"description":"The callback to run when the tab is loaded. "
+				}
+			]
+		}
+	]
+}

@@ -2,8 +2,9 @@
 <html>
 	{{> head}}
 	<body unresolved>
-		<mm-docs-shell id="docsShell" version="{{revision}}" mobileHeader="Strand Docs">
+		<mm-docs-shell id="docsShell" version="{{revision}}" mobile-header="Strand Docs">
 			{{> sidebar}}
+			{{> footer}}
 			<article class="layout-article">
 				<div class="docs-content">
 					<h1>{{name}}</h1>
@@ -12,13 +13,45 @@
 					<section>
 						<h3>Example HTML Editor</h3>
 						<div class="editor-wrapper">
-							<div id="editor-{{name}}" class="editor">{{example}}</div>
+							<div id="editor">{{example}}</div>
 						</div>
 					</section>
 					<section>
 						<h3>Example Output</h3>
 						<div class="content-box example" id="example-{{name}}">{{{example}}}</div>
 					</section>
+
+					{{#attributes.length}}
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							{{#attributes}}
+							<tr>
+								<td>
+									<span class="bold">{{name}} : </span><span class="italic">{{type}}&nbsp;{{#optional}}(optional){{/optional}}&nbsp;{{#readOnly}}(read-only){{/readOnly}}</span><br/>
+									{{#default}}
+									default : <span class="italic">{{default}}</span><br/>
+									{{/default}}
+									options : <span class="italic">{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</span><br/>
+									attribute : <span class="italic">{{#attribute}}{{attribute}}{{/attribute}}{{^attribute}}{{name}}{{/attribute}}</span><br/>
+									reflected to attribute : <span class="italic">{{#reflect}}yes{{/reflect}}{{^reflect}}no{{/reflect}}</span>
+								</td>
+								<td>
+									{{#description}}
+									<span class="desc">{{description}}</span>
+									{{/description}}
+								</td>
+							</tr>
+							{{/attributes}}
+						</table>
+					</section>
+					{{/attributes.length}}
+
+					<!--
 					<section>
 						<h3>Attributes</h3>
 						<table>
@@ -38,6 +71,8 @@
 							{{/attributes}}
 						</table>
 					</section>
+					-->
+
 					{{#methods.length}}
 					<section>
 						<h3>Public Methods</h3>
@@ -49,14 +84,14 @@
 							{{#methods}}
 							<tr>
 								<td>
-									<span class="bold">{{name}}</span>(<span>{{#arguments}}<span class="option">{{name}}</span>{{/arguments}}</span>){{#optional}} (Optional){{/optional}}
+									<span class="bold">{{name}}</span>(<span>{{#arguments}}<span class="italic option">{{name}}</span>{{/arguments}}</span>){{#optional}} (optional){{/optional}}<br/>
 									{{#description}}<span class="desc">{{description}}</span>{{/description}}
 								</td>
 								<td>
 									{{#arguments}}
 									<span class="arg">
-										<span class="bold">{{name}}</span> : {{type}}{{#optional}} (Optional){{/optional}}
-										{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
+										<span class="bold">{{name}} : </span><span class="italic">{{type}}{{#optional}}&nbsp;(optional){{/optional}}</span><br/>
+										{{#default}}default : <span class="italic">{{default}}</span>{{/default}}<br/>
 										{{#description}}<span class="desc">{{description}}</span>{{/description}}
 									</span>
 									{{/arguments}}
@@ -69,27 +104,7 @@
 						</table>
 					</section>
 					{{/methods.length}}
-					{{#properties.length}}
-					<section>
-						<h3>Public Properties</h3>
-						<table>
-							<tr>
-								<th>Properties</th>								
-								<th>Options</th>
-							</tr>
-							{{#properties}}
-							<tr>
-								<td>
-									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
-									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
-									{{#description}}<span class="desc">{{description}}</span>{{/description}}
-								</td>
-								<td>{{#options}}<span class="option">{{.}}</span>{{/options}}{{^options}}none{{/options}}</td>
-							</tr>
-							{{/properties}}
-						</table>
-					</section>
-					{{/properties.length}}
+
 					{{#events.length}}
 					<section>
 						<h3>Events</h3>
@@ -107,9 +122,12 @@
 								<td>
 									{{#detail}}
 									<span class="arg">
-										<span class="bold">{{name}}</span> : {{type}}
+										<span class="bold">{{name}}</span> : <span class="italic">{{type}}</span><br/>
 										{{#description}}<span class="desc">{{description}}</span>{{/description}}
 									</span>
+									{{/detail}}
+									{{^detail}}
+									none
 									{{/detail}}
 								</td>
 							</tr>
@@ -130,7 +148,6 @@
 				</div>
 				<div class="layout-push"></div>
 			</article>
-			{{> footer}}
 		</mm-docs-shell>
 		<script>
 			var name = "{{name}}",
@@ -142,16 +159,17 @@
 				$example,
 				firstRun = true; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
 			function initDoc() {
 				if (firstRun) {
-					articlesNav = document.querySelector("#articlesNav");
-					componentsNav = document.querySelector("#componentsNav");
-					docsShell = document.querySelector("#docsShell");
-					navItems = document.querySelectorAll("mm-list-item");
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
 
 					// default expanded:
 					articlesNav.expanded = false;
@@ -166,9 +184,8 @@
 
 					docsShell.addEventListener("docs-nav-selected", navigateToPage);
 
-					editor = ace.edit("editor-{{name}}");
+					editor = ace.edit("editor");
 					editor.setTheme("ace/theme/chrome");
-					editor.session.setUseWrapMode(true);
 					editor.session.setMode("ace/mode/html");
 					editor.getSession().on('change', _.debounce(update, 500));
 
@@ -178,13 +195,17 @@
 			}
 
 			function update(e) {
+				// console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
-				// hacks to retrigger the scripts in example:
-				window.dispatchEvent(new Event('polymer-ready'));
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
 			}
 
 			function navigateToPage(e) {
-				window.location = e.detail.value;
+				console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
 			}	
 		</script>
 	</body>

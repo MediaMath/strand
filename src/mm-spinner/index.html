@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="mm-spinner.html">
-		<style type="text/css">
+		<style type="text/css" is="custom-style">
 			
 			html, body {
 				margin: 0;
@@ -23,17 +23,17 @@
 		</style>
   	</head>
 	<body>
-		<mm-spinner radius="32" id="sp1" fillColor="#333333"></mm-spinner>
-		<mm-spinner radius="16" id="sp2" fillColor="#333333"></mm-spinner>
-		<mm-spinner radius="12" id="sp3" fillColor="#333333"></mm-spinner>
-		<mm-spinner radius="9"  id="sp4" fillColor="#333333"></mm-spinner>
+		<mm-spinner radius="32" id="sp1" fill-color="#00ff00" bg-color="#ff0000"></mm-spinner>
+		<mm-spinner radius="16" id="sp2" fill-color="#333333"></mm-spinner>
+		<mm-spinner radius="12" id="sp3" fill-color="#333333"></mm-spinner>
+		<mm-spinner radius="9"  id="sp4" fill-color="#333333"></mm-spinner>
 		<script>
 			var spinner1,
 				spinner2,
 				spinner3,
 				spinner4;
 
-			window.addEventListener("polymer-ready", function() {
+			window.addEventListener("WebComponentsReady", function() {
 				spinner1 = document.getElementById("sp1");
 				spinner2 = document.getElementById("sp2");
 				spinner3 = document.getElementById("sp3");

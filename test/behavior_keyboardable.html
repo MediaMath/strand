@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/keyboardable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-keyboardable">
+		<template>
+			<content select="*"></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is: 'test-keyboardable',
+				behaviors: [StrandTraits.Keyboardable],
+
+				properties: {
+					alphaCounter: {type: Number, value: 0},
+					numCounter: {type: Number, value: 0}
+				},
+
+				listeners: {
+					'keydown': '_routeKeyEvent'
+				},
+
+				_onUp: function() { this.up = true; },
+				_onDown: function() { this.down = true; },
+				_onLeft: function() { this.left = true; },
+				_onRight: function() { this.right = true; },
+
+				_onAlpha: function() {
+					this.alphaCounter++;
+				},
+				_onNum: function() {
+					this.numCounter++;
+				}
+			});
+		});
+	</script>
+
+	<test-keyboardable tabIndex="1" id="testElem"></test-keyboardable>
+
+	<script>
+		document.addEventListener("keydown", function(e) {
+			console.log("key pressed: "+e.keyCode);
+		});
+
+		var generateKeyEvent = function(code) {
+			var kb = new Event('Event', { keyCode: code });
+				conArgs = ['keydown', true, true, window, 0, 0, 0, 0, 0, code];
+			
+			if(kb.initKeyboardEvent) kb.initKeyboardEvent.apply(kb, conArgs);
+			else if(kb.initKeyEvent) kb.initKeyEvent.apply(kb, conArgs);
+			else if(kb.initEvent) kb.initEvent.apply(kb, conArgs);
+			kb.keyCode = code;
+
+			return kb;
+		}
+
+		describe('keyboardable', function() {
+
+			it('should route key events', function() {
+				var a = document.querySelector('#testElem');
+				a.focus();
+
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.UP));
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.RIGHT));
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.DOWN));
+				a._routeKeyEvent(generateKeyEvent(a.KEYS.LEFT));
+				// fireKeyEvent(a.KEYS.UP);
+				// fireKeyEvent(a.KEYS.DOWN);
+				// fireKeyEvent(a.KEYS.LEFT);
+				// fireKeyEvent(a.KEYS.RIGHT);
+
+				should.equal((a.up && a.down && a.right && a.left), true);
+			});
+
+
+			it('should route key events for ranges of keycodes', function() {
+				var a = document.querySelector('#testElem');
+				a.focus();
+
+				var alpha = 'ABCDE',
+					num = '12345';
+
+				for(var i=0; i<5; i++) {
+					a._routeKeyEvent(generateKeyEvent(alpha.charCodeAt(i)));
+					a._routeKeyEvent(generateKeyEvent(num.charCodeAt(i)));
+				}
+
+				a.alphaCounter.should.equal(5);
+				a.numCounter.should.equal(5);
+			});
+
+		});
+
+	</script>
+</body>
+</html>

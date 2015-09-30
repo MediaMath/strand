@@ -1,100 +1,83 @@
 {
 	"name":"mm-group",
-	"description":"A mechanism for grouping components - for button bars, search groups, and radio groups",
+	"description":"A mechanism for grouping components - for button bars, search groups, and radio groups. Button bars and radio groups will respond with respond with 'changed' and 'selected' states and events. Currently, all 'mixed' component grouping mechanisms are for positioning and styling concerns only.",
 	"attributes": [
+		{
+			"name":"fitparent",
+			"type":"Boolen",
+			"description":"Sets the width of the component to fill the width of it's parent element.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		},
+		{
+			"name":"group",
+			"type":"String",
+			"description":"Sets the name of the group, which in turn sets the group attribute on it's light dom children. If no group name is specified, a group name will be ",
+			"default":"horizontal",
+			"options":["horizontal", "vertical"],
+			"reflect":true
+		},
 		{
 			"name":"align",
 			"type":"Boolean",
 			"description":"Specifies the direction in which the group should be laid out (horizontal or vertical).",
-			"default":"horizontal",
-			"options":["horizontal", "vertical"]
-		},
-		{
-			"name":"fit",
-			"type":"Boolean",
-			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
 			"optional":true,
-			"default":"null",
-			"options":["true", "false"]
-		}
-	],
-	"methods": [		
-		{
-			"name":"bindModel",
-			"description":"Bind a property on the given model to the input's value.",
-			"arguments":[
-				{
-					"name":"model",
-					"type":"Object",
-					"optional":false,
-					"default":"undefined",
-					"description":"The model object to update with value changes.  If the model has a '.set()' method, .set(property, inputValue) will be used (otherwise the property field of the model will be assigned directly)."
-				},
-				{
-					"name":"property",
-					"type":"String",
-					"optional":false,
-					"default":"undefined",
-					"description":"The property on the model that should be bound to the input's value."
-				}
-			]
-		}
-	],
-	"properties": [
+			"default":"horizontal",
+			"options":["horizontal", "vertical"],
+			"reflect":true
+		},
 		{
 			"name":"value",
 			"type":"String",
-			"description":"the current selected radio value or contents as a string",
-			"default":"''"
+			"description":"The value of the selected item within the group i.e.- the value of a selected mm-radio or mm-button.",
+			"optional":false,
+			"default":"none"
 		}
 	],
 	"events": [
 		{
 			"type": "changed",
-			"disclaimer": "Applies to mm-radio group only",
+			"disclaimer" : "*Applies to mm-groups which contain mm-radio buttons only.",
 			"detail": [
 				{
-					"name":"checked",
-					"type":"Boolean",
-					"description":"The status of this radio button's selection"
-				},
-				{
-					"name":"item",
-					"type":"Object",
-					"description":"A reference to the item which triggered the event"
+					"name":"value",
+					"type":"String",
+					"description":"The value property of the item which was selected, or it's text content"
 				}
 			]
 		},
 		{
 			"type": "selected",
-			"disclaimer": "Applies to mm-button group only",
-			"detail":[
-				{
-					"name":"active",
-					"type":"Boolean",
-					"description":"The item's active state"
-				},
-				{
-					"name":"index",
-					"type":"int",
-					"description":"The index of the active item"
-				},
+			"disclaimer" : "*Applies to mm-groups which contain mm-buttons only.",
+			"detail": [
 				{
 					"name":"item",
 					"type":"Object",
-					"description":"A reference to the item which triggered the event"
+					"description":"The item which was selected."
 				},
 				{
-					"name":"selected",
-					"type":"Boolean",
-					"description":"The item's selected state"
+					"name":"index",
+					"type":"Number",
+					"description":"The index of item which was selected."
 				},
 				{
 					"name":"value",
 					"type":"String",
-					"description":"Value of the selected item, usually it's label"
+					"description":"The value property of item which was selected, or it's text content."
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"description":"The name property of item which was selected."
+				},
+				{
+					"name":"selected",
+					"type":"Boolean",
+					"description":"The selected state of the item."
 				}
 			]
 		}
-	]
+	],
+	"behaviors": ["selectable"]
 }

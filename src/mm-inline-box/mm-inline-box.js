@@ -4,49 +4,54 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-inline-box', {
-	ver:"<<version>>",
-	maxlines: 1,
-	LINE_HEIGHT: 18,
+(function(scope) {
 
-	publish: {
-		type: { value: "info", reflect: true },
-		layout: "default"
-	},
+	scope.InlineBox = Polymer({
+		is: 'mm-inline-box',
 
-	ready: function() {
-		this.typeChanged("",this.type);
-	},
+		_iconMap: {
+			info:    { type: "info" },
+			success: { type: "success" },
+			warning: { type: "warning" },
+			error:   { type: "warning" }
+		},
 
-	typeChanged: function(oldVal, newVal) {
-		var primaryColor, 
-			icon;
+		properties: {
+			type: {
+				type: String,
+				value: "info",
+				reflectToAttribute: true
+			},
+			maxlines: {
+				type: Number
+			},
+			fitparent: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			layout: { 
+				type: String,
+				reflectToAttribute: true 
+			},
+			_icon: {
+				type: Object,
+				computed: '_getIconAttributes(type)'
+			}
+		},
 
-		switch (this.type) {
-			case "error":
-				icon = this.$.warningIcon;
-				primaryColor = Colors.C3;
-			break;
-			case "warning":
-				icon = this.$.warningIcon;
-				primaryColor = Colors.E5;
-			break;
-			case "success":
-				icon = this.$.successIcon;
-				primaryColor = Colors.B6;
-			break;
-			case "info":
-				icon = this.$.infoIcon;
-				primaryColor = Colors.D3;
-			break;
+		LINE_HEIGHT: 18,
+		TYPE_DEFAULT: "default",
+		TYPE_MESSAGE: "message",
+
+		_getContentStyle: function(maxlines) {
+			var maxHeight = maxlines ? maxlines * this.LINE_HEIGHT + "px" : "none";
+			return "max-height: " + maxHeight;
+		},
+
+		_getIconAttributes: function(type) {
+			return this._iconMap[type];
 		}
-		
-		if(icon){
-			icon.primaryColor = primaryColor;
-		}
-	},
+	});
 
-	layoutChanged: function(oldVal, newVal) {
-		// console.log('layoutChanged: ' + newVal);
-	}
-});
+})(window.Strand = window.Strand || {});

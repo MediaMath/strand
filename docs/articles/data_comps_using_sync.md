@@ -1,6 +1,6 @@
 # Using MM-Sync
 
-##Overview
+## Overview
 
 MM-Sync provides a higher level API similar to jQuery or Backbone in terms of having pre-configured XHR calls for the most common RESTful scenarios. Sync is designed heavily around 2-way binding so virtually all of the request params can be manipulated via the DOM (and thus via 2-way binding) as we will see in the examples.
 
@@ -8,13 +8,13 @@ Sync is used as the base class for all 'adapters' which provide API specific imp
 
 Unlike mm-ajax which is designed to handle a single call at a time, mm-sync can handle multiple concurrent calls. The default concurrency setting is 4 simultaneous calls, but if more are desired they can be set via the `requestConcurrency` param (either markup or JS).
 
-##Data Configuration
+## Data Configuration
 
 MM-Sync exposes a `data` property which can be set via JS or bound to to set the request body. This is actually serialized in mm-ajax so if you need to see the serialization code, please check there.
 
 a `url` property is also exposed and can be used to set the base or non-changing part of the URL.  Note that the urlParams are then concatenated into that URL using '/''s per element.
 
-###Param configuration
+### Param configuration
 
 Sync's configuration is divided into 2 sets of operations: input and output.  
 Input params are used for `GET` requests. Output params are used for `POST`, `PUT`, and `DELETE` requests.
@@ -27,10 +27,10 @@ Params were designed to give the developer full flexibility over crafting the re
 
 The 'direction' of input or output is relative to the component itself, so when you are pulling data from the server via a get, we consider that 'input' to the component, and the reverse is true for saving/deletion operations.
 
-###Input param example
+### Input param example
 
 ```html
-<mm-sync url="http://example.com">
+<mm-sync endpoint="http://example.com">
 	<input-params>
 		<queryParam name="q" value="123"/>
 		<urlParam>123</urlParam>
@@ -41,9 +41,9 @@ The 'direction' of input or output is relative to the component itself, so when 
 
 This will generate a URL for the request of `http://example.com/123/?q=123` and it will send an X-Some-Header: HeaderValue to the server with the request. Note that it is possible to either use a value attribute or to just place the value inside the body of a named node. These formats may be used interchangeably.
 
-###Output param example
+### Output param example
 ```html
-<mm-sync url="http://test.com">
+<mm-sync endpoint="http://test.com">
 	<output-params>
 		<urlParam>campaigns</urlParam>
 		<urlParam>52312</urlParam>
@@ -63,18 +63,18 @@ It is also possible to set both input and output params on the same element to c
 </mm-sync>
 ```
 
-##Working with 2-way binding
+## Working with 2-way binding
 
 To support 2-way binding in a scenario using mm-sync we have created the `auto` param. Auto tells mm-sync to respond automatically to data or param changes and make additional requests to sync the data back to the server. Auto may be set via JS or via HTML as an attribute.  Auto has 3 possible values:
 
 *  true `boolean` -- bidirectional sync input/output for any changes
 *  load `string`-- only sync data in from server when input params change
-*  save `string` -- only sync data in from the server when the data property detects a change-- note that this currently does not pick up sub value changes without an entire object assignment taking place due to limitations in Polymer's binding schema.
+*  save `string` -- only sync data in from the server when the data property detects a change-- note that due to polymer 1.0 data binding limitations you must manually tell polymer that the data has changed using `set`
 
 ```javascript
 var sync = document.querySelector("mm-sync");
 sync.data.b = 2; //won't be picked up
-sync.data = {b:2} //will be picked up by Polymer
+sync.set('data.b',2); //will be picked up by Polymer
 ```
 
 ### 2-way binding on the input
@@ -84,8 +84,8 @@ A fairly common scenario in modern web applications is a user entering search te
 The following is an example of the simple input scenario using a self binding template.
 
 ```html
-	<template is="auto-binding">
-		<input value="{{search}}">
+	<template is="dom-bind">
+		<mm-input value="{{search}}"/>
 	</template>
 ```
 
@@ -93,8 +93,8 @@ Now bind this to a sync components params from our earlier example:
 
 ```html
 	<template is="auto-binding">
-		<input value="{{search}}">
-		<mm-sync url="http://example.com" auto="true">
+		<mm-input value="{{search}}"/>
+		<mm-sync endpoint="http://example.com" auto="true">
 			<input-params>
 				<queryParam name="q" value="{{search}}"/>
 				<urlParam>123</urlParam>
@@ -121,8 +121,8 @@ Unfortunately this example does not provide any feedback to the user, but it is 
 			</input-params>
 		</mm-sync>
 		<ul>
-			<template repeat="{{result}}">
-				<li>{{name}}</li>
+			<template is="dom-repeat" items="{{result.list}}">
+				<li>{{item.name}}</li>
 			</template>
 		</ul>		
 	</template>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/stackable.html">
+</head>
+<body>
+
+	<dom-module id="test-stackable">
+		<style></style>
+		<template>
+			<content id="content"></content>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-stackable",
+					behaviors:[StrandTraits.Stackable]
+				});
+			});
+		</script>
+	</dom-module>
+
+	<!-- used this way in components which need their internals to stack -->
+	<dom-module id="test-stackable-panel">
+		<style></style>
+		<template>
+			<content id="content"></content>
+			<div id="panel"></div>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-stackable-panel",
+					properties: {
+						stackTarget: {
+							type: Object,
+							value: function() { return this.$.panel; }
+						}
+					},
+					behaviors:[StrandTraits.Stackable]
+				});
+			});
+		</script>
+	</dom-module>
+
+	<test-stackable id="test1"></test-stackable>
+	<test-stackable id="test2"></test-stackable>
+	<test-stackable-panel id="test3"></test-stackable-panel>
+	
+	<script type="text/javascript">
+
+		describe("Stackable", function() {
+				
+			it("should exist", function() {
+				StrandTraits.should.be.an.object;
+				StrandTraits.Stackable.should.be.an.object;
+			});
+
+			it("should not _updateStack() if _initialized is false", function(done) {
+				var t = document.querySelector("#test1"),
+					s = sinon.spy(t, "_updateStack"),
+					origZIndex = t.style.zIndex,
+					afterZIndex = null;
+
+				t._initialized = false;
+				t._updateStack();
+
+				t.async(function(){
+					should.equal(s.calledOnce, true);
+					afterZIndex = t.style.zIndex;
+					afterZIndex.should.equal.origZIndex;
+					done();
+				});
+			});
+
+			it("should update depth", function(done) {
+				var t = document.querySelector("#test2"),
+					s = sinon.spy(t, "_updateDepth"),
+					origZIndex = t.style.zIndex,
+					afterZIndex = null;
+
+				t.stackType = "modal";
+
+				t.async(function() {
+					should.equal(s.called, true);
+					afterZIndex = t.style.zIndex;
+					afterZIndex.should.not.be.origZIndex;
+					done();
+				});
+			});
+
+			it("should apply z-index on stackTarget, if specified", function() {
+				var t = document.querySelector("#test3"),
+					panel = Polymer.dom(t.root).querySelector("#panel"),
+					panelIndex = panel.style.zIndex;
+
+				panelIndex.should.exist;
+			});
+
+			it("should move to top", function(done) {
+				var t = document.querySelector("#test1"),
+					topIndex = null;
+				
+				t._initialized = true;
+				topIndex = t.moveToTop();
+
+				t.async(function() {
+					should.equal(topIndex, 20003);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

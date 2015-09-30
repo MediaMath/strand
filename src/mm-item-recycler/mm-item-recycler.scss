@@ -5,21 +5,38 @@
 
 */
 @import "_bourbon";
+@import "_sizeresponsible";
 
 :host {
 	display: block;
-	@include transform(translate3d(0,0,0));
 	overflow: auto;
 }
 
-#list {
-	overflow: hidden;
-	position: relative;
-	min-width: 100%;
-
-	::content .recycler-panel {
-		min-width: 100%;
-		width: 100%;
-		position: absolute;
-	}
+:host([x-scroll="none"]) #constrainer {
+	max-width: 100%;
 }
+
+#pane {
+	width: 100%;
+	height: 100%;
+	overflow-x: inherit;
+	overflow-y: inherit;
+	max-height: inherit;
+}
+
+#constrainer {
+	display: inline-block;
+}
+
+#header, #footer, #middle, #extent, #constrainer {
+	min-width: 100%;
+	position: relative;
+}
+
+#extent {
+	height: 1px;
+	margin-top: -1px;
+	z-index: -1;
+}
+
+

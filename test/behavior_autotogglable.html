@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/autotogglable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-autotogglable">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestAutoTogglable = Polymer({
+				is: 'test-autotogglable',
+				behaviors: [StrandTraits.AutoTogglable]
+			});
+		});
+	</script>
+
+	<a id="testTrigger">Foo</a>
+	<test-autotogglable id="testAutoTogglable"></test-autotogglable>
+
+	<script>
+		describe('AutoTogglable', function() {
+
+			it('should get a toggleTrigger from a selector', function(done) {
+				var toggle = document.querySelector('#testAutoTogglable'),
+					trigger = document.querySelector('#testTrigger');
+				
+				toggle.toggleTrigger = '#testTrigger';
+				flush(function() {
+					toggle.toggleTrigger.should.equal(trigger);
+					done();
+				});
+			});
+
+			it('should toggle when the trigger is clicked', function() {
+				var toggle = document.querySelector('#testAutoTogglable'),
+					trigger = document.querySelector('#testTrigger');
+
+				toggle.state.should.equal(toggle.STATE_CLOSED);
+				toggle.fire('click', null, {node: trigger});				
+				toggle.state.should.equal(toggle.STATE_OPENED);
+				toggle.fire('click', null, {node: trigger});				
+				toggle.state.should.equal(toggle.STATE_CLOSED);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

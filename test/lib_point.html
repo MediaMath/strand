@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="TestHelper.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/shared/js/point.html"/>
+</head>
+<body>
+  <script>
+    describe("Point Library", function() {
+
+      it("should exist", function() {
+        StrandLib.should.be.an.object;
+        StrandLib.Point.should.be.an.object;
+      });
+
+      it("should add", function() {
+        var p1 = new StrandLib.Point(4,4);
+        var p2 = new StrandLib.Point(5,5);
+        p1.add(p2);
+        p1.x.should.equal(9);
+        p1.y.should.equal(9);
+      });
+
+      it("should scale", function() {
+        var p1 = new StrandLib.Point(4,4);
+        p1.scale(4)
+        p1.x.should.equal(16);
+        p1.y.should.equal(16);
+      });
+
+      it("should clone", function() {
+        var p1 = new StrandLib.Point(4,4);
+        var p2 = p1.clone();
+        p2.x.should.equal(p1.x);
+        p2.y.should.equal(p1.y);
+      });
+
+    });
+  </script>
+</body>
+</html>

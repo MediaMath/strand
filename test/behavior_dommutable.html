@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/dommutable.html"/>
+</head>
+<body>
+
+	<dom-module id="test-dommutable">
+		<template>
+			<content id="content"></content>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-dommutable",
+					behaviors:[StrandTraits.DomMutable],
+					properties: {
+						observeSubtree:{
+							type:Boolean,
+							value: true,
+						},
+						observeCharacterData: {
+							type:Boolean,
+							value: true
+						},
+						observeAttributes:{
+							type:Boolean,
+							value: true
+						},
+					}
+				});
+			});
+		</script>
+	</dom-module>
+
+	<test-dommutable id="muteTest">
+		<p id="origText">Some Text Here</p>
+	</test-dommutable>
+
+	<script>
+
+		describe("behavior_dommutable", function() {
+
+			it("should exist", function() {
+				StrandTraits.should.be.an.object;
+				StrandTraits.DomMutable.should.be.an.object;
+			});
+			
+			it("should have an observer", function() {
+				var a = document.querySelector("#muteTest");
+				a._observer.should.exist;
+			});
+
+			it("should sort mutation records correctly - added", function(done) {
+				var a = document.querySelector("#muteTest"),
+					m =[{ addedNodes:["", "", ""], removedNodes:[] }],
+					s = sinon.spy();
+
+				a.addEventListener("added", s);
+				a._nodesChanged(m);
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			it("should sort mutation records correctly - removed", function(done) {
+				var	a = document.querySelector("#muteTest"),
+					m = [{ addedNodes:[], removedNodes:["", "", ""] }],
+					s = sinon.spy();
+
+				a.addEventListener("removed", s);
+				a._nodesChanged(m);
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			it("should sort mutation records correctly - modified", function(done) {
+				var a = document.querySelector("#muteTest"),
+					m = [{ addedNodes:[], removedNodes:[] }],
+					s = sinon.spy();
+
+				a.addEventListener("modified", s);
+				a._nodesChanged(m);
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			it("should respond to subtree mutation", function(done) {
+				var a = document.querySelector("#muteTest"),
+					span = document.createElement('span'),
+					p = document.querySelector("#origText"),
+					s = sinon.spy();
+
+				a.addEventListener("added", s);
+				span.textContent = "Some More Text Here";
+				Polymer.dom(p).appendChild(span);
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			it("should respond to text manipulation", function(done) {
+				var a = document.querySelector("#muteTest"),
+					p = document.querySelector("#origText"),
+					span = p.querySelector("span"),
+					s = sinon.spy();
+
+				a.addEventListener("removed", s);
+				span.textContent = "Some Edited Text";
+				span.dataset.id = "someDataId";
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+			it("should respond to attribute manipulation", function(done) {
+				var a = document.querySelector("#muteTest"),
+					p = document.querySelector("#origText"),
+					span = p.querySelector("span"),
+					s = sinon.spy();
+
+				a.addEventListener("modified", s);
+				span.setAttribute("id", "someId");
+
+				flush(function() {
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+		});
+
+</script>

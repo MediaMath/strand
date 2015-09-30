@@ -88,91 +88,94 @@
 				position: relative;
 			}
 
-			mm-tooltip[unresolved],
-			mm-icon[unresolved] {
-				display: none;
-			}
-
-			/* testing some custom content styling for the tooltip */
 			.tip-msg {
 				color: #ff0000;
-				font-size: 14px;
 			}
 
-			.special-msg a {
-				/* it's shitty but you have to do this with an !important */
-				/*color: #00ff00 !important;*/
+			.div-targ {
+				width: 14px;
+				height: 14px;
+				background: #ff0000;
+			}
+
+			mm-icon[type=info] {
+				color: #666;
+			}
+
+			mm-icon[type=warning] {
+				color: #FED01A;
 			}
 
 		</style>
   </head>
   <body>
 
-	<div class="col c1">
-		<p>
-			<span class="bold">Tooltip:</span> Message Layout Default
-			<mm-tooltip>
-				<!-- must use a template to populate the tooltip -->
-				<mm-icon type="info" width="14" height="14" primaryColor="#666666"></mm-icon>
-				<template>
-					<label>I Love to eat chicken! It's so damn delicious.</label>
-				</template>
+  	<div class="col c1">
+  		<p>
+			<span class="bold">Tooltip:</span> Message Layout Default <mm-icon id="defaultTarg" type="info" width="14" height="14"></mm-icon>
+			<mm-tooltip target="#defaultTarg">
+				<label>I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Layout with Custom Text Style
-			<mm-tooltip>
-				<template>
-					<label class="tip-msg">I Love to eat chicken! It's so damn delicious.</label>
-				</template>
-				<mm-icon type="info" width="14" height="14" primaryColor="#666666"></mm-icon>
+			<span class="bold">Tooltip:</span> Layout with Custom Text Style <mm-icon class="custom-targ" type="info" width="14" height="14"></mm-icon>
+			<mm-tooltip target=".custom-targ">
+				<label class="tip-msg" target="">I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Layout with Custom Width
-			<mm-tooltip tipWidth="150">
-				<mm-icon type="warning" width="14" height="14" primaryColor="#FED01A"></mm-icon>
-				<template>
-					<label>I Love to eat chicken! It's so damn delicious.</label>
-				</template>
+			<span class="bold">Tooltip:</span> Layout with Custom Width <mm-icon id="widthTarg" type="warning" width="14" height="14"></mm-icon>
+			<mm-tooltip tip-width="150" target="#widthTarg">
+				<label>I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
+		</p>
+		<hr/>
+		<p id="dynamicExample">
+			<span class="bold">Tooltip:</span> Dynamically generated
 		</p>
 		<hr/>
 	</div>
 	<div class="vr"></div>
 	<div class="col c1">
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-link, auto is false
-			<mm-tooltip tipWidth="200" auto="false">
-				<template>
-					<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
-				</template>
-				<mm-action underline="true"><label>Awesome</label></mm-action>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-link, auto is false <mm-action id="actionTarg"underline="true"><label>Awesome</label></mm-action>
+			<mm-tooltip tip-width="200" auto="false" target="#actionTarg">
+				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip
-			<mm-tooltip tipWidth="200" auto="false">
-				<template>
-					<label class="special-msg"><span class="bold">Lorem Ipsum: </span>is simply dummy text of the <a href="http://www.example.com" target="_blank">this and stuff</a> printing and typesetting industry.</label>
-				</template>
-				<mm-icon type="info" width="14" height="14" primaryColor="#666666"></mm-icon>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip <mm-icon id="custom2Targ" type="info" width="14" height="14"></mm-icon>
+			<mm-tooltip tip-width="200" auto="false" target="#custom2Targ">
+				<label class="special-msg"><span class="bold">Lorem Ipsum: </span>is simply dummy text of the <a href="http://www.example.com" target="_blank">this and stuff</a> printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-link
-			<mm-tooltip tipWidth="200">
-				<template>
-					<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
-				</template>
-				<mm-action underline="true"><label>Best Thing Ever!</label></mm-action>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-action <mm-action id="custom3Targ" underline="true"><label>Best Thing Ever!</label></mm-action>
+			<mm-tooltip tip-width="200" target="#custom3Targ">
+				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 	</div>
+	<script>
+		window.addEventListener("WebComponentsReady", function() {
+			var t = new Strand.Tooltip(),
+				d = document.createElement('div'),
+				l = document.createElement('label'),
+				de = document.querySelector('#dynamicExample');
+
+			d.classList.add('div-targ');
+			l.innerHTML = "dynamic tooltip, oh yeah!";
+			t.target = d;
+			
+			de.appendChild(d);
+			Polymer.dom(de).appendChild(t);
+			Polymer.dom(t).appendChild(l);
+		});
+	</script>
   </body>
 </html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/positionable.html"/>
+	<style>
+		#target {
+			position: absolute;
+			width:20px;
+			height: 20px;
+			background: #0000FF;
+			top: 400px;
+			left:400px;
+		}
+	</style>
+</head>
+<body>
+
+	<dom-module id="test-positionable">
+		<style>
+			:host {
+				width:200px;
+				height: 200px;
+				background: #ff0000;
+				display: block;
+				position: absolute;
+			}
+		</style>
+		<template>
+			<content id="content"></content>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-positionable",
+					behaviors:[StrandTraits.Positionable],
+					properties: {
+						target: {
+							type: Object,
+							value: null,
+							observer: '_positionableTargetChanged'
+						}
+					},
+					// *REQUIRED* - use the private target api
+					_positionableTargetChanged: function() {
+						this._target = this.target;
+					}
+				});
+			});
+		</script>
+	</dom-module>
+
+	<div id="target"></div>
+
+	<test-positionable id="testPanel" target="#target"></test-positionable>
+
+	<script>
+		
+		describe("behavior_positionable", function() {
+
+			it("should return document as _scope by default", function() {
+				var a = document.querySelector("#testPanel");
+				a._scope.should.equal(document);
+			});
+
+			it("should return itself as _panel by default", function() {
+				var a = document.querySelector("#testPanel");
+				a._panel.should.equal(a);
+			});
+
+			it("should return _target which was specified by target attribute", function() {
+				var a = document.querySelector("#testPanel"),
+					t = document.querySelector("#target");
+				a._target.should.equal(t);
+			});
+
+			it("should display on state change", function(done) {
+				var a = document.querySelector("#testPanel");
+				a.state.should.equal(a.STATE_CLOSED);
+				a.open();
+				flush(function() {
+					a._panel.style.clip.should.equal("auto");
+					done();
+				});
+			});
+
+			it("should update position on resize and scroll", function(done) {
+				var a = document.querySelector("#testPanel"),
+					s = sinon.spy(a, "_updatePosition"),
+					spoofResize = new Event('resize'),
+					spoofScroll = new Event('scroll');
+
+				a.open();
+				window.dispatchEvent(spoofResize);
+				window.dispatchEvent(spoofScroll);
+
+				flush(function() {
+					should.equal(s.calledTwice, true);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

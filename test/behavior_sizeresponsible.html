@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script src="../bower_components/web-component-tester/browser.js"></script>
+		<script src="TestHelper.js"></script>
+		<script>
+			var should = chai.should();
+		</script>
+		<link rel="import" href="../build/shared/behaviors/sizeresponsible.html"/>
+		<link rel="import" href="../build/shared/js/datautils.html"/>
+		<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	</head>
+	<body>
+		<dom-module id="test-sizeresponsible">
+			<template>
+				<content id="content"></content>
+			</template>
+			<style>
+				#unused {
+					display: none;
+				}
+			</style>
+			<script>
+				HTMLImports.whenReady(function() {
+					Polymer({
+						is:"test-sizeresponsible",
+						behaviors:[StrandTraits.SizeResponsible]
+					});
+				});
+			</script>
+		</dom-module>
+
+		<test-sizeresponsible id="test1"></test-sizeresponsible>
+		
+		<script>
+			describe("SizeResponsible", function() {
+				
+				it("should exist", function() {
+					StrandTraits.should.be.an.object;
+					StrandTraits.SizeResponsible.should.be.an.object;
+				});
+
+				it("should have .resize-triggers div with a class matching the tag name", function() {
+					var t = document.querySelector("#test1");
+
+					// make sure it adds the 'resize-triggers' div:
+					t.addResizeListener(function() {}, t);
+					var resizeTriggers = Polymer.dom(t).querySelector(".resize-triggers"),
+						classList = StrandLib.DataUtils.clone(resizeTriggers.classList);
+
+					resizeTriggers.should.exist;
+					resizeTriggers.should.be.an.object;
+
+					// test to make sure Polymer's name spacing matches:
+					classList.should.exist;
+					classList.should.be.an.array;
+					classList.indexOf(t.tagName.toLowerCase()).should.equal(1);
+				});
+
+				it("should create a style selector with element-tag-based class namespacing", function () {
+					var t = document.querySelector("#test1");
+					var name = "test-sizeresponsible";
+					var selector = "#unused";
+					var cssRule = findCSSRuleContaining(selector);
+
+					t.tagName.toLowerCase().should.equal(name);
+
+					cssRule.should.exist;
+
+					// make sure the only selector expectations are a class with the tag and the original selector
+					[cssRule.selectorText].reduce(function (reduction, str) {
+						reduction.push.apply(reduction, str.split(selector));
+						return reduction;
+					}, []).reduce(function (reduction, str) {
+						reduction.push.apply(reduction, str.split("."+name));
+						return reduction;
+					}, []).some(function (str) {
+						return str !== "";
+					}).should.equal(false);
+
+
+
+					function findCSSRuleContaining (text) {
+						var result = null;
+						var some = [].some;
+
+						some.call(document.styleSheets, function (sheet) {
+							return some.call(sheet.cssRules, this);
+						}, function (rule) {
+							if (rule.selectorText.indexOf(text) > -1) {
+								result = rule;
+								return true;
+							}
+						});
+
+						return result;
+					}
+				});
+
+			});
+
+		</script>
+
+
+	</body>
+</html>

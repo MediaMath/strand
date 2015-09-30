@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../mm-icon/mm-icon.html">
 		<link rel="import" href="mm-action.html">
 		<style type="text/css">
@@ -82,41 +82,35 @@
 				display: block;
 				float: left;
 			}
-
-			mm-action[unresolved] {
-				display:none;
-			}
-
-			mm-action {}
 		</style>
   </head>
   <body>
   	<div class="col c4">
 		<p><span class="bold">Action:</span> default</p>
-		<mm-action href="http://www.example.com" unresolved>
+		<mm-action>
 			<label>+Add Item</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> default disabled</p>
-		<mm-action href="http://www.example.com" unresolved disabled>
+		<mm-action disabled>
 			<label>+Add Item</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with icon</p>
-		<mm-action unresolved>
-			<mm-icon type="favorite" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
+		<mm-action href="http://www.google.com">
+			<mm-icon type="favorite" width="16" height="16"></mm-icon>
 			<label>Awesome</label>
 		</mm-action>
 		<hr/>
-		<p><span class="bold">Action:</span> with underline</p>
-		<mm-action unresolved underline="true">
-			<mm-icon type="favorite" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
+		<p><span class="bold">Action:</span> with underline and target '_blank'</p>
+		<mm-action href="http://www.github.com" underline="true" target="_blank">
+			<mm-icon type="favorite" width="16" height="16"></mm-icon>
 			<label>Underline Me</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with icon disabled</p>
-		<mm-action unresolved disabled>
-			<mm-icon type="favorite" width="16" height="16" shapeRendering="auto" optimize="true"></mm-icon>
+		<mm-action disabled>
+			<mm-icon type="favorite" width="16" height="16"></mm-icon>
 			<label>Awesome</label>
 		</mm-action>
 		<hr/>

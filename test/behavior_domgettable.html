@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/domgettable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+	<dom-module id="test-gettable">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<dom-module id="test-compget">
+		<template>
+			<content select="child"></content>
+			<content select="tester"></content>
+		</template>
+	</dom-module>
+	<script>
+
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is:"test-gettable",
+				behaviors:[StrandTraits.DomGettable]
+			});
+
+			Polymer({
+				is:"test-compget",
+				behaviors:[StrandTraits.DomGettable]
+			});
+		});
+
+	</script>
+
+<script>
+describe("DomGettable", function() {
+	it("should exist", function() {
+		StrandTraits.should.be.an.object;
+		StrandTraits.DomGettable.should.be.an.array;
+	});
+
+	it("should get children via content", function() {
+		var test = document.querySelector("#test1");
+		var ld = test.getLightDOM();
+		ld.should.be.an.array;
+		ld.should.have.length(3);
+		ld[0].nodeName.should.equal("CHILD");
+
+		test.domObject.child.should.exist;
+		test.domObject.child.should.be.an.array;
+		test.domObject.child.should.have.length(3);
+		test.domObject.child[0].should.be.an.object;
+		test.domObject.child[0].inner.should.equal("test");
+
+	});
+
+	it("should support any internal content tags", function() {
+		var test = document.querySelector("#test3");
+		var ld = test.getLightDOM();
+		ld.should.be.an.array;
+		ld.should.have.length(3);
+	});
+
+	it("should update domObject when child nodes change", function(done) {
+		var test = document.querySelector("#test2");
+		var div = document.createElement("div");
+		Polymer.dom(test).appendChild(div);
+		flush(function() {
+			test.domObject.should.exist;
+			test.domObject.should.be.an.object;
+			test.domObject.should.have.property("div");
+			test.domObject.should.have.property("child");
+			test.domObject.div.should.be.an.array;
+			test.domObject.div.should.have.length(1);
+			test.domObject.div[0].should.be.an.object;
+			done();
+		});
+	});
+});
+</script>
+<test-gettable id="test1"><child>test</child><child></child><child></child></test-gettable>
+<test-gettable id="test2"><child>test</child><child></child><child></child></test-gettable>
+<test-compget id="test3"><child>test</child><child></child><testers></testers></test-compget>
+</body>
+</html>

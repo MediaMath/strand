@@ -4,8 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-polyfill-next-selector { content: ':host ._mm_column' }
-._mm_column {
+:host ._mm_column {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="TestHelper.js"></script>
+  <script>
+    var should = chai.should();
+  </script>
+  <link rel="import" href="../build/shared/js/measure.html"/>
+</head>
+<body>
+
+  <div id="borderTest" style="
+    box-sizing: border-box;
+    border-top: 5px solid red;
+    border-right: 21px solid red;
+    border-bottom: 8px solid red;
+    border-left: 19px solid red;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 45px;
+    padding-left: 19px;
+    height: 800px;
+    width: 1000px;
+  "></div>
+
+  <script>
+    describe("Measure Library", function() {
+
+      it("should exist", function() {
+        StrandLib.should.be.an.object;
+        StrandLib.Measure.should.be.an.object;
+      });
+
+      it("should measure border width", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getBorderWidth(testElem).should.equal(40);
+      });
+
+      it("should measure border heigh", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getBorderHeight(testElem).should.equal(13);
+      });
+
+      it("should measure padding width", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getPaddingWidth(testElem).should.equal(31);
+      });
+
+      it("should measure offset height", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getOffsetHeight(testElem).should.equal(800);
+      });
+
+      it("should measure offset width", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getOffsetWidth(testElem).should.equal(1000);
+      });
+
+      it("should get the bounding client rect", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getBoundingClientRect(testElem).should.deep.equal(testElem.getBoundingClientRect());
+      });
+
+      it("should get the computed style", function() {
+        var testElem = document.querySelector('#borderTest');
+        StrandLib.Measure.getComputedStyle(testElem).should.deep.equal(window.getComputedStyle(testElem));
+      });
+
+    });
+  </script>
+</body>
+</html>

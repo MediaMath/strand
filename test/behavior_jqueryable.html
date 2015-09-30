@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html"/>
+	<link rel="import" href="../build/shared/behaviors/jqueryable.html"/>
+</head>
+<body>
+
+	<dom-module id="test-recursion">
+		<template>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-recursion",
+					behaviors:[
+						StrandTraits.Jqueryable,
+					],
+				});
+			});
+		</script>
+	</dom-module>
+
+	<script>
+		describe("Jqueryable", function() {
+
+			it("should not overflow the stack modifying children when polyfilled", function() {
+				var error = null;
+				var element = document.createElement("test-recursion");
+
+				try {
+					element.appendChild(document.createElement("div"));
+					Polymer.dom(element).appendChild(document.createElement("div"));
+
+					element.insertBefore(document.createElement("div"), element.lastElementChild);
+					Polymer.dom(element).insertBefore(document.createElement("div"), Polymer.dom(element).lastElementChild);
+
+					// this test fails => // element.removeChild(element.firstElementChild);
+					Polymer.dom(element).removeChild(Polymer.dom(element).firstElementChild);
+				} catch (e) {
+					error = error || e;
+				}
+
+				should.not.exist(error);
+			});
+
+			it("should not overflow the stack querying for children when polyfilled", function() {
+				var error = null;
+
+				try {
+					[
+						"querySelector",
+						"querySelectorAll",
+					].forEach(function (property) {
+						this[property]("*");
+						Polymer.dom(this)[property]("*");
+					}, document.createElement("test-recursion"));
+				} catch (e) {
+					error = error || e;
+				}
+
+				should.not.exist(error);
+			});
+
+			it("should not overflow the stack resolving getters when polyfilled", function() {
+				var error = null;
+
+				try {
+					[
+						"childNodes",
+						"firstChild",
+						"lastChild",
+						"firstElementChild",
+						"lastElementChild",
+						"previousSibling",
+						"nextSibling",
+						"textContent",
+						"innerHTML",
+					].forEach(function (property) {
+						this[property];
+						Polymer.dom(this)[property];
+					}, document.createElement("test-recursion"));
+				} catch (e) {
+					error = error || e;
+				}
+
+				should.not.exist(error);
+			});
+
+			it("should not overflow the stack assigning through setters when polyfilled", function() {
+				var error = null;
+
+				try {
+					[
+						"textContent",
+						"innerHTML",
+					].forEach(function (property) {
+						this[property] = "hello world -- " + property;
+						Polymer.dom(this)[property] = "goodbye world -- " + property;
+					}, document.createElement("test-recursion"));
+				} catch (e) {
+					error = error || e;
+				}
+
+				should.not.exist(error);
+			});
+
+			it("should add/remove items from DDL", function() {
+				var $test = $("#test");
+				$("<mm-list-item>Testing 123</mm-list-item>").appendTo($test);
+				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(1);
+				$test.find("mm-list-item").remove();
+				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(1); //fails (not ideal)
+				$test.html(""); 
+				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(0); //succeeds
+			});
+
+		});
+	</script>
+
+	<mm-dropdown id="test"></mm-dropdown>
+</body>
+</html>

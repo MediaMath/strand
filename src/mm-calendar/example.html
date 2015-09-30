@@ -1,5 +1,16 @@
-<template is="auto-binding">
-	<mm-calendar date="{{selectedDate}}">
-	</mm-calendar>
-	<mm-header>{{selectedDate}}</mm-header>
+<!-- Single Calendar example -->
+<template is="dom-bind">
+	<div>
+		<p>Selected Date: <span>{{selectedDate}}</span></p>
+		<mm-calendar date="{{selectedDate}}"></mm-calendar>
+	</div>
+</template>
+
+<!-- Dual Calendar example -->
+<template is="dom-bind">
+	<div>
+		<p>Dual Calendar Example</p>
+		<mm-calendar date="{{leftDate}}" pair-date="{{rightDate}}" disable-past="true"></mm-calendar>
+		<mm-calendar date="{{rightDate}}" pair-date="{{leftDate}}" disable-past="true"></mm-calendar>
+	</div>
 </template>

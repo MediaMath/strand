@@ -5,49 +5,44 @@
 		{
 			"name":"type",
 			"type":"String",
-			"description":"The type of styling to be applied to the button",
+			"description":"Sets the type of styling which is applied to the button.",
 			"optional":true,
 			"default":"primary",
-			"options":["primary", "secondary"]
+			"options":["primary", "secondary"],
+			"reflect":true
 		},
 		{
 			"name":"selected",
 			"type":"Boolean",
-			"description":"Display the selected state of button, for use in a toggle scenario",
+			"description":"Sets the visual state to 'selected'. Ideal for use in scenario where it may be necessary to toggle the button's visual state (see: mm-group).",
 			"optional":true,
-			"default":"null",
-			"options":["true", "false"]
+			"default":"none",
+			"reflect":true
 		},
 		{
-			"name":"fit",
-			"type":"Boolean",
-			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"name":"fitparent",
+			"type":"Boolen",
+			"description":"Sets the width of the component to fill the width of it's parent element.",
 			"optional":true,
-			"default":"null",
-			"options":["true", "false"]
+			"default":"false",
+			"reflect":true
+		},
+		{
+			"name":"layout",
+			"type":"Boolen",
+			"description":"Sets the layout of the button, used to style mm-buttons which appears in a grouping scenario (see: mm-group).",
+			"optional":true,
+			"default":"none",
+			"options":["hgroup-left", "hgroup-center", "hgroup-right"],
+			"reflect":true
 		},
 		{
 			"name":"disabled",
 			"type":"Boolean",
-			"description":"Disable the item",
+			"description":"Sets the visual and interaction state to be disabled.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"]
-		}
-	],
-	"methods": [],
-	"properties":[
-		{
-			"name":"type",
-			"type":"String",
-			"description":"The type of the button -- which informs it's style ('primary' for primary, secondary otherwise).",
-			"default":"primary"
-		},
-		{
-			"name":"error",
-			"type":"Boolean",
-			"description":"Triggers the display of invalid visual state.",
-			"default":"false"
+			"reflect":true
 		}
 	]
 }

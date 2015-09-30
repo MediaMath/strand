@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/validatable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+
+	<dom-module id="test-validatable">
+		<template>
+			<content></content>
+		</template>
+	</dom-module>
+
+	<script>
+		HTMLImports.whenReady(function() {
+			window.TestValidatable = Polymer({
+				is: 'test-validatable',
+				behaviors: [StrandTraits.Validatable],
+				properties: {
+					value: {
+						type: String,
+						notify: true
+					}
+				}
+			});
+		});
+	</script>
+
+	<test-validatable id="testValidatable"></test-validatable>
+
+	<script>
+		describe('Validatable', function() {
+
+			it('should exist', function() {
+				StrandTraits.should.exist;
+				StrandTraits.Validatable.should.exist;
+			});
+
+			it('should validate according to a rule', function() {
+				var v = document.querySelector('#testValidatable'),
+					valid = 'drnick@example.net',
+					invalid = '^&!@*';
+				v.validation = 'email';
+				v.validate(valid).should.equal(true);
+				v.validate(invalid).should.equal(false);	
+			});
+
+			it('should validate according to multiple rules', function() {
+				var v = document.querySelector('#testValidatable'),
+					valid = 'abc',
+					invalid = '    ';
+				v.validation = 'alpha|empty|blank';
+				v.validate(valid).should.equal(true);
+				v.validate(invalid).should.equal(false);
+			});
+
+			it('should set an error property', function() {
+				var v = document.querySelector('#testValidatable');
+				v.validation = 'email';
+				v.value = '!!';
+				v.error.should.equal(true);
+			});
+
+			it('should not set error if there is no value', function() {
+				var v = document.querySelector('#testValidatable');
+				v.validation = 'email';
+				v.validate(null).should.equal(false);
+				v.value = 'drnick@example.net';
+				v.error.should.equal(false);
+				v.value = null;
+				v.error.should.equal(false);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

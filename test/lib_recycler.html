@@ -1,0 +1,363 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/recycler.html"/>
+</head>
+<body>
+
+	<script>
+		describe("Recycler", function() {
+
+			it("should lazilly coordinate heights", function() {
+
+				var TALLNESS = 33;
+				var data = [
+						123,
+						234,
+						345,
+						456,
+						567,
+						678,
+						789,
+					];
+				var aliases = {};
+				var heights = [];
+				var elevations = [];
+				var visibles = [];
+				var getter = function (idx) { return TALLNESS; };
+				var limiter = function (request) { return data.length; };
+				var handler = function (inner, young, old, recycler) {
+						if (young > -1) {
+							heights[young] = recycler.getHeightAtIndex(young);
+							elevations[young] = recycler.getElevationAtIndex(young);
+						}
+
+						if (young !== old) {
+							if (old < 0) {
+								should.not.exist(aliases[inner]);
+								young.should.not.be.lessThan(0);
+							}
+
+							aliases[inner] = young;
+
+							if (young < 0) {
+								old.should.not.be.lessThan(0);
+								aliases[inner] = null;
+							}
+						}
+					};
+
+
+
+				var recyc = null;
+				var index = 0;
+				var count = 0;
+
+
+
+				heights = [];
+				elevations = [];
+				recyc = new Recycler(getter, limiter, handler);
+
+				recyc.setFrame(10, 40, 25, 15);
+
+				recyc.getFrameLowerBound().should.equal(-5);
+				recyc.getFrameUpperBound().should.equal(75);
+
+				recyc.translateFrame(50);
+
+				recyc.getFrameLowerBound().should.equal(45);
+				recyc.getFrameUpperBound().should.equal(125);
+
+				recyc.adjustFrame(TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(45);
+				recyc.getFrameUpperBound().should.equal(125 + TALLNESS);
+
+				recyc.translateFrame(50);
+
+				recyc.getFrameLowerBound().should.equal(95);
+				recyc.getFrameUpperBound().should.equal(175 + TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = (0|((95)) / TALLNESS);
+				count = (0|((175 + TALLNESS) - 1) / TALLNESS) + 1 - index;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [2, 3, 4, 5, 6]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+			});
+
+			it("should respond appropriately to height changes", function() {
+
+				var TALLNESS = 33;
+				var aliases = {};
+				var heights = [];
+				var elevations = [];
+				var visibles = [];
+				var getter = function (idx) { return TALLNESS; };
+				var limiter = function (request) { return -1; };
+				var handler = function (inner, young, old, recycler) {
+						if (young > -1) {
+							heights[young] = recycler.getHeightAtIndex(young);
+							elevations[young] = recycler.getElevationAtIndex(young);
+						}
+
+						if (young !== old) {
+							if (old < 0) {
+								should.not.exist(aliases[inner]);
+								young.should.not.be.lessThan(0);
+							}
+
+							aliases[inner] = young;
+
+							if (young < 0) {
+								old.should.not.be.lessThan(0);
+								aliases[inner] = null;
+							}
+						}
+					};
+
+
+
+				var recyc = null;
+				var index = 0;
+				var count = 0;
+
+
+
+				heights = [];
+				elevations = [];
+				recyc = new Recycler(getter, limiter, handler);
+
+				recyc.setFrame(13 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12;
+				count = 5;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [12, 13, 14, 15, 16]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+				recyc.setHeightAtIndex(4, 0);
+				recyc.setHeightAtIndex(5, 0);
+				recyc.setHeightAtIndex(6, 0);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12 + 3;
+				count = 5;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [15, 16, 17, 18, 19]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+				recyc.setHeightAtIndex(12 + 3 + 1, 0);
+				recyc.setHeightAtIndex(12 + 3 + 2, 0);
+				recyc.setHeightAtIndex(12 + 3 + 3, 0);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12 + 3;
+				count = 5 + 3;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [15, 16, 17, 18, 19, 20, 21, 22]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+			});
+
+			it("should handle resource relinquishment", function() {
+
+				var TALLNESS = 33;
+				var aliases = {};
+				var heights = [];
+				var elevations = [];
+				var visibles = [];
+				var getter = function (idx) { return TALLNESS; };
+				var limiter = function (request) { return -1; };
+				var handler = function (inner, young, old, recycler) {
+						if (young > -1) {
+							heights[young] = recycler.getHeightAtIndex(young);
+							elevations[young] = recycler.getElevationAtIndex(young);
+						}
+
+						if (young !== old) {
+							if (old < 0) {
+								should.not.exist(aliases[inner]);
+								young.should.not.be.lessThan(0);
+							}
+
+							aliases[inner] = young;
+
+							if (young < 0) {
+								old.should.not.be.lessThan(0);
+								aliases[inner] = null;
+							}
+						}
+					};
+
+
+
+				var recyc = null;
+				var index = 0;
+				var count = 0;
+
+
+
+				heights = [];
+				elevations = [];
+				recyc = new Recycler(getter, limiter, handler);
+
+				recyc.setFrame(13 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12;
+				count = 5;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [12, 13, 14, 15, 16]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+				recyc.setHeightAtIndex(4, 0);
+				recyc.setHeightAtIndex(5, 0);
+				recyc.setHeightAtIndex(6, 0);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12 + 3;
+				count = 5;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [15, 16, 17, 18, 19]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+				recyc.setHeightAtIndex(12 + 3 + 1, 0);
+				recyc.setHeightAtIndex(12 + 3 + 2, 0);
+				recyc.setHeightAtIndex(12 + 3 + 3, 0);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				visibles = Object.keys(aliases).map(function (inner) {
+					return this[inner];
+				}, aliases).filter(function (v) {
+					return v !== null;
+				});
+
+				index = 12 + 3;
+				count = 5 + 3;
+
+				visibles.reduce(function (indices, visible) {
+					indices.should.contain(visible); // [15, 16, 17, 18, 19, 20, 21, 22]
+					return indices;
+				}, Array.apply(null, Array(count)).map(function (num, idx) {
+					return Number(this) + idx; // create an array of "count" numbers incrementing from "index"
+				}, index)).should.be.length(visibles.length); // indices array should be same length as visibles
+
+
+
+				recyc.truncate(0);
+				recyc.getFrameUpperBound().should.equal(0);
+				recyc.getFrameLowerBound().should.equal(0);
+
+
+
+				recyc.setFrame(13 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
+
+				recyc.setFrame(5 * TALLNESS, 3 * TALLNESS, TALLNESS, TALLNESS);
+
+				recyc.getFrameLowerBound().should.equal(4 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(9 * TALLNESS);
+
+				recyc.truncate(-1);
+
+				recyc.getFrameLowerBound().should.equal(4 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(9 * TALLNESS);
+
+				recyc.repadFrame(TALLNESS, 4 * TALLNESS);
+				recyc.repadFrame(TALLNESS, TALLNESS);
+
+				recyc.cull();
+
+				recyc.getFrameLowerBound().should.equal(4 * TALLNESS);
+				recyc.getFrameUpperBound().should.equal(9 * TALLNESS);
+			});
+
+		});
+	</script>
+
+</body>
+</html>

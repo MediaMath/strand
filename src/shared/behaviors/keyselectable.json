@@ -1,0 +1,14 @@
+{
+	"name":"KeySelectable",
+	"description":"Interfaces keyboard events with the Selectable behavior",
+	"attributes":[
+		{
+			"name":"maxItems",
+			"type":"Number",
+			"description":"Limits the number of list items displayed, allowing the list to scroll vertically if necessary.",
+			"optional":true,
+			"default":"10",
+			"attribute":"max-items"
+		}
+	]
+}

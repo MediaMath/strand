@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-(function() {
+(function(scope) {
 
 	var _groups = {};
 	function _checkGroup(selection) {
@@ -36,19 +36,40 @@
 		}
 	}
 
-	Polymer('mm-radio', {
+	scope.Radio = Polymer({
+		is: 'mm-radio',
 
-		ver:"<<version>>",
-
-		publish: {
-			checked: { value:false, reflect:true },
-			disabled: { value:false, reflect:true },
-			group: { value:null, reflect:true },
-			fitparent: { value:false, reflect:true },
-			layout: { value:null, reflect:true }
+		properties: {
+			checked: { 
+				value:false,
+				type: Boolean,
+				observer: '_checkedChanged',
+				reflectToAttribute:true 
+			},
+			disabled: { 
+				value:false,
+				type: Boolean,
+				reflect:true 
+			},
+			group: { 
+				type: String,
+				observer: '_groupChanged'
+			},
+			fitparent: { 
+				type: String,
+				reflectToAttribute:true 
+			},
+			_layout: {
+				type: String,
+				reflectToAttribute:true
+			}
 		},
 
-		groupChanged: function(oldGroup, newGroup) {
+		listeners: {
+			'tap': '_handleTap'
+		},
+
+		_groupChanged: function(newGroup, oldGroup) {
 			if (oldGroup) {
 				_removeGroup(this, oldGroup);
 			}
@@ -59,18 +80,18 @@
 			_removeGroup(this);
 		},
 
-		checkedChanged: function(oldCheck, newCheck) {
-			if (newCheck) {
+		_checkedChanged: function() {
+			if (this.checked) {
 				_checkGroup(this);
 				this.fire("selected", {item: this, checked: this.checked});
 			}
 		},
 
-		radioMouseUp: function(e) {
+		_handleTap: function(e) {
 			if (!this.disabled) {
 				this.checked = true;
 			}
 		}
 	});
 
-})();
+})(window.Strand = window.Strand || {});

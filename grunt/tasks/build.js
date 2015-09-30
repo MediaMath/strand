@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					'src/lib/Colors.js': '<%= template_dir %>/lib_color.js'
+					'<%= src_dir %>/lib/Colors.js': '<%= template_dir %>/lib_color.js'
 				}
 			},
 			lib: {
@@ -121,14 +121,22 @@ module.exports = function(grunt) {
 					src: '<%= template_dir %>/lib_template.html',
 					dest: '<%= build_dir %>/<%= pkg.name %>.html'
 				}]
+			},
+			fonts:{
+				options:{
+					data:{}
+				},
+				files:{
+					'<%= build_dir %>/shared/fonts/fonts.html': "<%= template_dir %>/font_template.html"
+				}
 			}
 		},
 
 		vulcanize: {
 			options: {
-				inline:true,
-				strip:true,
-				'strip-excludes':false,
+				inlineScripts:true,
+				inlineCss:true,
+				stripExcludes:false
 			},
 			shared: {
 				files: [{
@@ -156,6 +164,20 @@ module.exports = function(grunt) {
 					excludes: {
 						imports: ['polymer.html']
 					}
+				},
+				files: {
+					'<%= build_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
+				}
+			}
+		},
+
+		htmlmin: {
+			dist: {
+				options: {
+					customAttrAssign: /\$=/,
+					minifyJS: true,
+					removeComments: true,
+					collapseWhitespace: true
 				},
 				files: {
 					'<%= build_dir %>/<%= pkg.name %>.html' : '<%= build_dir %>/<%= pkg.name %>.html'
@@ -234,26 +256,44 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.registerTask('sassShadowFix', function() {
-		var files = grunt.file.expand(grunt.config('build_dir') + '/mm-*/mm-*.css'),
-			css;
-		function stripQuotes(str, arg) {
-			return str.replace(/'/g,'');
-		}
+	//Generate template style includes for new polymer 1.1 ext-styling
+	grunt.registerTask('style:imports', function() {
+		var tasks = [];
+		var build = grunt.config('build_dir') + "/";
+		var styles = grunt.file.expand({
+			cwd: grunt.config('build_dir')
+		}, 'mm-**/*.css');
 
-		files.forEach(function(file) {
-			css = grunt.file.read(file);
-			//strip '' from :host('.select') workaround
-			css = css.replace(/:host\('.*'\)/ig, stripQuotes);
-			//strip '' from :host-context('.select') workaround
-			css = css.replace(/:host-context\('.*'\)/ig, stripQuotes);
-			//strip '' from '/shadow/' workaround 
-			css = css.replace(/'\/(shadow|shadow-child|shadow-deep)\/'/ig, stripQuotes);
-			grunt.log.writeln('Wrote ' + file);
-			grunt.file.write(file, css);
-		}) ;
+		var styleData = {};
+		styles.forEach(function(file) {
+			var key = file.split(".css").join("").split("/")[0];
+			if (grunt.file.exists(build + file)) {
+				var css = grunt.file.read(build + file);
+				// styleData[key] = css;
+				grunt.config.set("hogan_static.styles_" + key, {
+					options:{
+						data:{
+							module:key,
+							style:css
+						}
+					},
+					files:[{
+						src:'<%= template_dir %>/style_module_template.html',
+						dest:'<%=build_dir%>/'+key+'/style.html'
+					}]
+				});
+				tasks.push("hogan_static:styles_" + key);
+			} else {
+				grunt.log.writeln("Not Found:"+build+file);
+			}
+		});
 
-		grunt.log.ok();
+		//set config for the static fonts lib as well
+		var fnts = grunt.config.get('build_dir') + '/shared/fonts/fonts.css';
+		grunt.config.set("hogan_static.fonts.options.data.style", grunt.file.read(fnts));
+		
+		//run batched
+		grunt.task.run(tasks);
 
 	});
 
@@ -284,12 +324,12 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dist',
-			'sassShadowFix',
 			'cssUrlEmbed', 
-			'hogan_static:lib',
-			'vulcanize:shared',
-			'vulcanize:modules',
+			'style:imports',
+			'hogan_static:fonts',
+			// 'hogan_static:lib', //un-comment to build entire library
 			'vulcanize:dist',
+			'htmlmin:dist',
 			'usebanner:dist'
 		]);
 	});
@@ -299,9 +339,10 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dev',
-			'sassShadowFix',
-			'hogan_static:index',
-			'hogan_static:lib'
+			'style:imports',
+			'hogan_static:fonts',
+			'hogan_static:index'
+			// 'hogan_static:lib'
 		]);
 	});
 

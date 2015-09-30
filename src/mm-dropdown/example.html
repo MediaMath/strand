@@ -6,8 +6,8 @@
 	<mm-list-item>Example 4</mm-list-item>
 </mm-dropdown>
 <!-- Search and Fit to Parent Example -->
-<mm-dropdown search="true" fitparent="true">
-	<mm-input search="true" clear="true" placeholder="Search"></mm-input>
+<mm-dropdown fitparent>
+	<mm-input search clear placeholder="Search"></mm-input>
 	<mm-list-item>Example 1</mm-list-item>
 	<mm-list-item>Example 2</mm-list-item>
 	<mm-list-item>Example 3</mm-list-item>
@@ -16,13 +16,15 @@
 <!-- Data Dropdown Example -->
 <mm-dropdown id="dataDdl" placeholder="Data Dropdown"></mm-dropdown>
 <script>
-    window.addEventListener("polymer-ready", function(e) {
+    window.addEventListener("WebComponentsReady", function(e) {
+    	console.log("example - WebComponentsReady");
+
         var dataDdl = document.querySelector("#dataDdl");
         
         dataDdl.data = [
-            { value: "1", label: "Item Number 1" },
-            { value: "2", label: "Item Number 2" },
-            { value: "3", label: "Item Number 3" }
+            { value: "1", name: "Item Number 1" },
+            { value: "2", name: "Item Number 2" },
+            { value: "3", name: "Item Number 3" }
         ];
     });
 </script>

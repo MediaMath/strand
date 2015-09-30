@@ -4,6 +4,7 @@
 	"attributes": [
 		{
 			"name":"bgColor",
+			"attribute": "bg-color",
 			"type":"String",
 			"description":"The color of the loader graphic background.",
 			"optional":true,
@@ -12,6 +13,7 @@
 		},
 		{
 			"name":"bgOpacity",
+			"attribute": "bg-opacity",
 			"type":"String",
 			"description":"The opacity of the loader graphic background.",
 			"optional":true,
@@ -20,6 +22,7 @@
 		},
 		{
 			"name":"paddingTop",
+			"attribute": "padding-top",
 			"type":"String",
 			"description":"The paddng, in pixels, applied to both top and bottom of the loader graphic.",
 			"optional":true,
@@ -28,6 +31,7 @@
 		},
 		{
 			"name":"paddingLeft",
+			"attribute": "padding-left",
 			"type":"String",
 			"description":"The paddng, in pixels, applied to both left and right of the loader graphic.",
 			"optional":true,

@@ -9,26 +9,46 @@
 @import "_fonts";
 @import "_textinput";
 
+:host {
+	display: inline-block;
+	transform: translateY(0);
+	-webkit-transform: translateY(0);
+	position: relative;
+	width: auto;
+}
+
+:host-context([disabled]) {
+	opacity: 0.5;
+}
+
 ::content group,sep {
 	display:none;
 }
 
-::content input {
-	color:#FFF;
-	@include placeholder {
-		color:#FFF;
-	}
+:host mm-input {
+	position: relative;
+	z-index: -1;
 }
 
 #pseudo {
 	box-sizing: border-box;
 	position: absolute;
+	left: 0;
 	width: 100%;
 	height: 29px;
 	font-weight: 400;
-	font-size: 13px !important;
-	line-height: 2.231em !important;
 	padding: 0 10px;
+	white-space: nowrap;
+
+	input {
+		font-family: Arimo, sans-serif !important;
+		font-size: 13px !important;
+		line-height: 2.231em !important;
+		@include placeholder {
+			font-size: 13px !important;
+			font-style: italic;
+		}
+	}
 
 	.mask {
 		border: none;
@@ -50,10 +70,14 @@
 	}
 
 	.sep {
+		margin: 0;
 		padding: 6px 0;
+		font-size: 13px !important;
+		line-height: 2.231em !important;
 	}
 
 	.placeholder {
-		color:#a9a9a9;
+		color: #a9a9a9;
+		font-style: italic;
 	}
 }

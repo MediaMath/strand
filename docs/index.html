@@ -74,13 +74,13 @@
 			var docsBtns,
 				sourceBtn; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			document.addEventListener('WebComponentsReady', function() {
 				initDoc();
 			});
 
 			function initDoc() {
-				docsBtn = document.querySelector("#docsBtn");
-				sourceBtn = document.querySelector("#sourceBtn");
+				docsBtn 	= Polymer.dom(document).querySelector("#docsBtn");
+				sourceBtn 	= Polymer.dom(document).querySelector("#sourceBtn");
 
 				docsBtn.addEventListener("click", function(e) {
 					e.preventDefault();

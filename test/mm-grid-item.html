@@ -14,17 +14,20 @@
   <script>
 describe("mm-grid-item", function() {
 
-  it("should have a loading icon if model is null", function() {
+  it("should have a loading icon if model is null", function(done) {
     var item = document.querySelector("#testitem");
     should.not.exist(item.model);
-    should.exist(item.shadowRoot.querySelector("mm-spinner"));
+    flush(function() {
+      should.exist(Polymer.dom(item.root).querySelector("mm-spinner"));      
+      done();
+    });
   });
 
   it("should not have a loading icon if model is defined", function(done) {
     var item = document.querySelector("#testitem");
     item.model = {foo: "foo", bar: "bar"};
-    item.async(function(){
-      should.not.exist(item.shadowRoot.querySelector("mm-spinner"));
+    flush(function(){
+      var loader = Polymer.dom(item.root).querySelector("mm-spinner");
       done();
     });
   });
@@ -32,9 +35,12 @@ describe("mm-grid-item", function() {
   it("should have a checkbox if scope is selectable", function(done) {
     var item = document.querySelector("#testitem");
     item.scope = item.scope || {};
-    item.scope.selectable = true;
-    item.async(function(){
-      should.exist(item.shadowRoot.querySelector(".checkbox mm-checkbox"));
+    item.set('scope.selectable',true);
+    flush(function(){
+      var container = Polymer.dom(item.root).querySelector(".checkbox"),
+        checkbox = container.querySelector('mm-checkbox');
+      checkbox.should.exist;
+      container.hidden.should.be.false;
       done();
     });
   });
@@ -42,9 +48,12 @@ describe("mm-grid-item", function() {
   it("should have a toggle if scope is expandable", function(done) {
     var item = document.querySelector("#testitem");
     item.scope = item.scope || {};
-    item.scope.expandable = true;
-    item.async(function(){
-      should.exist(item.shadowRoot.querySelector(".toggle mm-icon"));
+    item.set('scope.expandable',true);
+    flush(function(){
+      var container = Polymer.dom(item.root).querySelector(".toggle"),
+        toggle = container.querySelector('mm-icon');
+      toggle.should.exist;
+      container.hidden.should.be.false;
       done();
     });
   });
@@ -52,9 +61,9 @@ describe("mm-grid-item", function() {
   it("should have columns", function(done) {
     var item = document.querySelector("#testitem");
     item.scope = item.scope || {};
-    item.scope.columns = [{field: "foo", width: "50%"}, {field: "bar", width: "50%"}];
-    item.async(function(){
-      var columns = item.shadowRoot.querySelectorAll("#columnContainer ._mm_column");
+    item.set('scope.columns', [{field: "foo", width: "50%"}, {field: "bar", width: "50%"}]);
+    flush(function(){
+      var columns = Polymer.dom(item.root).querySelectorAll("#columnContainer ._mm_column");
       columns.length.should.equal(2);
       done();
     });

@@ -5,50 +5,36 @@
 		{
 			"name":"message",
 			"type":"String",
-			"description":"The feedback message to display, usually feedback for validation success or failure.",
-			"default":"null",
-			"options":[]
+			"description":"Sets the feedback message to display, for example - feedback for validation success or failure.",
+			"optional":true,
+			"default":"none"
 		},
 		{
 			"name":"type",
 			"type":"String",
 			"description":"The type of inline message styling to be applied.",
+			"optional":true,
 			"default":"info",
 			"options":["error", "warning", "info", "success"]
 		},
 		{
-			"name":"fitparent",
+			"name":"messageVisible",
 			"type":"Boolean",
-			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"description":"Sets or returns the visible state of the feedback message.",
 			"optional":true,
-			"default":"null",
-			"options":[]
-		}
-	],
-	"properties":[
-		{
-			"name":"message",
-			"type":"String",
-			"description":"The feedback message to display, usually feedback for validation success or failure.",
-			"default":"null"
-		},
-		{
-			"name":"type",
-			"type":"String",
-			"description":"The type of inline message styling to be applied. Valid values are ('error','warning','success' and 'info')",
-			"default":"info"
+			"default":"false",
+			"options":["true", "false"],
+			"attribute": "message-visible"
 		}
 	],
 	"methods": [
 		{
 			"name":"showMessage",
-			"description":"Show the inline feedback message when needed.",
-			"arguments":[]
+			"description":"Shows the feedback message."
 		},
 		{
 			"name":"hideMessage",
-			"description":"Hide the inline feedback message when needed.",
-			"arguments":[]
+			"description":"Hides the feedback message."
 		}
 	]
 }

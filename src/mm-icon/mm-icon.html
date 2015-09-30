@@ -6,19 +6,15 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="style.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
-<polymer-element name="mm-icon" attributes="type width height primaryColor hoverColor" constructor="MMIcon">
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+
+<dom-module id="mm-icon">
 	<template>
-		<link href="mm-icon.css" rel="stylesheet" type="text/css"/>
-		<style no-shim>
-			._mm_icon.{{uid}} {
-				color: {{primaryColor}};
-			}
-			._mm_icon.{{uid}}:hover {
-				color: {{hoverColor}};
-			}
-		</style>
-		<span id="iconGlyph" class="_mm_icon icon-{{type}} {{uid}}" style="{{ iconStyle | styleObject }}"></span>
+		<style include="mm-icon-style"></style>
+		<span id="iconGlyph" class$="{{_updateClass(type)}}" style$="{{_updateStyle(width, height)}}"></span>
 	</template>
-	<script src="mm-icon.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-icon.js"></script>

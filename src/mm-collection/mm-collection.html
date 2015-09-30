@@ -4,13 +4,15 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 -->
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/js/datautils.html"/>
+<link rel="import" href="../shared/js/collection.html"/>
+<link rel="import" href="../shared/behaviors/pageable.html"/>
 
-<polymer-element name="mm-collection" attributes="pager pageable" constructor="MMCollection">
+<dom-module id="mm-collection">
+	<link rel="import" type="css" href="mm-collection.css"/>
 	<template>
-		<link href="mm-collection.css" rel="stylesheet" type="text/css"/>
 		<content id="content"></content>
 	</template>
 	<script src="mm-collection.js"></script>
-</polymer-element>
+</dom-module>

@@ -4,61 +4,72 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.js */
-Polymer('mm-list-item', {
-	ver:"<<version>>",
 
-	publish: {
-		selected: { value: false, reflect: true }
-	},
+(function (scope) {
+	scope.ListItem = Polymer({
 
-	ready: function() {
-		WindowNotifier.addInstance(this);
-	},
+		is: "mm-list-item",
 
-	attached: function() {
-		WindowNotifier.addResizeListener(this, this.resize.bind(this));
-	},
-	
-	detached: function() {
-		WindowNotifier.removeAllResizeListeners(this);
-		WindowNotifier.removeInstance(this);
-	},
+		behaviors: [ StrandTraits.DomMutable, StrandTraits.Resizable ],
 
-	widthChanged: function() {
-		if (this.textBounds) {
-			if (this.textBounds.width > this.width - this.paddingWidth) {
-				this.setAttribute('title', this.textContent);
+		properties: {
+			selected: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true,
+				notify: true
+			},
+			highlighted: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true,
+				notify: true,
+			},
+			observeSubtree: {
+				value:true
+			},
+			observeCharacterData: {
+				value:true
+			},
+			title: {
+				type:String,
+				value:null,
+				reflectToAttribute: true
+			},
+			value: {
+				type: String,
+				value: false
+			}
+		},
+
+		listeners:{
+			"added":"_updateTitleHandler",
+			"removed":"_updateTitleHandler",
+			"modified":"_updateTitleHandler"
+		},
+
+		attached: function () {
+			this.debounce("update-title",this.updateTitle,0);
+		},
+
+		_updateTitleHandler: function() {
+			this.debounce("update-title",this.updateTitle,0);
+		},
+
+		elementResize: function() {
+			this.debounce("update-title", this.updateTitle, 0);
+		},
+
+		updateTitle: function() {
+			var m = StrandLib.Measure;
+			var computed = m.textWidth(this, this.textContent);
+			var actual = m.getBoundingClientRect(this).width;
+			if (computed > actual) {
+				this.title = this.textContent.trim();
 			} else {
-				this.removeAttribute('title');
+				this.title = null;
 			}
 		}
-	},
 
-	resize: function() {
-		this.job("resize", this.widthChanged, 0);
-	},
-
-	get value() {
-		return this.getAttribute("value") || this.textContent.trim();
-	},
-
-	get label() {
-		return this.textContent.trim();
-	},
-
-	get width() {
-		if (this.$)
-		return Measure.getOffsetWidth(this);
-	},
-
-	get textBounds() {
-		if (this.$)
-		return Measure.getTextBounds(this);
-	},
-
-	get paddingWidth() {
-		if (this.$)
-		return Measure.getPaddingWidth(this);
-	}
-});
+	});
+})(window.Strand = window.Strand || {}); 

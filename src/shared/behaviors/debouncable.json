@@ -1,0 +1,22 @@
+{
+	"name": "Debouncable",
+	"description": "Listens for multiple property changed events to occur and only dispatches an event when all observed properties have changed.",
+	"attributes" : [
+		{
+			"name" : "debouncers",
+			"type":"String",
+			"description":"An array of property-changed events in the format { keys: Array, type: String, callback: Function(key, debouncer) }.",
+			"default":"closed",
+			"options":["opened", "closed"]
+		},
+		{
+			"name" : "resetDebouncer",
+			"type":"Boolean",
+			"description":"When true the semaphore state is reset on each 'tick' of the debouncer, so it is only ever triggered when calls occur within the same tick.",
+			"optional":true,
+			"default":"closed",
+			"options":["true", "false"],
+			"attribute":"N/A"
+		}
+	]
+}

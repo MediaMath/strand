@@ -27,12 +27,11 @@
 	line-height: 0em;
 }
 
-:host('[disabled]') {
+:host([disabled]) {
 	pointer-events:none;
 	opacity: 0.5;
 }
 
-polyfill-next-selector { content: ".calendar, .month-year" }
 .calendar, .month-year {
 	box-sizing: border-box;
 	background: $color-F0;
@@ -41,12 +40,10 @@ polyfill-next-selector { content: ".calendar, .month-year" }
 	padding: 3px;
 }
 
-polyfill-next-selector { content: ".calendar" }
 .calendar {
 	padding-bottom: 2px;
 }
 
-polyfill-next-selector { content: ".month-year" }
 .month-year {
 	@include display(flex);
 	@include align-items(center);
@@ -62,12 +59,10 @@ polyfill-next-selector { content: ".month-year" }
 	}
 }
 
-polyfill-next-selector { content: ".days, .headings" }
 .days, .headings {
 	@include clearfix;
 }
 
-polyfill-next-selector { content: ".day, .heading" }
 .heading, .day {
 	@include fontSmoothing();
 	box-sizing: border-box;
@@ -80,7 +75,6 @@ polyfill-next-selector { content: ".day, .heading" }
 	margin-bottom: 1px;
 }
 
-polyfill-next-selector { content: ".day span, .heading span" }
 .day span, .heading span {
 	box-sizing: border-box;
 	@include fontSmoothing();
@@ -96,7 +90,6 @@ polyfill-next-selector { content: ".day span, .heading span" }
 	z-index: 1;
 }
 
-polyfill-next-selector { content: ".day" }
 .day { 
 	&.active {
 		cursor: pointer;
@@ -186,7 +179,6 @@ polyfill-next-selector { content: ".day" }
 	}
 }
 
-polyfill-next-selector { content: ".heading" }
 .heading {
 	span {
 		color: $color-A18;

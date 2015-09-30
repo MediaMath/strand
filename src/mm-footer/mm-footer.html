@@ -6,12 +6,13 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../mm-inline-box/mm-inline-box.html">
-<polymer-element name="mm-footer" attributes="message type fit" constructor="MMFooter">
+
+<dom-module id="mm-footer">
+	<link rel="import" type="css" href="mm-footer.css"/>
 	<template>
-		<link href="mm-footer.css" rel="stylesheet" type="text/css"/>
-		<div class="footer">
+		<div class="_mm_footer">
 			<div class="left-box">
-				<template if="{{messageVisible}}">
+				<template is="dom-if" if="{{messageVisible}}">
 					<mm-inline-box id="messageBox" type="{{type}}" layout="message">{{message}}</mm-inline-box>
 				</template>
 				<content select=".left"></content>
@@ -21,5 +22,6 @@
 			</div>
 		</div>
 	</template>
-	<script src="mm-footer.js"></script>
-</polymer-element>
+</dom-module>
+
+<script src="mm-footer.js"></script>

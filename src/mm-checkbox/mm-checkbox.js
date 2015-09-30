@@ -4,78 +4,106 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* test.js */
-Polymer('mm-checkbox', {
+(function(scope) {
 
-	ver:"<<version>>",
-	PRIMARY_ICON_COLOR: Colors.D0,
-	UNCHECKED_STATE: "unchecked",
-	CHECKED_STATE: "checked",
-	PARTIAL_STATE: "partial",
+	scope.Checkbox = Polymer({
+		is: 'mm-checkbox',
 
-	publish: {
-		icon: null,
-		iconColor: null,
-		state: null,
-		checked: { value: false, reflect:true },
-		disabled: { value: false, reflect: true }
-	},
+		behaviors: [
+			StrandTraits.Stylable,
+			StrandTraits.Validatable
+		],
 
-	created: function() {
-		this.state = this.UNCHECKED_STATE;
-	},
-
-	ready: function() {
-		this.setAttribute('type', 'checkbox');
-	},
-
-	get value() {
-		return this.checked;
-	},
-
-	set value(input) {
-		this.checked = input;
-		this.updateModel();
-	},
-
-	checkedChanged: function(oldValue, newValue) {
-		if(newValue === false) {
-			this.state = this.UNCHECKED_STATE;
-		} else if(newValue === true) {
-			this.state = this.CHECKED_STATE;
-		}
-	},
-
-	stateChanged: function(oldState, newState) {
-		if (newState === this.PARTIAL_STATE) {
-			this.checked = null;
-		} else if(newState === this.UNCHECKED_STATE) {
-			this.checked = false;
-		} else if(newState === this.CHECKED_STATE) {
-			this.checked = true;
-		}
-		this.fire("changed", { state: newState });
-	},
-
-	toggleChecked: function(e) {
-		this.checked = !this.checked;
-	},
-
-	bindModel: function(model, property) {
-		this.model = model;
-		this.property = property;
-	},
-
-	updateModel: function() {
-		if (this.model && this.property) {
-			//check for BB models
-			if (this.model.set) {
-				var o = {};
-				o[this.property] = this.value;
-				this.model.set(o);
-			} else {
-				this.model[this.property] = this.value;
+		properties: {
+			icon: {
+				type: String,
+				value: false,
+				reflectToAttribute: true,
+			},
+			state: {
+				type: String,
+				value: "unchecked",
+				observer: "_stateChanged"
+			},
+			checked: { 
+				type: Boolean,
+				reflectToAttribute: true,
+				value: null,
+				notify: true,
+				observer: "_checkedChanged",
+			},
+			disabled: { 
+				type: Boolean,
+				value: false, 
+				reflectToAttribute: true 
+			},
+			_partial: { 
+				type: Boolean,
+				computed: "_partialState(state)"
 			}
+		},
+
+		UNCHECKED_STATE: "unchecked",
+		CHECKED_STATE: "checked",
+		PARTIAL_STATE: "partial",
+
+		// for validation and jQuery
+		value: null,
+
+		listeners: {
+			"tap" : "_toggleChecked"
+		},
+
+		_partialState: function(state) {
+			return state === this.PARTIAL_STATE;
+		},
+
+		_checkedChanged: function(newVal, oldVal) {
+			if (newVal !== null) {
+				this.debounce("stateChecked", this._handleCheckedChange);
+
+				// also handle value - which should mirror "checked"
+				this.value = newVal;
+				if (this.validation) this.fire("value-changed", { value: this.value }, true);
+			}
+		},
+
+		_handleCheckedChange: function() {
+			if (!this.checked) {
+				this.state = this.UNCHECKED_STATE;
+			} else if (this.checked) {
+				this.state = this.CHECKED_STATE;
+			}
+		},
+
+		_stateChanged: function(newVal, oldVal) {
+			this.debounce("stateChecked", this._handleStateChange);
+			this.fire("changed", { state: this.state }, true);
+		},
+
+		_handleStateChange: function() {
+			if (this.state === this.PARTIAL_STATE) {
+				this.checked = null;
+			} else if (this.state === this.UNCHECKED_STATE) {
+				this.checked = false;
+			} else if (this.state === this.CHECKED_STATE) {
+				this.checked = true;
+			}
+		},
+
+		_toggleChecked: function(e) {
+			this.checked = !this.checked;
+		},
+
+		_updateClass: function(icon, state) {
+			var o = {};
+			o.checkbox = !icon ? true : false;
+			o["checkbox-icon"] = icon ? true : false;
+			o.selected = (state === this.CHECKED_STATE) ? true : false;
+			o.partial = (state === this.PARTIAL_STATE) ? true : false;
+			return this.classBlock(o);
 		}
-	}
-});
+
+	});
+
+})(window.Strand = window.Strand || {});

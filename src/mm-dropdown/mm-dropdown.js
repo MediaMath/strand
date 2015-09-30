@@ -4,263 +4,353 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-dropdown', {
-	ver: "<<version>>",
-	selectedItem: null,
-	STATE_OPENED: "opened",
-	STATE_CLOSED: "closed",
-	LAYOUT_TYPE: "dropdown",
-	SECONDARY_ICON_COLOR: Colors.A2,
+(function(scope) {
 
-	publish: {
-		value: { value: "", reflect:true },
-		placeholder: "Select",
-		maxItems: 0,
-		overflow: "hidden",
-		overflowWidth: 0,
-		disabled: { value: false, reflect: true },
-		fitparent: { value: false, reflect: true },
-		data: null,
-		error: false
-	},
+	var Rectangle = StrandLib.Rectangle,
+		Measure = StrandLib.Measure,
+		BehaviorUtils = StrandLib.BehaviorUtils;
 
-	created: function() {
-		this.state = this.STATE_CLOSED;
-	},
+	scope.Dropdown = Polymer({
+		is: 'mm-dropdown',
 
-	ready: function() {
-		if (this.hasAttribute("value")) {
-			this.initialValue = true;
-		}
+		properties: {
+			_scope: {
+				type: Object,
+				value: function() { return this; }
+			},
+			_panel: {
+				type: Object,
+				value: function() { return this.$.panel; }
+			},
+			_itemRecycler: {
+				type: Object,
+				value: function() { return this.$.itemRecycler; }
+			},
+			_target: {
+				type: Object,
+				value: function() { return this.$.target; }
+			},
+			_stackTarget: {
+				type: Object,
+				value: function() { return this.$.panel; }
+			},
+			_type: {
+				type: String,
+				value: 'secondary'
+			},
+			disabled: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			},
+			error: {
+				type: Boolean,
+				value: false,
+			},
+			fitparent: {
+				type: Boolean,
+				value: false
+			},
+			placeholder: {
+				type: String,
+				value: 'Select',
+			},
+			maxItems: {
+				type: Number,
+				observer: '_maxItemsChanged'
+			},
+			value: {
+				type: String,
+				reflectToAttribute: true,
+				notify: true,
+				observer: '_valueChanged'
+			},
+			data: {
+				type: Array,
+				notify: true,
+				observer: '_dataChanged'
+			},
+			_layout: String
+		},
 
-		// Bugfix hack for attribute selector css: 
-		this.style.webkitTransform = this.style.webkitTransform;
-	},
+		behaviors: [
+			StrandTraits.Stylable,
+			StrandTraits.KeySelectable,
+			StrandTraits.Stackable,
+			StrandTraits.Jqueryable,
+			StrandTraits.AutoClosable,
+			StrandTraits.AutoTogglable,
+			StrandTraits.PositionableDropdown
+		],
 
-	attached: function() {
-		WindowNotifier.addInstance(this);
-	},
+		_widthLocked: false,
+		LAYOUT_TYPE: 'dropdown',
 
-	detached: function() {
-		WindowNotifier.removeInstance(this);
-	},
-	
-	domReady: function() {
-		if (!this.fitparent) {		
-			this.btnWidth = this.btnWidth + this.borderWidth;		
-		}
-
-		// set input layout default - is there an input?
-		var search = this.$.search.getDistributedNodes();
-
-		if (search.length) {
-			search[0].setAttribute("layout", this.LAYOUT_TYPE);
-		}
-
-		this.resize();
-	},
-
-	// Called by WindowNotifier on window resize - also used to batch display updates
-	resize: function() {
-		this.job("resize", this.updateDisplay, 0);
-	},
-
-	updateDisplay: function() {
-		var actualMax,
-			item,
-			panelWidth;
-
-		// Handle scroll container Height if maxItems:
-		if (this.maxItems) {
-			actualMax = Math.min(this.items.length, this.maxItems);
-			this.$.list.style.height = Math.min((this.itemHeight * actualMax), window.innerHeight) + "px";
-			if(this.data) {
-				this.$.list.querySelector("#recycler").resizeViewport();
+		ready: function() {
+			if(!this.toggleTrigger) {
+				this.toggleTrigger = this.target;
 			}
-		}
 
-		// Handle closePanel width:
-		if (this.overflow === "visible") {
-			if(this.overflowWidth) {
-				panelWidth = this.overflowWidth + "px";
-			} else if (this.items.length > 0 && this.scrollbarWidth || this.data) {
-				item = this.items[0];
+			this.async(function() {
+				// set input layout default - is there an input?
+				var search = this.querySelector('mm-input');
+				if (search) {
+					search._layout = this.LAYOUT_TYPE;
+				}
+			});
+		},
 
-				if(this.data) {
-					var recycler = this.$.list.querySelector("#recycler");
-					item = recycler._physicalPanels[0].items[0];
+		open: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, 'open');
+			// Ensures that we get a value for the offsetHeight of the distributed list items:
+			if (this.maxItems) this._setMaxHeight(this.maxItems);
+			if (!this._widthLocked) this._lockWidth();
+
+			this.focus();
+			inherited.apply(this, [silent]);
+		},
+
+		close: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableDropdown, "close");
+			this._highlightedIndex = null;
+			inherited.apply(this, [silent]);
+		},
+
+		reset: function() {
+			this.value = null;
+			this.selectedIndex = null;
+			this._highlightedIndex = null;
+			if(this.state === this.STATE_OPENED) this.close();
+		},
+
+		_selectItemByValue: function(value) {
+			this.async(function(){
+				var item = null,
+					valueStr = value.toString();
+
+				if (!this._widthLocked) this._lockWidth();
+				
+				if (this.data) {
+					item = this._getDataItemByValue(valueStr);
+				} else {
+					item = this._getDomByValue(valueStr);
+				}
+				if (item) this.selectedIndex = this.items.indexOf(item);
+			});
+		},
+
+		_updateSelectedItem: function(e) {
+			var target = Polymer.dom(e).path[0],
+				value = this._getValueFromDom(target).toString(),
+				targetIndex = null;
+
+			if (this.data) {
+				targetIndex = this._getDataIndexFromDom(value);
+			} else {
+				targetIndex = this.items.indexOf(target);
+			}
+
+			if(targetIndex >= 0) this.selectedIndex = targetIndex;
+		},
+
+		// Dom handling
+		_getDomByValue: function(value) {
+			return this.items.filter(function(node) {
+				return node.getAttribute('value') === value || node.textContent.trim() === value;
+			})[0];
+		},
+
+		_getValueFromDom: function(node) {
+			return node.getAttribute('value') || node.textContent.trim();
+		},
+
+		_getDataIndexFromDom: function(value) {
+			return this.data.indexOf(this._getDataItemByValue(value));
+		},
+
+		_getDataItemByValue: function(value) {
+			return this.data.filter(function(item) {
+				return item.name === value || item.value.toString() === value;
+			})[0];
+		},
+
+		// Data handling
+		_dataChanged: function(newData, oldData) {
+			if (newData) {
+				if (!this.maxItems) {
+					this.maxItems = 10;
+				}
+				if (this.value) this._selectItemByValue(this.value);
+			} else {
+				this.reset();
+			}
+		},
+
+		// Getters
+		get itemHeight() {
+			var itemHeight = null,
+				items = this.items;
+
+			if (this.items.length > 0) {
+				if (this.data) {
+					itemHeight = 0|this._itemRecycler.getHeightAtIndex(0);
+				} else {
+					itemHeight = this.items[0].offsetHeight;
+				}
+			}
+	 		return itemHeight;
+		},
+
+		get buttonWidth() {
+			return Rectangle.fromElement(this.$.target).width;
+		},
+
+		get paddingWidth() {
+			return Measure.getPaddingWidth(this.$.target);
+		},
+
+		get borderWidth() {
+			return Measure.getBorderWidth(this.$.target);
+		},
+
+		// General
+		_valueChanged: function(newVal, oldVal) {
+			if (newVal) {
+				this._selectItemByValue(newVal);
+			} else {
+				this.reset();
+			}
+		},
+
+		_selectedIndexChanged: function(newIndex, oldIndex) {
+			if (typeof newIndex === 'number') {
+				var newSelected = this.items[newIndex],
+					value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim(),
+					name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
+				
+				this.value = value;
+
+				if (this.data) { 
+					this.set('data.' + newIndex + '.selected', true);
+				} else {
+					newSelected.selected = true;
 				}
 
-				var borderWidth = Measure.getBorderWidth(this.$.closePanel.$.container);
-				panelWidth = Math.ceil(item.textBounds.width + this.scrollbarWidth + item.paddingWidth + borderWidth) + "px";
-			} else {
-				panelWidth = "auto";
+				this.fire('selected', {
+					item: newSelected,
+					index: newIndex,
+					value: value,
+					name: name,
+					selected: newSelected.selected
+				});
+
+				this.fire('changed', { value: value });
 			}
-			this.$.closePanel.style.minWidth = this.btnWidth + "px";
-		} else {
-			panelWidth = this.btnWidth + "px";
-		}
 
-		this.$.closePanel.style.width = panelWidth;
+			if (typeof oldIndex === 'number') {
+				var oldSelected = this.items[oldIndex];
 
-		// Truncate the label if necessary:
-		this.updateTitle();
-	},
-
-	set btnWidth(i) {		
-		this.$.buttonMain.style.width = i + "px";
- 	},
-
-	get btnWidth() {
-		if (this.$)
-		return Math.ceil(parseFloat(Measure.getComputedStyle(this.$.buttonMain).width));
-	},
-
-	get btnPaddingWidth() {
-		return Measure.getPaddingWidth(this.$.buttonMain);
-	},
-
-	get borderWidth() {
-		return Measure.getBorderWidth(this.$.buttonMain);
-	},
-
-	get scrollbarWidth() {
-		return Measure.getScrollbarWidth(this);
-	},
-
-	get itemHeight() {
-		if(this.data) {
-			return this.$.list.querySelector("#recycler").itemHeight;
-		} else if(this.items.length) {
-			return this.items[0].offsetHeight;
-		}
-		return 0;
-	},
-
-	get items() {
-		return this.data ? this.data : Array.prototype.slice.call(this.$.items.getDistributedNodes());
-	},
-
-	open: function(e) {
-		this.state = this.STATE_OPENED;
-	},
-
-	close: function(e) {
-		this.state = this.STATE_CLOSED;
-	},
-
-	reset: function() {
-		this.value = "";
-	},
-
-	// Note: this is called from the scope of the close-manager
-	closeFilter: function(instance, e) {
-		if(Array.prototype.slice.call(e.path).indexOf(this) > -1){
-			e.stopImmediatePropagation();
-		} else {
-			instance.closeHandler();
-		}
-	},
-
-	toggle: function(e) {
-		if (this.state === this.STATE_OPENED) {
-			this.close();
-		} else {
-			this.resize();
-			this.open();
-		}
-	},
-
-	onSelectItem: function(e, detail, sender) {
-		if (e.target !== sender) {
-			this.selectedFlag = true;
-			this.selectedItem = this.data ? e.target.templateInstance.model.model : e.target;
-			this.close();
-
-			// Bugfix hack for attribute selector css:
-			e.target.style.webkitTransform = e.target.style.webkitTransform;
-		}
-	},
-
-	selectedItemChanged: function(oldItem, newItem) {
-		if(oldItem) {
-			oldItem.selected = false;
-		}
-
-		if(newItem) {
-			newItem.selected = true;
-			this.value = newItem.value;
-
-			this.fire("selected", {
-				item: newItem,
-				index: this.items.indexOf(newItem),
-				value: newItem.value,
-				selected: newItem.selected
-			});
-		}
-		this.async(this.updateTitle);
-	},
-
-	dataChanged: function() {
-		this.resize();
-		this.selectItemByValue(this.value);
-	},
-
-	valueChanged: function(oldValue, newValue) {
-		if (this.initialValue) {
-			this.initialValue = false;
-		} else {
-			this.fire("changed", {value:this.value});
-			this.updateModel();
-		}
-
-		if(!this.selectedFlag) {
-			this.selectItemByValue(this.value);
-		}
-
-		this.selectedFlag = false;
-	},
-
-	selectItemByValue: function(value) {
-		var selectedIndex = this.items.map(this.getItemValue).indexOf(String(value));
-		this.selectedItem = this.items[selectedIndex];
-	},
-
-	getItemValue: function(item) {
-		return String(item.value);
-	},
-
-	// Add a title attr if the new value is longer than the button
-	placeholderChanged: function(oldPlace, newPlace) {
-		this.async(this.updateTitle);
-	},
-
-	updateTitle: function() {
-		var textBounds = Measure.getTextBounds(this.$.labelText),
-			availableTxtArea = (this.btnWidth + this.borderWidth) - this.btnPaddingWidth;
-
-		if(textBounds.width >= availableTxtArea) {
-			this.displayTitle = this.selectedItem ? this.selectedItem.label : this.placeholder;
-		} else {
-			this.displayTitle = "";
-		}
-	},
-
-	bindModel: function(model, property) {
-		this.model = model;
-		this.property = property;
-	},
-
-	updateModel: function() {
-		if (this.model && this.property) {
-			//check for BB models
-			if (this.model.set) {
-				var o = {};
-				o[this.property] = this.value;
-				this.model.set(o);
-			} else {
-				this.model[this.property] = this.value;
+				if (this.data) { 
+					this.set('data.' + oldIndex + '.selected', false);
+				} else {
+					oldSelected.selected = false;
+				}
 			}
-		}
-	}
-});
+			
+			this.close();
+		},
+
+		_highlightedIndexChanged: function(newIndex, oldIndex) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.KeySelectable, '_highlightedIndexChanged');
+			if (typeof newIndex === 'number' && newIndex >= 0) {
+				if (this.data) {
+					this.set('data.' + newIndex + '.highlighted', true);
+				} else {
+					this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+				}
+			}
+			if (typeof oldIndex === 'number' && oldIndex >=0) {
+				this.set('data.' + oldIndex + '.highlighted', false);
+			}
+			inherited.apply(this, [newIndex, oldIndex]);
+		},
+
+		_updateLabelText: function(selectedIndex, placeholder) {
+			var label = this.placeholder;
+
+			if (typeof selectedIndex === 'number') {
+				var selectedItem = this.items[selectedIndex];
+					
+				label = this.data ? selectedItem.name : selectedItem.textContent.trim();
+			}
+			return label;
+		},
+
+		_updateTitle: function(selectedIndex) {
+			if (typeof selectedIndex === 'number') {
+				var selectedItem = this.items[selectedIndex],
+					title = '';
+
+				if (selectedItem) {
+					var availableArea = (this.buttonWidth + this.borderWidth) - this.paddingWidth,
+						textBounds = Measure.getTextBounds(this.$.label);
+
+					if(textBounds.width >= availableArea) {
+						title = this.data ? selectedItem.name : selectedItem.textContent.trim();
+					}
+				}
+				return title;
+			}
+		},
+
+		_hideInsertionPoints: function(data) {
+			if(data && data.length > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+
+		_lockWidth: function() {
+			if (!this.fitparent && this.buttonWidth > 0) {
+				this.$.target.style.width = this.buttonWidth + 'px';
+			} else {
+				return;
+			}
+
+			this._widthLocked = true;
+		},
+
+		_maxItemsChanged: function(newVal, oldVal) {
+			if(newVal && this.state === this.STATE_OPENED) this._setMaxHeight(newVal);
+	 	},
+
+	 	_setMaxHeight: function(maxItems) {
+			var actualMax = Math.min(this.items.length, maxItems);
+			
+			this.$.list.style.height = this.itemHeight * actualMax + 'px';
+			
+			if (this.data) {
+				this._itemRecycler.style.height = this.itemHeight * actualMax + 'px';
+				this.$.list.style.overflowY = "hidden";
+			}
+	 	},
+
+		_updateButtonClass: function(direction, fitparent, error, state, type) {
+			var o = {};
+			o.button = true;
+			o.fit = fitparent;
+			o.invalid = error;
+			o[type] = true;
+			o[state] = true;
+			o.top = (direction === 'n');
+			o.bottom = (direction === 's');
+			return this.classBlock(o);
+		},
+
+		requestInitialization: function () {
+			return this.$.itemRecycler.initialize();
+		},
+	});
+
+})(window.Strand = window.Strand || {});

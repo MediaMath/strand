@@ -4,146 +4,223 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-group', {
-	
-	ver:"<<version>>",
-	HALIGN: "horizontal",
-	VALIGN: "vertical",
-	HALIGN_LEFT: "hgroup-left",
-	HALIGN_CENTER: "hgroup-center",
-	HALIGN_RIGHT: "hgroup-right",
-	VALIGN_TOP: "vgroup-top",
-	VALIGN_CENTER: "vgroup-center",
-	VALIGN_BOTTOM: "vgroup-bottom",
-	type: null,
+(function(scope) {
 
-	publish: {
-		fitparent: { value: false, reflect: true },
-		group: { value: null, reflect: true },
-		align: { value: null, reflect: true },
-		value: { value: "", reflect: true }
-	},
+	scope.Group = Polymer({
+		is: 'mm-group',
 
-	ready: function() {
-		// if no group ID is specified, generate a UID
-		if(!this.group){
-			this.group = this.createId();
-		}
+		properties: {
+			fitparent: { 
+				type: String,
+				reflectToAttribute: true,
+				observer: '_fitparentChanged'
+			},
+			group: { 
+				type: String,
+				reflectToAttribute: true,
+				observer: '_groupChanged'
+			},
+			align: { 
+				align: 'horizontal',
+				type: String,
+				reflectToAttribute: true,
+				observer: '_alignChanged'
+			},
+			value: { 
+				type: String,
+				value: false,
+				reflectToAttribute: true,
+				observer: '_valueChanged'
+			},
+			// TODO: multiselectable
+			// multi: {
+			// 	type: Boolean,
+			// 	value: false
+			// },
+			_filter: {
+				type: Boolean,
+				value: false
+			},
+			_filterElementType: {
+				type: String,
+				value: "*"
+			},
+			_type: {
+				type: String,
+				value: false
+			},
+			_itemsByTagName: {
+				type: Object,
+				value: null
+			}
+		},
 
-		if (!this.align) {
-			this.align = "horizontal";
-		}
+		HALIGN: "horizontal",
+		VALIGN: "vertical",
+		HALIGN_LEFT: "hgroup-left",
+		HALIGN_CENTER: "hgroup-center",
+		HALIGN_RIGHT: "hgroup-right",
+		VALIGN_TOP: "vgroup-top",
+		VALIGN_CENTER: "vgroup-center",
+		VALIGN_BOTTOM: "vgroup-bottom",
 
-		this.itemsByTagName = {};
+		behaviors: [
+			StrandTraits.Selectable
+		],
 
-		// set type immediately
-		function setType(item, index) {
+		attached: function() {
+			this.type = this._getType();
+
+			this.async(function() {
+				switch(this.type) {
+					case "mm-button":
+						// ***********************
+						// TODO: Why no tap listener?
+						// ***********************
+						// this.addEventListener('tap', this._updateSelectedItem.bind(this), false);
+						this.addEventListener('click', this._updateSelectedItem);
+						break;
+					case "mm-radio":
+						this._radioSelected(); // Check for pre-selected values
+						this.addEventListener('selected', this._radioSelected);
+						break;
+					default:
+						return;
+				}
+			});
+		},
+
+		detached: function() {
+			console.log("detached", this);
+			this.removeEventListener('click', this._updateSelectedItem);
+			this.removeEventListener('selected', this._radioSelected);
+		},
+
+		ready: function() {
+			// if no group ID is specified, generate a UID
+			if(!this.group){
+				this.group = this._createId();
+			}
+
+			if (!this.align) {
+				this.align = this.HALIGN;
+			}
+		},
+
+		_getType: function() {
+			var type = "";
+			
+			// items query handled by StrandTraits.Selectable
+			this._itemsByTagName = this.items.reduce(this._setType.bind(this), {});
+
+			// infer that only one unique key means only one tag type
+			var numKeys = Object.keys(this._itemsByTagName).length;
+
+			if (numKeys === 1) {
+				type = Object.keys(this._itemsByTagName)[0];
+			} else {
+				type = "mixed-type";
+			}
+
+			return type;
+		},
+		
+		_setType: function(map, item) {
 			var key = item.tagName.toLowerCase();
-			this.itemsByTagName[key] = (this.itemsByTagName[key] || []);
-			this.itemsByTagName[key].push(item);
-		}
-		this.items.forEach(setType.bind(this));
+			map[key] = (map[key] || []);
+			map[key].push(item);
+			return map;
+		},
 
-		// infer that only one unique key means only one tag type
-		var numKeys = Object.keys(this.itemsByTagName).length;
-		if (numKeys === 1){
-			var tag = Object.keys(this.itemsByTagName)[0];
-			this.type = tag;
-		}
-	},
+		_updateSelectedItem: function(e) {
+			var target = Polymer.dom(e).localTarget,
+				targetIndex = this.items.indexOf(target);
+			// console.log("_updateSelectedItem: ", e, target);
+			if(targetIndex >= 0) {
+				this.selectedIndex = targetIndex;
+			}
+			// ***********************
+			// TODO: Multi-Select?
+			// ***********************
+		},
 
-	get items() {
-		var items = Array.prototype.slice.call(this.$.groupItems.getDistributedNodes());
-		return items.filter(function(item) { return item.nodeName !== "TEMPLATE"; });
-	},
+		_selectedIndexChanged: function(newIndex, oldIndex) {
+			if(typeof newIndex === 'number') {
+				var newSelected = this.items[newIndex],
+					oldSelected = this.items[oldIndex],
+					value = newSelected.value ? newSelected.value : newSelected.textContent.trim();
 
-	fitparentChanged: function(oldVal, newVal) {
-		function setItemFit(item) {
-			item.setAttribute("fitparent", true);
-		}
-		if (this.fitparent !== null && this.type === "mm-button") {
-			this.items.forEach(setItemFit.bind(this));
-		}
-	},
+				if(this.value !== value) this.value = value;
+				newSelected.toggleAttribute("selected");
 
-	alignChanged: function(oldVal, newVal){
-		function setItemAlign(item, index) {
+				this.fire('selected', {
+					item: newSelected,
+					index: newIndex,
+					value: this.value,
+					selected: true
+				});
+			}
+			if(typeof oldIndex === 'number') {
+				this.items[oldIndex].toggleAttribute("selected");
+			}
+		},
+
+		_fitparentChanged: function(newVal, oldVal) {
+			this.items.forEach(this._setItemFit, this);
+		},
+
+		_setItemFit: function(item) {
+			item.setAttribute("fitparent", this.fitparent);
+		},
+
+		_alignChanged: function(newVal, oldVal){
+			this.items.forEach(this._setItemAlign.bind(this));
+		},
+
+		_setItemAlign: function(item, index) {
 			var alignFirst	= (this.align !== this.HALIGN) ? this.VALIGN_TOP : this.HALIGN_LEFT,
 				alignCenter = (this.align !== this.HALIGN) ? this.VALIGN_CENTER : this.HALIGN_CENTER,
 				alignLast	= (this.align !== this.HALIGN) ? this.VALIGN_BOTTOM : this.HALIGN_RIGHT;
 
 			// set layout on all items
 			if (index === 0) {
-				item.setAttribute("layout", alignFirst);
+				item.setAttribute("_layout", alignFirst);
 			} else if (index === this.items.length-1) {
-				item.setAttribute("layout", alignLast);
+				item.setAttribute("_layout", alignLast);
 			} else {
-				item.setAttribute("layout", alignCenter);
+				item.setAttribute("_layout", alignCenter);
 			}
-		}
-		this.items.forEach(setItemAlign.bind(this));
-	},
+		},
 
-	groupChanged: function(oldVal, newVal) {
+		_groupChanged: function(newVal, oldVal) {
+			this.items.forEach(this._setItemGroup.bind(this));
+		},
 
-		function setItemGroup(item) {
+		_setItemGroup: function(item) {
 			item.setAttribute("group", this.group);
-		}
-		this.items.forEach(setItemGroup.bind(this));
-		if (oldVal) {
-			if (this._handleUpdate) {
-				this.removeEventListener("mousedown", this._handleUpdate);
-			}
-		}
-		if (newVal && this.type === "mm-radio") {
-			if (!this._handleUpdate) {
-				this._handleUpdate = this.handleUpdate.bind(this);
-			}
-			this.addEventListener("selected", this._handleUpdate);
-			this.handleUpdate();
-		}
-	},
+		},
 
-	handleUpdate: function(e) {
-
-		this.async(function() {
+		_radioSelected: function(e) {
 			var checked = this.items.filter(function(item) { 
 				return item.hasAttribute("checked"); 
 			})[0];
+
 			if (checked) {
 				this.value = checked.getAttribute("value") || checked.textContent.trim();
 			}
-		}.bind(this));
-	},
+		},
 
-	valueChanged: function(oldVal, newVal) {
-		this.fire("changed", {value: this.value});
-		this.updateModel();
-	},
+		_valueChanged: function(newVal, oldVal) {
+			this.fire("changed", { value: newVal });
+		},
 
-	bindModel: function(model, property) {
-		this.model = model;
-		this.property = property;
-	},
-
-	updateModel: function() {
-		if (this.model && this.property) {
-			//check for BB models
-			if (this.model.set) {
-				var o = {};
-				o[this.property] = this.value;
-				this.model.set(o);
-			} else {
-				this.model[this.property] = this.value;
-			}
+		_createId: function() {
+			var timestamp = new Date().valueOf(),
+				rndNum	= Math.floor((Math.random()*99)+1),
+				groupId = 'g' + rndNum + '_' + timestamp;
+			return groupId;
 		}
-	},
 
-	createId: function() {
-		var timestamp = new Date().valueOf(),
-			rndNum	= Math.floor((Math.random()*99)+1),
-			groupId = 'g' + rndNum + '_' + timestamp;
-		return groupId;
-	}
+	});
 
-});
+})(window.Strand = window.Strand || {});

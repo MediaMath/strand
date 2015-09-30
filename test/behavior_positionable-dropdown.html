@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/positionable-dropdown.html"/>
+</head>
+<body>
+
+	<dom-module id="test-positionable-dropdown">
+		<style>
+			
+			:host {
+				display: block;
+				position: relative;
+			}
+
+			#panel {
+				position: fixed;
+				display: block;
+				z-index: 1;
+			}
+
+			#target {
+				width: 200px;
+				height: 30px;
+				border: 1px solid #ccc;
+			}
+
+			#container {
+				box-sizing: border-box;
+				position: relative;
+				overflow: hidden;
+				background: #fff;
+				border: 1px solid #ccc;
+				
+			}
+
+			#list {
+				overflow-x: hidden;
+				overflow-y: auto;
+			}
+		</style>
+		<template>
+			<div id="target"></div>
+			<div id="panel">
+				<div id="container">
+					<div id="list">
+						<content id="content"></content>
+					</div>
+				</div>
+			</div>
+		</template>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer({
+					is:"test-positionable-dropdown",
+					behaviors:[StrandTraits.PositionableDropdown],
+					properties: {
+						_panel: {
+							type: Object,
+							value: function() { return this.$.panel; }
+						},
+						_target: {
+							type: Object,
+							value: function() { return this.$.target; }
+						}
+					}
+				});
+			});
+		</script>
+	</dom-module>
+
+	<test-positionable-dropdown id="testPanel">
+		<div style="box-sizing:border-box; width:100%; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:100%; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:100%; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:100%; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:100%; height:30px;"></div>
+	</test-positionable-dropdown>
+
+	<test-positionable-dropdown id="testPanel2" overflow="visible">
+		<div style="box-sizing:border-box; width:300px; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:300px; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:300px; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:300px; height:30px; border-bottom:1px solid #eee;"></div>
+		<div style="box-sizing:border-box; width:300px; height:30px;"></div>
+	</test-positionable-dropdown>
+
+	<script>
+		
+		describe("behavior_positionable-panel", function() {
+
+			it("should open in direction 'south' by default", function() {
+				var a = document.querySelector("#testPanel");
+				a.open();
+				a.direction.should.equal("s");
+			});
+
+			it("should be positioned properly for 'south'", function() {
+				var a = document.querySelector("#testPanel");
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics;
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				panelMetrics.left.should.equal(targetMetrics.left);
+				panelMetrics.top.should.equal(targetMetrics.bottom);
+			});
+
+			it("should open in direction 'north' when direction is changed", function(done) {
+				var a = document.querySelector("#testPanel");
+
+				a.close();
+				a.style.left = "0px";
+				a.style.top = "152px";
+
+				a.direction = "n";
+				a.open();
+
+				flush(function() {
+					a.direction.should.equal("n");
+					done();
+				});
+
+			});
+
+			it("should be positioned properly for 'north'", function() {
+				var a = document.querySelector("#testPanel");
+					panelMetrics = a.metrics,
+					targetMetrics = a.targetMetrics;
+
+				panelMetrics.should.exist;
+				targetMetrics.should.exist;
+				panelMetrics.left.should.equal(targetMetrics.left);
+				panelMetrics.bottom.should.equal(targetMetrics.top + a._offset);
+			});
+
+			it("should set panel width correctly if overflow is visible", function(done) {
+				var a = document.querySelector("#testPanel2");
+					panelMetrics = null,
+					targetMetrics = null;
+
+				a.open();
+				flush(function() {
+					panelMetrics = a.metrics;
+					targetMetrics = a.targetMetrics;
+					panelMetrics.should.exist;
+					targetMetrics.should.exist
+					panelMetrics.width.should.equal(302);
+					done();
+				});
+				
+			});
+
+			it("should set panel width correctly if overflowWidth is specified", function(done) {
+				var a = document.querySelector("#testPanel2");
+					panelMetrics = null,
+					targetMetrics = null;
+
+				a.close();
+				a.overflowWidth = 400;
+				a.open();
+
+				flush(function() {
+					panelMetrics = a.metrics;
+					targetMetrics = a.targetMetrics;
+					panelMetrics.should.exist;
+					targetMetrics.should.exist
+					panelMetrics.width.should.equal(400);
+					done();
+				});
+				
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

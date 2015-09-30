@@ -21,7 +21,7 @@
 	@include justify-content(start);
 }
 
-::content label {
+:host ::content label {
 	@include fontSmoothing();
 	font-size: 13px;
 	line-height: 13px;

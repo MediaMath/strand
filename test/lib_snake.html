@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/snake.html"/>
+</head>
+<body>
+
+	<script>
+		describe("Snake", function() {
+
+			it("should behave like a linked list", function() {
+				var List = Snake.prototype.implementationFactory();
+				var seq = new List();
+				var ele = seq;
+				var tailwise = [];
+				var headwise = [];
+				var count = 7;
+				var index = 0;
+				var offset = 2;
+				var slice = 3;
+
+				for (index = 0; index < count; index++) {
+					ele = seq.addTail(null);
+					ele.body = 100 + index;
+				}
+
+				seq.eachTailwise(function (snake) {
+					this.push(snake.body);
+				}, tailwise);
+
+				seq.eachHeadwise(function (snake) {
+					this.push(snake.body);
+				}, headwise);
+
+				// reverse of headwise should be "equal-ish" to tailwise
+				headwise.reverse()
+				headwise.should.not.be.lessThan(tailwise);
+				headwise.should.not.be.greaterThan(tailwise);
+				headwise.reverse();
+
+				tailwise.reduce(function (values, body, idx) {
+					values[idx].should.equal(body); // [100, 101, 102, 103, 104, 105, 106]
+					return values;
+				}, Array.apply(null, Array(count)).reduce(function (values, _, idx) {
+					values.push(100 + idx);
+					return values;
+				}, [])).should.be.length(tailwise.length);
+
+				tailwise.should.be.length(seq.getCount());
+
+
+
+				tailwise = [];
+
+				seq.getHead().eachTailwise(function (snake) {
+					this.push(snake.body);
+				}, tailwise);
+
+				headwise.reverse()
+				headwise.should.not.be.lessThan(tailwise);
+				headwise.should.not.be.greaterThan(tailwise);
+				headwise.reverse();
+
+				headwise = [];
+
+				seq.getTail().eachHeadwise(function (snake) {
+					this.push(snake.body);
+				}, headwise);
+
+				headwise.reverse()
+				headwise.should.not.be.lessThan(tailwise);
+				headwise.should.not.be.greaterThan(tailwise);
+				headwise.reverse();
+
+
+
+				seq.getHead(offset).dropTailwise(slice);
+
+				tailwise = [];
+
+				seq.eachTailwise(function (snake) {
+					this.push(snake.body);
+				}, tailwise);
+
+				tailwise.reduce(function (values, body, idx) {
+					values[idx].should.equal(body); // [100, 101, 105, 106]
+					return values;
+				}, Array.apply(null, Array(count)).reduce(function (values, _, idx) {
+					if (idx < offset ||
+						idx > offset + slice - 1) {
+						values.push(100 + idx);
+					}
+					return values;
+				}, [])).should.be.length(tailwise.length);
+
+			});
+
+		});
+	</script>
+
+</body>
+</html>

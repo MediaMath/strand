@@ -1,0 +1,20 @@
+(function(scope) {
+
+	scope.Menu = Polymer({
+		is: 'mm-menu',
+
+		behaviors: [
+			StrandTraits.AutoClosable,
+			StrandTraits.AutoTogglable,
+			StrandTraits.PositionablePanel,
+			StrandTraits.Stackable
+		],
+
+		attached: function() {
+			this.async(function() {
+				if (this._target) this._target.style.cursor = 'pointer';
+			});
+		}
+	});
+
+})(window.Strand = window.Strand || {});

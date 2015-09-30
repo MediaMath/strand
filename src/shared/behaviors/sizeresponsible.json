@@ -1,0 +1,34 @@
+{
+	"name":"SizeResponsible",
+	"description":"A behavior for detecting element resize (adapted from https://github.com/sdecima/javascript-detect-element-resize). To be used in conjunction with the _sizeresponsible.scss mixin.",
+	"methods": [
+		{
+			"name":"addResizeListener",
+			"description":"Adds a listener to the target element which will respond on resize.",
+			"arguements":[
+				{
+					"name":"fn",
+					"description":"The callback function for elememt resize."
+				},
+				{
+					"name":"target",
+					"description":"The elememt which will respond on resize."
+				}
+			]
+		},
+		{
+			"name":"removeResizeListener",
+			"description":"Removes the listener from the target element which will responded on resize.",
+			"arguements":[
+				{
+					"name":"fn",
+					"description":"The callback function for elememt resize."
+				},
+				{
+					"name":"target",
+					"description":"The elememt which will respond on resize."
+				}
+			]
+		}
+	]
+}

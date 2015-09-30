@@ -5,34 +5,57 @@
 
 */
 /* mm-modal.js */
-Polymer('mm-modal', {
-	
-	ver:"<<version>>",
+(function(scope) {
 
-	publish: {
-		visible: false,
-		dismiss: true,
-		noscroll: false,
-		width: 600
-	},
+	scope.Modal = Polymer({
+		is: 'mm-modal',
 
-	visibleChanged: function() {
-		this.hidden = !this.visible;
-	},
-	
-	show: function() {
-		this.visible = true;
+		behaviors:[StrandTraits.Stackable],
 
-		if(this.noscroll) {
-			document.body.style.overflow = "hidden";
+		properties: {
+			stackType:{
+				value: "modal"
+			},
+			hidden: {
+				type:Boolean,
+				value:true,
+				notify:true,
+				reflectToAttribute:true
+			},
+			dismiss: {
+				type:Boolean,
+				value:true,
+				notify:true,
+			},
+			noscroll: {
+				type:Boolean,
+				value:false
+			},
+			width: {
+				type:Number,
+				value:600
+			}
+		},
+
+		show: function() {
+			this.hidden = false;
+
+			if(this.noscroll) {
+				document.body.style.overflow = "hidden";
+			}
+		},
+
+		_widthStyle: function(width) {
+			return "width:"+width+"px";
+		},
+
+		hide: function(e) {
+			if (e) e = Polymer.dom(e);
+			if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
+				this.hidden = true;
+				document.body.style.overflow = "";
+			}
 		}
-	},
+	});
 
-	hide: function(e) {
-		if (!e || this.dismiss && e.target === this.$.blocker || e.target === this.$.close) {
-			// only dismiss the modal if this action is permitted:
-			this.visible = false;
-			document.body.style.overflow = "";
-		}
-	}
-});
+})(window.Strand = window.Strand || {});

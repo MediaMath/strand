@@ -7,8 +7,7 @@
 			"type":"Number",
 			"description":"The radius of the spinner (which is always circular). As expected, radius of 9 yeilds an 18px circle.",
 			"optional":true,
-			"default":"9",
-			"options":[]
+			"default":"9"
 		},
 		{
 			"name":"innerRadius",
@@ -16,7 +15,7 @@
 			"description":"The inner radius of the spinner from where the line tick starts drawing. Values greater than 1 are pixel based - less than 1 is proportional to radius (ie. 0.5 == 50% of radius)",
 			"optional":true,
 			"default":"0.5",
-			"options":[]
+			"attribute":"inner-radius"
 		},
 		{
 			"name":"numTicks",
@@ -24,15 +23,14 @@
 			"description":"The number of ticks (lines) which compose the circumference of the spinner. Defaults to 12 for a 'standard' analog clock look.",
 			"optional":true,
 			"default":"12",
-			"options":[]
+			"attribute":"num-ticks"
 		},
 		{
 			"name":"speed",
 			"type":"Number",
 			"description":"Spinner speed in cycles per second.",
 			"optional":true,
-			"default":"1.33",
-			"options":[]
+			"default":"1.33"
 		},
 		{
 			"name":"lineWidth",
@@ -40,7 +38,7 @@
 			"description":"The width of each tick (line) which compose the circumference of the spinner. Values greater than 1 are pixel based - less than 1 is proportional to radius (ie. 0.5 == 50% of radius)",
 			"optional":true,
 			"default":"0.5",
-			"options":[]
+			"attribute":"line-width"
 		},
 		{
 			"name":"lineWeight",
@@ -48,7 +46,7 @@
 			"description":"The thickness of each tick (line) which compose the circumference of the spinner. Values greater than 1 are pixel based - less than 1 is proportional to the square root of radius (ie. 0.5 == sqrt(radius) * 0.5)",
 			"optional":true,
 			"default":"0.5",
-			"options":[]
+			"attribute":"line-weight"
 		},
 		{
 			"name":"fillColor",
@@ -56,7 +54,7 @@
 			"description":"The hex color number to fill each tick (line) which compose the circumference of the spinner. Expects a 7 character string (i.e. '#ffffff').",
 			"optional":true,
 			"default":"#ffffff",
-			"options":[]
+			"attribute":"fill-color"
 		},
 		{
 			"name":"bgColor",
@@ -64,7 +62,15 @@
 			"description":"The hex color number to fill the background of the spinner. The default is null to leave the background transparent.",
 			"optional":true,
 			"default":"null",
-			"options":[]
+			"attribute":"bg-color"
+		},
+		{
+			"name":"paused",
+			"type":"String",
+			"description":"Whether or not the animation is running.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
 		}
 	],
 	"methods": [

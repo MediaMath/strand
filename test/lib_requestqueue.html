@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/js/requestqueue.html"/>
+</head>
+<body>
+	<script>
+	function Req() {
+		this.promise = new Zousan();
+	}
+	Req.prototype = {
+		exec: function() {
+			this.promise.resolve({response:"yes"});
+			return this.promise;
+		}
+	};
+
+	function FReq() {
+		this.promise = new Zousan();
+	}
+	FReq.prototype = {
+		exec: function() {
+			this.promise.then(function(){},function(){});
+			this.promise.reject({response:"no"});
+			return this.promise;
+		}
+	};
+	function AReq() {
+		this.promise = new Zousan();
+	}
+	AReq.prototype = {
+		exec: function() {
+			this.promise.resolve({response:"yes"});
+			return this.promise;
+		},
+		abort: sinon.spy()
+	};
+
+	describe("RequestQueue", function() {
+		
+		it("should exist", function() {
+			StrandLib.RequestQueue.should.be.a.function;
+		});
+
+		it("should run a single queue", function(done) {
+			var work = [new Req(), new Req(), new Req(), new Req()];
+			var rq = new StrandLib.RequestQueue(work, 1);
+			rq.promise.then(function(res) {
+				res.should.have.length(4);
+				res[0].should.deep.equal({response:"yes"});
+				res[3].should.deep.equal({response:"yes"});
+				done();
+			});
+			rq.exec();
+		});
+
+		it("should allow concurrency", function(done) {
+			var work = [];
+			for(var i=0; i<24; i++) {
+				work.push(new Req());
+			}
+			var rq = new StrandLib.RequestQueue(work, 4);
+			rq.promise.then(function(res) {
+				res.should.have.length(24);
+				done();
+			});
+			rq.exec();
+		});
+
+		it("should fail when a request fails", function(done) {
+			var work = [new FReq(), new Req(), new Req(), new Req()];
+			var rq = new StrandLib.RequestQueue(work, 1);
+			rq.promise.then(done, function(f) {
+				rq.failures.should.have.length(1);
+				done();
+			});
+			rq.exec();
+		});
+
+		it("should fail after some requests with concurrency", function(done) {
+			var work = [new Req(), new Req(), new Req(), new Req(),new Req(), new FReq(), new Req(), new Req()];
+			var rq = new StrandLib.RequestQueue(work, 4);
+			rq.promise.then(done, function(f) {
+				rq.results.should.have.length(4);
+				f.should.deep.equal({response:"no"});
+				done();
+			});
+			rq.exec();
+		});
+
+		it("should quit on first failure when multiple are encountered", function(done) {
+			var work = [new Req(), new Req(), new Req(), new FReq(),new Req(), new FReq(), new Req(), new Req()];
+			var rq = new StrandLib.RequestQueue(work, 4);
+			rq.promise.then(done, function(f) {
+				rq.results.should.have.length(0);
+				f.should.deep.equal({response:"no"});
+				done();
+			});
+			rq.exec();
+		});
+
+		it("should expose a process hook for each request as it is executed", function(done) {
+			var work = [new Req(), new Req(), new Req(), new Req()];
+			var test = [];
+			var rq = new StrandLib.RequestQueue(work, 1, function(r) {
+				test.push(r);
+			});
+			rq.promise.then(function() {
+				test.should.have.length(4);
+				test.should.deep.equal(work);
+				done();
+			});
+			rq.exec();
+		});
+
+		it("should stop work on abort", function(done) {
+			var success = sinon.spy();
+			var work = [new AReq(), new AReq(), new AReq(), new AReq()];
+			var rq = new StrandLib.RequestQueue(work, 1);
+			rq.promise.then(success, function(f) {
+				work.map(function(r) {
+					r.abort.calledOnce.should.be.true;
+				});
+				rq.flight.should.have.length(1);
+				rq.flight[0].abort.calledOnce.should.be.true;
+				done();
+			});
+			rq.exec();
+			rq.abort();
+		});
+	});
+	</script>
+</body>
+</html>

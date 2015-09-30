@@ -27,14 +27,6 @@
 			"options":["true", "false"]
 		},
 		{
-			"name":"debug",
-			"type":"Boolean",
-			"description":"Show debugging information inline instead of hiding the component.",
-			"optional":true,
-			"default":"false",
-			"options":["true", "false"]
-		},
-		{
 			"name":"body",
 			"type":"Object",
 			"description":"The request body to pass to the server for POST or PUT calls",
@@ -62,39 +54,94 @@
 			"options":[]
 		},
 		{
+			"name":"concurrency",
+			"type":"Number",
+			"description":"The request concurrency for the execQueue methods",
+			"default":"4"
+		},
+		{
 			"name":"status",
-			"type":"String (readonly)",
+			"type":"String",
 			"description":"Readonly XHR object status string",
+			"readOnly": true,
 			"options":["true", "false"]
 		},
 		{
 			"name":"state",
-			"type":"Boolean (readonly)",
+			"type":"Boolean",
 			"description":"",
+			"readOnly":true,
 			"options":["true", "false"]
 		},
 		{
 			"name":"xhr",
-			"type":"Object (readonly)",
+			"type":"Object",
 			"description":"A reference to the XHR object created for this call if needed",
+			"readOnly":true,
 			"optional":true
-		},
-		{
-			"name":"promise",
-			"type":"Object (readonly)",
-			"description":"returns an A+ compatible promise (pinkyswear) that may be used for request chaining"
 		}
 	],
 	"methods": [
 		{
-			"name":"reset",
-			"description":"creates a new XHR and promise object so that a 2nd call can be made. Also clears all settings.",
-			"arguments":[]
-		},
-		{
 			"name":"exec",
 			"description":"Triggers the XHR call.",
-			"arguments":[]
+			"arguments":[
+				{				
+					"name":"data",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional body data to be passed with the call if this.body is or when it is desired to override"
+				},
+								{				
+					"name":"options",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional ajax config object that is mixed into the default config to override any default config as desired"
+				}
+			]
+		},
+		{
+			"name":"queue",
+			"description":"Enqueus the XHR call to be triggered by execQueue. Returns the promise for the call being queued.",
+			"arguments":[
+				{				
+					"name":"data",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional body data to be passed with the call if this.body is or when it is desired to override"
+				},
+								{				
+					"name":"options",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional ajax config object that is mixed into the default config to override any default config as desired"
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"optional":true,
+					"default":"undefined",
+					"description":"Name to use for the queue. if not is provided the default queue is used."
+				}
+			]
+		},
+		{
+			"name":"execQueue",
+			"description":"Executes a given queue of requests. Returns a queue promise which resolves when all calls have completed.",
+			"arguments":[
+				{
+					"name":"name",
+					"type":"String",
+					"optional":true,
+					"default":"undefined",
+					"description":"Name of the queue to execute. if not is provided the default queue is executed."
+				}
+			]
+
 		},
 		{
 			"name":"abort",
@@ -200,10 +247,6 @@
 					"description":"In cases where the response has actually been recieved before the error this will contain the API response if any."
 				}
 			]
-		},
-		{
-			"type":"data-result",
-			"disclaimer":"This is fired when the server responds but before JSON or blob parsing has occured."
 		},
 		{
 			"type":"data-ready",

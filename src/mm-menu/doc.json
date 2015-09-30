@@ -1,0 +1,5 @@
+{
+	"name":"mm-menu",
+	"description":"A popover menu",
+	"behaviors": ["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]
+}

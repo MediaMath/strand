@@ -1,15 +1,7 @@
 @import "_bourbon";
 @import "_mixins";
+@import "_docs_theme";
 
-$linkColor: #4d99bf;
-$white: #fff;
-$textColor: #333;
-$bgGray: #f8f8f8;
-$headlineColor: #ff3366;
-$borderColor: rgba(51,51,51, 0.2);
-$borderColorLight: rgba(51,51,51, 0.07);
-$footerColor: #f8f8f8;
-$mainNavBg: #e4e1ef;
 $footerWideHeight: 200px;
 $footerSkinnyHeight: 360px;
 
@@ -123,9 +115,13 @@ section:last-child {
 	min-height: 100%;
 }
 
-.footer,
+.layout-footer,
 .layout-push {
 	position: relative;
+}
+
+.layout-footer {
+	background: $footerColor;
 }
 
 .mini-subhead {
@@ -176,9 +172,6 @@ section:last-child {
 	}
 }
 
-.footer {
-	background: $footerColor;
-}
 
 .docs-footer {
 	padding: 2.5em;
@@ -223,26 +216,6 @@ section:last-child {
 	}
 }
 
-polyfill-next-selector { content: 'mm-docs-shell #mobileHeader'; }
-mm-docs-shell::shadow #mobileHeader {
-	background: $bgGray;
-}
-
-polyfill-next-selector { content: "mm-docs-shell .layout-article"; }
-mm-docs-shell::shadow  .layout-article {
-	background: $white;
-}
-
-polyfill-next-selector { content: "mm-docs-shell #mainNav"; }
-mm-docs-shell::shadow  #mainNav {
-	background: $mainNavBg;
-}
-
-polyfill-next-selector { content: "mm-docs-shell #mobileHeader"; }
-mm-docs-shell::shadow  #mobileHeader {
-	background: $mainNavBg;
-}
-
 #articlesNav mm-list-item,
 #componentsNav mm-list-item {
 	padding: 10px 20px;
@@ -266,7 +239,7 @@ mm-docs-shell::shadow  #mobileHeader {
 	min-height: 300px;
 }
 
-.editor {
+#editor {
 	position: absolute;
 	z-index: 0;
 	top:0;
@@ -495,7 +468,7 @@ table {
 		}
 	}
 
-	.footer,
+	.layout-footer,
 	.layout-push {
 		height: $footerWideHeight;
 	}
@@ -554,7 +527,7 @@ table {
 		}
 	}
 
-	.footer,
+	.layout-footer,
 	.layout-push {
 		height: $footerWideHeight;
 	}
@@ -571,7 +544,7 @@ table {
 		margin-bottom: -$footerSkinnyHeight;
 	}
 
-	.footer,
+	.layout-footer,
 	.layout-push {
 		height: $footerSkinnyHeight;
 	}

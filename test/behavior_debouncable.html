@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/shared/behaviors/debouncable.html"/>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+</head>
+<body>
+	<dom-module id="test-semaphor">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+
+		var TestSome;
+		HTMLImports.whenReady(function() {
+			TestSome = Polymer({
+				is:"test-semaphore",
+				behaviors:[StrandTraits.Debouncable],
+				debouncers:{
+					test:{
+						keys:["a","b","c"],
+						type:StrandTraits.Debouncable.SOME,
+						callback:Function()
+					}
+				},
+				properties:{
+					a:{value: "", notify: true},
+					b:{value: "", notify: true},
+					c:{value: "", notify: true},
+				}
+			});
+		});
+
+	</script>
+
+	<dom-module id="test-all">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+
+		var TestAll;
+		HTMLImports.whenReady(function() {
+			TestAll = Polymer({
+				is:"test-all",
+				behaviors:[StrandTraits.Debouncable],
+				debouncers:{
+					test:{
+						keys:["a","b","c"],
+						type:StrandTraits.Debouncable.ALL,
+						callback:Function()
+					}
+				},
+				properties:{
+					a:{value: "", notify: true},
+					b:{value: "", notify: true},
+					c:{value: "", notify: true},
+				}
+			});
+		});
+
+	</script>
+
+<script>
+describe("Semaphorable", function() {
+
+	it("should exist", function() {
+		StrandTraits.should.be.an.object;
+		StrandTraits.Debouncable.should.be.an.object;
+	});
+
+	it("should fire an event for the debouncer key when values change", function(done) {
+		var test = document.querySelector("#test");
+		test.addEventListener("test-changed", function() {
+			done();
+		});
+		test.a = "10";
+
+	});
+
+	it("should call a callback for the debouncer key when values change", function(done) {
+		var test = document.querySelector("#test2");
+		test.debouncers.test.callback = sinon.spy();
+		test.addEventListener("test-changed", function() {
+			flush(function() {
+				test.debouncers.test.callback.calledOnce.should.be.true;
+				done();
+			});
+		});
+		test.a = "15";
+	});
+
+	it("should dispatch only a single changed event when 2 values change", function(done) {
+		var test = new TestSome();
+		var spy = sinon.spy();
+		test.addEventListener("test-changed", spy);
+		test.a = "10";
+		test.b = "10";
+		test.c = "12";
+		flush(function() {
+			spy.calledOnce.should.be.true;
+			spy.calledTwice.should.be.false;
+			done();
+		});
+	});
+
+	it("should not dispatch until all values have changed when type is ALL", function(done) {
+		var test = new TestAll();
+		var spy = sinon.spy();
+		test.addEventListener("test-changed", spy);
+		test.a = "10";
+		test.b = "10";
+		flush(function() {
+			//this gets called once by the 'init' of the values to empty string
+			spy.calledTwice.should.be.false;
+			done();
+		});
+	});
+
+});
+</script>
+<test-semaphore id="test"></test-semaphore>
+<test-semaphore id="test2"></test-semaphore>
+</body>
+</html>

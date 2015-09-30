@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+<!DOCTYPE html><html><head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="mm-drawer.html">
 		<link rel="import" href="../mm-button/mm-button.html">
 		<link rel="import" href="../mm-checkbox/mm-checkbox.html">
@@ -25,16 +23,16 @@
 		</style>
 	</head>
 	<body>
-		<template is="auto-binding">
-			<mm-drawer id="drawer1" expanded="{{expanded}}" label="{{expanded ? 'Hide' : 'Show'}} Tab Drawer">
+		<template is="dom-bind">
+			<mm-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer">
 				<div class="container">
 					<h1>Nothing to see here...</h1>
 				</div>
 			</mm-drawer>
 		</template>
 
-		<template is="auto-binding">
-			<mm-drawer id="drawer2" expanded="{{checked}}" closedHeight="44">
+		<template is="dom-bind">
+			<mm-drawer id="drawer2" expanded="{{checked}}" closedheight="44">
 				<div class="container">
 					<mm-checkbox checked="{{checked}}" id="checkbox"><label>Toggle Inset Drawer</label></mm-checkbox>
 					<h1>Well Hello.</h1>
@@ -59,5 +57,5 @@
 				}
 			</script>
 		</template>
-	</body>
-</html>
+	
+</body></html>

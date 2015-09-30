@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<script src="../bower_components/web-component-tester/browser.js"></script>
+		<script src="TestHelper.js"></script>
+		<script>
+			var should = chai.should();
+		</script>
+		<link rel="import" href="../bower_components/polymer/polymer.html"/>
+		<link rel="import" href="../build/shared/behaviors/resizable.html"/>
+	</head>
+	<body>
+		<dom-module id="test-resizable">
+			<template>
+				<content id="content"></content>
+			</template>
+			<style>
+				#unused {
+					display: none;
+				}
+			</style>
+			<script>
+				HTMLImports.whenReady(function() {
+					Polymer({
+						is:"test-sizeresponsible",
+						behaviors:[StrandTraits.Resizable]
+					});
+				});
+			</script>
+		</dom-module>
+
+		<test-resizable id="resizeTest">
+
+		</test-resizable>
+		
+		<script>
+			describe("behavior_resizable", function() {
+				
+				it("should exist", function() {
+					StrandTraits.should.be.an.object;
+					StrandTraits.Resizable.should.be.an.object;
+				});
+
+				// TODO
+
+			});
+
+		</script>
+
+
+	</body>
+</html>

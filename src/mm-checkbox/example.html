@@ -1,10 +1,19 @@
+<!-- Defaults Example -->
 <mm-checkbox></mm-checkbox>
 <mm-checkbox>
 	<label>Checkbox With Label</label>
 </mm-checkbox>
 <mm-checkbox state="partial"></mm-checkbox>
-<mm-checkbox checked="true"></mm-checkbox>
-<mm-checkbox checked="true" disabled="true"></mm-checkbox>
-<mm-checkbox checked="true" icon="check" iconColor="#008000">
-	<label>Checkbox With a Custom Icon</label>
+<mm-checkbox checked="true" validation="checked"></mm-checkbox>
+<mm-checkbox checked="true" disabled></mm-checkbox>
+
+<!-- Icon Example -->
+<style>
+	.check-cbx {
+		color: #008000;	
+	}
+</style>
+<mm-checkbox icon="chart"></mm-checkbox>
+<mm-checkbox class="check-cbx" checked icon="check">
+	<label>Check me out</label>
 </mm-checkbox>

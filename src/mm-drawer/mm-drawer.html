@@ -6,20 +6,22 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
-<polymer-element name="mm-drawer">
-	<template>
-		<link href="mm-drawer.css" rel="stylesheet" type="text/css"/>
-		<div id="container" class="{{ { expanded:expanded } | tokenList}}" style="height: {{height}}px">
+<link rel="import" href="../shared/behaviors/stylable.html">
+
+<dom-module id="mm-drawer">
+  <link rel="import" type="css" href="mm-drawer.css">
+  <template>
+		<div id="container" class$="{{ _computeClass(expanded) }}" style$="{{ _computeStyle(_height) }}">
 			<div id="content">
 				<content select="*"></content>
 			</div>
 		</div>
-		<template if="{{label}}">
-			<div id="toggle" class="{{ { expanded: expanded } | tokenList }}" on-tap="{{toggle}}">
-				<mm-icon type="upload" width="11" height="11" primaryColor="#525252"></mm-icon>
-				<span>{{label}}</span>
+		<template is="dom-if" if="{{_showLabel}}">
+			<div id="toggle" on-tap="toggle" class$="{{ _computeClass(expanded) }}">
+				<mm-icon type="upload" width="11" height="11" primary-color="#525252"></mm-icon>
+				<span>{{_computeLabel(label,openedLabel,closedLabel,expanded)}}</span>
 			</div>
 		</template>
 	</template>
-	<script src="mm-drawer.js"></script>
-</polymer-element>
+  <script src="mm-drawer.js"></script>
+</dom-module>

@@ -4,24 +4,45 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-Polymer('mm-action', {
-	ver:"<<version>>",
-	PRIMARY_ICON_COLOR: Colors.D0,
+(function (scope) {
 
-	publish: {
-		underline: false
-	},
+	scope.Action = Polymer({
+		is: "mm-action",
 
-	ready: function() {
-		// set layout defaults - is there an icon?
-		if (this.items.length) {
-			this.items[0].setAttribute("primaryColor", this.PRIMARY_ICON_COLOR);
+		behaviors: [
+			StrandTraits.Stylable
+		],
+
+		properties: {
+			href: {
+				type: String,
+				value: false,
+				reflectToAttribute: true
+			},
+			underline: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			},
+			target: {
+				type: String,
+				value: "_self",
+				reflectToAttribute: true
+			},
+			disabled: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			}
+		},
+
+		updateClass: function(underline) {
+			var o = {};
+			o.action = true;
+			o.underline = underline;
+			return this.classBlock(o);
 		}
-	},
 
-	get items() {
-		var items = Array.prototype.slice.call(this.$.icon.getDistributedNodes());
-		return items.filter(function(item) { return item.nodeName !== "TEMPLATE"; });
-	}
-
-});
+	});
+	
+})(window.Strand = window.Strand || {});
