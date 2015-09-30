@@ -6,13 +6,13 @@
 		behaviors: [
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
-			StrandTraits.Stackable,
-			StrandTraits.PositionablePanel
+			StrandTraits.PositionablePanel,
+			StrandTraits.Stackable
 		],
 
 		attached: function() {
 			this.async(function() {
-				if (this.target) this.target.style.cursor = 'pointer';
+				if (this._target) this._target.style.cursor = 'pointer';
 			});
 		}
 	});

@@ -248,5 +248,10 @@
 		requestInitialization: function () {
 			return this.$.viewport.initialize();
 		},
+
+		////// Util //////
+		_createId: function(string, id) {
+			return string + id;
+		}
 	});
 })();

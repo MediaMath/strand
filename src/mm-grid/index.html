@@ -6,6 +6,8 @@
 	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
 	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
 	<link rel="import" href="../mm-list-item/mm-list-item.html">
+	<link rel="import" href="../mm-menu/mm-menu.html">
+	<link rel="import" href="../mm-tooltip/mm-tooltip.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -50,12 +52,25 @@
 			<template id="customTemplate">
 				<mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}">
 					<div field="actions">
-						<mm-tooltip model="{{model}}" tipWidth="150">
-							<mm-icon width="15" height="15" type="actions"></mm-icon>
-							<template>
-								<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
-							</template>
+
+						
+						<mm-icon width="15" height="15" type="actions" id="{{_createId('tooltip', model.id)}}"></mm-icon>
+						<mm-tooltip model="{{model}}" target$="{{_createId('#tooltip', model.id)}}">
+							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 						</mm-tooltip>
+						
+
+						<!--
+						<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
+						<mm-menu id="testMenu" direction="s" offset="15" target$="{{_createId('#menu', model.id)}}">
+							<mm-list-item value="m1">menu item 1</mm-list-item>
+							<mm-list-item value="m2">menu item 2</mm-list-item>
+							<mm-list-item value="m3">menu item 3</mm-list-item>
+							<mm-list-item value="m4">menu item 4</mm-list-item>
+							<mm-list-item value="m5">menu item 5</mm-list-item>
+						</mm-menu>
+						-->
+
 					</div>
 					<div field="name">
 						Creative - <span>{{model.name}}</span>
