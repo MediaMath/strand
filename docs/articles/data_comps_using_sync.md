@@ -30,7 +30,7 @@ The 'direction' of input or output is relative to the component itself, so when 
 ### Input param example
 
 ```html
-<mm-sync url="http://example.com">
+<mm-sync endpoint="http://example.com">
 	<input-params>
 		<queryParam name="q" value="123"/>
 		<urlParam>123</urlParam>
@@ -43,7 +43,7 @@ This will generate a URL for the request of `http://example.com/123/?q=123` and 
 
 ### Output param example
 ```html
-<mm-sync url="http://test.com">
+<mm-sync endpoint="http://test.com">
 	<output-params>
 		<urlParam>campaigns</urlParam>
 		<urlParam>52312</urlParam>
@@ -69,12 +69,12 @@ To support 2-way binding in a scenario using mm-sync we have created the `auto` 
 
 *  true `boolean` -- bidirectional sync input/output for any changes
 *  load `string`-- only sync data in from server when input params change
-*  save `string` -- only sync data in from the server when the data property detects a change-- note that this currently does not pick up sub value changes without an entire object assignment taking place due to limitations in Polymer's binding schema.
+*  save `string` -- only sync data in from the server when the data property detects a change-- note that due to polymer 1.0 data binding limitations you must manually tell polymer that the data has changed using `set`
 
 ```javascript
 var sync = document.querySelector("mm-sync");
 sync.data.b = 2; //won't be picked up
-sync.data = {b:2} //will be picked up by Polymer
+sync.set('data.b',2); //will be picked up by Polymer
 ```
 
 ### 2-way binding on the input
@@ -84,8 +84,8 @@ A fairly common scenario in modern web applications is a user entering search te
 The following is an example of the simple input scenario using a self binding template.
 
 ```html
-	<template is="auto-binding">
-		<input value="{{search}}">
+	<template is="dom-bind">
+		<mm-input value="{{search}}"/>
 	</template>
 ```
 
@@ -93,8 +93,8 @@ Now bind this to a sync components params from our earlier example:
 
 ```html
 	<template is="auto-binding">
-		<input value="{{search}}">
-		<mm-sync url="http://example.com" auto="true">
+		<mm-input value="{{search}}"/>
+		<mm-sync endpoint="http://example.com" auto="true">
 			<input-params>
 				<queryParam name="q" value="{{search}}"/>
 				<urlParam>123</urlParam>
@@ -121,8 +121,8 @@ Unfortunately this example does not provide any feedback to the user, but it is 
 			</input-params>
 		</mm-sync>
 		<ul>
-			<template repeat="{{result}}">
-				<li>{{name}}</li>
+			<template is="dom-repeat" items="{{result.list}}">
+				<li>{{item.name}}</li>
 			</template>
 		</ul>		
 	</template>
