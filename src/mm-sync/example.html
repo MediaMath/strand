@@ -1,7 +1,7 @@
-<template is="auto-binding">
-	<mm-sync id="search" endpoint="https://api.github.com/search/code?q=polymer+in:file+language:js+repo:polymer/polymer" auto>
+ <template is="dom-bind">
+	<mm-sync id="search" endpoint="https://api.github.com/search/code?q=polymer+in:file+language:js+repo:polymer/polymer" data="{{data}}" auto>
 	</mm-sync>
-	<template repeat="{{$.search.data.items}}">
-		{{name}}
+	<template is="dom-repeat" items="{{data.items}}">
+		<span>{{item.name}}</span>
 	</template>
 </template>
