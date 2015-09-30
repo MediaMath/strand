@@ -88,7 +88,6 @@
 
 			if (this.auto && this.auto !== "save" && this.page >= 0) {
 				if (this.autoDebounce !== -1) {
-					console.log("req")
 					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
 				} else {
 					this.get();
