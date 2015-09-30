@@ -6,6 +6,7 @@
 		<link rel="import" href="../mm-input/mm-input.html">
 		<link rel="import" href="../mm-input-mask/mm-input-mask.html">
 		<link rel="import" href="../mm-popover/mm-popover.html">
+		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
 		<link rel="import" href="../shared/js/moment.html">
 		<link rel="import" href="mm-datepicker.html">
 		<style type="text/css">
@@ -61,13 +62,20 @@
 		</style>
 	</head>
 	<body>
+		<template is="dom-bind">
+		<mm-dropdown id="ddl" value="{{direction}}">
+			<mm-list-item>n</mm-list-item>
+			<mm-list-item>e</mm-list-item>
+			<mm-list-item>s</mm-list-item>
+			<mm-list-item>w</mm-list-item>
+			<mm-list-item>c</mm-list-item>
+		</mm-dropdown>
 
-
-		<mm-button id="dpb">
+		<mm-button id="dpb" style="margin-top: 50vh">
 			<label>datepicker target</label>
 		</mm-button>
-		<mm-datepicker start-enabled end-enabled start-enabled-label="Start" end-enabled-label="End" id="dp" target="#dpb"></mm-datepicker>
-
+		<mm-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb"></mm-datepicker>
+		</template>
 
 		<!-- <template id="tmp" is="auto-binding">
 			<div vertical layout class="controller">
@@ -108,6 +116,7 @@
 
 		<script>
 			var dp,
+				dpb,
 				tmp,
 				rangePresets,
 				drag = false;
@@ -132,6 +141,10 @@
 
 				dp.allowedStart = moment().subtract(14, 'days');
 				dp.allowedEnd = moment().add(14, 'days');
+
+				ddl = document.querySelector('#ddl');
+				ddl.value = 's';
+				// dp.direction = 'w';
 
 				// tmp = document.querySelector("#tmp");
 				// tmp.op = function() {

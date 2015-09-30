@@ -391,6 +391,10 @@
 			}
 		},
 
+		ready: function() {
+			if(this.useCommit) this.classList.add('hasFooter');
+		},
+
 		_closeLinkHandler: function(e) {
 			e.preventDefault();
 			this.close();
