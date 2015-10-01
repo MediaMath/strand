@@ -50,7 +50,6 @@
 		behaviors: [
 			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
-			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.PositionableDropdown,
 		],

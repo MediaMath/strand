@@ -85,7 +85,6 @@
 			StrandTraits.KeySelectable,
 			StrandTraits.Stackable,
 			StrandTraits.Jqueryable,
-			StrandTraits.AutoClosable,
 			StrandTraits.PositionableDropdown
 		],
 
