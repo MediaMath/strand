@@ -3,4 +3,17 @@
  * Copyright (c) 2015 MediaMath Inc. All rights reserved.
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
---><html><head><link rel="import" href="../../../polymer/polymer.html"><link rel="import" href="../shared/fonts/fonts.html"><link rel="import" href="../shared/js/measure.html"><link rel="import" href="../shared/js/windownotifier.html"></head><body><polymer-element name="mm-list-item" constructor="MMListItem" assetpath=""><template><style type="text/css">:host{box-sizing:border-box;display:block;font-family:Arimo,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:antialiased;font-weight:400;font-size:13px!important;line-height:15px!important;padding:6px 10px;color:#333;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}:host(:hover){background:#2f93c8;color:#fff}:host(:active){background:#d5edf9;color:#2E6C9E}:host(:focus){outline:0}:host([selected]){background:#d5edf9;color:#2E6C9E}:host-context(._mm_visible){white-space:nowrap;overflow:visible}</style><content></content></template><script>Polymer("mm-list-item",{ver:"<<version>>",publish:{selected:{value:false,reflect:true}},ready:function(){WindowNotifier.addInstance(this)},attached:function(){WindowNotifier.addResizeListener(this,this.resize.bind(this))},detached:function(){WindowNotifier.removeAllResizeListeners(this);WindowNotifier.removeInstance(this)},widthChanged:function(){if(this.textBounds){if(this.textBounds.width>this.width-this.paddingWidth){this.setAttribute("title",this.textContent)}else{this.removeAttribute("title")}}},resize:function(){this.job("resize",this.widthChanged,0)},get value(){return this.getAttribute("value")||this.textContent.trim()},get label(){return this.textContent.trim()},get width(){if(this.$)return Measure.getOffsetWidth(this)},get textBounds(){if(this.$)return Measure.getTextBounds(this)},get paddingWidth(){if(this.$)return Measure.getPaddingWidth(this)}});</script></polymer-element></body></html>
+-->
+<link rel="import" href="../../../polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/measure.html"/>
+<link rel="import" href="../shared/behaviors/dommutable.html"/>
+<link rel="import" href="../shared/behaviors/resizable.html"/>
+
+<dom-module id="mm-list-item">
+	<link rel="import" type="css" href="mm-list-item.css"/>
+	<template>
+		<content></content>
+	</template>
+</dom-module>
+<script src="mm-list-item.js"></script>

@@ -1,0 +1,113 @@
+<link rel="import" href="../../../polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/closable.html"/>
+<link rel="import" href="../shared/behaviors/autoclosable.html"/>
+<link rel="import" href="../shared/behaviors/stackable.html"/>
+<link rel="import" href="../shared/behaviors/dommutable.html"/>
+<link rel="import" href="../shared/behaviors/resizable.html"/>
+<dom-module id="x-custom">
+	<template>
+		<template is="dom-repeat" items="{{users}}">
+			<span>{{item.name}}</span>
+		</template>
+		<template is="dom-if" if="{{isClosed}}">
+			closed
+		</template>
+	</template>
+</dom-module>
+
+<dom-module id="c-custom">
+<template>
+  <template is="dom-if" if="{{test1}}"><div>test1</div></template>
+  <template is="dom-if" if="{{test2}}"><div>test2</div></template>
+  <template is="dom-if" if="{{test3}}"><div>test3</div></template>
+</template>
+</dom-module>
+
+<dom-module id="stack-test">
+  <style>:host { position:absolute; }</style>
+  <template>
+    <span>{{depth}}</span>
+  </template>
+</dom-module>
+
+<dom-module id="mute-test">
+<style></style>
+<template>
+  <content id="content" select="*"></content>
+</template>
+</dom-module>
+
+<dom-module id="resize-test">
+	<template>
+		<content id="content" select="*"></content>
+	</template>
+</dom-module>
+
+<script>
+Polymer({
+
+  is: 'x-custom',
+
+  behaviors:[StrandTraits.AutoClosable, StrandTraits.Closable],
+
+  properties: {
+    users: {
+      type: Array,
+      // notify:true,
+      readOnly:true,
+      value: function() {
+        return [{name:'chuckles'}];
+      }
+    }
+  },
+
+  attached: function() {
+  	//break shit
+  	console.log("x-custom attached");
+  },
+
+  observers: [
+    'usersChanged(users.*)'
+  ],
+
+  usersChanged: function(changeRecord) {
+      console.log(changeRecord)
+      this.fire("users-changed");
+    if (changeRecord.path == 'users.splices') {
+      // a user was added or removed
+    } else {
+      // an individual user or its sub-properties changed
+      // check "changeRecord.path" to determine what changed
+    }
+  }
+
+});
+
+Polymer({
+  is:"c-custom",
+  properties: {
+    test1:{value:true},
+    test2:{value:true},
+    test3:{value:true},
+  },
+});
+
+Polymer({
+  is:"stack-test",
+  behaviors:[StrandTraits.Stackable]
+});
+
+
+Polymer({
+  is:"mute-test",
+  behaviors:[StrandTraits.DomMutable]
+});
+
+Polymer({
+	is:"resize-test",
+	behaviors:[StrandTraits.Resizable],
+	elementResize: function() {
+		console.log("element-resize",arguments);
+	}
+})
+</script>

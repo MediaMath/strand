@@ -3,4 +3,26 @@
  * Copyright (c) 2015 MediaMath Inc. All rights reserved.
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
---><html><head><link rel="import" href="../../../polymer/polymer.html"><link rel="import" href="../mm-icon/mm-icon.html"><link rel="import" href="../mm-stack-manager/mm-stack-manager.html"></head><body><polymer-element name="mm-modal" hidden="" constructor="MMModal" assetpath=""><template><style type="text/css">:host{position:relative;display:block}#blocker{position:fixed;left:0;top:0;bottom:0;right:0;background-image:-webkit-radial-gradient(rgba(0,0,0,.25) 0,rgba(0,0,0,.75) 100%);background-image:radial-gradient(rgba(0,0,0,.25) 0,rgba(0,0,0,.75) 100%);display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-moz-box-pack:center;box-pack:center;-webkit-justify-content:center;-moz-justify-content:center;-ms-justify-content:center;-o-justify-content:center;justify-content:center;-ms-flex-pack:center;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center}#close{position:absolute;top:10px;right:15px;cursor:pointer}#container{position:relative;border-radius:4px;box-shadow:0 6px 12px 0 rgba(0,0,0,.18);background:#fff;border:1px solid #CCC;overflow:hidden;min-height:100px}</style><mm-stack-manager id="stack" type="modal" target="{{}}"></mm-stack-manager><div id="blocker" on-tap="{{hide}}"><div id="container" style="width:{{width}}px;"><div class="_mm_content"><content select=":not(mm-footer)"></content></div><div class="_mm_footer"><content select="mm-footer"></content></div><template if="{{dismiss}}"><mm-icon id="close" on-tap="{{hide}}" type="delete" width="14" height="14" primarycolor="#aaaaaa" hovercolor="#333333"></mm-icon></template></div></div></template><script>Polymer("mm-modal",{ver:"<<version>>",publish:{visible:false,dismiss:true,noscroll:false,width:600},visibleChanged:function(){this.hidden=!this.visible},show:function(){this.visible=true;if(this.noscroll){document.body.style.overflow="hidden"}},hide:function(e){if(!e||this.dismiss&&e.target===this.$.blocker||e.target===this.$.close){this.visible=false;document.body.style.overflow=""}}});</script></polymer-element></body></html>
+-->
+<link rel="import" href="../../../polymer/polymer.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../shared/behaviors/stackable.html"/>
+<dom-module id="mm-modal">
+	<link rel="import" href="mm-modal.css" type="css"/>
+	<template>
+		<div id="blocker" on-tap="hide">
+			<div id="container" style$="{{_widthStyle(width)}}">
+				<div class="_mm_content">
+					<content select=":not(mm-footer)"></content>
+				</div>
+				<div class="_mm_footer">
+					<content select="mm-footer"></content>
+				</div>
+				<template is="dom-if" if="{{dismiss}}">
+					<mm-icon id="close" type="delete" width="14" height="14"></mm-icon>
+				</template>
+			</div>
+		</div>
+	</template>
+</dom-module>
+<script src="mm-modal.js"></script>

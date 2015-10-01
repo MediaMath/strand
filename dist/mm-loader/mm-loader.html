@@ -3,4 +3,23 @@
  * Copyright (c) 2015 MediaMath Inc. All rights reserved.
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
---><html><head><link rel="import" href="../../../polymer/polymer.html"><link rel="import" href="../mm-spinner/mm-spinner.html"></head><body><polymer-element name="mm-loader" attributes="spinnerRadius spinnerNumTicks spinnerFillColor spinnerLineWidth spinnerLineWeight spinnerNumTicks bgColor bgOpacity paddingTop paddingLeft" constructor="MMLoader" assetpath=""><template><style type="text/css">:host{position:absolute;font-size:0;line-height:0}._mm_loader{display:block;display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center;-webkit-box-pack:start;-moz-box-pack:start;box-pack:start;-webkit-justify-content:start;-moz-justify-content:start;-ms-justify-content:start;-o-justify-content:start;justify-content:start;-ms-flex-pack:start}::content label{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:antialiased;font-size:13px;line-height:13px;font-family:Arimo,sans-serif;color:#fff;margin-left:10px;font-weight:700}</style><div class="_mm_loader" style="background:{{ bgColor | convertHex }}; border-radius:{{ spinner.radius*2 }}px; padding:{{ paddingTop }}px {{paddingLeft}}px {{paddingTop}}px {{paddingLeft}}px;"><content id="userSpinner" select="mm-spinner"></content><template if="{{!hasUserSpinner}}"><mm-spinner id="spinner"></mm-spinner></template><content select="label"></content></div></template><script>Polymer("mm-loader",{ver:"<<version>>",publish:{bgColor:"#000000",bgOpacity:.5,paddingTop:5,paddingLeft:20},ready:function(){this.hasUserSpinner=this.$.userSpinner.getDistributedNodes().length!==0;this.spinner=this.hasUserSpinner?this.querySelector("mm-spinner"):this.$.spinner},show:function(){this.style.display="block";this.spinner.start()},hide:function(){this.style.display="none";this.spinner.stop()},convertHex:function(value){hex=value.replace("#","");r=parseInt(hex.substring(0,2),16);g=parseInt(hex.substring(2,4),16);b=parseInt(hex.substring(4,6),16);result="rgba("+r+","+g+","+b+","+this.bgOpacity+")";return result}});</script></polymer-element></body></html>
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../shared/behaviors/stylable.html">
+<link rel="import" href="../mm-spinner/mm-spinner.html">
+<dom-module id="mm-loader">
+
+	<link href="mm-loader.css" type="css" rel="import"/>
+
+	<template>
+		<div class="_mm_loader" style$="{{ _updateStyle(spinnerRadius,bgColor,bgOpacity,paddingTop,paddingLeft) }}">
+			<content id="userSpinner" select="mm-spinner"></content>
+			<template is="dom-if" if="{{!hasUserSpinner}}">
+				<mm-spinner id="spinner"></mm-spinner>
+			</template>
+			<content select="label"></content>
+		</div>
+	</template>
+</dom-module>
+
+<script src="mm-loader.js"></script>
