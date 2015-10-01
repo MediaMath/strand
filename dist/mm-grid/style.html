@@ -1,0 +1,13 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+ -->
+<dom-module id="mm-grid-style">
+	<template>
+		<style>
+			:host ._mm_column{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0px 10px;vertical-align:middle;box-sizing:border-box;float:left}:host ._mm_column.right{text-align:right}:host ._mm_column.checkbox,:host ._mm_column.toggle{box-sizing:content-box;margin:auto 0;padding:0px 5px}:host ._mm_column.checkbox:first-of-type,:host ._mm_column.toggle:first-of-type{padding-left:15px}:host ._mm_column.checkbox{width:18px}:host ._mm_column.toggle{width:10px}:host ._mm_column.toggle mm-icon{cursor:pointer;-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-ms-transform:rotate(-90deg);-o-transform:rotate(-90deg);transform:rotate(-90deg)}:host ._mm_column.toggle.expanded mm-icon{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-ms-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}:host{display:block;position:relative;overflow:hidden;min-height:300px}:host([recycle=false]){min-height:0px}:host([recycle=false]) #viewport{position:static}#header,#footer{display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;min-width:100%;background:#e0e0e0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;box-shadow:0px 0px 5px 0px #7F7F7F}#header{top:0}#footer{bottom:0}#viewport{height:100%;width:100%;top:0;bottom:0;overflow:auto;background:#fff}#separator{display:none;-webkit-transform:translateZ(0);-moz-transform:translateZ(0);-ms-transform:translateZ(0);-o-transform:translateZ(0);transform:translateZ(0);position:absolute;top:0;height:100%;padding:0 50px;margin-left:-50px;cursor:col-resize}#separator:after{display:block;content:"";width:2px;height:100%;background-color:rgba(0,0,0,0.3)}#separator.visible{display:block}#loader{top:50%;left:50%;right:50%;width:130px;height:28px;margin-top:-14px;margin-left:-75px}#columnContainer{display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;-webkit-flex:1;-moz-flex:1;-ms-flex:1;flex:1;width:100%}
+
+		</style>
+	</template>
+</dom-module>

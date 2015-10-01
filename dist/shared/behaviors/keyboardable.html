@@ -1,0 +1,86 @@
+<script>
+	(function(scope) {
+		var range = function(start,end) {
+			if(!end) { // start from 0 if single argument provided
+				end = start;
+				start = 0;
+			}
+			return Array.apply(null, Array(end-start)).map(function(_,i) {return start+i;});
+		};
+
+		var Keyboardable = {
+			// Some keyCode constants for convenience
+			KEYS: {
+				UP: 38,
+				RIGHT: 39,
+				DOWN: 40,
+				LEFT: 37,
+				TAB: 9,
+				BACKSPACE: 8,
+				HOME: 36,
+				END: 35,
+				PGUP: 33,
+				PGDOWN: 34,
+				RETURN: 13,
+				ENTER: 13,
+				ESC: 27,
+				SPACEBAR: 32,
+				DELETE: 46	
+			},
+			ALPHA_KEYS: range(65,91),
+			NUM_KEYS: range(48,58),
+			NUMPAD_KEYS: range(96,106),
+
+			_onUp: function() {},
+			_onRight: function() {},
+			_onDown: function() {},
+			_onLeft: function() {},
+			_onTab: function() {},
+			_onBackspace: function() {},
+			_onHome: function() {},
+			_onEnd: function() {},
+			_onPgUp: function() {},
+			_onPgDown: function() {},
+			_onEnter: function() {},
+			_onEsc: function() {},
+			_onAlpha: function() {},
+			_onNum: function() {},
+			_onNumPad: function(e) {
+				this._onNum(e);
+			},
+			_onSpacebar: function() {},
+			_onDel: function() {},
+			_onOther: function() {},
+
+			_routeKeyEvent: function(e) {
+				switch(e.keyCode) {
+					// Check named keys
+					case(this.KEYS.UP): this._onUp(e); break;
+					case(this.KEYS.RIGHT): this._onRight(e); break;
+					case(this.KEYS.DOWN): this._onDown(e); break;
+					case(this.KEYS.LEFT): this._onLeft(e); break;
+					case(this.KEYS.TAB): this._onTab(e); break;
+					case(this.KEYS.BACKSPACE): this._onBackspace(e); break;
+					case(this.KEYS.HOME): this._onHome(e); break;
+					case(this.KEYS.END): this._onEnd(e); break;
+					case(this.KEYS.PGUP): this._onPgUp(e); break;
+					case(this.KEYS.PGDOWN): this._onPgDown(e); break;
+					case(this.KEYS.ENTER): this._onEnter(e); break;
+					case(this.KEYS.ESC): this._onEsc(e); break;
+					case(this.KEYS.SPACEBAR): this._onSpacebar(e); break;
+					case(this.KEYS.DELETE): this._onDel(e); break;
+					default:
+						// Check named key ranges
+						if(this.ALPHA_KEYS.indexOf(e.keyCode) > -1) this._onAlpha(e);
+						else if(this.NUM_KEYS.indexOf(e.keyCode) > -1) this._onNum(e);
+						else if(this.NUMPAD_KEYS.indexOf(e.keyCode) > -1) this._onNumPad(e);
+						// Everything else
+						else this._onOther(e);
+					break;
+				}
+			}
+		}
+
+		scope.Keyboardable = Keyboardable;
+	})(window.StrandTraits = window.StrandTraits || {});
+</script>

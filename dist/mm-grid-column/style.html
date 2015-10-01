@@ -1,0 +1,13 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+ -->
+<dom-module id="mm-grid-column-style">
+	<template>
+		<style>
+			:host{display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;vertical-align:middle;position:relative;padding:6px 10px;cursor:default;box-sizing:border-box;background:#e0e0e0}:host([sort]){cursor:pointer}polyfill-next-selector{content:':host > ._mm_container'}._mm_container{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center;-webkit-box-pack:justify;-moz-box-pack:justify;box-pack:justify;-webkit-justify-content:space-between;-moz-justify-content:space-between;-ms-justify-content:space-between;-o-justify-content:space-between;justify-content:space-between;-ms-flex-pack:justify;font-family:"Arimo", sans-serif;font-weight:bold;font-size:11px;margin:auto 0;width:100%}._mm_container.right{-webkit-box-pack:end;-moz-box-pack:end;box-pack:end;-webkit-justify-content:end;-moz-justify-content:end;-ms-justify-content:end;-o-justify-content:end;justify-content:end;-ms-flex-pack:end}._mm_container .left-items{display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center}#label{color:#333;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#info,#sort{margin-left:5px;-webkit-flex-shrink:0;-moz-flex-shrink:0;flex-shrink:0;-ms-flex-negative:0}#sort.asc{-webkit-transform:scaleY(1);-moz-transform:scaleY(1);-ms-transform:scaleY(1);-o-transform:scaleY(1);transform:scaleY(1)}#sort.des{-webkit-transform:scaleY(-1);-moz-transform:scaleY(-1);-ms-transform:scaleY(-1);-o-transform:scaleY(-1);transform:scaleY(-1)}#grabber{padding:0px 5px 0px 6px;margin-right:-5px;position:absolute;right:0px;top:0px;bottom:0px;cursor:col-resize;z-index:1}#grabber:after{content:"";background:#FFF;width:1px;border-right:solid 1px #c2c2c2;display:block;height:100%}#grabber:hover{background-color:rgba(0,0,0,0.1)}
+
+		</style>
+	</template>
+</dom-module>

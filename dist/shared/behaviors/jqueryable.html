@@ -1,0 +1,84 @@
+<script>
+(function(scope) {
+
+	var debouncer = null;
+
+	function debounceFlush (jqable) {
+		if (jqable) {
+			if (debouncer) {
+				debouncer.cancelDebouncer("flush");
+			}
+
+			jqable.debounce("flush", callbackFlush);
+
+			debouncer = jqable;
+		}
+	}
+
+	function callbackFlush () {
+		debouncer = null;
+
+		Polymer.dom.flush();
+	}
+
+	if(!Polymer.Settings.useShadow) {
+		scope.Jqueryable = {
+			appendChild: function(node) {
+				Polymer.dom(this).appendChild(node);
+				debounceFlush(this);
+			},
+			insertBefore: function(node, beforeNode) {
+				Polymer.dom(this).insertBefore(node,beforeNode);
+				debounceFlush(this);
+			},
+			removeChild: function(node) {
+				Polymer.dom(this).removeChild(node);
+				debounceFlush(this);
+			},
+			// get childNodes() {
+			// 	return Polymer.dom(this).childNodes;
+			// },
+			//get firstChild() {
+			//	return Polymer.dom(this).firstChild;
+			//},
+			//get lastChild() {
+			//	return Polymer.dom(this).lastChild;
+			//},
+			//get firstElementChild() {
+			//	return Polymer.dom(this).firstElementChild;
+			//},
+			//get lastElementChild() {
+			//	return Polymer.dom(this).lastElementChild;
+			//},
+			//get previousSibling() {
+			//	return Polymer.dom(this).previousSibling;
+			//},
+			//get nextSibling() {
+			//	return Polymer.dom(this).nextSibling;
+			//},
+			set textContent(input) {
+				Polymer.dom(this).textContent = input;
+				debounceFlush(this);
+			},
+			get textContent() {
+				return Polymer.dom(this).textContent
+			},
+			set innerHTML(input) {
+				Polymer.dom(this).innerHTML = input;
+				debounceFlush(this);
+			},
+			get innerHTML() {
+				return Polymer.dom(this).innerHTML;
+			},
+			querySelector: function(selector) {
+				return Polymer.dom(this).querySelector(selector);
+			},
+			querySelectorAll: function(selector) {
+				return Polymer.dom(this).querySelectorAll(selector);
+			}
+		}
+	} else {
+		scope.Jqueryable = {};
+	}
+}(window.StrandTraits = window.StrandTraits || {}));
+</script>
