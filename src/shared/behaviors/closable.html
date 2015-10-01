@@ -43,6 +43,10 @@
 	 		!silent && this.fire("close");
 	 	},
 
+	 	_toggle: function(e) {
+	 		this.toggle();
+	 	},
+
 	 	toggle: function(silent) {
 	 		if (this.state === this.STATE_OPENED) {
 	 			this.close(silent);
