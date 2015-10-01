@@ -16,7 +16,7 @@
 			}
 		},
 
-		listeners:{"state-changed":"_handleState"},
+		observers:["_handleState(state)"],
 
 		detached: function() {
 			this.style.pointerEvents = this.__oldInstancePointer  || "";
@@ -24,8 +24,12 @@
 		},
 
 		_handleState:function() {
-			if (!this.disableScroll) return;
+			if (this.disableScroll) {
+				this.debounce("nonscrollable", this._updateStyles);
+			}
+		},
 
+		_updateStyles: function() {
 			if (this.state === "opened") {
 				
 				this.__oldInstancePointer = this.style.pointerEvents;
@@ -37,7 +41,8 @@
 				this.style.pointerEvents = this.__oldInstancePointer  || "";
 				document.body.style.pointerEvents = this.__oldBodyPointer || "";
 			}
-		}
+		},
+
 	};
 
 })(window.StrandTraits = window.StrandTraits || {});
