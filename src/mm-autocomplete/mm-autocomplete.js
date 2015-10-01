@@ -203,7 +203,7 @@
 				this.fire('changed', { value: value });
 			}
 
-			this.close();
+			if (this.state === this.STATE_OPENED) this.close();
 		},
 
 		_highlightedIndexChanged: function(newIndex, oldIndex) {
