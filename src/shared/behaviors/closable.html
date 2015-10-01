@@ -1,4 +1,4 @@
-<!-- <link rel="import" href="nonscrollable.html"> -->
+<link rel="import" href="nonscrollable.html">
 <script>
 /**
  * @license
@@ -61,10 +61,10 @@
 
 	 };
 
-	scope.Closable = Closable;
-	// scope.Closable = [
-	// 	scope.NonScrollable,
-	// 	Closable
-	// ];
+	scope.Closable = [
+		scope.NonScrollable,
+		Closable
+	];
+
 })(window.StrandTraits = window.StrandTraits || {}); 
 </script>
