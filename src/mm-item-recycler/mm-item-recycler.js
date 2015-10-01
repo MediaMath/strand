@@ -466,6 +466,8 @@ found here: https://github.com/Polymer/core-list
 					this._itemHeight = 0;
 				}
 
+				this._recycler.setFrame(0, 0, 0, 0);
+
 				this._measurements.terminate(0);
 
 				this._initializeViewport();

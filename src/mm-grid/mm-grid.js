@@ -154,10 +154,12 @@
 		setAllSelections: function (checked) {
 			var value = !!checked;
 			this._selectAllState = value ? "checked" : "unchecked";
-			this.data.forEach(function(item, i) {
-				var path = 'data.'+i+'.selected';
-				this.set(path, value);
-			}, this);
+			if (this.data) {
+				this.data.forEach(function(item, i) {
+					var path = 'data.'+i+'.selected';
+					this.set(path, value);
+				}, this);
+			}
 		},
 
 		get selected() {
@@ -240,9 +242,11 @@
 			var value = !!expanded;
 			this.set("expanded", value);
 			this.$.viewport.inferOffviewHeightsAfterNextMutation();
-			this.data.forEach(function(item, index) {
-				this.set("data." + index + ".expanded", this.expanded);
-			}, this);
+			if (this.data) {
+				this.data.forEach(function(item, index) {
+					this.set("data." + index + ".expanded", this.expanded);
+				}, this);
+			}
 		},
 
 		requestInitialization: function () {
