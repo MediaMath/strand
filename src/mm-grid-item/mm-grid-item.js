@@ -31,28 +31,20 @@
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
-		ready: function () {
+		_checkDistributedNodesAsync: function(e) {
+			this.debounce("checkDistributedNodes", this._checkDistributedNodes);
+		},
+
+		_checkDistributedNodes: function () {
 			var contents = Polymer.dom(this.$.columnContainer).querySelectorAll("content");
-			var c = this.$.catchall;
-			var nodes = Polymer.dom(c).getDistributedNodes();
-			var count = nodes.length;
+			var count = contents.length;
 			var index = 0;
-			var n = null;
-			var field = "";
+			var c = null;
 
 			for (index = 0; index < count; index++) {
-				n = nodes[index];
-				if (field = n.getAttribute("field")) {
-					this.set("_overridden."+field, 0|true);
-				}
-			}
-
-			if (count = contents.length) {
-				for (index = 0; index < count; index++) {
-					c = contents[index];
-					if (Polymer.dom(c).getDistributedNodes().length) {
-						this.set("_overridden."+c.id, 0|true);
-					}
+				c = contents[index];
+				if (Polymer.dom(c).getDistributedNodes().length) {
+					this.set("_overridden."+c.id, 0|true);
 				}
 			}
 		},

@@ -50,15 +50,16 @@
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
 			<template id="customTemplate">
-				<mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}">
+				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
+				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
 
-						
+						<!--
 						<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
 						<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
 							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 						</mm-tooltip>
-						
+						-->
 
 						<!--
 						<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
@@ -70,6 +71,13 @@
 							<mm-list-item value="m5">menu item 5</mm-list-item>
 						</mm-menu>
 						-->
+						
+						<mm-dropdown>
+							<mm-list-item>List Item</mm-list-item>
+							<mm-list-item>List Item</mm-list-item>
+							<mm-list-item>List Item</mm-list-item>
+							<mm-list-item>List Item</mm-list-item>
+						</mm-dropdown>
 
 					</div>
 					<div field="name">
@@ -132,8 +140,8 @@
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				selected: false,
 				expanded: false,
-				//style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
-				style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
+				// style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
+				// style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
 			});
 		}
 

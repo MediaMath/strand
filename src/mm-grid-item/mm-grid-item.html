@@ -19,10 +19,10 @@
 				<mm-icon width="10" height="10" type="carat" on-tap="_onItemExpanded"></mm-icon>
 			</div>
 			<div id="columnContainer">
-				<template is="dom-repeat" items="{{scope._columns}}" as="column">
+				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
 					<div class$="{{_computeColumnClass(column.align)}}" style$="{{_computeColumnStyle(column.width)}}">
 						<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
-						<span hidden$="{{_isOverridden(column.field)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+						<span hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
 					</div>
 				</template>
 			</div>
@@ -33,9 +33,6 @@
 		<template is="dom-if" if="{{model.expanded}}" restamp="true">
 			<content id="expansion" select=".expansion"></content>
 		</template>
-		<div style="display: none;">
-			<content id="catchall" select="*"></content>
-		</div>
 	</template>
 </dom-module>
 <script src="mm-grid-item.js"></script>

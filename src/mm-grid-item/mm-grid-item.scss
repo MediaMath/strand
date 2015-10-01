@@ -20,12 +20,11 @@
 	font-weight: 400;
 	font-size: 12px;
 	color: $color-A2;
+	border-bottom: 1px solid $color-A9;
 }
 
 polyfill-next-selector { content: ':host ._mm_item'; }
 ._mm_item {
-	border-bottom: 1px solid $color-A9;
-	height: 18px;
 	padding: 10px 0;
 }
 
