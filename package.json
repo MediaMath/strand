@@ -32,7 +32,8 @@
     "grunt-text-replace": "^0.4.0",
     "grunt-vulcanize": "^1.0.0",
     "load-grunt-tasks": "*",
-    "marked": "^0.3.3"
+    "marked": "^0.3.3",
+    "time-grunt": "^1.2.1"
   },
   "dependencies": {}
 }
