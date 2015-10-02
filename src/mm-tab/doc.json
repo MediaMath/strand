@@ -21,7 +21,7 @@
 			"name": "url",
 			"type": "String",
 			"optional": true,
-			"description": "Path to an html document, if loading an external view into the tab. Use the loadExternal method if a callback is required when the tab loads."
+			"description": "Relative path to an html document, if loading an external view into the tab. Use the loadExternal method if a callback is required when the tab loads."
 		},
 		{
 			"name": "active",
@@ -31,7 +31,7 @@
 			"description": "Whether this tab is active. There should only be one active tab at a time. If no active tab is set, the first tab defaults to active."
 		}
 	],
-	"methods": [
+	"methods": [	
 		{
 			"name": "loadExternal",
 			"description": "Lazily load this tab's content from an external html document, and attach a callback for when the tab content is loaded",
@@ -41,13 +41,28 @@
 					"type":"String",
 					"optional":false,
 					"default":"",
-					"description":"Path to an html document to lazily load into the tab"
+					"description":"Relative path to an html document to lazily load into the tab"
 				},
 				{
 					"name":"callback",
 					"type":"Function",
 					"optional":true,
 					"description":"The callback to run when the tab is loaded. "
+				}
+			]
+		}
+	],
+	"events": [
+		{
+			"type":"loaded",
+			"detail": [
+				{
+					"name":"label",
+					"description":"The text label of the tab that has loaded"
+				},
+				{
+					"name":"target",
+					"description":"The tab that has loaded"
 				}
 			]
 		}
