@@ -21,7 +21,7 @@
 			"name": "url",
 			"type": "String",
 			"optional": true,
-			"description": "Relative path to an html document, if loading an external view into the tab. Use the loadExternal method if a callback is required when the tab loads."
+			"description": "Relative path to an external html document to lazily load into the tab. The content of the external document must be surrounded by a <template> tag and may use Polymer's binding annotations. Use the loadExternal method if a callback is required when the tab loads."
 		},
 		{
 			"name": "active",
@@ -34,20 +34,20 @@
 	"methods": [	
 		{
 			"name": "loadExternal",
-			"description": "Lazily load this tab's content from an external html document, and attach a callback for when the tab content is loaded",
+			"description": "Lazily load this tab's content from an external html document, and attach a callback for when the tab content is loaded. The content of the external document must be surrounded by a <template> tag and may use Polymer's binding annotations.",
 			"arguments": [
 				{
 					"name":"url",
 					"type":"String",
 					"optional":false,
 					"default":"",
-					"description":"Relative path to an html document to lazily load into the tab"
+					"description":"Relative path to an external html document to lazily load into the tab."
 				},
 				{
 					"name":"callback",
 					"type":"Function",
 					"optional":true,
-					"description":"The callback to run when the tab is loaded. "
+					"description":"Function to call when the tab is loaded. The template instance is passed as an argument to the callback, useful when accessing properties on the current binding scope is needed."
 				}
 			]
 		}
@@ -58,11 +58,13 @@
 			"detail": [
 				{
 					"name":"label",
-					"description":"The text label of the tab that has loaded"
+					"type":"String",
+					"description":"The text label of the tab that fired the event"
 				},
 				{
 					"name":"target",
-					"description":"The tab that has loaded"
+					"type":"Object",
+					"description":"Reference to the tab that fired the event"
 				}
 			]
 		}
