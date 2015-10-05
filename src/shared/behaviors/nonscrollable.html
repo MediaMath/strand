@@ -20,6 +20,7 @@
 
 		detached: function() {
 			this.style.pointerEvents = this.__oldInstancePointer  || "";
+			if(this._target && this._target.style) this._target.style.pointerEvents = this.__oldTargetPointer || "";
 			document.body.style.pointerEvents = this.__oldBodyPointer || "";
 		},
 
@@ -35,10 +36,16 @@
 				this.__oldInstancePointer = this.style.pointerEvents;
 				this.style.pointerEvents = "all";
 
+				if(this._target && this._target.style) {
+					this.__oldTargetPointer = this._target.style.pointerEvents;
+					this._target.style.pointerEvents = "all";
+				}
+
 				this.__oldBodyPointer = document.body.style.pointerEvents;
 				document.body.style.pointerEvents = "none";
 			} else {
 				this.style.pointerEvents = this.__oldInstancePointer  || "";
+				if(this._target && this._target.style) this._target.style.pointerEvents = this.__oldTargetPointer || "";
 				document.body.style.pointerEvents = this.__oldBodyPointer || "";
 			}
 		},
