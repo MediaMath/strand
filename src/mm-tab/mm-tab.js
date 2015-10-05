@@ -47,7 +47,7 @@
 				var instance = this.stamp();
 				Polymer.dom(this).appendChild(instance.root);
 
-				if(this._callback) this._callback(instance);
+				if(this._callback) this.async(this._callback.bind(this,instance));
 
 				this._contentLoaded = true;
 
