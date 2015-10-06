@@ -34,6 +34,11 @@
 				value: false,
 				reflectToAttribute: true
 			},
+			readonly: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			},
 			search: {
 				type: Boolean,
 				value: false,

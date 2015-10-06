@@ -68,6 +68,13 @@
 			"default":"false"
 		},
 		{
+			"name":"readonly",
+			"type":"Boolean",
+			"description":"Make the input read-only, keeping it active but preventing the user from changing its value",
+			"optional":true,
+			"default":"false"
+		},
+		{
 			"name":"fitparent",
 			"type":"Boolean",
 			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",

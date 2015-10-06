@@ -1,0 +1,10 @@
+<mm-file-upload accept=".js,.hs,.go" drag-drop-enabled></mm-file-upload>
+
+<template is="dom-bind">
+	<mm-file-upload data-urls="{{dataurls}}" multiple drag-drop-enabled use-data-urls></mm-file-upload>
+	<template is="dom-repeat" items="{{dataurls}}">
+		<ul>
+			<li>{{item}}</li>
+		</ul>
+	</template>
+</template>
