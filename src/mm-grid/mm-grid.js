@@ -47,11 +47,13 @@
 			},
 			selectable: {
 				type: Boolean,
-				value: false
+				value: false,
+				observer: "_selectableChanged",
 			},
 			expandable: {
 				type: Boolean,
-				value: false
+				value: false,
+				observer: "_expandableChanged",
 			},
 			sortField: String,
 			sortOrder: {
@@ -110,6 +112,15 @@
 
 		_columnsChanged: function() {
 			this._columnsMap = arrayToMap(this._columns, "field");
+			this.notifyPath("scope._columns", this._columns);
+		},
+
+		_selectableChanged: function () {
+			this.notifyPath("scope.selectable", this.selectable);
+		},
+
+		_expandableChanged: function () {
+			this.notifyPath("scope.expandable", this.expandable);
 		},
 
 		_setInitialColumnWidth: function() {
