@@ -31,6 +31,7 @@
 				"check",
 				"circle-arrow",
 				"clock",
+				"companion",
 				"contextual",
 				"creatives",
 				"cycle-arrow",
@@ -74,6 +75,7 @@
 				"pie-chart",
 				"pixels",
 				"play",
+				"player",
 				"plus",
 				"preview",
 				"question",
@@ -88,13 +90,15 @@
 				"supply",
 				"three-pas-adserver",
 				"tools",
+				"tracker",
 				"unlock",
 				"up-arrow",
 				"upload",
 				"user",
 				"video",
 				"warning",
-				"wireless"
+				"wireless",
+				"xml"
 			],
 			"reflect":true
 		},
