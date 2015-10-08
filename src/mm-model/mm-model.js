@@ -42,6 +42,12 @@
 			StrandTraits.DomSyncable
 		],
 
+		ready:function() {
+			this._model.addEventListener("data-changed", function() { 
+				this.fire("data-changed"); 
+			}.bind(this));
+		},
+
 		init: function(data) {
 			this._model.init(data || this.defaults);
 		},
