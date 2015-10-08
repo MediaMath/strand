@@ -78,6 +78,24 @@ describe("mm-collection", function() {
 		c.where({id:0}, true).should.have.length(1);
 	});
 
+	it("should have data after XHR", function(done) {
+		var xhr = sinon.useFakeXMLHttpRequest();
+		var request;
+		xhr.onCreate = function(req) {
+			request = req;
+		};
+
+		var m = new Strand.Collection();
+		m.addEventListener("data-changed", function() {
+			this.data[0].should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
+			xhr.restore();
+			done();
+		});
+		m.fetch();
+		request.respond(200, { "Content-Type": "application/json" }, '[{ "id": 1, "test":true, "zappo":"zap" }]');
+
+	});
+
 });
 </script>
 <template is="dom-bind">

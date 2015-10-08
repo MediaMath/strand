@@ -39,8 +39,9 @@
 		],
 
 		ready: function() {
-			this.linkPaths("data","_collection.data");
-			this.linkPaths("_collection.data","data");
+			this._collection.addEventListener("data-changed", function() { 
+				this.fire("data-changed"); 
+			}.bind(this));
 		},
 
 		create: function(init, silent) {
