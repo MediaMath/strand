@@ -63,17 +63,18 @@
 		}, init);
 	}
 
-	scope.Sync = function(endpoint, options, data, domHook) {
+	scope.Sync = function(endpoint, options, data, domHook, saveResponse) {
 		this.endpoint = endpoint || "/";
 		this.options = DataUtils.copy({
 			contentType:"application/x-www-form-urlencoded",
 			timeout:10000,
 			withCredentials:false,
-			concurrency:4
+			concurrency:4,
 		}, options);
 		this.data = data || {};
 
 		this.domHook = domHook;
+		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
 		this._plugin = new AjaxPlugin();
@@ -121,18 +122,18 @@
 
 		_handleResult: function(result) {
 
-			this.dispatchEvent(new CustomEvent("data-ready", result));
+			this.dispatchEvent(new CustomEvent("data-ready", {detail:result}));
 
 			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
 				this.data = result.marshalled;
-				this.dispatchEvent(new CustomEvent("data-saved", result));
+				this.dispatchEvent(new CustomEvent("data-saved", {detail:result}));
 			}
 		},
 
 		_handleError: function(error) {
-			this.dispatchEvent(new CustomEvent("data-error", error));
+			this.dispatchEvent(new CustomEvent("data-error", {detail:error}));
 		},
 
 		setGlobal: function(key, value) {

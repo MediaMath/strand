@@ -109,7 +109,7 @@
 			p = path.split(".");
 		}
 		return p.reduce(function(prev, curr) {
-			if (!prev || !prev.hasOwnProperty(curr)) return null;
+			if (!prev || !(curr in prev)) return null;
 			return prev[curr];
 		}, object);
 	}

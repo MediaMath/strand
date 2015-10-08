@@ -21,6 +21,8 @@
 		if (this.collection && this.collection._cidFactory) {
 			this._cid = this.collection._cidFactory();
 		}
+
+		this._sync.addEventListener("data-saved", this._handleResponse.bind(this));
 	};
 
 	scope.Model.prototype = {
@@ -62,6 +64,11 @@
 
 		toJSON: function() {
 			return JSON.stringify(this.data);
+		},
+
+		_handleResponse: function(e) {
+			this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
+			this.dispatchEvent(new CustomEvent("data-changed"));
 		},
 
 		get connection() {

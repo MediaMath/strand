@@ -18,6 +18,23 @@ describe("Model", function() {
 		StrandLib.Model.should.be.an.object;
 	});
 
+	it("should have data after XHR", function(done) {
+		var xhr = sinon.useFakeXMLHttpRequest();
+		var request;
+		xhr.onCreate = function(req) {
+			request = req;
+		};
+
+		var m = new StrandLib.Model();
+		m.addEventListener("data-changed", function() {
+			this.data.should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
+			xhr.restore();
+			done();
+		});
+		m.fetch();
+		request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1, "test":true, "zappo":"zap" }');
+
+	});
 
 });
 </script>

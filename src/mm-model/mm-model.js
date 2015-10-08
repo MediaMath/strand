@@ -42,11 +42,6 @@
 			StrandTraits.DomSyncable
 		],
 
-		ready:function() {
-			this.linkPaths("_model.data","data");
-			this.linkPaths("data","_model.data");
-		},
-
 		init: function(data) {
 			this._model.init(data || this.defaults);
 		},
