@@ -28,6 +28,7 @@
 
 	var globals = new Storage("globals","localStorage");
 	if (globals.value === null) globals.value = {};
+	var _eventPrefix = "data-";
 
 	function _getParamBase(obj) {
 		obj = obj || {};
@@ -64,6 +65,7 @@
 	}
 
 	scope.Sync = function(endpoint, options, data, domHook, saveResponse) {
+		this._eventPrefix = _eventPrefix;
 		this.endpoint = endpoint || "/";
 		this.options = DataUtils.copy({
 			contentType:"application/x-www-form-urlencoded",
@@ -122,18 +124,22 @@
 
 		_handleResult: function(result) {
 
-			this.dispatchEvent(new CustomEvent("data-ready", {detail:result}));
+			// this.dispatchEvent(new CustomEvent("data-ready", {detail:result}));
+			this.fire("ready", result);
+
 
 			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
 				this.data = result.marshalled;
-				this.dispatchEvent(new CustomEvent("data-saved", {detail:result}));
+				this.fire("saved", result);
+				// this.dispatchEvent(new CustomEvent("data-saved", {detail:result}));
 			}
 		},
 
 		_handleError: function(error) {
-			this.dispatchEvent(new CustomEvent("data-error", {detail:error}));
+			// this.dispatchEvent(new CustomEvent("data-error", {detail:error}));
+			this.fire("error", error);
 		},
 
 		setGlobal: function(key, value) {
@@ -159,7 +165,15 @@
 
 		get pageConfig() {
 			return this._plugin.getConfig("page");
-		}
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
+		},
 	};
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);
