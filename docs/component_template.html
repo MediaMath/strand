@@ -50,29 +50,6 @@
 						</table>
 					</section>
 					{{/attributes.length}}
-
-					<!--
-					<section>
-						<h3>Attributes</h3>
-						<table>
-							<tr>
-								<th>Attribute</th>								
-								<th>Options</th>
-							</tr>
-							{{#attributes}}
-							<tr>
-								<td>
-									<span class="bold">{{name}} : </span>{{type}}{{#optional}} (Optional){{/optional}}
-									{{#default}}<span class="desc italic">Default value: {{default}}</span>{{/default}}
-									{{#description}}<span class="desc">{{description}}</span>{{/description}}
-								</td>
-								<td>{{#options}}<span class="option">'{{.}}'</span>{{/options}}{{^options}}none{{/options}}</td>
-							</tr>
-							{{/attributes}}
-						</table>
-					</section>
-					-->
-
 					{{#methods.length}}
 					<section>
 						<h3>Public Methods</h3>
@@ -202,7 +179,7 @@
 			}
 
 			function navigateToPage(e) {
-				console.log("navigateToPage: ", e.detail.value);
+				// console.log("navigateToPage: ", e.detail.value);
 				if(e.detail.value) {
 					window.location = e.detail.value;
 				} 

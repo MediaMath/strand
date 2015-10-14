@@ -482,6 +482,12 @@ table {
 		padding-bottom: 0.625em;
 	}
 
+	.hp-header {
+		.docs-btns {
+			margin: 1.25em auto;
+		}
+	}
+
 	.layout-article {
 		margin-bottom: -$footerWideHeight;
 	}
@@ -493,11 +499,12 @@ table {
 
 			.hero-image {
 				width: 50%;
+				margin: 40px auto; 
 			}
 
 			.hero-text {
 				width: 100%;
-				margin-top: 0;
+				margin: 0 auto 40px auto;
 				text-align: center;
 
 				h1 {
