@@ -124,21 +124,17 @@
 
 		_handleResult: function(result) {
 
-			// this.dispatchEvent(new CustomEvent("data-ready", {detail:result}));
 			this.fire("ready", result);
-
 
 			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
 				this.data = result.marshalled;
 				this.fire("saved", result);
-				// this.dispatchEvent(new CustomEvent("data-saved", {detail:result}));
 			}
 		},
 
 		_handleError: function(error) {
-			// this.dispatchEvent(new CustomEvent("data-error", {detail:error}));
 			this.fire("error", error);
 		},
 

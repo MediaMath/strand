@@ -27,8 +27,6 @@
 		this.data = data || [];
 		this._opts = opts;
 		this._sync = sync || new Sync();
-
-		this._sync.addEventListener("data-saved", this._handleResponse.bind(this));
 	};
 
 	scope.Collection.prototype = {
@@ -132,6 +130,15 @@
 		_handleResponse: function(e) {
 			this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
 			this.fire("changed", {instance:this, data:this.data});
+		},
+
+		get _sync() {
+			return this.__sync;
+		},
+
+		set _sync(inp) {
+			this.__sync = inp;
+			this.__sync.addEventListener("data-saved", this._handleResponse.bind(this));
 		},
 
 		get connection() {

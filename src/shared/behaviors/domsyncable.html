@@ -29,7 +29,15 @@
 		properties:{
 			auto:{
 				type:Boolean,
-				value:true,
+				value: function () {
+					this.async(function () {
+						if (this.auto === undefined) {
+							this.auto = true;
+						}
+					});
+					return;
+				},
+				observer:"_autoChanged"
 			},
 			autoDebounce:{
 				type:Number,
@@ -37,15 +45,14 @@
 			},
 		},
 
+		factoryImpl: function(auto) {
+			this.auto = auto;
+		},
+
 		ready:function() {
 			this._sync.domHook = function(method) {
 				return this._getDomConfig(method, this.domObject);
 			}.bind(this);
-			this.async(function() {
-				if (this.auto && this.auto !== "save" && this.endpoint) {
-					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
-				}
-			});
 		},
 
 		_getDomConfig: function(method, domObject) {
@@ -57,6 +64,12 @@
 				params: domConfig.params.map(DataUtils.nodeToParam),
 				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
 			};
+		},
+
+		_autoChanged: function() {
+			if (this.auto && this.auto !== "save" && this.endpoint) {
+				this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+			}
 		},
 
 		domObjectChanged: function(domObject) {

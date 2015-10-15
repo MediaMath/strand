@@ -23,8 +23,6 @@
 		if (this.collection && this.collection._cidFactory) {
 			this._cid = this.collection._cidFactory();
 		}
-
-		this._sync.addEventListener("data-saved", this._handleResponse.bind(this));
 	};
 
 	scope.Model.prototype = {
@@ -79,6 +77,15 @@
 			}
 			var e = new CustomEvent(type, {detail:detail});
 			this.dispatchEvent(e);
+		},
+
+		get _sync() {
+			return this.__sync;
+		},
+
+		set _sync(input) {
+			this.__sync = input;
+			this.__sync.addEventListener("data-saved", this._handleResponse.bind(this));
 		},
 
 		get connection() {

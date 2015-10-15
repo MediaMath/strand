@@ -4,7 +4,6 @@
 	<meta charset="utf-8">
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
-	<script src="TestHelper.js"></script>
 	<script>
 		var should = chai.should();
 	</script>
@@ -23,20 +22,21 @@ describe("mm-collection", function() {
 	});
 
 	it("should have add", function() {
-		var col = document.querySelector("#col");
+		var col = new Strand.Collection(false); //document.querySelector("#col");
 		col.should.have.property("add");
 		col.add.should.be.a.function;
 	});
 
 	it("should create models", function() {
-		var c = new Strand.Collection();
+		var c = new Strand.Collection(false);
+		c.auto = false;
 		c.create({ id: 10, name:"aces" }, false);
 		c.data.should.have.length(1);
 		c.data[0].data.id.should.equal(10);
 	});
 
 	it("should detect cid conflicts", function() {
-		var c = new Strand.Collection();
+		var c = new Strand.Collection(false);
 		var m = new Strand.Model();
 		m.data = {cats:true, dogs:true};
 		m.cid = 0;
@@ -47,14 +47,14 @@ describe("mm-collection", function() {
 	});
 
 	it("should return models at indicies", function() {
-		var c = new Strand.Collection();
+		var c = new Strand.Collection(false);
 		c.create({ id: 10, name:"aces" }, false);
 		c.getDataAt(0).should.be.an("object");
 		c.getDataAt(0).name.should.equal("aces");
 	});
 
 	it("should support each on every model", function() {
-		var c = new Strand.Collection();
+		var c = new Strand.Collection(false);
 		for(var i =0; i<= 10; i++) {
 			c.create({ id: i, name:"aces"+i }, false);
 		}
@@ -67,7 +67,7 @@ describe("mm-collection", function() {
 	});
 
 	it("should find models matching constraining objects using where", function() {
-		var c = new Strand.Collection();
+		var c = new Strand.Collection(false);
 		for(var i =0; i< 10; i++) {
 			c.create({ id: i, name:"aces"+i }, false);
 		}
@@ -78,6 +78,18 @@ describe("mm-collection", function() {
 		c.where({id:0}, true).should.have.length(1);
 	});
 
+	it("should have discrete events", function() {
+		var s1 = sinon.spy();
+		var s2 = sinon.spy();
+		var c1 = new Strand.Collection(false);
+		c1.addEventListener("data-changed", s1);
+		var c2 = new Strand.Collection(false);
+		c2.addEventListener("data-changed", s2);
+		c1._sync._handleResult();
+		s1.calledOnce.should.be.true;
+		s2.calledOnce.should.be.false;
+	});
+
 	it("should have data after XHR", function(done) {
 		var xhr = sinon.useFakeXMLHttpRequest();
 		var request;
@@ -85,10 +97,9 @@ describe("mm-collection", function() {
 			request = req;
 		};
 
-		var m = new Strand.Collection();
-		m.addEventListener("data-changed", function() {
+		var m = new Strand.Collection(false);
+		m.addEventListener("data-changed", function(e) {
 			this.data[0].should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
-			xhr.restore();
 			done();
 		});
 		m.fetch();
@@ -96,14 +107,36 @@ describe("mm-collection", function() {
 
 	});
 
+	it("should support dom syncing", function(done) {
+		var xhr = sinon.useFakeXMLHttpRequest();
+		var request;
+		xhr.onCreate = function(req) {
+			request = req;
+			flush(function() {
+				request.respond(200, { "Content-Type": "application/json" }, '[{ "id": 1, "bool":true, "t1":"terminal one" }]');
+			});
+		};
+
+		var col = new Strand.Collection();
+		document.body.appendChild(col);
+
+		var ip = document.createElement("input-params");
+		col.appendChild(ip);
+		var qp = document.createElement("queryParam");
+		qp.setAttribute("name", "q");
+		ip.appendChild(qp);
+		qp.setAttribute("value", "test");
+
+
+		col.addEventListener("data-changed", function() {
+			xhr.restore();
+			this.data[0].should.deep.equal({ "id": 1, "bool":true, "t1":"terminal one" });
+			done();
+		});
+
+	});
+
 });
 </script>
-<template is="dom-bind">
-	<mm-collection id="col" data="{{items}}">
-	</mm-collection>
-	<template is="dom-repeat" items="{{items}}">
-		<span>{{item.id}}</span><span>{{item.name}}</span>
-	</template>
-</template>
 </body>
 </html>

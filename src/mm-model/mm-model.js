@@ -53,11 +53,11 @@
 		},
 		
 		adapterChanged: function(oldAdapter, newAdapter) {
-			if (typeof newAdapter === "string" && window[newAdapter]) {
-				this.adapterInstance = new window[newAdapter]();
-				this.adapterInstance.target = this;
-				this.adapterInstance.auto = this.auto;
-			}
+			// if (typeof newAdapter === "string" && window[newAdapter]) {
+			// 	this.adapterInstance = new window[newAdapter]();
+			// 	this.adapterInstance.target = this;
+			// 	this.adapterInstance.auto = this.auto;
+			// }
 		},
 
 		autoChanged: function(oldAuto, newAuto) {

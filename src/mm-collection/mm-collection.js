@@ -7,6 +7,8 @@
 (function (scope) {
 
 	var DataUtils = StrandLib.DataUtils;
+	var Sync = StrandLib.Sync;
+	var Collection = StrandLib.Collection;
 
 	scope.Collection = Polymer({
 
@@ -16,32 +18,24 @@
 
 		properties: {
 
-			_sync: {
-				type:StrandLib.Sync,
-				value: function() {
-					return new StrandLib.Sync();
-				}
-			},
-			_collection: {
-				type:StrandLib.Collection,
-				value: function() {
-					return new StrandLib.Collection(null, null, this._sync);
-				}
-			},
 			adapter:{
 				type:String,
 				value:"Sync",
+				observer:"_adapterChanged"
 			}
 		},
 
 		behaviors: [
 			StrandTraits.Pageable
+			// StrandTraits.DomSyncable
 		],
 
+		factoryImpl: function(auto) {
+			this.auto = auto;
+		},
+
 		ready: function() {
-			this._collection.addEventListener("data-changed", function() { 
-				this.fire("data-changed"); 
-			}.bind(this));
+			this._collection = new StrandLib.Collection(null, null, this._sync);
 		},
 
 		create: function(init, silent) {
@@ -89,12 +83,26 @@
 		},
 
 		each: function(callback) {
-			this._collection.each(callback)
+			this._collection.each(callback);
 		},
 
 		where: function(obj, matchValues) {
 			return this._collection.where(obj,matchValues);
 		},
+
+		_adapterChanged: function() {
+			//TODO: (dlasky) update to new adapters
+		},
+
+		// _syncChanged: function() {
+		// 	this._collection._sync = this._sync;
+		// },
+
+		// _collectionChanged: function() {
+		// 	this._collection.addEventListener("data-changed", function() { 
+		// 		this.fire("data-changed"); 
+		// 	}.bind(this));
+		// },
 
 		get data() {
 			return DataUtils.getPathValue("_collection.data", this);
