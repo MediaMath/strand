@@ -73,27 +73,31 @@
 				display: block;
 				float: left;
 			}
+
+			mm-button[unresolved] {
+				display:none;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Primary</p>
-			<mm-button>
+			<mm-button unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary disabled</p>
-			<mm-button disabled="true">
+			<mm-button disabled unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary selected</p>
-			<mm-button selected="true">
+			<mm-button selected unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary fit to parent</p>
-			<mm-button fitparent="true">
+			<mm-button fitparent unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
@@ -102,17 +106,17 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Secondary</p>
-			<mm-button type="secondary">
+			<mm-button type="secondary" unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary disabled</p>
-			<mm-button type="secondary" disabled>
+			<mm-button type="secondary" disabled unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary fit to parent</p>
-			<mm-button type="secondary" fitparent="true">
+			<mm-button type="secondary" fitparent unresolved>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
@@ -120,20 +124,20 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Primary with icon</p>
-			<mm-button>
-				<mm-icon type="plus" width="12" height="12"></mm-icon>
+			<mm-button unresolved>
+				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with icon disabled</p>
-			<mm-button disabled="true">
-				<mm-icon type="plus" width="12" height="12"></mm-icon>
+			<mm-button disabled="true" unresolved>
+				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with icon and fit to parent</p>
-			<mm-button fitparent="true">
-				<mm-icon type="plus" width="12" height="12"></mm-icon>
+			<mm-button fitparent="true" unresolved>
+				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
@@ -141,20 +145,20 @@
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Secondary with icon</p>
-			<mm-button type="secondary">
+			<mm-button type="secondary" unresolved>
 				<mm-icon type="delete" width="12" height="12"></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary with icon disabled</p>
 			<mm-button type="secondary" disabled>
-				<mm-icon type="delete" width="12" height="12"></mm-icon>
+				<mm-icon type="delete" width="12" height="12" unresolved></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary with icon fit to parent</p>
-			<mm-button type="secondary" fitparent="">
-				<mm-icon type="delete" width="12" height="12"></mm-icon>
+			<mm-button type="secondary" fitparent unresolved>
+				<mm-icon type="delete" width="12" height="12" unresolved></mm-icon>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>

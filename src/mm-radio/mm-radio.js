@@ -65,6 +65,10 @@
 			}
 		},
 
+		behaviors:[
+			StrandTraits.Resolvable
+		],
+
 		listeners: {
 			'tap': '_handleTap'
 		},

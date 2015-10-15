@@ -118,6 +118,7 @@
 		is: 'mm-input-mask',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.DomGettable,
 			StrandTraits.Keyboardable,
 			StrandTraits.Stylable,

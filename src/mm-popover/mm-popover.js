@@ -10,6 +10,7 @@
 		is: 'mm-popover',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.Stackable,
 			StrandTraits.PositionablePanel

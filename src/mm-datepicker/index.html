@@ -33,7 +33,8 @@
 			}
 
 			mm-datepicker[unresolved],
-			mm-button[unresolved] {
+			mm-button[unresolved],
+			mm-dropdown[unresolved] {
 				display: none;
 			}
 
@@ -63,18 +64,18 @@
 	</head>
 	<body>
 		<template is="dom-bind">
-		<mm-dropdown id="ddl" value="{{direction}}">
-			<mm-list-item>n</mm-list-item>
-			<mm-list-item>e</mm-list-item>
-			<mm-list-item>s</mm-list-item>
-			<mm-list-item>w</mm-list-item>
-			<mm-list-item>c</mm-list-item>
-		</mm-dropdown>
+			<mm-dropdown id="ddl" value="{{direction}}" unresolved>
+				<mm-list-item>n</mm-list-item>
+				<mm-list-item>e</mm-list-item>
+				<mm-list-item>s</mm-list-item>
+				<mm-list-item>w</mm-list-item>
+				<mm-list-item>c</mm-list-item>
+			</mm-dropdown>
 
-		<mm-button id="dpb" style="margin-top: 50vh">
-			<label>datepicker target</label>
-		</mm-button>
-		<mm-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb"></mm-datepicker>
+			<mm-button id="dpb" style="margin-top: 50vh" unresolved>
+				<label>datepicker target</label>
+			</mm-button>
+			<mm-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb" unresolved></mm-datepicker>
 		</template>
 
 		<!-- <template id="tmp" is="auto-binding">

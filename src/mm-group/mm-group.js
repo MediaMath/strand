@@ -65,6 +65,7 @@
 		VALIGN_BOTTOM: "vgroup-bottom",
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Selectable
 		],
 

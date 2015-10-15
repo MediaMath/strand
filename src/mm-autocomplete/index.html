@@ -89,18 +89,16 @@
 			mm-autocomplete[unresolved] {
 				display: none;
 			}
-
-			mm-autocomplete {}
 		</style>
 	</head>
 	<body>
 
 		<div class="col c1">
 			<p><span class="bold">autocomplete:</span> default</p>
-			<mm-autocomplete id="dataTest1"></mm-autocomplete>
+			<mm-autocomplete id="dataTest1" unresolved></mm-autocomplete>
 			<hr/>
 			<p><span class="bold">autocomplete:</span> with max items</p>
-			<mm-autocomplete id="dataTest2" max-items="10" fitparent></mm-autocomplete>
+			<mm-autocomplete id="dataTest2" max-items="10" fitparent unresolved></mm-autocomplete>
 			<hr/>
 		</div>
 		

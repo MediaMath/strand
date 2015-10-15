@@ -58,6 +58,7 @@ found here: https://github.com/Polymer/core-list
 		is: 'mm-item-recycler',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.StampBindable,
 			StrandTraits.WindowNotifier,
 			StrandTraits.SizeResponsible,

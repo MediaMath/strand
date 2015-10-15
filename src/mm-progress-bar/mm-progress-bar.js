@@ -10,6 +10,7 @@
 		is: 'mm-progress-bar',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 

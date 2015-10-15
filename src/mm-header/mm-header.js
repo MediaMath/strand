@@ -17,6 +17,10 @@
 			}
 		},
 
+		behaviors:[
+			StrandTraits.Resolvable
+		],
+
 		_headerClass: function(size) {
 			return "header-"+size;
 		}

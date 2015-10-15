@@ -82,35 +82,40 @@
 				display: block;
 				float: left;
 			}
+
+			mm-action[unresolved],
+			mm-icon[unresolved] {
+				display: none;
+			}
 		</style>
   </head>
   <body>
   	<div class="col c4">
 		<p><span class="bold">Action:</span> default</p>
-		<mm-action>
+		<mm-action unresolved>
 			<label>+Add Item</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> default disabled</p>
-		<mm-action disabled>
+		<mm-action disabled unresolved>
 			<label>+Add Item</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with icon</p>
-		<mm-action href="http://www.google.com">
-			<mm-icon type="favorite" width="16" height="16"></mm-icon>
+		<mm-action href="http://www.google.com" unresolved>
+			<mm-icon type="favorite" width="16" height="16" unresolved></mm-icon>
 			<label>Awesome</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with underline and target '_blank'</p>
-		<mm-action href="http://www.github.com" underline="true" target="_blank">
-			<mm-icon type="favorite" width="16" height="16"></mm-icon>
+		<mm-action href="http://www.github.com" underline="true" target="_blank" unresolved>
+			<mm-icon type="favorite" width="16" height="16" unresolved></mm-icon>
 			<label>Underline Me</label>
 		</mm-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with icon disabled</p>
-		<mm-action disabled>
-			<mm-icon type="favorite" width="16" height="16"></mm-icon>
+		<mm-action disabled unresolved>
+			<mm-icon type="favorite" width="16" height="16" unresolved></mm-icon>
 			<label>Awesome</label>
 		</mm-action>
 		<hr/>

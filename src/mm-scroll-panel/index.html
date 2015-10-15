@@ -24,6 +24,11 @@
 				width: 300px;
 				height: 150px;
 			}
+
+			mm-scroll-panel[unresolved],
+			mm-button[unresolved] {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -36,7 +41,7 @@
 		</dom-module>
 		<div class="holder">
 			
-			<mm-scroll-panel id="sp">
+			<mm-scroll-panel id="sp" unresolved>
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>
 				<mm-list-item>Item Name Here, Etc.</mm-list-item>

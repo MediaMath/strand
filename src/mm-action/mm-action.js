@@ -10,6 +10,7 @@
 		is: "mm-action",
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 

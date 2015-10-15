@@ -22,17 +22,22 @@
 			display: none;
 		}
 
-		mm-grid {
-			height: 100%;
-		}
 
 		.container {
 			height: 100%;
 		}
+
+		mm-grid {
+			height: 100%;
+		}
+
+		mm-grid[unresolved] {
+			display: none;
+		}
 	</style>
 </head>
 <body>
-		<style type="text/css">
+		<!-- <style type="text/css">
 			:host {
 				display: block;
 				height: 100%;
@@ -40,8 +45,8 @@
 			mm-grid {
 				height: 100%;
 			}
-		</style>
-		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate">
+		</style> -->
+		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate" unresolved>
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
 			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>

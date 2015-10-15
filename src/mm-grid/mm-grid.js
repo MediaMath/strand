@@ -70,6 +70,8 @@
 			}
 		},
 
+		behaviors: [ StrandTraits.Resolvable ],
+		
 		listeners: {
 			'column-resize-start': '_onColumnResizeStart',
 			'column-resize': '_onColumnResize',
@@ -82,6 +84,7 @@
 			"_expansionChanged(expanded)",
 			"_onSortChanged(sortField, sortOrder)",
 		],
+
 
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);

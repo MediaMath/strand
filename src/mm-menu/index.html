@@ -85,6 +85,12 @@
 				display: block;
 				float: left;
 			}
+
+			mm-menu[unresolved],
+			mm-button[unresolved] {
+				display: none;
+			}
+
 		</style>
 </head>
   </head>
@@ -92,8 +98,8 @@
 	  <div class="col c1">
 			<p>
 				<span class="bold">Menu:</span> Button Target
-				<mm-button id="cpb"><label>Open Menu</label></mm-button>
-				<mm-menu id="testMenu" direction="s" offset="5" target="#cpb">
+				<mm-button id="cpb" unresolved><label>Open Menu</label></mm-button>
+				<mm-menu id="testMenu" direction="s" offset="5" target="#cpb" unresolved>
 					<mm-list-item value="m1"><mm-icon width="15" height="15" type="info"></mm-icon> menu item 1</mm-list-item>
 					<mm-list-item value="m2">menu item 2</mm-list-item>
 					<mm-list-item value="m3">menu item 3</mm-list-item>
@@ -104,8 +110,8 @@
 			<hr/>
 			<p>
 				<span class="bold">Menu:</span> Icon Target
-				<mm-icon type="actions" id="cpb2"></mm-icon>
-				<mm-menu id="testMenu" direction="e" offset="15" target="#cpb2">
+				<mm-icon type="actions" id="cpb2" unresolved></mm-icon>
+				<mm-menu id="testMenu" direction="e" offset="15" target="#cpb2" unresolved>
 					<mm-list-item value="m1">menu item 1</mm-list-item>
 					<mm-list-item value="m2">menu item 2</mm-list-item>
 					<mm-list-item value="m3">menu item 3</mm-list-item>

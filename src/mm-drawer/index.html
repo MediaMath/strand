@@ -20,11 +20,17 @@
 			.container {
 				padding: 10px;
 			}
+
+			mm-drawer[unresolved],
+			mm-button[unresolved],
+			mm-checkbox[unresolved] {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
 		<template is="dom-bind">
-			<mm-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer">
+			<mm-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer" unresolved>
 				<div class="container">
 					<h1>Nothing to see here...</h1>
 				</div>
@@ -32,15 +38,15 @@
 		</template>
 
 		<template is="dom-bind">
-			<mm-drawer id="drawer2" expanded="{{checked}}" closedheight="44">
+			<mm-drawer id="drawer2" expanded="{{checked}}" closedheight="44" unresolved>
 				<div class="container">
-					<mm-checkbox checked="{{checked}}" id="checkbox"><label>Toggle Inset Drawer</label></mm-checkbox>
+					<mm-checkbox checked="{{checked}}" id="checkbox" unresolved><label>Toggle Inset Drawer</label></mm-checkbox>
 					<h1>Well Hello.</h1>
 				</div>
 			</mm-drawer>
 			
-			<mm-button id="toggleBtn"><label>Toggle Inset Drawer</label></mm-button>
-			<mm-button id="hideBtn"><label>Hide Inset Drawer</label></mm-button>
+			<mm-button id="toggleBtn" unresolved><label>Toggle Inset Drawer</label></mm-button>
+			<mm-button id="hideBtn" unresolved><label>Hide Inset Drawer</label></mm-button>
 			<script type="text/javascript">
 				var drawer2 = document.querySelector("#drawer2");
 				var toggleBtn = document.querySelector("#toggleBtn");

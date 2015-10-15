@@ -54,6 +54,9 @@
 			}
 		},
 
+		behaviors:[
+			StrandTraits.Resolvable
+		],
 
 		_handleClick: function(e) {
 			e.preventDefault();

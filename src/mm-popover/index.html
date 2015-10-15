@@ -91,6 +91,10 @@
 				position: absolute;
 			}
 
+			mm-popover[unresolved],
+			mm-button[unresolved] {
+				display: none;
+			}
 		</style>
 </head>
 
@@ -98,14 +102,14 @@
 	
 	<div>
 		<div class="col c0">
-			<mm-button id="cpb1">
+			<mm-button id="cpb1" unresolved>
 				<label>open popover</label>
 			</mm-button>
 		</div>
 	</div>
 
 	<div>
-		<mm-popover target="#cpb1" id="popover1" direction="s">
+		<mm-popover target="#cpb1" id="popover1" direction="s" unresolved>
 			<div class="body">
 				<mm-input></mm-input>
 			</div>
@@ -120,12 +124,12 @@
 		</mm-popover>
 	</div>
 
-	<mm-button id="cpb">
+	<mm-button id="cpb" unresolved>
 		<label>open popover multiselect (draggable)</label>
 	</mm-button> 
 
 	<div>
-		<mm-popover id="popover" target="#cpb" direction="s">
+		<mm-popover id="popover" target="#cpb" direction="s" unresolved>
 			<mm-input search="true" _layout="dropdown"></mm-input> 
 			<div class="body">
 				<mm-checkbox>

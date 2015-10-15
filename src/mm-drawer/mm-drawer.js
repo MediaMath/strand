@@ -51,6 +51,7 @@
 		},
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 

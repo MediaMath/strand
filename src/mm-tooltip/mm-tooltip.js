@@ -10,6 +10,7 @@
 		is: 'mm-tooltip',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stackable,
 			StrandTraits.PositionablePanel,
 			StrandTraits.Stylable,

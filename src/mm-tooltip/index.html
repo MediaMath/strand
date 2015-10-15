@@ -106,6 +106,12 @@
 				color: #FED01A;
 			}
 
+			mm-tooltip[unresolved],
+			mm-icon[unresolved],
+			mm-action[unresolved] {
+				display: none;
+			}
+
 		</style>
   </head>
   <body>
@@ -113,21 +119,21 @@
   	<div class="col c1">
   		<p>
 			<span class="bold">Tooltip:</span> Message Layout Default <mm-icon id="defaultTarg" type="info" width="14" height="14"></mm-icon>
-			<mm-tooltip target="#defaultTarg">
+			<mm-tooltip target="#defaultTarg" unresolved>
 				<label>I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Layout with Custom Text Style <mm-icon class="custom-targ" type="info" width="14" height="14"></mm-icon>
-			<mm-tooltip target=".custom-targ">
-				<label class="tip-msg" target="">I Love to eat chicken! It's so damn delicious.</label>
+			<span class="bold">Tooltip:</span> Layout with Custom Text Style <mm-icon class="custom-targ" type="info" width="14" height="14" unresolved></mm-icon>
+			<mm-tooltip target=".custom-targ" unresolved>
+				<label class="tip-msg">I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Layout with Custom Width <mm-icon id="widthTarg" type="warning" width="14" height="14"></mm-icon>
-			<mm-tooltip tip-width="150" target="#widthTarg">
+			<span class="bold">Tooltip:</span> Layout with Custom Width <mm-icon id="widthTarg" type="warning" width="14" height="14" unresolved></mm-icon>
+			<mm-tooltip tip-width="150" target="#widthTarg" unresolved>
 				<label>I Love to eat chicken! It's so damn delicious.</label>
 			</mm-tooltip>
 		</p>
@@ -140,22 +146,22 @@
 	<div class="vr"></div>
 	<div class="col c1">
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-link, auto is false <mm-action id="actionTarg"underline="true"><label>Awesome</label></mm-action>
-			<mm-tooltip tip-width="200" auto="false" target="#actionTarg">
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-link, auto is false <mm-action id="actionTarg"underline="true" unresolved><label>Awesome</label></mm-action>
+			<mm-tooltip tip-width="200" auto="false" target="#actionTarg" unresolved>
 				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip <mm-icon id="custom2Targ" type="info" width="14" height="14"></mm-icon>
-			<mm-tooltip tip-width="200" auto="false" target="#custom2Targ">
+			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip <mm-icon id="custom2Targ" type="info" width="14" height="14" unresolved></mm-icon>
+			<mm-tooltip tip-width="200" auto="false" target="#custom2Targ" unresolved>
 				<label class="special-msg"><span class="bold">Lorem Ipsum: </span>is simply dummy text of the <a href="http://www.example.com" target="_blank">this and stuff</a> printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-action <mm-action id="custom3Targ" underline="true"><label>Best Thing Ever!</label></mm-action>
-			<mm-tooltip tip-width="200" target="#custom3Targ">
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-action <mm-action id="custom3Targ" underline="true" unresolved><label>Best Thing Ever!</label></mm-action>
+			<mm-tooltip tip-width="200" target="#custom3Targ" unresolved>
 				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>

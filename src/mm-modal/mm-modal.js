@@ -10,7 +10,10 @@
 	scope.Modal = Polymer({
 		is: 'mm-modal',
 
-		behaviors:[StrandTraits.Stackable],
+		behaviors:[
+			StrandTraits.Resolvable,
+			StrandTraits.Stackable
+		],
 
 		properties: {
 			stackType:{

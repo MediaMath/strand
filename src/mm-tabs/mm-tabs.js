@@ -10,6 +10,7 @@
 		is: "mm-tabs",
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Selectable,
 			StrandTraits.Stylable
 		],
