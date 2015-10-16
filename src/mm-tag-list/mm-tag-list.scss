@@ -17,7 +17,11 @@
 }
 
 #list {
-	font-size: 0;
+	font-family: 'Arimo', sans-serif;
+	font-size: 13px;
+	@include fontSmoothing();
+	font-weight: 400;
+
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -27,10 +31,9 @@
 		border-radius: .25em;
 		color: $color-A2;
 		display: inline-block;
-		font-family: 'Arimo', sans-serif;
-		font-size: 13px;
-		@include fontSmoothing();
-		font-weight: 400;
+		
+		margin-top: .25em;
+		margin-bottom: .25em;
 		padding: .25em .5em;
 	}
 
@@ -49,4 +52,9 @@
 	mm-icon:hover {
 		cursor: pointer;
 	}
+}
+
+.placeholder {
+	background-color: #ff0000;
+	color: #000;
 }
