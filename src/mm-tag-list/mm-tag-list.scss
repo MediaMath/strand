@@ -10,35 +10,44 @@
 @import "_mixins";
 
 :host {
-	box-sizing: border-box;
 	display: block;
-	position: relative;
-	vertical-align: middle;
 }
 
 #list {
-	font-family: 'Arimo', sans-serif;
-	font-size: 13px;
-	@include fontSmoothing();
-	font-weight: 400;
-
+	font-size: 0;
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 
 	li {
-		background-color: $color-A9;
-		border-radius: .25em;
 		color: $color-A2;
+		border: 1px solid;
+		border-top-color: $color-A10;
+		border-left-color: $color-A10;
+		border-bottom-color: $color-A8;
+		border-right-color: $color-A8;
+		@include background-image(linear-gradient($color-F0, $color-A19));
+		border-radius: 4px;
+		box-sizing: border-box;
 		display: inline-block;
-		
-		margin-top: .25em;
-		margin-bottom: .25em;
-		padding: .25em .5em;
+		font-family: 'Arimo', sans-serif;
+		font-size: 13px;
+		@include fontSmoothing();
+		font-weight: 400;
+		margin: 3px auto;
+		padding: 3px 5px;
+		vertical-align: top;
 	}
 
 	li:not(:last-of-type) {
 		margin-right: .5em;
+	}
+
+	.placeholder {
+		background-color: $color-A19;
+		background-image: none;
+		box-shadow: none;
+		border: none;
 	}
 
 	span {
@@ -52,9 +61,4 @@
 	mm-icon:hover {
 		cursor: pointer;
 	}
-}
-
-.placeholder {
-	background-color: #ff0000;
-	color: #000;
 }

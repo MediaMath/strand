@@ -1,5 +1,7 @@
 (function(scope) {
 
+	var Rectangle = StrandLib.Rectangle;
+
 	scope.TagList = Polymer({
 
 		is: 'mm-tag-list',
@@ -32,6 +34,10 @@
 			}
 		},
 
+		_compareItems: function(a,b) {
+			
+		},
+
 		_removeTag: function(e) {
 			var repeater = this.$.repeater,
 				item = repeater.itemForElement(e.target),
@@ -46,23 +52,14 @@
 			this._tagToMove.style.opacity = '0';
 			this._tagToMove.style.position = 'absolute';
 
-
 			if(!this._placeholder) {
-				// TODO: Do this without writing css in js
 				var ph = document.createElement('li');
-				var tagRect = this._tagToMove.getBoundingClientRect();
-				ph.textContent = '.';
 				ph.className = 'placeholder';
-				ph.style.boxSizing = 'border-box';
-				ph.style.borderRadius = '2px';
-				ph.backgroundColor = '#999999';
-				ph.style.display = 'inline-block';
-				ph.style.margin = this._tagToMove.style.margin;
+				var tagRect = Rectangle.fromElement(this._tagToMove);
 				ph.style.height = tagRect.height+"px";
 				ph.style.width = tagRect.width+"px";
-				ph.style.position = 'relative';
 
-				this.$.list.appendChild(ph);
+				Polymer.dom(this.$.list).appendChild(ph);
 				this._placeholder = ph;
 			}
 		},
@@ -70,7 +67,13 @@
 		_handleDragenter: function(e) {
 			if(e.target !== this._tagToMove && e.target.classList.contains('tag')) {
 				this._dropTarget = e.target;
-				if(this._placeholder) this.$.list.insertBefore(this._placeholder, this._dropTarget);
+				var targetRect = Rectangle.fromElement(this._dropTarget);
+				
+				if(this._placeholder) {
+					if(e.x <= targetRect.center) this.$.list.insertBefore(this._placeholder, this._dropTarget);
+					else if(this._dropTarget.nextElementSibling) this.$.list.insertBefore(this._placeholder, this._dropTarget.nextElementSibling);
+					else this.$.list.appendChild(this._placeholder);
+				}
 			}
 		},
 
@@ -83,7 +86,7 @@
 			this._tagToMove.style.opacity = null;
 			this._tagToMove.style.position = null;
 
-			console.table(this.data);
+			// console.table(this.data);
 		},
 
 	});
