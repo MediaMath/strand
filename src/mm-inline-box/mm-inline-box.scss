@@ -13,13 +13,6 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
-	font-size: 0em;
-	line-height: 0em;
-
-	box-sizing: border-box;
-	border: 1px solid;
-	border-radius: 4px;
-	padding: 6px 10px;
 }
 
 :host([disabled]) {
@@ -29,9 +22,18 @@
 
 @include fit();
 
+.container {
+	box-sizing: border-box;
+	border: 1px solid;
+	border-radius: 4px;
+	padding: 6px 10px;
+}
+
 :host([type="info"]) {
-	border-color: $color-D20;
-	background-color: $color-D10;
+	.container {
+		border-color: $color-D20;
+		background-color: $color-D10;
+	}
 
 	mm-icon {
 		color: $color-D3;
@@ -39,8 +41,10 @@
 }
 
 :host([type="success"]) {
-	border-color: $color-B12;
-	background-color: $color-B13;
+	.container {
+		border-color: $color-B12;
+		background-color: $color-B13;
+	}
 
 	mm-icon {
 		color: $color-B6;
@@ -48,8 +52,10 @@
 }
 
 :host([type="warning"]) {
-	border-color: $color-E12;
-	background-color: $color-E13;
+	.container {
+		border-color: $color-E12;
+		background-color: $color-E13;
+	}
 
 	mm-icon {
 		color: $color-E5;
@@ -57,8 +63,10 @@
 }
 
 :host([type="error"]) {
-	border-color: $color-C13;
-	background-color: $color-C14;
+	.container {
+		border-color: $color-C13;
+		background-color: $color-C14;
+	}
 
 	mm-icon {
 		color: $color-C3;
@@ -83,10 +91,12 @@
 	margin-left: 25px;
 }
 
-:host([layout="message"]) {
-	border: none;
-	background: none;
-	padding: 0;
+:host([layout=message]) {
+	.container {
+		border: none;
+		background: none;
+		padding: 0;
+	}
 
 	#icon {
 		margin: 0;
