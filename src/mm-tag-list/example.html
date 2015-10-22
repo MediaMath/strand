@@ -1,0 +1,37 @@
+<mm-tag-list id="tl2"></mm-tag-list>
+<mm-tag-list sortable id="tl"></mm-tag-list>
+<mm-tag-list data='[{"name": "karmic koalas"}, {"name":"maverick meerkats"}, {"name":"dapper drakes"}]'></mm-tag-list>
+
+<script>
+	document.addEventListener('WebComponentsReady', function() {
+		var tl = document.querySelector('#tl'),
+			tl2 = document.querySelector('#tl2'),
+			data = [
+				{name: 'apples'},
+				{name: 'oranges'},
+				{name: 'bananas'},
+				{name: 'pineapples'},
+				{name: 'pears'},
+				{name: 'grapes'},
+				{name: 'grapefruits'},
+				{name: 'tangerines'},
+				{name: 'lollipops'},
+				{name: 'froyos'},
+				{name: 'ice cream sandwiches'},
+				{name: 'jelly beans'},
+				{name: 'kit kats'},
+				{name: 'gingerbreads'}
+			];
+		tl.data = data;
+
+		var data2 = [
+			{name: 'lions', sortIndex: 100},
+			{name: 'mountain lions', sortIndex: 200},
+			{name: 'panthers', sortIndex: 400},
+			{name: 'leopards', sortIndex: 300},
+			{name: 'snow leopards', sortIndex: 0},
+			{name: 'yosemites', sortIndex: 500}			
+		];
+		tl2.data = data2;
+	});
+</script>

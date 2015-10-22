@@ -4,7 +4,6 @@
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../mm-icon/mm-icon.html">
 		<link rel="import" href="mm-tag-list.html">
-		<link rel="import" href="../strand.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -88,27 +87,45 @@
   <body>
 
 	<div class='col c4'>
-		<mm-tag-list id="tl"></mm-tag-list>
+		<mm-tag-list id="tl2"></mm-tag-list>
+		<hr/>
+		<mm-tag-list sortable id="tl"></mm-tag-list>
+		<hr />
+		<mm-tag-list data='[{"name": "karmic koalas"}, {"name":"maverick meerkats"}, {"name":"dapper drakes"}]'></mm-tag-list>
 	</div>
 
 	<script>
-		var tl = document.getElementById('tl');
-		tl.data = [
-			{name: 'apples'},
-			{name: 'oranges'},
-			{name: 'bananas'},
-			{name: 'pineapples'},
-			{name: 'pears'},
-			{name: 'grapes'},
-			{name: 'grapefruits'},
-			{name: 'tangerines'},
-			{name: 'lollipops'},
-			{name: 'froyos'},
-			{name: 'ice cream sandwiches'},
-			{name: 'jelly beans'},
-			{name: 'kit kats'},
-			{name: 'gingerbreads'}
-		];
+		document.addEventListener('WebComponentsReady', function() {
+			var tl = document.querySelector('#tl'),
+				tl2 = document.querySelector('#tl2'),
+				data = [
+					{name: 'apples'},
+					{name: 'oranges'},
+					{name: 'bananas'},
+					{name: 'pineapples'},
+					{name: 'pears'},
+					{name: 'grapes'},
+					{name: 'grapefruits'},
+					{name: 'tangerines'},
+					{name: 'lollipops'},
+					{name: 'froyos'},
+					{name: 'ice cream sandwiches'},
+					{name: 'jelly beans'},
+					{name: 'kit kats'},
+					{name: 'gingerbreads'}
+				];
+			tl.data = data;
+
+			var data2 = [
+				{name: 'lions', sortIndex: 100},
+				{name: 'mountain lions', sortIndex: 200},
+				{name: 'panthers', sortIndex: 400},
+				{name: 'leopards', sortIndex: 300},
+				{name: 'snow leopards', sortIndex: 0},
+				{name: 'yosemites', sortIndex: 500}			
+			];
+			tl2.data = data2;
+		});
 	</script>
   </body>
 </html>

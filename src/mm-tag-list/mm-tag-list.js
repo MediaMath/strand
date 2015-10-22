@@ -8,22 +8,20 @@
 
 		properties: {
 			data: {
-				// Should add a _sortIndex to all the items here so we can keep track of order independent of DOM/how they are ordered in the array
 				type: Array,
 				value: function() { return []; },
-				notify: true
+				notify: true,
+				observer: '_dataChanged'
 			},
-
+			sortField: {
+				type: String,
+				value: "sortIndex"
+			},
 			sortable: {
 				type: Boolean,
 				value: false
 			},
 
-
-			_dropTarget: {
-				type: Object,
-				value: null
-			},
 			_placeholder: {
 				type: Object,
 				value: null
@@ -34,14 +32,32 @@
 			}
 		},
 
+		save: function() {
+			if(this.sortable && this.sortField) {
+				var items = this.$.list.querySelectorAll('li');
+				for(var i=0; i<items.length; i++) {
+					var item = items[i];
+					var model = this.$.repeater.modelForElement(item);
+					model.set('item.'+[this.sortField], i);
+				}
+			}
+		},
+
+		_dataChanged: function() {
+			if (this.sortField && this.data.length > 0 && !this.data[0][this.sortField]) {
+				for(var i=0; i<this.data.length; i++) {
+					this.data[i][this.sortField] = i;
+				}
+			}
+		},
+
 		_compareItems: function(a,b) {
-			
+			return a[this.sortField] - b[this.sortField];
 		},
 
 		_removeTag: function(e) {
 			var repeater = this.$.repeater,
-				item = repeater.itemForElement(e.target),
-				index = this.data.indexOf(item),
+				index = repeater.indexForElement(e.target),
 				removed = this.splice('data', index, 1);
 			this.fire('removed', {removed: removed, index: index});
 		},
@@ -66,28 +82,25 @@
 
 		_handleDragenter: function(e) {
 			if(e.target !== this._tagToMove && e.target.classList.contains('tag')) {
-				this._dropTarget = e.target;
-				var targetRect = Rectangle.fromElement(this._dropTarget);
+				var referenceElement = e.target;
+				var referenceRect = Rectangle.fromElement(referenceElement);
 				
 				if(this._placeholder) {
-					if(e.x <= targetRect.center) this.$.list.insertBefore(this._placeholder, this._dropTarget);
-					else if(this._dropTarget.nextElementSibling) this.$.list.insertBefore(this._placeholder, this._dropTarget.nextElementSibling);
+					if(e.x <= referenceRect.center) this.$.list.insertBefore(this._placeholder, referenceElement);
+					else if(referenceElement.nextElementSibling) this.$.list.insertBefore(this._placeholder, referenceElement.nextElementSibling);
 					else this.$.list.appendChild(this._placeholder);
 				}
 			}
 		},
 
 		_handleDragend: function() {
-			// TODO: Reflect these changes to the data model
 			this.$.list.insertBefore(this._tagToMove, this._placeholder);
 			this.$.list.removeChild(this._placeholder);
 			this._placeholder = null;
-
 			this._tagToMove.style.opacity = null;
 			this._tagToMove.style.position = null;
-
-			// console.table(this.data);
-		},
+			this._tagToMove = null;
+		}
 
 	});
 

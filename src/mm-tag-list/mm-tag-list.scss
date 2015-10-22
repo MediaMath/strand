@@ -37,6 +37,7 @@
 		margin: 3px auto;
 		padding: 3px 5px;
 		vertical-align: top;
+		width: auto;
 	}
 
 	li:not(:last-of-type) {
@@ -59,6 +60,7 @@
 	}
 
 	mm-icon:hover {
+		color: $color-F1;
 		cursor: pointer;
 	}
 }

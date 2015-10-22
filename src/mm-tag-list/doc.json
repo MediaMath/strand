@@ -1,0 +1,29 @@
+{
+	"name":"mm-tag-list",
+	"description":"A fully-styled component for presenting sorted or unsorted lists as a list of removable tags",
+	"attributes": [
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"An array of objects used to create the tags. These objects require a 'name' property, which is used to set the tag labels, at the minimum."
+		},
+		{
+			"name":"sortable",
+			"type":"Boolean",
+			"description":"Allow the user to manually sort the tags by dragging and dropping",
+			"default":"false"
+		},
+		{
+			"name":"sortField",
+			"type":"String",
+			"default":"sortIndex",
+			"description": "If this element instance is sortable, the name of the subproperty of the element's data in which to save the user-defined order of tags. The order is represented as an ascending sequence of indices (i.e. the first item will have a sortField of 0; the second, 1; and so on) If the property does not already exist on the data items, it will be created for each of the items. The user-defined order will not be saved until the save() method is called."
+		}
+	],
+	"methods": [
+		{
+			"name":"save",
+			"description":"Save the order of tags."
+		}
+	]
+}

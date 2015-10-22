@@ -16,8 +16,8 @@
 	<link rel="import" type="css" href="mm-tag-list.css"/>
 	<template>
 		<ul id="list">
-			<template id="repeater" is="dom-repeat" items="{{data}}">
-				<li class="tag" draggable="true" on-drag="_handleDrag" on-dragend="_handleDragend" on-dragenter="_handleDragenter"><span>{{item.name}}</span><mm-icon height="8" width="8" on-tap="_removeTag" type="delete"></mm-icon></li>
+			<template id="repeater" is="dom-repeat" items="{{data}}" sort="_compareItems">
+				<li class="tag" draggable="{{sortable}}" on-drag="_handleDrag" on-dragend="_handleDragend" on-dragenter="_handleDragenter"><span>{{item.name}}</span><mm-icon height="8" width="8" on-tap="_removeTag" type="delete"></mm-icon></li>
 			</template>
 		</ul>
 	</template>
