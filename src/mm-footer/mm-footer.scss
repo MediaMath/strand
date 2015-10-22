@@ -34,3 +34,9 @@
 .left-box > ::content > * {
 	margin-right: 10px;
 }
+
+:host([semi-transparent]) {
+	._mm_footer {
+		@include background-opacity($color-A12, 0.85);
+	}
+}

@@ -20,7 +20,11 @@
 			},
 			messageVisible: {
 				type: Boolean,
-				value: false
+				reflectToAttribute: true
+			},
+			semiTransparent: {
+				type: Boolean,
+				reflectToAttribute: true
 			}
 		},
 

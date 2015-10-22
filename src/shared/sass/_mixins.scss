@@ -15,10 +15,10 @@
 	line-height: 28px !important;
 }
 
-//fix for google's fit behavior
+// fix for google's fit behavior
 @mixin fit() {
   :host([fitparent]) {
-    @include fitContent();
+	@include fitContent();
   }
 }
 
@@ -100,4 +100,9 @@
 			}
 		} 
 	}
+}
+
+// bg color opacity
+@mixin background-opacity($color, $opacity: 0.5) {
+	background: rgba($color, $opacity);
 }

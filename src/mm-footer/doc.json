@@ -23,8 +23,15 @@
 			"description":"Sets or returns the visible state of the feedback message.",
 			"optional":true,
 			"default":"false",
-			"options":["true", "false"],
 			"attribute": "message-visible"
+		},
+		{
+			"name":"semiTransparent",
+			"type":"Boolean",
+			"description":"Sets the background of the footer to be semi-transparent, for scenarios where the footer overlays scrollable content.",
+			"optional":true,
+			"default":"false",
+			"attribute": "semi-transparent"
 		}
 	],
 	"methods": [
