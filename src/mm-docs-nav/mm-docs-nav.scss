@@ -20,19 +20,19 @@
 }
 
 #labelArea {
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(space-between);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	box-sizing: border-box;
 	padding: 10px 20px;
 
 	& > ::content mm-header, mm-icon {
 		pointer-events: none;
-		@include user-select(none);
+		user-select: none;
 	}
 
 	mm-icon.opened {
-		@include transform(scaleY(-1));
+		transform: scaleY(-1);
 	}
 }
 

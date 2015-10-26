@@ -26,10 +26,10 @@
 
 #header, #footer {
 	/*position: fixed;*/
-	@include display(flex);
+	display: flex;
 	min-width: 100%;
 	background: $color-A16;
-	@include user-select(none);
+	user-select: none;
 	box-shadow: 0px 0px 5px 0px $color-A5;
 }
 
@@ -52,7 +52,7 @@
 
 #separator {
 	display: none;
-	@include transform(translateZ(0));
+	transform: translateZ(0);
 	position: absolute;
 	top: 0;
 	height: 100%;
@@ -84,7 +84,7 @@
 }
 
 #columnContainer {
-	@include display(flex);
-	@include flex(1);
+	display: flex;
+	flex: 1;
 	width: 100%;
 }

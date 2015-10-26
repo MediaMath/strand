@@ -35,5 +35,5 @@
 
 .button.fit {
 	@include fitContent();
-	@include justify-content(center);
+	justify-content: center;
 }

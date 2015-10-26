@@ -40,7 +40,7 @@
 	border-radius:50%;
 	background: $color-F0;
 	box-shadow: inset 1px 1px 2px rgba(0,0,0,0.125);
-	@include background-image(linear-gradient(bottom, $color-F0 0%, $color-A9 100%));
+	background-image: linear-gradient(to top, $color-F0 0%, $color-A9 100%);
 	width: 16px;
 	height: 16px;
 	position: relative;
@@ -52,20 +52,20 @@
 		border-radius:50%;
 		background-color: #97caf2;
 		box-shadow: inset 0 0 0 1px rgba(255,255,255,.33);
-		@include background-image(linear-gradient(bottom, $color-D24 0%, $color-D25 100%));
+		background-image: linear-gradient(to top, $color-D24 0%, $color-D25 100%);
 		width:12px;
 		height:12px;
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		@include transform(translate(-50%, -50%));
+		transform: translate(-50%, -50%);
 		display: none;
 	}
 }
 
 :host(:active) #radio {
 	box-shadow: inset 1px 1px 2px rgba(0,0,0,.18);
-	@include background-image(linear-gradient(top, #bfbfbf 0%, #f2f2f2 100%));
+	background-image: linear-gradient(to bottom, #bfbfbf 0%, #f2f2f2 100%);
 }
 
 #label {

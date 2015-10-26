@@ -44,7 +44,7 @@
 		font-family: Arimo, sans-serif !important;
 		font-size: 13px !important;
 		line-height: 2.231em !important;
-		@include placeholder {
+		&::placeholder {
 			font-size: 13px !important;
 			font-style: italic;
 		}
@@ -60,7 +60,7 @@
 		line-height: 2.231em !important;
 		background: none;
 
-		@include transition(width .3s ease-in-out);
+		transition: width .3s ease-in-out;
 
 		&:focus {
 			outline: none;

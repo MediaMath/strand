@@ -34,13 +34,13 @@
 }
 
 :host([indeterminate]) .fill {
-	@include animation(candyStripe 2s linear infinite);
+	animation: candyStripe 2s linear infinite;
 	background-size: 20px 20px;
 	background-repeat: repeat;
 	border-radius: 0;
 }
 
-@include keyframes(candyStripe) {
+@keyframes candyStripe {
 	from {
 		background-position: 0 0;
 	}

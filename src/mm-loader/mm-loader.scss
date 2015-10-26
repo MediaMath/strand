@@ -16,9 +16,9 @@
 
 ._mm_loader {
 	display: block;
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(start);
+	display: flex;
+	align-items: center;
+	justify-content: start;
 }
 
 :host ::content label {

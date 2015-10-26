@@ -29,9 +29,9 @@
 }
 
 .button .left-items {
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(start);
+	display: flex;
+	align-items: center;
+	justify-content: start;
 	height: 100%;
 }
 
@@ -45,11 +45,11 @@
 }
 
 #caratIcon.closed {
-	@include transform(scaleY(1));
+	transform: scaleY(1);
 }
 
 #caratIcon.opened {
-	@include transform(scaleY(-1));
+	transform: scaleY(-1);
 }
 
 .scroll-container {

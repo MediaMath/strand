@@ -25,7 +25,7 @@
 	margin:0;
 	resize:none;
 
-	@include placeholder {
+	&::placeholder {
 		font-family: 'Arimo', sans-serif;
 		@include fontSmoothing();
 		font-style: italic;
@@ -40,7 +40,7 @@
 .text-input.monospace {
 	font-family: monospace;
 
-	@include placeholder {
+	&::placeholder {
 		font-family: monospace;
 	}
 }

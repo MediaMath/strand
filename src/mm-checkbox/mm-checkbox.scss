@@ -17,7 +17,7 @@
 	margin-right: 7px;
 	cursor: pointer;
 	white-space: nowrap;
-	@include user-select(none);
+	user-select: none;
 
 	.icon {
 		color: inherit;
@@ -40,13 +40,13 @@
 :host(:active) .checkbox {
 	border-color: $color-A17;
 	box-shadow: inset 1px 1px 0 $color-A18; 
-	@include background-image(linear-gradient(bottom, $color-A15 0%, $color-A16 100%));
+	background-image: linear-gradient(to top, $color-A15 0%, $color-A16 100%);
 
 	&.partial,
 	&.selected {
 		border-color: $color-D18;
 		box-shadow: inset 1px 1px 0 $color-D19;
-		@include background-image(linear-gradient(bottom, $color-D16 0%, $color-D17 100%));
+		background-image: linear-gradient(to top, $color-D16 0%, $color-D17 100%);
 	}
 }
 
@@ -63,7 +63,7 @@
 	border-radius: 3px;
 	background-color: $color-A14;
 	box-shadow: inset 0 1px 0 rgba(255,255,255,.27);
-	@include background-image(linear-gradient(bottom, $color-A9 0%, $color-F0 100%));
+	background-image: linear-gradient(to top, $color-A9 0%, $color-F0 100%);
 	width:16px;
 	height: 16px;
 	position: relative;
@@ -96,7 +96,7 @@
 	&.selected {
 		border-color: $color-D13;
 		box-shadow: inset 1px 1px 0 rgba(255,255,255,.2);
-		@include background-image(linear-gradient(bottom, $color-D14 0%, $color-D15 100%));
+		background-image: linear-gradient(to top, $color-D14 0%, $color-D15 100%);
 	}
 }
 

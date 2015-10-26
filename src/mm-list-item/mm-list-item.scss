@@ -23,7 +23,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	@include user-select(none);
+	user-select: none;
 }
 
 :host(:hover),

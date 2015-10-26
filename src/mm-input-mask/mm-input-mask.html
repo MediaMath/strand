@@ -22,7 +22,7 @@
 	<link href="mm-input-mask.css" rel="import" type="css">
 	<template>
 		<div id="pseudo">
-			<template is="dom-repeat" id="domRepeat" items="{{_maskConfig}}"><template is="dom-if" if="{{item.type}}"><input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" style$="{{ _groupStyle(item.*, value) }}" class="mask" disabled$="{{item.disabled}}" layout$="{{layout}}" value$="{{item.value}}"
+			<template is="dom-repeat" id="domRepeat" items="{{_maskConfig}}"><template is="dom-if" if="{{item.type}}"><input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" style$="{{ _groupStyle(item.*, value) }}" class="mask" disabled$="{{item.disabled}}" layout$="{{layout}}" value="{{item.value}}"
 						on-focus="_handleFocus"
 						on-blur="_handleBlur"
 						on-keydown="_cellKey"

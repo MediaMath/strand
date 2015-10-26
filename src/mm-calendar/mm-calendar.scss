@@ -45,9 +45,9 @@
 }
 
 .month-year {
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(space-between);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	margin-bottom: 4px;
 
 	.left-arrow, .right-arrow {
@@ -55,7 +55,7 @@
 	}
 
 	.left-arrow {
-		@include transform(scaleX(-1));
+		transform: scaleX(-1);
 	}
 }
 
@@ -128,7 +128,7 @@
 	&.last.selected {
 		&::before {
 			@include pointerBg($color-D15);
-			@include transform(scaleX(-1));
+			transform: scaleX(-1);
 			left: -3px;
 		}
 	}
@@ -164,7 +164,7 @@
 	&.last.selected:hover {
 		&::before {
 			@include pointerBg($color-D21);
-			@include transform(scaleX(-1));
+			transform: scaleX(-1);
 			left: -3px;
 		}
 	}
