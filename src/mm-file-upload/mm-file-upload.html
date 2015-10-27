@@ -1,0 +1,23 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/js/behaviorutils.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../mm-button/mm-button.html"/>
+<link rel="import" href="../mm-input/mm-input.html"/>
+
+<dom-module id="mm-file-upload">
+	<link href="mm-file-upload.css" rel="import" type="css"/>
+	<template>
+		<mm-input id="fileName" placeholder="{{placeholder}}" value="{{fileNames}}" disabled="{{disabled}}" error="{{error}}" readonly></mm-input>
+		<input name="fileInput" id="fileInput" type="file" accept$="{{accept}}" multiple$="{{multiple}}" on-change="_handleChange">
+		<mm-button type="secondary" on-tap="_handleTap" disabled="{{disabled}}"><label>{{browseLabel}}<label></mm-button>
+	</template>
+</dom-module>
+<script src="mm-file-upload.js"></script>
