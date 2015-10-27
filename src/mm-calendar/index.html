@@ -24,7 +24,6 @@
 
 			mm-calendar {
 				margin: 25px;
-				display: block;
 			}
 
 			.pair {
@@ -35,13 +34,13 @@
 		</style>
 	</head>
 	<body>
-		<mm-calendar id="cal1"></mm-calendar>
-		<mm-calendar id="cal2" disable-future="true"></mm-calendar>
-		<mm-calendar id="cal3" disabled></mm-calendar>
+		<mm-calendar id="cal1" unresolved></mm-calendar>
+		<mm-calendar id="cal2" disable-future="true" unresolved></mm-calendar>
+		<mm-calendar id="cal3" disabled unresolved></mm-calendar>
 		<template id="calPair" is="dom-bind">
 			<div>
-				<mm-calendar id="cal4" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true"></mm-calendar>
-				<mm-calendar id="cal5" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true"></mm-calendar>
+				<mm-calendar id="cal4" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true" unresolved></mm-calendar>
+				<mm-calendar id="cal5" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true" unresolved></mm-calendar>
 			</div>
 		</template>
 

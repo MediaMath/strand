@@ -9,6 +9,7 @@
 		is: 'mm-loader',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 

@@ -26,6 +26,7 @@
 		is: 'mm-scroll-panel',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.DomMutable,
 			StrandTraits.MouseWheelable,
 		],

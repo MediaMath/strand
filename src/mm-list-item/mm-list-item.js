@@ -10,7 +10,11 @@
 
 		is: "mm-list-item",
 
-		behaviors: [ StrandTraits.DomMutable, StrandTraits.Resizable ],
+		behaviors: [ 
+			StrandTraits.Resolvable, 
+			StrandTraits.DomMutable, 
+			StrandTraits.Resizable
+		],
 
 		properties: {
 			selected: { 

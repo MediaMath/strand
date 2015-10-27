@@ -4,6 +4,7 @@
 		is: 'mm-menu',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.PositionablePanel,

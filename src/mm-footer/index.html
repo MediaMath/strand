@@ -88,72 +88,72 @@
 				display: block;
 				float: left;
 			}
+
+			mm-footer[unresolved],
+			mm-action[unresolved],
+			mm-button[unresolved],
+			mm-checkbox[unresolved] {
+				display:none;
+			}
 		</style>
 	</head>
 	<body>
 
 		<div class="col cX">
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer>
-					<mm-button>
-						<label>Save</label>
-					</mm-button>
-				</mm-footer>
-			<hr/>
-			<p><span class="bold">Footer:</span> Semi-Transparent</p>
-				<mm-footer semi-transparent>
+				<mm-footer unresolved>
 					<mm-button>
 						<label>Save</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Display Message / Multiple Buttons</p>
-				<mm-footer id="tf1">
-					<mm-action id="closeLink" underline="true">
+				<mm-footer id="tf1" unresolved>
+					<mm-action id="closeLink" underline unresolved>
 						<label>Close</label>
 					</mm-action>
-					<mm-button id="saveAndClose">
+					<mm-button id="saveAndClose" unresolved>
 						<label>Save &amp; Close</label>
 					</mm-button>
-					<mm-button id="saveAndAdd">
+					<mm-button id="saveAndAdd" unresolved>
 						<label>Save &amp; Add Another</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="warning" message="Some message content" message-visible>
-					<mm-button>
+				<mm-footer id="tf2" type="warning" message="Some message content" message-visible="true" unresolved>
+					<mm-button unresolved>
 						<label>Close</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="error" message="Some message content" message-visible>
-					<mm-button>
+				<mm-footer id="tf2" type="error" message="Some message content" message-visible="true" unresolved>
+					<mm-button unresolved>
 						<label>Close</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="info" message="Some message content" message-visible>
-					<mm-button>
+				<mm-footer id="tf2" type="info" message="Some message content" message-visible="true" unresolved>
+					<mm-button unresolved>
 						<label>Close</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="success" message="Some message content" message-visible>
-					<mm-button>
+				<mm-footer id="tf2" type="success" message="Some message content" message-visible="true" unresolved>
+					<mm-button unresolved>
 						<label>Close</label>
 					</mm-button>
 				</mm-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2">
-					<mm-checkbox class="left">
+				<mm-footer id="tf2" unresolved>
+					<mm-checkbox class="left" unresolved>
 						<label>Don't show again</label>
 					</mm-checkbox>
-					<mm-button>
+					<mm-button unresolved>
 						<label>Close</label>
 					</mm-button>
 				</mm-footer>

@@ -10,6 +10,7 @@
 		is: 'mm-input',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable,
 			StrandTraits.Validatable
 		],

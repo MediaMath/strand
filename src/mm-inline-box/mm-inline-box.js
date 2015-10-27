@@ -40,6 +40,10 @@
 			}
 		},
 
+		behaviors:[
+			StrandTraits.Resolvable
+		],
+
 		LINE_HEIGHT: 18,
 		TYPE_DEFAULT: "default",
 		TYPE_MESSAGE: "message",

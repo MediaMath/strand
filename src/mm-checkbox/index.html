@@ -83,6 +83,10 @@
 				float: left;
 			}
 
+			mm-checkbox[unresolved] {
+				display: none;
+			}
+
 			mm-checkbox:not(:last-child) {
 				margin-right: 20px;
 			}
@@ -100,26 +104,26 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Checkbox:</span> group default</p>
-			<mm-checkbox id="cbxv" validation="checked"></mm-checkbox>
-			<mm-checkbox id="cbxjq">
+			<mm-checkbox id="cbxv" validation="checked" unresolved></mm-checkbox>
+			<mm-checkbox id="cbxjq" unresolved>
 				<label>Checkbox With Label</label>
 			</mm-checkbox>
-			<mm-checkbox state="partial"></mm-checkbox>
-			<mm-checkbox checked="true"></mm-checkbox>
-			<mm-checkbox checked="true" disabled="true"></mm-checkbox>
+			<mm-checkbox state="partial" unresolved></mm-checkbox>
+			<mm-checkbox checked="true" unresolved></mm-checkbox>
+			<mm-checkbox checked="true" disabled="true" unresolved></mm-checkbox>
 			<hr/>
 			<p><span class="bold">Checkbox:</span> custom icon</p>
-			<mm-checkbox icon="chart"></mm-checkbox>
-			<mm-checkbox class="check-cbx" checked="true" icon="check">
+			<mm-checkbox icon="chart" unresolved></mm-checkbox>
+			<mm-checkbox class="check-cbx" checked="true" icon="check" unresolved>
 				<label>Check me out</label>
 			</mm-checkbox>
 			<hr/>
 			<p><span class="bold">Checkbox:</span> State set programmatically</p>
-			<mm-checkbox id="cbp" disabled><label>parent</label></mm-checkbox>
+			<mm-checkbox id="cbp" disabled unresolved><label>parent</label></mm-checkbox>
 			<br/>
-			<mm-checkbox id="cbc1" class="cbc"><label>Child 1</label></mm-checkbox>
-			<mm-checkbox id="cbc2" class="cbc"><label>Child 2</label></mm-checkbox>
-			<mm-checkbox id="cbc3" class="cbc"><label>Child 3</label></mm-checkbox>
+			<mm-checkbox id="cbc1" class="cbc" unresolved><label>Child 1</label></mm-checkbox>
+			<mm-checkbox id="cbc2" class="cbc" unresolved><label>Child 2</label></mm-checkbox>
+			<mm-checkbox id="cbc3" class="cbc" unresolved><label>Child 3</label></mm-checkbox>
 			<hr/>
 		</div>
 		<div class="vr"></div>

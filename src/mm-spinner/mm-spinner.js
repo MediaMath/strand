@@ -31,6 +31,7 @@
 		is: 'mm-spinner',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 		

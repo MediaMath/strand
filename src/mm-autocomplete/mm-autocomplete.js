@@ -81,6 +81,7 @@
 		},
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable,
 			StrandTraits.KeySelectable,
 			StrandTraits.Stackable,

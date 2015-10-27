@@ -10,6 +10,7 @@
 		is: 'mm-textarea',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable,
 			StrandTraits.Validatable
 		],

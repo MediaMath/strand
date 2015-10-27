@@ -10,6 +10,7 @@
 		is: 'mm-button',
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 		

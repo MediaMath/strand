@@ -82,63 +82,67 @@
 				display: block;
 				float: left;
 			}
+
+			mm-input[unresolved] {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Input:</span> Default</p>
-			<mm-input id="test"></mm-input>
+			<mm-input id="test" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> with clear</p>
-			<mm-input id="ci" placeholder="Clear" clear="true"></mm-input>
+			<mm-input id="ci" placeholder="Clear" clear="true" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> with search</p>
-			<mm-input placeholder="Search" search="true"></mm-input>
+			<mm-input placeholder="Search" search="true" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span>  with clear and search and fit to parent</p>
-			<mm-input id="ic" placeholder="Icon and Clear" icon="calendar" clear="true" fitparent></mm-input>
+			<mm-input id="ic" placeholder="Icon and Clear" icon="calendar" clear="true" fitparent unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span>  with clear, search and width</p>
-			<mm-input placeholder="Search and Clear" search="true" clear="true" overflow="visible" width="250"></mm-input>
+			<mm-input placeholder="Search and Clear" search="true" clear="true" overflow="visible" width="250"unresolved></mm-input>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Input:</span> value attr set</p>
-			<mm-input value="value"></mm-input>
+			<mm-input value="value" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate not empty</p>
-			<mm-input placeholder="empty" validation="empty"></mm-input>
+			<mm-input placeholder="empty" validation="empty" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate int</p>
-			<mm-input placeholder="int" validation="int|empty|whitespace"></mm-input>
+			<mm-input placeholder="int" validation="int|empty|whitespace" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate decimal and fit to parent</p>
-			<mm-input placeholder="decimal" validation="decimal" fitparent="true"></mm-input>
+			<mm-input placeholder="decimal" validation="decimal" fitparent="true" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate not empty spaces</p>
-			<mm-input placeholder="decimal" validation="blank" fitparent="true"></mm-input>
+			<mm-input placeholder="decimal" validation="blank" fitparent="true" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span>  with clear, search, fit to parent</p>
-			<mm-input id="searchInput" placeholder="Search, Clear &amp; Fit" search="true" clear="true" fitparent></mm-input>
+			<mm-input id="searchInput" placeholder="Search, Clear &amp; Fit" search="true" clear="true" fitparent unresolved></mm-input>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Input:</span> validate email</p>
-			<mm-input placeholder="Email" validation="email"></mm-input>
+			<mm-input placeholder="Email" validation="email" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate alpha</p>
-			<mm-input placeholder="Alpha" validation="alpha"></mm-input>
+			<mm-input placeholder="Alpha" validation="alpha" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> validate attr empty</p>
-			<mm-input placeholder="" validation=""></mm-input>
+			<mm-input placeholder="" validation="" unresolved></mm-input>
 			<hr/>
 			<p><span class="bold">Input:</span> disabled and fit to parent</p>
-			<mm-input placeholder="" disabled="true" fitparent=""></mm-input>	
+			<mm-input placeholder="" disabled="true" fitparent="" unresolved></mm-input>	
 			<hr/>
 			<p><span class="bold">Input:</span> password and fit to parent</p>
-			<mm-input placeholder="" type="password" fitparent=""></mm-input>	
+			<mm-input placeholder="" type="password" fitparent="" unresolved></mm-input>	
 			<hr/>
 		</div>
 		<script>

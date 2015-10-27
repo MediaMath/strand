@@ -10,6 +10,7 @@
 		is:"mm-icon",
 
 		behaviors: [
+			StrandTraits.Resolvable,
 			StrandTraits.Stylable
 		],
 

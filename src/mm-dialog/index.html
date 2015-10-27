@@ -88,6 +88,12 @@
 			.cbc {
 				margin-top: 10px;
 			}
+
+			mm-dialog[unresolved],
+			mm-button[unresolved],
+			mm-dropdown[unresolved] {
+				display:none;
+			}
 		</style>
 	</head>
 	<body>
@@ -96,18 +102,18 @@
 
 				<mm-dialog id="testDialog"
 					type="{{dialogType}}"
-					header="Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.">
+					header="Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world." unresolved>
 					<p>It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people's hats off—then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.</p>
 				</mm-dialog>
 			
-				<mm-dropdown value="{{dialogType}}" placeholder="Choose Dialog Type">
-					<mm-list-item value="info">Info</mm-list-item>
-					<mm-list-item value="success">Success</mm-list-item>
-					<mm-list-item value="warning">Warning</mm-list-item>
-					<mm-list-item value="error">Error</mm-list-item>
+				<mm-dropdown value="{{dialogType}}" placeholder="Choose Dialog Type" unresolved>
+					<mm-list-item value="info" unresolved>Info</mm-list-item>
+					<mm-list-item value="success" unresolved>Success</mm-list-item>
+					<mm-list-item value="warning" unresolved>Warning</mm-list-item>
+					<mm-list-item value="error" unresolved>Error</mm-list-item>
 				</mm-dropdown>
 
-				<mm-button id="showBtn" disabled="{{!dialogType}}">
+				<mm-button id="showBtn" disabled="{{!dialogType}}" unresolved>
 					<label>Show Dialog</label>
 				</mm-button>
 			
@@ -115,7 +121,7 @@
 
 
 			<mm-dialog id="td2"
-				header="Call me Ishmael">
+				header="Call me Ishmael" unresolved>
 				<p>Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.</p>
 			</mm-dialog>
 

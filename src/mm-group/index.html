@@ -5,7 +5,6 @@
 		<link rel="import" href="../mm-icon/mm-icon.html">
 		<link rel="import" href="../mm-button/mm-button.html">
 		<link rel="import" href="../mm-radio/mm-radio.html">
-		<link rel="import" href="../mm-checkbox/mm-checkbox.html">
 		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
 		<link rel="import" href="../mm-input/mm-input.html">
 		<link rel="import" href="../mm-autocomplete/mm-autocomplete.html">
@@ -89,12 +88,16 @@
 				display: block;
 				float: left;
 			}
+
+			mm-group[unresolved] {
+				display: none;
+			}
 		</style>
 	</head>
-	<body unresolved>
+	<body>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary)</p>
-			<mm-group id="removeMe">
+			<mm-group id="removeMe" unresolved>
 				<mm-button type="secondary"><label>S</label></mm-button>
 				<mm-button type="secondary"><label>M</label></mm-button>
 				<mm-button type="secondary"><label>T</label></mm-button>
@@ -105,7 +108,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Button Group:</span> Horizontal (Primary)</p>
-			<mm-group align="horizontal">
+			<mm-group align="horizontal" unresolved>
 				<mm-button type="primary">
 					<mm-icon type="favorite" width="15" height="15" shapeRendering="auto" optimize="true"></mm-icon>
 				</mm-button>
@@ -120,7 +123,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Horizontal</p>
-			<mm-group align="" group="myRadGroup">
+			<mm-group align="" group="myRadGroup" unresolved>
 				<mm-radio checked="true" value="rad0">
 					<label>Rad Group Item 1</label>
 				</mm-radio>
@@ -131,9 +134,9 @@
 					<label>Rad Group Item 3</label>
 				</mm-radio>			
 			</mm-group>
-			<hr/>
+ 			<hr/>
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary) with fit to parent</p>
-			<mm-group horizontal fitparent>
+			<mm-group horizontal fitparent unresolved>
 				<mm-button type="secondary"><label>Sun</label></mm-button>
 				<mm-button type="secondary"><label>Mon</label></mm-button>
 				<mm-button type="secondary"><label>Tues</label></mm-button>
@@ -144,7 +147,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Horizontal with fit to parent</p>
-			<mm-group align fitparent="true">
+			<mm-group align fitparent="true" unresolved>
 				<mm-radio checked="true">
 					<label>Radio Group Item 1</label>
 				</mm-radio>
@@ -157,7 +160,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> Default</p>
-			<mm-group>
+			<mm-group unresolved>
 				<mm-dropdown placeholder="select one">
 					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
@@ -168,7 +171,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> CSS width set for Dropdown &amp; Input</p>
-			<mm-group align="horizontal">
+			<mm-group align="horizontal" unresolved>
 				<mm-dropdown placeholder="select one" fitparent="true" style="width:150px;">
 					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
@@ -179,7 +182,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> Fit to parent default</p>
-			<mm-group align fitparent="true">
+			<mm-group align fitparent unresolved>
 				<mm-dropdown placeholder="select one" fitparent="true">
 					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
 					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
@@ -190,7 +193,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span>  Reverse</p>
-			<mm-group align fitparent="true">
+			<mm-group align fitparent unresolved>
 				<mm-autocomplete id="si3" placeholder="search and clear" search="true" clear="true" fitparent="true"></mm-autocomplete>	
 				<mm-dropdown placeholder="select one" fitparent="true">
 					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
@@ -201,7 +204,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Mixed Grouping:</span></p>
-			<mm-group>
+		    <mm-group unresolved>
 				<mm-button type="secondary">
 					<mm-icon type="minus" width="10" height="10"></mm-icon>
 				</mm-button>
@@ -210,12 +213,12 @@
 					<mm-icon type="plus" width="10" height="10"></mm-icon>
 				</mm-button>
 			</mm-group>
-			<hr/>
+    		<hr/>-->
 		</div>
 		<div class="vr"></div>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Vertical (Secondary)</p>
-			<mm-group align="vertical">
+			<mm-group align="vertical" unresolved>
 				<mm-button type="secondary"><label>S</label></mm-button>
 				<mm-button type="secondary"><label>M</label></mm-button>
 				<mm-button type="secondary"><label>T</label></mm-button>
@@ -226,20 +229,20 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Vertical</p>
-			<mm-group align="vertical">
+			<mm-group align="vertical" unresolved>
 				<mm-radio checked="true">
 					<label>Rad Group Item 1</label>
 				</mm-radio>
 				<mm-radio>
 					<label>Rad Group Item 2</label>
-				</mm-radio>
+				</mm-radio>	
 				<mm-radio>
 					<label>Rad Group Item 3</label>
-				</mm-radio>
+				</mm-radio>			
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Button Group:</span> Vertical (Secondary) with fit to parent</p>
-			<mm-group align="vertical" fitparent>
+			<mm-group align="vertical" fitparent unresolved>
 				<mm-button type="secondary"><label>Sunday</label></mm-button>
 				<mm-button type="secondary"><label>Monday</label></mm-button>
 				<mm-button type="secondary"><label>Tuesday</label></mm-button>
@@ -250,7 +253,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Vertical with fit to parent</p>
-			<mm-group align="vertical" fitparent="stuff">
+			<mm-group align="vertical" fitparent unresolved>
 				<mm-radio checked="true">
 					<label>Radio Group Item 1</label>
 				</mm-radio>
@@ -263,7 +266,7 @@
 			</mm-group>
 			<hr/>
 			<p><span class="bold">Mixed Grouping:</span></p>
-			<mm-group>
+		    <mm-group unresolved>
 				<mm-button type="secondary">
 					<mm-icon type="minus" width="10" height="10"></mm-icon>
 				</mm-button>
@@ -277,14 +280,7 @@
 					<mm-icon type="plus" width="11" height="11"></mm-icon>
 				</mm-button>
 			</mm-group>
-			<hr/>
-			<p><span class="bold">Mixed Grouping:</span></p>
-			<mm-checkbox></mm-checkbox>
-			<mm-group>
-				<mm-input width="65" placeholder="Width"></mm-input>
-				<mm-input width="65" placeholder="Height"></mm-input>
-			</mm-group>
-			<hr/>
+    		<hr/>
 		</div>
 		<script>
 			var si1,

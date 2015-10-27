@@ -12,7 +12,7 @@
 			background: #eee;
 		}
 
-		*[unresolved] {
+		mm-item-recycler[unresolved] {
 			display: none;
 		}
 
@@ -45,7 +45,7 @@
   <body>
 	<button id="switch">toggle</button>
 	<div id="toggle" style="display: none">
-		<mm-item-recycler id="itemRecycler" item-template="templateItem">
+		<mm-item-recycler id="itemRecycler" item-template="templateItem" unresolved>
 			<template id="templateItem">
 				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 					<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>

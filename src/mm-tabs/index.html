@@ -87,11 +87,15 @@
 				display: block;
 				float: left;
 			}
+
+			mm-tabs[unresolved] {
+				display: none;
+			}
 		</style>
   </head>
   <body>
   	<div style="padding-right: 20px;">
-		<mm-tabs tab-bar-offset="4" id="tabSection" tab-bar-position="left">
+		<mm-tabs tab-bar-offset="4" id="tabSection" tab-bar-position="left" unresolved>
 			<mm-tab id="ext" tab-label="External URL with tabs" icon="apps" url="tab-content.html"></mm-tab>
 			<mm-tab tab-label="Content in Light DOM" icon="pixels" active>
 				<div class="col c4">

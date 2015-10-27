@@ -28,6 +28,10 @@
 			}
 		},
 
+		behaviors:[
+			StrandTraits.Resolvable
+		],
+
 		showMessage: function() {
 			this.messageVisible = true;
 		},
