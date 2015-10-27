@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<mm-tag-list id="tl"></mm-tag-list>
+	<mm-tag-list id="tl2" data='[{"name":"test1"},{"name":"test2"},{"name":"test3"},{"name":"test4"}]'></mm-tag-list>
+	<mm-tag-list id="tl3" data='[{"name":"test1"},{"name":"test2"},{"name":"test3"},{"name":"test4"}]'></mm-tag-list>
+
+	<script type="text/javascript">
+
+		describe("mm-tag-list", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.TagList();
+				a.nodeName.should.equal("MM-TAG-LIST");
+			});
+			
+			it("should create tags", function(done) {
+				var tl = document.querySelector('#tl');
+				tl.data = [{name: "test1"},{name: "test2"},{name: "test3"},{name: "test4"}];
+				flush(function() {
+					should.exist(Polymer.dom(tl.root).querySelector('.tag'));
+					done();
+				});
+			});
+
+			it("should remove tag when 'x' is clicked", function() {
+				var tl2 = document.querySelector('#tl2');
+				Polymer.dom(tl2.root).querySelector('mm-icon').click();
+				tl2.data.length.should.equal(3);
+			});
+
+			it("should hide the dragged tag and create a placeholder on drag", function() {
+				var tl3 = document.querySelector('#tl3');
+				should.not.exist(tl3._placeholder);
+				var fake = {
+					target: Polymer.dom(tl3.root).querySelector('.tag')
+				};
+				tl3._handleDrag(fake);
+				tl3._tagToMove.style.opacity.should.equal('0');
+				should.exist(tl3._placeholder);
+			});
+
+			it("should move the placeholder on dragenter", function() {
+				var tl3 = document.querySelector('#tl3');
+				var fake = {
+					x: 0,
+					y: 0,
+					target: Polymer.dom(tl3.root).querySelectorAll('.tag')[3]
+				};
+				tl3._handleDragenter(fake);
+				tl3._placeholder.nextElementSibling.should.equal(fake.target);
+			});
+
+			it("should remove the placeholder and move the tag on dragend", function() {
+				var tl3 = document.querySelector('#tl3');
+				tl3._handleDragend();
+				var tags = Polymer.dom(tl3.root).querySelectorAll('.tag');
+				tags[2].querySelector('span').textContent.should.equal('test1');
+				should.not.exist(tl3._tagToMove);
+				should.not.exist(tl3._placeholder);				
+			});
+		});
+
+	</script>
+
+</body>
+</html>

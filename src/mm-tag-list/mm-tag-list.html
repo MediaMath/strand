@@ -1,0 +1,25 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/js/rectangle.html"/>
+<link rel="import" href="../shared/behaviors/selectable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
+
+<dom-module id="mm-tag-list">
+	<link rel="import" type="css" href="mm-tag-list.css"/>
+	<template>
+		<ul id="list">
+			<template id="repeater" is="dom-repeat" items="{{data}}" sort="_compareItems">
+				<li class="tag" draggable="{{sortable}}" on-drag="_handleDrag" on-dragend="_handleDragend" on-dragenter="_handleDragenter"><span>{{item.name}}</span><mm-icon height="8" width="8" on-tap="_removeTag" type="delete"></mm-icon></li>
+			</template>
+		</ul>
+	</template>
+</dom-module>
+<script src="mm-tag-list.js"></script>
