@@ -7,12 +7,15 @@ var gutil = require('gulp-util');
 var del = require('del');
 var sass = require('gulp-sass');
 var rename = require('gulp-rename');
+var merge = require('merge-stream');
 var path = require('path');
 var vulcanize = require('gulp-vulcanize');
 var hogan = require('gulp-hogan');
 var debug = require('gulp-debug');
 var run = require('run-sequence');
 var htmlmin = require('gulp-minify-html');
+var wrap = require('gulp-wrap');
+var inlineAssets = require('gulp-inline-assets');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -29,29 +32,22 @@ gulp.task('copy', function() {
 		.pipe(gulp.dest(BUILD));
 });
 
-
 gulp.task('sass', function() {
 	return gulp.src(SRC + 'mm-*/*.scss')
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
+		.pipe(gulp.dest(BUILD))
+		.pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
+		.pipe(rename({basename:"style", extname: ".html"}))
 		.pipe(gulp.dest(BUILD));
 });
 
-gulp.task('fontcss', function() {
+gulp.task('font', function() {
 	return gulp.src(SRC + 'shared/fonts/fonts.scss')
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
-		.pipe(gulp.dest(BUILD + 'shared/fonts/'));
-});
-
-gulp.task('fontinclude', function() {
-
-	var font=fs.readFileSync(BUILD + 'shared/fonts/fonts.css', 'utf8');
-	return gulp.src(TEMPLATES + 'font_template.html')
-		.pipe(debug())
-		.pipe(hogan({style:font}, {}, '.html'))
+		.pipe(gulp.dest(BUILD + 'shared/fonts/'))
+		.pipe(wrap("<style><%= contents %></style>"))
 		.pipe(rename("fonts.html"))
-		.pipe(debug())
 		.pipe(gulp.dest(BUILD + '/shared/fonts/'));
-	
 });
 
 gulp.task('vulcanize', function() {
