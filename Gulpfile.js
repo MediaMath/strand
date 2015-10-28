@@ -10,7 +10,6 @@ var rename = require('gulp-rename');
 var merge = require('merge-stream');
 var path = require('path');
 var vulcanize = require('gulp-vulcanize');
-var hogan = require('gulp-hogan');
 var debug = require('gulp-debug');
 var run = require('run-sequence');
 var htmlmin = require('gulp-minify-html');
@@ -28,7 +27,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('copy', function() {
-	return gulp.src(['**/*.+(html|js|woff)', '!**/example.html'], {base:SRC})
+	return gulp.src(['**/*.+(html|js|woff)', '!**/example.html'], {base:SRC,buffer:true})
 		.pipe(gulp.dest(BUILD));
 });
 
@@ -51,15 +50,28 @@ gulp.task('font', function() {
 });
 
 gulp.task('vulcanize', function() {
-	return gulp.src(BUILD + "mm-*/mm-*.html")
+	var modules = gulp.src(BUILD + "mm-*/mm-*.html")
 		.pipe(vulcanize({
-				inlineScripts:true,
-				inlineCss:true,
-				stripExcludes:false
+			inlineScripts:true,
+			inlineCss:true,
+			stripExcludes:false,
+			excludes: {
+				imports: ['.*\.html','polymer.html']
+			}
 		}))
 		.pipe(gulp.dest(BUILD));
+	var lib = gulp.src(BUILD + "strand.html")
+		.pipe(vulcanize({
+			inlineScripts:true,
+			inlineCss:true,
+			stripExcludes:false
+		}));
+	return merge(modules, lib);
 });
 
+gulp.task('default', function(cb) {
+	run('clean','copy',['sass','font'],'vulcanize',cb);
+});
 
 gulp.task('vulcanize:prod', function() {
 	return gulp.src(BUILD + "mm-*/mm-*.html")
