@@ -37,5 +37,18 @@
     "marked": "^0.3.3",
     "time-grunt": "^1.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-hogan": "^1.2.0",
+    "gulp-minify-html": "^1.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.0",
+    "gulp-util": "^3.0.7",
+    "gulp-vulcanize": "^6.0.1",
+    "gulp-wrap": "^0.11.0",
+    "hogan": "^1.0.2",
+    "run-sequence": "^1.1.4"
+  }
 }
