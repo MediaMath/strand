@@ -44,28 +44,32 @@ gulp.task('font', function() {
 	return gulp.src(SRC + 'shared/fonts/fonts.scss')
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(gulp.dest(BUILD + 'shared/fonts/'))
-		.pipe(wrap("<style><%= contents %></style>"))
-		.pipe(rename("fonts.html"))
+		.pipe(wrap("<style>{{{contents}}}</style>",{},{engine:"hogan"}).on('error',console.log))
+		.pipe(rename("fonts.html").on('error',console.log))
 		.pipe(gulp.dest(BUILD + '/shared/fonts/'));
 });
 
 gulp.task('vulcanize', function() {
+	console.log("vulcanize start")
 	var modules = gulp.src(BUILD + "mm-*/mm-*.html")
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
 			stripExcludes:false,
-			excludes: {
-				imports: ['.*\.html','polymer.html']
-			}
-		}))
+			// excludes: {
+			// 	imports: ['.*\.html','polymer.html']
+			// }
+		}).on('error',console.log))
 		.pipe(gulp.dest(BUILD));
 	var lib = gulp.src(BUILD + "strand.html")
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
-			stripExcludes:false
-		}));
+			stripExcludes:false,
+			// excludes: {
+			// 	imports: ['.*\.html','polymer.html']
+			// }
+		}).on('error',console.log));
 	return merge(modules, lib);
 });
 
