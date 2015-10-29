@@ -55,10 +55,10 @@ gulp.task('vulcanize', function() {
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
-			stripExcludes:false,
-			// excludes: {
-			// 	imports: ['.*\.html','polymer.html']
-			// }
+			stripExcludes:true,
+			excludes: {
+				imports: ['polymer.html']
+			}
 		}).on('error',console.log))
 		.pipe(gulp.dest(BUILD));
 	var lib = gulp.src(BUILD + "strand.html")
