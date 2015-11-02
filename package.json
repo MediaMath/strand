@@ -35,9 +35,7 @@
     "grunt-vulcanize": "^1.0.0",
     "load-grunt-tasks": "*",
     "marked": "^0.3.3",
-    "time-grunt": "^1.2.1"
-  },
-  "dependencies": {
+    "time-grunt": "^1.2.1",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-debug": "^2.1.2",
@@ -50,6 +48,7 @@
     "gulp-wrap": "^0.11.0",
     "hogan.js": "^3.0.2",
     "merge-stream": "^1.0.0",
-    "run-sequence": "^1.1.4"
+    "run-sequence": "^1.1.4",
+    "glob": "^5.0.15"
   }
 }

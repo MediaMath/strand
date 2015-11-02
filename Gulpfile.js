@@ -3,6 +3,7 @@
 
 var fs = require('fs');
 var gulp = require('gulp');
+var glob = require('glob');
 var gutil = require('gulp-util');
 var del = require('del');
 var sass = require('gulp-sass');
@@ -21,6 +22,8 @@ var BUILD = 'build/';
 var DOCS = 'build_docs/';
 var DIST = 'dist/';
 var TEMPLATES = 'grunt/templates/'; //TODO swap to gulp
+
+/** BUILD **/
 
 gulp.task('clean', function() {
 	return del(BUILD, DOCS, DIST);
@@ -56,12 +59,16 @@ gulp.task('vulcanize', function() {
 			inlineCss:true,
 			stripExcludes:true,
 			excludes: {
-				imports: ['polymer.html']
+				imports: ['.*polymer\.html']
 			}
+		}))
+		.pipe(htmlmin({
+			quotes: true,
+			empty: true,
+			spare: true
 		}))
 		.pipe(gulp.dest(BUILD));
 	var lib = gulp.src(BUILD + "strand.html")
-		.pipe(debug())
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
@@ -93,6 +100,16 @@ gulp.task('vulcanize:prod', function() {
 		.pipe(gulp.dest(BUILD));
 });
  
+/** DOCS **/
+
+gulp.task('docs', function() {
+	var modules = glob.sync("mm-*", {cwd:SRC});
+});
+
+/** LIVE **/
+
 gulp.task('sass:watch', function () {
  gulp.watch('./sass/**/*.scss', ['sass']);
 });
+
+/** DEPLOY **/
