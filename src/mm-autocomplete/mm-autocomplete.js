@@ -202,6 +202,8 @@
 				});
 
 				this.fire('changed', { value: value });
+				
+				this.selectedIndex = null;
 			}
 
 			if (this.state === this.STATE_OPENED) this.close();
