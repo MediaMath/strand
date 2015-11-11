@@ -3,10 +3,18 @@
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
     <link rel="import" href="mm-input-mask.html">
+    <style type="text/css">
+
+        mm-input-mask[unresolved]{
+          display: none;
+        }
+
+    </style>
   </head>
+
   <body>
 
-    <mm-input-mask placeholder="(123) 123-1234">
+    <mm-input-mask placeholder="(123) 123-1234" unresolved>
       <sep chars="("></sep>
       <group rule="range" restrict="numeric" size="3">100-999</group>
       <sep chars=") "></sep>
@@ -15,7 +23,7 @@
       <group rule="range" restrict="numeric" size="4">1000-9999</group>
     </mm-input-mask>
 
-    <mm-input-mask placeholder="(ABC) DEF-GHIJ">
+    <mm-input-mask placeholder="(ABC) DEF-GHIJ" unresolved>
       <sep chars="("></sep>
       <group rule="all" restrict="alphaNumeric" size="3"></group>
       <sep chars=") "></sep>
@@ -24,7 +32,7 @@
       <group rule="all" restrict="alphaNumeric" size="4"></group>
     </mm-input-mask>
 
-    <mm-input-mask value="(123) 123-1234">
+    <mm-input-mask value="(123) 123-1234" unresolved>
       <sep chars="("></sep>
       <group rule="range" restrict="numeric" size="3">100-999</group>
       <sep chars=") "></sep>
@@ -33,13 +41,13 @@
       <group rule="range" restrict="numeric" size="4">1000-9999</group>
     </mm-input-mask>
 
-    <mm-input-mask value="12:12">
+    <mm-input-mask value="12:12" unresolved>
       <group rule="hour12" size="2" autofill="0" restrict="numeric"></group>
       <sep chars=":"></sep>
       <group rule="minutes" size="2" autofill="0" restrict="numeric"></group>
     </mm-input-mask>
 
-    <mm-input-mask value="03/12/1992">
+    <mm-input-mask value="03/12/1992" unresolved>
       <group rule="range" size="2" autofill="0" restrict="numeric"></group>
       <sep chars="/"></sep>
       <group rule="range" size="2" autofill="0" restrict="numeric"></group>
@@ -47,7 +55,7 @@
       <group rule="range" size="4" autofill="20" restrict="numeric"></group>
     </mm-input-mask>
 
-    <mm-input-mask placeholder="MM/DD/YYYY">
+    <mm-input-mask placeholder="MM/DD/YYYY" unresolved>
       <group rule="range" size="2" autofill="0" restrict="numeric"></group>
       <sep chars="/"></sep>
       <group rule="range" size="2" autofill="0" restrict="numeric"></group>
