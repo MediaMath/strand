@@ -5,16 +5,16 @@
 
 */
 (function(){
-	function _getVendorStyle(property, value) {
-		var obj = {},
-			uppercaseProp = property.charAt(0).toUpperCase() + property.slice(1);
-
-		obj["-webkit" + uppercaseProp] = value;
-		obj["-moz" + uppercaseProp] = value;
-		obj["-ms" + uppercaseProp] = value;
-		obj["-o" + uppercaseProp] = value;
-		obj[property] = value;
-
+	function _getVendorStyle(styles) {
+		var obj = {};
+		for(var property in styles) {
+			var uppercaseProp = property.charAt(0).toUpperCase() + property.slice(1);
+			obj["-webkit" + uppercaseProp] = styles[property];
+			obj["-moz" + uppercaseProp] = styles[property];
+			obj["-ms" + uppercaseProp] = styles[property];
+			obj["-o" + uppercaseProp] = styles[property];
+			obj[property] = styles[property];
+		}
 		return obj;
 	}
 
@@ -95,7 +95,13 @@
 				animationSteps = this.numTicks,
 				animationState = this.paused ? "paused" : "running";
 
-			this.spinnerAnimation = _getVendorStyle("animation", "spin " + animationTime + "s steps(" + animationSteps + ", end) " + animationState + " infinite");
+			this.spinnerAnimation = _getVendorStyle({
+				animationName: "spin",
+				animationDuration: animationTime+"s",
+				animationTimingFunction: "steps(" + animationSteps + ", end)",
+				animationPlayState: animationState,
+				animationIterationCount: "infinite",
+			});
 		},
 
 		resetAnimation: function() {
