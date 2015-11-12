@@ -8,6 +8,7 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../mm-spinner/mm-spinner.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html">
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 
@@ -16,6 +17,7 @@
 	<template>
 		<div class$="{{ updateClass(fitparent, error, type) }}">
 			<content select="mm-icon" id="icon"></content>
+			<content select="mm-spinner" id="spinner"></content>
 			<content select="label"></content>
 		</div>
 	</template>

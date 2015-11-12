@@ -3,6 +3,7 @@
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="mm-button.html">
+		<link rel="import" href="../mm-spinner/mm-spinner.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -126,6 +127,12 @@
 			<p><span class="bold">Button:</span> Primary with icon</p>
 			<mm-button unresolved>
 				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
+				<label>button title here</label>
+			</mm-button>
+			<hr/>
+			<p><span class="bold">Button:</span> Primary with spinner</p>
+			<mm-button unresolved>
+				<mm-spinner fill-color="#003C71"></mm-spinner>
 				<label>button title here</label>
 			</mm-button>
 			<hr/>
