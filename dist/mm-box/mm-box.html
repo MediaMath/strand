@@ -5,18 +5,14 @@
 
 -->
 <link rel="import" href="../../../polymer/polymer.html"/>
-<link rel="import" href="../shared/fonts/fonts.html"/>
-<link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
 
-<dom-module id="mm-action">
-	<link rel="import" type="css" href="mm-action.css"/>
+<dom-module id="mm-box">
+	<link rel="import" type="css" href="mm-box.css"/>
 	<template>
-		<a href="{{href}}" target="{{target}}" class$="{{ updateClass(underline) }}">
-			<content select="mm-icon" id="icon"></content>
-			<content select="label"></content>
-		</a>
+		<content></content>
 	</template>
 </dom-module>
-<script src="mm-action.js"></script>
+<script src="mm-box.js"></script>

@@ -19,16 +19,14 @@
 		model.cId = ++collection._cidIndex;
 	}
 
-	function _triggerDataEvent(instance) {
-		instance.dispatchEvent(new CustomEvent("data-changed"));
-	}
+	var _eventPrefix = "data-";
 
 	scope.Collection = function(data, opts, sync) {
+		this._eventPrefix = _eventPrefix;
 		this._cidIndex = 0;
 		this.data = data || [];
 		this._opts = opts;
 		this._sync = sync || new Sync();
-
 	};
 
 	scope.Collection.prototype = {
@@ -55,7 +53,7 @@
 			});
 			if (check.length === 0 || force) {
 				this.data.push(model);
-				if (!silent) _triggerDataEvent(this);
+				if (!silent) this.fire("changed", {instance:this, data:this.data});
 				return model;
 			} else {
 				throw(new Error("Model Conflict - matching id's, use force flag to add manually"));
@@ -129,6 +127,20 @@
 			}
 		},
 
+		_handleResponse: function(e) {
+			this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
+			this.fire("changed", {instance:this, data:this.data});
+		},
+
+		get _sync() {
+			return this.__sync;
+		},
+
+		set _sync(inp) {
+			this.__sync = inp;
+			this.__sync.addEventListener("data-saved", this._handleResponse.bind(this));
+		},
+
 		get connection() {
 			return this._sync;
 		},
@@ -139,6 +151,14 @@
 
 		get count() {
 			return this._count || this.length;
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
 		},
 
 		toJSON: function() {

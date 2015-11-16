@@ -101,7 +101,10 @@
 
 		ready: function() {
 			//TODO: determine a better way of passing this change through
-			this._sync.addEventListener("data-saved", function() { this.fire("data-changed") }.bind(this));
+			this._sync.addEventListener("data-saved", function() { 
+				this.data = this._sync.data;
+				this.fire("data-changed");
+			}.bind(this));
 		},
 
 		get: function(data, options) {
@@ -180,12 +183,9 @@
 			this._sync.data = input;
 		}
 	};
-	scope.Syncable = [
-		scope.DomGettable,
-		scope.Falsifiable,
-		scope.DomSyncable,
-		Syncable,
-	];
+	
+	scope.Syncable = Syncable;
+
 }(window.StrandTraits = window.StrandTraits || {}));
 
 </script>

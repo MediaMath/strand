@@ -1,5 +1,42 @@
 ## Change Log
 
+### v2.0.1 (2015/11/16 21:50 +00:00)
+- [c50c873](https://github.com/MediaMath/strand/commit/c50c873a4a240b76659e56b75d384301fc1c92d2) Allow mm-spinner in mm-button (@shuwen)
+
+### v1.1.4 (2015/11/12 20:10 +00:00)
+- [5576519](https://github.com/MediaMath/strand/commit/55765199f9aa2b3fbdb93db69416bb08334fbb20) Revert to previous polymer and webcomponentsjs versions (@anthonykoerber)
+- [bb5736c](https://github.com/MediaMath/strand/commit/bb5736c0d66963708be01b656692350645da0d76) Add mm-box to strand (@anthonykoerber)
+- [70c4607](https://github.com/MediaMath/strand/commit/70c46072f8b902eddf4a5c6422cd9369deefdf9d) Reset mm-autocomplete selectedIndex after user makes selection (@shuwen)
+- [af8b3f4](https://github.com/MediaMath/strand/commit/af8b3f49a01887fc4eb69d0a5ce3e373a45bf37b) Add Resolvable behavior to all visual components (@anthonykoerber)
+- [e175091](https://github.com/MediaMath/strand/commit/e175091db9ce4b1cc13a83f0eb4119ec438c6fb3) Implement mm-file-upload component (@shuwen)
+- [d269fa3](https://github.com/MediaMath/strand/commit/d269fa3fa9125c9aae417bb8790b8667996d9204) better checking (@dlasky)
+- [df7021d](https://github.com/MediaMath/strand/commit/df7021d7f74d7c6c04b0f7c7ae14dec2d06d1611) update to 1.2.0 (@dlasky)
+- [fc7f32a](https://github.com/MediaMath/strand/commit/fc7f32acb22dbd6e49bb0af12988f8bc2af1aacf) Add semi-transparent bg setting to mm-footer (@anthonykoerber)
+- [e43fc03](https://github.com/MediaMath/strand/commit/e43fc03638340ccbabe71bf4a40e88cd39660871) style double input group (@anthonykoerber)
+- [32f2877](https://github.com/MediaMath/strand/commit/32f287775d501fdb9b05dac6f8dd2eb5b2a3dd51) mm-inline-box host attribute styling workaround for safari (@anthonykoerber)
+- [c781bd6](https://github.com/MediaMath/strand/commit/c781bd63026ef86e49da8de6959baac2d46110a4) fixes to collection/model syncing (@dlasky)
+- [5208c73](https://github.com/MediaMath/strand/commit/5208c73bff92cd3d49cdfce3baa6a2e6538ca1dd) docs mobile fix / finesse (@anthonykoerber)
+- [c954669](https://github.com/MediaMath/strand/commit/c9546691f39851fad6cad6a27665fd038fdcb553) event handling improvements to object evented stuff (@dlasky)
+- [0a16b61](https://github.com/MediaMath/strand/commit/0a16b61ecfcf8176f5a138baa06ba95b04b49ba3) fixed collection event passthrough (@dlasky)
+- [c2e9de0](https://github.com/MediaMath/strand/commit/c2e9de06db0d00ec8f4565636bedc92c86329a56) event passthrough (@dlasky)
+- [8312e48](https://github.com/MediaMath/strand/commit/8312e4855346eebd3735550ac88bee661305c129) fixed up model/sync integration so data is passed properly (@dlasky)
+- [26cf775](https://github.com/MediaMath/strand/commit/26cf775718d90a12f2923cca6ef0f19d833b142e) Add four new icons to mm-icon (@anthonykoerber)
+- [d4fd45d](https://github.com/MediaMath/strand/commit/d4fd45d7d6bee737ead200eec86778988a3bec61) Make grid/scope change events more complete
+- [e2384b4](https://github.com/MediaMath/strand/commit/e2384b42851a5aa32b7de9e3176c33600ba5f460) Fix jerkiness in mm-tooltip by setting _target.style.pointerEvents in NonScrollable (@shuwen)
+- [b99d2a5](https://github.com/MediaMath/strand/commit/b99d2a5a0e36445d2c84d4edbec621e30ef4975f) Wrap mm-tab callback call inside async() (@shuwen)
+- [ad3911a](https://github.com/MediaMath/strand/commit/ad3911a9dfa438399f9077e373c2bef4d9c871ed) Update mm-tab doc and add example (@shuwen)
+- [4781497](https://github.com/MediaMath/strand/commit/478149703c9f48ed5226fbb438b242459519c831) Added  event to mm-tab doc (@shuwen)
+- [cad2c43](https://github.com/MediaMath/strand/commit/cad2c43b9ce4961dc69506df52d0abbe70c6f729) Modified loading from external path in mm-tab (@shuwen)
+- [509c38f](https://github.com/MediaMath/strand/commit/509c38f127ce3664519f40727337d3cce36cee94) added build timing (@dlasky)
+- [47c0190](https://github.com/MediaMath/strand/commit/47c019078639b5c3ebeffa452a3ca297d9927e96) Fix grids loading without data
+- [6be6b44](https://github.com/MediaMath/strand/commit/6be6b444b4614ed326f99bb2bb70170aa2b415e9) Avoid unnecessary close (@anthonykoerber)
+- [d056443](https://github.com/MediaMath/strand/commit/d056443f076d49e82cfbd69e278d5b382de7a8d0) Restore NonScrollable in Closable (@anthonykoerber)
+- [3c5c964](https://github.com/MediaMath/strand/commit/3c5c96478f4455bdfd42a8c0a290827d3c02d650) patch for racing events in recycled scenarios (@dlasky)
+- [3d19d5d](https://github.com/MediaMath/strand/commit/3d19d5d5d4ec4d131c5df2b18e23194df7c83971) modifications to AutoTogglable (@anthonykoerber)
+- [36c29db](https://github.com/MediaMath/strand/commit/36c29db4fdddac271de42972c7d265b06956c17b) mm-grid fixes and testing (@anthonykoerber)
+- [5ddef3f](https://github.com/MediaMath/strand/commit/5ddef3ff1b69c42fbd7e575435c52ea268bd6244) lighter scroll blocking approach (@dlasky)
+- [aa02ff8](https://github.com/MediaMath/strand/commit/aa02ff825f9f86e9091d4529fd44a6dfa2c8f13f) Release v2.0.0 (@dlasky)
+
 ### v2.0.0 (2015/10/01 00:32 +00:00)
 - [050c1d3](https://github.com/MediaMath/strand/commit/050c1d36529e6c75de08ad944d1fb0cc9a0bd827) Positionable fixes (@anthonykoerber)
 - [fa5d1eb](https://github.com/MediaMath/strand/commit/fa5d1eb1c6e4ef7c938ed77b942699e750bd59f3) Remove underscore from mm-menu example in mm-grid example (@anthonykoerber)
@@ -321,24 +358,24 @@
 - [abb08c0](https://github.com/MediaMath/strand/commit/abb08c07604dcee29d23b9be286dc666005032fd) fixes to mm-dropdown (@anthonykoerber)
 - [a17b9db](https://github.com/MediaMath/strand/commit/a17b9db60db0634f8f64d599943718b8675feb6f) split domgettable into two behaviors (@anthonykoerber)
 - [37c0316](https://github.com/MediaMath/strand/commit/37c0316a27ca08a48567db665742ff9cf4b6a8e0) test for polymer namespace (@anthonykoerber)
-- [c51309a](https://github.com/MediaMath/strand/commit/c51309ac382b26bc6e2c1b1b9e16185538efd7dd) recycled dropdown WIP (@anthonykoerber)
+- [f5b7d46](https://github.com/MediaMath/strand/commit/f5b7d46b5710d6fed2a7ea29b5a604beefa749bc) Getting recycler working with dropdown (@anthonykoerber)
 - [cd3b979](https://github.com/MediaMath/strand/commit/cd3b979efbd98c31ae6477557443a26dbb7d4351) set the height of the recycler (@anthonykoerber)
 - [ac7b8e8](https://github.com/MediaMath/strand/commit/ac7b8e85e34ba3a4d68c61840b95d8a40e80ef1a) fix sizeresponsible css issues (@anthonykoerber)
 - [54cb03d](https://github.com/MediaMath/strand/commit/54cb03d009892a558abe7e4111d224fca75a04b5) various fixes (@anthonykoerber)
-- [3f0dfb6](https://github.com/MediaMath/strand/commit/3f0dfb67f43dde483ac87aab8b660818d979ee19) mm-group functional complete (@anthonykoerber)
-- [f5b7d46](https://github.com/MediaMath/strand/commit/f5b7d46b5710d6fed2a7ea29b5a604beefa749bc) Getting recycler working with dropdown (@anthonykoerber)
+- [c51309a](https://github.com/MediaMath/strand/commit/c51309ac382b26bc6e2c1b1b9e16185538efd7dd) recycled dropdown WIP (@anthonykoerber)
 - [3c64757](https://github.com/MediaMath/strand/commit/3c64757e74a78273e147c2104253e956d0b9b2e3) Make recycler position static an correctly sized
-- [9d5b1ee](https://github.com/MediaMath/strand/commit/9d5b1ee5cc64e5fe46ba51bdd18b7b8cb06c7cc1) change computed value method
-- [9a4c65e](https://github.com/MediaMath/strand/commit/9a4c65ea8b61c0bd5b0b39b0b609a772152f3ec2) initial port of mm-grid-item
+- [3f0dfb6](https://github.com/MediaMath/strand/commit/3f0dfb67f43dde483ac87aab8b660818d979ee19) mm-group functional complete (@anthonykoerber)
 - [9bc25e0](https://github.com/MediaMath/strand/commit/9bc25e0780faece25ddc0bc46de952c6f19c4da9) Genericize selectable for use in mm-group (@anthonykoerber)
 - [7c9f349](https://github.com/MediaMath/strand/commit/7c9f3498765c2c17fa605408e8338befa33dfdb8) Add basic recycler implementation for 1.0
 - [5446a87](https://github.com/MediaMath/strand/commit/5446a873a6b308c32f590ec66723331f36d5a8eb) attempt getting items to update on resize
-- [2005b2f](https://github.com/MediaMath/strand/commit/2005b2f1c66717b02e6abfaf3e0b3d38b8078809) switch grid dev page to webcomponents-lite
+- [9d5b1ee](https://github.com/MediaMath/strand/commit/9d5b1ee5cc64e5fe46ba51bdd18b7b8cb06c7cc1) change computed value method
 - [e80c88e](https://github.com/MediaMath/strand/commit/e80c88e33d82c616c41c239e74803891029e93f9) integrate ported grid-item into mm-grid
-- [f440854](https://github.com/MediaMath/strand/commit/f4408541483538d9c0f77d7940057344b4c7b880) rename computed sort class method
+- [9a4c65e](https://github.com/MediaMath/strand/commit/9a4c65ea8b61c0bd5b0b39b0b609a772152f3ec2) initial port of mm-grid-item
+- [2005b2f](https://github.com/MediaMath/strand/commit/2005b2f1c66717b02e6abfaf3e0b3d38b8078809) switch grid dev page to webcomponents-lite
 - [54b40f7](https://github.com/MediaMath/strand/commit/54b40f754d39a85b39e65dc7691eeb646c3fab00) initial port of mm-grid
-- [3ceeee2](https://github.com/MediaMath/strand/commit/3ceeee290a98e6c812d4ddb5558bb7cb6e9d299a) initial port of mm-grid-column
 - [04d90ff](https://github.com/MediaMath/strand/commit/04d90ff2fa374d3bc265f6383fc0c33660f270a9) set grid-column default resize to false
+- [f440854](https://github.com/MediaMath/strand/commit/f4408541483538d9c0f77d7940057344b4c7b880) rename computed sort class method
+- [3ceeee2](https://github.com/MediaMath/strand/commit/3ceeee290a98e6c812d4ddb5558bb7cb6e9d299a) initial port of mm-grid-column
 - [755e80b](https://github.com/MediaMath/strand/commit/755e80b1b41a0434018b41b50455a0480e4131ac) paging (@dlasky)
 - [0d8ef78](https://github.com/MediaMath/strand/commit/0d8ef78ce9ae7b5241a80cfabd91f7dca78298f1) fixes for behaviorutils + tests (@dlasky)
 - [c421188](https://github.com/MediaMath/strand/commit/c421188c293c296a70be995ffce99228e39b71f0) Ignore resizing of post-mortem recycled panels
@@ -460,14 +497,14 @@
 - [621359e](https://github.com/MediaMath/strand/commit/621359ee0c4a182153cc79818a7a6c143ee81314) modal port (@dlasky)
 - [f2c8e2b](https://github.com/MediaMath/strand/commit/f2c8e2b50b15cf497f456af39aacbe2d31bccb88) mm-footer complete (@anthonykoerber)
 - [3a06770](https://github.com/MediaMath/strand/commit/3a06770d9c8a360bde82bd36afc468214750d293) mm-checkbox docs update for 1.0 port (@anthonykoerber)
-- [110e8af](https://github.com/MediaMath/strand/commit/110e8af7773ace7632fb174394b93d0d08f525f5) porting stack manager to behavior (@dlasky)
+- [bda1ca6](https://github.com/MediaMath/strand/commit/bda1ca6ff06df7570fa948032b1bd0b8f8efd822) move dev pages to wclite (@dlasky)
 - [aeb2431](https://github.com/MediaMath/strand/commit/aeb24318c684ce1e0b9d9710b832a5b30890c221) mm-checkbox port to 1.0 (@anthonykoerber)
 - [ed40be1](https://github.com/MediaMath/strand/commit/ed40be1c1cef0294667244eae9439f0c44c089c1) use webcomponents-lite in mm-button index (@anthonykoerber)
-- [bda1ca6](https://github.com/MediaMath/strand/commit/bda1ca6ff06df7570fa948032b1bd0b8f8efd822) move dev pages to wclite (@dlasky)
+- [f4306b0](https://github.com/MediaMath/strand/commit/f4306b05224232fd4697b0a6cd2d2777734c9902) remove strand stub and window notifier from lib (@dlasky)
 - [696184e](https://github.com/MediaMath/strand/commit/696184ef2abcafe01979d3b07681fec1fa5489d6) stackable fixes (@dlasky)
 - [85f8b59](https://github.com/MediaMath/strand/commit/85f8b59ddfd21dd7a0d60f0ab852a957ff8dd6f0) fix a naming conflict with native method (derp) (@dlasky)
 - [9faf714](https://github.com/MediaMath/strand/commit/9faf714ab02212163a4183f02f19ae1f743bb4fe) refactor mm-inline-box to polymer 1.0
-- [f4306b0](https://github.com/MediaMath/strand/commit/f4306b05224232fd4697b0a6cd2d2777734c9902) remove strand stub and window notifier from lib (@dlasky)
+- [110e8af](https://github.com/MediaMath/strand/commit/110e8af7773ace7632fb174394b93d0d08f525f5) porting stack manager to behavior (@dlasky)
 - [f983815](https://github.com/MediaMath/strand/commit/f983815be119ad4dad4fdfb45b4cc5bf0709f617) namespace library code to StrandLib.xyz (@dlasky)
 - [10be620](https://github.com/MediaMath/strand/commit/10be620acd7cad1880b5852af3c5dab2a7155752) moving window notifier to behavior (@dlasky)
 - [554c9b6](https://github.com/MediaMath/strand/commit/554c9b6d97262f6c757c4782c6a09b6a18107ff0) add headers (oops) (@dlasky)

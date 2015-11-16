@@ -39,7 +39,7 @@
 	}
 
 	function Ajax(options) {
-
+		this._eventPrefix = _eventPrefix;
 		this.recent = {};
 		this.requests = [];
 		this.options = StrandLib.DataUtils.copy({},{
@@ -118,21 +118,28 @@
 		abort: function() {
 			if (this.current) {
 				this.current.abort();
-				this.dispatchEvent(new CustomEvent(_eventPrefix + "abort", {instance:this}));
+				// this.dispatchEvent(new CustomEvent(_eventPrefix + "abort", {instance:this}));
+				this.fire("abort", {instance:this});
 			}
 		},
 
 		abortQueue: function(queueName) {
 			_getQueue(queueName).running.abort();
-			this.dispatchEvent(new CustomEvent(_eventPrefix + "abort-queue", {instance:this}));
+			this.fire("abort-queue", {instance:this});
+			// this.dispatchEvent(new CustomEvent(_eventPrefix + "abort-queue", {instance:this}));
 		},
 
 		handleProgress: function(e) {
-			this.dispatchEvent(new CustomEvent(_eventPrefix + "progress", {
+			// this.dispatchEvent(new CustomEvent(_eventPrefix + "progress", {
+			// 	percent: e.totalSize/e.position,
+			// 	total: e.totalSize,
+			// 	current: e.position
+			// }));
+			this.fire("progress", {
 				percent: e.totalSize/e.position,
 				total: e.totalSize,
 				current: e.position
-			}));
+			});
 		},
 
 		addHeader: function(name, value) {
@@ -221,7 +228,8 @@
 				try {
 					data = JSON.parse(data);
 				} catch(e) {
-					this.dispatchEvent(new CustomEvent(_eventPrefix + "error", {error:e, instance:this}));
+					this.fire("error", {error:e, instance:this});
+					// this.dispatchEvent(new CustomEvent(_eventPrefix + "error", {error:e, instance:this}));
 				}
 			}
 			if ( StrandLib.DataUtils.isType(data, "array") ) {
@@ -237,6 +245,14 @@
 			}
 
 			return output;
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
 		},
 
 		get status() {

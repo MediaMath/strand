@@ -9,6 +9,7 @@
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../mm-icon/mm-icon.html"/>
 <link rel="import" href="../shared/js/measure.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="import" href="../shared/behaviors/validatable.html"/>
 
@@ -21,7 +22,8 @@
 			placeholder="{{placeholder}}" 
 			value="{{value::input}}" 
 			maxlength$="{{maxlength}}" 
-			disabled="{{disabled}}" 
+			disabled="{{disabled}}"
+			readonly$="{{readonly}}" 
 			style$="{{ _updateStyle(icon, width, fitparent, clear) }}" />
 		<div id="icon" class="icon-holder" style$="{{ _updateIcon(icon, _clearVisible) }}">
 			<mm-icon type="{{icon}}" width="14" height="14"></mm-icon>

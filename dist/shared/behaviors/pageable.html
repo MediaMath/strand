@@ -21,7 +21,7 @@
 		properties: {
 			usePaging:{
 				type:Boolean,
-				value:true,
+				value:false,
 				observer:"_usePagingChanged"
 			},
 			page:{
@@ -85,6 +85,7 @@
 				pageSize:this.pageSize
 			};
 			this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging);
+
 
 			if (this.auto && this.auto !== "save" && this.page >= 0) {
 				if (this.autoDebounce !== -1) {

@@ -28,6 +28,7 @@
 
 	var globals = new Storage("globals","localStorage");
 	if (globals.value === null) globals.value = {};
+	var _eventPrefix = "data-";
 
 	function _getParamBase(obj) {
 		obj = obj || {};
@@ -63,17 +64,19 @@
 		}, init);
 	}
 
-	scope.Sync = function(endpoint, options, data, domHook) {
+	scope.Sync = function(endpoint, options, data, domHook, saveResponse) {
+		this._eventPrefix = _eventPrefix;
 		this.endpoint = endpoint || "/";
 		this.options = DataUtils.copy({
 			contentType:"application/x-www-form-urlencoded",
 			timeout:10000,
 			withCredentials:false,
-			concurrency:4
+			concurrency:4,
 		}, options);
 		this.data = data || {};
 
 		this.domHook = domHook;
+		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
 		this._plugin = new AjaxPlugin();
@@ -121,18 +124,18 @@
 
 		_handleResult: function(result) {
 
-			this.dispatchEvent(new CustomEvent("data-ready", result));
+			this.fire("ready", result);
 
 			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
 				this.data = result.marshalled;
-				this.dispatchEvent(new CustomEvent("data-saved", result));
+				this.fire("saved", result);
 			}
 		},
 
 		_handleError: function(error) {
-			this.dispatchEvent(new CustomEvent("data-error", error));
+			this.fire("error", error);
 		},
 
 		setGlobal: function(key, value) {
@@ -158,7 +161,15 @@
 
 		get pageConfig() {
 			return this._plugin.getConfig("page");
-		}
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
+		},
 	};
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);

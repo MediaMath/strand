@@ -7,67 +7,6 @@
 
 */
 (function(scope) {
-	// see: https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Listening_to_this_event_across_browser
-	var _onWheel = "onwheel" in document.createElement("div") ? "wheel" : null,
-		_onMouseWheel = document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll",
-		_support = _onWheel || _onMouseWheel,
-		_instance = null,
-		_previousOverflow = null,
-		Rectangle = StrandLib.Rectangle;
-
-
-	function _disableScroll(instance) {
-		_instance = instance;
-		window.addEventListener(_support, _handler, false);
-		window.addEventListener("keydown", _handler, false);
-
-	}
-
-	function _enableScroll() {
-		_instance = null;
-		window.removeEventListener(_support, _handler, false);
-		window.removeEventListener("keydown", _handler, false);
-
-	}
-
-	function _boundaryCheck(x, y, bounds) {
-		if (x >= bounds.x && x < bounds.x + bounds.width &&
-			y >= bounds.y && y < bounds.y + bounds.height) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function _nodeCheck(node) {
-		if (node.scrollHeight > node.offsetHeight) {
-			return true;
-		} else {
-			if (node.children.length > 0) {
-				return Array.prototype.slice.apply(node.children).map(_nodeCheck).reduce(function(t, p) { return t || p});
-			}
-		}
-		return false;
-	}
-
-	function _handler(e) {
-		var nc;
-		if (_instance && _instance._panel.___scrollable !== undefined) {
-			nc = _instance._panel.___scrollable;
-		} else {
-			nc = _instance && _nodeCheck(_instance._panel);
-			_instance._panel.___scrollable = nc;
-		}
-		var allow = _instance && _boundaryCheck(e.clientX, e.clientY, Rectangle.fromElement(_instance._panel));
-
-		if ( !allow || !nc) {
-			if (!e.keyCode || [37, 38, 39, 40].indexOf(e.keyCode) !== -1) {
-				e.preventDefault();
-				e.stopImmediatePropagation();
-				e.returnValue = false;  
-			}
-		}
-	}
 	
 	scope.NonScrollable = {
 		properties: {
@@ -77,23 +16,40 @@
 			}
 		},
 
-		observers:["_updateScroll(state)"],
+		observers:["_handleState(state)"],
 
-		_updateScroll: function(state) {
-			if (state === "opened") {
-				this.debounce("nonscrollable_d",this.disableScroll);
-			} else {
-				this.debounce("nonscrollable_e",this.enableScroll);
+		detached: function() {
+			this.style.pointerEvents = this.__oldInstancePointer  || "";
+			if(this._target && this._target.style) this._target.style.pointerEvents = this.__oldTargetPointer || "";
+			document.body.style.pointerEvents = this.__oldBodyPointer || "";
+		},
+
+		_handleState:function() {
+			if (this.disableScroll) {
+				this.debounce("nonscrollable", this._updateStyles);
 			}
 		},
 
-		disableScroll: function() {
-			if (this.disableScroll) _disableScroll(this);
+		_updateStyles: function() {
+			if (this.state === "opened") {
+				
+				this.__oldInstancePointer = this.style.pointerEvents;
+				this.style.pointerEvents = "all";
+
+				if(this._target && this._target.style) {
+					this.__oldTargetPointer = this._target.style.pointerEvents;
+					this._target.style.pointerEvents = "all";
+				}
+
+				this.__oldBodyPointer = document.body.style.pointerEvents;
+				document.body.style.pointerEvents = "none";
+			} else {
+				this.style.pointerEvents = this.__oldInstancePointer  || "";
+				if(this._target && this._target.style) this._target.style.pointerEvents = this.__oldTargetPointer || "";
+				document.body.style.pointerEvents = this.__oldBodyPointer || "";
+			}
 		},
-		
-		enableScroll: function() {
-			if (this.state === "closed" && this.disableScroll) _enableScroll();
-		}
+
 	};
 
 })(window.StrandTraits = window.StrandTraits || {});
