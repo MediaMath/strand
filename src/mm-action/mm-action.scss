@@ -10,6 +10,7 @@
 @import "_mixins";
 
 :host {
+	color: $color-D0;
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
@@ -26,7 +27,7 @@
 	@include display(inline-flex);
 	@include align-items(center);
 
-	color: $color-D0;
+	color: inherit;
 	cursor: pointer;
 	text-decoration: none;
 
@@ -44,13 +45,13 @@
 		line-height: 15px;
 		font-family: "ArimoRegular", sans-serif;
 		pointer-events: none;
-		color: $color-D0;
+		color: inherit;
 	}
 
 	& > ::content mm-icon {
 		pointer-events: none;
 		padding-right: 5px;
 		margin-top: -1px;
-		color: $color-D0;
+		color: inherit;
 	}
 }
