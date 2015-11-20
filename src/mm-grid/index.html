@@ -38,18 +38,6 @@
 </head>
 <body>
 
-	<!-- 
-	<style type="text/css">
-		:host {
-			display: block;
-			height: 100%;
-		}
-		mm-grid {
-			height: 100%;
-		}
-	</style> 
-	-->
-
 	<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate" unresolved>
 		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 		<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
@@ -58,7 +46,7 @@
 		<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 		<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 		<mm-grid-column width="10%" field="actions"></mm-grid-column>
-
+		<!-- Any custom template provided as lightDOM needs to be a Polymer element -->
 		<template is="custom-template" id="customTemplate">
 			<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
 			<mm-grid-item model="{{model}}" scope="{{scope}}">
@@ -152,13 +140,11 @@
 			});
 		}
 
-		// TODO: actually templatize it(?)
+		// Any custom template provided as lightDOM needs to be a Polymer element
 		HTMLImports.whenReady(function(){
 			Polymer({
-				is:'custom-template', 
-				behaviors: [
-				    Polymer.Templatizer
-				],
+				is:'custom-template',
+				extends: 'template'
 			});
 		});
 
