@@ -33,7 +33,8 @@
 		pointer-events: none;
 	}
 
-	& > ::content mm-icon + label {
+	& > ::content mm-icon + label,
+	& > ::content mm-spinner + label {
 		padding-left: 7px;
 	}
 
