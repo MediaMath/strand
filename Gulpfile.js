@@ -41,13 +41,17 @@ gulp.task('copy', function() {
 });
 
 gulp.task('sass', function() {
+	var wrapper = fs.readFileSync(TEMPLATES + "style_module_template.html");
 	return gulp.src(SRC + 'mm-*/*.scss')
 		// .pipe(cache())
 		.pipe(changed(BUILD, {extension:'.css'}))
-		.pipe(debug())
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(gulp.dest(BUILD))
-		.pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
+		// .pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
+		.pipe(wrap(function(data) {
+			data.fname = path.basename(data.file.relative,'.css');
+			return wrapper;
+		},{},{engine:"hogan"}))
 		.pipe(rename({basename:"style", extname: ".html"}))
 		.pipe(gulp.dest(BUILD));
 });
