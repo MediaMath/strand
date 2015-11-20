@@ -23,14 +23,6 @@
 				value: "2d",
 			},
 			data: Array,
-			_columns: {
-				type: Array,
-				value: function() {
-					return [];
-				},
-				notify: true,
-				observer: "_columnsChanged",
-			},
 			scope: {
 				type: Object,
 				notify: true,
@@ -45,16 +37,6 @@
 				type: String,
 				value: 'unchecked'
 			},
-			selectable: {
-				type: Boolean,
-				value: false,
-				observer: "_selectableChanged",
-			},
-			expandable: {
-				type: Boolean,
-				value: false,
-				observer: "_expandableChanged",
-			},
 			sortField: String,
 			sortOrder: {
 				type: Number,
@@ -67,6 +49,24 @@
 			expanded: {
 				type: Boolean,
 				value: false,
+			},
+			selectable: {
+				type: Boolean,
+				value: false,
+				observer: "_selectableChanged",
+			},
+			expandable: {
+				type: Boolean,
+				value: false,
+				observer: "_expandableChanged",
+			},
+			_columns: {
+				type: Array,
+				value: function() {
+					return [];
+				},
+				notify: true,
+				observer: "_columnsChanged",
 			}
 		},
 

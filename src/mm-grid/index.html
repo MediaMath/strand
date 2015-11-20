@@ -37,79 +37,81 @@
 	</style>
 </head>
 <body>
-		<!-- <style type="text/css">
-			:host {
-				display: block;
-				height: 100%;
-			}
-			mm-grid {
-				height: 100%;
-			}
-		</style> -->
-		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate" unresolved>
-			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-			<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
-			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
-			<mm-grid-column width="10%" field="actions"></mm-grid-column>
-			<template id="customTemplate">
-				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
-					<div field="actions">
 
-						<!--
-						<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
-						<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
-							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
-						</mm-tooltip>
-						-->
+	<!-- 
+	<style type="text/css">
+		:host {
+			display: block;
+			height: 100%;
+		}
+		mm-grid {
+			height: 100%;
+		}
+	</style> 
+	-->
 
-						<!--
-						<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
-						<mm-menu id="testMenu" direction="s" offset="15" target$="{{_createId('#menu', model.id)}}">
-							<mm-list-item value="m1">menu item 1</mm-list-item>
-							<mm-list-item value="m2">menu item 2</mm-list-item>
-							<mm-list-item value="m3">menu item 3</mm-list-item>
-							<mm-list-item value="m4">menu item 4</mm-list-item>
-							<mm-list-item value="m5">menu item 5</mm-list-item>
-						</mm-menu>
-						-->
-						
-						<mm-dropdown>
-							<mm-list-item>List Item</mm-list-item>
-							<mm-list-item>List Item</mm-list-item>
-							<mm-list-item>List Item</mm-list-item>
-							<mm-list-item>List Item</mm-list-item>
-						</mm-dropdown>
+	<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate" unresolved>
+		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+		<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+		<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+		<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
+		<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+		<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
+		<mm-grid-column width="10%" field="actions"></mm-grid-column>
 
-					</div>
-					<div field="name">
-						Creative - <span>{{model.name}}</span>
-					</div>
-					<div class="expansion">
-						<div class="expansion-row">
-							<div class="expansion-col">
-								<h4>Expanded Content</h4>
-								<span>{{model.name}}</span>
-							</div>
-							<div class="expansion-col">
-								<h4>Expanded Advertiser</h4>
-								<span>{{model.advertiser}}</span>
-							</div>
-							<div class="expansion-col">
-								<h4>Expanded Concept</h4>
-								<span>{{model.concept}}</span>
-							</div>
+		<template is="custom-template" id="customTemplate">
+			<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="actions">
+					<!--
+					<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
+					<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
+						<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
+					</mm-tooltip>
+					-->
+					<!--
+					<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
+					<mm-menu id="testMenu" direction="s" offset="15" target$="{{_createId('#menu', model.id)}}">
+						<mm-list-item value="m1">menu item 1</mm-list-item>
+						<mm-list-item value="m2">menu item 2</mm-list-item>
+						<mm-list-item value="m3">menu item 3</mm-list-item>
+						<mm-list-item value="m4">menu item 4</mm-list-item>
+						<mm-list-item value="m5">menu item 5</mm-list-item>
+					</mm-menu>
+					-->
+					<mm-dropdown>
+						<mm-list-item>List Item</mm-list-item>
+						<mm-list-item>List Item</mm-list-item>
+						<mm-list-item>List Item</mm-list-item>
+						<mm-list-item>List Item</mm-list-item>
+					</mm-dropdown>
+				</div>
+				<div field="name">
+					Creative - <span>{{model.name}}</span>
+				</div>
+				<div class="expansion">
+					<div class="expansion-row">
+						<div class="expansion-col">
+							<h4>Expanded Content</h4>
+							<span>{{model.name}}</span>
 						</div>
-						<div class="expansion-row">
-							<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
+						<div class="expansion-col">
+							<h4>Expanded Advertiser</h4>
+							<span>{{model.advertiser}}</span>
+						</div>
+						<div class="expansion-col">
+							<h4>Expanded Concept</h4>
+							<span>{{model.concept}}</span>
 						</div>
 					</div>
-				</mm-grid-item>
-			</template>
-		</mm-grid>
+					<div class="expansion-row">
+						<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
+					</div>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+
 	<script type="text/javascript">
 		var data = [],
 			columns = [
@@ -150,13 +152,23 @@
 			});
 		}
 
+		// TODO: actually templatize it(?)
+		HTMLImports.whenReady(function(){
+			Polymer({
+				is:'custom-template', 
+				behaviors: [
+				    Polymer.Templatizer
+				],
+			});
+		});
+
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
 
-			setTimeout(function () {
-				//app.data = data.slice(data.length >> 2, data.length >> 1);
-			}, 3000);
+			// setTimeout(function () {
+			// 	app.data = data.slice(data.length >> 2, data.length >> 1);
+			// }, 3000);
 		});
 	</script>
 </body>
