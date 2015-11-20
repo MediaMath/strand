@@ -26,7 +26,7 @@
 
 			#dpb {
 				position: absolute;
-				top: 50px;
+				top: 50%;
 				left: 50%;
 				margin-left: -65px;
 				margin-top: -15px;
@@ -72,7 +72,7 @@
 				<mm-list-item>c</mm-list-item>
 			</mm-dropdown>
 
-			<mm-button id="dpb" style="margin-top: 50vh" unresolved>
+			<mm-button id="dpb" unresolved>
 				<label>datepicker target</label>
 			</mm-button>
 			<mm-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb" unresolved></mm-datepicker>
@@ -143,9 +143,6 @@
 				dp.allowedStart = moment().subtract(14, 'days');
 				dp.allowedEnd = moment().add(14, 'days');
 
-				ddl = document.querySelector('#ddl');
-				ddl.value = 's';
-				// dp.direction = 'w';
 
 				// tmp = document.querySelector("#tmp");
 				// tmp.op = function() {
