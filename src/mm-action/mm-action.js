@@ -17,7 +17,7 @@
 		properties: {
 			href: {
 				type: String,
-				value: false,
+				value: 'javascript:void(0)',
 				reflectToAttribute: true
 			},
 			underline: {

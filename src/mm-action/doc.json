@@ -5,9 +5,9 @@
 		{
 			"name":"href",
 			"type":"String",
-			"description":"Used for defining a hypertext source link, just like an <a> element.",
+			"description":"Used for defining a hypertext source link, just like an <a> element. By default, assumes that the developer will want to control click interaction via js, unless an href is provided.",
 			"optional":true,
-			"default":"none",
+			"default":"javascript:void(0)",
 			"reflect": true
 		},
 		{
