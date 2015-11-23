@@ -6,6 +6,10 @@
 */
 @import "_mixins";
 
+:host {
+	height: 29px !important;
+}
+
 .button {
 	box-sizing: border-box;
 	@include user-select(none);
@@ -19,7 +23,7 @@
 	padding: 0 10px;
 	cursor: pointer;
 	margin: 0;
-	height: 29px;
+	height: inherit;
 	width: auto;
 
 	& > ::content label {

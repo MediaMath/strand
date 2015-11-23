@@ -16,7 +16,8 @@
 	vertical-align: middle;
 	position: relative;
 	font-size: 0em;
-	line-height: 0em;
+	height: 29px !important;
+	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
 }
 
 :host([disabled]) {
@@ -48,8 +49,8 @@
 
 .text-input {
 	box-sizing: border-box;
-	height: 29px;
-	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
+	height: inherit;
+	line-height: inherit; 
 	padding: 0 10px;
 }
 
