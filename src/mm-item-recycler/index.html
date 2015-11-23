@@ -46,7 +46,7 @@
 	<button id="switch">toggle</button>
 	<div id="toggle" style="display: none">
 		<mm-item-recycler id="itemRecycler" item-template="templateItem" unresolved>
-			<template id="templateItem">
+			<template is="custom-template" id="templateItem">
 				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
 					<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
 
@@ -105,6 +105,14 @@
 				}
 			});
 		}
+
+		// Any custom template provided as lightDOM needs to be a Polymer element
+		HTMLImports.whenReady(function(){
+			Polymer({
+				is:'custom-template',
+				extends: 'template'
+			});
+		});
 
 		window.addEventListener("WebComponentsReady", function() {
 			toggle = document.querySelector("#toggle");

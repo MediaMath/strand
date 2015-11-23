@@ -96,6 +96,14 @@
 		});
 	}
 
+	// Any custom template provided as lightDOM needs to be a Polymer element
+	HTMLImports.whenReady(function(){
+		Polymer({
+			is:'custom-template',
+			extends: 'template'
+		});
+	});
+
 	window.addEventListener("WebComponentsReady", function() {
 		grid1.data = grid1Data;
 		grid2.data = grid2Data;

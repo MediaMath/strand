@@ -97,14 +97,14 @@
   	<div style="padding-right: 20px;">
 		<mm-tabs tab-bar-offset="4" id="tabSection" tab-bar-position="left" unresolved>
 			<mm-tab id="ext" tab-label="External URL with tabs" icon="apps" url="tab-content.html"></mm-tab>
-			<mm-tab tab-label="Content in Light DOM" icon="pixels" active>
+			<mm-tab tab-label="Content in Light DOM" icon="pixels">
 				<div class="col c4">
 					<p>The ostensible reason why Ahab did not go on board of the whaler we had spoken was this: the wind and sea betokened storms. But even had this not been the case, he would not after all, perhaps, have boarded her&mdash;judging by his subsequent conduct on similar occasions&mdash;if so it had been that, by the process of hailing, he had obtained a negative answer to the question he put. For, as it eventually turned out, he cared not to consort, even for five minutes, with any stranger captain, except he could contribute some of that information he so absorbingly sought. But all this might remain inadequately estimated, were not something said here of the peculiar usages of whaling-vessels when meeting each other in foreign seas, and especially on a common cruising-ground.</p>
 				</div>
 			</mm-tab>
-			<mm-tab id="sameContent" tab-label="Same Content as Next Tab" url="tab-content-alt.html"></mm-tab>
-			<mm-tab id="jsContent" tab-label="JS Content Load"></mm-tab>
-			<mm-tab id="gridTest" tab-label="This one has a light dom grid">
+			<mm-tab id="sameContent" tab-label="Loaded template" url="tab-content-alt.html"></mm-tab>
+			<mm-tab id="jsContent" tab-label="Loaded template via JS" active></mm-tab>
+			<mm-tab id="gridTest" tab-label="LightDOM grid">
 				<mm-grid id="mmTestGrid1" selectable expandable item-template="customTemplate" style="width: 100%; height: 300px;">
 					<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 					<mm-grid-column width="20%" field="id" sort resize>Id</mm-grid-column>
@@ -112,25 +112,13 @@
 					<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
 					<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 					<mm-grid-column width="10%" field="actions"></mm-grid-column>
-					<template id="customTemplate">
+					<template is="custom-template" id="customTemplate">
 						<mm-grid-item model="{{model}}" scope="{{scope}}">
 							<div field="actions">
-								<!-- Using mm-tooltip in a custom grid item -->
 								<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
 								<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
 									<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 								</mm-tooltip>
-								<!-- Using mm-menu in a custom grid item - uncomment to try -->
-								<!--
-								<mm-icon type="actions" id="{{createId('menu', model.id)}}" width="15" height="15"></mm-icon>
-								<mm-menu id="testMenu" direction="s" offset="15" target$="{{createId('#menu', model.id)}}">
-									<mm-list-item value="m1">menu item 1</mm-list-item>
-									<mm-list-item value="m2">menu item 2</mm-list-item>
-									<mm-list-item value="m3">menu item 3</mm-list-item>
-									<mm-list-item value="m4">menu item 4</mm-list-item>
-									<mm-list-item value="m5">menu item 5</mm-list-item>
-								</mm-menu>
-								-->
 							</div>
 							<div field="name">
 								Creative - <span>{{model.name}}</span>
@@ -158,39 +146,25 @@
 					</template>
 				</mm-grid>
 			</mm-tab>
-
-
 		</mm-tabs>
 	</div>
 
 	<script>
 
-		document.addEventListener('WebComponentsReady', function() {
-
-		var grid1 = document.querySelector("#mmTestGrid1"),
-		grid1Data = [];
-
-		for(var i=0; i<33; i++) {
-			grid1Data.push({
-				id: i,
-				name: "Name",
-				content: "Content",
-				advertiser: "Advertiser No. " + i,
-				concept: "Concept No. " + i,
-				type: "swf",
-				file: "Creative_File_" + i + ".swf",
-				selected: false,
-				expanded: false
+		// Any custom template provided as lightDOM needs to be a Polymer element
+		HTMLImports.whenReady(function(){
+			Polymer({
+				is:'custom-template',
+				extends: 'template'
 			});
-		}
+		});
 
-		grid1.data = grid1Data;
-
-		document.querySelector('#jsContent').loadExternal('tab-content-alt.html', function(dataHost) {
-			var grid2Data = [];
+		document.addEventListener('WebComponentsReady', function() {
+			var grid1 = document.querySelector("#mmTestGrid1"),
+				grid1Data = [];
 
 			for(var i=0; i<33; i++) {
-				grid2Data.push({
+				grid1Data.push({
 					id: i,
 					name: "Name",
 					content: "Content",
@@ -203,9 +177,29 @@
 				});
 			}
 
-			dataHost.set("data",grid2Data);
+			grid1.data = grid1Data;
+
+			document.querySelector('#jsContent').loadExternal('tab-content-alt.html', function(dataHost) {
+				var grid2Data = [];
+
+				for(var i=0; i<33; i++) {
+					grid2Data.push({
+						id: i,
+						name: "Name",
+						content: "Content",
+						advertiser: "Advertiser No. " + i,
+						concept: "Concept No. " + i,
+						type: "swf",
+						file: "Creative_File_" + i + ".swf",
+						selected: false,
+						expanded: false
+					});
+				}
+
+				dataHost.set("data",grid2Data);
+			});
 		});
-	});
+
 	</script>
   </body>
 </html>
