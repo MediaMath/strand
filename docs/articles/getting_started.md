@@ -41,7 +41,7 @@ window.addEventListener("WebComponentsReady", function() {
 
 ## Migrating to Polymer 1.0
 
-Strand is now built on <a href="https://www.polymer-project.org/1.0/docs/">Polymer 1.0</a>. For details on breaking changes to the Strand APIs, see our <a href="/article_migration_guide.html">Migration guide</a>. For breaking changes between the 0.5 and 1.0 release of Polymer, see the <a href="https://www.polymer-project.org/1.0/docs/migration.html">Polymer migration guide</a>.
+Strand is now built on <a href="https://www.polymer-project.org/1.0/docs/">Polymer 1.0</a>. For details on breaking changes to the Strand APIs, see our <a href="article_migration_guide.html">Migration guide</a>. For breaking changes between the 0.5 and 1.0 release of Polymer, see the <a href="https://www.polymer-project.org/1.0/docs/migration.html">Polymer migration guide</a>.
 
 ## Specific Version
 
