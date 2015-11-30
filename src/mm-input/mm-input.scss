@@ -16,8 +16,6 @@
 	vertical-align: middle;
 	position: relative;
 	font-size: 0em;
-	height: 29px !important;
-	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
 }
 
 :host([disabled]) {
@@ -41,7 +39,6 @@
 	}
 }
 
-
 .clear-btn {
 	display: none;
 	cursor: pointer;	
@@ -49,8 +46,8 @@
 
 .text-input {
 	box-sizing: border-box;
-	height: inherit;
-	line-height: inherit; 
+	height: 29px !important;
+	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
 	padding: 0 10px;
 }
 
@@ -117,5 +114,24 @@
 
 	.text-input:focus {
 		box-shadow: none;
+	}
+}
+
+// support multiple size configurations
+:host([size='large']){
+	.text-input {
+		height: 46px !important;
+		font-size: 15px !important;
+		line-height: 2.875em !important;
+		padding: 0 15px;
+	}
+}
+
+:host([size='normal']){
+	.text-input {
+		height: 29px !important;
+		font-size: 13px !important;
+		line-height: 2.231em !important;
+		padding: 0 10px;
 	}
 }

@@ -43,6 +43,15 @@
 			"optional":true,
 			"default":"false",
 			"reflect":true
+		},
+		{
+			"name":"size",
+			"type":"String",
+			"description":"instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large')",
+			"optional":true,
+			"default":"none",
+			"options":["normal","large"],
+			"reflect":true
 		}
 	]
 }

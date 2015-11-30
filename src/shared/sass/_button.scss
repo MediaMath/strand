@@ -6,10 +6,6 @@
 */
 @import "_mixins";
 
-:host {
-	height: 29px !important;
-}
-
 .button {
 	box-sizing: border-box;
 	@include user-select(none);
@@ -23,7 +19,7 @@
 	padding: 0 10px;
 	cursor: pointer;
 	margin: 0;
-	height: inherit;
+	height: 29px !important;
 	width: auto;
 
 	& > ::content label {
@@ -168,5 +164,22 @@
 	
 	.button {
 		border-radius: 0px 0px 4px 4px;
+	}
+}
+
+// support multiple size configurations
+:host([size='large']){
+	.button {
+		height: 46px !important;
+		font-size: 15px !important;
+		padding: 0 15px;
+	}
+}
+
+:host([size='normal']){
+	.button {
+		height: 29px !important;
+		font-size: 13px !important;
+		padding: 0 10px;
 	}
 }
