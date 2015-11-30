@@ -9,7 +9,7 @@
 @import "_mixins";
 
 :host {
-	@include display(flex);
+	display: flex;
 	vertical-align: middle;
 	position: relative;
 	padding: 6px 10px;
@@ -24,10 +24,10 @@
 
 polyfill-next-selector { content: ':host > ._mm_container'; }
 ._mm_container {
-	@include user-select(none);
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(space-between);
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	font-family: "Arimo", sans-serif;
 	font-weight: bold;
 	font-size: 11px;
@@ -35,12 +35,12 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 	width: 100%;
 
 	&.right {
-		@include justify-content(end);
+		justify-content: end;
 	}
 
 	.left-items {
-		@include display(flex);
-		@include align-items(center);
+		display: flex;
+		align-items: center;
 	}
 }
 
@@ -54,16 +54,16 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 
 #info, #sort {
 	margin-left: 5px;
-	@include flex-shrink(0);
+	flex-shrink: 0;
 }
 
 #sort {
 	&.asc {
-		@include transform(scaleY(1));
+		transform: scaleY(1);
 	}
 
 	&.des{
-		@include transform(scaleY(-1));
+		transform: scaleY(-1);
 	}
 }
 

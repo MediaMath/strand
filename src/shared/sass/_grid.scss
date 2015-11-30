@@ -37,12 +37,12 @@
 
 		mm-icon {
 			cursor: pointer;
-			@include transform(rotate(-90deg));
+			transform: rotate(-90deg);
 		}
 
 		&.expanded {
 			mm-icon {
-				@include transform(rotate(0deg));
+				transform: rotate(0deg);
 			}
 		}
 	}

@@ -17,17 +17,17 @@
 }
 
 #tabBar {
-	@include display(flex);
-	@include align-items(stretch);
+	display: flex;
+	align-items: stretch;
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 
 	li {
-		@include display(flex);
-		@include flex-direction(row);
-		@include justify-content(center);
-		@include align-items(center);
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 		background: linear-gradient(#fff, $color-A12);
 		border: 1px solid $color-A20;
 		color: $color-A5;
@@ -66,7 +66,7 @@
 }
 
 #tabBar.left {
-	@include flex-direction(column);
+	flex-direction: column;
 	float: left;
 	margin-left: 10px;
 
@@ -76,8 +76,8 @@
 	}
 
 	li {
-		@include justify-content(flex-start);
-		@include flex-wrap(nowrap);
+		justify-content: flex-start;
+		flex-wrap: nowrap;
 		border-right: 0;
 		border-top-left-radius: 3px;
 		border-bottom-left-radius: 3px;

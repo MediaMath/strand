@@ -24,8 +24,8 @@
 }
 
 .action {
-	@include display(inline-flex);
-	@include align-items(center);
+	display: inline-flex;
+	align-items: center;
 
 	color: inherit;
 	cursor: pointer;

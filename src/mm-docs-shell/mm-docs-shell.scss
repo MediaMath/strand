@@ -44,8 +44,8 @@
 }
 
 .mobile-header-box {
-	@include display(flex);
-	@include align-items(center);
+	display: flex;
+	align-items: center;
 	
 	position: absolute;
 	left: 0;

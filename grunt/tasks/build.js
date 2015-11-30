@@ -68,6 +68,17 @@ module.exports = function(grunt) {
 			}
 		},
 
+		postcss: {
+			options: {
+				processors: [
+					require('autoprefixer')({browsers: 'last 2 versions'})
+				]
+			},
+			dist: {
+				src: '<%= build_dir %>/**/*.css'
+			}
+		},
+
 		uglify: {
 			dist: {
 				files: [{
@@ -324,6 +335,7 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dist',
+			'postcss',
 			'cssUrlEmbed', 
 			'style:imports',
 			'hogan_static:fonts',
@@ -339,6 +351,7 @@ module.exports = function(grunt) {
 			'clean:build',
 			'copy:build',
 			'sass:dev',
+			'postcss',
 			'style:imports',
 			'hogan_static:fonts',
 			'hogan_static:index'

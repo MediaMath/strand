@@ -8,10 +8,10 @@
 
 .button {
 	box-sizing: border-box;
-	@include user-select(none);
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(start);
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: start;
 	@include buttonFont();
 	text-transform: capitalize;
 	border: 1px solid;
@@ -71,7 +71,7 @@
 		color: $color-A2;
 		border-color: $color-A8;
 		background: $color-F0;
-		@include background-image(linear-gradient($color-F0, $color-A19));		
+		background-image: linear-gradient($color-F0, $color-A19);		
 	}
 
 	&.secondary:hover {
@@ -141,7 +141,7 @@
 :host([_layout=vgroup-center]),
 :host([_layout=vgroup-left]) {
 	.button {
-		@include justify-content(center);
+		justify-content: center;
 	}
 }
 
