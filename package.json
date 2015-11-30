@@ -14,6 +14,7 @@
   ],
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "autoprefixer": "^6.1.2",
     "del": "^2.0.2",
     "event-stream": "^3.3.2",
     "glob": "^5.0.15",
@@ -42,6 +43,7 @@
     "gulp-inline-assets": "^0.1.1",
     "gulp-marked": "^1.0.0",
     "gulp-minify-html": "^1.0.4",
+    "gulp-postcss": "^6.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",
     "gulp-util": "^3.0.7",

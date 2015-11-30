@@ -20,6 +20,8 @@ var marked = require('gulp-marked');
 var changed = require('gulp-changed');
 var es = require('event-stream');
 var cache = require('gulp-cached');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -46,6 +48,7 @@ gulp.task('sass', function() {
 		// .pipe(cache())
 		.pipe(changed(BUILD, {extension:'.css'}))
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
+		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(BUILD))
 		// .pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
 		.pipe(wrap(function(data) {
@@ -117,7 +120,7 @@ gulp.task('vulcanize:prod', function() {
 		}))
 		.pipe(gulp.dest(BUILD));
 });
- 
+
 /** DOCS **/
 
 gulp.task('docs', function() {
