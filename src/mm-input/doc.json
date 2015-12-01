@@ -94,7 +94,7 @@
 			"description":"instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large')",
 			"optional":true,
 			"default":"none",
-			"options":["normal","large"],
+			"options":["normal","large", "small"],
 			"reflect":true
 		}
 	],

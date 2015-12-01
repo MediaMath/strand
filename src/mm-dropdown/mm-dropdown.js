@@ -70,6 +70,10 @@
 				notify: true,
 				observer: '_dataChanged'
 			},
+			size: {
+				type: String,
+				reflectToAttribute: true
+			},
 			_layout: String
 		},
 

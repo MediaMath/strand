@@ -135,3 +135,12 @@
 		padding: 0 10px;
 	}
 }
+
+:host([size='small']){
+	.text-input {
+		height: 20px !important;
+		font-size: 11px !important;
+		line-height: 1.250em !important;
+		padding: 0 7px;
+	}
+}

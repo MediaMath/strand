@@ -171,15 +171,34 @@
 :host([size='large']){
 	.button {
 		height: 46px !important;
-		font-size: 15px !important;
 		padding: 0 15px;
+
+		& > ::content label {
+			font-size: 15px !important;
+			line-height: 45px !important;
+		}
 	}
 }
 
 :host([size='normal']){
 	.button {
 		height: 29px !important;
-		font-size: 13px !important;
 		padding: 0 10px;
+
+		& > ::content label {
+			@include buttonFont();
+		}
+	}
+}
+
+:host([size='small']){
+	.button {
+		height: 20px !important;
+		padding: 0 7px;
+
+		& > ::content label {
+			font-size: 11px!important;
+			line-height: 19px !important;
+		}
 	}
 }

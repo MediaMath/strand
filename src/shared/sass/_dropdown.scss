@@ -94,3 +94,40 @@ $border-color: $color-A18 !default;
 	    overflow-y: auto;
 	}
 }
+
+// support multiple size configurations
+:host([size='large']){
+	.button {
+		height: 46px !important;
+		padding: 0 32px 0 15px;
+
+		label {
+			font-size: 15px !important;
+			line-height: 45px !important;
+		}
+	}
+}
+
+:host([size='normal']){
+	.button {
+		height: 29px !important;
+		padding: 0 32px 0 10px;
+
+		label {
+			font-size: 13px!important;
+			line-height: 28px !important;
+		}
+	}
+}
+
+:host([size='small']){
+	.button {
+		height: 20px !important;
+		padding: 0 32px 0 7px;
+
+		label {
+			font-size: 11px!important;
+			line-height: 19px !important;
+		}
+	}
+}
