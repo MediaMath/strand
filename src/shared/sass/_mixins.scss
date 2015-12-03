@@ -9,10 +9,10 @@
 
 @mixin buttonFont() {
 	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
 	font-weight: 700;
 	font-size: 13px!important;
 	line-height: 28px !important;
+	@include fontSmoothing();
 }
 
 // fix for google's fit behavior

@@ -20,6 +20,10 @@
 				value: "primary",
 				reflectToAttribute: true
 			},
+			size: {
+				type: String,
+				reflectToAttribute: true
+			},
 			disabled: { 
 				type: Boolean,
 				value: false, 

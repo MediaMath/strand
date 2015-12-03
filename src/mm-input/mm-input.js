@@ -20,6 +20,10 @@
 				type: String,
 				value: false
 			},
+			size: {
+				type: String,
+				reflectToAttribute: true
+			},
 			placeholder: {
 				type: String,
 				reflectToAttribute: true
