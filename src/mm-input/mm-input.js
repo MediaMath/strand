@@ -13,7 +13,8 @@
 			StrandTraits.Resolvable,
 			StrandTraits.Stylable,
 			StrandTraits.Validatable,
-			StrandTraits.Refable
+			StrandTraits.Refable,
+			StrandTraits.Formable
 		],
 
 		properties: {
@@ -87,6 +88,7 @@
 			},
 			_layout: { 
 				type: String,
+				value: false, 
 				reflectToAttribute: true 
 			},
 			_clearVisible: {

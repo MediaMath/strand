@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<!-- <link rel="import" href="../../build/strand.html" /> -->
+	<link rel="import" href="../mm-dropdown/mm-dropdown.html" />
+	<link rel="import" href="../mm-input/mm-input.html" />
+	<link rel="import" href="../mm-inline-box/mm-inline-box.html" />
+	<link rel="import" href="../mm-header/mm-header.html" />
+	<link rel="import" href="mm-form.html" />
+	<style type="text/css">
+		body, html {
+			height: 100%;
+			min-height: 100%;
+		}
+
+		body {  
+			margin:0;
+			padding:0;
+			background: #eee;
+		}
+
+		.col {
+			box-sizing: border-box;
+			padding: 10px 0 10px 10px;
+		}
+
+		mm-form[unresolved] {
+			display: none;
+		}
+	</style>
+  </head>
+  <body>
+
+	<mm-form unresolved>
+		
+		<div class="col" span="1">
+			<mm-header size="medium">Header</mm-header>
+			<mm-input form-id="input"
+				fitparent 
+				placeholder="Type Here Bro"
+				error-target="#inputError"></mm-input>
+			<mm-inline-box id="inputError" type="error" fitparent>
+				You done messed up, now what?
+			</mm-inline-box>
+		</div>
+		<div class="col" span="1">
+			<mm-header size="medium">Header</mm-header>
+			<mm-dropdown form-id="dropdown"
+				fitparent 
+				placeholder="Select Here Bro" 
+				validate="empty"
+				error-target="#dropdownError">
+				<mm-list-item>List Item 1</mm-list-item>
+				<mm-list-item>List Item 2</mm-list-item>
+				<mm-list-item>List Item 3</mm-list-item>
+				<mm-list-item>List Item 4</mm-list-item>
+			</mm-dropdown>
+			<mm-inline-box id="dropdownError" type="error" fitparent>
+				You done messed up, now what?
+			</mm-inline-box>
+		</div>
+		<!-- 
+		<div class="col" span="1">
+			<mm-header size="medium">Header</mm-header>
+			<mm-input fitparent placeholder="Type Here Bro"></mm-input>
+		</div>
+		<div class="col" span="1">
+			<mm-header size="medium">Header</mm-header>
+			<mm-input fitparent placeholder="Type Here Bro"></mm-input>
+		</div>
+		-->
+	</mm-form>
+
+  </body>
+</html>
