@@ -1,0 +1,95 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	scope.PatternHelpable = {
+
+		properties: {
+			_pattern: {
+				type: Object,
+				computed: "_computePattern(patternHelper, patternHelper.pattern)",
+			},
+			patternHelper: Object,
+			patternHelpable: {
+				type: Object,
+				value: function () {
+					return this;
+				},
+				notify: true,
+			},
+			patternPriority: {
+				type: Array,
+				value: function () {
+					return [
+						"lightdom",
+						"import",
+						"bind",
+					];
+				},
+			},
+			patternBind: {
+				type: Object,
+				value: null,
+				notify: true,
+			},
+			patternSelector: {
+				type: String,
+				value: "template[is='dom-bind'],template[is='dom-template']", // use dom-template in dom-module
+				notify: true,
+			},
+			patternUri: {
+				type: String,
+				notify: true,
+			},
+			patternQuery: {
+				type: String,
+				value: "template[is='dom-bind']",
+				notify: true,
+			},
+		},
+
+		ready: function () {
+			// necessary because the binds/properties on nested elements might not be setup/notified in the right order
+			this.notifyPath("patternHelpable.patternPriority", this.patternPriority);
+			this.notifyPath("patternHelpable.patternBind", this.patternBind);
+			this.notifyPath("patternHelpable.patternSelector", this.patternSelector);
+			this.notifyPath("patternHelpable.patternUri", this.patternUri);
+			this.notifyPath("patternHelpable.patternQuery", this.patternQuery);
+		},
+
+		_computePattern: function (helper, pattern) {
+			return pattern;
+		},
+
+		hasPattern: function () {
+			return 0|!!this._pattern;
+		},
+
+		clonePattern: function () {
+			if (this._pattern &&
+				this._pattern instanceof HTMLTemplateElement &&
+				this._pattern.getAttribute("is") === "dom-bind") {
+				return this._pattern.cloneNode(true);
+			} else {
+				return null;
+			}
+		},
+
+		stampPattern: function (model) {
+			if (this._pattern &&
+				"function" === typeof this._pattern.stamp) {
+				return this._pattern.stamp(model);
+			} else {
+				return null;
+			}
+		},
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

@@ -37,17 +37,13 @@
 			}
 		},
 
-		behaviors: [Polymer.Templatizer],
-
 		_importNodes: function(importDoc) {
 			if(importDoc) {
-				var importTemplate = importDoc.querySelector('template');
-				this.templatize(importTemplate);
+				var importTemplate = importDoc.querySelector('template[is="dom-bind"]');
+				var instance = importTemplate.cloneNode(true);
+				Polymer.dom(this).appendChild(instance);
 
-				var instance = this.stamp();
-				Polymer.dom(this).appendChild(instance.root);
-
-				if(this._callback) this.async(this._callback.bind(this,instance));
+				if(this._callback) this.async(this._callback.bind(this, instance));
 
 				this._contentLoaded = true;
 
@@ -84,8 +80,8 @@
 		},
 
 		loadExternal: function(path, callback) {
-			this.url = path;
 			this._callback = callback;
+			this.url = path;
 		}
 
 	});

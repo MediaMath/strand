@@ -105,18 +105,18 @@
 			<mm-tab id="sameContent" tab-label="Loaded template" url="tab-content-alt.html"></mm-tab>
 			<mm-tab id="jsContent" tab-label="Loaded template via JS" active></mm-tab>
 			<mm-tab id="gridTest" tab-label="LightDOM grid">
-				<mm-grid id="mmTestGrid1" selectable expandable item-template="customTemplate" style="width: 100%; height: 300px;">
+				<mm-grid id="mmTestGrid1" selectable expandable style="width: 100%; height: 300px;">
 					<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 					<mm-grid-column width="20%" field="id" sort resize>Id</mm-grid-column>
 					<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
 					<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
 					<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 					<mm-grid-column width="10%" field="actions"></mm-grid-column>
-					<template is="custom-template" id="customTemplate">
+					<template is="dom-bind" id="customTemplate">
 						<mm-grid-item model="{{model}}" scope="{{scope}}">
 							<div field="actions">
-								<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
-								<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
+								<mm-icon width="15" height="15" type="actions" id="{{strConcat('tooltip', model.id)}}"></mm-icon>
+								<mm-tooltip model="{{model}}" target$="{{strConcat('#tooltip', model.id)}}">
 									<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 								</mm-tooltip>
 							</div>
@@ -151,14 +151,6 @@
 
 	<script>
 
-		// Any custom template provided as lightDOM needs to be a Polymer element
-		HTMLImports.whenReady(function(){
-			Polymer({
-				is:'custom-template',
-				extends: 'template'
-			});
-		});
-
 		document.addEventListener('WebComponentsReady', function() {
 			var grid1 = document.querySelector("#mmTestGrid1"),
 				grid1Data = [];
@@ -177,6 +169,7 @@
 				});
 			}
 
+			grid1.strConcat = strMaker;
 			grid1.data = grid1Data;
 
 			document.querySelector('#jsContent').loadExternal('tab-content-alt.html', function(dataHost) {
@@ -196,8 +189,14 @@
 					});
 				}
 
+				dataHost.set("strConcat", strMaker);
 				dataHost.set("data",grid2Data);
 			});
+
+			function strMaker () {
+				var builder = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments);
+				return builder.join("__");
+			}
 		});
 
 	</script>

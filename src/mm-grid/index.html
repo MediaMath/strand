@@ -37,7 +37,7 @@
 	</style>
 </head>
 <body>
-		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate" unresolved>
+		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
 			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
@@ -46,19 +46,19 @@
 			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="10%" field="actions"></mm-grid-column>
 			<!-- Any custom template provided as lightDOM needs to be a Polymer element -->
-			<template is="custom-template" id="customTemplate">
+			<template is="dom-bind">
 				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
 						<!--
-						<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
-						<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
+						<mm-icon width="15" height="15" type="actions" id="{{scope.createId('tooltip', model.id)}}"></mm-icon>
+						<mm-tooltip model="{{model}}" target$="{{scope.createId('#tooltip', model.id)}}">
 							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 						</mm-tooltip>
 						-->
 						<!--
-						<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
-						<mm-menu id="testMenu" direction="s" offset="15" target$="{{_createId('#menu', model.id)}}">
+						<mm-icon type="actions" id="{{scope.createId('menu', model.id)}}" width="15" height="15"></mm-icon>
+						<mm-menu id="testMenu" direction="s" offset="15" target$="{{scope.createId('#menu', model.id)}}">
 							<mm-list-item value="m1">menu item 1</mm-list-item>
 							<mm-list-item value="m2">menu item 2</mm-list-item>
 							<mm-list-item value="m3">menu item 3</mm-list-item>
@@ -138,14 +138,6 @@
 				// style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
 			});
 		}
-
-		// Any custom template provided as lightDOM needs to be a Polymer element
-		HTMLImports.whenReady(function(){
-			Polymer({
-				is:'custom-template',
-				extends: 'template'
-			});
-		});
 
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
