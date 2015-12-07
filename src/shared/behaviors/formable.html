@@ -44,8 +44,7 @@
 		_errorTargetChanged: function(target, oldTarget) {
 			if(typeof target === 'string') {
 				this.async(function() {
-					this._errorTarget = this._scope === document ? 
-					document.querySelector(target) : Polymer.dom(this._scope).querySelector(target);
+					this._errorTarget = Polymer.dom(document).querySelector(target);
 				});
 			}
 		},
