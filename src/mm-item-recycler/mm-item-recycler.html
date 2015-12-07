@@ -8,17 +8,17 @@
 <link rel="import" href="../shared/js/recycler.html"/>
 <link rel="import" href="../shared/js/continuum.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
-<link rel="import" href="../shared/behaviors/patternhelpable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
 <link rel="import" href="../shared/behaviors/sizeresponsible.html"/>
 <link rel="import" href="../shared/behaviors/windownotifier.html"/>
-<link rel="import" href="../mm-pattern-helper/mm-pattern-helper.html"/>
+<link rel="import" href="../mm-template-finder/mm-template-finder.html"/>
 
 <dom-module id="mm-item-recycler">
 	<link rel="import" type="css" href="mm-item-recycler.css"/>
 	<template>
-		<mm-pattern-helper pattern-helper="{{patternHelper}}" pattern-helpable="{{patternHelpable}}">
+		<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 			<content select="template"></content>
-		</mm-pattern-helper>
+		</mm-template-finder>
 
 		<div id="pane">
 			<div id="constrainer">

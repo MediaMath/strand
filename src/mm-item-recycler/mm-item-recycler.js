@@ -60,7 +60,7 @@ found here: https://github.com/Polymer/core-list
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.WindowNotifier,
-			StrandTraits.PatternHelpable,
+			StrandTraits.TemplateFindable,
 			StrandTraits.SizeResponsible,
 		],
 
@@ -174,7 +174,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		observers: [
-			"_needsInitialization(data, _pattern)",
+			"_needsInitialization(data, _templateFound)",
 			"_scopeChanged(scope.*)",
 			"_dataChanged(data.*)",
 		],
@@ -262,7 +262,7 @@ found here: https://github.com/Polymer/core-list
 			if (delta) {
 				itemRecycler._viewportHeight += delta;
 
-				if (itemRecycler.hasPattern()) {
+				if (itemRecycler.hasTemplate()) {
 					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				}
 				itemRecycler._repositionFooter();
@@ -278,7 +278,7 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._headerHeight += delta;
 				itemRecycler._viewportHeight -= delta;
 
-				if (itemRecycler.hasPattern()) {
+				if (itemRecycler.hasTemplate()) {
 					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				}
 				itemRecycler._repositionMiddle();
@@ -295,7 +295,7 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._footerHeight += delta;
 				itemRecycler._viewportHeight -= delta;
 
-				if (itemRecycler.hasPattern()) {
+				if (itemRecycler.hasTemplate()) {
 					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				}
 				itemRecycler._repositionFooter();
@@ -416,7 +416,7 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_needsInitialization: function (data, _pattern) {
+		_needsInitialization: function (data, _templateFound) {
 			this._initializable = false;
 			this.initialize();
 		},
@@ -424,7 +424,7 @@ found here: https://github.com/Polymer/core-list
 		initialize: function () {
 			if (!this.data) {
 				return 0|false;
-			} else if (!this.hasPattern()) {
+			} else if (!this.hasTemplate()) {
 				return 0|false;
 			} else if (this.$.extent.offsetHeight < 1) {
 				this._waiting = true;
@@ -621,10 +621,10 @@ found here: https://github.com/Polymer/core-list
 				}
 				count = binds.push(bound = new BoundReference(this, id));
 				bound.value = new BoundValue(null, this.scope);
-				bound.instance = content = this.clonePattern(bound.value) || null;
+				bound.instance = content = this.cloneTemplate(bound.value) || null;
 
 				if (!bound.instance) {
-					bound.instance = this.stampPattern(bound.value);
+					bound.instance = this.stampTemplate(bound.value);
 					content = Polymer.dom(bound.instance.root).querySelector("*");
 				}
 

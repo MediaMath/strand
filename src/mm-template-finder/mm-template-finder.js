@@ -8,33 +8,33 @@
 (function (scope) {
 
 	Polymer({
-		is: 'mm-pattern-helper',
+		is: 'mm-template-finder',
 
 		behaviors: [
 			StrandTraits.DomMutable,
-			StrandTraits.PatternHelpable,
+			StrandTraits.TemplateFindable,
 		],
 
 		properties: {
-			pattern: {
+			template: {
 				type: Object,
 				value: null,
 				notify: true,
 				readOnly: true,
 			},
-			patternHelper: {
+			templateFinder: {
 				type: Object,
 				value: function () {
 					return this;
 				},
 				notify: true,
 			},
-			patternDoc: {
+			templateDoc: {
 				type: Object,
-				computed: "_computePatternDoc(_localDoc)",
+				computed: "_computeTemplateDoc(_localDoc)",
 				notify: true,
 			},
-			_patternStore: Object,
+			_templateStore: Object,
 			_remoteDoc: Object,
 			_localDoc: Object,
 			mutationTarget:{
@@ -46,35 +46,35 @@
 		},
 
 		listeners: {
-			"added": "_migratePatternContent",
+			"added": "_migrateTemplateContent",
 		},
 
 		observers: [
-			"_selectPattern(patternHelpable.patternSelector)",
-			"_startPatternImport(patternHelpable.patternUri)",
-			"_finishPatternImport(patternHelpable.patternQuery, _remoteDoc)",
-			"_observePattern(patternHelpable.patternBind)",
+			"_selectTemplate(templateFindable.templateSelector)",
+			"_startTemplateImport(templateFindable.templateUri)",
+			"_finishTemplateImport(templateFindable.templateQuery, _remoteDoc)",
+			"_observeTemplate(templateFindable.templateBind)",
 		],
 
 		ready: function () {
-			this._migratePatternContent();
-			this._updatePattern();
+			this._migrateTemplateContent();
+			this._updateTemplate();
 		},
 
-		_lazyPatternStore: function () {
-			if (!this._patternStore) {
-				this._patternStore = {};
+		_lazyTemplateStore: function () {
+			if (!this._templateStore) {
+				this._templateStore = {};
 			}
-			return this._patternStore;
+			return this._templateStore;
 		},
 
 		_lazyLocalDoc: function () {
-			var helper = this;
+			var finder = this;
 
 			if (!this._localDoc) {
 				this._localDoc = document.implementation.createHTMLDocument();
 				new MutationObserver(function observation (mutations) {
-					helper._selectPattern(helper.patternSelector);
+					finder._selectTemplate(finder.templateSelector);
 				}).observe(this._localDoc.documentElement, {
 					childList: true,
 					subtree: false,
@@ -86,11 +86,11 @@
 			return this._localDoc;
 		},
 
-		_computePatternDoc: function (doc) {
+		_computeTemplateDoc: function (doc) {
 			return doc && doc.documentElement || null;
 		},
 
-		_migratePatternContent: function () {
+		_migrateTemplateContent: function () {
 			var doc = this._lazyLocalDoc();
 			var nodes = Array.apply(null, Polymer.dom(this.$.content).getDistributedNodes());
 			var count = nodes.length;
@@ -101,19 +101,19 @@
 			}
 		},
 
-		_selectPattern: function () {
-			var helpable = this.patternHelpable;
-			var selector = helpable.patternSelector ? String(helpable.patternSelector) : "";
-			var store = this._lazyPatternStore();
+		_selectTemplate: function () {
+			var findable = this.templateFindable;
+			var selector = findable.templateSelector ? String(findable.templateSelector) : "";
+			var store = this._lazyTemplateStore();
 			var doc = this._lazyLocalDoc();
 			store.lightdom = selector && doc.querySelector(selector) || null;
-			this._updatePattern();
+			this._updateTemplate();
 		},
 
-		_startPatternImport: function () {
-			var helpable = this.patternHelpable;
-			if (helpable.patternUri) {
-				this.importHref(helpable.patternUri, function ok (e) {
+		_startTemplateImport: function () {
+			var findable = this.templateFindable;
+			if (findable.templateUri) {
+				this.importHref(findable.templateUri, function ok (e) {
 					this._remoteDoc = e.target.import;
 				}, function err (e) {
 					console.error(e);
@@ -121,27 +121,27 @@
 			}
 		},
 
-		_finishPatternImport: function () {
-			var helpable = this.patternHelpable;
+		_finishTemplateImport: function () {
+			var findable = this.templateFindable;
 			var doc = this._remoteDoc || null;
-			var query = helpable.patternQuery || "";
-			var store = this._lazyPatternStore();
+			var query = findable.templateQuery || "";
+			var store = this._lazyTemplateStore();
 			store.import = doc && query && doc.querySelector(query) || null;
-			this._updatePattern();
+			this._updateTemplate();
 		},
 
-		_observePattern: function () {
-			var helpable = this.patternHelpable;
-			var store = this._lazyPatternStore();
-			store.bind = helpable.patternBind || null;
-			this._updatePattern();
+		_observeTemplate: function () {
+			var findable = this.templateFindable;
+			var store = this._lazyTemplateStore();
+			store.bind = findable.templateBind || null;
+			this._updateTemplate();
 		},
 
-		_updatePattern: function () {
-			var helpable = this.patternHelpable;
-			var pattern = null;
-			var order = helpable.patternPriority;
-			var store = this._lazyPatternStore();
+		_updateTemplate: function () {
+			var findable = this.templateFindable;
+			var template = null;
+			var order = findable.templatePriority;
+			var store = this._lazyTemplateStore();
 			var count = order ? order.length : -1;
 			var index = 0;
 
@@ -150,13 +150,13 @@
 			}
 
 			for (index; index < count; index++) {
-				if (pattern = store[order[index]]) {
+				if (template = store[order[index]]) {
 					break;
 				}
 			}
 
-			this._setPattern(pattern);
-			this.notifyPath("patternHelper.pattern", pattern);
+			this._setTemplate(template);
+			this.notifyPath("templateFinder.template", template);
 		},
 
 	});

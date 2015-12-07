@@ -6,7 +6,7 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
-<link rel="import" href="../shared/behaviors/patternhelpable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
 <link rel="import" href="../mm-item-recycler/mm-item-recycler.html">
 <link rel="import" href="../mm-grid-column/mm-grid-column.html">
 <link rel="import" href="../mm-grid-item/mm-grid-item.html">
@@ -17,7 +17,7 @@
 <dom-module id="mm-grid">
 	<link rel="import" type="css" href="mm-grid.css"/>
 	<template>
-		<mm-item-recycler id="viewport" gpu="{{gpu}}" data="{{data}}" scope="{{scope}}" index="{{index}}" pattern-helper="{{patternHelper}}" pattern-helpable="{{patternHelpable}}">
+		<mm-item-recycler id="viewport" gpu="{{gpu}}" data="{{data}}" scope="{{scope}}" index="{{index}}" template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 			<div id="header">
 				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
 					<mm-checkbox id="selectAll" on-tap="_toggleAllSelections" state="{{_selectAllState}}"></mm-checkbox>

@@ -14,7 +14,7 @@
 	<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 	<mm-grid-column width="10%" field="actions"></mm-grid-column>
 	<!-- Any custom template provided as lightDOM needs to be a Polymer element -->
-	<template is="custom-template" id="customTemplate">
+	<template is="dom-bind" id="customTemplate">
 		<mm-grid-item model="{{model}}" scope="{{scope}}">
 			<div field="actions">
 				<!-- Using mm-tooltip in a custom grid item -->
@@ -95,14 +95,6 @@
 			expanded: false
 		});
 	}
-
-	// Any custom template provided as lightDOM needs to be a Polymer element
-	HTMLImports.whenReady(function(){
-		Polymer({
-			is:'custom-template',
-			extends: 'template'
-		});
-	});
 
 	window.addEventListener("WebComponentsReady", function() {
 		grid1.data = grid1Data;

@@ -1,0 +1,96 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	scope.TemplateFindable = {
+
+		properties: {
+			_templateFound: {
+				type: Object,
+				computed: "_computeTemplate(templateFinder, templateFinder.template)",
+			},
+			templateFinder: Object,
+			templateFindable: {
+				type: Object,
+				value: function () {
+					return this;
+				},
+				notify: true,
+			},
+			templatePriority: {
+				type: Array,
+				value: function () {
+					return [
+						"lightdom",
+						"import",
+						"bind",
+					];
+				},
+			},
+			templateBind: {
+				type: Object,
+				value: null,
+				notify: true,
+			},
+			templateSelector: {
+				type: String,
+				value: "template[is='dom-bind'],template[is='dom-template']",
+				// must use [is=dom-template] when inside a dom-module or [is=dom-bind]
+				notify: true,
+			},
+			templateUri: {
+				type: String,
+				notify: true,
+			},
+			templateQuery: {
+				type: String,
+				value: "template[is='dom-bind']",
+				notify: true,
+			},
+		},
+
+		ready: function () {
+			// necessary because the binds/properties on nested elements might not be setup/notified in the right order
+			this.notifyPath("templateFindable.templatePriority", this.templatePriority);
+			this.notifyPath("templateFindable.templateBind", this.templateBind);
+			this.notifyPath("templateFindable.templateSelector", this.templateSelector);
+			this.notifyPath("templateFindable.templateUri", this.templateUri);
+			this.notifyPath("templateFindable.templateQuery", this.templateQuery);
+		},
+
+		_computeTemplate: function (finder, template) {
+			return template;
+		},
+
+		hasTemplate: function () {
+			return 0|!!this._templateFound;
+		},
+
+		cloneTemplate: function () {
+			if (this._templateFound &&
+				this._templateFound instanceof HTMLTemplateElement &&
+				this._templateFound.getAttribute("is") === "dom-bind") {
+				return this._templateFound.cloneNode(true);
+			} else {
+				return null;
+			}
+		},
+
+		stampTemplate: function (model) {
+			if (this._templateFound &&
+				"function" === typeof this._templateFound.stamp) {
+				return this._templateFound.stamp(model);
+			} else {
+				return null;
+			}
+		},
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

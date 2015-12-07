@@ -105,46 +105,48 @@
 			<mm-tab id="sameContent" tab-label="Loaded template" url="tab-content-alt.html"></mm-tab>
 			<mm-tab id="jsContent" tab-label="Loaded template via JS" active></mm-tab>
 			<mm-tab id="gridTest" tab-label="LightDOM grid">
-				<mm-grid id="mmTestGrid1" selectable expandable style="width: 100%; height: 300px;">
-					<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-					<mm-grid-column width="20%" field="id" sort resize>Id</mm-grid-column>
-					<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-					<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
-					<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-					<mm-grid-column width="10%" field="actions"></mm-grid-column>
-					<template is="dom-bind" id="customTemplate">
-						<mm-grid-item model="{{model}}" scope="{{scope}}">
-							<div field="actions">
-								<mm-icon width="15" height="15" type="actions" id="{{strConcat('tooltip', model.id)}}"></mm-icon>
-								<mm-tooltip model="{{model}}" target$="{{strConcat('#tooltip', model.id)}}">
-									<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
-								</mm-tooltip>
-							</div>
-							<div field="name">
-								Creative - <span>{{model.name}}</span>
-							</div>
-							<div class="expansion">
-								<div class="expansion-row">
-									<div class="expansion-col">
-										<h4>Expanded Content</h4>
-										<span>{{model.name}}</span>
+				<template is="dom-bind" id="bindGrid1">
+					<mm-grid id="mmTestGrid1" selectable expandable style="width: 100%; height: 300px;" data="{{data}}">
+						<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+						<mm-grid-column width="20%" field="id" sort resize>Id</mm-grid-column>
+						<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+						<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
+						<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+						<mm-grid-column width="10%" field="actions"></mm-grid-column>
+						<template is="dom-template" id="customTemplate">
+							<mm-grid-item model="{{model}}" scope="{{scope}}">
+								<div field="actions">
+									<mm-icon width="15" height="15" type="actions" id="{{strConcat('tooltip', model.id)}}"></mm-icon>
+									<mm-tooltip model="{{model}}" target$="{{strConcat('#tooltip', model.id)}}">
+										<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
+									</mm-tooltip>
+								</div>
+								<div field="name">
+									Creative - <span>{{model.name}}</span>
+								</div>
+								<div class="expansion">
+									<div class="expansion-row">
+										<div class="expansion-col">
+											<h4>Expanded Content</h4>
+											<span>{{model.name}}</span>
+										</div>
+										<div class="expansion-col">
+											<h4>Expanded Advertiser</h4>
+											<span>{{model.advertiser}}</span>
+										</div>
+										<div class="expansion-col">
+											<h4>Expanded Concept</h4>
+											<span>{{model.concept}}</span>
+										</div>
 									</div>
-									<div class="expansion-col">
-										<h4>Expanded Advertiser</h4>
-										<span>{{model.advertiser}}</span>
-									</div>
-									<div class="expansion-col">
-										<h4>Expanded Concept</h4>
-										<span>{{model.concept}}</span>
+									<div class="expansion-row">
+										<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
 									</div>
 								</div>
-								<div class="expansion-row">
-									<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
-								</div>
-							</div>
-						</mm-grid-item>
-					</template>
-				</mm-grid>
+							</mm-grid-item>
+						</template>
+					</mm-grid>
+				</template>
 			</mm-tab>
 		</mm-tabs>
 	</div>
@@ -152,7 +154,7 @@
 	<script>
 
 		document.addEventListener('WebComponentsReady', function() {
-			var grid1 = document.querySelector("#mmTestGrid1"),
+			var grid1 = document.querySelector("#bindGrid1"),
 				grid1Data = [];
 
 			for(var i=0; i<33; i++) {

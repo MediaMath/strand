@@ -70,7 +70,7 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.PatternHelpable,
+			StrandTraits.TemplateFindable,
 		],
 		
 		listeners: {
