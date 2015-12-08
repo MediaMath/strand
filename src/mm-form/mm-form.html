@@ -8,12 +8,40 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../mm-footer/mm-footer.html"/>
+<link rel="import" href="../mm-button/mm-button.html"/>
+<link rel="import" href="../mm-action/mm-action.html"/>
 
 <dom-module id="mm-form">
 	<link rel="import" type="css" href="mm-form.css"/>
 	<template>
+
 		<content></content>
+
+		<!-- footer -->
+		<mm-footer 
+			id="formActions"
+			type="{{footerType}}"
+			message="{{footerMessage}}"
+			message-visible="{{showFooterMessage}}"
+			unresolved fitparent semi-transparent>
+
+			<template is="dom-repeat" items="{{actions}}">
+				<template is="dom-if" if="{{_validType(item.type)}}">
+					<mm-button on-tap="_handleClick" type="{{item.type}}">
+						<label>{{item.label}}</label>
+					</mm-button>
+				</template>
+				<template is="dom-if" if="{{!_validType(item.type)}}">
+					<mm-action on-tap="_handleClick" underline>
+						<label>{{item.label}}</label>
+					</mm-action>
+				</template>
+			</template>
+		</mm-footer>
+		
 	</template>
 </dom-module>
 
 <script src="mm-form.js"></script>
+

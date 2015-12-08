@@ -25,16 +25,46 @@
 				value: 10,
 				reflectToAttribute: true
 			},
-			// submitMessage: {
-			// 	type: String,
-			// 	notify: true
-			// },
 			formItems: {
 				type: Array
 			},
 			formData: {
 				type: Object,
 				value: function() { return {}; }
+			},
+			footerMessage: {
+				type: String,
+				notify: true
+			},
+			footerType: {
+				type: String,
+				notify: true
+			},
+			showFooterMessage: {
+				type: Boolean,
+				notify: true
+			},
+			actions: {
+				type: Array,
+				value: function() {
+					return [
+						{
+							label: 'Cancel',
+							type: 'action',
+							callback: function(e,host) {
+								console.log('cancel - e: ', e, 'host: ', host);
+							}
+						},
+						{
+							label: 'Save',
+							type: 'primary',
+							callback: function(e,host) {
+								console.log('save - e: ', e, 'host: ', host);
+								host.serializeForm();
+							}
+						} 
+					];
+				}
 			}
 		},
 
@@ -112,6 +142,19 @@
 			});
 		},
 
+		// *******************************
+		// footer and footer actions:
+		_validType: function(type) {
+			return type === 'primary' || type === 'secondary';
+		},
+
+		_handleClick: function(e) {
+			e.preventDefault();
+			e.model.item.callback(e,this);
+		},
+
+		// *******************************
+		// form validation
 		// validate per field:
 		_validateField: function(field) {
 			// construct the test set based on pipes(?):
@@ -125,7 +168,7 @@
 			return result.length === testSet.length;
 		},
 
-		submitForm: function() {
+		serializeForm: function() {
 			var invalid = [],
 				valid = [];
 
@@ -174,6 +217,8 @@
 			});
 		},
 
+		// *******************************
+		// TODO: This'll get replaced by Shuwen's system/component
 		// styling concerns (columns)
 		_applyStyles: function(columns, spacing) {
 			var items = this.getLightDOM();

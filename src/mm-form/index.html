@@ -3,14 +3,12 @@
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<!-- <link rel="import" href="../../build/strand.html" /> -->
-	
 	<link rel="import" href="../mm-dropdown/mm-dropdown.html" />
 	<link rel="import" href="../mm-input/mm-input.html" />
 	<link rel="import" href="../mm-inline-box/mm-inline-box.html" />
 	<link rel="import" href="../mm-header/mm-header.html" />
 	<link rel="import" href="../mm-footer/mm-footer.html" />
 	<link rel="import" href="../mm-button/mm-button.html" />
-
 	<link rel="import" href="mm-form.html" />
 	<style type="text/css">
 		body, html {
@@ -69,48 +67,12 @@
 			</mm-inline-box>
 		</div>
 
-		<!-- TODO: Add a footer config, bake the footer into mm-form -->
-		<mm-footer id="testFormFooter" unresolved fitparent semi-transparent>
-			<mm-button id="submitBtn">
-				<label>Save</label>
-			</mm-button>
-		</mm-footer>
-
 	</mm-form>
 
 	<script>
-		var testForm, 
-			submitBtn,
-			testFormFooter;
-
 		window.addEventListener('WebComponentsReady', function(e) {
-
-			testForm = Polymer.dom(document).querySelector('#testForm');
-			submitBtn = Polymer.dom(document).querySelector('#submitBtn');
-			testFormFooter = Polymer.dom(document).querySelector('#testFormFooter');
-
-			submitBtn.addEventListener('click', submitForm);
-
-			// TODO: Add a footer config, bake the footer into mm-form
-			testForm.addEventListener('form-submit', function(e) {
-				console.log(e.detail);
-				if (!e.detail.isValid) {
-					testFormFooter.type = 'error';
-					testFormFooter.message = 'This form contains errors';
-					testFormFooter.showMessage();
-				} else {
-					testFormFooter.type = 'success';
-					testFormFooter.message = 'This form has been submitted';
-					testFormFooter.showMessage();
-				}
-			});
+			//
 		});
-
-		function submitForm(e) {
-			e.preventDefault();
-			testForm.submitForm();
-		}
-
 	</script>
 
   </body>
