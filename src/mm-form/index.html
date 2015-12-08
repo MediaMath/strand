@@ -40,11 +40,12 @@
 		
 		<div class="col" span="1">
 			<mm-header size="medium">Type a Number</mm-header>
-			<mm-input form-id="input"
+			<mm-input 
 				fitparent 
+				form-id="input"
 				validation="int|empty"
 				placeholder="Type a Number"
-				error-target="#inputError"></mm-input>
+				error-message="#inputError"></mm-input>
 			<mm-inline-box id="inputError" type="error" fitparent>
 				You need to type a number
 			</mm-inline-box>
@@ -52,11 +53,12 @@
 
 		<div class="col" span="1">
 			<mm-header size="medium">Select an Item</mm-header>
-			<mm-dropdown form-id="dropdown"
+			<mm-dropdown 
 				fitparent 
+				form-id="dropdown"
 				placeholder="Select an Item" 
 				validation="empty"
-				error-target="#dropdownError">
+				error-message="#dropdownError">
 				<mm-list-item>List Item 1</mm-list-item>
 				<mm-list-item>List Item 2</mm-list-item>
 				<mm-list-item>List Item 3</mm-list-item>
@@ -67,17 +69,7 @@
 			</mm-inline-box>
 		</div>
 
-		<!-- 
-		<div class="col" span="1">
-			<mm-header size="medium">Header</mm-header>
-			<mm-input fitparent placeholder="Type Here Bro"></mm-input>
-		</div>
-		<div class="col" span="1">
-			<mm-header size="medium">Header</mm-header>
-			<mm-input fitparent placeholder="Type Here Bro"></mm-input>
-		</div>
-		-->
-
+		<!-- TODO: Add a footer config, bake the footer into mm-form -->
 		<mm-footer id="testFormFooter" unresolved fitparent semi-transparent>
 			<mm-button id="submitBtn">
 				<label>Save</label>
@@ -92,14 +84,14 @@
 			testFormFooter;
 
 		window.addEventListener('WebComponentsReady', function(e) {
-			
+
 			testForm = Polymer.dom(document).querySelector('#testForm');
 			submitBtn = Polymer.dom(document).querySelector('#submitBtn');
 			testFormFooter = Polymer.dom(document).querySelector('#testFormFooter');
 
 			submitBtn.addEventListener('click', submitForm);
 
-			// TODO: test out in a view - think about architecture
+			// TODO: Add a footer config, bake the footer into mm-form
 			testForm.addEventListener('form-submit', function(e) {
 				console.log(e.detail);
 				if (!e.detail.isValid) {

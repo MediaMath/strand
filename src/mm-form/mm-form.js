@@ -42,6 +42,52 @@
 			"_applyStyles(columns, spacing)"
 		],
 
+		// common validation rules
+		rules: {
+			email: function(i) {
+				var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return regEx.test(i);
+			},
+			alpha: function(i) {
+				var regEx = /^\w+$/;
+				return regEx.test(i);
+			},
+			int: function(i) {
+				var regEx = /^\d+$/;
+				return regEx.test(i);
+			},
+			decimal: function(i) {
+				var regEx = /^\d*[.]\d+$/;
+				return regEx.test(i);
+			},
+			whitespace: function(i) {
+				var regEx = /\s/;
+				return i.length > 0 && !regEx.test(i);
+			},
+			checked: function(i) {
+				return i === true;
+			},
+			empty: function(i) {
+				return i && i.length > 0;
+			},
+			blank: function(i) {
+				return i.trim().length > 0;
+			}
+		},
+
+		// *******************************
+		// Form Data: 
+		// { 
+		// 	key: { // object.getAttribute('form-id')
+		// 		field: object, // the field element
+		//		value: object/string, // value of the field 
+		// 		validation: string, // i.e.: 'int|empty'
+		// 		errorMessage: object // the error message element i.e: Polymer.dom(document)querySelector(field.getAttribute('error-message'));
+		// 	},
+		// 	...
+		// }
+		// *******************************
+
 		ready: function() {
 			// build form data object
 			// TODO: consider effective children apis once we get to v1.2.3
@@ -49,10 +95,34 @@
 			this.async(function() {
 				this.formItems = Polymer.dom(this).querySelectorAll('[form-id]');
 				this.formItems.forEach(function(item) {
-					this.formData[item.formId] = item.value;
+					var key = item.getAttribute('form-id'),
+						field = item,
+						value = item.value,
+						validation = item.getAttribute('validation'),
+						errorMessage = Polymer.dom(this).querySelector(item.getAttribute('error-message'));
+					
+					this.formData[key] = {
+						'field': field,
+						'value': value,
+						'validation': validation,
+						'errorMessage': errorMessage 
+					};
 				}.bind(this));
 				console.log("this.formData: ", this.formData);
 			});
+		},
+
+		// validate per field:
+		_validateField: function(field) {
+			// construct the test set based on pipes(?):
+			var testSet = field.validation.replace(/\s/g, '').split("|")
+				result = result = testSet.map(function(item) {
+					return this.rules[item](field.value);
+				}, this).filter(function(item) {
+					return item === true;
+				});
+
+			return result.length === testSet.length;
 		},
 
 		submitForm: function() {
@@ -62,42 +132,39 @@
 			// UI validation pass:
 			// console.log('submitForm');
 			this.formItems.forEach(function(item){
-				// update the form data object:
-				this.formData[item.formId] = item.value;
+				var key 			= item.getAttribute('form-id'),
+					value 			= item.value,
+					dataItem 		= this.formData[key],
+					isValid 		= false;
 
 				// validate UI:
-				var isValid = item.validate(item.value);
+				dataItem.value = value;
+				isValid = this._validateField(dataItem);
 
-				// track invalids
+				// track invalid & valid fields
 				if (!isValid) {
-					invalid.push(item.formId);
+					invalid.push(key);
+					dataItem.errorMessage.style.display = 'block'; 
 				} else {
-					valid.push(item.formId);
+					valid.push(key);
+					dataItem.errorMessage.style.display = 'none';
 				}
 
 				// show error state:
 				item.error = !isValid;
 
-				// show target message:
-				if(item._errorTarget && !isValid) {
-					// item._errorTarget.display();
-					item._errorTarget.style.display = 'block';
-				} else {
-					// item._errorTarget.hide();
-					item._errorTarget.style.display = 'none';
-				}
 			}.bind(this));
 
+			// TODO:
 			if (invalid.length > 0) {
 				// there were errors
 				// show footer error
-				// console.log('invalids:', invalids);	
-				this.submitMessage = 'This form contains errors';
 			} else {
 				// send the data to some endpoint
 				// handle that response
 			}
 
+			// TODO - footer logic in here not index:
 			// fire an invalid form event:
 			this.fire('form-submit', {
 				isValid: !invalid.length > 0,
