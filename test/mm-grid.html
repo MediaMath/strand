@@ -21,19 +21,18 @@
 
 			it("should have a custom template", function() {
 				var grid = document.querySelector("#testgrid2");
-				var customTemplate = document.querySelector("#customTemplate");
-				grid.itemTemplateElement.should.equal(customTemplate);
+				grid.templateFinder.template.id.should.equal("customTemplate");
 			});
 			
 			it("should have columns", function() {
 				var grid = document.querySelector("#testgrid");
-				should.exist(grid.columns);
-				grid.columns.length.should.equal(2);
+				should.exist(grid._columns);
+				grid._columns.length.should.equal(2);
 			});
 
 			it("should have columns with initial width", function() {
 				var grid = document.querySelector("#testgrid");
-				grid.columns.forEach(function(column){
+				grid._columns.forEach(function(column){
 					column.width.should.equal("50%");
 				});
 			});
@@ -55,7 +54,7 @@
 
 			it("should select all items", function() {
 				var grid = document.querySelector("#testgrid");
-				grid.selectAll({target: {checked: true}});
+				grid.setAllSelections(true);
 				grid.data.every(function(item){ return item.selected === true; }).should.equal(true);
 			});
 
@@ -65,10 +64,10 @@
 		<mm-grid-column field="foo">Foo</mm-grid-column>
 		<mm-grid-column field="bar">Bar</mm-grid-column>
 	</mm-grid>
-	<mm-grid id="testgrid2" item-template="customTemplate">
+	<mm-grid id="testgrid2">
 		<mm-grid-column field="foo">Foo</mm-grid-column>
 		<mm-grid-column field="bar">Bar</mm-grid-column>
-		<template id="customTemplate">
+		<template is="dom-bind" id="customTemplate">
 			<mm-grid-item></mm-grid-item>
 		</template>
 	</mm-grid>

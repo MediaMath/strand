@@ -621,7 +621,7 @@ found here: https://github.com/Polymer/core-list
 				}
 				count = binds.push(bound = new BoundReference(this, id));
 				bound.value = new BoundValue(null, this.scope);
-				bound.instance = content = this.cloneTemplate(bound.value) || null;
+				bound.instance = content = this.cloneTemplate() || null;
 
 				if (!bound.instance) {
 					bound.instance = this.stampTemplate(bound.value);

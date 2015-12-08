@@ -14,7 +14,10 @@
 				type: Object,
 				computed: "_computeTemplate(templateFinder, templateFinder.template)",
 			},
-			templateFinder: Object,
+			templateFinder: {
+				type: Object,
+				notify: true,
+			},
 			templateFindable: {
 				type: Object,
 				value: function () {
@@ -31,6 +34,7 @@
 						"bind",
 					];
 				},
+				notify: true,
 			},
 			templateBind: {
 				type: Object,
@@ -73,7 +77,7 @@
 
 		cloneTemplate: function () {
 			if (this._templateFound &&
-				this._templateFound instanceof HTMLTemplateElement &&
+				this._templateFound.tagName === "TEMPLATE" &&
 				this._templateFound.getAttribute("is") === "dom-bind") {
 				return this._templateFound.cloneNode(true);
 			} else {
