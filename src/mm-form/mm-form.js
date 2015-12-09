@@ -154,6 +154,12 @@
 		},
 
 		// *******************************
+		// handle changes within the form
+		_handleChanged: function(e) {
+
+		},
+
+		// *******************************
 		// form validation
 		// validate per field:
 		_validateField: function(field) {
@@ -209,7 +215,7 @@
 
 			// TODO - footer logic in here not index:
 			// fire an invalid form event:
-			this.fire('form-submit', {
+			this.fire('serialize-form', {
 				isValid: !invalid.length > 0,
 				invalidFields: invalid,
 				validFields: valid,

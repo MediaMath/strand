@@ -45,7 +45,6 @@
 }
 
 // Defining Your Grid
-
 :host {
 	display: flex;
 	flex-wrap: wrap;
@@ -62,11 +61,15 @@
 	display: none;
 }
 
-:host ::content mm-footer {
-	position: fixed;
-	bottom: 0;
-	right: 0;
+:host ::content mm-radio label {
+	line-height: 29px;
 }
 
 // @include flexGrid(4, 20px, 10px, 20px, 10px, 0px, 5px, 5px, 0px);
 @include flexGrid();
+
+mm-footer {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}

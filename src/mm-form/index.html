@@ -9,6 +9,9 @@
 	<link rel="import" href="../mm-header/mm-header.html" />
 	<link rel="import" href="../mm-footer/mm-footer.html" />
 	<link rel="import" href="../mm-button/mm-button.html" />
+	<link rel="import" href="../mm-button/mm-button.html" />
+	<link rel="import" href="../mm-radio/mm-radio.html" />
+	<link rel="import" href="../mm-group/mm-group.html" />
 	<link rel="import" href="mm-form.html" />
 	<style type="text/css">
 		body, html {
@@ -22,10 +25,23 @@
 			background: #eee;
 		}
 
+		p {
+			font-family: "Arimo", sans-serif;
+			font-weight: 400;
+			font-size: 13px !important;
+			line-height: 28px !important;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			font-smoothing: antialiased;
+			color: #333;
+			margin: 0;
+			padding: 0;
+		}
+
 		.col {
 			box-sizing: border-box;
-			padding: 10px 0 10px 10px;
-		}
+			padding: 10px 0 0 10px; 
+ 		}
 
 		mm-form[unresolved] {
 			display: none;
@@ -35,43 +51,78 @@
   <body>
 
 	<mm-form id="testForm" unresolved>
-		
+
+		<!-- row 1 -->
 		<div class="col" span="1">
-			<mm-header size="medium">Type a Number</mm-header>
+			<!-- <mm-header size="medium">Type a Number</mm-header> -->
 			<mm-input 
 				fitparent 
 				form-id="input"
 				validation="int|empty"
 				placeholder="Type a Number"
-				error-message="#inputError"></mm-input>
+				label="Type a Number"
+				error-message="You need to type a number"></mm-input>
+			<!-- 
 			<mm-inline-box id="inputError" type="error" fitparent>
 				You need to type a number
 			</mm-inline-box>
+			 -->
 		</div>
-
 		<div class="col" span="1">
-			<mm-header size="medium">Select an Item</mm-header>
+			<!-- <mm-header size="medium">Select an Item</mm-header> -->
 			<mm-dropdown 
 				fitparent 
 				form-id="dropdown"
 				placeholder="Select an Item" 
 				validation="empty"
-				error-message="#dropdownError">
+				label="Select an Item"
+				error-message="You need to select an item">
 				<mm-list-item>List Item 1</mm-list-item>
 				<mm-list-item>List Item 2</mm-list-item>
 				<mm-list-item>List Item 3</mm-list-item>
 				<mm-list-item>List Item 4</mm-list-item>
 			</mm-dropdown>
+			<!-- 
 			<mm-inline-box id="dropdownError" type="error" fitparent>
 				You need to select an item
 			</mm-inline-box>
+			 -->
+		</div>
+		<div class="col" span="1">
+			<!-- <mm-header size="medium">Select a Color</mm-header> -->
+			<mm-group 
+				fitparent 
+				unresolved
+				form-id="radio"
+				placeholder="Select an Item" 
+				validation="empty"
+				label="Select a Color"
+				error-message="You need to select a color">
+				<mm-radio>
+					<label>Red</label>
+				</mm-radio>
+				<mm-radio>
+					<label>Green</label>
+				</mm-radio>	
+				<mm-radio>
+					<label>Blue</label>
+				</mm-radio>			
+			</mm-group>
+			<!--
+			<mm-inline-box id="radioError" type="error" fitparent>
+				You need to select a color
+			</mm-inline-box>
+			-->
 		</div>
 
 	</mm-form>
 
 	<script>
 		window.addEventListener('WebComponentsReady', function(e) {
-			//
+			var testForm = document.querySelector('#testForm');
+			testForm.addEventListener('serialize-form', function(e){
+				console.log('serialize-form', e.detail);
+			});
 		});
 	</script>
 
