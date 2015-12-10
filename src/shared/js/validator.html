@@ -1,0 +1,15 @@
+<script src="../../../bower_components/validator-js/validator.min.js"/></script>
+<script type="text/javascript">
+	validator.extend('isWhitespace', function (str) {
+		return /^\s+$/.test(str);
+	});
+	validator.extend('isChecked', function (input) {
+		return input.toString() === 'true' || input === true;
+	});
+	validator.extend('isEmpty', function (str) {
+		return str && str.length > 0;
+	});
+	validator.extend('isBlank', function (str) {
+		return str.trim().length > 0;
+	});
+</script>

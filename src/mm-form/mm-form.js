@@ -5,7 +5,7 @@
 
 */
 (function (scope) {
-	
+
 	scope.MMForm = Polymer({
 		is: 'mm-form',
 
@@ -94,33 +94,38 @@
 		// common validation rules
 		rules: {
 			email: function(i) {
-				var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				return regEx.test(i);
+				// var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				// return regEx.test(i);
+				return validator.isEmail(i);
 			},
 			alpha: function(i) {
-				var regEx = /^\w+$/;
-				return regEx.test(i);
+				// var regEx = /^\w+$/;
+				// return regEx.test(i);
+				return validation.isAlpha(i);
 			},
 			int: function(i) {
-				var regEx = /^\d+$/;
-				return regEx.test(i);
+				// var regEx = /^\d+$/;
+				// return regEx.test(i);
+				return validator.isInt(i); 
 			},
 			decimal: function(i) {
-				var regEx = /^\d*[.]\d+$/;
-				return regEx.test(i);
+				// var regEx = /^\d*[.]\d+$/;
+				// return regEx.test(i);
+				return validator.isDecimal(i);
 			},
 			whitespace: function(i) {
-				var regEx = /\s/;
-				return i.length > 0 && !regEx.test(i);
+				// var regEx = /\s/;
+				// return i.length > 0 && !regEx.test(i);
+				return validator.isWhitespace(i);
 			},
 			checked: function(i) {
-				return i === true;
+				return validator.isChecked(i);
 			},
 			empty: function(i) {
-				return i && i.length > 0;
+				return validator.isEmpty(i);
 			},
 			blank: function(i) {
-				return i.trim().length > 0;
+				return validator.isBlank(i);
 			}
 		},
 
@@ -237,11 +242,15 @@
 		_validateField: function(validation, value) {
 			// construct the test set based on pipes:
 			var testSet = validation.replace(/\s/g, '').split("|"),
-				result = testSet.map(function(item) {
-					return this.rules[item](value);
-				}, this).filter(function(item) {
-					return item === true;
-				});
+				result = [];
+
+			// attempt with validate-js
+
+			result = testSet.map(function(item) {
+				return this.rules[item](value);
+			}, this).filter(function(item) {
+				return item === true;
+			});
 
 			return result.length === testSet.length;
 		},
@@ -257,9 +266,6 @@
 					value 			= item.field.value,
 					validation		= item.validation,
 					isValid 		= false;
-
-				// set the form data:
-				this.formData[key] = value;
 
 				// validate UI:
 				isValid = this._validateField(validation, value);
@@ -286,7 +292,6 @@
 					this.footerMessage = this.footerMessages.error;
 					this._showFooterMessage = true;
 				}
-
 			} else {
 
 				// send the data to some endpoint
@@ -302,7 +307,6 @@
 					this.footerMessage = this.footerMessages.success;
 					this._showFooterMessage = true;
 				}
-
 			}
 
 			// fire an invalid form event:
