@@ -37,13 +37,23 @@
 				type: String,
 				notify: true
 			},
+			footerMessages: {
+				type: Object,
+				value: function() {
+					return {
+						'error' : 'This form contains errors',
+						'success' : 'This form does not contain any errors',
+						'warning' : 'This form contains unsaved changes'
+					};
+				}
+			},
 			footerType: {
 				type: String,
 				notify: true
 			},
-			showFooterMessage: {
+			footerMessage: {
 				type: Boolean,
-				notify: true
+				value: true
 			},
 			actions: {
 				type: Array,
@@ -66,12 +76,20 @@
 						} 
 					];
 				}
-			}
+			},
+			_showFooterMessage: {
+				type: Boolean,
+				notify: true
+			},
 		},
 
 		observers: [
 			"_applyStyles(columns, spacing)"
 		],
+
+		listeners: {
+			'changed' : '_handleChanged'
+		},
 
 		// common validation rules
 		rules: {
@@ -109,18 +127,7 @@
 		_initialFormData: {},
 
 		// *******************************
-		// Form Data: 
-		// { 
-		// 	key: { // object.getAttribute('form-id')
-		// 		field: object, // the field element
-		//		value: object/string, // value of the field 
-		// 		validation: string, // i.e.: 'int|empty'
-		// 		errorMsg: object // the error message element i.e: Polymer.dom(document)querySelector(field.getAttribute('error-message'));
-		// 	},
-		// 	...
-		// }
-		// *******************************
-
+		// collect all the things (and data)
 		ready: function() {
 			// build form data object
 			// TODO: consider effective children apis once we get to v1.2.3
@@ -172,9 +179,6 @@
 					};
 
 				}.bind(this));
-				console.log("this.formData: ", this.formData);
-				console.log("this._initialFormData: ", this._initialFormData);
-				console.log("this.formItems: ", this.formItems);
 			});
 		},
 
@@ -192,7 +196,39 @@
 		// *******************************
 		// handle changes within the form
 		_handleChanged: function(e) {
+			var field = e.target,
+				value = e.detail.value;
 
+			this._dataUpdate(field, value);
+
+			var diff = this._diffData();
+
+			if (diff) {
+				this.footerMessage = this.footerMessages.warning;
+				this.footerType = 'warning';
+				this._showFooterMessage = true;
+			}
+		},
+
+		_dataUpdate: function(field, value) {
+			var name = field.getAttribute('name');
+			
+			// can be triggered prior to the 'ready' method, where formData is created
+			if (name && this.formData[name]) {
+				this.formData[name] = value;
+			}
+		},
+
+		_diffData: function() {
+			var diff = [];
+			
+			for (var key in this.formData) {
+				if (key !== this._initialFormData[key]) {
+					diff.push(key);	
+				}
+			}
+
+			return diff.length > 0;
 		},
 
 		// *******************************
@@ -243,9 +279,14 @@
 
 			// TODO:
 			if (invalid.length > 0) {
-				this.footerType = 'error';
-				this.footerMessage = 'This form contains errors.';
-				this.showFooterMessage = true;
+
+				// show messaging in the footer
+				if (this.footerMessage) {
+					this.footerType = 'error';
+					this.footerMessage = this.footerMessages.error;
+					this._showFooterMessage = true;
+				}
+
 			} else {
 
 				// send the data to some endpoint
@@ -255,12 +296,15 @@
 				// or change the error messaging, etc - for if backend error wasn't
 				// caught on the UI validation pass				
 
-				this.footerType = 'success';
-				this.footerMessage = 'This form does not contain any errors.';
-				this.showFooterMessage = true;
+				// show messaging in the footer
+				if (this.footerMessage) {
+					this.footerType = 'success';
+					this.footerMessage = this.footerMessages.success;
+					this._showFooterMessage = true;
+				}
+
 			}
 
-			// TODO - footer logic in here not index:
 			// fire an invalid form event:
 			this.fire('serialize-form', {
 				isValid: !invalid.length > 0,
@@ -271,7 +315,8 @@
 		},
 
 		// *******************************
-		// TODO: This'll get replaced by Shuwen's system/component
+		// TODO: replace with a behavior/component if this is something
+		// that will be of benefit elsewhere
 		// styling concerns (columns)
 		_applyStyles: function(columns, spacing) {
 			var items = this.getLightDOM();
