@@ -99,6 +99,10 @@ found here: https://github.com/Polymer/core-list
 				type: Boolean,
 				value: false,
 			},
+			_initialized: {
+				type: Boolean,
+				value: false,
+			},
 			_initializable: {
 				type: Boolean,
 				value: false,
@@ -262,7 +266,7 @@ found here: https://github.com/Polymer/core-list
 			if (delta) {
 				itemRecycler._viewportHeight += delta;
 
-				if (itemRecycler.hasTemplate()) {
+				if (itemRecycler._initialized) {
 					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				}
 				itemRecycler._repositionFooter();
@@ -278,7 +282,7 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._headerHeight += delta;
 				itemRecycler._viewportHeight -= delta;
 
-				if (itemRecycler.hasTemplate()) {
+				if (itemRecycler._initialized) {
 					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				}
 				itemRecycler._repositionMiddle();
@@ -295,7 +299,7 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._footerHeight += delta;
 				itemRecycler._viewportHeight -= delta;
 
-				if (itemRecycler.hasTemplate()) {
+				if (itemRecycler._initialized) {
 					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
 				}
 				itemRecycler._repositionFooter();
@@ -418,6 +422,7 @@ found here: https://github.com/Polymer/core-list
 
 		_needsInitialization: function (data, _templateFound) {
 			this._initializable = false;
+			this._initialized = false;
 			this.initialize();
 		},
 
@@ -451,6 +456,7 @@ found here: https://github.com/Polymer/core-list
 				this._initializeViewport();
 
 				this._initializable = true;
+				this._initialized = true;
 				this._waiting = false;
 				return 0|true;
 			} else {
@@ -612,7 +618,6 @@ found here: https://github.com/Polymer/core-list
 			var count = 0|(binds && binds.length);
 			var place = 0;
 			var height = 0;
-			var content = null;
 			var offset = this._calculateStaticPositionOffset(index, binds);
 
 			if (old < 0) {
@@ -621,19 +626,13 @@ found here: https://github.com/Polymer/core-list
 				}
 				count = binds.push(bound = new BoundReference(this, id));
 				bound.value = new BoundValue(null, this.scope);
-				bound.instance = content = this.cloneTemplate() || null;
-
-				if (!bound.instance) {
-					bound.instance = this.stampTemplate(bound.value);
-					content = Polymer.dom(bound.instance.root).querySelector("*");
-				}
+				bound.element = document.createElement("DIV");
+				this.toggleClass("recycler-panel", true, bound.element);
+				bound.instance = this.instantiateTemplateInto(bound.element);
 
 				bound.instance.set("scope", this.scope);
 				bound.instance.set("model", this.data[young]);
 
-				bound.element = document.createElement("DIV");
-				this.toggleClass("recycler-panel", true, bound.element);
-				Polymer.dom(bound.element).appendChild(content);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
 				this._addBoundResponse(bound, id, index);
 			} else if (young < 0) {

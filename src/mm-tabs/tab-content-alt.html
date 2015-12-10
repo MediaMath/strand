@@ -2,12 +2,11 @@
 	<mm-grid data="{{data}}" id="mmTestGrid2" selectable expandable style="width: 100%; height: 300px;">
 		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 		<mm-grid-column width="20%" field="id" sort resize>Id</mm-grid-column>
-		<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-		<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
+		<mm-grid-column width="40%" field="list" sort resize>Advertiser</mm-grid-column>
 		<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 		<mm-grid-column width="10%" field="actions"></mm-grid-column>
 		
-		<template is="dom-template"><!-- that this cannot be a dom-bind is most regrettable -->
+		<template preserve-content>
 			<mm-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="actions">
 					<mm-icon width="15" height="15" type="actions" id="{{strConcat('tooltip', model.id)}}"></mm-icon>
@@ -17,6 +16,32 @@
 				</div>
 				<div field="name">
 					Creative - <span>{{model.name}}</span>
+				</div>
+				<div field="list">
+					<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
+						<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+						<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+						<template preserve-content>
+							<mm-grid-item model="{{model}}" scope="{{scope}}">
+								<div class="expansion">
+									<div class="expansion-row">
+										<div class="expansion-col">
+											<h4>Expanded Content</h4>
+											<span>{{model.name}}</span>
+										</div>
+										<div class="expansion-col">
+											<h4>Expanded Advertiser</h4>
+											<span>{{model.advertiser}}</span>
+										</div>
+										<div class="expansion-col">
+											<h4>Expanded Concept</h4>
+											<span>{{model.concept}}</span>
+										</div>
+									</div>
+								</div>
+							</mm-grid-item>
+						</template>
+					</mm-grid>
 				</div>
 				<div class="expansion">
 					<div class="expansion-row">

@@ -29,8 +29,8 @@
 					<content id="columns" select="mm-grid-column"></content>
 				</div>
 			</div>
-			<content select="template"></content>
-			<template is="dom-template" id="defaultTemplate">
+			<content select="template:not([is])"></content>
+			<template preserve-content>
 				<mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item>
 			</template>
 		</mm-item-recycler>

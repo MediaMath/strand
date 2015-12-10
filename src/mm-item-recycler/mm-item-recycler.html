@@ -17,7 +17,7 @@
 	<link rel="import" type="css" href="mm-item-recycler.css"/>
 	<template>
 		<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
-			<content select="template"></content>
+			<content select="template:not([is])"></content>
 		</mm-template-finder>
 
 		<div id="pane">

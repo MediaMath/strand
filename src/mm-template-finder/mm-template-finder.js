@@ -11,7 +11,6 @@
 		is: 'mm-template-finder',
 
 		behaviors: [
-			StrandTraits.DomMutable,
 			StrandTraits.TemplateFindable,
 		],
 
@@ -29,36 +28,40 @@
 				},
 				notify: true,
 			},
-			templateDoc: {
-				type: Object,
-				computed: "_computeTemplateDoc(_localDoc)",
-				notify: true,
-			},
 			_templateStore: Object,
 			_remoteDoc: Object,
-			_localDoc: Object,
-			mutationTarget:{
-				type:Object,
-				value: function() {
-					return this.$.concealer;
-				},
+			_lazyHTML: {
+				type: String,
+				value: "",
+				readOnly: true,
 			},
-		},
-
-		listeners: {
-			"added": "_migrateTemplateContent",
 		},
 
 		observers: [
-			"_selectTemplate(templateFindable.templateSelector)",
+			"_selectTemplate(templateFindable.templateMatch, templateFindable.templateSelector)",
 			"_startTemplateImport(templateFindable.templateUri)",
 			"_finishTemplateImport(templateFindable.templateQuery, _remoteDoc)",
 			"_observeTemplate(templateFindable.templateBind)",
 		],
 
 		ready: function () {
-			this._migrateTemplateContent();
-			this._updateTemplate();
+			var finder = this;
+			Polymer.dom(this.$.content).observeNodes(function (info) {
+				var findable = finder.templateFindable;
+				finder._selectTemplate(findable.templateMatch, findable.templateSelector);
+			});
+		},
+
+		templateInnerHTML: function () {
+			var innerHTML = this._lazyHTML;
+
+			if (!innerHTML) {
+				if (this.template) {
+					this._set_lazyHTML(Polymer.dom(this.template).innerHTML);
+				}
+			}
+
+			return innerHTML || this._lazyHTML || "";
 		},
 
 		_lazyTemplateStore: function () {
@@ -68,45 +71,17 @@
 			return this._templateStore;
 		},
 
-		_lazyLocalDoc: function () {
-			var finder = this;
-
-			if (!this._localDoc) {
-				this._localDoc = document.implementation.createHTMLDocument();
-				new MutationObserver(function observation (mutations) {
-					finder._selectTemplate(finder.templateSelector);
-				}).observe(this._localDoc.documentElement, {
-					childList: true,
-					subtree: false,
-					attributes: false,
-					characterData: false,
-				});
-			}
-
-			return this._localDoc;
-		},
-
 		_computeTemplateDoc: function (doc) {
 			return doc && doc.documentElement || null;
 		},
 
-		_migrateTemplateContent: function () {
-			var doc = this._lazyLocalDoc();
-			var nodes = Array.apply(null, Polymer.dom(this.$.content).getDistributedNodes());
-			var count = nodes.length;
-			var index = 0;
-
-			for (index; index < count; index++) {
-				doc.documentElement.appendChild(doc.adoptNode(nodes[index]));
-			}
-		},
-
 		_selectTemplate: function () {
 			var findable = this.templateFindable;
+			var match = findable.templateMatch ? String(findable.templateMatch) : "";
 			var selector = findable.templateSelector ? String(findable.templateSelector) : "";
 			var store = this._lazyTemplateStore();
-			var doc = this._lazyLocalDoc();
-			store.lightdom = selector && doc.querySelector(selector) || null;
+			var element = match && this.queryEffectiveChildren(match) || null;
+			store.lightdom = element && selector && element.querySelector(selector) || element;
 			this._updateTemplate();
 		},
 
@@ -155,6 +130,7 @@
 				}
 			}
 
+			this._set_lazyHTML("");
 			this._setTemplate(template);
 			this.notifyPath("templateFinder.template", template);
 		},

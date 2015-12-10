@@ -45,7 +45,7 @@
 						id="itemRecycler" 
 						data="{{data}}" 
 						hidden$="{{!_hideInsertionPoints(data)}}">
-						<template is="dom-template" id="templateItem">
+						<template preserve-content>
 							<mm-list-item 
 								value$="{{model.value}}" 
 								selected$="{{model.selected}}"

@@ -113,7 +113,7 @@
 						<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
 						<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
 						<mm-grid-column width="10%" field="actions"></mm-grid-column>
-						<template is="dom-template" id="customTemplate">
+						<template preserve-content>
 							<mm-grid-item model="{{model}}" scope="{{scope}}">
 								<div field="actions">
 									<mm-icon width="15" height="15" type="actions" id="{{strConcat('tooltip', model.id)}}"></mm-icon>
@@ -187,7 +187,18 @@
 						type: "swf",
 						file: "Creative_File_" + i + ".swf",
 						selected: false,
-						expanded: false
+						expanded: false,
+						subdata: [{
+							id: 0,
+							name: Math.random().toString(36).substring(7),
+							advertiser: "Advertiser No. " + 0,
+							concept: "Concept No. " + 0,
+						}, {
+							id: 1,
+							name: Math.random().toString(36).substring(7),
+							advertiser: "Advertiser No. " + 1,
+							concept: "Concept No. " + 1,
+						}],
 					});
 				}
 

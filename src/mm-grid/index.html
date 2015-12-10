@@ -40,13 +40,13 @@
 		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
 			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-			<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
+			<mm-grid-column width="10%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+			<mm-grid-column width="10%" field="concept" sort resize>Concept</mm-grid-column>
 			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
-			<mm-grid-column width="10%" field="actions"></mm-grid-column>
+			<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
+			<mm-grid-column width="30%" field="actions"></mm-grid-column>
 			<!-- Any custom template provided as lightDOM needs to be a Polymer element -->
-			<template is="dom-bind">
+			<template>
 				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="actions">
@@ -72,6 +72,30 @@
 							<mm-list-item>List Item</mm-list-item>
 							<mm-list-item>List Item</mm-list-item>
 						</mm-dropdown>
+						<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
+							<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+							<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+							<template preserve-content>
+								<mm-grid-item model="{{model}}" scope="{{scope}}">
+									<div class="expansion">
+										<div class="expansion-row">
+											<div class="expansion-col">
+												<h4>Expanded Content</h4>
+												<span>{{model.name}}</span>
+											</div>
+											<div class="expansion-col">
+												<h4>Expanded Advertiser</h4>
+												<span>{{model.advertiser}}</span>
+											</div>
+											<div class="expansion-col">
+												<h4>Expanded Concept</h4>
+												<span>{{model.concept}}</span>
+											</div>
+										</div>
+									</div>
+								</mm-grid-item>
+							</template>
+						</mm-grid>
 					</div>
 					<div field="name">
 						Creative - <span>{{model.name}}</span>
@@ -136,6 +160,17 @@
 				expanded: false,
 				// style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
 				// style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
+				subdata: [{
+					id: 0,
+					name: Math.random().toString(36).substring(7),
+					advertiser: "Advertiser No. " + 0,
+					concept: "Concept No. " + 0,
+				}, {
+					id: 1,
+					name: Math.random().toString(36).substring(7),
+					advertiser: "Advertiser No. " + 1,
+					concept: "Concept No. " + 1,
+				}],
 			});
 		}
 

@@ -27,8 +27,8 @@
   </head>
   <body>
 
-	<mm-template-finder id="distributed" template-selector="#lightdom">
-		<template is="dom-bind" id="lightdom">
+	<mm-template-finder id="distributed" template-match="#lightdom">
+		<template id="lightdom">
 			<div>passed as light-dom <span>{{obj.field}}</span></div>
 		</template>
 	</mm-template-finder>
@@ -40,7 +40,7 @@
 
 	<br>
 
-	<template is="dom-template" id="bind">
+	<template id="bind">
 		<div>passed as binding <span>{{obj.field}}</span></div>
 	</template>
 	<mm-template-finder id="bound" template-bind="{{boundTemplate}}">
