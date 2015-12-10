@@ -51,18 +51,23 @@
 	position: relative;
 }
 
-:host ::content mm-header, 
-:host ::content mm-input, 
-:host ::content mm-dropdown { 
-	margin-bottom: 10px;
-}
+// :host ::content mm-header, 
+// :host ::content mm-input, 
+// :host ::content mm-dropdown { 
+// 	margin-bottom: 10px;
+// }
 
-:host ::content mm-inline-box[type='error'] {
+:host ::content mm-form-message {
+	margin-top: 10px;
 	display: none;
 }
 
 :host ::content mm-radio label {
 	line-height: 29px;
+}
+
+:host ::content mm-header[size=medium] {
+	margin-bottom: 10px;
 }
 
 // @include flexGrid(4, 20px, 10px, 20px, 10px, 0px, 5px, 5px, 0px);

@@ -26,7 +26,8 @@
 				reflectToAttribute: true
 			},
 			formItems: {
-				type: Array
+				type: Object,
+				value: function() { return {}; }
 			},
 			formData: {
 				type: Object,
@@ -105,6 +106,8 @@
 			}
 		},
 
+		_initialFormData: {},
+
 		// *******************************
 		// Form Data: 
 		// { 
@@ -112,7 +115,7 @@
 		// 		field: object, // the field element
 		//		value: object/string, // value of the field 
 		// 		validation: string, // i.e.: 'int|empty'
-		// 		errorMessage: object // the error message element i.e: Polymer.dom(document)querySelector(field.getAttribute('error-message'));
+		// 		errorMsg: object // the error message element i.e: Polymer.dom(document)querySelector(field.getAttribute('error-message'));
 		// 	},
 		// 	...
 		// }
@@ -123,22 +126,55 @@
 			// TODO: consider effective children apis once we get to v1.2.3
 			// https://www.polymer-project.org/1.0/docs/devguide/local-dom.html#effective-children
 			this.async(function() {
-				this.formItems = Polymer.dom(this).querySelectorAll('[form-id]');
-				this.formItems.forEach(function(item) {
-					var key = item.getAttribute('form-id'),
-						field = item,
-						value = item.value,
-						validation = item.getAttribute('validation'),
-						errorMessage = Polymer.dom(this).querySelector(item.getAttribute('error-message'));
+				var formFields = Polymer.dom(this).querySelectorAll('[name]');
+
+				formFields.forEach(function(item) {
+					var key 			= item.getAttribute('name'),
+						field 			= item,
+						label 			= item.getAttribute('label'),
+						value 			= item.value,
+						validation 		= item.getAttribute('validation'),
+						errorMsg 		= item.getAttribute('error-message'),
+						errorMsgEle		= null,
+						fieldHeaderEle 	= null;
 					
-					this.formData[key] = {
-						'field': field,
-						'value': value,
-						'validation': validation,
-						'errorMessage': errorMessage 
+					// create the label and error message if necessary
+					if (errorMsg) {
+						var parentEle = Polymer.dom(item).parentNode;
+
+						errorMsgEle = new Strand.FormMessage();
+						errorMsgEle.message = errorMsg;
+						errorMsgEle.type = 'error';
+						Polymer.dom(parentEle).appendChild(errorMsgEle);
+					}
+
+					if (label) {
+						var parentEle = Polymer.dom(item).parentNode,
+							headerTxt = document.createTextNode(label);
+
+						fieldHeaderEle = new Strand.Header();
+						fieldHeaderEle.size = 'medium';
+						Polymer.dom(fieldHeaderEle).appendChild(headerTxt);
+						Polymer.dom(parentEle).insertBefore(fieldHeaderEle, field);
+					}
+
+					// store the form data, hold on to the initial settings
+					// for cross reference diff later 
+					this.formData[key] = this._initialFormData[key] = value;
+
+					// store the form items and related data/elements
+					this.formItems[key] = {
+						'field'				: field,
+						'validation'		: validation,
+						'errorMsg'			: errorMsg,
+						'errorMsgEle' 		: errorMsgEle,
+						'fieldHeaderEle' 	: fieldHeaderEle
 					};
+
 				}.bind(this));
 				console.log("this.formData: ", this.formData);
+				console.log("this._initialFormData: ", this._initialFormData);
+				console.log("this.formItems: ", this.formItems);
 			});
 		},
 
@@ -162,11 +198,11 @@
 		// *******************************
 		// form validation
 		// validate per field:
-		_validateField: function(field) {
-			// construct the test set based on pipes(?):
-			var testSet = field.validation.replace(/\s/g, '').split("|")
-				result = result = testSet.map(function(item) {
-					return this.rules[item](field.value);
+		_validateField: function(validation, value) {
+			// construct the test set based on pipes:
+			var testSet = validation.replace(/\s/g, '').split("|"),
+				result = testSet.map(function(item) {
+					return this.rules[item](value);
 				}, this).filter(function(item) {
 					return item === true;
 				});
@@ -180,37 +216,48 @@
 
 			// UI validation pass:
 			// console.log('submitForm');
-			this.formItems.forEach(function(item){
-				var key 			= item.getAttribute('form-id'),
-					value 			= item.value,
-					dataItem 		= this.formData[key],
+			for (var key in this.formData) {
+				var item 			= this.formItems[key]
+					value 			= item.field.value,
+					validation		= item.validation,
 					isValid 		= false;
 
+				// set the form data:
+				this.formData[key] = value;
+
 				// validate UI:
-				dataItem.value = value;
-				isValid = this._validateField(dataItem);
+				isValid = this._validateField(validation, value);
 
 				// track invalid & valid fields
 				if (!isValid) {
 					invalid.push(key);
-					dataItem.errorMessage.style.display = 'block'; 
+					item.errorMsgEle.style.display = 'block'; 
 				} else {
 					valid.push(key);
-					dataItem.errorMessage.style.display = 'none';
+					item.errorMsgEle.style.display = 'none';
 				}
 
 				// show error state:
-				item.error = !isValid;
-
-			}.bind(this));
+				item.field.error = !isValid;
+			}
 
 			// TODO:
 			if (invalid.length > 0) {
-				// there were errors
-				// show footer error
+				this.footerType = 'error';
+				this.footerMessage = 'This form contains errors.';
+				this.showFooterMessage = true;
 			} else {
+
 				// send the data to some endpoint
 				// handle that response
+				
+				// reconfigure based on the response - display more error messaging
+				// or change the error messaging, etc - for if backend error wasn't
+				// caught on the UI validation pass				
+
+				this.footerType = 'success';
+				this.footerMessage = 'This form does not contain any errors.';
+				this.showFooterMessage = true;
 			}
 
 			// TODO - footer logic in here not index:
