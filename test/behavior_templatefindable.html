@@ -54,7 +54,7 @@
 		<template>
 			<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 				<content select="template"></content>
-				<template is="dom-template" id="internal">
+				<template preserve-content id="internal">
 					<test-stamping datum="{{obj}}"></test-stamping>
 				</template>
 			</mm-template-finder>
@@ -76,7 +76,7 @@
 
 	<dom-module id="test-patch">
 		<template>
-			<template is="dom-template" id="internal">
+			<template preserve-content id="internal">
 				<test-stamping datum="{{obj}}"></test-stamping>
 			</template>
 			<content></content>
@@ -93,11 +93,11 @@
 		</script>
 	</dom-module>
 
-	<template is="dom-bind" id="external2">
+	<template id="external2">
 		<test-stamping datum="{{obj}}"></test-stamping>
 	</template>
 
-	<template is="dom-template" id="external3">
+	<template id="external3">
 		<test-stamping datum="{{obj}}"></test-stamping>
 	</template>
 
@@ -110,7 +110,7 @@
 	<script>
 		describe("TemplateFindable", function() {
 
-			it("should propagate changes with custom behavior", function() {
+			it("should propagate changes without error", function() {
 				var element = document.querySelector("#test1");
 				var external = document.querySelector("#external2");
 				var instance = null;
@@ -118,8 +118,9 @@
 				var model = null;
 				var error = null;
 
-				instance = element.stampTemplate(model = {});
+				instance = element.instantiateTemplateInto(null);
 				instance.set("obj", { input: "text", });
+				instance.render(); // render() is necessary for deep paths to be set()
 
 				try {
 					instance.set("obj.input", "nothing");
@@ -134,8 +135,9 @@
 				element.set("templateFindable.templateSelector", "");
 				element.set("templateFindable.templateBind", external);
 
-				instance = element.cloneTemplate();
+				instance = element.instantiateTemplateInto(null);
 				instance.set("obj", { input: "text", });
+				instance.render(); // render() is necessary for deep paths to be set()
 
 				try {
 					instance.set("obj.input", "nothing");
@@ -143,7 +145,7 @@
 					error = error || e;
 				}
 
-				should.not.exist(error);
+				should.not.exist(error && error.stack);
 			});
 
 		});
