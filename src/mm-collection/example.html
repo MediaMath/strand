@@ -1,6 +1,5 @@
-<!-- note this example is intended to show how to use a collection with a data adapter, the example adapter does not exist -->
 <template is="dom-bind">
-	<mm-collection id="searchResults" data="{{dataList}}" auto>
+	<mm-collection id="searchResults" data="{{dataList}}" auto="false">
 	</mm-collection>
 	<template is="dom-repeat" items="{{datalist}}">
 		<div>{{item.name}}</div>
