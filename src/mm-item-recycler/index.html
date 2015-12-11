@@ -44,27 +44,33 @@
   </head>
   <body>
 	<button id="switch">toggle</button>
-	<div id="toggle" style="display: none">
-		<mm-item-recycler id="itemRecycler" item-template="templateItem" unresolved>
-			<template is="custom-template" id="templateItem">
-				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
-					<mm-input value="{{model.name}}"></mm-input><span>{{model.num}}</span>
-
-					<mm-dropdown placeholder="Some Very Long Name" data="{{model.dd.dropdownData}}" value="{{model.dd.dropDownValue}}"></mm-dropdown>
-
-					<!--
-					<mm-dropdown placeholder="{{model.name}}" value="{{model.value}}">
-						<mm-list-item value="0">JPEG</mm-list-item>
-						<mm-list-item value="1">GIF</mm-list-item>
-						<mm-list-item value="2">SWF</mm-list-item>
-						<mm-list-item value="3">PNG</mm-list-item>
-					</mm-dropdown>
-					-->
-				</div>
-			</template>
+	<div id="toggle" style="display: notnone">
+		<mm-item-recycler id="itemRecycler" template-uri="./template.html" unresolved>
 			<div id="header" recycler="header">Header <br/> Text</div>
 			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
 			Hello World
+		</mm-item-recycler>
+
+		<mm-item-recycler id="itemRecycler2" unresolved>
+			<div id="header" recycler="header">Header <br/> Text</div>
+			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
+			Hello World
+			<template>
+				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
+					<span>{{model.num}}</span><mm-input value="{{model.name}}"></mm-input>
+				</div>
+			</template>
+		</mm-item-recycler>
+
+		<mm-item-recycler id="itemRecycler3" template-uri="./template.html" unresolved>
+			<div id="header" recycler="header">Header <br/> Text</div>
+			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
+			Hello World
+			<template>
+				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
+					<span>{{model.num}}</span><mm-input value="{{model.name}}"></mm-input>
+				</div>
+			</template>
 		</mm-item-recycler>
 	</div>
 	<script type="text/javascript">
@@ -106,25 +112,28 @@
 			});
 		}
 
-		// Any custom template provided as lightDOM needs to be a Polymer element
-		HTMLImports.whenReady(function(){
-			Polymer({
-				is:'custom-template',
-				extends: 'template'
-			});
-		});
-
 		window.addEventListener("WebComponentsReady", function() {
+			var all = [
+				document.querySelector("#itemRecycler"),
+				document.querySelector("#itemRecycler2"),
+				document.querySelector("#itemRecycler3"),
+			];
 			toggle = document.querySelector("#toggle");
-			itemRecycler = document.querySelector("#itemRecycler");
-			itemRecycler.data = data;
+			itemRecycler = all[2];
+			(itemRecycler || {}).data = data;
+			itemRecycler = all[1];
+			(itemRecycler || {}).data = data;
+			itemRecycler = all[0];
+			(itemRecycler || {}).data = data;
 
 			document.querySelector("#switch").onclick = function () {
 				if (toggle.style.display !== "none") {
 					toggle.style.display = "none"
 				} else {
 					toggle.style.display = "";
-					itemRecycler.initialize();
+					all.forEach(function (recycler) {
+						recycler && recycler.initialize();
+					});
 				}
 			};
 

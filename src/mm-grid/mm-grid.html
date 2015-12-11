@@ -6,16 +6,18 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
 <link rel="import" href="../mm-item-recycler/mm-item-recycler.html">
 <link rel="import" href="../mm-grid-column/mm-grid-column.html">
 <link rel="import" href="../mm-grid-item/mm-grid-item.html">
 <link rel="import" href="../mm-checkbox/mm-checkbox.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
 <link rel="import" href="../mm-loader/mm-loader.html">
+
 <dom-module id="mm-grid">
 	<link rel="import" type="css" href="mm-grid.css"/>
 	<template>
-		<mm-item-recycler id="viewport" gpu="{{gpu}}" item-template-element="{{itemTemplateElement}}" data="{{data}}" scope="{{scope}}" index="{{index}}">
+		<mm-item-recycler id="viewport" gpu="{{gpu}}" data="{{data}}" scope="{{scope}}" index="{{index}}" template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 			<div id="header">
 				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
 					<mm-checkbox id="selectAll" on-tap="_toggleAllSelections" state="{{_selectAllState}}"></mm-checkbox>
@@ -27,15 +29,16 @@
 					<content id="columns" select="mm-grid-column"></content>
 				</div>
 			</div>
+			<content select="template:not([is])"></content>
+			<template preserve-content>
+				<mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item>
+			</template>
 		</mm-item-recycler>
-		<content select="template"></content>
-		<template id="defaultTemplate">
-			<mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item>
-		</template>
  		<template is="dom-if" if="{{isLoading}}">
 			<mm-loader id="loader"><label>Loading...</label></mm-loader>
 		</template>
 		<div id="separator"></div>
 	</template>
 </dom-module>
+
 <script src="mm-grid.js"></script>

@@ -26,8 +26,8 @@
 	</mm-tabs>
 
 	<mm-tabs id="testTabs">
-		<mm-tab tab-label="First" id="testTab1" url="imports/test-mm-tabs-aux.html"></mm-tab>
-		<mm-tab tab-label="Second" id="testTab2" url="imports/test-mm-tabs-aux.html"></mm-tab>
+		<mm-tab tab-label="First" id="testTab1" template-uri="imports/test-mm-tabs-aux.html"></mm-tab>
+		<mm-tab tab-label="Second" id="testTab2" template-uri="imports/test-mm-tabs-aux.html"></mm-tab>
 		<mm-tab tab-label="Third" id="testTab3"></mm-tab>
 	</mm-tabs>
 
@@ -71,8 +71,8 @@
 
 			it("should load external content", function() {
 				var a = document.querySelector('#testTab1'),
-					tabContent = Polymer.dom(a.root).querySelector('content'),
-					nodes = Polymer.dom(tabContent).getDistributedNodes();
+					tabContent = a.$.view,
+					nodes = Polymer.dom(a.$.view).children;
 				nodes[0].id.should.equal('aux');
 			});
 
@@ -88,9 +88,9 @@
 				var a = document.querySelector('#testTab3');
 				a.loadExternal('imports/test-mm-tabs-aux.html', function() {
 					// flush(function() {
-						var tabContent = Polymer.dom(a.root).querySelector('content'),
-							nodes = Polymer.dom(tabContent).getDistributedNodes();
-						nodes[2].id.should.equal('aux2');
+						var tabContent = a.$.view,
+							nodes = Polymer.dom(a.$.view).children;
+						nodes[1].id.should.equal('aux2');
 						done();
 					// });
 				});

@@ -31,8 +31,6 @@
 				}
 			},
 			index: Number,
-			itemTemplate: String,
-			itemTemplateElement: Object,
 			_selectAllState: {
 				type: String,
 				value: 'unchecked'
@@ -70,7 +68,10 @@
 			}
 		},
 
-		behaviors: [ StrandTraits.Resolvable ],
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.TemplateFindable,
+		],
 		
 		listeners: {
 			'column-resize-start': '_onColumnResizeStart',
@@ -85,18 +86,11 @@
 			"_onSortChanged(sortField, sortOrder)",
 		],
 
-
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
 		attached: function() {
-			if(this.itemTemplate && typeof this.itemTemplate === "string") {
-				this.itemTemplateElement = this.querySelector("#" + this.itemTemplate);
-			}
-
-			this.itemTemplateElement = this.itemTemplateElement || this.$.defaultTemplate;
-
 			this.async(this._initialize);
 		},
 

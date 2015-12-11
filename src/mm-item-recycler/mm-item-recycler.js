@@ -59,8 +59,8 @@ found here: https://github.com/Polymer/core-list
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.StampBindable,
 			StrandTraits.WindowNotifier,
+			StrandTraits.TemplateFindable,
 			StrandTraits.SizeResponsible,
 		],
 
@@ -80,20 +80,6 @@ found here: https://github.com/Polymer/core-list
 				value: null,
 				notify: true,
 			},
-			itemTemplate: {
-				type: String,
-				// value: ""
-				value: false
-			},
-			itemTemplateElement: {
-				type: Object,
-				value: null,
-			},
-			_templatized: {
-				type: Object,
-				value: null,
-				readOnly: true,
-			},
 			index: {
 				type: Number,
 				value: 0,
@@ -110,6 +96,10 @@ found here: https://github.com/Polymer/core-list
 				},
 			},
 			_waiting: {
+				type: Boolean,
+				value: false,
+			},
+			_initialized: {
 				type: Boolean,
 				value: false,
 			},
@@ -188,7 +178,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		observers: [
-			"_needsInitialization(data, itemTemplate, itemTemplateElement)",
+			"_needsInitialization(data, _templateFound)",
 			"_scopeChanged(scope.*)",
 			"_dataChanged(data.*)",
 		],
@@ -207,6 +197,9 @@ found here: https://github.com/Polymer/core-list
 
 			if (modelChanged &&
 				delimiter > offset) {
+				if (path.charCodeAt(offset) === "#".charCodeAt(0)) {
+					offset += 1;
+				}
 				num = Number(path.slice(offset, delimiter));
 				if (!isNaN(num)) {
 					for (index; index < count; index++) {
@@ -273,7 +266,9 @@ found here: https://github.com/Polymer/core-list
 			if (delta) {
 				itemRecycler._viewportHeight += delta;
 
-				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				if (itemRecycler._initialized) {
+					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				}
 				itemRecycler._repositionFooter();
 				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
@@ -287,7 +282,9 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._headerHeight += delta;
 				itemRecycler._viewportHeight -= delta;
 
-				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				if (itemRecycler._initialized) {
+					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				}
 				itemRecycler._repositionMiddle();
 				itemRecycler._repositionFooter();
 				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
@@ -302,7 +299,9 @@ found here: https://github.com/Polymer/core-list
 				itemRecycler._footerHeight += delta;
 				itemRecycler._viewportHeight -= delta;
 
-				itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				if (itemRecycler._initialized) {
+					itemRecycler._recycler.resizeFrame(itemRecycler._viewportHeight);
+				}
 				itemRecycler._repositionFooter();
 				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 			}
@@ -421,15 +420,16 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_needsInitialization: function () {
+		_needsInitialization: function (data, _templateFound) {
 			this._initializable = false;
+			this._initialized = false;
 			this.initialize();
 		},
 
 		initialize: function () {
 			if (!this.data) {
 				return 0|false;
-			} else if (!this.initializeTemplateBind()) {
+			} else if (!this.hasTemplate()) {
 				return 0|false;
 			} else if (this.$.extent.offsetHeight < 1) {
 				this._waiting = true;
@@ -437,24 +437,6 @@ found here: https://github.com/Polymer/core-list
 			} else {
 				this._waiting = false;
 				this.debounce("initializeRecycler", this.initializeRecycler);
-				return 0|true;
-			}
-		},
-
-		initializeTemplateBind: function () {
-			if (!this.itemTemplateElement &&
-				this.itemTemplate &&
-				typeof this.itemTemplate === "string") {
-				this.itemTemplateElement = Polymer.dom(this).querySelector("template#" + this.itemTemplate);
-			}
-
-			if(!this.itemTemplateElement) {
-				return 0|false;
-			} else {
-				if (this._templatized !== this.itemTemplateElement) {
-					this._set_templatized(this.itemTemplateElement);
-					this.templatize(this.itemTemplateElement);
-				}
 				return 0|true;
 			}
 		},
@@ -474,6 +456,7 @@ found here: https://github.com/Polymer/core-list
 				this._initializeViewport();
 
 				this._initializable = true;
+				this._initialized = true;
 				this._waiting = false;
 				return 0|true;
 			} else {
@@ -635,7 +618,6 @@ found here: https://github.com/Polymer/core-list
 			var count = 0|(binds && binds.length);
 			var place = 0;
 			var height = 0;
-			var content = null;
 			var offset = this._calculateStaticPositionOffset(index, binds);
 
 			if (old < 0) {
@@ -644,16 +626,13 @@ found here: https://github.com/Polymer/core-list
 				}
 				count = binds.push(bound = new BoundReference(this, id));
 				bound.value = new BoundValue(null, this.scope);
-				bound.instance = this.stamp(bound.value);
+				bound.element = document.createElement("DIV");
+				this.toggleClass("recycler-panel", true, bound.element);
+				bound.instance = this.instantiateTemplateInto(bound.element);
 
-				// assigning to the bound.value pre-stamp() is not sufficient -- must use bound.instance.set()
 				bound.instance.set("scope", this.scope);
 				bound.instance.set("model", this.data[young]);
 
-				content = Polymer.dom(bound.instance.root).querySelector("*");
-				bound.element = document.createElement("DIV");
-				this.toggleClass("recycler-panel", true, bound.element);
-				Polymer.dom(bound.element).appendChild(content);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
 				this._addBoundResponse(bound, id, index);
 			} else if (young < 0) {

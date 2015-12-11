@@ -34,6 +34,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		})();
 
 		function resetTriggers(element){
+			if (!element.__resizeTriggers__) { return; } // diverges from 3d9563692e169eb54f7c4fb96f4866aebc17cb4e
 			var triggers = element.__resizeTriggers__,
 				expand = triggers.firstElementChild,
 				contract = triggers.lastElementChild,
