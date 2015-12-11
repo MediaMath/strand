@@ -245,7 +245,6 @@
 				result = [];
 
 			// attempt with validate-js
-
 			result = testSet.map(function(item) {
 				return this.rules[item](value);
 			}, this).filter(function(item) {

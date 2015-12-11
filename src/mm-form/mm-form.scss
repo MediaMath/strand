@@ -6,56 +6,15 @@
 */
 @import "_bourbon";
 
-@mixin flexGrid(
-	// $count:4,
-
-	// $paddingTop:0px,
-	// $paddingRight:0px,
-	// $paddingBottom:0px,
-	// $paddingLeft:0px,
-
-	// $marginTop:0px, 
-	// $marginRight:0px,
-	// $marginBottom:0px,
-	// $marginLeft:0px
-){
-	:host ::content .col {
-		box-sizing: border-box;
-		// padding-top: $paddingTop;
-		// padding-right: $paddingRight;
-		// padding-bottom: $paddingBottom;
-		// padding-left: $paddingLeft;
-	}
-
-	// The loop that creates all of span[n] columns classes
-	// @for $i from 1 through $count {
-	// 	:host ::content [span='#{$i}'] {
-	// 		$pct: percentage(1/$count * $i);
-	// 		$marginTotal: $marginRight + $marginLeft;
-
-	// 		width: calc(#{$pct} - #{$marginTotal});
-	// 		min-width: calc(#{$pct} - #{$marginTotal});
-			
-	// 		margin-top: $marginTop;
-	// 		margin-right: $marginRight;
-	// 		margin-bottom: $marginBottom;
-	// 		margin-left: $marginLeft;
-	// 	}
-	// }
-}
-
-// Defining Your Grid
 :host {
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
 }
 
-// :host ::content mm-header, 
-// :host ::content mm-input, 
-// :host ::content mm-dropdown { 
-// 	margin-bottom: 10px;
-// }
+:host ::content .col {
+	box-sizing: border-box;
+}
 
 :host ::content mm-form-message {
 	margin-top: 10px;
@@ -69,9 +28,6 @@
 :host ::content mm-header[size=medium] {
 	margin-bottom: 10px;
 }
-
-// @include flexGrid(4, 20px, 10px, 20px, 10px, 0px, 5px, 5px, 0px);
-@include flexGrid();
 
 mm-footer {
 	position: fixed;
