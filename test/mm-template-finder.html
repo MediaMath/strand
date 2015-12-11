@@ -20,9 +20,9 @@
 				var now = Date.now();
 
 				should.exist(finder.template);
-				should.exist(finder.cloneTemplate());
+				should.exist(finder.instantiateTemplateInto(null));
 
-				instance = finder.cloneTemplate();
+				instance = finder.instantiateTemplateInto(null);
 				instance.set("field", now);
 				document.body.appendChild(instance);
 
@@ -41,9 +41,9 @@
 				var now = Date.now();
 
 				should.exist(finder.template);
-				should.exist(finder.cloneTemplate());
+				should.exist(finder.instantiateTemplateInto(null));
 
-				instance = finder.cloneTemplate();
+				instance = finder.instantiateTemplateInto(null);
 				instance.set("field", now);
 				document.body.appendChild(instance);
 
@@ -61,22 +61,24 @@
 				var instance = null;
 				var now = Date.now();
 
-				finder.set("templateFinder.templateBind", document.querySelector("#bind"));
+				finder.set("templateFindable.templateBind", document.querySelector("#bind"));
 
 				should.exist(finder.template);
-				should.exist(finder.stampTemplate());
+				should.exist(finder.instantiateTemplateInto(null));
 
-				instance = finder.stampTemplate();
+				instance = finder.instantiateTemplateInto(null);
 				instance.set("field", now);
 
 				instance.root.textContent.trim().should.equal("passed as binding "+now);
+
+				done();
 			});
 
 		});
 	</script>
 
 	<mm-template-finder id="distributed" template-selector="#lightdom">
-		<template is="dom-bind" id="lightdom">
+		<template id="lightdom">
 			<div>passed as light-dom <span>{{field}}</span></div>
 		</template>
 	</mm-template-finder>
@@ -88,10 +90,10 @@
 
 	<br>
 
-	<template is="dom-template" id="bind">
+	<template id="bind">
 		<div>passed as binding <span>{{field}}</span></div>
 	</template>
-	<mm-template-finder id="bound" template-bind="{{boundTemplate}}">
+	<mm-template-finder id="bound">
 	</mm-template-finder>
 
 </body>

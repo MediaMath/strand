@@ -8,11 +8,20 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
+<link rel="import" href="../mm-template-finder/mm-template-finder.html"/>
 
 <dom-module id="mm-tab">
 	<link rel="import" type="css" href="mm-tab.css"/>
 	<template>
-		<content></content>
+		<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+			<content select="template:not([is])"></content>
+		</mm-template-finder>
+		<div id="view"></div>
+		<template is="dom-if" if="{{!templateFinder.template}}">
+			<content></content>
+		</template>
 	</template>
 </dom-module>
+
 <script src="mm-tab.js"></script>

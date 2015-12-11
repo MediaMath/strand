@@ -1,4 +1,4 @@
-<template is="dom-bind">
+<template preserve-content>
 	<div style="padding-left: 20px;"><mm-header><h2>External with tabs</h2></mm-header></div>
 	<mm-tabs>
 		<mm-tab tab-label="Second Level Tab">
@@ -69,6 +69,7 @@
 						<p>While Fix, in a feverish, nervous state, repaired to the pilot-boat, the others directed their course to the police-station at Hong Kong. Phileas Fogg there gave Passepartout's description, and left a sum of money to be spent in the search for him.  The same formalities having been gone through at the French consulate, and the palanquin having stopped at the hotel for the luggage, which had been sent back there, they returned to the wharf.</p>
 					</div>
 				</mm-tab>
+				<mm-tab id="sameContent" tab-label="Loaded template" template-uri="tab-content-alt.html"></mm-tab>
 			</mm-tabs>
 		</mm-tab>
 	</mm-tabs>

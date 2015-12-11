@@ -11,7 +11,6 @@
 
 		properties: {
 			active: {
-				observer: '_loadExternal',
 				reflectToAttribute: true,
 				type: Boolean,
 				value: false,
@@ -25,27 +24,29 @@
 				type: String,
 				value: '',
 			},
-			url: {
-				type: String,
-				value: '',
-				observer: '_loadExternal'
+			_instance: Object,
+			_callback: {
+				type: Object,
 			},
-
-			_contentLoaded: {
-				type: Boolean,
-				value: false
-			}
 		},
 
-		_importNodes: function(importDoc) {
-			if(importDoc) {
-				var importTemplate = importDoc.querySelector('template[is="dom-bind"]');
-				var instance = importTemplate.cloneNode(true);
-				Polymer.dom(this).appendChild(instance);
+		behaviors: [
+			StrandTraits.TemplateFindable,
+		],
 
-				if(this._callback) this.async(this._callback.bind(this, instance));
+		observers: [
+			"_renderView(active, _templateFound)",
+		],
 
-				this._contentLoaded = true;
+		_renderView: function (active, _templateFound) {
+			if (!_templateFound) {
+				this._instance = null;
+			} else if (active && !this._instance) {
+				this._instance = this.instantiateTemplateInto(this.$.view);
+
+				if (this._callback) {
+					this.async(this._callback.bind(this, this._instance));
+				}
 
 				this.fire('loaded', {
 					label: this.tabLabel,
@@ -54,35 +55,10 @@
 			}
 		},
 
-		_loadExternal: function() {
-			if(this.active && !this._contentLoaded) {
-				var importDoc,
-					existing = document.head.querySelector('link[href="'+this.url+'"]');
-
-				if(existing) {
-
-					importDoc = existing.import;
-					this._importNodes(importDoc);
-
-				} else if(this.url) {
-
-					this.importHref(this.url,
-						function(e) {
-							importDoc = e.target.import;
-							this._importNodes(importDoc);
-						},
-						function(error) {
-							console.error(error);
-						});
-
-				}
-			}
-		},
-
 		loadExternal: function(path, callback) {
 			this._callback = callback;
-			this.url = path;
-		}
+			this.set("templateFindable.templateUri", path);
+		},
 
 	});
 	
