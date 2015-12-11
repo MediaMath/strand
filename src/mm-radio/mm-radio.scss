@@ -68,7 +68,7 @@
 	background-image: linear-gradient(to bottom, #bfbfbf 0%, #f2f2f2 100%);
 }
 
-#label {
+:host ::content label {
 	font-family: 'Arimo', sans-serif;
 	@include fontSmoothing();
 	color: $color-A2;
