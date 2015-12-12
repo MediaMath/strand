@@ -42,7 +42,8 @@
 			if (!_templateFound) {
 				this._instance = null;
 			} else if (active && !this._instance) {
-				this._instance = this.instantiateTemplateInto(this.$.view);
+				this._instance = this.instantiateTemplate();
+				Polymer.dom(this.$.view).appendChild(this._instance);
 
 				if (this._callback) {
 					this.async(this._callback.bind(this, this._instance));

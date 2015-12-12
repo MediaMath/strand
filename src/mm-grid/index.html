@@ -46,9 +46,9 @@
 			<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
 			<mm-grid-column width="30%" field="actions"></mm-grid-column>
 			<!-- Any custom template provided as lightDOM needs to be a Polymer element -->
-			<template>
+			<template preserve-content>
 				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<mm-grid-item class="no-{{model.name}}-class" model="{{model}}" scope="{{scope}}">
 					<div field="actions">
 						<!--
 						<mm-icon width="15" height="15" type="actions" id="{{scope.createId('tooltip', model.id)}}"></mm-icon>
@@ -98,7 +98,7 @@
 						</mm-grid>
 					</div>
 					<div field="name">
-						Creative - <span>{{model.name}}</span>
+						Creative - {{model.name}}
 					</div>
 					<div class="expansion">
 						<div class="expansion-row">
