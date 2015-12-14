@@ -204,14 +204,16 @@
 			var field = e.target,
 				value = e.detail.value;
 
-			this._dataUpdate(field, value);
+			if (value) {
+				this._dataUpdate(field, value);
 
-			var diff = this._diffData();
+				var diff = this._diffData();
 
-			if (diff) {
-				this.footerMessage = this.footerMessages.warning;
-				this.footerType = 'warning';
-				this._showFooterMessage = true;
+				if (diff) {
+					this.footerMessage = this.footerMessages.warning;
+					this.footerType = 'warning';
+					this._showFooterMessage = true;
+				}
 			}
 		},
 
@@ -308,7 +310,7 @@
 				}
 			}
 
-			// fire an invalid form event:
+			// fire a serialize-form event:
 			this.fire('serialize-form', {
 				isValid: !invalid.length > 0,
 				invalidFields: invalid,

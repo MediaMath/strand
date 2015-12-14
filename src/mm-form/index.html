@@ -48,124 +48,190 @@
 		}
 	</style>
 	</head>
-	<body>
+	
 
-	<dom-module id="special-snowflake">
-		<style type="text/css">
-			:host {
-				position: relative;
-				display: flex;
-				align-items: center;
-				font-size: 0; 
-			}
-			mm-dropdown {
-				margin-right: 15px;
-			}
-		</style>
-		<template>
-				<mm-radio id="standardSize" checked></mm-radio>
-				<mm-dropdown placeholder="Select One">
-					<mm-list-item>300x250</mm-list-item>
-					<mm-list-item>300x250</mm-list-item>
-					<mm-list-item>300x250</mm-list-item>
+	<body>
+		<!-- dom module for testing special cases -->
+		<dom-module id="special-snowflake">
+			<style type="text/css">
+				:host {
+					position: relative;
+					display: flex;
+					align-items: center;
+					font-size: 0; 
+				}
+				mm-dropdown {
+					margin-right: 15px;
+				}
+			</style>
+			<template>
+				<mm-radio 
+					id="standardSize" 
+					group="sizes" 
+					checked
+					on-selected="_handleRadioSelected"></mm-radio>
+				<mm-dropdown 
+					id="standardSizeDdl" 
+					disabled$="{{!isStandard}}" 
+					on-changed="_standardSizeChanged" 
+					placeholder="Select One">
+					<mm-list-item>160x600</mm-list-item>
+					<mm-list-item>728x90</mm-list-item>
 					<mm-list-item>300x250</mm-list-item>
 				</mm-dropdown>
-				<mm-radio id="nonStandardSize"></mm-radio>
-				<mm-group disabled>
-					<mm-input placeholder="Width" validation="int"></mm-input>
-					<mm-input placeholder="Height" validation="int"></mm-input>
+				<mm-radio 
+					id="nonStandardSize" 
+					group="sizes"
+					on-selected="_handleRadioSelected"></mm-radio>
+				<mm-group id="nonStandardSizeGroup" disabled$="{{isStandard}}">
+					<mm-input 
+						id="width"
+						placeholder="Width" 
+						validation="int" 
+						on-changed="_widthChanged"></mm-input>
+					<mm-input 
+						id="height"
+						placeholder="Height" 
+						validation="int" 
+						on-changed="_heightChanged"></mm-input>
 				</mm-group>
-		</template>
-	</dom-module>
+			</template>
+		</dom-module>
 
-	<mm-form id="testForm" unresolved>
+		<mm-form id="testForm" unresolved>
+			<!-- row 1 -->
+			<div class="col" span="1">
+				<mm-input 
+					fitparent 
+					name="input"
+					validation="int|empty"
+					placeholder="Type a Number"
+					label="Type a Number"
+					error-message="You need to type a number"></mm-input>
+			</div>
+			<div class="col" span="1">
+				<mm-dropdown 
+					fitparent 
+					name="dropdown"
+					placeholder="Select an Item" 
+					validation="empty"
+					label="Select an Item"
+					error-message="You need to select an item">
+					<mm-list-item>List Item 1</mm-list-item>
+					<mm-list-item>List Item 2</mm-list-item>
+					<mm-list-item>List Item 3</mm-list-item>
+					<mm-list-item>List Item 4</mm-list-item>
+				</mm-dropdown>
+			</div>
+			<div class="col" span="1">
+				<mm-group 
+					fitparent 
+					unresolved
+					name="radio"
+					placeholder="Select an Item" 
+					validation="empty"
+					label="Select a Color"
+					error-message="You need to select a color">
+					<mm-radio>
+						<label>Red</label>
+					</mm-radio>
+					<mm-radio>
+						<label>Green</label>
+					</mm-radio>	
+					<mm-radio>
+						<label>Blue</label>
+					</mm-radio>			
+				</mm-group>
+			</div>
 
-		<!-- row 1 -->
-		<div class="col" span="1">
-			<mm-input 
-				fitparent 
-				name="input"
-				validation="int|empty"
-				placeholder="Type a Number"
-				label="Type a Number"
-				error-message="You need to type a number"></mm-input>
-		</div>
-		<div class="col" span="1">
-			<mm-dropdown 
-				fitparent 
-				name="dropdown"
-				placeholder="Select an Item" 
-				validation="empty"
-				label="Select an Item"
-				error-message="You need to select an item">
-				<mm-list-item>List Item 1</mm-list-item>
-				<mm-list-item>List Item 2</mm-list-item>
-				<mm-list-item>List Item 3</mm-list-item>
-				<mm-list-item>List Item 4</mm-list-item>
-			</mm-dropdown>
-		</div>
-		<div class="col" span="1">
-			<mm-group 
-				fitparent 
+			<!-- row 2 -->
+			<div class="col" span="1">
+			<special-snowflake
 				unresolved
-				name="radio"
-				placeholder="Select an Item" 
-				validation="empty"
-				label="Select a Color"
-				error-message="You need to select a color">
-				<mm-radio>
-					<label>Red</label>
-				</mm-radio>
-				<mm-radio>
-					<label>Green</label>
-				</mm-radio>	
-				<mm-radio>
-					<label>Blue</label>
-				</mm-radio>			
-			</mm-group>
-		</div>
+				name="snowflake"
+				validation="dimensions|empty"
+				label="Select a Dimension"
+				error-message="You need to select a dimension"></special-snowflake>
+		</mm-form>
 
-		<!-- row 2 -->
-		<div class="col" span="1">
-		<special-snowflake
-			unresolved
-			name="snowflake"
-			validation="dimension"
-			label="Select a Dimension"
-			error-message="You need to select a dimension"></special-snowflake>
-
-	</mm-form>
-
-	<script>
-
-		HTMLImports.whenReady(function() {
-			Polymer({
+		<script>
+			// special form component to validate assumptions: 
+			HTMLImports.whenReady(function() {
+				Polymer({
 					is: "special-snowflake",
-					
+					behaviors: [
+						StrandTraits.Resolvable
+					],
 					properties: {
 						value: {
-							type:String,
+							type: Object,
 							notify: true,
+							value: function() {
+								return {
+									width: null,
+									height: null
+								}
+							},
 							observer: "_valueChanged"
 						},
+						isStandard: {
+							type: Boolean
+						}
 					},
-
 					_valueChanged: function(oldVal, newVal) {
 						// must fire a changed event:
 						this.fire('changed', { value: newVal });
+					},
+					_handleRadioSelected: function(e) {
+						switch (e.detail.item.id) {
+							case 'standardSize':
+								this.isStandard = true;
+								break;
+							case 'nonStandardSize':
+								this.isStandard = false;
+								break;
+							default:
+								return;	
+						}
+					},
+					_standardSizeChanged: function(e) {
+						// split the dimension and shove into the value Object
+						var dimensions = e.detail.value.split('x');
+						this.value = {
+							width : parseInt(dimensions[0]),
+							height : parseInt(dimensions[1])
+						};
+					},
+					_widthChanged: function(e) {
+						if (e.detail.value) {
+							this.value.width = parseInt(e.detail.value);
+						}
+					},
+					_heightChanged: function(e) {
+						if (e.detail.value) {
+							this.value.height = parseInt(e.detail.value);
+						}
 					}
-
+				});
 			});
-		});
 
-		window.addEventListener('WebComponentsReady', function(e) {
-			var testForm = document.querySelector('#testForm');
-			testForm.addEventListener('serialize-form', function(e){
-				console.log('serialize-form', e.detail);
+			window.addEventListener('WebComponentsReady', function(e) {
+				var testForm = document.querySelector('#testForm');
+
+				// add custom validation rules for the dimension component
+				// this would probably be more robust, but this is sufficient
+				testForm.rules.dimensions = function(i) {
+					var isValid = typeof(i.width === 'number') && 
+						typeof(i.height === 'number');
+					return i.width !== null && i.height !== null;
+				}
+
+				testForm.addEventListener('serialize-form', function(e){
+					console.log('serialize-form', e.detail);
+				});
 			});
-		});
 
-	</script>
+		</script>
 
 	</body>
 </html>
