@@ -28,6 +28,15 @@
 			_callback: {
 				type: Object,
 			},
+			_resolved: Object,
+			promise: {
+				type: Object,
+				value: function () {
+					return new Zousan();
+				},
+				notify: true,
+				readOnly: true,
+			},
 		},
 
 		behaviors: [
@@ -53,12 +62,28 @@
 					label: this.tabLabel,
 					target: this,
 				});
+
+				if (!this.promise ||
+					this.promise === this._resolved) {
+					this._setPromise(new Zousan());
+				}
+
+				this.promise.resolve(this._instance);
+
+				this.set("_resolved", this.promise);
 			}
 		},
 
 		loadExternal: function(path, callback) {
+			if (!this.promise ||
+				this.promise === this._resolved) {
+				this._setPromise(new Zousan());
+			}
+
 			this._callback = callback;
 			this.set("templateFindable.templateUri", path);
+
+			return this.promise;
 		},
 
 	});

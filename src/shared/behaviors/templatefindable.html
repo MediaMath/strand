@@ -64,8 +64,12 @@
 		var module = document.createElement("dom-module");
 		var template = document.createElement("template");
 		template.innerHTML = html;
-		var subtemplates = Array.apply(null, template.content.querySelectorAll("template:not([is])"));
-		var exclusions = subtemplates.map(function (sub) {
+
+		var fix = 0|false; // for Safari 8
+
+		var subtemplates = !fix ?
+			null : Array.apply(null, template.content.querySelectorAll("template:not([is])"));
+		var exclusions = !subtemplates ? null : subtemplates.map(function (sub) {
 			return Array.apply(null, sub.content.querySelectorAll("template:not([is])"));
 		}).reduce(arrayConcat, []).reduce(function (reduction, sub) {
 			if (reduction.indexOf(sub) < 0) {
@@ -73,7 +77,7 @@
 			}
 			return reduction;
 		}, []);
-		var inclusions = subtemplates.map(function (sub) {
+		var inclusions = !subtemplates ? null : subtemplates.map(function (sub) {
 			return this.indexOf(sub) < 0 ? sub : null;
 		}, exclusions);
 
@@ -109,8 +113,10 @@
 					document.importNode(template.content, true) :
 					document.adoptNode(template.content.cloneNode(true));
 
-				// the above does not work in Safari 8 without the following
-				Array.apply(null, dom.querySelectorAll("template")).forEach(patch, inclusions);
+				// the above does not work in Safari 8 without the following fix applied
+				if (inclusions) {
+					Array.apply(null, dom.querySelectorAll("template")).forEach(patch, inclusions);
+				}
 
 				return dom;
 			},
