@@ -41,6 +41,7 @@
 
 		behaviors: [
 			StrandTraits.TemplateFindable,
+			StrandTraits.TemplateComponentizable,
 		],
 
 		observers: [
@@ -51,7 +52,7 @@
 			if (!_templateFound) {
 				this._instance = null;
 			} else if (active && !this._instance) {
-				this._instance = this.instantiateTemplate();
+				this._instance = this.instantiateTemplate(this._templateFound);
 				Polymer.dom(this.$.view).appendChild(this._instance);
 
 				if (this._callback) {
