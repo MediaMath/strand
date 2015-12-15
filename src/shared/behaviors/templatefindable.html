@@ -84,30 +84,6 @@
 			return 0|!!this._templateFound;
 		},
 
-		instantiateTemplateInto: function (parent) {
-			var element = document.createElement("div");
-			var instance = null;
-
-			element.innerHTML = [
-				'<template is="dom-bind">',
-				this.templateFinder && this.templateFinder.templateInnerHTML() || '',
-				'</template>',
-			].join("\n");
-
-			instance = element.lastElementChild;
-
-			instance.attached();
-			instance.detached();
-
-			element.removeChild(instance);
-
-			if (parent) {
-				parent.appendChild(instance);
-			}
-
-			return instance;
-		},
-
 	};
 
 })(window.StrandTraits = window.StrandTraits || {}); 

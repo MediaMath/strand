@@ -61,6 +61,7 @@ found here: https://github.com/Polymer/core-list
 			StrandTraits.Resolvable,
 			StrandTraits.WindowNotifier,
 			StrandTraits.TemplateFindable,
+			StrandTraits.TemplateComponentizable,
 			StrandTraits.SizeResponsible,
 		],
 
@@ -628,11 +629,12 @@ found here: https://github.com/Polymer/core-list
 				bound.value = new BoundValue(null, this.scope);
 				bound.element = document.createElement("DIV");
 				this.toggleClass("recycler-panel", true, bound.element);
-				bound.instance = this.instantiateTemplateInto(bound.element);
+				bound.instance = this.instantiateTemplate(this._templateFound);
 
 				bound.instance.set("scope", this.scope);
 				bound.instance.set("model", this.data[young]);
 
+				Polymer.dom(bound.element).appendChild(bound.instance);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
 				this._addBoundResponse(bound, id, index);
 			} else if (young < 0) {

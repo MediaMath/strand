@@ -165,12 +165,29 @@
 					type: "swf",
 					file: "Creative_File_" + i + ".swf",
 					selected: false,
-					expanded: false
+					expanded: false,
+					subdata: [{
+						id: 0,
+						name: Math.random().toString(36).substring(7),
+						advertiser: "Advertiser No. " + 0,
+						concept: "Concept No. " + 0,
+					}, {
+						id: 1,
+						name: Math.random().toString(36).substring(7),
+						advertiser: "Advertiser No. " + 1,
+						concept: "Concept No. " + 1,
+					}],
 				});
 			}
 
 			grid1.strConcat = strMaker;
 			grid1.data = grid1Data;
+
+			document.querySelector("mm-tab#ext").promise.then(function (instance) {
+				instance.$$("mm-tab#sameContent").promise.then(function (dataHost) {
+					dataHost.set("data", grid1Data);
+				})
+			});
 
 			document.querySelector('#jsContent').loadExternal('tab-content-alt.html', function(dataHost) {
 				var grid2Data = [];

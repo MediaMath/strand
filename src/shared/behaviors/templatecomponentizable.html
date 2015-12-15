@@ -1,0 +1,143 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var _reservations = Object.create(null);
+	var _components = [];
+	var _htmls = [];
+	var _templates = [];
+	var _templateIndexToComponentIndex = [];
+	var uuid = function b(a){return a?
+		(a^Math.random()*16>>a/4).toString(16):
+		([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,b)}; // https://gist.github.com/jed/982883/b64ba1ce6e0d5793473766f55f5422e620e4430e
+
+	function componentFromTemplate (template) {
+		var templateIndex = -1;
+		var componentIndex = -1;
+		var html = "";
+
+		if (template) {
+			templateIndex = _templates.indexOf(template);
+
+			if (templateIndex < 0) {
+				templateIndex = -1 + _templates.push(template);
+				html = template.innerHTML;
+				componentIndex = _htmls.indexOf(html);
+
+				if (componentIndex < 0) {
+					componentIndex = -1 + _htmls.push(html);
+					_components.push(componentFromHTML(html, componentIndex));
+				}
+
+				_templateIndexToComponentIndex.push(componentIndex);
+			} else {
+				componentIndex = _templateIndexToComponentIndex[templateIndex];
+			}
+		}
+
+		return componentIndex < 0 ? null : _components[componentIndex];
+	}
+
+	function reservedUUID () {
+		var id = "";
+
+		do {
+			id = uuid();
+		} while (_reservations[id]);
+
+		_reservations[id] = 0|true;
+
+		return id;
+	}
+
+	function arrayConcat (a, b) {
+		return a.concat(b);
+	}
+
+	function componentFromHTML (html, index) {
+		var is = "mm-gen-comp-n"+index+"-x"+reservedUUID().split("-").join("");
+		var module = document.createElement("dom-module");
+		var template = document.createElement("template");
+		template.innerHTML = html;
+
+		var fix = 0|false; // for Safari 8
+
+		var subtemplates = !fix ?
+			null : Array.apply(null, template.content.querySelectorAll("template:not([is])"));
+		var exclusions = !subtemplates ? null : subtemplates.map(function (sub) {
+			return Array.apply(null, sub.content.querySelectorAll("template:not([is])"));
+		}).reduce(arrayConcat, []).reduce(function (reduction, sub) {
+			if (reduction.indexOf(sub) < 0) {
+				reduction.push(sub);
+			}
+			return reduction;
+		}, []);
+		var inclusions = !subtemplates ? null : subtemplates.map(function (sub) {
+			return this.indexOf(sub) < 0 ? sub : null;
+		}, exclusions);
+
+		function patch (copy, index) {
+			var original = this[index];
+
+			if (original &&
+				original.innerHTML !== copy.innerHTML) {
+				copy.innerHTML = original.innerHTML;
+			}
+		}
+
+		module.appendChild(template);
+
+		module.register(is);
+
+		return Polymer({
+			is: is,
+
+			properties: {
+				model: {
+					type: Object,
+					notify: true,
+				},
+				scope: {
+					type: Object,
+					notify: true,
+				},
+			},
+
+			instanceTemplate: function (template) {
+				var dom = CustomElements.useNative ?
+					document.importNode(template.content, true) :
+					document.adoptNode(template.content.cloneNode(true));
+
+				// the above does not work in Safari 8 without the following fix applied
+				if (inclusions) {
+					Array.apply(null, dom.querySelectorAll("template")).forEach(patch, inclusions);
+				}
+
+				return dom;
+			},
+
+			strConcat: function () {
+				var args = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments);
+				return args.join("");
+			},
+		});
+	}
+
+
+
+	scope.TemplateComponentizable = {
+
+		instantiateTemplate: function (template) {
+			var Type = template && componentFromTemplate(template) || null;
+			return Type ? new Type : null;
+		},
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>
