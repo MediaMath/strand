@@ -86,7 +86,8 @@
 			StrandTraits.KeySelectable,
 			StrandTraits.Stackable,
 			StrandTraits.Jqueryable,
-			StrandTraits.PositionableDropdown
+			StrandTraits.PositionableDropdown,
+			StrandTraits.Refable
 		],
 
 		_selectedIndexChangedFlag: false,

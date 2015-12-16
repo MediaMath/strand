@@ -7,10 +7,10 @@
 		<mm-grid-column width="10%" field="actions"></mm-grid-column>
 		
 		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
-				<div field="actions">
-					<mm-icon width="15" height="15" type="actions" id="{{strConcat('tooltip', model.id)}}"></mm-icon>
-					<mm-tooltip model="{{model}}" target$="{{strConcat('#tooltip', model.id)}}">
+			<mm-grid-item class="no-{{model.name}}-class" model="{{model}}" scope="{{scope}}">
+					<div field="actions">
+					<mm-icon width="15" height="15" type="actions" ref="{{iconRef}}"></mm-icon>
+					<mm-tooltip model="{{model}}" target="{{iconRef}}">
 						<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 					</mm-tooltip>
 				</div>

@@ -66,7 +66,8 @@
 		},
 
 		behaviors:[
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
 		],
 
 		listeners: {

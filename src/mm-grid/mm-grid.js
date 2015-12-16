@@ -71,6 +71,7 @@
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.TemplateFindable,
+			StrandTraits.Refable
 		],
 		
 		listeners: {

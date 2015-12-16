@@ -51,21 +51,22 @@
 				<mm-grid-item class="no-{{model.name}}-class" model="{{model}}" scope="{{scope}}">
 					<div field="actions">
 						<!--
-						<mm-icon width="15" height="15" type="actions" id="{{scope.createId('tooltip', model.id)}}"></mm-icon>
-						<mm-tooltip model="{{model}}" target$="{{scope.createId('#tooltip', model.id)}}">
+						<mm-icon width="15" height="15" type="actions" ref="{{iconRef}}"></mm-icon>
+						<mm-tooltip model="{{model}}" target="{{iconRef}}">
 							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 						</mm-tooltip>
 						-->
-						<!--
-						<mm-icon type="actions" id="{{scope.createId('menu', model.id)}}" width="15" height="15"></mm-icon>
-						<mm-menu id="testMenu" direction="s" offset="15" target$="{{scope.createId('#menu', model.id)}}">
-							<mm-list-item value="m1">menu item 1</mm-list-item>
-							<mm-list-item value="m2">menu item 2</mm-list-item>
-							<mm-list-item value="m3">menu item 3</mm-list-item>
-							<mm-list-item value="m4">menu item 4</mm-list-item>
-							<mm-list-item value="m5">menu item 5</mm-list-item>
+						
+						<mm-icon type="actions" ref="{{menuRef}}" width="15" height="15"></mm-icon>
+						<mm-menu id="testMenu" direction="s" offset="15" model="{{model}}" target="{{menuRef}}">
+							<mm-list-item value="m1">{{model.name}} menu item 1</mm-list-item>
+							<mm-list-item value="m2">{{model.name}} menu item 2</mm-list-item>
+							<mm-list-item value="m3">{{model.name}} menu item 3</mm-list-item>
+							<mm-list-item value="m4">{{model.name}} menu item 4</mm-list-item>
+							<mm-list-item value="m5">{{model.name}} menu item 5</mm-list-item>
 						</mm-menu>
-						-->
+						
+						<!--
 						<mm-dropdown>
 							<mm-list-item>List Item</mm-list-item>
 							<mm-list-item>List Item</mm-list-item>
@@ -96,6 +97,7 @@
 								</mm-grid-item>
 							</template>
 						</mm-grid>
+						-->
 					</div>
 					<div field="name">
 						Creative - {{model.name}}

@@ -9,6 +9,11 @@
 	scope.InlineBox = Polymer({
 		is: 'mm-inline-box',
 
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
+		],
+
 		_iconMap: {
 			info:    { type: "info" },
 			success: { type: "success" },

@@ -11,7 +11,8 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Stylable
+			StrandTraits.Stylable,
+			StrandTraits.Refable
 		],
 
 		properties: {

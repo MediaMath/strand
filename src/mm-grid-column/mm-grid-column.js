@@ -9,6 +9,10 @@
 	scope.GridColumn = Polymer({
 		is: 'mm-grid-column',
 
+		behaviors: [
+			StrandTraits.Refable
+		],
+
 		properties: {
 
 			SORT_ICON_COLOR: {

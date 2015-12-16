@@ -12,6 +12,7 @@
 
 		behaviors: [
 			StrandTraits.TemplateFindable,
+			StrandTraits.Refable
 		],
 
 		properties: {

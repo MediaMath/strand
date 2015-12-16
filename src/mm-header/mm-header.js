@@ -18,7 +18,8 @@
 		},
 
 		behaviors:[
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
 		],
 
 		_headerClass: function(size) {

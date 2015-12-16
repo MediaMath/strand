@@ -53,6 +53,7 @@
 			StrandTraits.KeySelectable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.PositionableDropdown,
+			StrandTraits.Refable
 		],
 
 		ready: function() {

@@ -3,6 +3,11 @@
 	scope.FileUpload = Polymer({
 		is: 'mm-file-upload',
 
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
+		],
+
 		properties: {
 			accept: {
 				type: String,

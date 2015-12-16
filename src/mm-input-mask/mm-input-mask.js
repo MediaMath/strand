@@ -122,6 +122,7 @@
 			StrandTraits.DomGettable,
 			StrandTraits.Keyboardable,
 			StrandTraits.Stylable,
+			StrandTraits.Refable
 		],
 
 		properties: {

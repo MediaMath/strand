@@ -42,6 +42,7 @@
 		behaviors: [
 			StrandTraits.TemplateFindable,
 			StrandTraits.TemplateComponentizable,
+			StrandTraits.Refable
 		],
 
 		observers: [

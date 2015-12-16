@@ -52,7 +52,8 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Stylable
+			StrandTraits.Stylable,
+			StrandTraits.Refable
 		],
 
 		_hasLabel: function(label,openedLabel,closedLabel) {

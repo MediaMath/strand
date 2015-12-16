@@ -13,7 +13,8 @@
 		behaviors: [ 
 			StrandTraits.Resolvable, 
 			StrandTraits.DomMutable, 
-			StrandTraits.Resizable
+			StrandTraits.Resizable,
+			StrandTraits.Refable
 		],
 
 		properties: {

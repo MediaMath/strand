@@ -13,7 +13,8 @@
 			StrandTraits.Resolvable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.Stackable,
-			StrandTraits.PositionablePanel
+			StrandTraits.PositionablePanel,
+			StrandTraits.Refable
 		],
 
 		ready: function() {

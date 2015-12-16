@@ -202,7 +202,8 @@
 			StrandTraits.Stackable,
 			StrandTraits.PositionablePanel,
 			StrandTraits.Debouncable,
-			StrandTraits.Falsifiable
+			StrandTraits.Falsifiable,
+			StrandTraits.Refable
 		],
 
 		debouncers: {

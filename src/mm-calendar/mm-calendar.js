@@ -117,7 +117,8 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Stylable
+			StrandTraits.Stylable,
+			StrandTraits.Refable
 		],
 
 		ready: function () {

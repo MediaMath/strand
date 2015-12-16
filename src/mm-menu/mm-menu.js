@@ -8,7 +8,8 @@
 			StrandTraits.AutoClosable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.PositionablePanel,
-			StrandTraits.Stackable
+			StrandTraits.Stackable,
+			StrandTraits.Refable
 		],
 
 		attached: function() {

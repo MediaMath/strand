@@ -12,7 +12,8 @@
 
 		behaviors:[
 			StrandTraits.Resolvable,
-			StrandTraits.Stackable
+			StrandTraits.Stackable,
+			StrandTraits.Refable
 		],
 
 		properties: {

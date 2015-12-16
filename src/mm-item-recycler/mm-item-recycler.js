@@ -75,6 +75,7 @@ found here: https://github.com/Polymer/core-list
 			StrandTraits.TemplateFindable,
 			StrandTraits.TemplateComponentizable,
 			StrandTraits.SizeResponsible,
+			StrandTraits.Refable
 		],
 
 		properties: {
