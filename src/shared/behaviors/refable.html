@@ -12,11 +12,15 @@
 		properties: {
 			ref: {
 				type: Object,
-				// readOnly: true,
 				notify: true,
 				value: function() { return this; }
 			}
+		},
+
+		findById: function(id) {
+			return this.$[id];
 		}
+		
 	 };
 
 	scope.Refable = Refable;
