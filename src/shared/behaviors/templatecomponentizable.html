@@ -1,3 +1,4 @@
+<link rel="import" href="refable.html"/>
 <script>
 /**
  * @license
@@ -96,6 +97,10 @@
 
 		return Polymer({
 			is: is,
+
+			behaviors: [
+				StrandTraits.Refable
+			],
 
 			properties: {
 				model: {
