@@ -59,6 +59,11 @@ found here: https://github.com/Polymer/core-list
 		// return element.offsetHeight; // only provides integers
 	}
 
+	function roundMaybe (value) {
+		return value;
+		//return 0|value; // somewhat related to elementHeight() above
+	}
+
 
 
 	Polymer({
@@ -360,10 +365,10 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_accommodateGlobalHeightAdjustment: function (initialization, bound, delta) {
-			var adjustment = 0|(bound.height + this._itemHeight);
+			var adjustment = roundMaybe(bound.height + this._itemHeight);
 			var change = 0;
 
-			this._itemHeight = 0|bound.height;
+			this._itemHeight = roundMaybe(bound.height);
 
 			if (initialization) {
 				change = (this._getDataLength() - 1) * adjustment;
@@ -408,7 +413,7 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if (this._itemHeight > 0) {
-				this._recycler.repadFrame(0|this._itemHeight, 0|this._itemHeight);
+				this._recycler.repadFrame(roundMaybe(this._itemHeight), roundMaybe(this._itemHeight));
 			}
 		},
 
@@ -488,7 +493,9 @@ found here: https://github.com/Polymer/core-list
 			this._repositionMiddle();
 			this._repositionExtent();
 
-			this._recycler.setFrame(0, this._middleHeight, 0|this._itemHeight, 0|this._itemHeight);
+			var padding = roundMaybe(this._itemHeight);
+
+			this._recycler.setFrame(0, this._middleHeight, padding, padding);
 
 			if (this._desiredIndex < 0) {
 				this._desiredIndex = 0|this.index;
