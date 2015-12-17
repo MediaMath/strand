@@ -1,5 +1,6 @@
 {
 	"name":"mm-menu",
 	"description":"A popover menu",
-	"behaviors": ["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]
+	"behaviors": ["closable","autoclosable","stackable","stylable","positionable","positionable-panel"],
+	"articles": ["grid_custom_grid_item"]
 }

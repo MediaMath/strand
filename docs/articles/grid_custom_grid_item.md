@@ -1,26 +1,31 @@
 # Creating Custom Grid Items
 
 ## Overview
-The grid is quite extendable and can utilize a user-defined template to generate grid items. We recommend utilizing the built-in `mm-grid-item` component, as it works in tandem with the grid - resizable columns, selections, and expansions work out of the box. However, there will undoubtedly be situations where grid items require a more customized approach. 
+The grid is quite extendable and can utilize a user-defined template to generate grid items. We recommend utilizing the built-in `mm-grid-item` component, as it works in tandem with the grid - re-sizable columns, selections, and expansions work out of the box. However, there will undoubtedly be situations where grid items require a more customized approach. 
 
 ### Creating a custom grid item template
-In order to use a custom template we create a `template` DOM fragment inside of our `mm-grid` tag. Note that the template tag must include the attribute `preserve-content` [TODO: because... more detailed reason here]. 
+In order to use a custom template we create a `template` DOM fragment inside of our `mm-grid` tag. Note that the template tag must include the attribute `preserve-content`, which prevents Polymer from modifying nested `<template/>` elements unintentionally. 
 
 In this example, we define an `<mm-grid-item>` with the attributes `model` and `scope`. These are two special attributes that give us a particular grid item's model as well as giving us access to the "scope" of the grid itself.
 
-Defining `<div field="...">` inside of an `mm-grid-item` allows us to override that particular data field's DOM. In the example below we have overridden the "first_name" column, adding an icon and some custom text.
+Defining `<div field="...">` inside of an `mm-grid-item` allows us to override that particular data field's DOM. In the example below we have overridden the `first_name` column, adding an some custom text, and added a new custom column `star_rating`.
 
 ```html
 	<mm-grid id="customItems">
 		<mm-grid-column field="first_name">First Name</mm-grid-column>
 		<mm-grid-column field="last_name">Last Name</mm-grid-column>
 		<mm-grid-column field="email">Email</mm-grid-column>
+		<mm-grid-column field="star_rating">Star Rating</mm-grid-column>
 		
 		<template preserve-content>
 			<mm-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="first_name">
 					<span>Star Employee: {{model.first_name}}</span>
-					<mm-icon width="15" height="15" type="favorite"></mm-icon>
+				</div>
+				<div field="star_rating">
+					<template is="dom-repeat" items="{{model.stars}}">
+						<mm-icon width="12" height="12" type="favorite"></mm-icon>
+					</template>
 				</div>
 			</mm-grid-item>
 		</template>
@@ -30,11 +35,32 @@ Defining `<div field="...">` inside of an `mm-grid-item` allows us to override t
 		window.addEventListener("WebComponentsReady", function() {
 			var customItems = document.querySelector('#customItems');
 
+			function randomInt(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+
 			customItems.data = [
-				{ id:0, first_name: "Bob", last_name: "Smith", email: "bsmith@gmail.com" },
-				{ id:1, first_name: "Jane", last_name: "Doe", email: "jdoe@gmail.com" },
-				{ id:2, first_name: "Rick", last_name: "James", email: "rjames@gmail.com" },
-				...
+				{ 	id:0, 
+					first_name: "Bob", 
+					last_name: "Smith", 
+					email: "bsmith@gmail.com", 
+					stars: new Array(randomInt(1,5)) 
+				},
+				{ 
+					id:1, 
+					first_name: "Jane", 
+					last_name: "Doe", 
+					email: "jdoe@gmail.com", 
+					stars: new Array(randomInt(1,5))  
+				},
+				{ 
+					id:2, 
+					first_name: "Rick", 
+					last_name: "James", 
+					email: "rjames@gmail.com", 
+					stars: new Array(randomInt(1,5))  
+				},
+				/* more data items here... */
 			];
 		});
 	</script>
@@ -51,20 +77,18 @@ To supply a `target` to a positionable component in a custom grid item, a conven
 	<mm-grid id="customItems">
 		<mm-grid-column field="first_name">First Name</mm-grid-column>
 		<mm-grid-column field="last_name">Last Name</mm-grid-column>
-		<mm-grid-column field="email">Email</mm-grid-column>
-		<mm-grid-column field="actions">Actions</mm-grid-column>
+		<mm-grid-column field="info">Info</mm-grid-column>
 		
 		<template preserve-content>
 			<mm-grid-item model="{{model}}" scope="{{scope}}">
-				<div field="actions">
-					<mm-icon type="actions" id="actionMenuIcon" width="15" height="15"></mm-icon>
-					<mm-menu id="actionsMenu" direction="s" offset="15" model="{{model}}" target="{{findById('actionMenuIcon')}}">
-						<mm-list-item value="m1">{{model.name}} action 1</mm-list-item>
-						<mm-list-item value="m2">{{model.name}} action 2</mm-list-item>
-						<mm-list-item value="m3">{{model.name}} action 3</mm-list-item>
-						<mm-list-item value="m4">{{model.name}} action 4</mm-list-item>
-						<mm-list-item value="m5">{{model.name}} action 5</mm-list-item>
-					</mm-menu>
+				<div field="info">
+					<mm-icon type="info" id="infoIcon" width="12" height="12"></mm-icon>
+					<mm-tooltip 
+						id="infoTip"
+						model="{{model}}" 
+						target="{{findById('infoIcon')}}">
+							<label>{{model.tip}}</label>
+						</mm-tooltip>
 				</div>
 			</mm-grid-item>
 		</template>
@@ -75,11 +99,78 @@ To supply a `target` to a positionable component in a custom grid item, a conven
 			var customItems = document.querySelector('#customItems');
 
 			customItems.data = [
-				{ id:0, first_name: "Bob", last_name: "Smith", email: "bsmith@gmail.com" },
-				{ id:1, first_name: "Jane", last_name: "Doe", email: "jdoe@gmail.com" },
-				{ id:2, first_name: "Rick", last_name: "James", email: "rjames@gmail.com" },
-				...
+				{ first_name: "Bob", last_name: "Smith", tip: "A real all star employee" },
+				{ first_name: "Jane", last_name: "Doe", tip: "A great leader"  },
+				{ first_name: "Rick", last_name: "James", tip: "He's a cool guy" },
+				/* more data items here... */
 			];
+		});
+	</script>
+
+```
+
+### Using dropdowns in a custom grid item template
+When using an `mm-dropdown` component inside of an `mm-grid, there will also be some special considerations. At it's core, the `mm-grid` uses item recycling to minimize the amount of DOM nodes necessary in the document. Therefor, the minimum number of grid items are rendered to fill the viewport, and they will be reused over and over, with different data injected.
+
+To ensure that an custom grid item maintains its state during item recycling, the data for the dropdown must be added to the model for the grid item, and the value for that data also stored to the same model. This way, `mm-grid` ensures that each item's model data populates each `mm-dropdown` is correctly updated upon recycling. 
+
+```html
+	<mm-grid id="customItems">
+		<mm-grid-column field="first_name">First Name</mm-grid-column>
+		<mm-grid-column field="last_name">Last Name</mm-grid-column>
+		<mm-grid-column field="email">Email</mm-grid-column>
+		<mm-grid-column field="role">Role</mm-grid-column>
+		
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="role">
+					<mm-dropdown 
+						data="{{model.dropdown_data}}" 
+						value="{{model.dropdown_data_value}}"
+						placeholder="Select Role"></mm-dropdown>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+
+	<script>
+		var NUM_ITEMS = 300,
+			data = [];
+
+		function randomInt(min, max) {
+		  return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		for(var i=0; i<NUM_ITEMS; i++) {
+			generateItem();
+		}
+
+		function generateItem() {
+			var firstName = Math.random().toString(36).substring(7),
+				lastName =  Math.random().toString(36).substring(7);
+
+			data.push({
+				id:0, 
+				first_name: firstName, 
+				last_name: lastName, 
+				email: lastName + '@gmail.com', 
+				dropdown_data: getDropdownData(lastName), 
+				dropdown_data_value: null
+			});
+		}
+
+		function getDropdownData(lastName) {
+			return [
+				{ "name" : "manager", "value" : "man" },
+				{ "name" : "sales", "value" : "sal" },
+				{ "name" : "developer", "value" : "dev" },
+				{ "name" : "designer", "value" : "des" },
+			];
+		}
+		
+		window.addEventListener("WebComponentsReady", function() {
+			var customItems = document.querySelector('#customItems');
+			customItems.data = data;
 		});
 	</script>
 

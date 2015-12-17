@@ -28,9 +28,11 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 	padding: 10px 0;
 }
 
-#columnContainer{
+#columnContainer {
 	overflow: hidden;
 	white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 
 #loader {

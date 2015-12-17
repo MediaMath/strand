@@ -150,5 +150,6 @@
 		"positionable",
 		"positionable-panel",
 		"positionable-dropdown"
-	]
+	],
+	"articles": ["grid_custom_grid_item"]
 }

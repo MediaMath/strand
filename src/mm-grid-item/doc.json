@@ -41,5 +41,5 @@
 			]
 		}
 	],
-	"articles": ["grid_intro", "grid_config", "grid_data_integration"]
+	"articles": ["grid_intro", "grid_config", "grid_data_integration", "grid_custom_grid_item"]
 }

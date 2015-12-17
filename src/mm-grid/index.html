@@ -38,7 +38,6 @@
 	</style>
 </head>
 <body>
-	
 	<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
 		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 		<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
@@ -56,8 +55,8 @@
 					<mm-tooltip model="{{model}}" target="{{findById('actionIcon')}}">
 						<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
 					</mm-tooltip>
-					-->
-					
+					 -->
+					<!--
 					<mm-icon type="actions" id="actionMenuIcon" width="15" height="15"></mm-icon>
 					<mm-menu id="testMenu" direction="s" offset="15" model="{{model}}" target="{{findById('actionMenuIcon')}}">
 						<mm-list-item value="m1">{{model.name}} item 1</mm-list-item>
@@ -66,7 +65,7 @@
 						<mm-list-item value="m4">{{model.name}} item 4</mm-list-item>
 						<mm-list-item value="m5">{{model.name}} item 5</mm-list-item>
 					</mm-menu>
-					
+					-->
 					<!-- 
 					<mm-dropdown>
 						<mm-list-item>List Item</mm-list-item>
@@ -74,9 +73,8 @@
 						<mm-list-item>List Item</mm-list-item>
 						<mm-list-item>List Item</mm-list-item>
 					</mm-dropdown>
-					-->
-
-					<!--
+					 -->
+					 <!--
 					<mm-dropdown data='[
 						{"name":"apples", "value":"apples"},
 						{"name":"bears", "value":"bears"},
@@ -86,8 +84,6 @@
 						value="{{model.value}}">
 					</mm-dropdown>
 					-->
-
-					<!--
 					<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
 						<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 						<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
@@ -112,7 +108,6 @@
 							</mm-grid-item>
 						</template>
 					</mm-grid>
-					-->
 				</div>
 				<div field="name">
 					Creative - {{model.name}}
@@ -140,21 +135,122 @@
 		</template>
 	</mm-grid>
 
-	<!--
+	<!-- Examples for documentation -->
+	<!-- 
 	<mm-grid id="customItems">
 		<mm-grid-column field="first_name">First Name</mm-grid-column>
 		<mm-grid-column field="last_name">Last Name</mm-grid-column>
 		<mm-grid-column field="email">Email</mm-grid-column>
+		<mm-grid-column field="star_rating">Star Rating</mm-grid-column>
 		
 		<template preserve-content>
 			<mm-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="first_name">
 					<span>Star Employee: {{model.first_name}}</span>
-					<mm-icon width="15" height="15" type="favorite"></mm-icon>
+				</div>
+				<div field="star_rating">
+					<template is="dom-repeat" items="{{model.stars}}">
+						<mm-icon width="12" height="12" type="favorite"></mm-icon>
+					</template>
 				</div>
 			</mm-grid-item>
 		</template>
 	</mm-grid>
+	
+	<mm-grid id="customItems">
+		<mm-grid-column field="first_name">First Name</mm-grid-column>
+		<mm-grid-column field="last_name">Last Name</mm-grid-column>
+		<mm-grid-column field="info">Info</mm-grid-column>
+		
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="info">
+					<mm-icon type="info" id="infoIcon" width="12" height="12"></mm-icon>
+					<mm-tooltip 
+						id="infoTip"
+						model="{{model}}" 
+						target="{{findById('infoIcon')}}">
+							<label>{{model.tip}}</label>
+						</mm-tooltip>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+
+	<script>
+		window.addEventListener("WebComponentsReady", function() {
+			var customItems = document.querySelector('#customItems');
+
+			customItems.data = [
+				{ first_name: "Bob", last_name: "Smith", tip: "A real all star employee" },
+				{ first_name: "Jane", last_name: "Doe", tip: "A great leader"  },
+				{ first_name: "Rick", last_name: "James", tip: "He's a cool guy" },
+				/* more data items here... */
+			];
+		});
+	</script>
+
+	<mm-grid id="customItems">
+		<mm-grid-column field="first_name">First Name</mm-grid-column>
+		<mm-grid-column field="last_name">Last Name</mm-grid-column>
+		<mm-grid-column field="email">Email</mm-grid-column>
+		<mm-grid-column field="role">Role</mm-grid-column>
+		
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="role">
+					<mm-dropdown 
+						data="{{model.dropdown_data}}" 
+						value="{{model.dropdown_data_value}}"
+						placeholder="Select Role"></mm-dropdown>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+
+	<script>
+		var NUM_ITEMS = 300,
+			data = [];
+
+		function randomInt(min, max) {
+		  return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		for(var i=0; i<NUM_ITEMS; i++) {
+			generateItem();
+		}
+
+		function generateItem() {
+			var firstName = Math.random().toString(36).substring(7),
+				lastName =  Math.random().toString(36).substring(7),
+				email = firstName[0] + lastName + '@gmail.com',
+				stars = new Array(randomInt(1,5));
+
+			data.push({
+				id:0, 
+				first_name: firstName, 
+				last_name: lastName, 
+				email: lastName + '@gmail.com', 
+				dropdown_data: getDropdownData(lastName), 
+				dropdown_data_value: null,
+				stars: stars 
+			});
+		}
+
+		function getDropdownData(lastName) {
+			return [
+				{ "name" : "manager", 	"value" : "man" },
+				{ "name" : "sales", 	"value" : "sal" },
+				{ "name" : "developer", "value" : "dev" },
+				{ "name" : "designer", 	"value" : "des" },
+			];
+		}
+		
+		window.addEventListener("WebComponentsReady", function() {
+			var customItems = document.querySelector('#customItems');
+			customItems.data = data;
+		});
+	</script>
 	-->
 
 	<script type="text/javascript">
@@ -212,18 +308,11 @@
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
 
-			// var customItems = document.querySelector('#customItems');
-
-			// customItems.data = [
-			// 	{ id:0, first_name: "Bob", last_name: "Smith", email: "bsmith@gmail.com" },
-			// 	{ id:1, first_name: "Jane", last_name: "Doe", email: "jdoe@gmail.com" },
-			// 	{ id:2, first_name: "Rick", last_name: "James", email: "rjames@gmail.com" }
-			// ];
-
 			// setTimeout(function () {
 			// 	app.data = data.slice(data.length >> 2, data.length >> 1);
 			// }, 3000);
 		});
 	</script>
+	-->
 </body>
 </html>
