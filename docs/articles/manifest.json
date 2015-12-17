@@ -8,7 +8,7 @@
 	},
 	{
 		"key":"grid_intro",
-		"children":["grid_config", "grid_data_integration"]
+		"children":["grid_config", "grid_custom_grid_item", "grid_data_integration"]
 	},
 	{
 		"key":"migration_guide"
