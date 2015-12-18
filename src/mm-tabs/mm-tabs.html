@@ -20,7 +20,9 @@
 		<ul id="tabBar" class$="{{tabBarPosition}}" style$="{{_updateStyle(tabBarPosition,tabBarOffset)}}">
 			<template id="tabList" is="dom-repeat" items="{{_tabs}}">
 			<li active$="{{item.active}}" on-tap="_handleTap">
-				<template is="dom-if" if="{{item.icon}}"><mm-icon type="{{item.icon}}" height="16" width="16"></mm-icon></template>
+				<template is="dom-if" if="{{item.icon}}">
+					<mm-icon type="{{item.icon}}" height="{{item.iconHeight}}" width="{{item.iconWidth}}"></mm-icon>
+				</template>
 				<span>{{item.tabLabel}}</span>
 			</li>
 			</template>

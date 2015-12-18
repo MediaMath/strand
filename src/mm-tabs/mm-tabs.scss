@@ -33,6 +33,10 @@
 		color: $color-A5;
 		cursor: pointer;
 		list-style-type: none;
+
+		mm-icon {
+			margin-right: 5px;
+		}
 	}
 
 	li[active] {
@@ -52,6 +56,10 @@
 		border-top-right-radius: 3px;
 		margin: 0 -1px 0 0;
 		padding: .5em 1em .25em;
+
+		mm-icon {
+			margin-right: 5px;
+		}
 	}
 
 	li[active] {
@@ -93,8 +101,7 @@
 	}
 }
 
-#tabBar.left ~ ::content > mm-tab, // shadow
-::content #tabBar.left ~ mm-tab { // shady
+#tabBar.left > ::content > mm-tab {
 	border-left: 1px solid darken($color-A12, 10%);
 }
 
@@ -108,6 +115,10 @@
 		border-radius: 0;
 		border-image: linear-gradient(to bottom, transparent, $color-A20) 1 100%;
 		padding: .75em 1em .5em;
+
+		mm-icon {
+			margin-right: 5px;
+		}
 	}
 
 	li[active] {

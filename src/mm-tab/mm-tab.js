@@ -20,6 +20,14 @@
 				type: String,
 				value: ''
 			},
+			iconWidth: {
+				type: Number,
+				value: 13
+			},
+			iconHeight: {
+				type: Number,
+				value: 13
+			},
 			tabLabel: {
 				type: String,
 				value: '',
