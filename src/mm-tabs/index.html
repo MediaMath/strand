@@ -183,7 +183,7 @@
 			grid1.data = grid1Data;
 
 			document.querySelector("#ext").promise.then(function (instance) {
-				instance.$$("#loadedTemplate").promise.then(function (dataHost) {
+				Polymer.dom(instance).querySelector("#loadedTemplate").promise.then(function (dataHost) {
 					dataHost.set("data", grid1Data);
 				})
 			});
