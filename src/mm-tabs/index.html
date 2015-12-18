@@ -180,16 +180,16 @@
 				});
 			}
 
-			// grid1.strConcat = strMaker;
 			grid1.data = grid1Data;
 
-			// TODO: doesn't appear to be doing anything
-			document.querySelector("mm-tab#ext").promise.then(function (instance) {
-				console.log("mm-tab#ext", instance);
-				instance.$$("mm-tab#loadedTemplate").promise.then(function (dataHost) {
-					console.log("mm-tab#loadedTemplate", dataHost);
+			document.querySelector("#ext").promise.then(function (instance) {
+				instance.$$("#loadedTemplate").promise.then(function (dataHost) {
 					dataHost.set("data", grid1Data);
 				})
+			});
+
+			document.querySelector("#loadedTemplate").promise.then(function (instance) {
+				instance.data = grid1Data;
 			});
 
 			document.querySelector('#jsLoadedTemplate').loadExternal('tab-content-alt.html', function(dataHost) {
@@ -220,14 +220,8 @@
 					});
 				}
 
-				// dataHost.set("strConcat", strMaker);
 				dataHost.set("data",grid2Data);
 			});
-
-			// function strMaker () {
-			// 	var builder = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments);
-			// 	return builder.join("__");
-			// }
 		});
 
 	</script>
