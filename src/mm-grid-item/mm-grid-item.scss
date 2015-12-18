@@ -31,8 +31,6 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 #columnContainer {
 	overflow: hidden;
 	white-space: nowrap;
-    display: flex;
-    align-items: center;
 }
 
 #loader {
