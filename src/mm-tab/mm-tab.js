@@ -58,11 +58,25 @@
 		],
 
 		_renderView: function (active, _templateFound) {
+			var element = Polymer.dom(this);
+			var view = Polymer.dom(this.$.view);
+			var useLightDom = 0|true;
+
 			if (!_templateFound) {
 				this._instance = null;
 			} else if (active && !this._instance) {
-				this._instance = this.instantiateTemplate(this._templateFound);
-				Polymer.dom(this.$.view).appendChild(this._instance);
+				view.getDistributedNodes().forEach(function (node) {
+					var child = Polymer.dom(node);
+					var parent = child.parentNode ? Polymer.dom(child.parentNode) : null;
+
+					if (parent) {
+						parent.removeChild(node);
+					}
+				});
+
+				this._instance = this.instantiateTemplate(this._templateFound, 0|useLightDom);
+
+				element.appendChild(this._instance);
 
 				if (this._callback) {
 					this.async(this._callback.bind(this, this._instance));

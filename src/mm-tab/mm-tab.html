@@ -20,10 +20,7 @@
 		<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 			<content select="template:not([is])"></content>
 		</mm-template-finder>
-		<div id="view"></div>
-		<template is="dom-if" if="{{!templateFinder.template}}">
-			<content></content>
-		</template>
+		<content id="view"></content>
 	</template>
 </dom-module>
 

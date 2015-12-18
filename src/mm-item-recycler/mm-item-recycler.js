@@ -635,6 +635,7 @@ found here: https://github.com/Polymer/core-list
 			var place = 0;
 			var height = 0;
 			var offset = this._calculateStaticPositionOffset(index, binds);
+			var useLightDom = 0|true;
 
 			if (old < 0) {
 				while (count < index) {
@@ -644,7 +645,7 @@ found here: https://github.com/Polymer/core-list
 				bound.value = new BoundValue(null, this.scope);
 				bound.element = document.createElement("DIV");
 				this.toggleClass("recycler-panel", true, bound.element);
-				bound.instance = this.instantiateTemplate(this._templateFound);
+				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom);
 
 				bound.instance.set("scope", this.scope);
 				bound.instance.set("model", this.data[young]);

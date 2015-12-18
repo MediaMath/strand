@@ -89,6 +89,89 @@
 
 
 
+		function lightDomify () {
+
+			if (this[field]._childNodes) {
+				return;
+			}
+
+			// take all the elements in the shadow dom, and add them to the light dom
+			// (except the terminating <content></content> element)
+			var ele = Polymer.dom(this);
+			var root = Polymer.dom(this.root);
+
+			var content = root.querySelector("content#"+is);
+			var styles = root.querySelectorAll("style:not([is])");
+			var count = styles.length;
+			var index = 0;
+
+			root.appendChild(content);
+
+			for (index; index < count; index++) {
+				root.appendChild(styles[index]);
+			}
+
+			var _childNodes = Array.apply(null, root.childNodes);
+
+			count = _childNodes.length;
+			index = 0;
+
+			for (index; index < count; index++) {
+				if (_childNodes[index] === content) {
+					break;
+				}
+			}
+
+			_childNodes = _childNodes.slice(0, index);
+
+			count = _childNodes.length;
+			index = 0;
+
+			for (index; index < count; index++) {
+				ele.appendChild(_childNodes[index]);
+			}
+
+			this[field]._childNodes = _childNodes;
+		}
+
+
+
+		function correctStyleScoping () {
+			if (Polymer.Settings.useNativeShadow) {
+				return 0|true;
+			}
+
+			if (this[field]._correctedStyleScopes) {
+				return 0|true;
+			}
+
+			// fix for dom-repeat styling in shady-dom
+			var ele = Polymer.dom(this);
+			var root = ele.getOwnerRoot();
+			var host = root && root.host || null;
+
+			if (!host) {
+				host = ele.parentNode;
+
+				if (!host) {
+					return 0|false;
+				}
+
+				Polymer.StyleTransformer.dom(this, host.is);
+			}
+
+			var nodes = ele.querySelectorAll("*");
+			var count = nodes.length;
+			var index = 0;
+
+			for (index; index < count; index++) {
+				Polymer.StyleTransformer.dom(nodes[index], this.is, void 0, true);
+				Polymer.StyleTransformer.dom(nodes[index], host.is);
+			}
+
+			return this[field]._correctedStyleScopes = 0|true;
+		}
+
 
 
 		return Polymer({
@@ -117,6 +200,7 @@
 					value: function () {
 						var value = {};
 						value._childNodes = null;
+						value._correctedStyleScopes = 0|false;
 						return value;
 					},
 				};
@@ -138,68 +222,25 @@
 			},
 
 			attached: function () {
-				if (Polymer.Settings.useNativeShadow) {
-					return;
+				if (this.preferLightDom) {
+					lightDomify.call(this);
 				}
 
-				// fix for dom-repeat styling in shady-dom
-				this.async(function () {
-					var ele = Polymer.dom(this);
-					var host = ele.getOwnerRoot().host;
-
-					if (!host) {
-						return;
-					}
-
-					var nodes = ele.querySelectorAll("*");
-					var count = nodes.length;
-					var index = 0;
-
-					for (index; index < count; index++) {
-						Polymer.StyleTransformer.dom(nodes[index], this.is, void 0, true);
-						Polymer.StyleTransformer.dom(nodes[index], host.is);
-					}
-				}, 0);
+				if (this[field]._childNodes) {
+					this.async(correctStyleScoping, 0);
+				}
 			},
 
 			ready: function () {
-				// take all the elements in the shadow dom, and add them to the light dom
-				// (except the terminating <content></content> element)
-				var ele = Polymer.dom(this);
-				var root = Polymer.dom(this.root);
-
-				var content = root.querySelector("content#"+is);
-				var styles = root.querySelectorAll("style:not([is])");
-				var count = styles.length;
-				var index = 0;
-
-				root.appendChild(content);
-
-				for (index; index < count; index++) {
-					root.appendChild(styles[index]);
+				if (this.preferLightDom) {
+					lightDomify.call(this);
 				}
+			},
 
-				var _childNodes = Array.apply(null, root.childNodes);
-
-				count = _childNodes.length;
-				index = 0;
-
-				for (index; index < count; index++) {
-					if (_childNodes[index] === content) {
-						break;
-					}
-				}
-
-				_childNodes = _childNodes.slice(0, index);
-
-				count = _childNodes.length;
-				index = 0;
-
-				for (index; index < count; index++) {
-					ele.appendChild(_childNodes[index]);
-				}
-
-				this[field]._childNodes = _childNodes;
+			useLightDom: function () {
+				this.preferLightDom = true;
+				lightDomify.call(this);
+				this.async(correctStyleScoping, 0);
 			},
 
 		});
@@ -209,9 +250,17 @@
 
 	scope.TemplateComponentizable = {
 
-		instantiateTemplate: function (template) {
+		instantiateTemplate: function (template, useLightDom) {
 			var Type = template && componentFromTemplate(template) || null;
-			return Type ? new Type : null;
+			var instance = Type ? new Type : null;
+
+			if (useLightDom) {
+				if (instance) {
+					instance.useLightDom();
+				}
+			}
+
+			return instance;
 		},
 
 	};
