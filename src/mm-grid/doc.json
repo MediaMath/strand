@@ -174,5 +174,10 @@
 			"arguments":[]
 		}
 	],
+	"behaviors": [
+		"resolvable",
+		"templatefindable",
+		"refable"
+	],
 	"articles": ["grid_intro", "grid_config", "grid_data_integration", "grid_custom_grid_item"]
 }

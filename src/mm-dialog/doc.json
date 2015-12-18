@@ -65,5 +65,8 @@
 			"description":"Hides the dialog."
 		}
 	],
-	"behaviors": [ "stackable" ]
+	"behaviors": [ 
+		"stackable", 
+		"resolvable" 
+	]
 }

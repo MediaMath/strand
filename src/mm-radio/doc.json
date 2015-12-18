@@ -47,5 +47,9 @@
 				}
 			]
 		}
+	],
+	"behaviors":[
+		"resolvable",
+		"refable"
 	]
 }

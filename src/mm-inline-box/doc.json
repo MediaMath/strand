@@ -33,5 +33,9 @@
 			"default":"default",
 			"options":["default", "message"]
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
 	]
 }

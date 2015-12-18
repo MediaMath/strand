@@ -49,5 +49,9 @@
 			"default":"null"
 		}
 	],
-	"behaviors":["stylable"]
+	"behaviors":[
+		"resolvable",
+		"stylable",
+		"refable"
+	]
 }

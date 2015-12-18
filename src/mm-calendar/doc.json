@@ -79,5 +79,10 @@
 				}
 			]
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
 	]
 }

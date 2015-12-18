@@ -61,5 +61,14 @@
 			]
 		}
 	],
-	"behaviors":["closable","autoclosable","stackable","stylable","positionable","positionable-dropdown"]
+	"behaviors":[
+		"closable",
+		"autoclosable",
+		"stackable",
+		"stylable",
+		"positionable",
+		"positionable-dropdown",
+		"resolvable",
+		"refable"
+	]
 }

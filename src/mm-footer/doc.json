@@ -43,5 +43,9 @@
 			"name":"hideMessage",
 			"description":"Hides the feedback message."
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
 	]
 }

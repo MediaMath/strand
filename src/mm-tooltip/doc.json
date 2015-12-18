@@ -21,5 +21,14 @@
 		}
 	],
 	"articles": ["grid_custom_grid_item"],
-	"behaviors":["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]
+	"behaviors":[
+		"resolvable",
+		"closable",
+		"autoclosable",
+		"stackable",
+		"stylable",
+		"positionable",
+		"positionable-panel",
+		"refable"
+	]
 }

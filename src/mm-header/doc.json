@@ -11,5 +11,9 @@
 			"options":["large", "medium", "small", "normal", "tiny"],
 			"reflect":true
 		}
+	],
+	"behaviors": [
+		"refable", 
+		"resolvable"
 	]
 }

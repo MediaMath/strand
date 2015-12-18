@@ -77,7 +77,7 @@
 
 		hide: function() {
 			this.$.dialogInnerModal.hide();
-		},
+		}
 
 	});
 

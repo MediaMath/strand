@@ -1,11 +1,12 @@
 {
 	"name":"mm-sync",
 	"description":"High level AJAX Component",
-	"behaviors":[
-		"syncable",
-		"domsyncable"
-	],
 	"articles":[
 		"data_comps_using_sync"
+	],
+	"behaviors":[ 
+		"domsyncable",
+		"syncable",
+		"refable"
 	]
 }

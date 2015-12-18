@@ -1,7 +1,7 @@
 {
 	"name": "Autoclosable",
 	"description": "Instructs the element to close if the user clicks outside of the component or it's target element.",
-	"properties":[
+	"attributes":[
 		{
 			"name":"auto",
 			"type":"Boolean",
