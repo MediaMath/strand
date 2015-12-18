@@ -69,6 +69,8 @@
 		var template = document.createElement("template");
 		template.innerHTML = html+'<content id="'+is+'"></content>';
 
+		contentHostifyStylesfromRoot(template.content);
+
 		var fix = 0|false; // for Safari 8
 
 		var originals = !fix ?
@@ -88,6 +90,41 @@
 		module.register(is);
 
 
+
+		function contentHostifyStylesfromRoot (root) {
+			var styles = root.querySelectorAll("style:not([is])");
+			var count = styles.length;
+			var index = 0;
+
+			for (index; index < count; index++) {
+				contentHostifyStyleRules(styles[index]);
+			}
+		}
+
+		function contentHostifyStyleRules (style) {
+			var css = Polymer.StyleUtil.rulesForStyle(style);
+			var preserveProperties = 0|true;
+
+			css.rules = css.rules.reduce(function (all, r) {
+				var selector = r.selector;
+				var hostIndex = selector.indexOf(":host");
+				var contentIndex = selector.indexOf("::content");
+
+				if (hostIndex < 0) {
+					r.selector = ":host ::content "+r.selector;
+					all.push(r);
+				} else if (contentIndex > hostIndex) {
+					r.selector = selector.slice(contentIndex + "::content".length);
+					all.push(r);
+				}
+
+				return all;
+			}, []);
+
+			Polymer.StyleUtil.clearStyleRules(style);
+
+			style.textContent += "\n\n"+Polymer.StyleUtil.toCssText(css, null, 0|preserveProperties);
+		}
 
 		function lightDomify () {
 
