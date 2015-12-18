@@ -61,33 +61,25 @@
 	}
 
 	function componentFromHTML (html, index) {
-		var is = "mm-gen-comp-n"+index+"-x"+reservedUUID().split("-").join("");
+		var instanceAmount = 1;
+		var guid = reservedUUID();
+		var is = "mm-gen-comp-n"+index+"-x"+guid.split("-").join("");
+		var field = "__mmgencompn"+index+"x"+guid.slice(0,8);
 		var module = document.createElement("dom-module");
 		var template = document.createElement("template");
-		template.innerHTML = html;
+		template.innerHTML = html+'<content id="'+is+'"></content>';
 
 		var fix = 0|false; // for Safari 8
 
-		var subtemplates = !fix ?
+		var originals = !fix ?
 			null : Array.apply(null, template.content.querySelectorAll("template:not([is])"));
-		var exclusions = !subtemplates ? null : subtemplates.map(function (sub) {
-			return Array.apply(null, sub.content.querySelectorAll("template:not([is])"));
-		}).reduce(arrayConcat, []).reduce(function (reduction, sub) {
-			if (reduction.indexOf(sub) < 0) {
-				reduction.push(sub);
-			}
-			return reduction;
-		}, []);
-		var inclusions = !subtemplates ? null : subtemplates.map(function (sub) {
-			return this.indexOf(sub) < 0 ? sub : null;
-		}, exclusions);
 
 		function patch (copy, index) {
-			var original = this[index];
+			var orig = this[index];
 
-			if (original &&
-				original.innerHTML !== copy.innerHTML) {
-				copy.innerHTML = original.innerHTML;
+			if (orig &&
+				orig.innerHTML !== copy.innerHTML) {
+				copy.innerHTML = orig.innerHTML;
 			}
 		}
 
@@ -95,23 +87,42 @@
 
 		module.register(is);
 
+
+
+
+
 		return Polymer({
 			is: is,
+			extends: "div",
 
 			behaviors: [
 				StrandTraits.Refable
 			],
 
-			properties: {
-				model: {
+			properties: (function () {
+				var properties = {
+					model: {
+						type: Object,
+						notify: true,
+					},
+					scope: {
+						type: Object,
+						notify: true,
+					},
+				};
+
+				properties[field] = {
 					type: Object,
-					notify: true,
-				},
-				scope: {
-					type: Object,
-					notify: true,
-				},
-			},
+					readOnly: true,
+					value: function () {
+						var value = {};
+						value._childNodes = null;
+						return value;
+					},
+				};
+
+				return properties;
+			}()),
 
 			instanceTemplate: function (template) {
 				var dom = CustomElements.useNative ?
@@ -119,17 +130,78 @@
 					document.adoptNode(template.content.cloneNode(true));
 
 				// the above does not work in Safari 8 without the following fix applied
-				if (inclusions) {
-					Array.apply(null, dom.querySelectorAll("template")).forEach(patch, inclusions);
+				if (originals) {
+					Array.apply(null, dom.querySelectorAll("template:not([is])")).forEach(patch, originals);
 				}
 
 				return dom;
 			},
 
-			strConcat: function () {
-				var args = arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments);
-				return args.join("");
+			attached: function () {
+				if (Polymer.Settings.useNativeShadow) {
+					return;
+				}
+
+				// fix for dom-repeat styling in shady-dom
+				this.async(function () {
+					var ele = Polymer.dom(this);
+					var host = ele.getOwnerRoot().host;
+
+					if (!host) {
+						return;
+					}
+
+					var nodes = ele.querySelectorAll("*");
+					var count = nodes.length;
+					var index = 0;
+
+					for (index; index < count; index++) {
+						Polymer.StyleTransformer.dom(nodes[index], this.is, void 0, true);
+						Polymer.StyleTransformer.dom(nodes[index], host.is);
+					}
+				}, 0);
 			},
+
+			ready: function () {
+				// take all the elements in the shadow dom, and add them to the light dom
+				// (except the terminating <content></content> element)
+				var ele = Polymer.dom(this);
+				var root = Polymer.dom(this.root);
+
+				var content = root.querySelector("content#"+is);
+				var styles = root.querySelectorAll("style:not([is])");
+				var count = styles.length;
+				var index = 0;
+
+				root.appendChild(content);
+
+				for (index; index < count; index++) {
+					root.appendChild(styles[index]);
+				}
+
+				var _childNodes = Array.apply(null, root.childNodes);
+
+				count = _childNodes.length;
+				index = 0;
+
+				for (index; index < count; index++) {
+					if (_childNodes[index] === content) {
+						break;
+					}
+				}
+
+				_childNodes = _childNodes.slice(0, index);
+
+				count = _childNodes.length;
+				index = 0;
+
+				for (index; index < count; index++) {
+					ele.appendChild(_childNodes[index]);
+				}
+
+				this[field]._childNodes = _childNodes;
+			},
+
 		});
 	}
 
