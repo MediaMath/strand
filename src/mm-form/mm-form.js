@@ -133,10 +133,8 @@
 
 		// *******************************
 		// collect all the things (and data)
-		ready: function() {
+		attached: function() {
 			// build form data object
-			// TODO: consider effective children apis once we get to v1.2.3
-			// https://www.polymer-project.org/1.0/docs/devguide/local-dom.html#effective-children
 			this.async(function() {
 				var formFields = Polymer.dom(this).querySelectorAll('[name]');
 
@@ -148,12 +146,11 @@
 						validation 		= item.getAttribute('validation'),
 						errorMsg 		= item.getAttribute('error-message'),
 						errorMsgEle		= null,
-						fieldHeaderEle 	= null;
+						fieldHeaderEle 	= null,
+						parentEle 		= Polymer.dom(item).parentNode;
 					
 					// create the label and error message if necessary
 					if (errorMsg) {
-						var parentEle = Polymer.dom(item).parentNode;
-
 						errorMsgEle = new Strand.FormMessage();
 						errorMsgEle.message = errorMsg;
 						errorMsgEle.type = 'error';
@@ -161,8 +158,7 @@
 					}
 
 					if (label) {
-						var parentEle = Polymer.dom(item).parentNode,
-							headerTxt = document.createTextNode(label);
+						var headerTxt = document.createTextNode(label);
 
 						fieldHeaderEle = new Strand.Header();
 						fieldHeaderEle.size = 'medium';
@@ -171,7 +167,7 @@
 					}
 
 					// store the form data, hold on to the initial settings
-					// for cross reference diff later 
+					// for cross reference diff later
 					this.formData[key] = this._initialFormData[key] = value;
 
 					// store the form items and related data/elements
@@ -204,6 +200,8 @@
 			var field = e.target,
 				value = e.detail.value;
 
+			// TODO: don't show change warnings flag
+			// check here 
 			if (value) {
 				this._dataUpdate(field, value);
 
@@ -219,9 +217,8 @@
 
 		_dataUpdate: function(field, value) {
 			var name = field.getAttribute('name');
-			
-			// can be triggered prior to the 'ready' method, where formData is created
-			if (name && this.formData[name]) {
+
+			if (name && this.formData[name]!== undefined) {
 				this.formData[name] = value;
 			}
 		},
@@ -246,7 +243,6 @@
 			var testSet = validation.replace(/\s/g, '').split("|"),
 				result = [];
 
-			// attempt with validate-js
 			result = testSet.map(function(item) {
 				return this.rules[item](value);
 			}, this).filter(function(item) {
@@ -261,7 +257,7 @@
 				valid = [];
 
 			// UI validation pass:
-			// console.log('submitForm');
+			// console.log('serializeForm');
 			for (var key in this.formData) {
 				var item 			= this.formItems[key]
 					value 			= item.field.value,
@@ -284,9 +280,7 @@
 				item.field.error = !isValid;
 			}
 
-			// TODO:
 			if (invalid.length > 0) {
-
 				// show messaging in the footer
 				if (this.footerMessage) {
 					this.footerType = 'error';
@@ -294,14 +288,6 @@
 					this._showFooterMessage = true;
 				}
 			} else {
-
-				// send the data to some endpoint
-				// handle that response
-				
-				// reconfigure based on the response - display more error messaging
-				// or change the error messaging, etc - for if backend error wasn't
-				// caught on the UI validation pass				
-
 				// show messaging in the footer
 				if (this.footerMessage) {
 					this.footerType = 'success';
@@ -318,6 +304,14 @@
 				data: this.formData 
 			});
 		},
+		
+		// *******************************
+		// TODO: handle the response data object
+		// should be some key value pairs (same)
+		
+		// reconfigure based on the response - display more error messaging
+		// or change the error messaging, etc - for if backend error wasn't
+		// caught on the UI validation pass				
 
 		// *******************************
 		// TODO: replace with a behavior/component if this is something

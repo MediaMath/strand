@@ -147,11 +147,13 @@
 			<!-- row 2 -->
 			<div class="col" span="1">
 			<special-snowflake
+				id="dimensions"
 				unresolved
-				name="snowflake"
+				name="dimensions"
 				validation="dimensions|empty"
 				label="Select a Dimension"
-				error-message="You need to select a dimension"></special-snowflake>
+				value='{"width":"300", "height":"250"}'
+				error-message="You need to select dimensions"></special-snowflake>
 		</mm-form>
 
 		<script>
@@ -168,9 +170,9 @@
 							notify: true,
 							value: function() {
 								return {
-									width: null,
-									height: null
-								}
+									width:null,
+									height:null
+								};
 							},
 							observer: "_valueChanged"
 						},
@@ -223,7 +225,7 @@
 				testForm.rules.dimensions = function(i) {
 					var isValid = typeof(i.width === 'number') && 
 						typeof(i.height === 'number');
-					return i.width !== null && i.height !== null;
+					return isValid;
 				}
 
 				testForm.addEventListener('serialize-form', function(e){
