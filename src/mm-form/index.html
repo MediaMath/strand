@@ -87,12 +87,12 @@
 					<mm-input 
 						id="width"
 						placeholder="Width" 
-						validation="int" 
+						validation="int"
 						on-changed="_widthChanged"></mm-input>
 					<mm-input 
 						id="height"
 						placeholder="Height" 
-						validation="int" 
+						validation="int"
 						on-changed="_heightChanged"></mm-input>
 				</mm-group>
 			</template>
@@ -154,6 +154,7 @@
 				label="Select a Dimension"
 				error-message="You need to select dimensions"></special-snowflake>
 		</mm-form>
+				<!-- value='{"width":"300", "height":"250"}' -->
 
 		<script>
 			// special form component to validate assumptions: 
@@ -173,12 +174,6 @@
 							type: Boolean
 						}
 					},
-					_valueChanged: function(oldVal, newVal) {
-						// must fire a changed event:
-						if (newVal) {
-							this.fire('changed', { value: newVal });
-						}
-					},
 					_handleRadioSelected: function(e) {
 						switch (e.detail.item.id) {
 							case 'standardSize':
@@ -191,22 +186,50 @@
 								return;	
 						}
 					},
+					_valueChanged: function(newVal, oldVal) {
+						if (newVal) {
+							this.fire('changed', { value: newVal });
+
+							// set the dropdown if needed
+							if (!this.nonStandardSize) {
+								if (!this.$.standardSizeDdl.value) {
+									this.$.standardSizeDdl.value = String(
+										this.value.width + 'x' + this.value.height
+									);
+								} 
+							} else {
+								this.$.width.value = this.value.width;
+								this.$.height.value = this.value.height;
+							}
+						}
+					},
+
 					_standardSizeChanged: function(e) {
-						// split the dimension and shove into the value Object
-						var dimensions = e.detail.value.split('x');
-						this.value = {
-							width : parseInt(dimensions[0]),
-							height : parseInt(dimensions[1])
-						};
+						var dimensions = e.detail.value.split('x'),
+							width = parseInt(dimensions[0]),
+							height = parseInt(dimensions[1]);
+						this._dimensionsChanged(width, height);
 					},
 					_widthChanged: function(e) {
+						e.preventDefault();
 						if (e.detail.value) {
-							this.value.width = parseInt(e.detail.value);
+							var width = parseInt(e.detail.value),
+								height = this.value ? this.value.height : null;
+							this._dimensionsChanged(width, height);
 						}
 					},
 					_heightChanged: function(e) {
+						e.preventDefault();
 						if (e.detail.value) {
-							this.value.height = parseInt(e.detail.value);
+							var width = this.value ? this.value.width : null,
+								height = parseInt(e.detail.value);
+							this._dimensionsChanged(width, height);
+						}
+					},
+					_dimensionsChanged: function(width, height) {
+						this.value = {
+							width: width,
+							height: height
 						}
 					}
 				});
@@ -216,17 +239,16 @@
 				var testForm = document.querySelector('#testForm');
 				var dimensions = document.querySelector('#dimensions');
 
-				dimensions.value = {
-					width: 300,
-					height: 250
-				};
+				// dimensions.value = {
+				// 	width: 300,
+				// 	height: 250
+				// };
 
 				// add custom validation rules for the dimension component
 				// this would probably be more robust, but this is sufficient
 				testForm.rules.dimensions = function(i) {
-					var isValid = typeof(i.width === 'number') && 
-						typeof(i.height === 'number');
-					return isValid;
+					return i ? typeof(parseInt(i.width) === 'number') && 
+						typeof(parseInt(i.height) === 'number') : false; 
 				}
 
 				testForm.addEventListener('serialize-form', function(e){

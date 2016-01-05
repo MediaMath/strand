@@ -51,10 +51,6 @@
 				type: String,
 				notify: true
 			},
-			footerMessage: {
-				type: Boolean,
-				value: true
-			},
 			actions: {
 				type: Array,
 				value: function() {
@@ -77,10 +73,30 @@
 					];
 				}
 			},
-			_showFooterMessage: {
+			unsaved: {
 				type: Boolean,
+				value: false,
 				notify: true
 			},
+			showFooterMessages: {
+				type: Boolean,
+				value: true,
+				notify: true
+			},
+			showWarningMessages: {
+				type: Boolean,
+				value: true,
+				notify: true
+			},
+			_showFooterMessage: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			_displayFooterMessage: {
+				type: Boolean,
+				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
+			}
 		},
 
 		observers: [
@@ -148,6 +164,9 @@
 						errorMsgEle		= null,
 						fieldHeaderEle 	= null,
 						parentEle 		= Polymer.dom(item).parentNode;
+
+					// TODO: multiple property components - how to handle them
+					// is it via a behavior / array, etc.
 					
 					// create the label and error message if necessary
 					if (errorMsg) {
@@ -194,20 +213,23 @@
 			e.model.item.callback(e,this);
 		},
 
+		// display footer messaging based on settings
+		_displayMessage: function(_showFooterMessage, showFooterMessages) {
+			return _showFooterMessage && showFooterMessages;
+		},
+
 		// *******************************
 		// handle changes within the form
 		_handleChanged: function(e) {
-			var field = e.target,
-				value = e.detail.value;
+			var name = e.target.getAttribute('name'),
+				item = this.formItems[name];
 
-			// TODO: don't show change warnings flag
-			// check here 
-			if (value) {
-				this._dataUpdate(field, value);
+			if (item && item.field.value) {
+				this._updateData(item.field, item.value);
+				this.unsaved = this._diffData();
 
-				var diff = this._diffData();
-
-				if (diff) {
+				// trigger a warning message in the footer
+				if (this.unsaved && this.showWarningMessages) {
 					this.footerMessage = this.footerMessages.warning;
 					this.footerType = 'warning';
 					this._showFooterMessage = true;
@@ -215,12 +237,9 @@
 			}
 		},
 
-		_dataUpdate: function(field, value) {
+		_updateData: function(field, value) {
 			var name = field.getAttribute('name');
-
-			if (name && this.formData[name]!== undefined) {
-				this.formData[name] = value;
-			}
+			if (name) this.formData[name] = value;
 		},
 
 		_diffData: function() {
@@ -231,7 +250,6 @@
 					diff.push(key);	
 				}
 			}
-
 			return diff.length > 0;
 		},
 
@@ -264,6 +282,9 @@
 					validation		= item.validation,
 					isValid 		= false;
 
+				this._updateData(item.field, value);
+				this.unsaved = this._diffData();
+
 				// validate UI:
 				isValid = this._validateField(validation, value);
 
@@ -282,14 +303,14 @@
 
 			if (invalid.length > 0) {
 				// show messaging in the footer
-				if (this.footerMessage) {
+				if (this.unsaved) {
 					this.footerType = 'error';
 					this.footerMessage = this.footerMessages.error;
 					this._showFooterMessage = true;
 				}
 			} else {
 				// show messaging in the footer
-				if (this.footerMessage) {
+				if (this.unsaved) {
 					this.footerType = 'success';
 					this.footerMessage = this.footerMessages.success;
 					this._showFooterMessage = true;
