@@ -72,7 +72,7 @@
 			},
 			value: {
 				type: String,
-				value: null,
+				// value: null,
 				observer: "_valueChanged",
 				notify: true
 			},
@@ -134,7 +134,7 @@
 			} else {
 				this._clearVisible = false;
 			}
-			this.fire("changed", { value: newVal });
+			this.fire("changed", { value: newVal });	
 		},
 
 		clearInput: function(e) {

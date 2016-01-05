@@ -152,7 +152,6 @@
 				name="dimensions"
 				validation="dimensions|empty"
 				label="Select a Dimension"
-				value='{"width":"300", "height":"250"}'
 				error-message="You need to select dimensions"></special-snowflake>
 		</mm-form>
 
@@ -168,12 +167,6 @@
 						value: {
 							type: Object,
 							notify: true,
-							value: function() {
-								return {
-									width:null,
-									height:null
-								};
-							},
 							observer: "_valueChanged"
 						},
 						isStandard: {
@@ -182,7 +175,9 @@
 					},
 					_valueChanged: function(oldVal, newVal) {
 						// must fire a changed event:
-						this.fire('changed', { value: newVal });
+						if (newVal) {
+							this.fire('changed', { value: newVal });
+						}
 					},
 					_handleRadioSelected: function(e) {
 						switch (e.detail.item.id) {
@@ -219,6 +214,12 @@
 
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
+				var dimensions = document.querySelector('#dimensions');
+
+				dimensions.value = {
+					width: 300,
+					height: 250
+				};
 
 				// add custom validation rules for the dimension component
 				// this would probably be more robust, but this is sufficient
