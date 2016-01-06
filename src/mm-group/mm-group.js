@@ -100,7 +100,6 @@
 		},
 
 		detached: function() {
-			console.log("detached", this);
 			this.removeEventListener('click', this._updateSelectedItem);
 			this.removeEventListener('selected', this._radioSelected);
 		},

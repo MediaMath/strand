@@ -55,7 +55,8 @@
 		},
 
 		behaviors:[
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
 		],
 
 		_handleClick: function(e) {
