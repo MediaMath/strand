@@ -68,5 +68,8 @@
 				}
 			]
 		}
+	],
+	"behaviors":[
+		"refable"
 	]
 }

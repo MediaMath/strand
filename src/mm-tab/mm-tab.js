@@ -11,7 +11,6 @@
 
 		properties: {
 			active: {
-				observer: '_loadExternal',
 				reflectToAttribute: true,
 				type: Boolean,
 				value: false,
@@ -21,72 +20,95 @@
 				type: String,
 				value: ''
 			},
+			iconWidth: {
+				type: Number,
+				value: 13
+			},
+			iconHeight: {
+				type: Number,
+				value: 13
+			},
 			tabLabel: {
 				type: String,
 				value: '',
 			},
-			url: {
-				type: String,
-				value: '',
-				observer: '_loadExternal'
+			_instance: Object,
+			_callback: {
+				type: Object,
 			},
-
-			_contentLoaded: {
-				type: Boolean,
-				value: false
-			}
+			_resolved: Object,
+			promise: {
+				type: Object,
+				value: function () {
+					return new Zousan();
+				},
+				notify: true,
+				readOnly: true,
+			},
 		},
 
-		behaviors: [Polymer.Templatizer],
+		behaviors: [
+			StrandTraits.TemplateFindable,
+			StrandTraits.TemplateComponentizable,
+			StrandTraits.Refable
+		],
 
-		_importNodes: function(importDoc) {
-			if(importDoc) {
-				var importTemplate = importDoc.querySelector('template');
-				this.templatize(importTemplate);
+		observers: [
+			"_renderView(active, _templateFound)",
+		],
 
-				var instance = this.stamp();
-				Polymer.dom(this).appendChild(instance.root);
+		_renderView: function (active, _templateFound) {
+			var element = Polymer.dom(this);
+			var view = Polymer.dom(this.$.view);
+			var useLightDom = 0|true;
 
-				if(this._callback) this.async(this._callback.bind(this,instance));
+			if (!_templateFound) {
+				this._instance = null;
+			} else if (active && !this._instance) {
+				view.getDistributedNodes().forEach(function (node) {
+					var child = Polymer.dom(node);
+					var parent = child.parentNode ? Polymer.dom(child.parentNode) : null;
 
-				this._contentLoaded = true;
+					if (parent) {
+						parent.removeChild(node);
+					}
+				});
+
+				this._instance = this.instantiateTemplate(this._templateFound, 0|useLightDom);
+
+				element.appendChild(this._instance);
+
+				if (this._callback) {
+					this.async(this._callback.bind(this, this._instance));
+				}
 
 				this.fire('loaded', {
 					label: this.tabLabel,
 					target: this,
 				});
-			}
-		},
 
-		_loadExternal: function() {
-			if(this.active && !this._contentLoaded) {
-				var importDoc,
-					existing = document.head.querySelector('link[href="'+this.url+'"]');
-
-				if(existing) {
-
-					importDoc = existing.import;
-					this._importNodes(importDoc);
-
-				} else if(this.url) {
-
-					this.importHref(this.url,
-						function(e) {
-							importDoc = e.target.import;
-							this._importNodes(importDoc);
-						},
-						function(error) {
-							console.error(error);
-						});
-
+				if (!this.promise ||
+					this.promise === this._resolved) {
+					this._setPromise(new Zousan());
 				}
+
+				this.promise.resolve(this._instance);
+
+				this.set("_resolved", this.promise);
 			}
 		},
 
 		loadExternal: function(path, callback) {
-			this.url = path;
+			if (!this.promise ||
+				this.promise === this._resolved) {
+				this._setPromise(new Zousan());
+			}
+
 			this._callback = callback;
-		}
+			this.set("templateFindable.templateUri", path);
+
+			return this.promise;
+		},
 
 	});
 	

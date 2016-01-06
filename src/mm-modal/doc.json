@@ -43,5 +43,9 @@
 			"arguments":[]
 		}
 	],
-	"behaviors": ["stackable"]
+	"behaviors": [
+		"resolvable",
+		"stackable",
+		"refable"
+	]
 }

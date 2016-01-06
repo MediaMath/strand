@@ -19,7 +19,7 @@
 				observer: "_directionChanged"
 			},
 			target: {
-				type: String,
+				type: Object,
 				observer: '_positionableTargetChanged'
 			},
 			_containerOffset: {
@@ -42,8 +42,8 @@
 			if (newVal !== 'c') this._originalDirection = newVal;
 		},
 
-		_positionableTargetChanged: function() {
-			this._target = this.target;
+		_positionableTargetChanged: function(newVal, oldVal) {
+			this._target = newVal;
 		},
 
 		_updatePosition: function() {

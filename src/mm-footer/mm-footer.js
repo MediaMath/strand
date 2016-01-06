@@ -29,7 +29,8 @@
 		},
 
 		behaviors:[
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
 		],
 
 		showMessage: function() {

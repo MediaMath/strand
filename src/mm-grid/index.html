@@ -7,6 +7,7 @@
 	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
 	<link rel="import" href="../mm-list-item/mm-list-item.html">
 	<link rel="import" href="../mm-menu/mm-menu.html">
+	<link rel="import" href="../mm-icon/mm-icon.html">
 	<link rel="import" href="../mm-tooltip/mm-tooltip.html">
 	<style type="text/css">
 		html, body {
@@ -37,79 +38,221 @@
 	</style>
 </head>
 <body>
-		<!-- <style type="text/css">
-			:host {
-				display: block;
-				height: 100%;
-			}
-			mm-grid {
-				height: 100%;
-			}
-		</style> -->
-		<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" item-template="customTemplate" unresolved>
-			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-			<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-			<mm-grid-column width="15%" field="concept" sort resize>Concept</mm-grid-column>
-			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-			<mm-grid-column width="15%" field="dimensions">Dimensions</mm-grid-column>
-			<mm-grid-column width="10%" field="actions"></mm-grid-column>
-			<template id="customTemplate">
-				<!-- <mm-grid-item model="{{model}}" scope="{{scope}}" style$="{{model.style}}"> -->
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
-					<div field="actions">
+	<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
+		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+		<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+		<mm-grid-column width="10%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+		<mm-grid-column width="10%" field="concept" sort resize>Concept</mm-grid-column>
+		<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+		<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
+		<mm-grid-column width="30%" field="actions"></mm-grid-column>
 
-						<!--
-						<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
-						<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
-							<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="actions">
+					<!-- 
+					<mm-icon width="15" height="15" type="actions" id="actionIcon"></mm-icon>
+					<mm-tooltip model="{{model}}" target="{{findById('actionIcon')}}">
+						<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
+					</mm-tooltip>
+					 -->
+					<!--
+					<mm-icon type="actions" id="actionMenuIcon" width="15" height="15"></mm-icon>
+					<mm-menu id="testMenu" direction="s" offset="15" model="{{model}}" target="{{findById('actionMenuIcon')}}">
+						<mm-list-item value="m1">{{model.name}} item 1</mm-list-item>
+						<mm-list-item value="m2">{{model.name}} item 2</mm-list-item>
+						<mm-list-item value="m3">{{model.name}} item 3</mm-list-item>
+						<mm-list-item value="m4">{{model.name}} item 4</mm-list-item>
+						<mm-list-item value="m5">{{model.name}} item 5</mm-list-item>
+					</mm-menu>
+					-->
+					<!-- 
+					<mm-dropdown>
+						<mm-list-item>List Item</mm-list-item>
+						<mm-list-item>List Item</mm-list-item>
+						<mm-list-item>List Item</mm-list-item>
+						<mm-list-item>List Item</mm-list-item>
+					</mm-dropdown>
+					 -->
+					 <!--
+					<mm-dropdown data='[
+						{"name":"apples", "value":"apples"},
+						{"name":"bears", "value":"bears"},
+						{"name":"candy", "value":"candy"},
+						{"name":"ducks", "value":"ducks"},
+						{"name":"everything", "value":"everything"}]'
+						value="{{model.value}}">
+					</mm-dropdown>
+					-->
+					<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
+						<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+						<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+						<template preserve-content>
+							<mm-grid-item model="{{model}}" scope="{{scope}}">
+								<div class="expansion">
+									<div class="expansion-row">
+										<div class="expansion-col">
+											<h4>Expanded Content</h4>
+											<span>{{model.name}}</span>
+										</div>
+										<div class="expansion-col">
+											<h4>Expanded Advertiser</h4>
+											<span>{{model.advertiser}}</span>
+										</div>
+										<div class="expansion-col">
+											<h4>Expanded Concept</h4>
+											<span>{{model.concept}}</span>
+										</div>
+									</div>
+								</div>
+							</mm-grid-item>
+						</template>
+					</mm-grid>
+				</div>
+				<div field="name">
+					Creative - {{model.name}}
+				</div>
+				<div class="expansion">
+					<div class="expansion-row">
+						<div class="expansion-col">
+							<h4>Expanded Content</h4>
+							<span>{{model.name}}</span>
+						</div>
+						<div class="expansion-col">
+							<h4>Expanded Advertiser</h4>
+							<span>{{model.advertiser}}</span>
+						</div>
+						<div class="expansion-col">
+							<h4>Expanded Concept</h4>
+							<span>{{model.concept}}</span>
+						</div>
+					</div>
+					<div class="expansion-row">
+						<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
+					</div>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+
+	<!-- Examples for documentation -->
+	<!-- 
+	<mm-grid id="customItems">
+		<mm-grid-column field="first_name">First Name</mm-grid-column>
+		<mm-grid-column field="last_name">Last Name</mm-grid-column>
+		<mm-grid-column field="email">Email</mm-grid-column>
+		<mm-grid-column field="star_rating">Star Rating</mm-grid-column>
+		
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="first_name">
+					<span>Star Employee: {{model.first_name}}</span>
+				</div>
+				<div field="star_rating">
+					<template is="dom-repeat" items="{{model.stars}}">
+						<mm-icon width="12" height="12" type="favorite"></mm-icon>
+					</template>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+	
+	<mm-grid id="customItems">
+		<mm-grid-column field="first_name">First Name</mm-grid-column>
+		<mm-grid-column field="last_name">Last Name</mm-grid-column>
+		<mm-grid-column field="info">Info</mm-grid-column>
+		
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="info">
+					<mm-icon type="info" id="infoIcon" width="12" height="12"></mm-icon>
+					<mm-tooltip 
+						id="infoTip"
+						model="{{model}}" 
+						target="{{findById('infoIcon')}}">
+							<label>{{model.tip}}</label>
 						</mm-tooltip>
-						-->
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
 
-						<!--
-						<mm-icon type="actions" id="{{_createId('menu', model.id)}}" width="15" height="15"></mm-icon>
-						<mm-menu id="testMenu" direction="s" offset="15" target$="{{_createId('#menu', model.id)}}">
-							<mm-list-item value="m1">menu item 1</mm-list-item>
-							<mm-list-item value="m2">menu item 2</mm-list-item>
-							<mm-list-item value="m3">menu item 3</mm-list-item>
-							<mm-list-item value="m4">menu item 4</mm-list-item>
-							<mm-list-item value="m5">menu item 5</mm-list-item>
-						</mm-menu>
-						-->
-						
-						<mm-dropdown>
-							<mm-list-item>List Item</mm-list-item>
-							<mm-list-item>List Item</mm-list-item>
-							<mm-list-item>List Item</mm-list-item>
-							<mm-list-item>List Item</mm-list-item>
-						</mm-dropdown>
+	<script>
+		window.addEventListener("WebComponentsReady", function() {
+			var customItems = document.querySelector('#customItems');
 
-					</div>
-					<div field="name">
-						Creative - <span>{{model.name}}</span>
-					</div>
-					<div class="expansion">
-						<div class="expansion-row">
-							<div class="expansion-col">
-								<h4>Expanded Content</h4>
-								<span>{{model.name}}</span>
-							</div>
-							<div class="expansion-col">
-								<h4>Expanded Advertiser</h4>
-								<span>{{model.advertiser}}</span>
-							</div>
-							<div class="expansion-col">
-								<h4>Expanded Concept</h4>
-								<span>{{model.concept}}</span>
-							</div>
-						</div>
-						<div class="expansion-row">
-							<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
-						</div>
-					</div>
-				</mm-grid-item>
-			</template>
-		</mm-grid>
+			customItems.data = [
+				{ first_name: "Bob", last_name: "Smith", tip: "A real all star employee" },
+				{ first_name: "Jane", last_name: "Doe", tip: "A great leader"  },
+				{ first_name: "Rick", last_name: "James", tip: "He's a cool guy" },
+				/* more data items here... */
+			];
+		});
+	</script>
+
+	<mm-grid id="customItems">
+		<mm-grid-column field="first_name">First Name</mm-grid-column>
+		<mm-grid-column field="last_name">Last Name</mm-grid-column>
+		<mm-grid-column field="email">Email</mm-grid-column>
+		<mm-grid-column field="role">Role</mm-grid-column>
+		
+		<template preserve-content>
+			<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<div field="role">
+					<mm-dropdown 
+						data="{{model.dropdown_data}}" 
+						value="{{model.dropdown_data_value}}"
+						placeholder="Select Role"></mm-dropdown>
+				</div>
+			</mm-grid-item>
+		</template>
+	</mm-grid>
+
+	<script>
+		var NUM_ITEMS = 300,
+			data = [];
+
+		function randomInt(min, max) {
+		  return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		for(var i=0; i<NUM_ITEMS; i++) {
+			generateItem();
+		}
+
+		function generateItem() {
+			var firstName = Math.random().toString(36).substring(7),
+				lastName =  Math.random().toString(36).substring(7),
+				email = firstName[0] + lastName + '@gmail.com',
+				stars = new Array(randomInt(1,5));
+
+			data.push({
+				id:0, 
+				first_name: firstName, 
+				last_name: lastName, 
+				email: lastName + '@gmail.com', 
+				dropdown_data: getDropdownData(lastName), 
+				dropdown_data_value: null,
+				stars: stars 
+			});
+		}
+
+		function getDropdownData(lastName) {
+			return [
+				{ "name" : "manager", 	"value" : "man" },
+				{ "name" : "sales", 	"value" : "sal" },
+				{ "name" : "developer", "value" : "dev" },
+				{ "name" : "designer", 	"value" : "des" },
+			];
+		}
+		
+		window.addEventListener("WebComponentsReady", function() {
+			var customItems = document.querySelector('#customItems');
+			customItems.data = data;
+		});
+	</script>
+	-->
+
 	<script type="text/javascript">
 		var data = [],
 			columns = [
@@ -147,6 +290,17 @@
 				expanded: false,
 				// style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
 				// style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
+				subdata: [{
+					id: 0,
+					name: Math.random().toString(36).substring(7),
+					advertiser: "Advertiser No. " + 0,
+					concept: "Concept No. " + 0,
+				}, {
+					id: 1,
+					name: Math.random().toString(36).substring(7),
+					advertiser: "Advertiser No. " + 1,
+					concept: "Concept No. " + 1,
+				}],
 			});
 		}
 
@@ -154,9 +308,9 @@
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
 
-			setTimeout(function () {
-				//app.data = data.slice(data.length >> 2, data.length >> 1);
-			}, 3000);
+			// setTimeout(function () {
+			// 	app.data = data.slice(data.length >> 2, data.length >> 1);
+			// }, 3000);
 		});
 	</script>
 </body>

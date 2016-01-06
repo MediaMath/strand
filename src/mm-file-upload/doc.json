@@ -78,5 +78,9 @@
 			"name": "files-changed",
 			"type": "files-changed"
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
 	]
 }

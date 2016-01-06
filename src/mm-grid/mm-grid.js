@@ -23,14 +23,6 @@
 				value: "2d",
 			},
 			data: Array,
-			_columns: {
-				type: Array,
-				value: function() {
-					return [];
-				},
-				notify: true,
-				observer: "_columnsChanged",
-			},
 			scope: {
 				type: Object,
 				notify: true,
@@ -39,21 +31,9 @@
 				}
 			},
 			index: Number,
-			itemTemplate: String,
-			itemTemplateElement: Object,
 			_selectAllState: {
 				type: String,
 				value: 'unchecked'
-			},
-			selectable: {
-				type: Boolean,
-				value: false,
-				observer: "_selectableChanged",
-			},
-			expandable: {
-				type: Boolean,
-				value: false,
-				observer: "_expandableChanged",
 			},
 			sortField: String,
 			sortOrder: {
@@ -67,10 +47,32 @@
 			expanded: {
 				type: Boolean,
 				value: false,
+			},
+			selectable: {
+				type: Boolean,
+				value: false,
+				observer: "_selectableChanged",
+			},
+			expandable: {
+				type: Boolean,
+				value: false,
+				observer: "_expandableChanged",
+			},
+			_columns: {
+				type: Array,
+				value: function() {
+					return [];
+				},
+				notify: true,
+				observer: "_columnsChanged",
 			}
 		},
 
-		behaviors: [ StrandTraits.Resolvable ],
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.TemplateFindable,
+			StrandTraits.Refable
+		],
 		
 		listeners: {
 			'column-resize-start': '_onColumnResizeStart',
@@ -85,18 +87,11 @@
 			"_onSortChanged(sortField, sortOrder)",
 		],
 
-
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
 		attached: function() {
-			if(this.itemTemplate && typeof this.itemTemplate === "string") {
-				this.itemTemplateElement = this.querySelector("#" + this.itemTemplate);
-			}
-
-			this.itemTemplateElement = this.itemTemplateElement || this.$.defaultTemplate;
-
 			this.async(this._initialize);
 		},
 

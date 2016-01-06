@@ -73,3 +73,5 @@ Another grid use case that ties in nicely with data components is sorting. Like 
 ```
 
 When a user clicks on a sort enabled column, the grid will update its `sort-field` attribute with that column's `sort-field` attribute if it exists, or default to the `field` attribute that was set on it. In the example above clicking on the "First Name" column set the grid's `sort-field` to "first_name".
+
+#### Continue Reading &#8594; [Creating Custom Grid Items](article_grid_custom_grid_item.html)

@@ -55,7 +55,8 @@
 		},
 
 		behaviors:[
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
 		],
 
 		_handleClick: function(e) {
@@ -77,7 +78,7 @@
 
 		hide: function() {
 			this.$.dialogInnerModal.hide();
-		},
+		}
 
 	});
 

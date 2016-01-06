@@ -20,5 +20,15 @@
 			"reflect":true
 		}
 	],
-	"behaviors":["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]
+	"articles": ["grid_custom_grid_item"],
+	"behaviors":[
+		"resolvable",
+		"closable",
+		"autoclosable",
+		"stackable",
+		"stylable",
+		"positionable",
+		"positionable-panel",
+		"refable"
+	]
 }

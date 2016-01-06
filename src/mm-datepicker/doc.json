@@ -342,6 +342,7 @@
 		"positionable",
 		"positionablepanel",
 		"debouncable",
-		"falsifiable"
+		"falsifiable",
+		"refable"
 	]
 }

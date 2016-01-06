@@ -8,7 +8,10 @@
 
 	scope.Sync = Polymer({
 		is:"mm-sync",
-		behaviors:[StrandTraits.Syncable],
+		behaviors:[
+			StrandTraits.Syncable,
+			StrandTraits.Refable
+		],
 	});
 
 })(window.Strand = window.Strand || {});

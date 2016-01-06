@@ -21,6 +21,7 @@
 <link rel="import" href="../mm-item-recycler/mm-item-recycler.html">
 <link rel="import" href="../mm-icon/mm-icon.html"/>
 <link rel="import" href="../mm-list-item/mm-list-item.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
 
 <dom-module id="mm-dropdown">
 	<link href="mm-dropdown.css" rel="import" type="css"/>
@@ -29,7 +30,7 @@
 			id="target" 
 			class$="{{_updateButtonClass(direction, fitparent, error, state, _type)}}" 
 			tabindex="0" 
-			title="{{_updateTitle(selectedIndex)}}">
+			title$="{{_updateTitle(selectedIndex)}}">
 			<span class="left-items">
 				<content select="mm-icon" id="icon"></content>
 				<label id="label">{{_updateLabelText(selectedIndex, placeholder)}}</label>
@@ -44,9 +45,8 @@
 					<mm-item-recycler 
 						id="itemRecycler" 
 						data="{{data}}" 
-						hidden$="{{!_hideInsertionPoints(data)}}" 
-						item-template="templateItem">
-						<template id="templateItem">
+						hidden$="{{!_hideInsertionPoints(data)}}">
+						<template preserve-content>
 							<mm-list-item 
 								value$="{{model.value}}" 
 								selected$="{{model.selected}}"

@@ -14,7 +14,8 @@
 			StrandTraits.Stackable,
 			StrandTraits.PositionablePanel,
 			StrandTraits.Stylable,
-			StrandTraits.Falsifiable
+			StrandTraits.Falsifiable,
+			StrandTraits.Refable
 		],
 
 		properties: {

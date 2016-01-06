@@ -117,5 +117,10 @@
 			"optional":true,
 			"default":"28"
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
 	]
 }

@@ -40,5 +40,10 @@
 			"description": "Returns an array of this component's tabs, in order"
 		}
 	],
-	"behaviors": ["selectable","stylable"]
+	"behaviors": [
+		"resolvable",
+		"selectable",
+		"stylable",
+		"refable"
+	]
 }

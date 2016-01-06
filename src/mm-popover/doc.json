@@ -1,5 +1,15 @@
 {
 	"name":"mm-popover",
 	"description":"A fully-styled popover",
-	"behaviors": ["closable","autoclosable","stackable","stylable","positionable","positionable-panel"]
+	"articles": ["grid_custom_grid_item"],
+	"behaviors": [
+		"closable",
+		"autoclosable",
+		"stackable",
+		"stylable",
+		"positionable",
+		"positionable-panel",
+		"resolvable",
+		"refable"
+	]
 }

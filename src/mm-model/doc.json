@@ -143,6 +143,7 @@
 		}
 	],
 	"behaviors":[
-		"DomSyncable"
+		"domsyncable",
+		"refable"
 	]
 }

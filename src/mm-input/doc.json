@@ -117,5 +117,10 @@
 			]
 		}
 	],
-	"behaviors": ["validatable","stylable"]
+	"behaviors": [
+		"validatable",
+		"stylable",
+		"resolvable",
+		"refable"
+	]
 }

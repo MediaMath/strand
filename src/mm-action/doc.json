@@ -34,5 +34,10 @@
 			"default":"false",
 			"reflect":true
 		}
+	],
+	"behaviors" : [
+		"resolvable",
+		"stylable",
+		"refable"
 	]
 }

@@ -29,5 +29,9 @@
 			"default":"flex-start",
 			"reflect": false
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
 	]
 }

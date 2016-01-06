@@ -142,6 +142,7 @@
 		"windownotifier",
 		"positionable",
 		"positionable-panel",
-		"positionable-dropdown"
+		"positionable-dropdown",
+		"refable"
 	]
 }

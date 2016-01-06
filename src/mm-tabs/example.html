@@ -1,5 +1,24 @@
+<style type="text/css">
+	.tab-content {
+		box-sizing: border-box;
+		padding: 15px;
+	}
+</style>
+
 <mm-tabs tab-bar-offset="15">
-	<mm-tab tab-label="First" icon="info" active>This is the first tab content.</mm-tab>
-	<mm-tab tab-label="Second">This is the second tab content.</mm-tab>
-	<mm-tab tab-label="Third">This is the third tab content.</mm-tab>
+	<mm-tab tab-label="First" icon="info" active>
+		<div class="tab-content">
+			<p>This is the first tab content.</p>
+		</div>
+	</mm-tab>
+	<mm-tab tab-label="Second">
+		<div class="tab-content">
+			<p>This is the second tab content.</p>
+		</div>
+	</mm-tab>
+	<mm-tab tab-label="Third">
+		<div class="tab-content">
+			<p>This is the third tab content.</p>
+		</div>
+	</mm-tab>
 </mm-tabs>

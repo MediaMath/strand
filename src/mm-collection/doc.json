@@ -187,6 +187,7 @@
 		}
 	],
 	"behaviors": [
-		"Pageable"
+		"pageable",
+		"refable"
 	]
 }

@@ -9,6 +9,10 @@
 	scope.GridItem = Polymer({
 		is: 'mm-grid-item',
 
+		behaviors: [
+			StrandTraits.Refable
+		],
+
 		properties: {
 			model: {
 				type: Object,

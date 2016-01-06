@@ -60,5 +60,10 @@
 			"description":"Updates the list item to include or remove a title attribute, depending upon whether or not the text content of the list item has been truncated."
 		}
 	],
-	"behaviors":[ "dommutable", "resizable" ]
+	"behaviors":[ 
+		"resolvable",
+		"dommutable", 
+		"resizable",
+		"refable"
+	]
 }

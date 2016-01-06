@@ -11,6 +11,10 @@
 		
 		is:"mm-localstore",
 
+		behaviors: [
+			StrandTraits.Refable
+		],
+
 		properties: {
 			_storage: {
 				type:Object,

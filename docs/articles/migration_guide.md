@@ -31,24 +31,21 @@ Previously, a `bindModel` method was provided as a convenience to bind a propert
 
 ---
 
-## Removal of unresolved attribute
-Previously, if an attribute of `unresolved` was added to a component, that attribute would be removed by Polymer 0.5 when the component was upgraded. Currently, the `unresolved` attribute may be used on the `body` element only.
+## The unresolved attribute
+Although Polymer no longer supports the `unresolved` attribute per component (the `unresolved` attribute may still be used on the `body` element), Strand still supports this via the `StrandTraits.Resolvable` behavior. The `unresolved` attribute will be removed upon component `ready`.
 
-Before:
+Before & After:
 ```html
+<style>
+	mm-dropdown[unresolved] {
+		display: none;
+	}
+</style>
+
 <mm-dropdown placeholder="Select One" unresolved>
 	...
 </mm-dropdown>
 
-```
-
-After:
-```html
-<body unresolved>
-	<mm-dropdown placeholder="Select One">
-		...
-	</mm-dropdown>
-</body>
 ```
 
 ---
@@ -64,12 +61,12 @@ Before:
 After:
 ```html
 <style>
-#myIcon {
-	color: #666666;
-}
-#myIcon:hover {
-	color: #333333;
-}
+	#myIcon {
+		color: #666666;
+	}
+	#myIcon:hover {
+		color: #333333;
+	}
 </style>
 <mm-icon type="actions" width="32" height="32"></mm-icon>
 ```

@@ -56,5 +56,8 @@
 				}
 			]
 		}
+	],
+	"behaviors": [ 
+		"refable"
 	]
 }

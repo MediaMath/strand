@@ -29,6 +29,7 @@
 			StrandTraits.Resolvable,
 			StrandTraits.DomMutable,
 			StrandTraits.MouseWheelable,
+			StrandTraits.Refable
 		],
 		
 		properties: {

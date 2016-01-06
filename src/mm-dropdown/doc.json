@@ -158,6 +158,8 @@
 		"windownotifier",
 		"positionable",
 		"positionable-panel",
-		"positionable-dropdown"
-	]
+		"positionable-dropdown",
+		"refable"
+	],
+	"articles": ["grid_custom_grid_item"]
 }

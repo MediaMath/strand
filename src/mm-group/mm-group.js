@@ -8,6 +8,11 @@
 
 	scope.Group = Polymer({
 		is: 'mm-group',
+		
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.Selectable
+		],
 
 		properties: {
 			fitparent: { 
@@ -21,14 +26,13 @@
 				observer: '_groupChanged'
 			},
 			align: { 
-				align: 'horizontal',
 				type: String,
 				reflectToAttribute: true,
 				observer: '_alignChanged'
 			},
 			value: { 
 				type: String,
-				value: false,
+				value: null,
 				reflectToAttribute: true,
 				observer: '_valueChanged'
 			},
@@ -64,11 +68,6 @@
 		VALIGN_CENTER: "vgroup-center",
 		VALIGN_BOTTOM: "vgroup-bottom",
 
-		behaviors: [
-			StrandTraits.Resolvable,
-			StrandTraits.Selectable
-		],
-
 		attached: function() {
 			this.type = this._getType();
 
@@ -89,15 +88,7 @@
 						return;
 				}
 			});
-		},
 
-		detached: function() {
-			console.log("detached", this);
-			this.removeEventListener('click', this._updateSelectedItem);
-			this.removeEventListener('selected', this._radioSelected);
-		},
-
-		ready: function() {
 			// if no group ID is specified, generate a UID
 			if(!this.group){
 				this.group = this._createId();
@@ -106,6 +97,11 @@
 			if (!this.align) {
 				this.align = this.HALIGN;
 			}
+		},
+
+		detached: function() {
+			this.removeEventListener('click', this._updateSelectedItem);
+			this.removeEventListener('selected', this._radioSelected);
 		},
 
 		_getType: function() {

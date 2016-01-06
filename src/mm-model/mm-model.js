@@ -38,8 +38,9 @@
 			}
 		},
 
-		behaviors:[
-			StrandTraits.DomSyncable
+		behaviors: [
+			StrandTraits.DomSyncable,
+			StrandTraits.Refable
 		],
 
 		ready:function() {

@@ -51,7 +51,9 @@
 			"arguments":[]
 		}
 	],
-	"properties":[
-	],
-	"events": []
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
+	]
 }

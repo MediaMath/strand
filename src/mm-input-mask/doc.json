@@ -63,5 +63,12 @@
 				}
 			]
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"gomgettable",
+		"keyboardable",
+		"stylable",
+		"refable"
 	]
 }

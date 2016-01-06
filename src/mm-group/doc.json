@@ -79,5 +79,8 @@
 			]
 		}
 	],
-	"behaviors": ["selectable"]
+	"behaviors": [
+		"selectable", 
+		"resolvable"
+	]
 }

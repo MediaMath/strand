@@ -26,7 +26,8 @@
 		},
 
 		behaviors: [
-			StrandTraits.Pageable
+			StrandTraits.Pageable,
+			StrandTraits.Refable
 			// StrandTraits.DomSyncable
 		],
 

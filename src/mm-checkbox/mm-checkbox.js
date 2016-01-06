@@ -12,7 +12,8 @@
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.Stylable,
-			StrandTraits.Validatable
+			StrandTraits.Validatable,
+			StrandTraits.Refable
 		],
 
 		properties: {

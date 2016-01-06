@@ -80,27 +80,4 @@ For grids that need to expand beyond the bounds of their containers / window, th
 	<mm-grid viewport-width="1500"></mm-grid>
 ```
 
-### Custom Item Templates - mm-grid-item
-The grid is quite extendable and can utilize a user-defined template to generate grid items. We recommend utilizing the built-in `mm-grid-item` component, as it works in tandem with the grid. Things like resizable columns, selections, and expansions work out of the box.
-
-In order to use a custom template we define the `item-template` attribute of the grid. This can either be a string with the id of the template we are using, or can point directly to a template DOM fragment. We define the template inside our grid with a `<template>` tag. Here we define an `<mm-grid-item>` with the attributes `model` and `scope`. These are two special attributes that give us a particular grid item's model as well as giving us access to the "scope" of the grid itself.
-
-Defining `<div field="...">` inside of an `mm-grid-item` allows us to override that particular data field's DOM. In the example below we have overridden the "first_name" column with some custom text.
-
-```html
-	<mm-grid item-template="customTemplate">
-		<mm-grid-column field="first_name">First Name</mm-grid-column>
-		<mm-grid-column field="last_name">Last Name</mm-grid-column>
-		<mm-grid-column field="email">Email</mm-grid-column>
-		
-		<template id="customTemplate">
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
-				<div field="first_name">
-					Custom Text - {{model.first_name}}
-				</div>
-			</mm-grid-item>
-		</template>
-	</mm-grid>
-```
-
 #### Continue Reading &#8594; [Data Integration with mm-grid](article_grid_data_integration.html)

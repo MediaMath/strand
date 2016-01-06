@@ -265,6 +265,9 @@
 			]
 		}
 	],
+	"behaviors": [
+		"refable"
+	],
 	"articles":[
 		"data_comps_using_ajax"
 	]

@@ -10,7 +10,8 @@
 		is: "mm-box",
 
 		behaviors: [
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Refable
 		],
 
 		properties: {

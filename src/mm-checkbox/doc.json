@@ -46,5 +46,11 @@
 				}
 			]
 		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"validatable",
+		"refable"
 	]
 }

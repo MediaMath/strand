@@ -8,5 +8,10 @@
 			"arguments":[]
 		}
 	],
-	"behaviors":[ "dommutable", "mousewheelable" ]
+	"behaviors":[ 
+		"dommutable", 
+		"mousewheelable",
+		"resolvable",
+		"refable"
+	]
 }

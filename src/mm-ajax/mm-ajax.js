@@ -15,6 +15,10 @@
 		PUT: StrandLib.Ajax.PUT,
 		DELETE: StrandLib.Ajax.DELETE,
 
+		behaviors: [
+			StrandTraits.Refable
+		],
+
 		properties: {
 			ajax: {
 				type:StrandLib.Ajax,

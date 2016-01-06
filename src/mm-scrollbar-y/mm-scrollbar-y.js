@@ -12,6 +12,7 @@
 		behaviors: [
 			StrandTraits.Stylable,
 			StrandTraits.MouseWheelable,
+			StrandTraits.Refable
 		],
 		
 		properties: {
