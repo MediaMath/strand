@@ -23,7 +23,10 @@
 			<div class="content-top">
 				<template is="dom-if" if="{{type}}"><mm-icon height="25" width="25" type="{{_icon.type}}"></mm-icon></template>
 				<template is="dom-if" if="{{header}}"><mm-header size="large">{{header}}</mm-header></template>
-				<div id="dialogMessage">{{message}}<content></content></div>
+				<div id="dialogMessage">
+					<span class="body-normal">{{message}}</span>
+					<content></content>
+				</div>
 			</div>
 			<mm-footer id="dialogActionsContainer">
 				<template is="dom-repeat" items="{{actions}}">

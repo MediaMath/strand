@@ -59,3 +59,13 @@ h5, .header-tiny {
 	text-transform: uppercase;
 	color: $color-A3;
 }
+
+.body-normal {
+	font-size: 13px !important;
+	line-height: 18px !important;
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-weight: 400;
+	font-style: normal;
+	color: $color-A2;
+}
