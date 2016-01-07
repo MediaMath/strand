@@ -32,8 +32,8 @@
 			},
 			value: { 
 				type: String,
-				value: null,
 				reflectToAttribute: true,
+				notify: true,
 				observer: '_valueChanged'
 			},
 			// TODO: multiselectable
@@ -207,7 +207,19 @@
 			}
 		},
 
+		_selectRadioByValue: function(value) {
+			this.items.forEach(function(item) {
+				var itemValue = item.getAttribute('value') === value || item.textContent.trim();
+				if (itemValue === value && !item.checked) {
+					item.checked = true;
+				}
+			});
+		},
+
 		_valueChanged: function(newVal, oldVal) {
+			if (this.type === 'mm-radio') {
+				this._selectRadioByValue(newVal);
+			}
 			this.fire("changed", { value: newVal });
 		},
 
