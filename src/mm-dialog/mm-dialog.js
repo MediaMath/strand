@@ -25,6 +25,9 @@
 			header: {
 				type: String
 			},
+			message: {
+				type:String
+			},
 			width: {
 				type: Number,
 				value: 450
