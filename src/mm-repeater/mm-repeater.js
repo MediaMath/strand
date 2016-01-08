@@ -32,10 +32,6 @@
 			if(!this.data || this.data.length === 0) this._addRow();
 		},
 
-		_handleDomChange: function(e) {
-			console.log(e);
-		},
-
 		_handleDataChanged: function(newData) {
 			this.async(function() {
 				newData.forEach(function(record) {
