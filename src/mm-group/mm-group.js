@@ -8,29 +8,29 @@
 
 	scope.Group = Polymer({
 		is: 'mm-group',
-		
+
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.Selectable
 		],
 
 		properties: {
-			fitparent: { 
+			fitparent: {
 				type: String,
 				reflectToAttribute: true,
 				observer: '_fitparentChanged'
 			},
-			group: { 
+			group: {
 				type: String,
 				reflectToAttribute: true,
 				observer: '_groupChanged'
 			},
-			align: { 
+			align: {
 				type: String,
 				reflectToAttribute: true,
 				observer: '_alignChanged'
 			},
-			value: { 
+			value: {
 				type: String,
 				reflectToAttribute: true,
 				notify: true,
@@ -68,26 +68,17 @@
 		VALIGN_CENTER: "vgroup-center",
 		VALIGN_BOTTOM: "vgroup-bottom",
 
-		attached: function() {
-			this.type = this._getType();
+		listeners: {
+			'tap': '_updateSelectedItem',
+			'selected': '_radioSelected'
+		},
 
-			this.async(function() {
-				switch(this.type) {
-					case "mm-button":
-						// ***********************
-						// TODO: Why no tap listener?
-						// ***********************
-						// this.addEventListener('tap', this._updateSelectedItem.bind(this), false);
-						this.addEventListener('click', this._updateSelectedItem);
-						break;
-					case "mm-radio":
-						this._radioSelected(); // Check for pre-selected values
-						this.addEventListener('selected', this._radioSelected);
-						break;
-					default:
-						return;
-				}
-			});
+		ready: function() {
+			this._type = this._getType();
+
+			if(this._type === 'mm-radio') {
+				this._radioSelected(); // Check for pre-selected values
+			}
 
 			// if no group ID is specified, generate a UID
 			if(!this.group){
@@ -99,16 +90,11 @@
 			}
 		},
 
-		detached: function() {
-			this.removeEventListener('click', this._updateSelectedItem);
-			this.removeEventListener('selected', this._radioSelected);
-		},
-
 		_getType: function() {
 			var type = "";
-			
+
 			// items query handled by StrandTraits.Selectable
-			this._itemsByTagName = this.items.reduce(this._setType.bind(this), {});
+			this._itemsByTagName = this.items.reduce(this._countTags.bind(this), {});
 
 			// infer that only one unique key means only one tag type
 			var numKeys = Object.keys(this._itemsByTagName).length;
@@ -121,24 +107,26 @@
 
 			return type;
 		},
-		
-		_setType: function(map, item) {
+
+		_countTags: function(map, item) {
 			var key = item.tagName.toLowerCase();
-			map[key] = (map[key] || []);
-			map[key].push(item);
+			map[key] = (map[key] || 0);
+			map[key]++;
 			return map;
 		},
 
 		_updateSelectedItem: function(e) {
-			var target = Polymer.dom(e).localTarget,
-				targetIndex = this.items.indexOf(target);
-			// console.log("_updateSelectedItem: ", e, target);
-			if(targetIndex >= 0) {
-				this.selectedIndex = targetIndex;
+			if(this._type === 'mm-button') {
+				var target = Polymer.dom(e).localTarget,
+					targetIndex = this.items.indexOf(target);
+				// console.log("_updateSelectedItem: ", e, target);
+				if(targetIndex >= 0) {
+					this.selectedIndex = targetIndex;
+				}
+				// ***********************
+				// TODO: Multi-Select?
+				// ***********************
 			}
-			// ***********************
-			// TODO: Multi-Select?
-			// ***********************
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
@@ -198,12 +186,14 @@
 		},
 
 		_radioSelected: function(e) {
-			var checked = this.items.filter(function(item) { 
-				return item.hasAttribute("checked"); 
-			})[0];
+			if(this._type === 'mm-radio') {
+				var checked = this.items.filter(function(item) {
+					return item.hasAttribute("checked");
+				})[0];
 
-			if (checked) {
-				this.value = checked.getAttribute("value") || checked.textContent.trim();
+				if (checked) {
+					this.value = checked.getAttribute("value") || checked.textContent.trim();
+				}
 			}
 		},
 
@@ -217,7 +207,7 @@
 		},
 
 		_valueChanged: function(newVal, oldVal) {
-			if (this.type === 'mm-radio') {
+			if (this._type === 'mm-radio') {
 				this._selectRadioByValue(newVal);
 			}
 			this.fire("changed", { value: newVal });
