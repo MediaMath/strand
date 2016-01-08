@@ -11,27 +11,36 @@
 
 		behaviors: [
 			StrandTraits.LightDomGettable,
-			StrandTraits.Resolvable
+			StrandTraits.Resolvable,
+			StrandTraits.Columnable
 		],
 
+
+		/*
+			// TODO: new direction for this
+
+			// data
+			{
+				key: value,
+				key: value,
+				key: value
+			}
+
+			// validation
+			{
+				key: function(name, value, data, validators)
+			}
+
+		*/	
+
 		properties: {
-			columns: {
-				type: Number,
-				value: 4,
-				reflectToAttribute: true
-			},
-			spacing: {
-				type: Number,
-				value: 10,
-				reflectToAttribute: true
-			},
 			formItems: {
 				type: Object,
 				value: function() { return {}; }
 			},
 			formData: {
 				type: Object,
-				value: function() { return {}; }
+				value: function() { return {}; },
 			},
 			footerMessage: {
 				type: String,
@@ -98,10 +107,6 @@
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			}
 		},
-
-		observers: [
-			"_applyStyles(columns, spacing)"
-		],
 
 		listeners: {
 			'changed' : '_handleChanged'
@@ -202,6 +207,16 @@
 			});
 		},
 
+		
+		// _dataChanged: function(newVal, oldVal) {
+
+		// 	newVal.forEach(function(item) {
+				
+
+		// 	});
+
+		// },
+
 		// *******************************
 		// footer and footer actions:
 		_validType: function(type) {
@@ -240,7 +255,7 @@
 		},
 
 		_updateData: function(name, value) {
-			if (typeof(value) === 'object') {
+			if (value && typeof(value) === 'object') {
 				for (var subkey in value) {
 					this.formData[subkey] = value[subkey];
 				}
@@ -284,7 +299,7 @@
 			// UI validation pass:
 			// console.log('serializeForm');
 			// TODO: this should be formItems
-			for (var key in this.formData) {
+			for (var key in this.formItems) {
 				var item 			= this.formItems[key]
 					value 			= item.field.value,
 					validation		= item.validation,
@@ -341,32 +356,6 @@
 		// reconfigure based on the response - display more error messaging
 		// or change the error messaging, etc - for if backend error wasn't
 		// caught on the UI validation pass				
-
-		// *******************************
-		// TODO: replace with a behavior/component if this is something
-		// that will be of benefit elsewhere
-		// styling concerns (columns)
-		_applyStyles: function(columns, spacing) {
-			var items = this.getLightDOM();
-
-			if (items.length > 0) {
-				var spanItems = items.filter(function(item){
-						return item.hasAttribute('span');
-					}),
-					columnWidth = 100/columns;
-
-				spanItems.forEach(function(item, index){
-					var span = parseInt(item.getAttribute('span')),
-						colWidth = columnWidth * span,
-						calc = 'calc(' + colWidth + '% - ' + spacing + 'px)';
-
-					item.style.width = calc;
-					item.style.marginRight = spacing + 'px';
-					item.style.marginBottom = spacing + 'px';
-				});
-			}
-		},
-	
 	});
 
 })(window.Strand = window.Strand || {});

@@ -102,7 +102,6 @@
 					validation="int|empty"
 					placeholder="Type a Number"
 					label="Type a Number"
-					value="something"
 					error-message="You need to type a number"></mm-input>
 			</div>
 			<div class="col" span="1">
@@ -119,7 +118,7 @@
 					<mm-list-item>List Item 4</mm-list-item>
 				</mm-dropdown>
 			</div>
-			<div class="col" span="1">
+			<div class="col" span="2">
 				<mm-group 
 					fitparent 
 					unresolved
@@ -155,12 +154,6 @@
 		<script>
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
-				var dimensions = document.querySelector('#dimensions');
-
-				// dimensions.value = {
-				// 	width: 300,
-				// 	height: 250
-				// };
 
 				// add custom validation rules for the dimension component
 				// this would probably be more robust, but this is sufficient
