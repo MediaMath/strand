@@ -13,8 +13,8 @@
 <dom-module id="mm-repeater">
 	<link rel="import" type="css" href="mm-repeater.css"/>
 	<template>
-		<template is="dom-repeat" items="{{data}}" on-dom-change="_handleDomChange" id="repeater">
-			<mm-box ref="{{item._ref}}" align="stretch" justify="space-between" on-changed="_updateModel" on-selected="_updateModel" on-input="_updateModel">
+		<template is="dom-repeat" items="{{data}}" id="repeater">
+			<mm-box ref="{{item._ref}}" align="stretch" justify="space-between" on-changed="_updateModel" on-input="_updateModel">
 				<div inner-h-t-m-l="{{template}}"></div>
 				<mm-box class="control" align="center">
 					<mm-action on-tap="_addRow"><label>{{addRowLabel}}</label></mm-action>
