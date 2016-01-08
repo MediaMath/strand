@@ -155,7 +155,7 @@
 				var formFields = Polymer.dom(this).querySelectorAll('[name]');
 
 				formFields.forEach(function(item) {
-					var key 			= item.getAttribute('name'),
+					var name 			= item.getAttribute('name'),
 						field 			= item,
 						label 			= item.getAttribute('label'),
 						value 			= item.value,
@@ -165,9 +165,6 @@
 						fieldHeaderEle 	= null,
 						parentEle 		= Polymer.dom(item).parentNode;
 
-					// TODO: multiple property components - how to handle them
-					// is it via a behavior / array, etc.
-					
 					// create the label and error message if necessary
 					if (errorMsg) {
 						errorMsgEle = new Strand.FormMessage();
@@ -178,19 +175,19 @@
 
 					if (label) {
 						var headerTxt = document.createTextNode(label);
-
 						fieldHeaderEle = new Strand.Header();
 						fieldHeaderEle.size = 'medium';
 						Polymer.dom(fieldHeaderEle).appendChild(headerTxt);
 						Polymer.dom(parentEle).insertBefore(fieldHeaderEle, field);
 					}
 
-					// store the form data, hold on to the initial settings
-					// for cross reference diff later
-					this.formData[key] = this._initialFormData[key] = value;
+					// store the initial form data
+					// TODO: OR populate it(?) given a formData is provided:
+					this._updateData(name, value);
 
-					// store the form items and related data/elements
-					this.formItems[key] = {
+					// store the form items separately for reference later,
+					// since the formData may not map directly to the items
+					this.formItems[name] = {
 						'field'				: field,
 						'validation'		: validation,
 						'errorMsg'			: errorMsg,
@@ -199,6 +196,9 @@
 					};
 
 				}.bind(this));
+
+				this._initialFormData = this.formData;
+				
 			});
 		},
 
@@ -222,10 +222,12 @@
 		// handle changes within the form
 		_handleChanged: function(e) {
 			var name = e.target.getAttribute('name'),
-				item = this.formItems[name];
+				value = e.detail.value,
+				item = this.formItems[name]; // make sure it's an item we actually care about
 
-			if (item && item.field.value) {
-				this._updateData(item.field, item.value);
+			if (item && value) {
+				this._updateData(name, item.value);
+				// TODO: re-init the diff
 				this.unsaved = this._diffData();
 
 				// trigger a warning message in the footer
@@ -237,9 +239,14 @@
 			}
 		},
 
-		_updateData: function(field, value) {
-			var name = field.getAttribute('name');
-			if (name) this.formData[name] = value;
+		_updateData: function(name, value) {
+			if (typeof(value) === 'object') {
+				for (var subkey in value) {
+					this.formData[subkey] = value[subkey];
+				}
+			} else {
+				this.formData[name] = value;
+			}
 		},
 
 		_diffData: function() {
@@ -276,6 +283,7 @@
 
 			// UI validation pass:
 			// console.log('serializeForm');
+			// TODO: this should be formItems
 			for (var key in this.formData) {
 				var item 			= this.formItems[key]
 					value 			= item.field.value,

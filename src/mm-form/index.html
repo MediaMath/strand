@@ -2,17 +2,11 @@
 <html>
 	<head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+
 	<link rel="import" href="../../build/strand.html" />
-	<!-- 
-	<link rel="import" href="../mm-dropdown/mm-dropdown.html" />
-	<link rel="import" href="../mm-input/mm-input.html" />
-	<link rel="import" href="../mm-inline-box/mm-inline-box.html" />
-	<link rel="import" href="../mm-footer/mm-footer.html" />
-	<link rel="import" href="../mm-button/mm-button.html" />
-	<link rel="import" href="../mm-radio/mm-radio.html" />
-	<link rel="import" href="../mm-group/mm-group.html" /> 
-	-->
+	<!-- <link rel="import" href="../mm-dimensions/mm-dimensions.html" /> -->
 	<!-- <link rel="import" href="mm-form.html" /> -->
+
 	<style type="text/css">
 		body, html {
 			height: 100%;
@@ -48,10 +42,10 @@
 		}
 	</style>
 	</head>
-	
 
 	<body>
 		<!-- dom module for testing special cases -->
+		<!-- 
 		<dom-module id="special-snowflake">
 			<style type="text/css">
 				:host {
@@ -97,6 +91,7 @@
 				</mm-group>
 			</template>
 		</dom-module>
+		 -->
 
 		<mm-form id="testForm" unresolved>
 			<!-- row 1 -->
@@ -107,6 +102,7 @@
 					validation="int|empty"
 					placeholder="Type a Number"
 					label="Type a Number"
+					value="something"
 					error-message="You need to type a number"></mm-input>
 			</div>
 			<div class="col" span="1">
@@ -146,95 +142,17 @@
 
 			<!-- row 2 -->
 			<div class="col" span="1">
-			<special-snowflake
+			<mm-dimensions
 				id="dimensions"
 				unresolved
 				name="dimensions"
 				validation="dimensions|empty"
 				label="Select a Dimension"
-				error-message="You need to select dimensions"></special-snowflake>
+				error-message="You need to select dimensions"></mm-dimensions>
 		</mm-form>
-				<!-- value='{"width":"300", "height":"250"}' -->
+				<!-- multi-value -->
 
 		<script>
-			// special form component to validate assumptions: 
-			HTMLImports.whenReady(function() {
-				Polymer({
-					is: "special-snowflake",
-					behaviors: [
-						StrandTraits.Resolvable
-					],
-					properties: {
-						value: {
-							type: Object,
-							notify: true,
-							observer: "_valueChanged"
-						},
-						isStandard: {
-							type: Boolean
-						}
-					},
-					_handleRadioSelected: function(e) {
-						switch (e.detail.item.id) {
-							case 'standardSize':
-								this.isStandard = true;
-								break;
-							case 'nonStandardSize':
-								this.isStandard = false;
-								break;
-							default:
-								return;	
-						}
-					},
-					_valueChanged: function(newVal, oldVal) {
-						if (newVal) {
-							this.fire('changed', { value: newVal });
-
-							// set the dropdown if needed
-							if (!this.nonStandardSize) {
-								if (!this.$.standardSizeDdl.value) {
-									this.$.standardSizeDdl.value = String(
-										this.value.width + 'x' + this.value.height
-									);
-								} 
-							} else {
-								this.$.width.value = this.value.width;
-								this.$.height.value = this.value.height;
-							}
-						}
-					},
-
-					_standardSizeChanged: function(e) {
-						var dimensions = e.detail.value.split('x'),
-							width = parseInt(dimensions[0]),
-							height = parseInt(dimensions[1]);
-						this._dimensionsChanged(width, height);
-					},
-					_widthChanged: function(e) {
-						e.preventDefault();
-						if (e.detail.value) {
-							var width = parseInt(e.detail.value),
-								height = this.value ? this.value.height : null;
-							this._dimensionsChanged(width, height);
-						}
-					},
-					_heightChanged: function(e) {
-						e.preventDefault();
-						if (e.detail.value) {
-							var width = this.value ? this.value.width : null,
-								height = parseInt(e.detail.value);
-							this._dimensionsChanged(width, height);
-						}
-					},
-					_dimensionsChanged: function(width, height) {
-						this.value = {
-							width: width,
-							height: height
-						}
-					}
-				});
-			});
-
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
 				var dimensions = document.querySelector('#dimensions');
@@ -255,7 +173,6 @@
 					console.log('serialize-form', e.detail);
 				});
 			});
-
 		</script>
 
 	</body>

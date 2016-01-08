@@ -72,7 +72,6 @@
 			},
 			value: {
 				type: String,
-				// value: null,
 				observer: "_valueChanged",
 				notify: true
 			},

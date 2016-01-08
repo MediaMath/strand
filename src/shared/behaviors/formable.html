@@ -1,4 +1,3 @@
-<link rel="import" href="validatable.html"/>
 <script>
 /**
  * @license
@@ -8,47 +7,27 @@
 */
 (function (scope) {
 	
-	var Formable = {
-
-		behaviors: [
-			StrandTraits.Validatable
-		],
+	scope.Formable = {
 
 		properties: {
-			formId: {
-				type: String,
-				observer: "_formIdChanged",
-				reflectToAttribute: true
-			},
-			errorTarget: {
+			value: {
 				type: Object,
-				observer: "_errorTargetChanged"
+				notify: true,
+				observer: "_valueChanged"
 			},
-			_errorTarget: {
-				type: Object
+			multiValue: {
+				type: Boolean,
+				reflectToAttribute: true
 			}
 		},
 
-		_formIdChanged: function(newVal, oldVal) {
+		_valueChanged: function(newVal, oldVal) {
 			if (newVal) {
-				//
+				this.fire("changed", { value: newVal });
 			}
-		},
+		}
 
-		// similar to target on positionables
-		_errorTargetChanged: function(target, oldTarget) {
-			if(typeof target === 'string') {
-				this.async(function() {
-					this._errorTarget = Polymer.dom(document).querySelector(target);
-				});
-			}
-		},
 	};
-
-	scope.Formable = [
-		scope.Validatable,
-		Formable
-	];
 
 })(window.StrandTraits = window.StrandTraits || {}); 
 </script>
