@@ -209,7 +209,7 @@
 
 		_selectRadioByValue: function(value) {
 			this.items.forEach(function(item) {
-				var itemValue = item.getAttribute('value') === value || item.textContent.trim();
+				var itemValue = item.getAttribute('value') || item.textContent.trim();
 				if (itemValue === value && !item.checked) {
 					item.checked = true;
 				}
