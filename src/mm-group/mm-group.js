@@ -75,7 +75,9 @@
 
 		ready: function() {
 			this._type = this._getType();
+		},
 
+		attached: function() {
 			if(this._type === 'mm-radio') {
 				this._radioSelected(); // Check for pre-selected values
 			}
