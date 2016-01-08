@@ -26,6 +26,9 @@
 			}
 		},
 
+		get value() { return this.data; },
+		set value(newVal) { if (newVal instanceof Array) this.data = newVal; },
+
 		ready: function() {
 			var templateTag = this.queryEffectiveChildren('template');
 			this.set('template', templateTag.innerHTML);
@@ -55,6 +58,7 @@
 			if(name && value) {
 				var index = this.$.repeater.indexForElement(target);
 				this.set('data.'+(index)+'.'+name, value);
+				this.debounce('changed', this._changed);
 			}
 		},
 
@@ -65,6 +69,11 @@
 		_removeRow: function(e) {
 			var index = this.$.repeater.indexForElement(e.target);
 			this.splice('data', index, 1);
+			this.debounce('changed', this._changed);
+		},
+
+		_changed: function() {
+			this.fire('changed', { value: this.data });
 		}
 	});
 
