@@ -25,10 +25,8 @@ mm-box:not(:last-of-type) {
     }
 }
 
-    mm-action {
-        display: none;
-        pointer-events: none;
-    }
+mm-action {
+    margin-right: 8px;
 }
 
 mm-icon[type="delete"] {
