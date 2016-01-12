@@ -2,10 +2,7 @@
 <html>
 	<head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-
 	<link rel="import" href="../../build/strand.html" />
-	<!-- <link rel="import" href="../mm-dimensions/mm-dimensions.html" /> -->
-	<!-- <link rel="import" href="mm-form.html" /> -->
 
 	<style type="text/css">
 		body, html {
@@ -44,89 +41,25 @@
 	</head>
 
 	<body>
-		<!-- dom module for testing special cases -->
-		<!-- 
-		<dom-module id="special-snowflake">
-			<style type="text/css">
-				:host {
-					position: relative;
-					display: flex;
-					align-items: center;
-					font-size: 0; 
-				}
-				mm-dropdown {
-					margin-right: 15px;
-				}
-			</style>
-			<template>
-				<mm-radio 
-					id="standardSize" 
-					group="sizes" 
-					checked
-					on-selected="_handleRadioSelected"></mm-radio>
-				<mm-dropdown 
-					id="standardSizeDdl" 
-					disabled$="{{!isStandard}}" 
-					on-changed="_standardSizeChanged" 
-					placeholder="Select One">
-					<mm-list-item>160x600</mm-list-item>
-					<mm-list-item>728x90</mm-list-item>
-					<mm-list-item>300x250</mm-list-item>
-				</mm-dropdown>
-				<mm-radio 
-					id="nonStandardSize" 
-					group="sizes"
-					on-selected="_handleRadioSelected"></mm-radio>
-				<mm-group id="nonStandardSizeGroup" disabled$="{{isStandard}}">
-					<mm-input 
-						id="width"
-						placeholder="Width" 
-						validation="int"
-						on-changed="_widthChanged"></mm-input>
-					<mm-input 
-						id="height"
-						placeholder="Height" 
-						validation="int"
-						on-changed="_heightChanged"></mm-input>
-				</mm-group>
-			</template>
-		</dom-module>
-		 -->
 
 		<mm-form id="testForm" unresolved>
+
 			<!-- row 1 -->
 			<div class="col" span="1">
-				<mm-input 
-					fitparent 
-					name="input"
-					validation="int|empty"
-					placeholder="Type a Number"
-					label="Type a Number"
-					error-message="You need to type a number"></mm-input>
+				<mm-input fitparent name="input" placeholder="Type a Number" value="123"></mm-input>
 			</div>
+
 			<div class="col" span="1">
-				<mm-dropdown 
-					fitparent 
-					name="dropdown"
-					placeholder="Select an Item" 
-					validation="empty"
-					label="Select an Item"
-					error-message="You need to select an item">
+				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item" value="List Item 1">
 					<mm-list-item>List Item 1</mm-list-item>
 					<mm-list-item>List Item 2</mm-list-item>
 					<mm-list-item>List Item 3</mm-list-item>
 					<mm-list-item>List Item 4</mm-list-item>
 				</mm-dropdown>
 			</div>
+
 			<div class="col" span="2">
-				<mm-group 
-					fitparent 
-					unresolved
-					name="radio"
-					placeholder="Select an Item" 
-					validation="empty"
-					label="Select a Color"
-					error-message="You need to select a color">
+				<mm-group fitparent unresolved name="radio" value="Red">
 					<mm-radio>
 						<label>Red</label>
 					</mm-radio>
@@ -140,6 +73,7 @@
 			</div>
 
 			<!-- row 2 -->
+			<!--
 			<div class="col" span="1">
 			<mm-dimensions
 				id="dimensions"
@@ -148,19 +82,35 @@
 				validation="dimensions|empty"
 				label="Select a Dimension"
 				error-message="You need to select dimensions"></mm-dimensions>
+			</div>
+			-->
+
 		</mm-form>
-				<!-- multi-value -->
 
 		<script>
+
+			var formData = {
+				'input' : {
+					validation: 'int|empty',
+					errorMsg: 'You need to type a number',
+					label: 'Type a number'
+				},
+				'dropdown' : {
+					validation: 'empty',
+					errorMsg: 'You need to select an item',
+					label: 'Select an Item'
+				},
+				'radio' : {
+					validation: 'empty',
+					errorMsg: 'You need to select a color',
+					label: 'Select a Color'
+				}
+			}; 
+
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
 
-				// add custom validation rules for the dimension component
-				// this would probably be more robust, but this is sufficient
-				testForm.rules.dimensions = function(i) {
-					return i ? typeof(parseInt(i.width) === 'number') && 
-						typeof(parseInt(i.height) === 'number') : false; 
-				}
+				testForm.data = formData;
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);
