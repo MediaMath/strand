@@ -6,6 +6,7 @@
     <link rel="import" href="../mm-button/mm-button.html"/>
     <link rel="import" href="../mm-textarea/mm-textarea.html"/>
     <link rel="import" href="../mm-header/mm-header.html"/>
+    <link rel="import" href="mm-sync.html"/>
     <link rel="import" href="../shared/behaviors/syncable.html"/>
 
     <!-- <link rel="import" href="../mm-model/mm-model.html">
@@ -33,9 +34,8 @@
   </polymer-element>
 
 <template is="dom-bind">
-    <mm-input value="{{autoTest}}"></mm-input>
-    <test-extend endpoint="http://localhost:8000/ajax" debug="true">
-        <span>{{autoTest}}</span>
+    <mm-input value="{{autoTest}}"></mm-input><span>{{autoTest}}</span>
+    <mm-sync endpoint="http://localhost:8000/ajax" debug="true">
       <input-params>
         <queryParam name="q" value="ui.*"></queryParam>
         <queryParam name="user">userInnerVal</queryParam>
@@ -48,7 +48,7 @@
         <urlParam>1234</urlParam>
         <header name="x-test">acesInner</header>
       </output-params>
-    </test-extend>
+  </mm-sync>
 </template>
 
   <!-- <polymer-element name="test-login">

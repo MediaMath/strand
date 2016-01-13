@@ -10,6 +10,7 @@
 		is:"mm-sync",
 		behaviors:[
 			StrandTraits.Syncable,
+			StrandTraits.DomSyncable,
 			StrandTraits.Refable
 		],
 	});
