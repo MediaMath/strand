@@ -94,19 +94,22 @@
 					'input' : {
 						validation: 'int|empty',
 						errorMsg: 'You need to type a number',
-						label: 'Type a number'
+						label: 'Type a number',
+						// value: '100'
 					},
 					'dropdown' : {
 						validation: 'empty',
 						errorMsg: 'You need to select an item',
-						label: 'Select an Item'
+						label: 'Select an Item',
+						// value: 'List Item 4'
 					},
 					'radio' : {
 						validation: function(name, value, data) {
 							return data[name] === 'Red' && value === 'Red';
 						},
 						errorMsg: 'You need to select \'Red\'',
-						label: 'Select a Color'
+						label: 'Select a Color',
+						// value: 'Red'
 					}
 				},
 				// returned from server-side validation(?)

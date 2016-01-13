@@ -120,19 +120,24 @@
 					value			= this.data[key].value || null;
 
 				// If there was an initial value set in markup, use that
-				// However, values set in the config will always 'win':
+				// However, values set in the config will always 'win'
 				if (field.value && value === null) {
 					value = field.value;
 				}
 
-				// store the field and parent element just in case we need
-				// to reference those later
+				// Store the field and parent element just in case
+				// we need to reference those later
 				this.data[name].field = field;
 				this.data[name].parentEle = parentEle;
 
 				this._updateData(name, value);
 				this._createErrorMsg(name, parentEle, errorMsg);
 				this._createLabel(name, parentEle, field, label);
+
+				// Populate the fields if necessary
+				if (!field.value && value) {
+					field.value = value;
+				}
 			}
 		},
 
