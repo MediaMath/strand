@@ -18,37 +18,31 @@
 		],
 
 		properties: {
-			
 			unsaved: {
 				type: Boolean,
-				value: false,
+				value: true,
 				notify: true
 			},
-
 			showUnsavedMessage: {
 				type: Boolean,
 				value: true,
 				notify: true
 			},
-
-			// configuration/initial settings:
+			// config/initial data & settings:
 			data: {
 				type: Object,
 				observer: '_dataChanged'
 			},
-
 			// flat data we can manipulate, without change handlers firing
 			_formData: {
 				type: Object,
 				value: function() { return {}; }
 			},
-
 			// read only data that is exposed to end dev:
 			formData: {
 				type: Object,
 				readOnly: true
 			},
-
 			// Footer related
 			footerMessages: {
 				type: Object,
@@ -60,7 +54,6 @@
 					};
 				}
 			},
-
 			actions: {
 				type: Array,
 				value: function() {
@@ -69,48 +62,45 @@
 							label: 'Cancel',
 							type: 'action',
 							callback: function(e,host) {
-								console.log('cancel - e: ', e, 'host: ', host);
+								host.cancel();
 							}
 						},
 						{
 							label: 'Save',
 							type: 'primary',
 							callback: function(e,host) {
-								console.log('save - e: ', e, 'host: ', host);
 								host.serializeForm();
 							}
 						} 
 					];
 				}
 			},
-
 			showFooterMessages: {
 				type: Boolean,
 				value: true,
 				notify: true
 			},
-
 			_footerType: {
 				type: String,
 				notify: true
 			},
-
 			_footerMessage: {
 				type: String,
 				notify: true
 			},
-
 			_showFooterMessage: {
 				type: Boolean,
 				value: false,
 				notify: true
 			},
-
 			_displayFooterMessage: {
 				type: Boolean,
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			}
 		},
+
+		_invalidFields: null,
+		_validFields: null,
 
 		listeners: {
 			'changed' : '_handleChanged'
@@ -187,7 +177,6 @@
 			}
 		},
 
-		// *******************************
 		// footer and footer actions:
 		_validType: function(type) {
 			return type === 'primary' || type === 'secondary';
@@ -198,28 +187,25 @@
 			e.model.item.callback(e,this);
 		},
 
-		// display footer messaging based on settings
 		_displayMessage: function(_showFooterMessage, showFooterMessages) {
 			return _showFooterMessage && showFooterMessages;
 		},
 
-		// *******************************
 		// handle changes within the form
 		_handleChanged: function(e) {
-			// console.log('_handleChanged: ', e.detail.value);
 			var field 			= e.target,
 				name 			= e.target.getAttribute('name'),
 				value 			= e.detail.value,
 				validation		= this.data[name].validation,
-				isFormElement 	= this._formData.hasOwnProperty(name);
+				isFormElement 	= this.data.hasOwnProperty(name);
 
 			if (isFormElement) {
 				this._updateData(name, value);
 				this.unsaved = this._diffData();
-				this._validateField(name, validation, value, field);
+				this._validateField(name, value);
 
-				// trigger an unsaved warning message in the footer
-				if (this.unsaved && this.showUnsavedMessage) {
+				// show messaging in the footer
+				if (!this.unsaved && this.showUnsavedMessage) {
 					this._footerMessage = this.footerMessages.warning;
 					this._footerType = 'warning';
 					this._showFooterMessage = true;
@@ -230,9 +216,6 @@
 		_updateData: function(name, value) {
 			this._formData[name] = value;
 			this._setFormData(this._formData);
-			// console.log('_formData', this._formData);
-			// console.log('formData', this.formData);
-			// console.log('*******************************');
 		},
 
 		_diffData: function() {
@@ -242,14 +225,50 @@
 					diff.push(key);	
 				}
 			}
-			return diff.length > 0;
+			return !diff.length > 0;
 		},
 
-		// *******************************
 		// form validation
-		// validate per field:
-		_validateField: function(name, validation, value, field) {
-			var valid = false;
+		validateFields: function(data) {
+			this._invalidFields = [];
+			this._validFields = [];
+
+			for (var key in data) {
+				var name = key,
+					value = this._formData[key],
+					valid = this._validateField(name, value);
+
+				// Store valid and invalid for this validation pass
+				if (valid) {
+					this._validFields.push(name);
+				} else {
+					this._invalidFields.push(name);
+				}
+				
+				// show messaging in the footer
+				if (this._invalidFields.length > 0) {
+					this._footerMessage = this.footerMessages.error;
+					this._footerType = 'error';
+					this._showFooterMessage = true;
+				} else {
+					this._footerMessage = this.footerMessages.success;
+					this._footerType = 'success';
+					this._showFooterMessage = true;
+				}
+			}
+		},
+
+		// TODO: Secondary validation pass returned from server-side validation
+		// Will need to assume that the front end validation rules were wrong
+		// and there needs to be a new method to bypass the current infrastructure
+		// to display this messaging 
+
+		_validateField: function(name, value) {
+			var valid = false,
+				field = this.data[name].field,
+				validation = this.data[name].validation,
+				errorMsgEle = this.data[name].errorMsgEle,
+				errorMsg = this.data[name].errorMsg;
 
 			if (typeof(validation) === 'string') {
 				var testSet = validation.replace(/\s/g, '').split("|"),
@@ -266,80 +285,31 @@
 				valid = validation(name, value, this.formData);
 			}
 			
-			this._showError(name, valid);
+			// show or hide messaging in the ui
+			errorMsgEle.message = errorMsg;
+			field.error = errorMsgEle.visible = !valid;
 
 			return valid;
 		},
 
-		_showError: function(name, valid) {
-			var field = this.data[name].field,
-				errorMsg = this.data[name].errorMsgEle;
-
-			field.error = errorMsg.visible = !valid;
-		},
-
 		serializeForm: function() {
-			// var invalid = [],
-			// 	valid = [];
+			this.validateFields(this._formData);
 
-			// // validation pass:
-			// for (var key in this.formItems) {
-			// 	var item 			= this.formItems[key]
-			// 		value 			= item.field.value,
-			// 		validation		= item.validation,
-			// 		isValid 		= false;
+			// fire a serialize-form event:
+			this.fire('serialize-form', {
+				valid: !this._invalidFields.length > 0,
+				invalidFields: this._invalidFields,
+				validFields: this._validFields,
+				data: this.formData 
+			});
 
-			// 	this._updateData(item.field, value);
-			// 	this.unsaved = this._diffData();
-
-			// 	// validate UI:
-			// 	isValid = this._validateField(validation, value);
-
-			// 	// track invalid & valid fields
-			// 	if (!isValid) {
-			// 		invalid.push(key);
-			// 		item.errorMsgEle.style.display = 'block'; 
-			// 	} else {
-			// 		valid.push(key);
-			// 		item.errorMsgEle.style.display = 'none';
-			// 	}
-
-			// 	// show error state:
-			// 	item.field.error = !isValid;
-			// }
-
-			// if (invalid.length > 0) {
-			// 	// show messaging in the footer
-			// 	if (this.unsaved) {
-			// 		this.footerType = 'error';
-			// 		this.footerMessage = this.footerMessages.error;
-			// 		this._showFooterMessage = true;
-			// 	}
-			// } else {
-			// 	// show messaging in the footer
-			// 	if (this.unsaved) {
-			// 		this.footerType = 'success';
-			// 		this.footerMessage = this.footerMessages.success;
-			// 		this._showFooterMessage = true;
-			// 	}
-			// }
-
-			// // fire a serialize-form event:
-			// this.fire('serialize-form', {
-			// 	isValid: !invalid.length > 0,
-			// 	invalidFields: invalid,
-			// 	validFields: valid,
-			// 	data: this.formData 
-			// });
+			return this.formData;
 		},
-		
-		// *******************************
-		// TODO: handle the response data object
-		// should be some key value pairs (same)
-		
-		// reconfigure based on the response - display more error messaging
-		// or change the error messaging, etc - for if backend error wasn't
-		// caught on the UI validation pass				
+
+		cancel: function(e, host) {
+			// fire a cancel-form event:
+			this.fire('cancel-form');
+		}			
 	});
 
 })(window.Strand = window.Strand || {});

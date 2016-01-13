@@ -89,25 +89,38 @@
 
 		<script>
 
+			// config/initial data set up this way:
 			var data = {
-				'input' : {
-					validation: 'int|empty',
-					errorMsg: 'You need to type a number',
-					label: 'Type a number'
-				},
-				'dropdown' : {
-					validation: 'empty',
-					errorMsg: 'You need to select an item',
-					label: 'Select an Item'
-				},
-				'radio' : {
-					validation: function(name, value, data) {
-						return data[name] === 'Red' && value === 'Red';
+					'input' : {
+						validation: 'int|empty',
+						errorMsg: 'You need to type a number',
+						label: 'Type a number'
 					},
-					errorMsg: 'You need to select a color',
-					label: 'Select a Color'
-				}
-			}; 
+					'dropdown' : {
+						validation: 'empty',
+						errorMsg: 'You need to select an item',
+						label: 'Select an Item'
+					},
+					'radio' : {
+						validation: function(name, value, data) {
+							return data[name] === 'Red' && value === 'Red';
+						},
+						errorMsg: 'You need to select \'Red\'',
+						label: 'Select a Color'
+					}
+				},
+				// returned from server-side validation(?)
+				returnedData = {
+					'input' : {
+						errorMsg: 'Type a number greater than 0'
+					},
+					'dropdown' : {
+						errorMsg: 'Select a different item'
+					}, 
+					'radio' : {
+						errorMsg: 'Select Green'
+					}
+				};
 
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
@@ -116,6 +129,10 @@
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);
+				});
+
+				testForm.addEventListener('cancel-form', function(e){
+					console.log('cancel-form');
 				});
 			});
 		</script>
