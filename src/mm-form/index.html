@@ -46,11 +46,11 @@
 
 			<!-- row 1 -->
 			<div class="col" span="1">
-				<mm-input fitparent name="input" placeholder="Type a Number" value="123"></mm-input>
+				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
 			</div>
 
 			<div class="col" span="1">
-				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item" value="List Item 1">
+				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
 					<mm-list-item>List Item 1</mm-list-item>
 					<mm-list-item>List Item 2</mm-list-item>
 					<mm-list-item>List Item 3</mm-list-item>
@@ -59,7 +59,7 @@
 			</div>
 
 			<div class="col" span="2">
-				<mm-group fitparent unresolved name="radio" value="Red">
+				<mm-group fitparent unresolved name="radio">
 					<mm-radio>
 						<label>Red</label>
 					</mm-radio>
@@ -89,7 +89,7 @@
 
 		<script>
 
-			var formData = {
+			var data = {
 				'input' : {
 					validation: 'int|empty',
 					errorMsg: 'You need to type a number',
@@ -101,7 +101,9 @@
 					label: 'Select an Item'
 				},
 				'radio' : {
-					validation: 'empty',
+					validation: function(name, value, data) {
+						return data[name] === 'Red' && value === 'Red';
+					},
 					errorMsg: 'You need to select a color',
 					label: 'Select a Color'
 				}
@@ -110,7 +112,7 @@
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
 
-				testForm.data = formData;
+				testForm.data = data;
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);

@@ -9,13 +9,15 @@
 	
 	scope.Formable = {
 
-		properties: {
-			value: {
-				type: Object,
-				notify: true,
-				observer: "_valueChanged"
-			}
-		},
+		// TODO: This causes issues with the mm-input
+		// TODO: DO WE EVEN NEED FORMABLE!?
+		// properties: {
+		// 	value: {
+		// 		type: Object,
+		// 		notify: true,
+		// 		observer: "_valueChanged"
+		// 	}
+		// },
 
 		_valueChanged: function(newVal, oldVal) {
 			if (newVal) {

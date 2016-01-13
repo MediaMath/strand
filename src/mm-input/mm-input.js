@@ -128,7 +128,7 @@
 		}, 
 		
 		_valueChanged: function(newVal, oldVal) {
-			if (newVal && newVal.length > 0) {
+			if (newVal && String(newVal).length > 0) {
 				this._clearVisible = this.clear;
 			} else {
 				this._clearVisible = false;

@@ -6,6 +6,8 @@
 */
 (function (scope) {
 
+	var rules = StrandLib.Validator.rules;
+
 	scope.MMForm = Polymer({
 		is: 'mm-form',
 
@@ -14,24 +16,6 @@
 			StrandTraits.Resolvable,
 			StrandTraits.Columnable
 		],
-
-
-		/*
-			// TODO: new direction for this
-
-			// data
-			{
-				key: value,
-				key: value,
-				key: value
-			}
-
-			// validation
-			{
-				key: function(name, value, data, validators)
-			}
-
-		*/	
 
 		properties: {
 			
@@ -47,16 +31,22 @@
 				notify: true
 			},
 
-			// what comes in:
+			// configuration/initial settings:
 			data: {
 				type: Object,
 				observer: '_dataChanged'
 			},
 
-			// will store updates/serialize - data becomes:
+			// flat data we can manipulate, without change handlers firing
 			_formData: {
 				type: Object,
 				value: function() { return {}; }
+			},
+
+			// read only data that is exposed to end dev:
+			formData: {
+				type: Object,
+				readOnly: true
 			},
 
 			// Footer related
@@ -120,62 +110,13 @@
 				type: Boolean,
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			}
-
 		},
 
 		listeners: {
 			'changed' : '_handleChanged'
 		},
 
-		// // common validation rules
-		// rules: {
-		// 	email: function(i) {
-		// 		// var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		// 		// return regEx.test(i);
-		// 		return validator.isEmail(i);
-		// 	},
-		// 	alpha: function(i) {
-		// 		// var regEx = /^\w+$/;
-		// 		// return regEx.test(i);
-		// 		return validation.isAlpha(i);
-		// 	},
-		// 	int: function(i) {
-		// 		// var regEx = /^\d+$/;
-		// 		// return regEx.test(i);
-		// 		return validator.isInt(i); 
-		// 	},
-		// 	decimal: function(i) {
-		// 		// var regEx = /^\d*[.]\d+$/;
-		// 		// return regEx.test(i);
-		// 		return validator.isDecimal(i);
-		// 	},
-		// 	whitespace: function(i) {
-		// 		// var regEx = /\s/;
-		// 		// return i.length > 0 && !regEx.test(i);
-		// 		return validator.isWhitespace(i);
-		// 	},
-		// 	checked: function(i) {
-		// 		return validator.isChecked(i);
-		// 	},
-		// 	empty: function(i) {
-		// 		return validator.isEmpty(i);
-		// 	},
-		// 	blank: function(i) {
-		// 		return validator.isBlank(i);
-		// 	}
-		// },
-
-		// *******************************
-		// collect all the things (and data)
-		// _canInit: false,
-
-		attached: function() {
-			// this._canInit = true;
-			// this._initForm(this.data);
-		},
-		
 		_dataChanged: function(newVal, oldVal) {
-			// if (this._canInit) this._initForm(newVal); 
 			this._initForm(newVal);
 		},
 
@@ -184,48 +125,63 @@
 				var name 			= key,
 					label 			= this.data[key].label,
 					errorMsg 		= this.data[key].errorMsg,
-					ele 			= Polymer.dom(this).querySelector('[name='+name+']'),
-					parentEle 		= Polymer.dom(ele).parentNode,
-					// TODO: if there was an initial value in markup - handle it
-					value			= null;
+					field 			= Polymer.dom(this).querySelector('[name='+name+']'),
+					parentEle 		= Polymer.dom(field).parentNode,
+					value			= this.data[key].value || null;
 
-				if (ele.value || this.data[key].value) {
-					value = ele.value || this.data[key].value;
+				// If there was an initial value set in markup, use that
+				// However, values set in the config will always 'win':
+				if (field.value && value === null) {
+					value = field.value;
 				}
 
+				// store the field and parent element just in case we need
+				// to reference those later
+				this.data[name].field = field;
+				this.data[name].parentEle = parentEle;
+
 				this._updateData(name, value);
-				this._createLabel(name, parentEle, ele, label);
 				this._createErrorMsg(name, parentEle, errorMsg);
+				this._createLabel(name, parentEle, field, label);
 			}
 		},
 
 		_createErrorMsg:function(name, parentEle, msg) {
-			var errorMsgEle = Polymer.dom(parentEle).querySelector('mm-form-message[name='+name+']') || null;
+			var errorMsgEle = Polymer.dom(parentEle).querySelector('._'+name+'-error-msg') || null;
 
 			if (!errorMsgEle) {
 				errorMsgEle = new Strand.FormMessage();
 				errorMsgEle.type = 'error';
-				errorMsgEle.setAttribute('name', name);
+
 				errorMsgEle.message = msg;
-				Polymer.dom(parentEle).appendChild(errorMsgEle);					
+				Polymer.dom(parentEle).appendChild(errorMsgEle);
+
+				errorMsgEle.classList.add('_'+name+'-error-msg');
+				this.data[name].errorMsgEle = errorMsgEle;					
 			} else {
 				errorMsgEle.message = msg;
 			}
 		},
 
-		_createLabel:function(name, parentEle, ele, label) {
-			var labelEle = Polymer.dom(parentEle).querySelector('mm-header[name='+name+']') || null,
+		_createLabel:function(name, parentEle, field, label) {
+			var labelEle = Polymer.dom(parentEle).querySelector('._'+name+'-label') || null,
 				labelTxt = null;
 
 			if (!labelEle) {
 				labelTxt = document.createTextNode(label);
 				labelEle = new Strand.Header();
+
 				labelEle.size = 'medium';
 				labelEle.setAttribute('name', name);
+
 				Polymer.dom(labelEle).appendChild(labelTxt);
-				Polymer.dom(parentEle).insertBefore(labelEle, ele);
+				Polymer.dom(parentEle).insertBefore(labelEle, field);
+
+				labelEle.classList.add('_'+name+'-label');
+				this.data[name].labelEle = labelEle;
 			} else {
 				labelEle.innerHTML = null;
+
 				labelTxt = document.createTextNode(label);
 				Polymer.dom(labelEle).appendChild(labelTxt);
 			}
@@ -250,56 +206,76 @@
 		// *******************************
 		// handle changes within the form
 		_handleChanged: function(e) {
-			console.log('_handleChanged: ', e, e.detail.value);
-			
-			// var name = e.target.getAttribute('name'),
-			// 	value = e.detail.value,
-			// 	item = this.formItems[name]; // make sure it's an item we actually care about
+			// console.log('_handleChanged: ', e.detail.value);
+			var field 			= e.target,
+				name 			= e.target.getAttribute('name'),
+				value 			= e.detail.value,
+				validation		= this.data[name].validation,
+				isFormElement 	= this._formData.hasOwnProperty(name);
 
-			// if (item && value) {
-			// 	this._updateData(name, item.value);
-			// 	this.unsaved = this._diffData();
+			if (isFormElement) {
+				this._updateData(name, value);
+				this.unsaved = this._diffData();
+				this._validateField(name, validation, value, field);
 
-			// 	// trigger a warning message in the footer
-			// 	if (this.unsaved && this.showUnsavedMessage) {
-			// 		this.footerMessage = this.footerMessages.warning;
-			// 		this.footerType = 'warning';
-			// 		this._showFooterMessage = true;
-			// 	}
-			// }
+				// trigger an unsaved warning message in the footer
+				if (this.unsaved && this.showUnsavedMessage) {
+					this._footerMessage = this.footerMessages.warning;
+					this._footerType = 'warning';
+					this._showFooterMessage = true;
+				}
+			}
 		},
 
 		_updateData: function(name, value) {
 			this._formData[name] = value;
-			console.log(this._formData);
+			this._setFormData(this._formData);
+			// console.log('_formData', this._formData);
+			// console.log('formData', this.formData);
+			// console.log('*******************************');
 		},
 
 		_diffData: function() {
-			// var diff = [];
-			
-			// for (var key in this.formData) {
-			// 	if (key !== this._initialFormData[key]) {
-			// 		diff.push(key);	
-			// 	}
-			// }
-			// return diff.length > 0;
+			var diff = [];
+			for (var key in this.formData) {
+				if (key !== this.data[key].value) {
+					diff.push(key);	
+				}
+			}
+			return diff.length > 0;
 		},
 
 		// *******************************
 		// form validation
 		// validate per field:
-		_validateField: function(validation, value) {
-			// construct the test set based on pipes:
-			var testSet = validation.replace(/\s/g, '').split("|"),
-				result = [];
+		_validateField: function(name, validation, value, field) {
+			var valid = false;
 
-			result = testSet.map(function(item) {
-				return this.rules[item](value);
-			}, this).filter(function(item) {
-				return item === true;
-			});
+			if (typeof(validation) === 'string') {
+				var testSet = validation.replace(/\s/g, '').split("|"),
+					result = [];
 
-			return result.length === testSet.length;
+				result = testSet.map(function(item) {
+					return rules[item](value);
+				}, this).filter(function(item) {
+					return item === true;
+				});
+
+				valid = result.length === testSet.length;
+			} else if (typeof(validation) === 'function') {
+				valid = validation(name, value, this.formData);
+			}
+			
+			this._showError(name, valid);
+
+			return valid;
+		},
+
+		_showError: function(name, valid) {
+			var field = this.data[name].field,
+				errorMsg = this.data[name].errorMsgEle;
+
+			field.error = errorMsg.visible = !valid;
 		},
 
 		serializeForm: function() {

@@ -10,3 +10,11 @@
 	display: block;
 	position: relative;
 }
+
+mm-inline-box {
+	display: none;
+}
+
+mm-inline-box[visible] {
+	display: block;
+}

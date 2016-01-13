@@ -19,6 +19,10 @@
 			},
 			message: {
 				type: String
+			},
+			visible: {
+				type: Boolean,
+				value: false
 			}
 		},
 	

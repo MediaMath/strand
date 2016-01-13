@@ -1,15 +1,36 @@
 <script src="../../../bower_components/validator-js/validator.min.js"/></script>
 <script type="text/javascript">
-	validator.extend('isWhitespace', function (str) {
-		return /^\s+$/.test(str);
-	});
-	validator.extend('isChecked', function (input) {
-		return input.toString() === 'true' || input === true;
-	});
-	validator.extend('isEmpty', function (str) {
-		return str && str.length > 0;
-	});
-	validator.extend('isBlank', function (str) {
-		return str.trim().length > 0;
-	});
+(function (scope) {
+	
+	// default rules for common cases:
+	scope.Validator = {
+		rules: {
+			email: function(i) {
+				return validator.isEmail(i);
+			},
+			alpha: function(i) {
+				return validation.isAlpha(i);
+			},
+			int: function(i) {
+				return validator.isInt(i); 
+			},
+			decimal: function(i) {
+				return validator.isDecimal(i);
+			},
+			whitespace: function(i) {
+				return /^\s+$/.test(str);
+			},
+			checked: function(i) {
+				return i.toString() === 'true' || i === true;
+			},
+			empty: function(i) {
+				return i && i.length > 0;
+			},
+			blank: function(i) {
+				return i.trim().length > 0;
+			}
+		}
+	};
+
+})(window.StrandLib = window.StrandLib || {}); 
 </script>
