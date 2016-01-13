@@ -25,13 +25,13 @@
   <template>
       <content id="content" select="*"></content>
   </template>
+  </dom-module>
   <script>
   Polymer({
     is:"test-extend",
     behaviors:[StrandTraits.Syncable],
   });
   </script>
-  </polymer-element>
 
 <template is="dom-bind">
     <mm-input value="{{autoTest}}"></mm-input><span>{{autoTest}}</span>
