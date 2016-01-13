@@ -210,10 +210,12 @@
 				this._validateField(name, value);
 
 				// show messaging in the footer
-				if (!this.unsaved && this.showUnsavedMessage) {
+				if (this.unsaved && this.showUnsavedMessage) {
 					this._footerMessage = this.footerMessages.warning;
 					this._footerType = 'warning';
 					this._showFooterMessage = true;
+				} else {
+					this._showFooterMessage = false;
 				}
 			}
 		},
@@ -226,11 +228,11 @@
 		_diffData: function() {
 			var diff = [];
 			for (var key in this.formData) {
-				if (key !== this.data[key].value) {
+				if (this.formData[key] !== this.data[key].value) {
 					diff.push(key);	
 				}
 			}
-			return !diff.length > 0;
+			return diff.length > 0;
 		},
 
 		// form validation
