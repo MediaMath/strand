@@ -112,10 +112,9 @@
 
 		_initForm: function(data) {
 			for (var key in data) {
-				var name 			= key,
-					label 			= this.data[key].label,
+				var label 			= this.data[key].label,
 					errorMsg 		= this.data[key].errorMsg,
-					field 			= Polymer.dom(this).querySelector('[name='+name+']'),
+					field 			= Polymer.dom(this).querySelector('[name='+key+']'),
 					parentEle 		= Polymer.dom(field).parentNode,
 					value			= this.data[key].value || null;
 
@@ -127,12 +126,12 @@
 
 				// Store the field and parent element just in case
 				// we need to reference those later
-				this.data[name].field = field;
-				this.data[name].parentEle = parentEle;
+				this.data[key].field = field;
+				this.data[key].parentEle = parentEle;
 
-				this._updateData(name, value);
-				this._createErrorMsg(name, parentEle, errorMsg);
-				this._createLabel(name, parentEle, field, label);
+				this._updateData(key, value);
+				this._createErrorMsg(key, parentEle, errorMsg);
+				this._createLabel(key, parentEle, field, label);
 
 				// Populate the fields if necessary
 				if (!field.value && value) {
@@ -192,6 +191,12 @@
 			e.model.item.callback(e,this);
 		},
 
+		_handleFooter: function(message, type, show) {
+			this._footerMessage = message;
+			this._footerType = type;
+			this._showFooterMessage = show;
+		},
+
 		_displayMessage: function(_showFooterMessage, showFooterMessages) {
 			return _showFooterMessage && showFooterMessages;
 		},
@@ -211,9 +216,7 @@
 
 				// show messaging in the footer
 				if (this.unsaved && this.showUnsavedMessage) {
-					this._footerMessage = this.footerMessages.warning;
-					this._footerType = 'warning';
-					this._showFooterMessage = true;
+					this._handleFooter(this.footerMessages.warning, 'warning', true);
 				} else {
 					this._showFooterMessage = false;
 				}
@@ -241,26 +244,21 @@
 			this._validFields = [];
 
 			for (var key in data) {
-				var name = key,
-					value = this._formData[key],
-					valid = this._validateField(name, value);
+				var value = this._formData[key],
+					valid = this._validateField(key, value);
 
 				// Store valid and invalid for this validation pass
 				if (valid) {
-					this._validFields.push(name);
+					this._validFields.push(key);
 				} else {
-					this._invalidFields.push(name);
+					this._invalidFields.push(key);
 				}
 				
 				// show messaging in the footer
 				if (this._invalidFields.length > 0) {
-					this._footerMessage = this.footerMessages.error;
-					this._footerType = 'error';
-					this._showFooterMessage = true;
+					this._handleFooter(this.footerMessages.error, 'error', true);
 				} else {
-					this._footerMessage = this.footerMessages.success;
-					this._footerType = 'success';
-					this._showFooterMessage = true;
+					this._handleFooter(this.footerMessages.success, 'success', true);
 				}
 			}
 		},
@@ -268,7 +266,24 @@
 		// TODO: Secondary validation pass returned from server-side validation
 		// Will need to assume that the front end validation rules were wrong
 		// and there needs to be a new method to bypass the current infrastructure
-		// to display this messaging 
+		// to display this messaging...
+		updateInvalidFields: function(data) {
+			// TODO: This is also a bad assumption... the old validation infrastructure
+			// remains so all we're doing here is showing the messaging...
+			// not feasible to update the 'actual' validation rules unless there is a
+			// new config passed, with new rules
+			for (var key in data) {
+				var field = this.data[key].field,
+					errorMsgEle = this.data[key].errorMsgEle,
+					errorMsg = data[key];
+
+				// this.data[key].errorMsg = errorMsg;
+				errorMsgEle.message = errorMsg;
+				field.error = errorMsgEle.visible = true;
+			}
+
+			this._handleFooter(this.footerMessages.error, 'error', true);
+		},
 
 		_validateField: function(name, value) {
 			var valid = false,
