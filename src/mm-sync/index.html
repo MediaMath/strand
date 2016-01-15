@@ -7,7 +7,6 @@
     <link rel="import" href="../mm-textarea/mm-textarea.html"/>
     <link rel="import" href="../mm-header/mm-header.html"/>
     <link rel="import" href="mm-sync.html"/>
-    <link rel="import" href="../shared/behaviors/syncable.html"/>
 
     <!-- <link rel="import" href="../mm-model/mm-model.html">
     <link rel="import" href="../mm-collection/mm-collection.html"> -->
@@ -29,7 +28,7 @@
   <script>
   Polymer({
     is:"test-extend",
-    behaviors:[StrandTraits.Syncable],
+    behaviors:[StrandLib.Sync.getBehavior()],
   });
   </script>
 
