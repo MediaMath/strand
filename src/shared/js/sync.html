@@ -64,7 +64,7 @@
 		}, init);
 	}
 
-	scope.Sync = function(endpoint, options, data, domHook, saveResponse) {
+	scope.Sync = function(endpoint, options, data, domHook, saveResponse, plugins) {
 		this._eventPrefix = _eventPrefix;
 		this.endpoint = endpoint || "/";
 		this.options = DataUtils.copy({
@@ -79,12 +79,13 @@
 		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
-		this._plugin = new AjaxPlugin();
+		this._plugin = new AjaxPlugin(this.plugins || [
+			new AjaxCSRFPlugin({}, "csrf"),
+			new AjaxBusterPlugin({}, "buster"),
+			new AjaxAPIPlugin({}, "api"),
+			new AjaxPagePlugin({}, "page"),
+		]);
 
-		this._plugin.register("csrf", AjaxCSRFPlugin);
-		this._plugin.register("buster", AjaxBusterPlugin);
-		this._plugin.register("api", AjaxAPIPlugin);
-		this._plugin.register("page", AjaxPagePlugin);
 	};
 
 	scope.Sync.prototype = {
@@ -174,5 +175,5 @@
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>

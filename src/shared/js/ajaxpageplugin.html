@@ -13,7 +13,7 @@
 
 	var DataUtils = StrandLib.DataUtils;
 
-	scope.AjaxPagePlugin = function(config) {
+	scope.AjaxPagePlugin = function(config, name) {
 		this.config = DataUtils.copy({
 			enabled:false,
 			page:0,
@@ -26,10 +26,11 @@
 			pageType:"offset",
 			countPath:""
 		},config);
+		this.name = name;
 	};
 
 	scope.AjaxPagePlugin.prototype = {
-		
+
 		nextPage: function() {
 			this.page++;
 		},
@@ -64,7 +65,7 @@
 				if (opts.body && DataUtils.isType(ajaxOpts.body, "object")) {
 					if (opts.pageName) ajaxOpts.body[opts.pageName] = page;
 					if (opts.sizeName) ajaxOpts.body[opts.sizeName] = opts.pageSize;
-						
+
 				}
 			}
 			return ajaxOpts;
@@ -80,5 +81,5 @@
 		}
 	};
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>
