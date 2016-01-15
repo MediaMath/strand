@@ -50,7 +50,7 @@
 			return this.queue.reduce(function(prev, curr) {
 				var out;
 				if (curr[method])
-					var out = curr[method](prev);
+					out = curr[method](prev);
 				if(curr.reset)
 					curr.reset();
 				return out || prev;

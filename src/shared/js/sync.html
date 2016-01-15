@@ -68,16 +68,16 @@
 
 	scope.Sync = function(endpoint, options, data, domHook, saveResponse, plugins) {
 		this._eventPrefix = _eventPrefix;
-		this.endpoint = endpoint || "/";
+		this.endpoint = this.endpoint || endpoint || "/";
 		this.options = DataUtils.copy({
 			contentType:"application/x-www-form-urlencoded",
 			timeout:10000,
 			withCredentials:false,
 			concurrency:4,
-		}, options);
-		this.data = data || {};
+		}, this.options, options);
+		this.data = this.data || data || {};
 
-		this.domHook = domHook;
+		this.domHook = this.domHook || domHook;
 		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
@@ -187,10 +187,10 @@
 			}
 		}, scope.Sync.prototype);
 
-		delete beh['fire']; //not needed since there is support in polymer for this
+		delete beh.fire; //not needed since there is support in polymer for this
 
 		return beh;
-	}
+	};
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);
 
