@@ -19,7 +19,7 @@
 			headers: obj.header || []
 		};
 	}
-	
+
 	var Sync = StrandLib.Sync;
 	var Ajax = StrandLib.Ajax;
 	var DataUtils = StrandLib.DataUtils;
@@ -50,7 +50,7 @@
 		},
 
 		ready:function() {
-			this._sync.domHook = function(method) {
+			this.domHook = function(method) {
 				return this._getDomConfig(method, this.domObject);
 			}.bind(this);
 		},
@@ -68,19 +68,19 @@
 
 		_autoChanged: function() {
 			if (this.auto && this.auto !== "save" && this.endpoint) {
-				this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+				this.debounce("dom", this.get.bind(this), this.autoDebounce);
 			}
 		},
 
 		domObjectChanged: function(domObject) {
 			if (this.auto && this.auto !== "save") {
-				this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+				this.debounce("dom", this.get.bind(this), this.autoDebounce);
 			}
 		},
 
 		_dataChanged:function(oldData, newData) {
 			if (this.auto && this.auto !== "load") {
-				this.debounce("dom", this._sync.post.bind(this._sync), this.autoDebounce);
+				this.debounce("dom", this.post.bind(this), this.autoDebounce);
 			}
 		}
 	};
@@ -91,5 +91,5 @@
 		DomSyncable
 	];
 
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
 </script>
