@@ -1,4 +1,4 @@
-<link rel="import" href="zousan.html"/>
+<link rel="import" href="es6-request.html"/>
 <link rel="import" href="eventdispatcher.html"/>
 <script>
 /**
@@ -29,8 +29,12 @@
 		this.requestMarshaller = options.requestMarshaller;
 		this.responseMarshaller = options.responseMarshaller;
 
+		this.defer = {};
 		this.xhr = new XMLHttpRequest();
-		this.promise = new Zousan();
+		this.promise = new Promise(function(resolve, reject) {
+			this.defer.resolve = resolve;
+			this.defer.reject = reject;
+		}.bind(this));
 
 	}
 
@@ -43,7 +47,7 @@
 
 		exec: function() {
 			if (!this.method || !this.url) {
-				this.promise.reject({
+				this.defer.reject({
 					error:"url and method are required!!",
 					instance:this,
 					response:null,
@@ -86,13 +90,13 @@
 				if (!this.xhr.status || (this.xhr.status >= 200 && this.xhr.status < 300)) {
 					result = {response: this.response, instance: this};
 					if (this.promise) {
-						this.promise.resolve(result);
+						this.defer.resolve(result);
 						this.dispatchEvent(new CustomEvent(_eventPrefix+"response"), result);
 					}
 				} else {
 					result = {error: this.xhr.status, instance: this, response: this.response};
 					if (this.promise) {
-						this.promise.reject(result);
+						this.defer.reject(result);
 						this.dispatchEvent(new CustomEvent(_eventPrefix+"error"), result);
 					}
 				}
@@ -106,7 +110,7 @@
 					instance:this,
 					response:null
 				};
-				this.promise.reject(detail);
+				this.defer.reject(detail);
 				this.dispatchEvent(new CustomEvent(_eventPrefix+"preflight"), detail);
 			}
 		},
@@ -144,7 +148,7 @@
 						response:response
 					};
 					this.dispatchEvent(new CustomEvent(_eventPrefix+"error"), detail);
-					this.promise.reject(detail);
+					this.defer.reject(detail);
 					return response;
 				}
 			},
