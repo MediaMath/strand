@@ -107,6 +107,7 @@
 		},
 
 		_dataChanged: function(newVal, oldVal) {
+			console.log('_dataChanged:', newVal);
 			this._initForm(newVal);
 		},
 
@@ -130,8 +131,8 @@
 				this.data[key].parentEle = parentEle;
 
 				this._updateData(key, value);
-				this._createErrorMsg(key, parentEle, errorMsg);
-				this._createLabel(key, parentEle, field, label);
+				if (errorMsg) this._createErrorMsg(key, parentEle, errorMsg);
+				if (label) this._createLabel(key, parentEle, field, label);
 
 				// Populate the fields if necessary
 				if (!field.value && value) {
@@ -205,11 +206,14 @@
 		_handleChanged: function(e) {
 			var field 			= e.target,
 				name 			= e.target.getAttribute('name'),
-				value 			= e.detail.value,
-				validation		= this.data[name].validation,
+				value 			= null,
+				validation 		= null,
 				isFormElement 	= this.data.hasOwnProperty(name);
 
 			if (isFormElement) {
+				value = e.detail.value;
+				validation = this.data[name].validation;
+
 				this._updateData(name, value);
 				this.unsaved = this._diffData();
 				this._validateField(name, value);

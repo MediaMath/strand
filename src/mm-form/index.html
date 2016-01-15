@@ -73,17 +73,51 @@
 			</div>
 
 			<!-- row 2 -->
-			<!--
 			<div class="col" span="1">
-			<mm-dimensions
-				id="dimensions"
-				unresolved
-				name="dimensions"
-				validation="dimensions|empty"
-				label="Select a Dimension"
-				error-message="You need to select dimensions"></mm-dimensions>
+				<!--
+				<mm-dimensions
+					id="dimensions"
+					unresolved
+					name="dimensions"
+					validation="dimensions|empty"
+					label="Select a Dimension"
+					error-message="You need to select dimensions"></mm-dimensions>
+				-->
+
+				<!--
+				<mm-radio 
+					id="standardSize" 
+					group="sizes" 
+					checked
+					on-selected="_handleRadioSelected"></mm-radio>
+				<mm-dropdown 
+					id="standardSizeDdl" 
+					disabled$="{{!isStandard}}" 
+					on-changed="_standardSizeChanged" 
+					placeholder="Select One">
+					<mm-list-item>160x600</mm-list-item>
+					<mm-list-item>728x90</mm-list-item>
+					<mm-list-item>300x250</mm-list-item>
+				</mm-dropdown>
+				<mm-radio 
+					id="nonStandardSize" 
+					group="sizes"
+					on-selected="_handleRadioSelected"></mm-radio>
+				<mm-group id="nonStandardSizeGroup" disabled$="{{isStandard}}">
+					<mm-input 
+						id="width"
+						placeholder="Width" 
+						validation="int"
+						on-changed="_widthChanged"></mm-input>
+					<mm-input 
+						id="height"
+						placeholder="Height" 
+						validation="int"
+						on-changed="_heightChanged"></mm-input>
+				</mm-group>
+				-->
+
 			</div>
-			-->
 
 		</mm-form>
 

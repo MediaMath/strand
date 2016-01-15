@@ -1,0 +1,85 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
+<link rel="import" href="../mm-list-item/mm-list-item.html"/>
+<link rel="import" href="../mm-group/mm-group.html"/>
+<link rel="import" href="../mm-radio/mm-radio.html"/>
+<link rel="import" href="../mm-input/mm-input.html"/>
+<link rel="import" href="../mm-form/mm-form.html"/>
+
+<dom-module id="mm-test-form-view">
+	<link rel="import" type="css" href="mm-test-form-view.css"/>
+	<template>
+		<mm-form id="testForm" data="{{formData}}">
+			<!-- row 1 -->
+			<div class="col" span="1">
+				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
+			</div>
+
+			<div class="col" span="1">
+				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
+					<mm-list-item>List Item 1</mm-list-item>
+					<mm-list-item>List Item 2</mm-list-item>
+					<mm-list-item>List Item 3</mm-list-item>
+					<mm-list-item>List Item 4</mm-list-item>
+				</mm-dropdown>
+			</div>
+
+			<div class="col" span="2">
+				<mm-group fitparent unresolved name="radio">
+					<mm-radio>
+						<label>Red</label>
+					</mm-radio>
+					<mm-radio>
+						<label>Green</label>
+					</mm-radio>	
+					<mm-radio>
+						<label>Blue</label>
+					</mm-radio>			
+				</mm-group>
+			</div>
+
+			<!-- row 2 -->
+			<div class="col" span="2">
+				<mm-header size="medium">Dimensions</mm-header>
+				<div id="customItem">
+					<mm-radio 
+						id="standardSize" 
+						group="sizes" 
+						checked
+						on-selected="_handleRadioSelected"></mm-radio>
+					<mm-dropdown 
+						id="standardSizeDdl" 
+						disabled$="{{!isStandard}}" 
+						on-changed="_standardSizeChanged" 
+						placeholder="Select One">
+						<mm-list-item>160x600</mm-list-item>
+						<mm-list-item>728x90</mm-list-item>
+						<mm-list-item>300x250</mm-list-item>
+					</mm-dropdown>
+					<mm-radio 
+						id="nonStandardSize" 
+						group="sizes"
+						on-selected="_handleRadioSelected"></mm-radio>
+					<mm-group id="nonStandardSizeGroup" disabled$="{{isStandard}}">
+						<mm-input 
+							name="width"
+							placeholder="Width" 
+							value="{{width}}"></mm-input>
+						<mm-input 
+							name="height"
+							placeholder="Height" 
+							value="{{height}}"></mm-input>
+					</mm-group>
+				</div>
+			</div>
+		</mm-form>
+	</template>
+</dom-module>
+
+<script src="mm-test-form-view.js"></script>
