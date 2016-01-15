@@ -10,11 +10,12 @@
 
 	var DataUtils = StrandLib.DataUtils;
 
-	scope.AjaxBusterPlugin = function (config) {
+	scope.AjaxBusterPlugin = function (config, name) {
 		this.config = DataUtils.copy({
 			name:"nocache",
 			enabled:true
 		}, config);
+		this.name = name;
 	};
 
 	scope.AjaxBusterPlugin.prototype = {

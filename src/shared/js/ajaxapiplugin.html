@@ -10,15 +10,16 @@
 
 	var DataUtils = StrandLib.DataUtils;
 
-	scope.AjaxAPIPlugin = function (config) {
+	scope.AjaxAPIPlugin = function (config, name) {
 
 		this.config = DataUtils.copy({
-			defaultRequest:"noop", 
-			defaultResponse:"noop", 
-			marshaller:{noop:function(o) {return o;}}, 
+			defaultRequest:"noop",
+			defaultResponse:"noop",
+			marshaller:{noop:function(o) {return o;}},
 			enabled:true,
 		}, config);
 
+		this.name = name;
 	};
 
 	scope.AjaxAPIPlugin.prototype = {
