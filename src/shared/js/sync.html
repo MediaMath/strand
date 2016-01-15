@@ -1,6 +1,7 @@
 <link rel="import" href="eventdispatcher.html"/>
 <link rel="import" href="storage.html"/>
 <link rel="import" href="datautils.html"/>
+<link rel="import" href="behaviorutils.html"/>
 <link rel="import" href="ajax.html"/>
 <link rel="import" href="ajaxplugin.html"/>
 <link rel="import" href="ajaxcsrfplugin.html"/>
@@ -18,6 +19,7 @@
 (function (scope) {
 
 	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 	var Storage = StrandLib.Storage;
 	var AjaxPlugin = StrandLib.AjaxPlugin;
 	var AjaxCSRFPlugin = StrandLib.AjaxCSRFPlugin;
@@ -79,7 +81,7 @@
 		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
-		this._plugin = new AjaxPlugin(this.plugins || [
+		this._plugin = new AjaxPlugin(plugins || [
 			new AjaxCSRFPlugin({}, "csrf"),
 			new AjaxBusterPlugin({}, "buster"),
 			new AjaxAPIPlugin({}, "api"),
@@ -172,6 +174,23 @@
 			this.dispatchEvent(e);
 		},
 	};
+
+	scope.Sync.getBehavior = function() {
+		var beh = BehaviorUtils.extend({
+			properties: {
+				data:{
+					notify:true
+				}
+			},
+			ready: function() {
+				scope.Sync.apply(this);
+			}
+		}, scope.Sync.prototype);
+
+		delete beh['fire']; //not needed since there is support in polymer for this
+
+		return beh;
+	}
 
 	EventDispatcher.prototype.apply(scope.Sync.prototype);
 
