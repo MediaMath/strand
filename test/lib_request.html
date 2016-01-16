@@ -161,7 +161,7 @@
   		xhr.restore();
   	});
 
-  	it("should support xml response type", function(done) {
+  	it("should support document response type", function(done) {
   		var xhr = sinon.useFakeXMLHttpRequest();
   		var request;
 
@@ -172,7 +172,7 @@
   		var r = new StrandLib.Request({
   			url:"/",
   			method:StrandLib.Request.GET,
-  			responseType:"xml"
+  			responseType:"document"
   		});
   		r.promise.then(function(out) {
 
