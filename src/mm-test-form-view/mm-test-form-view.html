@@ -15,7 +15,7 @@
 <dom-module id="mm-test-form-view">
 	<link rel="import" type="css" href="mm-test-form-view.css"/>
 	<template>
-		<mm-form id="testForm" data="{{formData}}">
+		<mm-form id="testForm" config="{{formConfig}}" data="{{formData}}">
 			<!-- row 1 -->
 			<div class="col" span="1">
 				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
@@ -66,7 +66,10 @@
 						id="nonStandardSize" 
 						group="sizes"
 						on-selected="_handleRadioSelected"></mm-radio>
-					<mm-group id="nonStandardSizeGroup" disabled$="{{isStandard}}">
+					<mm-group 
+						id="nonStandardSizeGroup" 
+						disabled$="{{isStandard}}" 
+						fitparent>
 						<mm-input 
 							name="width"
 							placeholder="Width" 
@@ -77,6 +80,10 @@
 							value="{{height}}"></mm-input>
 					</mm-group>
 				</div>
+				<mm-form-message 
+					id="heightWidthError" 
+					type="error" 
+					message="Special form message"></mm-form-message>
 			</div>
 		</mm-form>
 	</template>

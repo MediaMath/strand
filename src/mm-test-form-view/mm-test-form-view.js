@@ -29,44 +29,50 @@
 			},
 
 			// form data/config:
-			formData: {
+			formConfig: {
 				type: Object,
 				value: {
 					'input' : {
 						validation: 'int|empty',
 						errorMsg: 'You need to type a number',
-						label: 'Type a number',
-						// value: '100'
+						label: 'Type a number'
 					},
 					'dropdown' : {
 						validation: 'empty',
 						errorMsg: 'You need to select an item',
-						label: 'Select an Item',
-						// value: 'List Item 4'
+						label: 'Select an Item'
 					},
 					'radio' : {
 						validation: function(name, value, data) {
 							return data[name] === 'Red' && value === 'Red';
 						},
 						errorMsg: 'You need to select \'Red\'',
-						label: 'Select a Color',
-						// value: 'Red'
+						label: 'Select a Color'
 					},
 					'width' : {
 						validation: function(name, value, data) {
 							return parseInt(value) >= 0;
 						},
-						errorMsg: 'You need to type a number'
+						errorMsgEle: 'heightWidthError'
 					},
 					'height' : {
 						validation: function(name, value, data) {
 							return parseInt(value) >= 0;
 						},
-						errorMsg: 'You need to type a number'
+						errorMsgEle: 'heightWidthError'
 					}
 				}
 			},
-
+			formData: {
+				type: Object,
+				value: {
+					'input' : null,
+					'dropdown' : null,
+					'radio' : null,
+					'width' : null,
+					'height' : null
+				}
+			}
 		},
 
 		_handleRadioSelected: function(e) {

@@ -56,6 +56,7 @@
 					<mm-list-item>List Item 3</mm-list-item>
 					<mm-list-item>List Item 4</mm-list-item>
 				</mm-dropdown>
+				<!-- <mm-form-message id="special" message="Special form message"></mm-form-message> -->
 			</div>
 
 			<div class="col" span="2">
@@ -72,91 +73,56 @@
 				</mm-group>
 			</div>
 
-			<!-- row 2 -->
-			<div class="col" span="1">
-				<!--
-				<mm-dimensions
-					id="dimensions"
-					unresolved
-					name="dimensions"
-					validation="dimensions|empty"
-					label="Select a Dimension"
-					error-message="You need to select dimensions"></mm-dimensions>
-				-->
-
-				<!--
-				<mm-radio 
-					id="standardSize" 
-					group="sizes" 
-					checked
-					on-selected="_handleRadioSelected"></mm-radio>
-				<mm-dropdown 
-					id="standardSizeDdl" 
-					disabled$="{{!isStandard}}" 
-					on-changed="_standardSizeChanged" 
-					placeholder="Select One">
-					<mm-list-item>160x600</mm-list-item>
-					<mm-list-item>728x90</mm-list-item>
-					<mm-list-item>300x250</mm-list-item>
-				</mm-dropdown>
-				<mm-radio 
-					id="nonStandardSize" 
-					group="sizes"
-					on-selected="_handleRadioSelected"></mm-radio>
-				<mm-group id="nonStandardSizeGroup" disabled$="{{isStandard}}">
-					<mm-input 
-						id="width"
-						placeholder="Width" 
-						validation="int"
-						on-changed="_widthChanged"></mm-input>
-					<mm-input 
-						id="height"
-						placeholder="Height" 
-						validation="int"
-						on-changed="_heightChanged"></mm-input>
-				</mm-group>
-				-->
-
-			</div>
-
 		</mm-form>
 
 		<script>
 
 			// config/initial data set up this way:
-			var data = {
+			var config = {
 					'input' : {
 						validation: 'int|empty',
+						parentEle: null,
+						errorMsgEle: null,
 						errorMsg: 'You need to type a number',
-						label: 'Type a number',
-						// value: '100'
+						label: 'Type a number'
 					},
 					'dropdown' : {
 						validation: 'empty',
+						parentEle: null,
+						// errorMsgEle: 'special',
 						errorMsg: 'You need to select an item',
-						label: 'Select an Item',
-						// value: 'List Item 4'
+						label: 'Select an Item'
 					},
 					'radio' : {
 						validation: function(name, value, data) {
 							return data[name] === 'Red' && value === 'Red';
 						},
+						parentEle: null,
+						errorMsgEle: null,
 						errorMsg: 'You need to select \'Red\'',
-						label: 'Select a Color',
-						// value: 'Red'
+						label: 'Select a Color'
 					}
 				},
-				// returned from server-side validation(?)
-				returnedData = {
-					'input' : 'Type a number greater than 0',
-					'dropdown' : 'Select a different item', 
-					'radio' : 'Select Green'
+
+				// data that holds any actual values
+				data = {
+					'input' : null,
+					'dropdown' : null, 
+					'radio' : null
 				};
+
+				// returned from server-side validation(?)
+				// returnedData = {
+				// 	'input' : 'Type a number greater than 0',
+				// 	'dropdown' : 'Select a different item', 
+				// 	'radio' : 'Select Green'
+				// };
 
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
 
 				testForm.data = data;
+				testForm.config = config;
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);
@@ -166,6 +132,7 @@
 					console.log('cancel-form');
 				});
 			});
+
 		</script>
 
 	</body>
