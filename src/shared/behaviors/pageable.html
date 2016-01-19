@@ -1,5 +1,4 @@
 <link rel="import" href="../js/datautils.html"/>
-<link rel="import" href="syncable.html"/>
 <link rel="import" href="domsyncable.html"/>
 <script>
 /**
@@ -113,7 +112,7 @@
 		},
 
 		_indexChanged: function(o, n) {
-			
+
 			if (this.pageOptions && this.pageOptions.pageType === Pageable.PAGE_TYPE_OFFSET) {
 				this.set("page", this.index);
 			} else {
