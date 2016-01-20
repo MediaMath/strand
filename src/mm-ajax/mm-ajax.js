@@ -7,6 +7,9 @@
 /*jshint -W030 */
 (function (scope) {
 
+	var BehaviorUtils = StrandLib.BehaviorUtils,
+		_ajax = StrandLib.Ajax.getBehavior();
+
 	scope.Ajax = Polymer({
 		is: 'mm-ajax',
 
@@ -16,30 +19,30 @@
 		DELETE: StrandLib.Ajax.DELETE,
 
 		behaviors: [
+			_ajax,
 			StrandTraits.Refable
 		],
 
 		properties: {
-			ajax: {
-				type:StrandLib.Ajax,
-				value: function() {
-					return new StrandLib.Ajax();
-				}
-			},
 			url: {
 				type:String,
 				value:"",
-				observer:"_updateAjax"
+				observer:"_updateOpts"
+			},
+			params: {
+				type: String,
+				value: "",
+				observer:"_updateOpts"
 			},
 			method: {
 				type:String,
 				value:"GET",
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			responseType: {
 				type:String,
 				value:"",
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			response:{
 				type:Object,
@@ -49,32 +52,32 @@
 			contentType:{
 				type:String,
 				value: 'application/x-www-form-urlencoded',
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			auto: {
 				type:Boolean,
 				value:false,
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			body: {
 				type:Object,
 				value: null,
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			withCredentials: {
 				type: Boolean,
 				value: false,
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			timeout: {
 				type:Number,
 				value: 10000,
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			concurrency: {
 				type:Number,
 				value:4,
-				observer:"_updateAjax"
+				observer:"_updateOpts"
 			},
 			progress: {
 				type:Object,
@@ -98,15 +101,16 @@
 			});
 		},
 
-		_updateAjax: function() {
+		_updateOpts: function() {
 			//TODO(dlasky): expose binds for additional prefs
 			this.debounce("options", function() {
-				this.ajax.options = StrandLib.DataUtils.copy(this.ajax.options, {
+				this.options = StrandLib.DataUtils.copy(this.options, {
 					contentType:this.contentType,
 					responseType:this.responseType,
 					method:this.method,
 					url:this.url,
 					body:this.body,
+					params:this.params,
 					withCredentials:this.withCredentials,
 					timeout:this.timeout,
 					concurrency:this.concurrency
@@ -125,24 +129,18 @@
 		},
 
 		exec: function(data, options) {
-			var p = this.ajax.exec(data, options);
-			this.ajax.current.progress = this.handleProgress;
+			var inherited = BehaviorUtils.findSuper(_ajax, 'exec');
+			var p = inherited.apply(this, arguments);
+			this.current.progress = this._handleProgress.bind(this);
 			p.then(this._handleResponse.bind(this), this._handleError.bind(this));
 			return p;
 		},
 
-		queue: function(data, options, name) {
-			return this.ajax.queue(data, options, name);
-		},
-
-		execQueue: function(name) {
-			return this.ajax.execQueue(name);
-		},
-
 		abort: function() {
-			this.ajax.abort();
-			if (this.ajax.current) {
-				this.ajax.current.promise.then(handleAbort, handleAbort);
+			var inherited = BehaviorUtils.findSuper(_ajax, 'exec');
+			inherited.apply(this, arguments);
+			if (this.current) {
+				this.current.promise.then(this._handleAbort.bind(this), this._handleAbort.bind(this));
 			}
 		},
 
@@ -160,35 +158,11 @@
 			if(error.response)
 				this.set("response", error.response);
 			this.fire("data-error", error);
-		},	
+		},
 
 		_handleProgress: function(progress) {
 			this.progress = progress;
 			this.fire("data-progress", progress);
-		},
-
-		addHeader: function(name, value) {
-			this.ajax.addHeader(name, value);
-		},
-
-		addParam: function(name, value) {
-			this.ajax.addParam(name,value);
-		},
-
-		addUrlParam: function(param) {
-			this.ajax.addUrlParam(param);
-		},
-
-		get status() {
-			return this.ajax.status;
-		},
-
-		get state() {
-			return this.ajax.state;
-		},
-
-		get xhr() {
-			return this.ajax.xhr;
 		}
 	});
 

@@ -36,7 +36,7 @@
 			}
 			</style>
 		<template>
-			<mm-ajax id="ajax" url="{{url}}" method="GET" params="{{params}}" auto response="{{response}}" on-data-error="{{log}}" on-data-ready="{{log}}" on-data-result="{{log}}" on-data-progress="{{log}}" on-data-abort="{{log}}" debug></mm-ajax>
+			<mm-ajax id="ajax" url="{{url}}" method="GET" params="{{params}}" auto response="{{response}}" on-error="{{log}}" on-ready="{{log}}" on-result="{{log}}" on-progress="{{log}}" on-abort="{{log}}" debug></mm-ajax>
 			<mm-input id="url" value="{{url}}"></mm-input>
 			<mm-input id="params" value="{{params}}"></mm-input>
 			<mm-button id="btn" on-click="update">
@@ -75,12 +75,25 @@
 
 	HTMLImports.whenReady(function(){
 		Polymer({
-			is:'test-result',
-			url: "http://localhost:8000/ajax",
-			params: '[{"name":"cake","value":100}]',
+			is: 'test-result',
+			properties: {
+				url: {
+					type: String,
+					value: "http://localhost:8000/ajax"
+				},
+				params: {
+					type: String,
+					value: '[{"name":"cake","value":100}]'
+				},
+				response: {
+					type: String,
+					notify: true
+				}
+			},
+
 			log: function(e) {
 				console.log("log",e);
-				this.$.log.innerHTML += "[event] " + e.type + "<br/>";
+				this.$.log.innerHTML += "[response] " + e + "<br/>";
 			},
 			update: function() {
 				this.$.ajax.exec();
@@ -94,7 +107,7 @@
 			}
 		});
 	});
-	
+
 	window.addEventListener("WebComponentsReady", function(e) {
 		var a1 = document.querySelector("#a1"),
 			b1 = document.querySelector("#b1"),
