@@ -75,7 +75,12 @@
 			withCredentials:false,
 			concurrency:4,
 		}, this.options, options);
-		this.data = this.data || data || {};
+
+		if (this.set) {
+			this.set('data', this.data || data || {});
+		} else {
+			this.data = this.data || data || {};
+		}
 
 		this.domHook = this.domHook || domHook;
 		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
@@ -132,7 +137,12 @@
 			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
-				this.data = result.marshalled;
+				// this.data = result.marshalled;
+				if (this.set) {
+					this.set('data', result.marshalled);
+				} else {
+					this.data = result.marshalled;
+				}
 				this.fire("saved", result);
 			}
 		},
@@ -175,20 +185,19 @@
 		},
 	};
 
-	scope.Sync.getBehavior = function() {
-		var beh = BehaviorUtils.extend({
-			properties: {
-				data:{
-					notify:true
-				}
-			},
-			ready: function() {
-				scope.Sync.apply(this);
+	var beh = BehaviorUtils.extend({
+		properties: {
+			data:{
+				notify:true
 			}
-		}, scope.Sync.prototype);
+		},
+		ready: function() {
+			scope.Sync.apply(this);
+		}
+	}, scope.Sync.prototype);
+	delete beh.fire;
 
-		delete beh.fire; //not needed since there is support in polymer for this
-
+	scope.Sync.getBehavior = function() {
 		return beh;
 	};
 
