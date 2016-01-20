@@ -36,7 +36,7 @@
 			}
 			</style>
 		<template>
-			<mm-ajax id="ajax" url="{{url}}" method="GET" params="{{params}}" auto response="{{response}}" on-error="{{log}}" on-ready="{{log}}" on-result="{{log}}" on-progress="{{log}}" on-abort="{{log}}" debug></mm-ajax>
+			<mm-ajax id="ajax" url="{{url}}" method="GET" params="{{params}}" auto response="{{response}}" on-data-error="log" on-data-ready="log" on-data-result="log" on-data-progress="log" on-data-abort="log" debug></mm-ajax>
 			<mm-input id="url" value="{{url}}"></mm-input>
 			<mm-input id="params" value="{{params}}"></mm-input>
 			<mm-button id="btn" on-click="update">
@@ -93,10 +93,14 @@
 
 			log: function(e) {
 				console.log("log",e);
-				this.$.log.innerHTML += "[response] " + e + "<br/>";
+				this.$.log.innerHTML += "[event] " + e.type + "<br/>";
 			},
+
 			update: function() {
-				this.$.ajax.exec();
+				this.$.ajax.exec().then(
+					(e) => console.log(e),
+					(e) => console.log(e)
+				);
 			},
 			responseChanged: function(_old, _new) {
 				if (typeof this.response !== "string") {
