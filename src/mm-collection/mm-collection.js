@@ -28,7 +28,6 @@
 		behaviors: [
 			StrandTraits.Pageable,
 			StrandTraits.Refable
-			// StrandTraits.DomSyncable
 		],
 
 		factoryImpl: function(auto) {
@@ -78,7 +77,7 @@
 		fetch: function() {
 			return this.connection.get();
 		},
-		
+
 		destroy: function() {
 			return this.connection.delete();
 		},
@@ -100,8 +99,8 @@
 		// },
 
 		// _collectionChanged: function() {
-		// 	this._collection.addEventListener("data-changed", function() { 
-		// 		this.fire("data-changed"); 
+		// 	this._collection.addEventListener("data-changed", function() {
+		// 		this.fire("data-changed");
 		// 	}.bind(this));
 		// },
 
@@ -132,4 +131,4 @@
 		}
 
 	});
-})(window.Strand = window.Strand || {}); 
+})(window.Strand = window.Strand || {});

@@ -1,4 +1,5 @@
 <link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="../js/sync.html"/>
 <link rel="import" href="domsyncable.html"/>
 <script>
 /**
@@ -133,7 +134,7 @@
 	};
 
 	scope.Pageable = [
-		scope.Syncable,
+		StrandLib.Sync.getBehavior(),
 		scope.DomSyncable,
 		Pageable,
 	];
