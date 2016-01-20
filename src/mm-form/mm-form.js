@@ -165,7 +165,12 @@
 				this._updateData(key, value);
 				this._initialData[key] = value;
 
-				if (errorMsg) this._createErrorMsg(key, errorMsg, errorMsgEle, parentEle);
+				if (errorMsg && !errorMsgEle) { 
+					this._createErrorMsg(key, errorMsg, errorMsgEle, parentEle);
+				} else {
+					errorMsgEle.message = errorMsg;
+				}
+
 				if (label) this._createLabel(key, label, field, parentEle);
 
 				// Populate the fields if necessary
