@@ -195,11 +195,11 @@ describe("Ajax", function() {
 	});
 
 	it("should expose promises for every call", function() {
-		Zousan.suppressUncaughtRejectionError = true;
-		var a = new StrandLib.Ajax({url:"", method:"get"});
-		a.exec().should.be.an.instanceof(Zousan);
-		a.queue().should.be.an.instanceof(Zousan);
-		a.execQueue().should.be.an.instanceof(Zousan);
+		// Zousan.suppressUncaughtRejectionError = true;
+		var a = new StrandLib.Ajax({url:"/ajax", method:"get"});
+		a.exec().should.be.an.instanceof(Promise);
+		a.queue().should.be.an.instanceof(Promise);
+		a.execQueue().should.be.an.instanceof(Promise);
 	});
 
 	it("should preflight requests via queing mechanism", function() {
@@ -236,7 +236,7 @@ describe("Ajax", function() {
 
 	});
 
-	it("should run a queue after it has been filled", function() {
+	it("should run a queue after it has been filled", function(done) {
 		var a = new StrandLib.Ajax();
 		var a = new StrandLib.Ajax({
 			method:StrandLib.Ajax.GET,

@@ -1,7 +1,7 @@
+<link rel="import" href="behaviorutils.html"/>
 <link rel="import" href="datautils.html"/>
 <link rel="import" href="request.html"/>
 <link rel="import" href="requestqueue.html"/>
-<link rel="import" href="zousan.html"/>
 <link rel="import" href="eventdispatcher.html"/>
 <script>
 /**
@@ -110,8 +110,8 @@
 			data = this.setRequestData(options.method, options.contentType, data, options.body);
 
 			return new StrandLib.Request(copy(options, {
-				url:url,
-				body:data,
+				url: url,
+				body: data,
 			}));
 		},
 
@@ -267,6 +267,27 @@
 			return this.current && this.current.xhr;
 		}
 	};
+
+
+	Ajax.getBehavior = function() {
+		var beh = StrandLib.BehaviorUtils.extend({
+			properties: {
+				url: {
+					notify: true
+				},
+				data: {
+					notify: true
+				}
+			},
+			ready: function() {
+				Ajax.apply(this);
+			}
+		}, Ajax.prototype);
+
+		delete beh['fire'];
+
+		return beh;
+	}
 
 	EventDispatcher.prototype.apply(Ajax.prototype);
 
