@@ -86,7 +86,7 @@
 		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
-		this._plugin = new AjaxPlugin(plugins || [
+		this._plugin = new AjaxPlugin(this.plugins || plugins || [
 			new AjaxCSRFPlugin({}, "csrf"),
 			new AjaxBusterPlugin({}, "buster"),
 			new AjaxAPIPlugin({}, "api"),
