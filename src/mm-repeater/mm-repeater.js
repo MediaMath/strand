@@ -26,6 +26,12 @@
 			}
 		},
 
+		behaviors: [
+			StrandTraits.Refable,
+			StrandTraits.Resolvable,
+			StrandTraits.Validatable
+		],
+
 		get value() { return this.data; },
 		set value(newVal) { if (newVal instanceof Array) this.data = newVal; },
 
