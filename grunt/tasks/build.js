@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 		build_dir: 'build',
 		docs_dir: 'build_docs',
 		dist_dir: 'dist',
-		
+
 		modules: grunt.file.expand({ cwd: 'src' }, 'mm-*'),
 		shared: grunt.file.expand({ cwd: 'src' }, 'shared/**/*.html'),
 
@@ -302,7 +302,7 @@ module.exports = function(grunt) {
 		//set config for the static fonts lib as well
 		var fnts = grunt.config.get('build_dir') + '/shared/fonts/fonts.css';
 		grunt.config.set("hogan_static.fonts.options.data.style", grunt.file.read(fnts));
-		
+
 		//run batched
 		grunt.task.run(tasks);
 
@@ -324,7 +324,7 @@ module.exports = function(grunt) {
 		var path = grunt.config('src_dir') + '/shared/sass/_color.scss';
 		var color = grunt.file.read(path);
 		color = color.replace(/\$color-(\w\d\d*): (#[\w\d]*);/g, function(a, key, value) {
-			return "\t\"" + key + "\":\"" + value + "\","; 
+			return "\t\"" + key + "\":\"" + value + "\",";
 		});
 		grunt.config.set('hogan_static.colors.options.data.colors', color);
 		grunt.task.run(['hogan_static:colors']);
@@ -336,7 +336,7 @@ module.exports = function(grunt) {
 			'copy:build',
 			'sass:dist',
 			'postcss',
-			'cssUrlEmbed', 
+			'cssUrlEmbed',
 			'style:imports',
 			'hogan_static:fonts',
 			// 'hogan_static:lib', //un-comment to build entire library
@@ -360,6 +360,8 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['build:dev']);
+
+	grunt.registerTask('link', ["clean:dist", "build:dist", "replace:bower", "copy:dist"]);
 
 	grunt.registerTask('release', function(version){
 		version = version || "patch";
