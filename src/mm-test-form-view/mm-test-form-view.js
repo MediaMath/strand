@@ -10,12 +10,15 @@
 	scope.TestFormView = Polymer({
 		is: "mm-test-form-view",
 
-		behaviors: [],
+		behaviors: [
+			StrandTraits.Refable
+		],
 
 		properties: {
 			// custom form items:
-			isStandard: {
-				type: Boolean
+			standardSize: {
+				type: Boolean,
+				value: true
 			},
 
 			width: {
@@ -43,68 +46,67 @@
 						label: 'Select an Item'
 					},
 					'radio' : {
-						validation: function(name, value, data) {
+						validation: function(name, value, data, view) {
 							return data[name] === 'Red' && value === 'Red';
 						},
 						errorMsg: 'You need to select \'Red\'',
 						label: 'Select a Color'
 					},
+					'widthHeight' : {
+						validation: 'empty',
+						validateIf: function(name, value, data, view) {
+							return view.standardSize;
+						},
+						errorMsg: 'You need to select a standard size',
+						errorMsgEle: 'heightWidthError',
+						exclude: true
+					},
 					'width' : {
-						validation: function(name, value, data) {
+						validation: function(name, value, data, view) {
 							return parseInt(value) >= 0;
 						},
-						errorMsgEle: 'heightWidthError'
+						validateIf: function(name, value, data, view) {
+							return !view.standardSize;
+						},
+						errorMsg: 'Enter a width',
+						parentEle: 'customItemWrapper'
 					},
 					'height' : {
-						validation: function(name, value, data) {
+						validation: function(name, value, data, view) {
 							return parseInt(value) >= 0;
 						},
-						errorMsgEle: 'heightWidthError'
+						validateIf: function(name, value, data, view) {
+							return !view.standardSize;
+						},
+						errorMsg: 'Enter a height',
+						parentEle: 'customItemWrapper'
 					}
 				}
 			},
 			formData: {
 				type: Object,
-				value: {
-					'input' : null,
-					'dropdown' : null,
-					'radio' : null,
-					'width' : null,
-					'height' : null
+				notify: true
+			}
+		},
+
+		// custom form item interactions:
+		_sizeRadioSelected: function(e) {
+			this.async(function(){
+				switch (e.detail.item.id) {
+					case 'standardSize':
+						this.standardSize = true;
+						this.$.testForm.resetFieldValidation('width');
+						this.$.testForm.resetFieldValidation('height');
+						break;
+					case 'nonStandardSize':
+						this.standardSize = false;
+						this.$.testForm.resetFieldValidation('widthHeight');
+						break;
+					default:
+						return;	
 				}
-			}
+			});
 		},
-
-		_handleRadioSelected: function(e) {
-			switch (e.detail.item.id) {
-				case 'standardSize':
-					this.isStandard = true;
-					break;
-				case 'nonStandardSize':
-					this.isStandard = false;
-					break;
-				default:
-					return;	
-			}
-		},
-
-		// _valueChanged: function(newVal, oldVal) {
-		// 	if (newVal) {
-		// 		this.fire('changed', { value: newVal });
-
-		// 		// set the dropdown if needed
-		// 		if (!this.nonStandardSize) {
-		// 			if (!this.$.standardSizeDdl.value) {
-		// 				this.$.standardSizeDdl.value = String(
-		// 					this.value.width + 'x' + this.value.height
-		// 				);
-		// 			} 
-		// 		} else {
-		// 			this.$.width.value = this.value.width;
-		// 			this.$.height.value = this.value.height;
-		// 		}
-		// 	}
-		// },
 
 		_standardSizeChanged: function(e) {
 			var dimensions = e.detail.value.split('x'),

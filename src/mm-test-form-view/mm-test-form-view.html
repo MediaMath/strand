@@ -5,6 +5,7 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
 <link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
 <link rel="import" href="../mm-list-item/mm-list-item.html"/>
 <link rel="import" href="../mm-group/mm-group.html"/>
@@ -15,7 +16,7 @@
 <dom-module id="mm-test-form-view">
 	<link rel="import" type="css" href="mm-test-form-view.css"/>
 	<template>
-		<mm-form id="testForm" config="{{formConfig}}" data="{{formData}}">
+		<mm-form id="testForm" config="{{formConfig}}" data="{{formData}}" view={{ref}}>
 			<!-- row 1 -->
 			<div class="col" span="1">
 				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
@@ -45,41 +46,56 @@
 			</div>
 
 			<!-- row 2 -->
-			<div class="col" span="2">
+			<div id="customItemWrapper" class="col" span="2">
 				<mm-header size="medium">Dimensions</mm-header>
+				
 				<div id="customItem">
+
 					<mm-radio 
 						id="standardSize" 
-						group="sizes" 
+						group="sizes"
 						checked
-						on-selected="_handleRadioSelected"></mm-radio>
+						on-selected="_sizeRadioSelected"></mm-radio>
+
 					<mm-dropdown 
 						id="standardSizeDdl" 
-						disabled$="{{!isStandard}}" 
+						disabled$="{{!standardSize}}"
+						name="widthHeight"
 						on-changed="_standardSizeChanged" 
 						placeholder="Select One">
 						<mm-list-item>160x600</mm-list-item>
 						<mm-list-item>728x90</mm-list-item>
 						<mm-list-item>300x250</mm-list-item>
 					</mm-dropdown>
+
+					<!-- validate-if$="{{standardSize}}" -->
+					
 					<mm-radio 
 						id="nonStandardSize" 
 						group="sizes"
-						on-selected="_handleRadioSelected"></mm-radio>
+						on-selected="_sizeRadioSelected"></mm-radio>
+
 					<mm-group 
 						id="nonStandardSizeGroup" 
-						disabled$="{{isStandard}}" 
+						disabled$="{{standardSize}}" 
 						fitparent>
+
 						<mm-input 
 							name="width"
 							placeholder="Width" 
+							validate-if="{{!standardSize}}"
 							value="{{width}}"></mm-input>
+
 						<mm-input 
 							name="height"
 							placeholder="Height" 
+							validate-if="{{!standardSize}}"
 							value="{{height}}"></mm-input>
+
 					</mm-group>
+
 				</div>
+
 				<mm-form-message 
 					id="heightWidthError" 
 					type="error" 

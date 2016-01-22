@@ -18,6 +18,9 @@
 		],
 
 		properties: {
+			view: {
+				type: Object
+			},
 			unsaved: {
 				type: Boolean,
 				value: true,
@@ -82,6 +85,7 @@
 				type: Boolean,
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			},
+
 			// config/initial data & settings:
 			config: {
 				type: Object,
@@ -90,7 +94,8 @@
 			},
 			data: {
 				type: Object,
-				observer: '_dataChanged'
+				observer: '_dataChanged',
+				value: function() { return {}; }
 			}
 		},
 
@@ -104,66 +109,60 @@
 
 		_dataChanged: function(newVal, oldVal) {
 			console.log('_dataChanged:', newVal);
-			this.debounce('init', this._initForm);
+			// this.debounce('init', this._initForm);
+			this._initData();
 		},
 
 		_configChanged: function(newVal, oldVal) {
 			console.log('_configChanged:', newVal);
-			this.debounce('init', this._initForm);
+			// this.debounce('init', this._initForm);
+			this._initConfig();
 		},
 
-		_selectEle: function(ele, parent) {
+		_select: function(ele, parent) {
 			var scope = this || parent;
 			return Polymer.dom(scope).querySelector(ele);
 		},
 
-		_initForm: function() {
-			if (!this.data) return;
-
-			for (var key in this.data) {
-				var cfgKey = this.config[key] ? this.config[key] : null,
-					field = this._selectEle('[name='+key+']'),
-					validation = null,
-					label = null,
-					errorMsg = null,
-					errorMsgEle = null,
-					parentEle = null,
-					value = this.data[key] || null;
+		_initConfig: function() {
+			for (var key in this.config) {
+				var cfg 			= this.config[key] ? this.config[key] : null,
+					field 			= this._select('[name='+key+']'),
+					validation 		= null,
+					validateIf 		= null,
+					label 			= null,
+					errorMsg 		= null,
+					errorMsgEle 	= null,
+					parentEle 		= null;
 
 				if (!field) {
-					throw 'There must be a corresponding DOM element for data[\''+key+'\']';
+					throw 'There must be a corresponding DOM element for config[\''+key+'\']';
 				}
 
 				// a config was or was not supplied - if one was supplied,
 				// use it, if not create one
-				if (cfgKey) {
-					validation = cfgKey.validation ? cfgKey.validation : null,
-					label = cfgKey.label ? cfgKey.label : null,
-					errorMsg = cfgKey.errorMsg ? cfgKey.errorMsg : null,
-					errorMsgEle	= cfgKey.errorMsgEle ? this._selectEle('#'+cfgKey.errorMsgEle) : null,
-					parentEle = cfgKey.parentEle ? this._selectEle('#'+cfgKey.parentEle) : Polymer.dom(field).parentNode;
+				if (cfg) {
+					validation 			= cfg.validation ? cfg.validation : null;
+					validateIf 			= cfg.validateIf ? cfg.validateIf : null;
+					label 				= cfg.label ? cfg.label : null;
+					errorMsg 			= cfg.errorMsg ? cfg.errorMsg : null;
+					errorMsgEle			= cfg.errorMsgEle ? this._select('#'+cfg.errorMsgEle) : null;
+					parentEle 			= cfg.parentEle ? this._select('#'+cfg.parentEle) : Polymer.dom(field).parentNode;
+					exclude				= cfg.exclude ? cfg.exclude : false;
 				} else {
-					this.config[key] = {};
-				}
-
-				// If there was an initial value set in markup, use that
-				// However, values set in the config will always 'win'
-				if (field.value && value === null) {
-					value = field.value;
+					this.config[key] 	= {};
 				}
 
 				// Store everything for reference later, assumes it's possible
 				// to have a config which didn't include ALL of these items
-				this.config[key].field = field;
-				this.config[key].validation = validation; 
-				this.config[key].label = label; 		
-				this.config[key].errorMsg = errorMsg;
-				this.config[key].errorMsgEle = errorMsgEle;
-				this.config[key].parentEle = parentEle;
-
-				// update data and DOM
-				this._updateData(key, value);
-				this._initialData[key] = value;
+				this.config[key].field 			= field;
+				this.config[key].validation 	= validation; 
+				this.config[key].validateIf 	= validateIf; 
+				this.config[key].label 			= label; 		
+				this.config[key].errorMsg 		= errorMsg;
+				this.config[key].errorMsgEle 	= errorMsgEle;
+				this.config[key].parentEle 		= parentEle;
+				this.config[key].exclude 		= exclude;
 
 				if (errorMsg && !errorMsgEle) { 
 					this._createErrorMsg(key, errorMsg, errorMsgEle, parentEle);
@@ -172,6 +171,28 @@
 				}
 
 				if (label) this._createLabel(key, label, field, parentEle);
+			}
+		},
+
+		_initData: function() {
+			for (var key in this.config) {
+				var field 			= this._select('[name='+key+']'),
+					exclude			= this.config[key].exclude,
+					value 			= this.data[key] || null;
+
+				if (!field) {
+					throw 'There must be a corresponding DOM element for data[\''+key+'\']';
+				}
+				
+				// If there was an initial value set in markup, use that
+				// However, values set in the config will always 'win'
+				if (field.value && value === null) {
+					value = field.value;
+				}
+
+				// update data and DOM
+				if (!exclude) this._updateData(key, value);
+				this._initialData[key] = value;
 
 				// Populate the fields if necessary
 				if (value && field.value !== value) {
@@ -181,7 +202,7 @@
 		},
 
 		_createErrorMsg:function(key, errorMsg, errorMsgEle, parentEle) {
-			var existingMsgEle = this._selectEle('._'+key+'-error-msg') || null;
+			var existingMsgEle = this._select('._'+key+'-error-msg') || null;
 
 			if (!existingMsgEle) {
 				// create one:
@@ -200,9 +221,9 @@
 		},
 
 		_createLabel:function(key, label, field, parentEle) {
-			var existingLblEle = this._selectEle('._'+key+'-label') || null,
-				formLabel = null, 
-				labelTxt = null;
+			var existingLblEle 	= this._select('._'+key+'-label') || null,
+				formLabel 		= null, 
+				labelTxt 		= null;
 
 			if (!existingLblEle) {
 				// create one:
@@ -228,18 +249,22 @@
 
 		// handle changes within the form
 		_handleChanged: function(e) {
-			var field = e.target,
-				key = field.getAttribute('name'),
-				value = null,
-				validation = null,
-				isFormElement = this.data.hasOwnProperty(key);
+			var field 			= e.target,
+				key				= field.getAttribute('name'),
+				value 			= null,
+				validation 		= null,
+				exclude			= null,
+				isFormElement 	= this.config.hasOwnProperty(key);
 
 			if (isFormElement) {
-				value = e.detail.value;
-				validation = this.config[key].validation;
+				exclude 		= this.config[key].exclude ? this.config[key].exclude : false;
+				value 			= e.detail.value;
+				validation 		= this.config[key].validation;
 
-				this._updateData(key, value);
-				this.unsaved = this._diffData();
+				if (!exclude) {
+					this._updateData(key, value);
+					this.unsaved = this._diffData();
+				}
 
 				if (validation) this._validateField(key, value);
 
@@ -271,12 +296,13 @@
 			this._invalidFields = [];
 			this._validFields = [];
 
-			for (var key in this.data) {
+			for (var key in this.config) {
 				var value 		= this.data[key],
 					validation 	= this.config[key].validation,
+					validateIf 	= this.config[key].validateIf ? this.config[key].validateIf(key, value, this.data, this.view) : null,
 					valid 		= false;
 				
-				if (validation) {
+				if (validation && (validateIf === null || validateIf === true)) {
 					valid = this._validateField(key, value);
 
 					// Store valid and invalid for this validation pass
@@ -285,6 +311,9 @@
 					} else {
 						this._invalidFields.push(key);
 					}
+				} else if (validation && (validateIf !== null || validateIf === false)) {
+					// clean up prior validations if they were there
+					this.resetFieldValidation(key);
 				}
 				
 				// show messaging in the footer
@@ -319,9 +348,10 @@
 		// },
 
 		_validateField: function(key, value) {
-			var valid 			= false,
+			var valid 			= null,
 				field 			= this.config[key].field,
 				validation 		= this.config[key].validation,
+				errorMsg 		= this.config[key].errorMsg,
 				errorMsgEle 	= this.config[key].errorMsgEle;
 
 			if (typeof(validation) === 'string') {
@@ -336,13 +366,21 @@
 
 				valid = result.length === testSet.length;
 			} else if (typeof(validation) === 'function') {
-				valid = validation(key, value, this.data);
+				valid = validation(key, value, this.data, this.view);
 			}
 			
 			// show or hide messaging in the ui
+			errorMsgEle.message = errorMsg;
 			field.error = errorMsgEle.visible = !valid;
-			
+
 			return valid;
+		},
+
+		resetFieldValidation: function(key) {
+			var field 			= this.config[key].field,
+				errorMsgEle 	= this.config[key].errorMsgEle;
+
+			field.error = errorMsgEle.visible = false;
 		},
 
 		serializeForm: function() {
