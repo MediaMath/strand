@@ -14,12 +14,13 @@
 				type: Object,
 				value: null
 			},
+
 			data: {
 				type: Array,
 				notify: true,
-				value: function() { return []; },
-				observer: '_handleDataChanged'
+				value: function() { return [{}]; }
 			},
+
 			addRowLabel: {
 				type: String,
 				value: '+Add Item'
@@ -32,35 +33,87 @@
 			StrandTraits.Validatable
 		],
 
-		get value() { return this.data; },
-		set value(newVal) { if (newVal instanceof Array) this.data = newVal; },
+		get value() {
+			return this.data;
+		},
+
+		set value(newVal) {
+			if (newVal instanceof Array) {
+				this.set('data', newVal);
+			}
+		},
+
+		observers: [
+			'_injectModelData(data.*)'
+		],
+
+		_injectModelData: function(e) {
+			var path = e.path.split('.'),
+				record = path[path.length-1];
+
+			console.log(e);
+			if(record === '_ref') {
+				var index = parseInt(path[1].substring(1)),
+					model = e.base[index],
+					node = model._ref;
+
+				if(node) {
+					var fields = node.querySelectorAll('[name]');
+					for(var i=0; i<fields.length; i++) {
+						var field = fields[i],
+							name = field.getAttribute('name');
+						if(model[name]) field.setAttribute('value', model[name]);
+					}
+				}
+			}
+		},
+
+		// Model -> DOM
+		// DOM -> Model
+		// Push onto DOM with empty state
+		// Pop off DOM |> (DOM -> Model)
+		// Model -> DOM |> Push multiple onto DOM
+		// Modify DOM in place
+
+		// Add log
+		// Remove log
+		// Change log
 
 		ready: function() {
 			var templateTag = this.queryEffectiveChildren('template');
 			this.set('template', templateTag.innerHTML);
-			if(!this.data || this.data.length === 0) this._addRow();
 		},
 
-		_handleDataChanged: function(newData) {
-			this.async(function() {
-				newData.forEach(function(record) {
-					var node = record._ref;
-					if(node) {
-						var fields = node.querySelectorAll('[name]');
-						for(var i=0; i<fields.length; i++) {
-							var field=fields[i];
-							var name=field.getAttribute('name');
-							field.setAttribute('value',record[name]);
-						}
-					}
-				});
-			}.bind(this));
+		validate: function() {
+			this.data.forEach(function(item, index) {
+
+				var valid = true;
+
+				if(typeof item.validation === 'function') {
+					// Custom validation provided: call validation, passing name:value pairs as arguments
+					var elems = item._ref.querySelectorAll('[name]'),
+						rowData = Object.keys(elems).map(function(key) { return {name: elems[key].name, value: elems[key].value }; });
+					valid = item.validation.apply(rowData);
+				} else {
+					// Default validation: call validate on each form element and fold them together
+					var fields = item._ref.querySelectorAll('[validation]');
+					valid = Object.keys(fields).reduce(function(sum, elt) {
+						return sum && (!fields[elt].validate || fields[elt].validate(fields[elt].value));
+					}, true);
+				}
+
+				// Reflect validation to the model for error messaging
+				this.set('data.'+index+'.error', !valid);
+
+			}, this);
 		},
 
 		_updateModel: function(e) {
 			var target = Polymer.dom(e).localTarget,
 				name = target.name || target.getAttribute('name'),
 				value = target.value || target.getAttribute('value');
+
+			console.log('_updateModel triggered');
 			if(name && value) {
 				var index = this.$.repeater.indexForElement(target);
 				this.set('data.'+(index)+'.'+name, value);

@@ -32,3 +32,9 @@ mm-action {
 mm-icon[type="delete"] {
     cursor: pointer;
 }
+
+mm-inline-box[type="error"] {
+    display: block;
+    margin-bottom: 8px;
+    width: 100%;
+}

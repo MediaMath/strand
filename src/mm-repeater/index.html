@@ -4,6 +4,7 @@
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="mm-repeater.html" />
 		<link rel="import" href="../mm-group/mm-group.html" />
+		<link rel="import" href="../mm-button/mm-button.html" />
 		<link rel="import" href="../mm-radio/mm-radio.html" />
 		<link rel="import" href="../mm-input/mm-input.html" />
 		<link rel="import" href="../mm-dropdown/mm-dropdown.html" />
@@ -114,9 +115,9 @@
 			<hr>
 
 		<h3>Prepopulated</h3>
-		<mm-repeater id="repeater" data='[{"name": "John","firstOption": "","secondOption": "Test 1"},{"name": "Paul","firstOption": "Test Item 1","secondOption": "Test 2"},{"name": "Ringo","firstOption": "Test Item 1","secondOption": "Test 3"}]'>
+		<mm-repeater id="withData">
 			<template preserve-content>
-				<mm-input name="name"></mm-input>
+				<mm-input name="name" validation="alpha"></mm-input>
 				<mm-dropdown name="firstOption">
 					<mm-list-item>Test Item 1</mm-list-item>
 					<mm-list-item>Test Item 2</mm-list-item>
@@ -130,9 +131,36 @@
 				</mm-group>
 			</template>
 		</mm-repeater>
+		<mm-button id="validateBtn"><label>Validate!</label></mm-button>
 		</div>
 
 		<script>
+			var data = [
+				{
+					name: "John",
+					firstOption: "Test Item 2",
+					secondOption: "Test 1"
+				},
+				{
+					name: "Paul",
+					firstOption: "Test Item 1",
+					secondOption: "Test 2"
+				},
+				{
+					name: "Ringo",
+					firstOption: "Test Item 1",
+					secondOption: "Test 3"
+				}
+			]
+			var wd = document.querySelector('#withData');
+			wd.async(function() {
+				wd.data = null
+				wd.value = data;
+			});
+
+			document.querySelector('#validateBtn').addEventListener('click', function() {
+				wd.validate();
+			});
 		</script>
 	</body>
 </html>
