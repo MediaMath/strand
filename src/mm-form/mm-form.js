@@ -85,7 +85,6 @@
 				type: Boolean,
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			},
-
 			// config/initial data & settings:
 			config: {
 				type: Object,
@@ -107,16 +106,34 @@
 			'changed' : '_handleChanged'
 		},
 
+		attached: function() {
+			// Determine if we need to construct a config from the light DOM
+			// console.log('attached : ', this.config);
+			// console.log('-- -- -- -- -- -- -- -- -- --');
+			if (this._isEmpty(this.config)) {
+				var namedElements = Polymer.dom(this).querySelectorAll('[name]'),
+					domConfig = {};
+
+				namedElements.forEach(function(element) {
+					var key = element.getAttribute('name');
+					domConfig[key] = {};
+				});
+
+				this._initConfig(domConfig);
+				this._initData();
+			}
+		},
+
 		_dataChanged: function(newVal, oldVal) {
-			console.log('_dataChanged:', newVal);
-			// this.debounce('init', this._initForm);
 			this._initData();
 		},
 
 		_configChanged: function(newVal, oldVal) {
-			console.log('_configChanged:', newVal);
-			// this.debounce('init', this._initForm);
-			this._initConfig();
+			this._initConfig(newVal);
+		},
+
+		_isEmpty: function(obj) {
+			return !(Object.getOwnPropertyNames(obj).length > 0);
 		},
 
 		_select: function(ele, parent) {
@@ -124,73 +141,95 @@
 			return Polymer.dom(scope).querySelector(ele);
 		},
 
-		_initConfig: function() {
-			for (var key in this.config) {
-				var cfg 			= this.config[key] ? this.config[key] : null,
-					field 			= this._select('[name='+key+']'),
-					validation 		= null,
-					validateIf 		= null,
-					label 			= null,
-					errorMsg 		= null,
-					errorMsgEle 	= null,
-					parentEle 		= null;
+		_initConfig: function(config) {
+			// console.log('_initConfig : ', config);
+			// console.log('-- -- -- -- -- -- -- -- -- --');
+			// TODO: More sensible naming of this method?
+			if (this._isEmpty(config)) return;
+
+			for (var key in config) {
+				// TODO: this will happen twice... because of the domConfig on
+				// attached... maybe a flag for dom config vs object?
+				var obj = this._isEmpty(config[key]) ? null : config[key],
+					field = this._select('[name='+key+']'),
+					validation,
+					validateIf,
+					label,
+					errorMsg,
+					errorMsgEle,
+					parentEle,
+					exclude;
 
 				if (!field) {
 					throw 'There must be a corresponding DOM element for config[\''+key+'\']';
 				}
 
-				// a config was or was not supplied - if one was supplied,
-				// use it, if not create one
-				if (cfg) {
-					validation 			= cfg.validation ? cfg.validation : null;
-					validateIf 			= cfg.validateIf ? cfg.validateIf : null;
-					label 				= cfg.label ? cfg.label : null;
-					errorMsg 			= cfg.errorMsg ? cfg.errorMsg : null;
-					errorMsgEle			= cfg.errorMsgEle ? this._select('#'+cfg.errorMsgEle) : null;
-					parentEle 			= cfg.parentEle ? this._select('#'+cfg.parentEle) : Polymer.dom(field).parentNode;
-					exclude				= cfg.exclude ? cfg.exclude : false;
+				if (obj) {
+					validation 	= obj.validation ? obj.validation : null;
+					validateIf 	= obj.validateIf ? obj.validateIf : null;
+					label 		= obj.label ? obj.label : null;
+					errorMsg 	= obj.errorMsg ? obj.errorMsg : null;
+					errorMsgEle	= obj.errorMsgEle ? this._select('#'+obj.errorMsgEle) : null;
+					parentEle 	= obj.parentEle ? this._select('#'+obj.parentEle) : Polymer.dom(field).parentNode;
+					exclude		= obj.exclude ? obj.exclude : false;
 				} else {
-					this.config[key] 	= {};
+					this.config[key] = {};
+
+					var errorMsgEleStr = field.hasAttribute('error-msg-ele') ? field.getAttribute('error-msg-ele') : null,
+						parentEleStr = field.hasAttribute('parent-ele') ? field.getAttribute('parent-ele') : null;
+
+					validation 	= field.hasAttribute('validation') ? field.getAttribute('validation') : null;
+					validateIf 	= field.hasAttribute('validate-if') ? field.getAttribute('validate-if') : null;
+					label 		= field.hasAttribute('label') ? field.getAttribute('label') : null;
+					errorMsg 	= field.hasAttribute('error-msg') ? field.getAttribute('error-msg') : null;
+					errorMsgEle = errorMsgEleStr ? this._select('#'+errorMsgEleStr) : null;
+					parentEle 	= parentEleStr ? this._select('#'+parentEleStr) : Polymer.dom(field).parentNode;
+					exclude		= field.hasAttribute('exclude') ? field.getAttribute('exclude') : null; 
 				}
 
-				// Store everything for reference later, assumes it's possible
-				// to have a config which didn't include ALL of these items
-				this.config[key].field 			= field;
-				this.config[key].validation 	= validation; 
-				this.config[key].validateIf 	= validateIf; 
-				this.config[key].label 			= label; 		
-				this.config[key].errorMsg 		= errorMsg;
-				this.config[key].errorMsgEle 	= errorMsgEle;
-				this.config[key].parentEle 		= parentEle;
-				this.config[key].exclude 		= exclude;
+				// Update this.config
+				this.config[key].field 		 = field;
+				this.config[key].validation	 = validation; 
+				this.config[key].validateIf	 = validateIf; 
+				this.config[key].label 		 = label; 		
+				this.config[key].errorMsg 	 = errorMsg;
+				this.config[key].errorMsgEle = errorMsgEle;
+				this.config[key].parentEle 	 = parentEle;
+				this.config[key].exclude 	 = exclude;
 
-				if (errorMsg && !errorMsgEle) { 
-					this._createErrorMsg(key, errorMsg, errorMsgEle, parentEle);
-				} else {
-					errorMsgEle.message = errorMsg;
+				if (errorMsg) { 
+					// create or populate the error message element
+					if (errorMsg && !errorMsgEle) {
+						this._createErrorMsg(key, errorMsg, errorMsgEle, parentEle);
+					} else if (errorMsg && errorMsgEle) {
+						errorMsgEle.message = errorMsg;
+					}
 				}
 
-				if (label) this._createLabel(key, label, field, parentEle);
+				if (label) {
+					this._createLabel(key, label, field, parentEle);
+				}
 			}
 		},
 
 		_initData: function() {
+			if (!this.config) return;
+
 			for (var key in this.config) {
-				var field 			= this._select('[name='+key+']'),
-					exclude			= this.config[key].exclude,
-					value 			= this.data[key] || null;
+				var field 	= this._select('[name='+key+']'),
+					exclude	= this.config[key].exclude,
+					value 	= this.data[key] || null;
 
 				if (!field) {
 					throw 'There must be a corresponding DOM element for data[\''+key+'\']';
 				}
 				
-				// If there was an initial value set in markup, use that
-				// However, values set in the config will always 'win'
+				// If there was an initial value set in markup, use it
 				if (field.value && value === null) {
 					value = field.value;
 				}
 
-				// update data and DOM
+				// Update data
 				if (!exclude) this._updateData(key, value);
 				this._initialData[key] = value;
 
@@ -325,28 +364,6 @@
 			}
 		},
 
-		// // TODO: Secondary validation pass returned from server-side validation
-		// // Will need to assume that the front end validation rules were wrong
-		// // and there needs to be a new method to bypass the current infrastructure
-		// // to display this messaging...
-		// updateInvalidFields: function(data) {
-		// 	// TODO: This is also a bad assumption... the old validation infrastructure
-		// 	// remains so all we're doing here is showing the messaging...
-		// 	// not feasible to update the 'actual' validation rules unless there is a
-		// 	// new config passed, with new rules
-		// 	for (var key in data) {
-		// 		var field = this.data[key].field,
-		// 			errorMsgEle = this.data[key].errorMsgEle,
-		// 			errorMsg = data[key];
-
-		// 		// this.data[key].errorMsg = errorMsg;
-		// 		errorMsgEle.message = errorMsg;
-		// 		field.error = errorMsgEle.visible = true;
-		// 	}
-
-		// 	this._handleFooter(this.footerMessages.error, 'error', true);
-		// },
-
 		_validateField: function(key, value) {
 			var valid 			= null,
 				field 			= this.config[key].field,
@@ -376,6 +393,21 @@
 			return valid;
 		},
 
+		// TODO: verify later
+		updateFieldErrors: function(data) {
+			for (var key in data) {
+				var field = this.data[key].field,
+					errorMsgEle = this.data[key].errorMsgEle,
+					errorMsg = data[key];
+
+				this.data[key].errorMsg = errorMsg;
+				errorMsgEle.message = errorMsg;
+				field.error = errorMsgEle.visible = true;
+			}
+
+			this._handleFooter(this.footerMessages.error, 'error', true);
+		},
+
 		resetFieldValidation: function(key) {
 			var field 			= this.config[key].field,
 				errorMsgEle 	= this.config[key].errorMsgEle;
@@ -390,7 +422,7 @@
 				valid: !this._invalidFields.length > 0,
 				invalidFields: this._invalidFields,
 				validFields: this._validFields,
-				data: this.formData 
+				data: this.data 
 			});
 
 			return this.formData;

@@ -84,8 +84,7 @@
 				}
 			},
 			formData: {
-				type: Object,
-				notify: true
+				type: Object
 			}
 		},
 
