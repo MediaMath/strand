@@ -59,20 +59,28 @@
     <template>
         <mm-input value="{{autoTest}}"></mm-input><span>{{autotest}}</span>
         <mm-sync endpoint="http://localhost:8000/ajax" data="{{zippy}}">
-          <input-params>
-            <queryParam name="q" value="ui.*"></queryParam>
-            <queryParam name="user">userInnerVal</queryParam>
-            <urlParam value="ajax"></urlParam>
-            <urlParam value="123"></urlParam>
-            <urlParam>innerVal</urlParam>
-            <urlParam value="settings"></urlParam>
-            <queryParam name="z">{{autoTest}}</urlParam>
-          </input-params>
-          <output-params>
-            <urlParam>1234</urlParam>
-            <header name="x-test">acesInner</header>
-          </output-params>
-      </mm-sync>
+            <GET>
+                <queryParam name="q" value="ui.*"></queryParam>
+                <queryParam name="user">userInnerVal</queryParam>
+                <urlParam value="ajax"></urlParam>
+                <urlParam value="123"></urlParam>
+                <urlParam>innerVal</urlParam>
+                <urlParam value="settings"></urlParam>
+                <queryParam name="z">{{autoTest}}</urlParam>
+            </GET>
+            <post>
+                <urlParam>1234</urlParam>
+                <header name="x-test">acesInner</header>
+            </post>
+            <put>
+                <urlParam>1234</urlParam>
+                <header name="x-test">acesInner</header>
+            </put>
+            <delete>
+                <urlParam>1234</urlParam>
+                <header name="x-test">acesInner</header>
+            </delete>
+        </mm-sync>
       <span>{{zippy.user}}</span>
       <span>{{zippy.q}}</span>
       <span>{{zippy.nocache}}</span>
