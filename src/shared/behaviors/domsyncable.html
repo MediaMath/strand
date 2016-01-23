@@ -45,6 +45,8 @@
 			},
 		},
 
+		observers:['_dataChanged(data.*)'],
+
 		factoryImpl: function(auto) {
 			this.auto = auto;
 		},
@@ -78,7 +80,8 @@
 			}
 		},
 
-		_dataChanged:function(oldData, newData) {
+		_dataChanged:function() {
+			console.log('_dataChanged')
 			if (this.auto && this.auto !== "load") {
 				this.debounce("dom", this.post.bind(this), this.autoDebounce);
 			}
