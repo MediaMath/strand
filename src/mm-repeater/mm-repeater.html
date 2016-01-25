@@ -19,7 +19,7 @@
 	<template>
 		<template is="dom-repeat" items="{{data}}" id="repeater">
 			<mm-box ref="{{item._ref}}" align="stretch" justify="space-between">
-				<div inner-h-t-m-l="{{template}}"></div>
+				<mm-box on-selected="_updateModel" on-changed="_updateModel" class="fields" align="center" inner-h-t-m-l="{{template}}"></mm-box>
 				<mm-box class="control" align="center">
 					<mm-action on-tap="_addRow"><label>{{addRowLabel}}</label></mm-action>
 					<mm-icon type="delete" on-tap="_removeRow" height="12" width="12"></mm-icon>

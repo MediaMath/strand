@@ -22,6 +22,19 @@
 				observer: '_handleDataChanged'
 			},
 
+			added: {
+				type: Array,
+				value: []
+			},
+			changed: {
+				type: Array,
+				value: []
+			},
+			removed: {
+				type: Array,
+				value: []
+			},
+
 			addRowLabel: {
 				type: String,
 				value: '+Add Item'
@@ -50,10 +63,27 @@
 		_handleDataPath: function(e) {
 			var path = e.path.split('.'),
 				record = path[path.length-1];
-			if(record === '_ref') {
+
+			if(record === 'splices')
+				this._handleSplices(e);
+			else if(record === '_ref') {
 				var index = parseInt(path[1].substring(1));
 				this._injectModelData(index);
 			}
+		},
+
+		_handleSplices: function(e) {
+			e.value.indexSplices.forEach(function(record) {
+				// TODO: Make this less awful
+				this.set('added', this.added.concat(
+					record.addedKeys.map(
+						function(key) {
+							return record.object[parseInt(key.substring(1))];
+						}
+					)
+				));
+				this.set('removed', this.removed.concat(record.removed));
+			}.bind(this));
 		},
 
 		_handleDataChanged: function(newData, oldData) {
@@ -120,6 +150,8 @@
 
 			}, this);
 		},
+
+		validation: this.validate,
 
 		_updateModel: function(e) {
 			var target = Polymer.dom(e).localTarget,
