@@ -30,8 +30,7 @@
 
 		behaviors: [
 			StrandTraits.Refable,
-			StrandTraits.Resolvable,
-			StrandTraits.Validatable
+			StrandTraits.Resolvable
 		],
 
 		get value() {
@@ -99,8 +98,14 @@
 				if(typeof item.validation === 'function') {
 					// Custom validation provided: call validation, passing name:value pairs as arguments
 					var elems = item._ref.querySelectorAll('[name]'),
-						rowData = Object.keys(elems).map(function(key) { return {name: elems[key].name, value: elems[key].value }; });
-					valid = item.validation.apply(rowData);
+						rowData = new Object();
+						Object.keys(elems).forEach(
+							function(key) {
+								var elem = elems[key];
+								rowData[elem.getAttribute('name')] = elem.value;
+							}
+						);
+					valid = item.validation.call(item, rowData);
 				} else {
 					// Default validation: call validate on each form element and fold them together
 					var fields = item._ref.querySelectorAll('[validation]');
@@ -111,6 +116,7 @@
 
 				// Reflect validation to the model for error messaging
 				this.set('data.'+index+'.error', !valid);
+				this.set('data.'+index+'.errorMessage', item.errorMessage);
 
 			}, this);
 		},
@@ -120,7 +126,6 @@
 				name = target.name || target.getAttribute('name'),
 				value = target.value || target.getAttribute('value');
 
-			console.log('_updateModel triggered');
 			if(name && value) {
 				var index = this.$.repeater.indexForElement(target);
 				this.set('data.'+(index)+'.'+name, value);

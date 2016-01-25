@@ -88,14 +88,11 @@
 				float: left;
 			}
 
-			#container {
-				max-width: 680px !important;
-			}
 		</style>
 	</head>
 	<body>
-		<div id='container'>
-			<!-- <mm-repeater id="repeater">
+		<div id='container' class="col c4">
+			<mm-repeater id="repeater">
 				<template preserve-content>
 					<mm-input name="name"></mm-input>
 					<mm-dropdown name="firstOption">
@@ -110,11 +107,11 @@
 						<mm-radio><label>Test 3</label></mm-radio>
 					</mm-group>
 				</template>
-			</mm-repeater> -->
+			</mm-repeater>
 
-			<hr>
+			<hr style="margin-bottom: 30px;">
 
-		<h3>Prepopulated</h3>
+		<mm-header>Prepopulated</mm-header>
 		<mm-repeater id="withData">
 			<template preserve-content>
 				<mm-input name="name" validation="alpha"></mm-input>
@@ -131,7 +128,7 @@
 				</mm-group>
 			</template>
 		</mm-repeater>
-		<mm-button id="validateBtn"><label>Validate!</label></mm-button>
+		<mm-button style="margin: 10px 0;" id="validateBtn"><label>Validate!</label></mm-button>
 		</div>
 
 		<script>
@@ -139,7 +136,13 @@
 				{
 					name: "John",
 					firstOption: "Test Item 2",
-					secondOption: "Test 1"
+					secondOption: "Test 1",
+					validation: function(model) {
+						console.log(arguments);
+						this.errorMessage = 'Setting error message in validation method';
+						return model.name === 'John';
+					},
+					errorMessage: "Name is not John!"
 				},
 				{
 					name: "Paul",
