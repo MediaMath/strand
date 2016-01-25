@@ -95,7 +95,7 @@
 	</head>
 	<body>
 		<div id='container'>
-			<mm-repeater id="repeater">
+			<!-- <mm-repeater id="repeater">
 				<template preserve-content>
 					<mm-input name="name"></mm-input>
 					<mm-dropdown name="firstOption">
@@ -110,7 +110,7 @@
 						<mm-radio><label>Test 3</label></mm-radio>
 					</mm-group>
 				</template>
-			</mm-repeater>
+			</mm-repeater> -->
 
 			<hr>
 
@@ -153,10 +153,8 @@
 				}
 			]
 			var wd = document.querySelector('#withData');
-			wd.async(function() {
-				wd.data = null
-				wd.value = data;
-			});
+			// wd.set('data', data);
+			wd.value = data;
 
 			document.querySelector('#validateBtn').addEventListener('click', function() {
 				wd.validate();

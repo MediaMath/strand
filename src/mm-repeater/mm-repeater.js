@@ -18,7 +18,8 @@
 			data: {
 				type: Array,
 				notify: true,
-				value: function() { return [{}]; }
+				value: function() { return [{}]; },
+				observer: '_handleDataChanged'
 			},
 
 			addRowLabel: {
@@ -44,40 +45,46 @@
 		},
 
 		observers: [
-			'_injectModelData(data.*)'
+			'_handleDataPath(data.*)'
 		],
 
-		_injectModelData: function(e) {
+		_handleDataPath: function(e) {
 			var path = e.path.split('.'),
 				record = path[path.length-1];
-
-			console.log(e);
 			if(record === '_ref') {
-				var index = parseInt(path[1].substring(1)),
-					model = e.base[index],
-					node = model._ref;
-
-				if(node) {
-					var fields = node.querySelectorAll('[name]');
-					for(var i=0; i<fields.length; i++) {
-						var field = fields[i],
-							name = field.getAttribute('name');
-						if(model[name]) field.setAttribute('value', model[name]);
-					}
-				}
+				var index = parseInt(path[1].substring(1));
+				this._injectModelData(index);
 			}
 		},
 
-		// Model -> DOM
-		// DOM -> Model
-		// Push onto DOM with empty state
-		// Pop off DOM |> (DOM -> Model)
-		// Model -> DOM |> Push multiple onto DOM
-		// Modify DOM in place
+		_handleDataChanged: function(newData, oldData) {
+			if(oldData) {
+				// Because of binding weirdness we need to move _refs manually from the old array to the new array
+				for(var i=oldData.length-1; i>= 0; i--) {
+					newData[i]._ref = oldData[i]._ref;
+				}
+			}
 
-		// Add log
-		// Remove log
-		// Change log
+			for(var j=newData.length-1; j>= 0; j--) {
+				this._injectModelData(j);
+			}
+		},
+
+		_injectModelData: function(index, data) {
+			if(!data) data = this.data;
+
+			var model = data[index],
+				node = model._ref;
+
+			if(node) {
+				var fields = node.querySelectorAll('[name]');
+				for(var i=0; i<fields.length; i++) {
+					var field = fields[i],
+						name = field.getAttribute('name');
+					if(model[name]) field.setAttribute('value', model[name]);
+				}
+			}
+		},
 
 		ready: function() {
 			var templateTag = this.queryEffectiveChildren('template');
