@@ -81,7 +81,6 @@
 		},
 
 		_dataChanged:function() {
-			console.log('_dataChanged')
 			if (this.auto && this.auto !== "load") {
 				this.debounce("dom", this.post.bind(this), this.autoDebounce);
 			}
