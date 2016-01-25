@@ -83,7 +83,8 @@
 		}
 
 		this.domHook = this.domHook || domHook;
-		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
+		if (this.saveResponse === undefined || this.saveResponse === null && saveResponse)
+			this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
 		this._plugin = new AjaxPlugin(this.plugins || plugins || [
@@ -189,6 +190,10 @@
 		properties: {
 			data:{
 				notify:true
+			},
+			saveResponse:{
+				type:Boolean,
+				value:true
 			}
 		},
 		ready: function() {
