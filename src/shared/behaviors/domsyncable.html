@@ -58,7 +58,7 @@
 		},
 
 		_getDomConfig: function(method, domObject) {
-			var domConfig = this.domObject[ method.toLowerCase() ];
+			var domConfig = method === Ajax.GET ? this.domObject["input-params"] : this.domObject["output-params"];
 			domConfig = _getParamBase(domConfig) || _getParamBase();
 
 			return {
