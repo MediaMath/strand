@@ -80,8 +80,13 @@
 			}
 		},
 
+		set: function(path, value, root, silent) {
+			this._fromInternal = silent;
+			Polymer.Base.set.apply(this, [path, value, root]);
+		},
+
 		_dataChanged:function() {
-			if (this.auto && this.auto !== "load") {
+			if (this.auto && this.auto !== "load" && !this._fromInternal) {
 				this.debounce("dom", this.post.bind(this), this.autoDebounce);
 			}
 		}
