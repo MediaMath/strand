@@ -140,7 +140,7 @@
 			if (this.saveResponse) {
 				// this.data = result.marshalled;
 				if (this.set) {
-					this.set('data', result.marshalled);
+					this.set('data', result.marshalled, null, true);
 				} else {
 					this.data = result.marshalled;
 				}
