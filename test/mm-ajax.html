@@ -55,8 +55,8 @@ describe("mm-ajax", function() {
         aj.options.headers.should.have.length(1);
         aj.options.headers[0].should.deep.equal({name:"x-test",value:"headerVal"});
 
-        aj.options.params.should.have.length(1);
-        aj.options.params[0].should.deep.equal({name:"p-test",value:"paramVal"});
+        aj.options.query.should.have.length(1);
+        aj.options.query[0].should.deep.equal({name:"p-test",value:"paramVal"});
 
         aj.options.urlParams.should.have.length(1);
         aj.options.urlParams[0].should.equal("testing123");

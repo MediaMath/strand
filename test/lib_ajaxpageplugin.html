@@ -25,12 +25,12 @@ describe("AjaxPagePlugin", function() {
 		var pq = new StrandLib.AjaxPlugin();
 		pq.register("test",StrandLib.AjaxPagePlugin);
 		var plug = pq.queue[0];
-		var spy1 = sinon.spy(plug, "requestHandler"); 
-		var spy2 = sinon.spy(plug, "responseHandler"); 
+		var spy1 = sinon.spy(plug, "requestHandler");
+		var spy2 = sinon.spy(plug, "responseHandler");
 
 		pq.processRequest({test:'test'});
 		pq.processResponse({test:'test'});
-		
+
 		spy1.calledOnce.should.be.true;
 		spy2.calledOnce.should.be.true;
 
@@ -51,12 +51,12 @@ describe("AjaxPagePlugin", function() {
 		});
 
 		var result = pg.requestHandler({});
-		result.should.have.property("params");
-		result.params.should.have.length(2);
-		result.params[0].name.should.equal('page_offset');
-		result.params[0].value.should.equal(0);
-		result.params[1].name.should.equal('page_limit');
-		result.params[1].value.should.equal(10);
+		result.should.have.property("query");
+		result.query.should.have.length(2);
+		result.query[0].name.should.equal('page_offset');
+		result.query[0].value.should.equal(0);
+		result.query[1].name.should.equal('page_limit');
+		result.query[1].value.should.equal(10);
 
 	});
 
@@ -98,8 +98,8 @@ describe("AjaxPagePlugin", function() {
 			pageName:"toaster"
 		});
 		var result = pg.requestHandler({body:{}});
-		result.params.should.have.length(2);
-		result.params[0].name.should.equal("toaster");
+		result.query.should.have.length(2);
+		result.query[0].name.should.equal("toaster");
 	});
 
 	it("should support variable page size param", function() {
@@ -108,8 +108,8 @@ describe("AjaxPagePlugin", function() {
 			sizeName:"toaster"
 		});
 		var result = pg.requestHandler({body:{}});
-		result.params.should.have.length(2);
-		result.params[1].name.should.equal("toaster");
+		result.query.should.have.length(2);
+		result.query[1].name.should.equal("toaster");
 	});
 
 	it("should support index or offset (record) style paging", function() {
@@ -119,7 +119,7 @@ describe("AjaxPagePlugin", function() {
 			page:2,
 		});
 		var result1 = pg1.requestHandler({body:{}});
-		result1.params[0].value.should.equal(20);
+		result1.query[0].value.should.equal(20);
 
 		var pg2 = new StrandLib.AjaxPagePlugin({
 			enabled:true,
@@ -127,14 +127,14 @@ describe("AjaxPagePlugin", function() {
 			page:2
 		});
 		var result2 = pg2.requestHandler({body:{}});
-		result2.params[0].value.should.equal(2);
+		result2.query[0].value.should.equal(2);
 	});
 
 	it("should stop when disabled", function() {
 		//disabled is default for paging since only collections need it
 		var pg = new StrandLib.AjaxPagePlugin();
-		var result = pg.requestHandler({params:[]});
-		result.params.should.have.length(0);
+		var result = pg.requestHandler({query:[]});
+		result.query.should.have.length(0);
 
 	});
 

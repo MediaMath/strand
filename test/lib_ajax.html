@@ -81,19 +81,19 @@ describe("Ajax", function() {
 
 	});
 
-	it("should serialize params", function() {
+	it("should serialize query params", function() {
 
 		var a = new StrandLib.Ajax();
 		var DU = StrandLib.DataUtils;
-		var params = [DU.param("test",123), DU.param("aces","acesss")];
+		var query = [DU.param("test",123), DU.param("aces","acesss")];
 
-		var result = a.serializeParams("http://www.mediamath.com?", params);
+		var result = a.serializeQuery("http://www.mediamath.com?", query);
 		result.should.equal("http://www.mediamath.com?aces=acesss&test=123");
 
-		result = a.serializeParams("http://www.mediamath.com", params);
+		result = a.serializeQuery("http://www.mediamath.com", query);
 		result.should.equal("http://www.mediamath.com?aces=acesss&test=123");
 
-		result = a.serializeParams("https://www.mm.net", [DU.param("aces","acess")]);
+		result = a.serializeQuery("https://www.mm.net", [DU.param("aces","acess")]);
 		result.should.equal("https://www.mm.net?aces=acess");
 
 	});
@@ -155,7 +155,7 @@ describe("Ajax", function() {
 				"test",
 				"test2"
 			],
-			params:[{
+			query:[{
 				name:"testq",
 				value:"testq2"
 			}],
@@ -212,7 +212,7 @@ describe("Ajax", function() {
 				"test",
 				"test2"
 			],
-			params:[{
+			query:[{
 				name:"testq",
 				value:"testq2"
 			}],
