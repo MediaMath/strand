@@ -16,60 +16,59 @@ a `url` property is also exposed and can be used to set the base or non-changing
 
 ### Param configuration
 
-Sync's configuration is divided into 2 sets of operations: input and output.  
-Input params are used for `GET` requests. Output params are used for `POST`, `PUT`, and `DELETE` requests.
+Sync accepts configuration via tags corresponding to HTTP methods: `<get>`, `<post>`, `<put>`, and `<delete>`. Params can then be passed to Sync as DOM children of those nodes.
 
 Params were designed to give the developer full flexibility over crafting the request arguments. With this in mind the param options were divided into:
 
-* queryParam -- name value pair objects used to generate the queryString
-* urlParam -- name only strings concatenated with '/' to generate a URL
-* headers -- name value pairs used to send additional metadata (CSRF, etc) to the webserver
+* queryParam&thinsp;&mdash;&thinsp;name value pair objects used to generate the queryString
+* urlParam&thinsp;&mdash;&thinsp;name only strings concatenated with '/' to generate a URL
+* headers&thinsp;&mdash;&thinsp;name value pairs used to send additional metadata (CSRF, etc) to the webserver
 
-The 'direction' of input or output is relative to the component itself, so when you are pulling data from the server via a get, we consider that 'input' to the component, and the reverse is true for saving/deletion operations.
-
-### Input param example
+### GET example
 
 ```html
 <mm-sync endpoint="http://example.com">
-	<input-params>
+	<get>
 		<queryParam name="q" value="123"/>
 		<urlParam>123</urlParam>
 		<header name="X-Some-Header">HeaderValue</header>
-	</input-params>
+	</get>
 </mm-sync>
 ```
 
-This will generate a URL for the request of `http://example.com/123/?q=123` and it will send an X-Some-Header: HeaderValue to the server with the request. Note that it is possible to either use a value attribute or to just place the value inside the body of a named node. These formats may be used interchangeably.
+This will generate a URL for the request of `http://example.com/123/?q=123` and it will send an X-Some-Header: HeaderValue to the server with the request. Note that it is possible to either use a value attribute or to just place the value inside the textContent of a named node. These formats may be used interchangeably.
 
-### Output param example
+### POST example
 ```html
 <mm-sync endpoint="http://test.com">
-	<output-params>
+	<post>
 		<urlParam>campaigns</urlParam>
 		<urlParam>52312</urlParam>
 		<header name="X-CSRF-Header">48ccbaffbb0675f2a</header>
-	</output-params>
+	</post>
 </mm-sync>
 ```
 
-Note that we use the urlParam twice--this may be done for any set of params N number of times as appropriate. Params are parsed top down for API's where the order matters.
+Note that we use the urlParam twice&thinsp;&mdash;&thinsp;this may be done for any set of params _N_ number of times as appropriate. Params are parsed top down for API's where the order matters.
 
-It is also possible to set both input and output params on the same element to configure it for general I/O by adding both sections at the same level:
+It is also possible to pass multiple sets of params to the same element to configure it for general I/O by adding sections at the same level:
 
 ```html
 <mm-sync>
-	<input-params></input-params>
-	<output-params></output-params>
+	<get></get>
+	<post></post>
+	<put></put>
+	<delete></delete>
 </mm-sync>
 ```
 
 ## Working with 2-way binding
 
-To support 2-way binding in a scenario using mm-sync we have created the `auto` param. Auto tells mm-sync to respond automatically to data or param changes and make additional requests to sync the data back to the server. Auto may be set via JS or via HTML as an attribute.  Auto has 3 possible values:
+To support 2-way binding in a scenario using mm-sync we have created the `auto` property. Auto tells mm-sync to respond automatically to data or param changes and make additional requests to sync the data back to the server. Auto may be set via JS or via HTML as an attribute.  Auto has 3 possible values:
 
-*  true `boolean` -- bidirectional sync input/output for any changes
-*  load `string`-- only sync data in from server when input params change
-*  save `string` -- only sync data in from the server when the data property detects a change-- note that due to polymer 1.0 data binding limitations you must manually tell polymer that the data has changed using `set`
+*  true `boolean`&thinsp;&mdash;&thinsp;bidirectional sync input/output for any changes
+*  load `string`&thinsp;&mdash;&thinsp;only sync data in from server when input params change
+*  save `string`&thinsp;&mdash;&thinsp;only sync data in from the server when the data property detects a change&thinsp;&mdash;&thinsp;note that due to Polymer 1.0 data binding limitations you must manually tell Polymer that the data has changed using `set`
 
 ```javascript
 var sync = document.querySelector("mm-sync");
@@ -92,19 +91,19 @@ The following is an example of the simple input scenario using a self binding te
 Now bind this to a sync components params from our earlier example:
 
 ```html
-	<template is="auto-binding">
+	<template is="dom-bind">
 		<mm-input value="{{search}}"/>
 		<mm-sync endpoint="http://example.com" auto="true">
-			<input-params>
+			<get>
 				<queryParam name="q" value="{{search}}"/>
 				<urlParam>123</urlParam>
 				<header name="X-Some-Header">HeaderValue</header>
-			</input-params>
+			</get>
 		</mm-sync>
 	</template>
 ```
 
-When the lightDOM queryParam values are changed via 2-way binding, the sync component will pick this up and trigger the requisite `GET` calls to retrieve this query from the server.  Note that this input is automatically debounced against keyboard input. If necessary you may vary this timing via the `autoDebounce` property. The default is 200ms.
+When the light DOM queryParam values are changed via 2-way binding, the sync component will pick this up and trigger the requisite `GET` calls to retrieve this query from the server. Note that this input is automatically debounced against keyboard input. If necessary you may vary this timing via the `autoDebounce` property. The default is 200ms.
 
 ### 2-way binding on the response
 
@@ -114,11 +113,11 @@ Unfortunately this example does not provide any feedback to the user, but it is 
 	<template is="auto-binding">
 		<input value="{{search}}">
 		<mm-sync url="http://example.com" auto="true" data="{{result}}">
-			<input-params>
+			<get>
 				<queryParam name="q" value="{{search}}"/>
 				<urlParam>123</urlParam>
 				<header name="X-Some-Header">HeaderValue</header>
-			</input-params>
+			</get>
 		</mm-sync>
 		<ul>
 			<template is="dom-repeat" items="{{result.list}}">
