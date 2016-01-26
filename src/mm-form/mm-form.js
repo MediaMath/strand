@@ -393,7 +393,7 @@
 			return valid;
 		},
 
-		// TODO: verify later
+		// TODO: need to verify this
 		updateFieldErrors: function(data) {
 			for (var key in data) {
 				var field = this.data[key].field,

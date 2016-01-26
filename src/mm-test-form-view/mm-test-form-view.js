@@ -31,6 +31,29 @@
 				observer: '_heightChanged'
 			},
 
+			// TODO: Test out the 3 field scenario
+			// frequency_type
+			frequency_type: {
+				type: String
+			},
+
+			// frequency_interval
+			frequency_interval: {
+				type: String
+			},
+
+			// frequency_amount
+			frequency_amount: {
+				type: Number
+			},
+
+			// use_mm_freq
+			use_mm_freq: {
+				type: Boolean,
+				value: false
+			},
+
+			//
 			// form data/config:
 			formConfig: {
 				type: Object,
@@ -52,6 +75,7 @@
 						errorMsg: 'You need to select \'Red\'',
 						label: 'Select a Color'
 					},
+					// first custom item
 					'widthHeight' : {
 						validation: 'empty',
 						validateIf: function(name, value, data, view) {
@@ -69,7 +93,7 @@
 							return !view.standardSize;
 						},
 						errorMsg: 'Enter a width',
-						parentEle: 'customItemWrapper'
+						parentEle: 'widthHeightWrapper'
 					},
 					'height' : {
 						validation: function(name, value, data, view) {
@@ -79,7 +103,35 @@
 							return !view.standardSize;
 						},
 						errorMsg: 'Enter a height',
-						parentEle: 'customItemWrapper'
+						parentEle: 'widthHeightWrapper'
+					},
+					// second custom item
+					'use_mm_freq' : {
+						// doesn't need anything
+					},
+					'frequency_type' : {
+						parentEle: 'freqCapWrapper',
+						validation: 'empty',
+						validateIf: function(name, value, data, view) {
+							return view.use_mm_freq;
+						},
+						errorMsg: 'Select a type'
+					},
+					'frequency_interval' : {
+						parentEle: 'freqCapWrapper',
+						validation: 'int|empty',
+						validateIf: function(name, value, data, view) {
+							return view.use_mm_freq;
+						},
+						errorMsg: 'Select an interval'
+					},
+					'frequency_amount' : {
+						parentEle: 'freqCapWrapper',
+						validation: 'empty',
+						validateIf: function(name, value, data, view) {
+							return view.use_mm_freq;
+						},
+						errorMsg: 'Enter an amount'
 					}
 				}
 			},
@@ -125,6 +177,21 @@
 		_dimensionsChanged: function(width, height) {
 			this.width = width;
 			this.height = height;
+		},
+
+		// another custom interaction
+		_freqTypeChanged: function(e) {
+			this.freqency_type = e.detail.value;
+		},
+
+		_freqIntervalChanged: function(e) {
+			this.frequency_interval = e.detail.value;
+		},
+
+		_useMMFreqChanged: function(e) {
+			// TODO: getting a changed messaging and we don't want it
+			console.log(e);
+			this.use_mm_freq = e.detail.state === 'checked';
 		}
 
 	});
