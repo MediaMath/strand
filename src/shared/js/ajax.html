@@ -106,7 +106,7 @@
 			options = copy({}, this.options, options);
 
 			var url = this.serializeUrl(options.url, options.urlParams);
-			url = this.serializeParams(url, options.params);
+			url = this.serializeQuery(url, options.query);
 			data = this.setRequestData(options.method, options.contentType, data, options.body);
 
 			return new StrandLib.Request(copy(options, {
@@ -148,8 +148,8 @@
 		},
 
 		addParam: function(name, value) {
-			this.options.params = this.params || [];
-			this.options.params.push({name:name, value:value});
+			this.options.query = this.query || [];
+			this.options.query.push({name:name, value:value});
 		},
 
 		addUrlParam: function(param) {
@@ -205,8 +205,8 @@
 			return url;
 		},
 
-		serializeParams: function(url, params) {
-			if (params && params.length) {
+		serializeQuery: function(url, query) {
+			if (query && query.length) {
 				if (url.indexOf("?") !== -1) {
 					var last = url.slice(-1);
 					if (last !== "&" && last !== "?") {
@@ -215,7 +215,7 @@
 				} else {
 					url += "?";
 				}
-				url += this.serialize(params).join("&");
+				url += this.serialize(query).join("&");
 			}
 			return url;
 		},

@@ -5,7 +5,7 @@
 
 	function _getParamBase(obj) {
 		return DataUtils.copy({
-			params:[],
+			query:[],
 			urlParams:[],
 			headers:[]
 		},obj);
@@ -59,8 +59,8 @@
 					}
 				}
 				if (opts.query) {
-					if (opts.pageName) ajaxOpts.params.push(DataUtils.param(opts.pageName, page));
-					if (opts.sizeName) ajaxOpts.params.push(DataUtils.param(opts.sizeName, opts.pageSize));
+					if (opts.pageName) ajaxOpts.query.push(DataUtils.param(opts.pageName, page));
+					if (opts.sizeName) ajaxOpts.query.push(DataUtils.param(opts.sizeName, opts.pageSize));
 				}
 				if (opts.body && DataUtils.isType(ajaxOpts.body, "object")) {
 					if (opts.pageName) ajaxOpts.body[opts.pageName] = page;

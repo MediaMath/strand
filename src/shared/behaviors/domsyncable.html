@@ -14,7 +14,7 @@
 	function _getParamBase(obj) {
 		obj = obj || {};
 		return {
-			params: obj.queryparam || [],
+			query: obj.queryparam || [],
 			urlParams: obj.urlparam || [],
 			headers: obj.header || []
 		};
@@ -63,7 +63,7 @@
 
 			return {
 				headers: domConfig.headers.map(DataUtils.nodeToParam),
-				params: domConfig.params.map(DataUtils.nodeToParam),
+				query: domConfig.query.map(DataUtils.nodeToParam),
 				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
 			};
 		},

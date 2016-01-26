@@ -35,7 +35,7 @@
 	function _getParamBase(obj) {
 		obj = obj || {};
 		return {
-			params: obj.queryparam || [],
+			query: obj.queryparam || [],
 			urlParams: obj.urlparam || [],
 			headers: obj.header || []
 		};
@@ -48,7 +48,7 @@
 			if (DataUtils.isType(cur,"object")) {
 				for(var i in cur) {
 					switch(i) {
-						case "params":
+						case "query":
 						case "headers":
 						case "urlParams":
 							if (cur[i].length > 0) {
