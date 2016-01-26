@@ -120,17 +120,17 @@
 					'frequency_interval' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'int|empty',
-						validateIf: function(name, value, data, view) {
-							return view.use_mm_freq;
-						},
+						// validateIf: function(name, value, data, view) {
+						// 	return view.use_mm_freq;
+						// },
 						errorMsg: 'Select an interval'
 					},
 					'frequency_amount' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
-						validateIf: function(name, value, data, view) {
-							return view.use_mm_freq;
-						},
+						// validateIf: function(name, value, data, view) {
+						// 	return view.use_mm_freq;
+						// },
 						errorMsg: 'Enter an amount'
 					}
 				}
