@@ -33,15 +33,15 @@ Let's imagine that we have a service that provides a collection of "users" that 
 ```html
 	<template is="dom-bind">
 		<mm-input value="{{terms}}"></mm-input>
-		
+
 		<mm-collection data="{{data}}" index="{{page}}" auto>
-			<input-params>
+			<get>
 				<urlParam>users</urlParam>
 				<queryParam name="first_name" value="{{terms}}">
 				<queryParam name="last_name" value="{{terms}}">
-			</input-params>
+			</get>
 		</mm-collection>
-		
+
 		<mm-grid data="{{data}}" index="{{page}}">
 			<mm-grid-column field="first_name">First Name</mm-grid-column>
 			<mm-grid-column field="last_name">Last Name</mm-grid-column>
@@ -58,12 +58,12 @@ Another grid use case that ties in nicely with data components is sorting. Like 
 ```html
 	<template is="dom-bind">
 		<mm-collection data="{{data}}" index="{{page}}" auto>
-			<input-params>
+			<get>
 				<queryParam name="sort" value="{{sortField}}"></queryParam>
 				<queryParam name="sort_order" value="{{sortOrder}}"></queryParam>
-			</input-params>
+			</get>
 		</mm-collection>
-		
+
 		<mm-grid data="{{data}}" index="{{page}}" sort-field="{{sortField}}" sort-order="{{sortOrder}}">
 			<mm-grid-column field="first_name" sort>First Name</mm-grid-column>
 			<mm-grid-column field="last_name" sort>Last Name</mm-grid-column>
