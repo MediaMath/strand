@@ -20,7 +20,7 @@
 
 	scope.AjaxBusterPlugin.prototype = {
 		requestHandler: function(ajaxOptions) {
-			var qp = DataUtils.getPathValue("params", ajaxOptions);
+			var qp = DataUtils.getPathValue("query", ajaxOptions);
 			if (this.config.enabled && qp) {
 				qp.push(DataUtils.param(this.config.name, Date.now()));
 			}

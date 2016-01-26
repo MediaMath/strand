@@ -29,7 +29,7 @@
 				value:"",
 				observer:"_updateOpts"
 			},
-			params: {
+			query: {
 				type: String,
 				value: "",
 				observer:"_updateOpts"
@@ -110,7 +110,7 @@
 					method:this.method,
 					url:this.url,
 					body:this.body,
-					params:this.params,
+					query:this.query,
 					withCredentials:this.withCredentials,
 					timeout:this.timeout,
 					concurrency:this.concurrency

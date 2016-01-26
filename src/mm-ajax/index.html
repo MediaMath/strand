@@ -36,9 +36,9 @@
 			}
 			</style>
 		<template>
-			<mm-ajax id="ajax" url="{{url}}" method="GET" params="{{params}}" auto response="{{response}}" on-data-error="log" on-data-ready="log" on-data-result="log" on-data-progress="log" on-data-abort="log" debug></mm-ajax>
+			<mm-ajax id="ajax" url="{{url}}" method="GET" query="{{query}}" auto response="{{response}}" on-data-error="log" on-data-ready="log" on-data-result="log" on-data-progress="log" on-data-abort="log" debug></mm-ajax>
 			<mm-input id="url" value="{{url}}"></mm-input>
-			<mm-input id="params" value="{{params}}"></mm-input>
+			<mm-input id="query" value="{{query}}"></mm-input>
 			<mm-button id="btn" on-click="update">
 				<label>
 					Go!
@@ -81,7 +81,7 @@
 					type: String,
 					value: "http://localhost:8000/ajax"
 				},
-				params: {
+				query: {
 					type: String,
 					value: '[{"name":"cake","value":100}]'
 				},
