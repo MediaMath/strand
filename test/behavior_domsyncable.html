@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html"/>
+</head>
+<body>
+	<dom-module id="test-domsyncable">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+	/*jshint -W030 */
+
+	var SyncTest;
+	HTMLImports.whenReady(function() {
+		SyncTest = Polymer({
+			is:"test-domsyncable",
+			behaviors:[StrandLib.Sync.getBehavior(), StrandTraits.DomSyncable],
+		});
+	});
+
+	/** begin tests **/
+
+	describe("domsyncable", function() {
+
+		it("should exist", function() {
+			StrandTraits.should.be.an.object;
+			StrandTraits.DomSyncable.should.be.an.array;
+		});
+
+
+		it("should convert dom params into a request", function(done) {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var sync = document.querySelector("#sync1");
+
+			sync.get().then(function(response) {
+
+				request.requestHeaders.should.be.an.object;
+				request.requestHeaders.should.have.property('x-labs-test','labs');
+				request.requestHeaders.should.have.property('x-test','someVal');
+
+				request.url.should.contain("/123/innerUrl?nocache=");
+				request.url.should.contain("&innerQuery=inner123&queryTest=123");
+
+				xhr.restore();
+				done();
+			});
+			request.respond(200,
+				{
+					"Content-Type": "application/json"
+				},
+				'[{ "id": 101, "comment": "Stuff" }]'
+			);
+		});
+
+	});
+	</script>
+	<test-domsyncable id="sync1" auto="false">
+		<GET>
+			<queryParam name="queryTest" value="123"></queryParam>
+			<queryParam name="innerQuery">inner123</queryParam>
+			<urlParam value="123"></urlParam>
+			<urlParam>innerUrl</urlParam>
+			<header name="x-labs-test">labs</header>
+			<header name="x-test" value="someVal"></header>
+		</GET>
+	</test-domsyncable>
+</body>
+</html>
