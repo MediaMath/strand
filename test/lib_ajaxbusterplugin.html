@@ -25,10 +25,10 @@ describe("AjaxBusterPlugin", function() {
 		var pq = new StrandLib.AjaxPlugin();
 		pq.register("test",StrandLib.AjaxBusterPlugin);
 		var plug = pq.queue[0];
-		var spy1 = sinon.spy(plug, "requestHandler"); 
+		var spy1 = sinon.spy(plug, "requestHandler");
 
 		pq.processRequest({test:'test'});
-		
+
 		spy1.calledOnce.should.be.true;
 
 	});
@@ -43,29 +43,29 @@ describe("AjaxBusterPlugin", function() {
 
 	it("should append querystring given arguments", function() {
 		var buster = new StrandLib.AjaxBusterPlugin();
-		var data = {params:[]};
+		var data = {query:[]};
 
 		buster.requestHandler(data);
-		data.params.should.have.length(1);
-		data.params[0].name.should.contain("nocache");
-		
+		data.query.should.have.length(1);
+		data.query[0].name.should.contain("nocache");
+
 		buster = new StrandLib.AjaxBusterPlugin({name:"cacheBuster"});
-		data = {params:[]};
+		data = {query:[]};
 		buster.requestHandler(data);
-		data.params.should.have.length(1);
-		data.params[0].name.should.contain("cacheBuster");
+		data.query.should.have.length(1);
+		data.query[0].name.should.contain("cacheBuster");
 
 	});
 
 	it("should stop when disabled", function() {
 		var buster = new StrandLib.AjaxBusterPlugin({
-			name:"test", 
+			name:"test",
 			enabled: false
 		});
-		var data = {params:[]};
+		var data = {query:[]};
 		buster.requestHandler(data);
-		data.params.should.have.length(0);
-		should.not.exist(data.params[0]);
+		data.query.should.have.length(0);
+		should.not.exist(data.query[0]);
 	});
 
 
