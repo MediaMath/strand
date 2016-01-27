@@ -58,14 +58,12 @@
 
 	&.skinless {
 		border: none;
-		background: none;
-		background-color: rgba(0,0,0,0); // because safari
+		background: initial;
 		padding: 0 20px 0 8px;
 
 		&:hover,
 		&:active {
-			background: none;
-			background-color: rgba(0,0,0,0); // because safari
+			background: initial;
 			box-shadow: none;
 		}
 
