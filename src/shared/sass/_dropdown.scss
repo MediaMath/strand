@@ -40,8 +40,7 @@
 		@include transform(scaleY(-1));
 	}
 
-	&.small,
-	&.skinless {
+	&.small {
 		padding: 0 26px 0 8px;
 		height: 26px;
 
