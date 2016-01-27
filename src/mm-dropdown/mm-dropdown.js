@@ -21,7 +21,9 @@ Polymer('mm-dropdown', {
 		disabled: { value: false, reflect: true },
 		fitparent: { value: false, reflect: true },
 		data: null,
-		error: false
+		error: false,
+		skinless: false,
+		small: false
 	},
 
 	created: function() {
