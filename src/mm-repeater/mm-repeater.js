@@ -26,11 +26,11 @@
 				type: Array,
 				value: []
 			},
-			changed: {
+			removed: {
 				type: Array,
 				value: []
 			},
-			removed: {
+			_origData: {
 				type: Array,
 				value: []
 			},
@@ -41,10 +41,18 @@
 			}
 		},
 
+		// Track added
+		// Track deleted
+		// changed = ∆( {orig} - {deleted}, {current} - added )
+
 		behaviors: [
 			StrandTraits.Refable,
 			StrandTraits.Resolvable
 		],
+
+		get changed() {
+			return this._origData.filter(function(elt) { return elt._changed; });
+		},
 
 		get value() {
 			return this.data;
@@ -94,6 +102,8 @@
 				}
 			}
 
+			this.set('_origData', newData.slice(0));
+
 			for(var j=newData.length-1; j>= 0; j--) {
 				this._injectModelData(j);
 			}
@@ -103,7 +113,7 @@
 			if(!data) data = this.data;
 
 			var model = data[index],
-				node = model._ref;
+				node = model && model._ref;
 
 			if(node) {
 				var fields = node.querySelectorAll('[name]');
@@ -154,13 +164,13 @@
 		validation: this.validate,
 
 		_updateModel: function(e) {
-			var target = Polymer.dom(e).localTarget,
+			var target = Polymer.dom(e).rootTarget,
 				name = target.name || target.getAttribute('name'),
 				value = target.value || target.getAttribute('value');
 
-			if(name && value) {
-				var index = this.$.repeater.indexForElement(target);
-				this.set('data.'+(index)+'.'+name, value);
+			if(name && value !== e.model.get('item.'+name)) {
+				e.model.set('item._changed', true);
+				e.model.set('item.'+name, value);
 				this.debounce('changed', this._changed);
 			}
 		},
