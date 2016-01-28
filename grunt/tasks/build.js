@@ -30,7 +30,19 @@ module.exports = function(grunt) {
 				cwd: '<%= build_dir %>',
 				src: ['**/*.html', '!mm-*/index.html'],
 				dest: '<%= dist_dir %>'
-			}
+			},
+			link: {
+				expand: true,
+				cwd: '<%= src_dir %>',
+				src: ['strand.html'],
+				dest: '<%= dist_dir %>'
+			},
+			debug: {
+				expand: true,
+				cwd: '<%= build_dir %>',
+				src: ['**/*.+(html|js|woff|css)', '!**/example.html'],
+				dest: '<%= dist_dir %>'
+			},
 		},
 
 		sass: {
@@ -362,6 +374,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['build:dev']);
 
 	grunt.registerTask('link', ["clean:dist", "build:dist", "replace:bower", "copy:dist"]);
+	grunt.registerTask('debug', ['build:dev', 'copy:debug', 'copy:link']);
 
 	grunt.registerTask('release', function(version){
 		version = version || "patch";
