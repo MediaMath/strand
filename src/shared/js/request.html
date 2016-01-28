@@ -74,8 +74,7 @@
 					this.xhr.setRequestHeader(header.name, header.value);
 				}.bind(this));
 			}
-
-			this.dispatchEvent(new CustomEvent(_eventPrefix+"preflight"), {instance:this});
+			this.fire('preflight', {instance:this});
 
 			this.xhr.send(this.body);
 
@@ -85,20 +84,20 @@
 		readyStateChange: function() {
 			var result = {};
 			if (this.xhr.readyState === 4) {
-				this.dispatchEvent(new CustomEvent(_eventPrefix+"result"), {instance:this});
+				this.fire('result', {instance:this});
 
 				this.response = this.responseHandler[this.xhr.responseType || 'json'].call(this);
 				if (!this.xhr.status || (this.xhr.status >= 200 && this.xhr.status < 300)) {
 					result = {response: this.response, instance: this};
 					if (this.promise) {
 						this.defer.resolve(result);
-						this.dispatchEvent(new CustomEvent(_eventPrefix+"response"), result);
+						this.fire('response', result);
 					}
 				} else {
 					result = {error: this.xhr.status, instance: this, response: this.response};
 					if (this.promise) {
 						this.defer.reject(result);
-						this.dispatchEvent(new CustomEvent(_eventPrefix+"error"), result);
+						this.fire('error', result);
 					}
 				}
 			}
@@ -112,7 +111,7 @@
 					response:null
 				};
 				this.defer.reject(detail);
-				this.dispatchEvent(new CustomEvent(_eventPrefix+"preflight"), detail);
+				this.fire('preflight',detail);
 			}
 		},
 
@@ -125,7 +124,7 @@
 			if (this.progress) {
 				this.progress(detail);
 			}
-			this.dispatchEvent(new CustomEvent(_eventPrefix+"progress"), detail);
+			this.fire('progress', detail);
 		},
 
 		responseHandler: {
@@ -148,7 +147,7 @@
 						instance:this,
 						response:response
 					};
-					this.dispatchEvent(new CustomEvent(_eventPrefix+"error"), detail);
+					this.fire('error', detail);
 					this.defer.reject(detail);
 					return response;
 				}
@@ -171,8 +170,16 @@
 		abort: function() {
 			if (this.xhr) {
 				this.xhr.abort();
-				this.dispatchEvent(new CustomEvent(_eventPrefix+"abort"), {instance:this});
+				this.fire('abort', {instance:this});
 			}
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
 		},
 
 		get status() {
