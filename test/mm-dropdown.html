@@ -150,7 +150,7 @@
 					truncateTargetWidth = TestHelper.widthIntRounded(truncate._target);
 					truncatePanelWidth = TestHelper.widthIntRounded(truncate._panel);
 					truncateTargetWidth.should.equal(truncatePanelWidth);
-					
+
 					done();
 				});
 			});
@@ -159,14 +159,14 @@
 				var a = $('#ddlJquery'),
 					b = document.getElementById('ddlJquery'),
 					items = null;
-				
+
 				for(var i=0; i<100; i++) {
 					var item = $("<mm-list-item id='item" + i +"'>List Item Here" + i + "</mm-list-item>");
 					item.appendTo(a);
 				}
 
 				flush(function() {
-					items = Polymer.dom(b).querySelectorAll('mm-list-item'); 
+					items = Polymer.dom(b).querySelectorAll('mm-list-item');
 					items.length.should.equal(100);
 					done();
 				});
@@ -193,24 +193,24 @@
 
 				ddl.open();
 
-				flush(function() {
+				flush(function() { flush(function() { //firefox
 					listHeight = TestHelper.heightIntRounded(list);
 					listHeight.should.equal(ddl.maxItems * ddl.itemHeight);
 					done();
-				});
+				})});
 			});
 
 			it("should fire a selected event with the correct event detail if non-data dropdown", function(done) {
 				var ddl = document.getElementById("ddlFit"),
 					s = sinon.spy(),
 					evt = null;
-				
+
 				ddl.addEventListener('selected', s);
 				ddl.selectedIndex = 4;
 
 				flush(function() {
 					evt = s.args[0][0].detail;
-					
+
 					should.equal(s.calledOnce, true);
 					evt.should.have.keys('item','index','value','name','selected');
 
@@ -234,13 +234,13 @@
 				var ddl = document.getElementById("ddlData"),
 					s = sinon.spy(),
 					evt = null;
-				
+
 				ddl.addEventListener('selected', s);
 				ddl.selectedIndex = 4;
 
 				flush(function() {
 					evt = s.args[0][0].detail;
-					
+
 					should.equal(s.calledOnce, true);
 					evt.should.have.keys('item','index','value','name','selected');
 

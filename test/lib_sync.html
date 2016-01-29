@@ -7,19 +7,221 @@
 	<script>
 		var should = chai.should();
 	</script>
-	<link rel="import" href="../build/shared/js/sync.html"/>
+	<link rel="import" href="../build/strand.html"/>
 </head>
 <body>
-<script>
-describe("Sync", function() {
+	<dom-module id="test-syncable">
+		<template>
+			<content id="content"></content>
+		</template>
+	</dom-module>
+	<script>
+	/*jshint -W030 */
 
-	it("should exist", function() {
-		StrandLib.should.be.an.object;
-		StrandLib.Sync.should.be.an.object;
+	var SyncTest;
+	HTMLImports.whenReady(function() {
+		SyncTest = Polymer({
+			is:"test-syncable",
+			behaviors:[StrandLib.Sync.getBehavior()],
+			created: function() {
+				this._def = {resolve:null, reject:null};
+				this.testReady = new Promise(function(res, rej) {
+					this._def.resolve = res;
+					this._def.reject = rej;
+				}.bind(this));
+			},
+			ready:function() {
+				this._def.resolve(true);
+			}
+		});
 	});
 
+	/** begin tests **/
 
-});
-</script>
+	describe("syncable", function() {
+
+		it("should exist", function() {
+			Strand.should.be.an.object;
+			Strand.Sync.should.be.an.object;
+		});
+
+		it("should support global storage", function() {
+
+			var sync = new SyncTest();
+			sync.auto = false;
+
+			sync.setGlobal.should.be.a.function;
+			sync.getGlobal.should.be.a.function;
+
+			sync.setGlobal("abcd","test");
+			sync.getGlobal("abcd").should.equal("test");
+
+			var sync2 = new SyncTest();
+			sync2.auto = false;
+			sync2.getGlobal("abcd").should.equal("test");
+
+		});
+
+		it("should have an ajax instance", function() {
+
+			var sync = new SyncTest();
+			sync.auto=false;
+			sync.testReady.then(function() {
+				sync.should.have.property("_sync");
+				sync._sync.should.have.property("_ajax");
+				sync._sync.should.be.an.instanceof(StrandLib.Sync);
+				sync._sync._ajax.should.be.an.instanceof(StrandLib.Ajax);
+			});
+
+		});
+
+		it("should support basic calls", function() {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+
+			var sync = new SyncTest();
+			sync.auto = false;
+			sync.get.should.be.a.function;
+			sync.post.should.be.a.function;
+			sync.put.should.be.a.function;
+			sync.delete.should.be.a.function;
+
+			sync.get().should.be.instanceof(Promise);
+			sync.post().should.be.instanceof(Promise);
+			sync.put().should.be.instanceof(Promise);
+			sync.delete().should.be.instanceof(Promise);
+
+			xhr.restore();
+
+		});
+
+		it("should implement basic CSRF support", function(done) {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var sync = new SyncTest();
+			sync.auto = false;
+			sync.testReady.then( function() {
+
+				sync.csrf = true;
+				sync.cacheCsrf = true;
+
+				sync.endpoint = "//test.com";
+				sync.get().then(function() {
+					xhr.restore();
+					sync.csrfConfig.token.should.equal("abcdefghijklmnopqrst");
+					JSON.parse(localStorage["csrf"]).should.equal('abcdefghijklmnopqrst');
+					done();
+				}, done);
+
+				request.respond(200,
+					{
+						"Content-Type": "application/json",
+						"X-CSRF-Token":"abcdefghijklmnopqrst"
+					},
+					'[{ "id": 12, "comment": "Hey there" }]'
+				);
+			});
+		});
+
+		it("should support adding a manual cachebust for older servers", function() {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+			var sync = new SyncTest();
+			sync.auto = false;
+			sync.busterConfig.enabled = true;
+			sync.get();
+
+			request.url.should.contain("/?nocache=");
+
+			sync.busterConfig.name = "testBust";
+			// sync.cacheBuster = "testBust";
+			sync.get();
+			request.url.should.contain("/?testBust=");
+
+			xhr.restore();
+		});
+
+		it("should support api specific marshalling", function(done) {
+
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var spy = sinon.spy();
+			var spy2 = sinon.spy();
+			var sync = new SyncTest();
+
+			sync.auto = false;
+			sync.testReady.then( function() {
+
+				sync.apiConfig.marshaller  = {
+					test:function(o) {
+						spy();
+						return o;
+					},
+					test2: function(o) {
+						spy2();
+						return o;
+					}
+				};
+				sync.get(null, {
+					requestMarshaller:'test',
+					responseMarshaller:'test2'
+				}).then(function() {
+
+					spy2.calledOnce.should.be.true;
+
+					xhr.restore();
+					done();
+				}, function() {
+					done(new Error());
+				});
+
+				request.respond(200,
+					{
+						"Content-Type": "application/json"
+					},
+					'[{ "id": 101, "comment": "Stuff" }]'
+				);
+				spy.calledOnce.should.be.true;
+			});
+		});
+
+		it("should support saving a request", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+			var sync = new SyncTest();
+			sync.get().then(function(response) {
+				//marshaller is noop
+				response.marshalled.should.deep.equal([{ "id": 101, "comment": "Stuff" }]);
+				response.response.should.deep.equal([{ "id": 101, "comment": "Stuff" }]);
+				xhr.restore();
+				done();
+			});
+			request.respond(200,
+				{
+					"Content-Type": "application/json"
+				},
+				'[{ "id": 101, "comment": "Stuff" }]'
+			);
+
+		});
+
+
+	});
+	</script>
 </body>
 </html>
