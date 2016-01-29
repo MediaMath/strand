@@ -18,42 +18,31 @@
 			// custom form items:
 			standardSize: {
 				type: Boolean,
-				value: true
+				value: true,
+				observer: '_standardSizeChanged'
 			},
-
 			width: {
 				type: Number,
 				observer: '_widthChanged'
 			},
-
 			height: {
 				type: Number,
 				observer: '_heightChanged'
 			},
-
-			// TODO: Test out the 3 field scenario
-			// frequency_type
 			frequency_type: {
 				type: String
 			},
-
-			// frequency_interval
 			frequency_interval: {
 				type: String
 			},
-
-			// frequency_amount
 			frequency_amount: {
 				type: Number
 			},
-
-			// use_mm_freq
 			use_mm_freq: {
 				type: Boolean,
-				value: false
+				value: 0,
+				observer: '_useMMFreqChanged'
 			},
-
-			//
 			// form data/config:
 			formConfig: {
 				type: Object,
@@ -90,7 +79,7 @@
 							return parseInt(value) >= 0;
 						},
 						// noValidate: function(name, value, data, view) {
-						// 	return !view.standardSize;
+						// 	return view.standardSize;
 						// },
 						errorMsg: 'Enter a width',
 						parentEle: 'widthHeightWrapper'
@@ -100,7 +89,7 @@
 							return parseInt(value) >= 0;
 						},
 						// noValidate: function(name, value, data, view) {
-						// 	return !view.standardSize;
+						// 	return view.standardSize;
 						// },
 						errorMsg: 'Enter a height',
 						parentEle: 'widthHeightWrapper'
@@ -142,26 +131,24 @@
 
 		// custom form item interactions:
 		_sizeRadioSelected: function(e) {
-			console.log(e.detail);
-			// TODO: something else here!?!?
-			// this.async(function(){
-				// switch (e.detail.item.id) {
-				// 	case 'standardSize':
-				// 		this.standardSize = true;
-				// 		this.$.testForm.resetFieldValidation('width');
-				// 		this.$.testForm.resetFieldValidation('height');
-				// 		break;
-				// 	case 'nonStandardSize':
-				// 		this.standardSize = false;
-				// 		this.$.testForm.resetFieldValidation('widthHeight');
-				// 		break;
-				// 	default:
-				// 		return;	
-				// }
-			// });
+			if (e.target.id === 'standardSize') {
+				this.standardSize = true;
+			} else {
+				this.standardSize = false;
+			}
 		},
 
-		_standardSizeChanged: function(e) {
+		_standardSizeChanged: function(newVal, oldVal) {
+			// reset previous validation state if necessary
+			if (newVal) {
+				this.$.testForm.resetFieldValidation('width');
+				this.$.testForm.resetFieldValidation('height');
+			} else {
+				this.$.testForm.resetFieldValidation('widthHeight');
+			}
+		},
+
+		_standardSizeDdl: function(e) {
 			var dimensions = e.detail.value.split('x'),
 				width = parseInt(dimensions[0]),
 				height = parseInt(dimensions[1]);
@@ -190,13 +177,21 @@
 			this.frequency_interval = e.detail.value;
 		},
 
-		_useMMFreqChanged: function(e) {
-			// TODO: getting a changed messaging and we don't want it
-			// console.log(e);
-			this.use_mm_freq = e.detail.state === 'checked';
+		_useMMFreqSelected: function(e) {
+			if (e.target.state === 'checked') {
+				this.use_mm_freq = 1;
+			} else {
+				this.use_mm_freq = 0;
+			}
+		},
 
+		_useMMFreqChanged: function(newVal, oldVal) {
+			if (!newVal) {	
+				this.$.testForm.resetFieldValidation('frequency_type');
+				this.$.testForm.resetFieldValidation('frequency_interval');
+				this.$.testForm.resetFieldValidation('frequency_amount');
+			}
 		}
-
 	});
 
 })(window.Strand = window.Strand || {});

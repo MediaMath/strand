@@ -372,26 +372,30 @@
 			return valid;
 		},
 
-		// TODO: need this
 		updateFieldErrors: function(data) {
-			// for (var key in data) {
-			// 	var field = this.data[key].field,
-			// 		errorMsgEle = this.data[key].errorMsgEle,
-			// 		errorMsg = data[key];
+			for (var key in data) {
+				var field 			= this.config[key].field,
+					errorMsgEleDOM 	= this.config[key].errorMsgEleDOM,
+					errorMsg 		= data[key];
 
-			// 	this.data[key].errorMsg = errorMsg;
-			// 	errorMsgEle.message = errorMsg;
-			// 	field.error = errorMsgEle.visible = true;
-			// }
+				// update the stored messaging
+				this.config[key].errorMsg = errorMsg;
 
-			// this._handleFooter(this.footerMessages.error, 'error', true);
+				// display the messaging
+				errorMsgEleDOM.message = errorMsg;
+				field.error = errorMsgEleDOM.visible = true;
+			}
+
+			this._handleFooter(this.footerMessages.error, 'error', true);
 		},
 
 		resetFieldValidation: function(key) {
 			var field 			= this.config[key].field,
 				errorMsgEleDOM 	= this.config[key].errorMsgEleDOM;
 
-			field.error = errorMsgEleDOM.visible = false;
+			// Views could trigger this via bindings prior to the
+			if (field) field.error = false;
+			if (errorMsgEleDOM) errorMsgEleDOM.visible = false;
 		},
 
 		serializeForm: function() {
