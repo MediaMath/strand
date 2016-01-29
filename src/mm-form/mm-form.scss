@@ -17,7 +17,8 @@
 }
 
 :host ::content mm-form-message {
-	margin-top: 10px;
+	// TODO: should this style be in the form message?
+	// margin-top: 10px;
 }
 
 :host ::content mm-radio label {
@@ -26,6 +27,15 @@
 
 :host ::content mm-header[size=medium] {
 	margin-bottom: 10px;
+}
+
+:host ::content mm-checkbox {
+	margin-bottom: 10px;
+}
+
+:host ::content mm-checkbox mm-header[size=medium] {
+	margin-bottom: 0px;
+	line-height: 20px;
 }
 
 mm-footer {

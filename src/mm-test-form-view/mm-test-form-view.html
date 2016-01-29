@@ -49,7 +49,7 @@
 			<!-- row 2 -->
 			<div id="widthHeightWrapper" class="col" span="2">
 				<mm-header size="medium">Dimensions</mm-header>
-				<div id="customItem">
+				<div class="custom-item dimensions">
 					<mm-radio 
 						id="standardSize" 
 						group="sizes"
@@ -100,7 +100,7 @@
 					checked$="{{use_mm_freq}}">
 					<mm-header size="medium">Campaign Frequency Cap</mm-header>
 				</mm-checkbox>
-				<div id="customItem">
+				<div class="custom-item freq-cap">
 					<mm-dropdown 
 						id="typeDdl" 
 						disabled$="{{!use_mm_freq}}"
@@ -135,9 +135,14 @@
 				</div>
 			</div>
 
+			<!-- TODO styling of checkbox? -->
+			<div class="col" span="4">
+				<mm-checkbox>
+					<label>Hi there!</label>
+				</mm-checkbox>
+			</div>
+
 		</mm-form>
-
-
 
 	</template>
 </dom-module>

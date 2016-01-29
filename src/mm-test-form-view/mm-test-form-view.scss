@@ -5,20 +5,36 @@
 
 */
 @import "_bourbon";
+@import "_text";
 
 :host {
 	position: relative;
 	display: block;
+	@include bodyFont();
 }
 
 // custom form items
-#customItem {
+.custom-item {
 	position: relative;
 	display: flex;
 	align-items: center;
-	font-size: 0; 
 	
 	mm-dropdown {
 		margin-right: 15px;
 	}
+
+	&.dimensions {
+
+	}
+
+	&.freq-cap {
+		mm-header {
+			margin-bottom: 100px !important;
+		}
+
+		p {
+			margin: 0 7px;
+		}
+	}
+
 }
