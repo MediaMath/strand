@@ -78,8 +78,8 @@
 					// first custom item
 					'widthHeight' : {
 						validation: 'empty',
-						validateIf: function(name, value, data, view) {
-							return view.standardSize;
+						noValidate: function(name, value, data, view) {
+							return !view.standardSize;
 						},
 						errorMsg: 'You need to select a standard size',
 						errorMsgEle: 'heightWidthError',
@@ -89,9 +89,9 @@
 						validation: function(name, value, data, view) {
 							return parseInt(value) >= 0;
 						},
-						validateIf: function(name, value, data, view) {
-							return !view.standardSize;
-						},
+						// noValidate: function(name, value, data, view) {
+						// 	return !view.standardSize;
+						// },
 						errorMsg: 'Enter a width',
 						parentEle: 'widthHeightWrapper'
 					},
@@ -99,9 +99,9 @@
 						validation: function(name, value, data, view) {
 							return parseInt(value) >= 0;
 						},
-						validateIf: function(name, value, data, view) {
-							return !view.standardSize;
-						},
+						// noValidate: function(name, value, data, view) {
+						// 	return !view.standardSize;
+						// },
 						errorMsg: 'Enter a height',
 						parentEle: 'widthHeightWrapper'
 					},
@@ -112,15 +112,15 @@
 					'frequency_type' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
-						validateIf: function(name, value, data, view) {
-							return view.use_mm_freq;
-						},
+						// noValidate: function(name, value, data, view) {
+						// 	return view.use_mm_freq;
+						// },
 						errorMsg: 'Select a type'
 					},
 					'frequency_interval' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'int|empty',
-						// validateIf: function(name, value, data, view) {
+						// noValidate: function(name, value, data, view) {
 						// 	return view.use_mm_freq;
 						// },
 						errorMsg: 'Select an interval'
@@ -128,7 +128,7 @@
 					'frequency_amount' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
-						// validateIf: function(name, value, data, view) {
+						// noValidate: function(name, value, data, view) {
 						// 	return view.use_mm_freq;
 						// },
 						errorMsg: 'Enter an amount'
@@ -142,21 +142,23 @@
 
 		// custom form item interactions:
 		_sizeRadioSelected: function(e) {
-			this.async(function(){
-				switch (e.detail.item.id) {
-					case 'standardSize':
-						this.standardSize = true;
-						this.$.testForm.resetFieldValidation('width');
-						this.$.testForm.resetFieldValidation('height');
-						break;
-					case 'nonStandardSize':
-						this.standardSize = false;
-						this.$.testForm.resetFieldValidation('widthHeight');
-						break;
-					default:
-						return;	
-				}
-			});
+			console.log(e.detail);
+			// TODO: something else here!?!?
+			// this.async(function(){
+				// switch (e.detail.item.id) {
+				// 	case 'standardSize':
+				// 		this.standardSize = true;
+				// 		this.$.testForm.resetFieldValidation('width');
+				// 		this.$.testForm.resetFieldValidation('height');
+				// 		break;
+				// 	case 'nonStandardSize':
+				// 		this.standardSize = false;
+				// 		this.$.testForm.resetFieldValidation('widthHeight');
+				// 		break;
+				// 	default:
+				// 		return;	
+				// }
+			// });
 		},
 
 		_standardSizeChanged: function(e) {
@@ -190,8 +192,9 @@
 
 		_useMMFreqChanged: function(e) {
 			// TODO: getting a changed messaging and we don't want it
-			console.log(e);
+			// console.log(e);
 			this.use_mm_freq = e.detail.state === 'checked';
+
 		}
 
 	});

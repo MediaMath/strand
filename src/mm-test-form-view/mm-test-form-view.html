@@ -53,11 +53,12 @@
 					<mm-radio 
 						id="standardSize" 
 						group="sizes"
-						checked
+						checked$="{{standardSize}}"
 						on-selected="_sizeRadioSelected"></mm-radio>
 					<mm-dropdown 
 						id="standardSizeDdl" 
 						disabled$="{{!standardSize}}"
+						no-validate$="{{!standardSize}}"
 						name="widthHeight"
 						on-changed="_standardSizeChanged" 
 						placeholder="Select One">
@@ -68,6 +69,7 @@
 					<mm-radio 
 						id="nonStandardSize" 
 						group="sizes"
+						checked$="{{!standardSize}}"
 						on-selected="_sizeRadioSelected"></mm-radio>
 					<mm-group 
 						id="nonStandardSizeGroup" 
@@ -76,12 +78,12 @@
 						<mm-input 
 							name="width"
 							placeholder="Width" 
-							validate-if="{{!standardSize}}"
+							no-validate$="{{standardSize}}"
 							value="{{width}}"></mm-input>
 						<mm-input 
 							name="height"
 							placeholder="Height" 
-							validate-if="{{!standardSize}}"
+							no-validate$="{{standardSize}}"
 							value="{{height}}"></mm-input>
 					</mm-group>
 				</div>
@@ -102,7 +104,7 @@
 					<mm-dropdown 
 						id="typeDdl" 
 						disabled$="{{!use_mm_freq}}"
-						validate-if="{{use_mm_freq}}"
+						no-validate$="{{!use_mm_freq}}"
 						name="frequency_type"
 						on-changed="_freqTypeChanged"
 						value="{{frequency_type}}" 
@@ -113,14 +115,14 @@
 					<mm-input 
 						name="frequency_amount"
 						disabled$="{{!use_mm_freq}}"
+						no-validate$="{{!use_mm_freq}}"
 						placeholder="#"
-						value="{{frequency_amount}}"
-						validate-if="{{use_mm_freq}}"></mm-input>
+						value="{{frequency_amount}}"></mm-input>
 					<p>per</p>
 					<mm-dropdown 
 						id="standardSizeDdl" 
 						disabled$="{{!use_mm_freq}}"
-						validate-if="{{use_mm_freq}}"
+						no-validate$="{{!use_mm_freq}}"
 						name="frequency_interval"
 						on-changed="_freqIntervalChanged" 
 						value="{{frequency_interval}}" 

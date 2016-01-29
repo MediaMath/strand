@@ -41,7 +41,7 @@
 	</head>
 
 	<body>
-		
+		 
 		<mm-form id="testForm" unresolved>
 			<div class="col" span="1">
 				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
@@ -71,7 +71,7 @@
 		
 
 		<!-- config via markup -->
-		<!--
+		<!-- 
 		<mm-form id="testForm" unresolved>
 			<div class="col" span="1">
 				<mm-input 
@@ -113,11 +113,11 @@
 					</mm-radio>	
 					<mm-radio>
 						<label>Blue</label>
-					</mm-radio>			
+					</mm-radio>
 				</mm-group>
 			</div>
 		</mm-form>
-		-->
+		 -->
 
 		<script>
 
@@ -133,7 +133,6 @@
 				'dropdown' : {
 					validation: 'empty',
 					parentEle: null,
-					// errorMsgEle: 'special',
 					errorMsg: 'You need to select an item',
 					label: 'Select an Item'
 				},
@@ -145,7 +144,8 @@
 					errorMsgEle: null,
 					errorMsg: 'You need to select \'Red\'',
 					label: 'Select a Color'
-				}
+				},
+				// 'empty' : {}
 			};
 
 			// data that holds any actual values
@@ -165,8 +165,9 @@
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm');
 
-				// testForm.data = data;
+				// Ordering!
 				testForm.config = config;
+				// testForm.data = data;
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);
