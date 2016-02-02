@@ -22,10 +22,20 @@
 	HTMLImports.whenReady(function() {
 		PageTest = Polymer({
 			is:"test-pageable",
-			behaviors:[StrandTraits.Pageable]
+			behaviors:[StrandTraits.Pageable],
+			created: function() {
+				 this._def = {resolve:null, reject:null};
+				 this.testReady = new Promise(function(res, rej) {
+					 this._def.resolve = res;
+					 this._def.reject = rej;
+				 }.bind(this));
+			 },
+			 ready:function() {
+				 this._def.resolve(true);
+			 }
 		});
 	});
-	
+
 	/** begin tests **/
 
 	describe("Pageable", function() {
@@ -44,19 +54,48 @@
 			};
 
 			var page = new PageTest();
-			page.autoDebounce = 0;
+			page.testReady.then(function() {
 
-			flush(function() {
-				page.nextPage();
-				page.page.should.equal(1);
+				page.usePaging = true;
+				page.autoDebounce = 0;
+
 				flush(function() {
-					request.url.should.contain("page_offset=10");
-					request.url.should.contain("page_limit=10");
-					xhr.restore();
-					done();
-				});
-			}.bind(this));
+					page.nextPage();
+					page.page.should.equal(1);
+					flush(function() {
+						request.url.should.contain("page_offset=10");
+						request.url.should.contain("page_limit=10");
+						xhr.restore();
+						done();
+					});
+				}.bind(this));
+			});
+		});
 
+		it("should update on index change", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var page = new PageTest();
+			page.testReady.then(function() {
+
+				page.usePaging = true;
+				page.autoDebounce = 0;
+
+				flush(function() {
+					page.index = 20;
+					page.page.should.equal(20);
+					flush(function() {
+						request.url.should.contain("page_offset=20");
+						request.url.should.contain("page_limit=10");
+						xhr.restore();
+						done();
+					});
+				}.bind(this));
+			});
 		});
 
 		it("should update on index change", function(done) {
@@ -68,28 +107,7 @@
 
 			var page = new PageTest();
 			page.autoDebounce = 0;
-
-			flush(function() {
-				page.index = 20;
-				page.page.should.equal(20);
-				flush(function() {
-					request.url.should.contain("page_offset=20");
-					request.url.should.contain("page_limit=10");
-					xhr.restore();
-					done();
-				});
-			}.bind(this));
-		});
-
-		it("should update on index change", function(done) {
-			var xhr = sinon.useFakeXMLHttpRequest();
-			var request;
-			xhr.onCreate = function(req) {
-				request = req;
-			};
-
-			var page = new PageTest();
-			page.autoDebounce = 0;
+			page.usePaging = true;
 			page.pageOptions = {pageType: page.PAGE_TYPE_INDEX};
 
 			flush(function() {
