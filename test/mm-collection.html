@@ -102,7 +102,7 @@ describe("mm-collection", function() {
 			this.data[0].should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
 			done();
 		});
-		m.fetch();
+		m.get();
 		request.respond(200, { "Content-Type": "application/json" }, '[{ "id": 1, "test":true, "zappo":"zap" }]');
 
 	});
