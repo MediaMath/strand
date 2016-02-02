@@ -1,4 +1,5 @@
 <link rel="import" href="datautils.html"/>
+<link rel="import" href="behaviorutils.html"/>
 <link rel="import" href="sync.html"/>
 <link rel="import" href="eventdispatcher.html"/>
 <script>
@@ -11,6 +12,7 @@
 (function (scope) {
 
 	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 	var _eventPrefix = "data-";
 
 	scope.Model = function(data, opts, sync, collection) {
@@ -26,11 +28,11 @@
 	};
 
 	scope.Model.prototype = {
-		
+
 		get mId() {
 			return this.data.id || null;
 		},
-		
+
 		set mId (input) {
 			this.data.id = input;
 		},
@@ -53,11 +55,11 @@
 			this.fire("changed", {instance: this, data:this.data});
 		},
 
-		get: function(path) {
+		getProp: function(path) {
 			return DataUtils.getPathValue(path, this.data);
 		},
 
-		set: function(path, value) {
+		setProp: function(path, value) {
 			this.dispatchEvent(new CustomEvent("data-changed"));
 			DataUtils.setPathValue(path, this.data, value);
 		},
@@ -94,7 +96,21 @@
 
 	};
 
+	var mdl = BehaviorUtils.extend({
+		created: function() {
+
+		},
+		ready: function() {
+			scope.Model.apply(this);
+		}
+	}, scope.Model.prototype);
+	delete mdl.fire;
+
+	scope.Model.getBehavior = function() {
+		return mdl;
+	};
+
 	EventDispatcher.prototype.apply(scope.Model.prototype);
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>
