@@ -1,6 +1,7 @@
 <link rel="import" href="model.html"/>
 <link rel="import" href="sync.html"/>
 <link rel="import" href="datautils.html"/>
+<link rel="import" href="behaviorutils.html"/>
 <link rel="import" href="eventdispatcher.html"/>
 <script>
 /**
@@ -14,6 +15,7 @@
 	var Sync = StrandLib.Sync;
 	var Model = StrandLib.Model;
 	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	function _generateCid(collection, model) {
 		model.cId = ++collection._cidIndex;
@@ -84,7 +86,7 @@
 		fetch: function() {
 			return this.connection.get();
 		},
-		
+
 		delete: function(input) {
 			if (input instanceof Model) {
 				this.data.slice(this.data.indexOf(input), 1);
@@ -166,7 +168,18 @@
 		}
 	};
 
+	var cll = BehaviorUtils.extend({
+		ready: function() {
+			scope.Collection.apply(this);
+		}
+	}, scope.Collection.prototype);
+	delete cll.fire
+
+	scope.Collection.getBehavior = function() {
+		return cll;
+	}
+
 	EventDispatcher.prototype.apply(scope.Collection.prototype);
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>
