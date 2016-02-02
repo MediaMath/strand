@@ -66,6 +66,15 @@
 		}, init);
 	}
 
+	function _getDefaultPlugins() {
+		return [
+			new AjaxCSRFPlugin({}, "csrf"),
+			new AjaxBusterPlugin({}, "buster"),
+			new AjaxAPIPlugin({}, "api"),
+			new AjaxPagePlugin({}, "page"),
+		];
+	}
+
 	scope.Sync = function(endpoint, options, data, domHook, saveResponse, plugins) {
 		this._eventPrefix = _eventPrefix;
 		this.endpoint = this.endpoint || endpoint || "/";
@@ -87,12 +96,7 @@
 			this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
-		this._plugin = new AjaxPlugin(this.plugins || plugins || [
-			new AjaxCSRFPlugin({}, "csrf"),
-			new AjaxBusterPlugin({}, "buster"),
-			new AjaxAPIPlugin({}, "api"),
-			new AjaxPagePlugin({}, "page"),
-		]);
+		this._plugin = this._plugin || new AjaxPlugin(this.plugins || plugins || _getDefaultPlugins());
 
 	};
 
@@ -195,6 +199,9 @@
 				type:Boolean,
 				value:true
 			}
+		},
+		created: function() {
+			this._plugin = new AjaxPlugin(this.plugins || _getDefaultPlugins());
 		},
 		ready: function() {
 			scope.Sync.apply(this);
