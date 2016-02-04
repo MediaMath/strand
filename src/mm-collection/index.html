@@ -7,7 +7,7 @@
   <body>
     <mm-collection></mm-collection>
     <script type="text/javascript">
-    window.addEventListener("polymer-ready", function() {
+    window.addEventListener("WebComponentsReady", function() {
     	document.querySelector("mm-collection").addEventListener("data-changed", function(e) {
     		console.log("test handler - data changed", e);
     	});
