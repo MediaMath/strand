@@ -16,7 +16,7 @@
 <polymer-element name="mm-dropdown" constructor="MMDropdown">
 	<template>
 		<link href="mm-dropdown.css" rel="stylesheet" type="text/css"/>
-		<div class="button secondary {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', fit:fitparent!=null, invalid:error == true, small:small == true, skinless:skinless == true } | tokenList }}" id="buttonMain" on-mousedown="{{toggle}}" title="{{displayTitle}}">
+		<div class="button secondary {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', fit:fitparent!=null, invalid:error == true, skinless:skinless == true } | tokenList }}" id="buttonMain" on-mousedown="{{toggle}}" title="{{displayTitle}}">
 			<div class="left-items">
 				<label id="labelText">{{selectedItem.label || placeholder}}</label>
 			</div>

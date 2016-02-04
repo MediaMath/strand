@@ -40,20 +40,6 @@
 		@include transform(scaleY(-1));
 	}
 
-	&.small {
-		padding: 0 26px 0 8px;
-		height: 26px;
-
-		label {
-			font-size: 11px !important;
-			line-height: 24px !important;
-		}
-
-		#caratIcon {
-			padding: 0 8px 0 10px;
-		}
-	}
-
 	&.skinless {
 		border: none;
 		background: initial;
@@ -90,4 +76,21 @@
 .scroll-container {
 	overflow-x: hidden;
 	overflow-y: auto;
+}
+
+// sizing
+:host([size='small']) {
+	.button {
+		padding: 0 26px 0 8px;
+		height: 26px;
+
+		label {
+			font-size: 11px !important;
+			line-height: 24px !important;
+		}
+
+		#caratIcon {
+			padding: 0 8px 0 10px;
+		}
+	}
 }

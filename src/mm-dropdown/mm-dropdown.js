@@ -23,7 +23,7 @@ Polymer('mm-dropdown', {
 		data: null,
 		error: false,
 		skinless: false,
-		small: false
+		size: 'normal'
 	},
 
 	created: function() {
