@@ -23,7 +23,9 @@
 			},
 			size: {
 				type: String,
-				reflectToAttribute: true
+				value: 'normal',
+				reflectToAttribute: true,
+				notify: true
 			},
 			placeholder: {
 				type: String,
@@ -59,7 +61,8 @@
 			width: {
 				type: Number,
 				value: false,
-				reflectToAttribute: true
+				reflectToAttribute: true,
+				// notify: true
 			},
 			maxlength: { 
 				type: Number,
@@ -80,7 +83,8 @@
 			fitparent: { 
 				type: Boolean,
 				value: false, 
-				reflectToAttribute: true
+				reflectToAttribute: true,
+				// notify: true
 			},
 			_layout: { 
 				type: String,
@@ -94,8 +98,6 @@
 
 		DIRECTION_TOP:  "top",
 		DIRECTION_BOTTOM: "bottom",
-		PADDING_RIGHT_ICON: 25,
-		PADDING_RIGHT_DEFAULT: 10,
 
 		_typeChanged: function(newVal, oldVal) {
 			var types = /(text|password|email|number|tel|search|url)/ig;
@@ -139,16 +141,12 @@
 			this._clearVisible = false;
 		},
 
-		_updateStyle: function(icon, width, fitparent, clear) {
-			var p = icon || clear ? this.PADDING_RIGHT_ICON + 'px' : this.PADDING_RIGHT_DEFAULT + 'px',
-				f = fitparent ? '100%' : false,
+		_updateStyle: function(width, fitparent) {
+			var f = fitparent ? '100%' : false,
 				w = width ? width + 'px' : null,
 				style = {};
 
-			style.paddingRight = p;
-			// sometimes, we do not want to add width
 			if(w) style.width = f ? f : w;
-
 			return this.styleBlock(style);
 		},
 
@@ -159,6 +157,17 @@
 			o.top = (direction === this.DIRECTION_TOP);
 			o.bottom = (direction === this.DIRECTION_BOTTOM);
 			return this.classBlock(o);
+		},
+
+		_iconSize: function(size) {
+			switch(size) {
+				case 'large':
+					return 16;
+				case 'small':
+					return 11;
+				default:
+					return 14;
+			}
 		}
 
 	});

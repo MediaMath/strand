@@ -171,8 +171,7 @@
 				observer: '_placeholderChanged'
 			},
 			icon: {
-				type: String,
-				value: ""
+				type: String
 			},
 			_arimoLoaded: {
 				type: Boolean,
@@ -446,11 +445,10 @@
 		},
 
 		_validateGroup: function(e,target) {
-			var val;
-			if(e instanceof KeyboardEvent) val = String.fromCharCode(e.keyCode);
-			else if(e instanceof ClipboardEvent) val = e.clipboardData.getData('text/plain');
-
+			var val = (e instanceof ClipboardEvent) ? e.clipboardData.getData('text/plain') : 
+				String.fromCharCode(e.keyCode);
 			var group = this._getGroup(target);
+
 			// If alphanumeric throw out all modifiers except capital letters
 			if(group.restrict !== _restrict.all) {
 				if(e.altKey) return false;
@@ -504,8 +502,11 @@
 			if(this._isKeyboardShortcut(e)) return;
 			var max = this._getGroup(e.target).max,
 				selLength = e.target.selectionEnd - e.target.selectionStart;
-			if(!this._validateGroup(e,e.target)) e.preventDefault();
-			else if(e.target.value.length === max && selLength === 0) this._validateGroup(e,this._focusRight(e.target));
+			if(!this._validateGroup(e,e.target)) { 
+				e.preventDefault();
+			} else if(e.target.value.length === max && selLength === 0) { 
+				this._validateGroup(e,this._focusRight(e.target));
+			}
 		},
 		_onNum: function(e) {
 			this._onAlpha(e);
