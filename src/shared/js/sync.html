@@ -1,6 +1,7 @@
 <link rel="import" href="eventdispatcher.html"/>
 <link rel="import" href="storage.html"/>
 <link rel="import" href="datautils.html"/>
+<link rel="import" href="behaviorutils.html"/>
 <link rel="import" href="ajax.html"/>
 <link rel="import" href="ajaxplugin.html"/>
 <link rel="import" href="ajaxcsrfplugin.html"/>
@@ -18,6 +19,7 @@
 (function (scope) {
 
 	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 	var Storage = StrandLib.Storage;
 	var AjaxPlugin = StrandLib.AjaxPlugin;
 	var AjaxCSRFPlugin = StrandLib.AjaxCSRFPlugin;
@@ -33,7 +35,7 @@
 	function _getParamBase(obj) {
 		obj = obj || {};
 		return {
-			params: obj.queryparam || [],
+			query: obj.queryparam || [],
 			urlParams: obj.urlparam || [],
 			headers: obj.header || []
 		};
@@ -46,7 +48,7 @@
 			if (DataUtils.isType(cur,"object")) {
 				for(var i in cur) {
 					switch(i) {
-						case "params":
+						case "query":
 						case "headers":
 						case "urlParams":
 							if (cur[i].length > 0) {
@@ -64,27 +66,45 @@
 		}, init);
 	}
 
-	scope.Sync = function(endpoint, options, data, domHook, saveResponse) {
+	function _getDefaultPlugins() {
+		return [
+			new AjaxCSRFPlugin({}, "csrf"),
+			new AjaxBusterPlugin({}, "buster"),
+			new AjaxAPIPlugin({}, "api"),
+			new AjaxPagePlugin({}, "page"),
+		];
+	}
+
+	function _getDefaultData(scope) {
+		if (scope && scope.is === "mm-collection") {
+			return [];
+		}
+		return {};
+	}
+
+	scope.Sync = function(endpoint, options, data, domHook, saveResponse, plugins) {
 		this._eventPrefix = _eventPrefix;
-		this.endpoint = endpoint || "/";
+		this.endpoint = this.endpoint || endpoint || "/";
 		this.options = DataUtils.copy({
 			contentType:"application/x-www-form-urlencoded",
 			timeout:10000,
 			withCredentials:false,
 			concurrency:4,
-		}, options);
-		this.data = data || {};
+		}, this.options, options);
 
-		this.domHook = domHook;
-		this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
+		if (this.set) {
+			this.set('data', this.data || data || _getDefaultData(this));
+		} else {
+			this.data = this.data || data || _getDefaultData(this);
+		}
+
+		this.domHook = this.domHook || domHook;
+		if (this.saveResponse === undefined || this.saveResponse === null && saveResponse)
+			this.saveResponse = (typeof saveResponse === "boolean") ? saveResponse : true;
 
 		this._ajax = new Ajax();
-		this._plugin = new AjaxPlugin();
+		this._plugin = this._plugin || new AjaxPlugin(this.plugins || plugins || _getDefaultPlugins());
 
-		this._plugin.register("csrf", AjaxCSRFPlugin);
-		this._plugin.register("buster", AjaxBusterPlugin);
-		this._plugin.register("api", AjaxAPIPlugin);
-		this._plugin.register("page", AjaxPagePlugin);
 	};
 
 	scope.Sync.prototype = {
@@ -112,7 +132,7 @@
 			if (this.domHook)
 				configOpts = this.domHook(method, this, options);
 
-			options = _copyOptions({method:method, url:this.endpoint}, options, configOpts, this.options);
+			options = _copyOptions({method:method, url:this.endpoint, body:this.data}, options, configOpts, this.options);
 
 			options = this._plugin.processRequest(options);
 
@@ -129,7 +149,12 @@
 			result = this._plugin.processResponse(result);
 
 			if (this.saveResponse) {
-				this.data = result.marshalled;
+				// this.data = result.marshalled;
+				if (this.set) {
+					this.set('data', result.marshalled, null, true);
+				} else {
+					this.data = result.marshalled;
+				}
 				this.fire("saved", result);
 			}
 		},
@@ -172,7 +197,30 @@
 		},
 	};
 
+	var beh = BehaviorUtils.extend({
+		properties: {
+			data:{
+				notify:true
+			},
+			saveResponse:{
+				type:Boolean,
+				value:true
+			}
+		},
+		created: function() {
+			this._plugin = new AjaxPlugin(this.plugins || _getDefaultPlugins());
+		},
+		ready: function() {
+			scope.Sync.apply(this);
+		}
+	}, scope.Sync.prototype);
+	delete beh.fire;
+
+	scope.Sync.getBehavior = function() {
+		return beh;
+	};
+
 	EventDispatcher.prototype.apply(scope.Sync.prototype);
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>

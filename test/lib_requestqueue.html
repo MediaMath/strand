@@ -12,38 +12,41 @@
 <body>
 	<script>
 	function Req() {
-		this.promise = new Zousan();
+		this.promise = new Promise(function(resolve) {
+			resolve({response:"yes"});
+		});
 	}
 	Req.prototype = {
 		exec: function() {
-			this.promise.resolve({response:"yes"});
 			return this.promise;
 		}
 	};
 
 	function FReq() {
-		this.promise = new Zousan();
+		this.promise = new Promise(function(resolve, reject) {
+			reject({response:"no"});
+		});
 	}
 	FReq.prototype = {
 		exec: function() {
 			this.promise.then(function(){},function(){});
-			this.promise.reject({response:"no"});
 			return this.promise;
 		}
 	};
 	function AReq() {
-		this.promise = new Zousan();
+		this.promise = new Promise(function(resolve) {
+			resolve({response:"yes"});
+		});
 	}
 	AReq.prototype = {
 		exec: function() {
-			this.promise.resolve({response:"yes"});
 			return this.promise;
 		},
 		abort: sinon.spy()
 	};
 
 	describe("RequestQueue", function() {
-		
+
 		it("should exist", function() {
 			StrandLib.RequestQueue.should.be.a.function;
 		});

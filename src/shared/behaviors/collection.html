@@ -1,7 +1,5 @@
-<link rel="import" href="model.html"/>
-<link rel="import" href="sync.html"/>
-<link rel="import" href="datautils.html"/>
-<link rel="import" href="eventdispatcher.html"/>
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="../js/behaviorutils.html"/>
 <script>
 /**
  * @license
@@ -11,9 +9,8 @@
 */
 (function (scope) {
 
-	var Sync = StrandLib.Sync;
-	var Model = StrandLib.Model;
 	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	function _generateCid(collection, model) {
 		model.cId = ++collection._cidIndex;
@@ -21,35 +18,39 @@
 
 	var _eventPrefix = "data-";
 
-	scope.Collection = function(data, opts, sync) {
-		this._eventPrefix = _eventPrefix;
-		this._cidIndex = 0;
-		this.data = data || [];
-		this._opts = opts;
-		this._sync = sync || new Sync();
-	};
+	scope.Collection = {
 
-	scope.Collection.prototype = {
-
-		create: function(init, silent) {
-			var t = new Model(init, null, null, this);
-			return this.add(t, silent);
+		properties:{
+			_cidIndex:{
+				type:Number,
+				value:0
+			},
+			added:{
+				type:Array,
+				value: function() {
+					return [];
+				},
+				notify:true
+			},
+			removed:{
+				type:Array,
+				value: function() {
+					return [];
+				},
+				notify:true
+			}
 		},
 
-		add:function(model, silent, force) {
+		add: function(model, silent, force) {
 			this._silent = silent;
-
-			if(!(model instanceof Model)) {
-				//TODO: (dlasky) may need to pass sync here as well
-				model = new Model(model, null, null, this);
-			}
 
 			if (!model.cId || model.cId === -1) {
 				_generateCid(this, model);
 			}
-
 			var check = this.data.filter(function(m) {
-				return m.cId === model.cId || m.mId === model.mId;
+				if (m.cId && model.cId) { return m.cId === model.cId; }
+				if (m.mId && model.mId) { return m.mId === model.mId; }
+				return false;
 			});
 			if (check.length === 0 || force) {
 				this.data.push(model);
@@ -62,7 +63,8 @@
 		},
 
 		getDataAt: function(index) {
-			return DataUtils.getPathValue("data", this.getModelAt(index));
+			var m = this.getModelAt(index);
+			return DataUtils.getPathValue("data", m) || m;
 		},
 
 		getModelAt: function(index) {
@@ -73,18 +75,6 @@
 			return this.data.indexOf(model);
 		},
 
-		save: function() {
-			return this.connection.post();
-		},
-
-		update: function() {
-			return this.connection.put();
-		},
-
-		fetch: function() {
-			return this.connection.get();
-		},
-		
 		delete: function(input) {
 			if (input instanceof Model) {
 				this.data.slice(this.data.indexOf(input), 1);
@@ -100,13 +90,10 @@
 
 		empty: function(silent) {
 			this._silent = silent;
+			this._cidIndex = 0;
 			var o = this.data.slice();
-			this.data = [];
+			this.set("data",[]);
 			return o;
-		},
-
-		destroy: function() {
-			return this.connection.delete();
 		},
 
 		each: function(callback) {
@@ -119,7 +106,7 @@
 			if (this.data && this.data.length) {
 				var objKeys = Object.keys(obj);
 				return this.data.filter(function match(model) {
-					var data = model.data;
+					var data = model.data || model;
 					return objKeys.reduce(function(prev, key) {
 						return prev && (matchValues ? data[key] === obj[key] : data.hasOwnProperty(key));
 					}, true);
@@ -127,23 +114,10 @@
 			}
 		},
 
-		_handleResponse: function(e) {
-			this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
-			this.fire("changed", {instance:this, data:this.data});
-		},
-
-		get _sync() {
-			return this.__sync;
-		},
-
-		set _sync(inp) {
-			this.__sync = inp;
-			this.__sync.addEventListener("data-saved", this._handleResponse.bind(this));
-		},
-
-		get connection() {
-			return this._sync;
-		},
+		// _handleResponse: function(e) {
+		// 	this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
+		// 	this.fire("changed", {instance:this, data:this.data});
+		// },
 
 		get length() {
 			return this.data.length;
@@ -153,20 +127,10 @@
 			return this._count || this.length;
 		},
 
-		fire: function(type, detail) {
-			if (this._eventPrefix) {
-				type = this._eventPrefix + type;
-			}
-			var e = new CustomEvent(type, {detail:detail});
-			this.dispatchEvent(e);
-		},
-
 		toJSON: function() {
 			this.data.toJSON();
 		}
 	};
 
-	EventDispatcher.prototype.apply(scope.Collection.prototype);
-
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
 </script>

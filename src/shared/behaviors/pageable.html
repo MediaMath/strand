@@ -1,5 +1,5 @@
 <link rel="import" href="../js/datautils.html"/>
-<link rel="import" href="syncable.html"/>
+<link rel="import" href="../js/sync.html"/>
 <link rel="import" href="domsyncable.html"/>
 <script>
 /**
@@ -15,7 +15,7 @@
 	var Pageable = {
 
 		ready: function() {
-			this._sync.pageConfig.enabled = this.usePaging;
+			this.pageConfig.enabled = this.usePaging;
 		},
 
 		properties: {
@@ -76,7 +76,7 @@
 		},
 
 		_usePagingChanged: function() {
-			this._sync.pageConfig.enabled = this.usePaging;
+			this.pageConfig.enabled = this.usePaging;
 		},
 
 		_pageChanged:function() {
@@ -84,12 +84,12 @@
 				page:this.page,
 				pageSize:this.pageSize
 			};
-			this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging);
+			this.pageConfig = DataUtils.copy(this.pageConfig, paging);
 
 
 			if (this.auto && this.auto !== "save" && this.page >= 0) {
 				if (this.autoDebounce !== -1) {
-					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+					this.debounce("dom", this.get, this.autoDebounce);
 				} else {
 					this.get();
 				}
@@ -101,11 +101,11 @@
 				page:this.page,
 				pageSize:this.pageSize
 			};
-			this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging);
+			this.pageConfig = DataUtils.copy(this.pageConfig, paging);
 
 			if (this.auto && this.auto !== "Save" && this.pageSize > 0) {
 				if (this.autoDebounce !== -1) {
-					this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+					this.debounce("dom", this.get, this.autoDebounce);
 				} else {
 					this.get();
 				}
@@ -113,7 +113,7 @@
 		},
 
 		_indexChanged: function(o, n) {
-			
+
 			if (this.pageOptions && this.pageOptions.pageType === Pageable.PAGE_TYPE_OFFSET) {
 				this.set("page", this.index);
 			} else {
@@ -122,19 +122,19 @@
 		},
 
 		_pageOptionsChanged: function() {
-			if (this._sync.pageConfig) {
+			if (this.pageConfig) {
 				var paging = {
 					page:this.page,
 					pageSize:this.pageSize
 				};
-				this._sync.pageConfig = DataUtils.copy(this._sync.pageConfig, paging, this.pageOptions);
+				this.pageConfig = DataUtils.copy(this.pageConfig, paging, this.pageOptions);
 			}
 		}
 
 	};
 
 	scope.Pageable = [
-		scope.Syncable,
+		StrandLib.Sync.getBehavior(),
 		scope.DomSyncable,
 		Pageable,
 	];

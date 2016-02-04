@@ -13,7 +13,7 @@
 </head>
 <body>
 <script>
-
+/*jshint -W030 */
 describe("mm-collection", function() {
 
 	it("should exist", function() {
@@ -30,15 +30,14 @@ describe("mm-collection", function() {
 	it("should create models", function() {
 		var c = new Strand.Collection(false);
 		c.auto = false;
-		c.create({ id: 10, name:"aces" }, false);
+		c.add({ id: 10, name:"aces" }, false);
 		c.data.should.have.length(1);
-		c.data[0].data.id.should.equal(10);
+		c.data[0].id.should.equal(10);
 	});
 
 	it("should detect cid conflicts", function() {
 		var c = new Strand.Collection(false);
-		var m = new Strand.Model();
-		m.data = {cats:true, dogs:true};
+		var m = {cats:true, dogs:true};
 		m.cid = 0;
 		c.add(m);
 		should.throw(function() {
@@ -48,7 +47,7 @@ describe("mm-collection", function() {
 
 	it("should return models at indicies", function() {
 		var c = new Strand.Collection(false);
-		c.create({ id: 10, name:"aces" }, false);
+		c.add({ id: 10, name:"aces" }, false);
 		c.getDataAt(0).should.be.an("object");
 		c.getDataAt(0).name.should.equal("aces");
 	});
@@ -56,7 +55,7 @@ describe("mm-collection", function() {
 	it("should support each on every model", function() {
 		var c = new Strand.Collection(false);
 		for(var i =0; i<= 10; i++) {
-			c.create({ id: i, name:"aces"+i }, false);
+			c.add({ id: i, name:"aces"+i }, false);
 		}
 		var inc = 0;
 		c.each(function(m) {
@@ -69,9 +68,9 @@ describe("mm-collection", function() {
 	it("should find models matching constraining objects using where", function() {
 		var c = new Strand.Collection(false);
 		for(var i =0; i< 10; i++) {
-			c.create({ id: i, name:"aces"+i }, false);
+			c.add({ id: i, name:"aces"+i }, false);
 		}
-		c.create({id: 11, name:"aces11"});
+		c.add({id: 11, name:"aces11"});
 
 		c.where({name:"aces2"}, true).should.have.length(1);
 		c.where({name:1}).should.have.length(11);
@@ -85,7 +84,7 @@ describe("mm-collection", function() {
 		c1.addEventListener("data-changed", s1);
 		var c2 = new Strand.Collection(false);
 		c2.addEventListener("data-changed", s2);
-		c1._sync._handleResult();
+		c1._handleResult();
 		s1.calledOnce.should.be.true;
 		s2.calledOnce.should.be.false;
 	});
@@ -100,9 +99,10 @@ describe("mm-collection", function() {
 		var m = new Strand.Collection(false);
 		m.addEventListener("data-changed", function(e) {
 			this.data[0].should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
+			xhr.restore();
 			done();
 		});
-		m.fetch();
+		m.get();
 		request.respond(200, { "Content-Type": "application/json" }, '[{ "id": 1, "test":true, "zappo":"zap" }]');
 
 	});
@@ -120,7 +120,7 @@ describe("mm-collection", function() {
 		var col = new Strand.Collection();
 		document.body.appendChild(col);
 
-		var ip = document.createElement("input-params");
+		var ip = document.createElement("GET");
 		col.appendChild(ip);
 		var qp = document.createElement("queryParam");
 		qp.setAttribute("name", "q");

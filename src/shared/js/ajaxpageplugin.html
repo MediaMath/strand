@@ -5,7 +5,7 @@
 
 	function _getParamBase(obj) {
 		return DataUtils.copy({
-			params:[],
+			query:[],
 			urlParams:[],
 			headers:[]
 		},obj);
@@ -13,7 +13,7 @@
 
 	var DataUtils = StrandLib.DataUtils;
 
-	scope.AjaxPagePlugin = function(config) {
+	scope.AjaxPagePlugin = function(config, name) {
 		this.config = DataUtils.copy({
 			enabled:false,
 			page:0,
@@ -26,10 +26,11 @@
 			pageType:"offset",
 			countPath:""
 		},config);
+		this.name = name;
 	};
 
 	scope.AjaxPagePlugin.prototype = {
-		
+
 		nextPage: function() {
 			this.page++;
 		},
@@ -58,13 +59,13 @@
 					}
 				}
 				if (opts.query) {
-					if (opts.pageName) ajaxOpts.params.push(DataUtils.param(opts.pageName, page));
-					if (opts.sizeName) ajaxOpts.params.push(DataUtils.param(opts.sizeName, opts.pageSize));
+					if (opts.pageName) ajaxOpts.query.push(DataUtils.param(opts.pageName, page));
+					if (opts.sizeName) ajaxOpts.query.push(DataUtils.param(opts.sizeName, opts.pageSize));
 				}
 				if (opts.body && DataUtils.isType(ajaxOpts.body, "object")) {
 					if (opts.pageName) ajaxOpts.body[opts.pageName] = page;
 					if (opts.sizeName) ajaxOpts.body[opts.sizeName] = opts.pageSize;
-						
+
 				}
 			}
 			return ajaxOpts;
@@ -80,5 +81,5 @@
 		}
 	};
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>

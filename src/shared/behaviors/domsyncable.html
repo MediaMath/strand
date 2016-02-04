@@ -14,12 +14,12 @@
 	function _getParamBase(obj) {
 		obj = obj || {};
 		return {
-			params: obj.queryparam || [],
+			query: obj.queryparam || [],
 			urlParams: obj.urlparam || [],
 			headers: obj.header || []
 		};
 	}
-	
+
 	var Sync = StrandLib.Sync;
 	var Ajax = StrandLib.Ajax;
 	var DataUtils = StrandLib.DataUtils;
@@ -45,42 +45,49 @@
 			},
 		},
 
+		observers:['_dataChanged(data.*)'],
+
 		factoryImpl: function(auto) {
 			this.auto = auto;
 		},
 
 		ready:function() {
-			this._sync.domHook = function(method) {
+			this.domHook = function(method) {
 				return this._getDomConfig(method, this.domObject);
 			}.bind(this);
 		},
 
 		_getDomConfig: function(method, domObject) {
-			var domConfig = method === Ajax.GET ? this.domObject["input-params"] : this.domObject["output-params"];
+			var domConfig = this.domObject[ method.toLowerCase() ];
 			domConfig = _getParamBase(domConfig) || _getParamBase();
 
 			return {
 				headers: domConfig.headers.map(DataUtils.nodeToParam),
-				params: domConfig.params.map(DataUtils.nodeToParam),
+				query: domConfig.query.map(DataUtils.nodeToParam),
 				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
 			};
 		},
 
 		_autoChanged: function() {
 			if (this.auto && this.auto !== "save" && this.endpoint) {
-				this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+				this.debounce("dom", this.get.bind(this), this.autoDebounce);
 			}
 		},
 
 		domObjectChanged: function(domObject) {
 			if (this.auto && this.auto !== "save") {
-				this.debounce("dom", this._sync.get.bind(this._sync), this.autoDebounce);
+				this.debounce("dom", this.get.bind(this), this.autoDebounce);
 			}
 		},
 
-		_dataChanged:function(oldData, newData) {
-			if (this.auto && this.auto !== "load") {
-				this.debounce("dom", this._sync.post.bind(this._sync), this.autoDebounce);
+		set: function(path, value, root, silent) {
+			this._fromInternal = silent;
+			Polymer.Base.set.apply(this, [path, value, root]);
+		},
+
+		_dataChanged:function() {
+			if (this.auto && this.auto !== "load" && !this._fromInternal) {
+				this.debounce("dom", this.post.bind(this), this.autoDebounce);
 			}
 		}
 	};
@@ -91,5 +98,5 @@
 		DomSyncable
 	];
 
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
 </script>

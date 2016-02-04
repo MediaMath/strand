@@ -86,14 +86,14 @@
 			"name":"exec",
 			"description":"Triggers the XHR call.",
 			"arguments":[
-				{				
+				{
 					"name":"data",
 					"type":"Object",
 					"optional":true,
 					"default":"undefined",
 					"description":"Optional body data to be passed with the call if this.body is or when it is desired to override"
 				},
-								{				
+								{
 					"name":"options",
 					"type":"Object",
 					"optional":true,
@@ -106,14 +106,14 @@
 			"name":"queue",
 			"description":"Enqueus the XHR call to be triggered by execQueue. Returns the promise for the call being queued.",
 			"arguments":[
-				{				
+				{
 					"name":"data",
 					"type":"Object",
 					"optional":true,
 					"default":"undefined",
 					"description":"Optional body data to be passed with the call if this.body is or when it is desired to override"
 				},
-								{				
+								{
 					"name":"options",
 					"type":"Object",
 					"optional":true,
@@ -152,7 +152,7 @@
 			"name":"addHeader",
 			"description":"Adds a header name/value pair to the headers array.",
 			"arguments":[
-				{				
+				{
 					"name":"name",
 					"type":"String",
 					"optional":false,
@@ -170,9 +170,9 @@
 		},
 		{
 			"name":"addParam",
-			"description":"Adds a queryString name/value pair to the params array.",
-			"arguments":[				
-				{				
+			"description":"Adds a queryString name/value pair to the query array.",
+			"arguments":[
+				{
 					"name":"name",
 					"type":"String",
 					"optional":false,
@@ -191,8 +191,8 @@
 		{
 			"name":"addUrlParam",
 			"description":"Adds a url chunk to the urlParams array. Useful for ids or other dynamic url parts. / is added automatically.",
-			"arguments":[				
-				{				
+			"arguments":[
+				{
 					"name":"name",
 					"type":"String",
 					"optional":false,

@@ -12,11 +12,11 @@
 	var DataUtils = StrandLib.DataUtils;
 	var Storage = StrandLib.Storage;
 
-	scope.AjaxCSRFPlugin = function (config) {
+	scope.AjaxCSRFPlugin = function (config, name) {
 		this.config = DataUtils.copy({
 			useCache:true,
 			header:"X-CSRF-Token",
-			enabled:true, 
+			enabled:true,
 			token:""
 		}, config);
 
@@ -24,6 +24,8 @@
 			this.storage = new Storage("csrf");
 			this.config.token = this.config.token || this.storage.value;
 		}
+
+		this.name = name;
 	};
 
 	scope.AjaxCSRFPlugin.prototype = {
