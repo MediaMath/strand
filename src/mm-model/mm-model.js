@@ -18,7 +18,7 @@
 
 		behaviors: [
 			StrandLib.Sync.getBehavior(),
-			StrandLib.Model.getBehavior(),
+			StrandTraits.Model,
 			StrandTraits.DomSyncable,
 			StrandTraits.Refable
 		],

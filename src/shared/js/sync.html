@@ -75,6 +75,13 @@
 		];
 	}
 
+	function _getDefaultData(scope) {
+		if (scope && scope.is === "mm-collection") {
+			return [];
+		}
+		return {};
+	}
+
 	scope.Sync = function(endpoint, options, data, domHook, saveResponse, plugins) {
 		this._eventPrefix = _eventPrefix;
 		this.endpoint = this.endpoint || endpoint || "/";
@@ -86,9 +93,9 @@
 		}, this.options, options);
 
 		if (this.set) {
-			this.set('data', this.data || data || {});
+			this.set('data', this.data || data || _getDefaultData(this));
 		} else {
-			this.data = this.data || data || {};
+			this.data = this.data || data || _getDefaultData(this);
 		}
 
 		this.domHook = this.domHook || domHook;
