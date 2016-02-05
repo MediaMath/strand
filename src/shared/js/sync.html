@@ -128,15 +128,24 @@
 		sync: function(method, data, options) {
 			method = method || Ajax.GET;
 			var configOpts;
+			var promise;
 
 			if (this.domHook)
 				configOpts = this.domHook(method, this, options);
 
 			options = _copyOptions({method:method, url:this.endpoint, body:this.data}, options, configOpts, this.options);
-
 			options = this._plugin.processRequest(options);
 
-			var promise = this._ajax.exec(null, options);
+			if (options.mode === 'multi' && DataUtils.isType(data, 'array')) {
+				options.body = null;
+				data.forEach(function(model) {
+					this._ajax.queue(model, options, 'multi');
+				});
+				promise = this._ajax.execQueue('multi');
+			} else {
+				promise = this._ajax.exec(null, options);
+			}
+
 			promise.then(this._handleResult.bind(this), this._handleError.bind(this));
 
 			return promise;

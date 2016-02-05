@@ -3,9 +3,74 @@
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
     <link rel="import" href="mm-collection.html">
+    <link rel="import" href="../mm-button/mm-button.html">
+    <link rel="import" href="../mm-input/mm-input.html">
   </head>
   <body>
     <mm-collection></mm-collection>
+    <dom-module id="c-test">
+        <template>
+            <mm-collection
+                id="col"
+                data="{{data}}"
+                removed="{{removed}}"
+                added="{{added}}"
+                modified="{{modified}}"
+                auto="false">
+            </mm-collection>
+            <mm-button on-click="addItem">
+                <label>Add</label>
+            </mm-button>
+            <mm-button on-click="addPreset">
+                <label>Preset</label>
+            </mm-button>
+            <template is="dom-repeat" items="{{data}}" id="rpt">
+                <div>
+                    <mm-button on-click="removeItem"><label>Remove</label></mm-button>
+                    <mm-input value="{{item.cake}}"></mm-input>
+                    <span>{{item.cId}}{{item.cake}}</span>
+                </div>
+            </template>
+            [Removed:
+            <template is="dom-repeat" items="{{removed}}">
+                <span>{{item.cId}}{{item.cake}}</span>
+            </template>]
+            [Added:
+            <template is="dom-repeat" items="{{added}}">
+                <span>{{item.cId}}{{item.cake}}</span>
+            </template>]
+            [Modified:
+            <template is="dom-repeat" items="{{modified}}">
+                <span>{{item.cId}}{{item.cake}}</span>
+            </template>]
+        </template>
+    </dom-module>
+    <script>
+    Polymer({
+        is:'c-test',
+        getCake: function() {
+            var w = ["monitor", "program", "application", "keyboard", "javascript", "gaming", "network"]
+            return w[Math.floor(Math.random()*w.length)+1] + " cake";
+        },
+        addItem: function() {
+            this.$.col.add({cake:this.getCake()});
+        },
+        removeItem: function(e) {
+            var idx = this.$.rpt.indexForElement(e.target);
+            this.$.col.splice('data', idx, 1);
+        },
+        addPreset: function() {
+            var a = [];
+            for (var i = 0; i < 12; i++) {
+                a.push({cake:this.getCake()});
+            }
+            this.$.col.set('data',a);
+        }
+    });
+    </script>
+
+    <c-test></c-test>
+
     <script type="text/javascript">
     window.addEventListener("WebComponentsReady", function() {
     	document.querySelector("mm-collection").addEventListener("data-changed", function(e) {

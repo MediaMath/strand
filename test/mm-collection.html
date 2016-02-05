@@ -45,6 +45,22 @@ describe("mm-collection", function() {
 		}, "Model Conflict - matching id's, use force flag to add manually");
 	});
 
+	it("should return the index for a given cId that exists", function() {
+		var c = new Strand.Collection();
+		c.auto = false;
+		c.add({a:1}); //cid 0
+		c.add({a:2}); //cid 1
+		c.add({a:3}); //cid 2
+
+		var b = c.shift('data')
+		c.push('data',b);
+
+		c.getIndexOfCid(1).should.equal(0);
+		c.getIndexOfCid(2).should.equal(1);
+		c.getIndexOfCid(0).should.equal(2);
+		c.getIndexOfCid(10).should.equal(-1);
+	});
+
 	it("should return models at indicies", function() {
 		var c = new Strand.Collection(false);
 		c.add({ id: 10, name:"aces" }, false);

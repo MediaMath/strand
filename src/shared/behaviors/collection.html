@@ -13,7 +13,7 @@
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	function _generateCid(collection, model) {
-		model.cId = ++collection._cidIndex;
+		model.cId = collection._cidIndex++;
 	}
 
 	var _eventPrefix = "data-";
@@ -38,8 +38,20 @@
 					return [];
 				},
 				notify:true
+			},
+			modified:{
+				type:Array,
+				value: function() {
+					return [];
+				},
+				notify:true
 			}
 		},
+
+		observers:[
+			'_dataArrayChanged(data.splices)',
+			'_deepChanged(data.*)'
+		],
 
 		add: function(model, silent, force) {
 			this._silent = silent;
@@ -53,8 +65,8 @@
 				return false;
 			});
 			if (check.length === 0 || force) {
-				this.data.push(model);
-				if (!silent) this.fire("changed", {instance:this, data:this.data});
+				this.push('data',model);
+				// if (!silent) this.fire("changed", {instance:this, data:this.data});
 				return model;
 			} else {
 				throw(new Error("Model Conflict - matching id's, use force flag to add manually"));
@@ -73,6 +85,14 @@
 
 		getIndexOf: function(model) {
 			return this.data.indexOf(model);
+		},
+
+		getIndexOfCid: function(cId, source) {
+			source = source || 'data';
+			return this[source].reduce(function(prev, model, idx) {
+				if (model.cId === cId) return idx;
+				return prev;
+			},-1);
 		},
 
 		delete: function(input) {
@@ -114,10 +134,65 @@
 			}
 		},
 
-		// _handleResponse: function(e) {
-		// 	this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
-		// 	this.fire("changed", {instance:this, data:this.data});
-		// },
+		_dataArrayChanged: function(changeRecord) {
+
+			if (!changeRecord) return;
+			changeRecord.indexSplices.forEach(function(splice) {
+				splice.removed.forEach(function(a) {
+					if (this.getIndexOfCid(a.cId, 'added') === -1) {
+						this.push('removed', a);
+					}
+					this._cleanHelperArrays('added',a);
+					this._cleanHelperArrays('modified',a);
+				}, this);
+				for(var i=splice.index; i<splice.index + splice.addedCount; i++) {
+					this.push('added', this.data[i]);
+					//new so we dont need to worry about the helpers
+				}
+			}, this);
+
+		},
+
+		_cleanHelperArrays: function(helper, obj) {
+			var arr = this[helper];
+			var idx = this.getIndexOfCid(obj.cId, helper);
+			if (idx !== -1)
+				this.splice(helper, idx, 1);
+		},
+
+		_resetHelperArrays: function() {
+			this.set('added',[]);
+			this.set('modified',[]);
+			this.set('removed',[]);
+		},
+
+		_deepChanged:function(change) {
+			if (change && change.path) {
+				var path = change.path.split(".");
+				if (path.length > 1) {
+					var idx = parseInt(path[1].substr(1));
+					var model = this.data[idx];
+					this.fire('added-changed');
+					this.fire('removed-changed');
+					this.fire('modified-changed');
+					//dont move to modified list if its a 'new' model
+					if (model && this.getIndexOfCid(model.cId,'added') === -1
+						&& this.getIndexOfCid(model.cId, 'modified') === -1) {
+
+						this.push('modified', this.data[idx]);
+						this._cleanHelperArrays('added',this.data[idx]);
+						this._cleanHelperArrays('removed',this.data[idx]);
+					}
+				} else if (change.path === 'data' && this.data) {
+					this._resetHelperArrays();
+					this.data.forEach(function(model) {
+						if (!model.cId) {
+							_generateCid(this, model);
+						}
+					}, this);
+				}
+			}
+		},
 
 		get length() {
 			return this.data.length;
