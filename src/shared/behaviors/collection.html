@@ -95,16 +95,11 @@
 			},-1);
 		},
 
-		delete: function(input) {
-			if (input instanceof Model) {
-				this.data.slice(this.data.indexOf(input), 1);
+		remove: function(input) {
+			if (DataUtils.isType(input, "object")) {
+				this.splice('data', this.data.indexOf(input), 1);
 			} else {
-				var d = this.data.slice(input, 1);
-				if (!d) {
-					this.data.filter(function(model) {
-						return model.mid !== input && model.cId !== input;
-					});
-				}
+				var d = this.splice('data', input, 1);
 			}
 		},
 

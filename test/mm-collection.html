@@ -52,7 +52,7 @@ describe("mm-collection", function() {
 		c.add({a:2}); //cid 1
 		c.add({a:3}); //cid 2
 
-		var b = c.shift('data')
+		var b = c.shift('data');
 		c.push('data',b);
 
 		c.getIndexOfCid(1).should.equal(0);
@@ -66,6 +66,65 @@ describe("mm-collection", function() {
 		c.add({ id: 10, name:"aces" }, false);
 		c.getDataAt(0).should.be.an("object");
 		c.getDataAt(0).name.should.equal("aces");
+	});
+
+	it("should remove a model when passed", function() {
+		var c = new Strand.Collection(false);
+		var a = {a:1};
+		c.set('data',[a]);
+		c.data.should.have.length(1);
+		c.remove(a);
+		c.data.should.be.empty;
+
+	});
+
+	it("should remove a model by index", function() {
+
+	});
+
+	it("should properly track added models", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]); //init
+		c.add({d:4});
+		c.add({e:5});
+		c.added.should.have.length(2);
+		c.added[0].should.contain({d:4});
+		c.added[1].should.contain({e:5});
+	});
+
+	it("should properly track removed models", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]); //init
+		c.add({d:4});
+		var k = {e:5};
+		c.add(k);
+		c.remove(0);
+		c.removed.should.have.length(1);
+		c.removed[0].should.contain({a:1});
+		c.remove(k);
+		c.removed.should.have.length(1);
+		c.removed[0].should.contain({a:1});
+
+	});
+
+	it("should propertly track modified models", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]);
+		c.modified.should.be.empty;
+		c.set('data.#0.a', 10);
+		c.modified.should.have.length(1);
+		c.modified[0].should.contain({a:10});
+
+	});
+
+	it("should empty the tracking arrays when empty is called", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]);
+		c.add({d:4});
+		c.add({e:5});
+		c.added.should.have.length(2);
+		c.empty();
+		c.added.should.have.length(0);
 	});
 
 	it("should support each on every model", function() {
