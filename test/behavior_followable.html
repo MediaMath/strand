@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/followable.html"/>
+</head>
+<body>
+<script>
+	var TestComp = Polymer({
+		is:'test-comp',
+		behaviors:[StrandTraits.Followable],
+		properties:{
+			a:{
+				type:Number,
+				value:10,
+				notify:true
+			},
+			b:{
+				type:Number,
+				value:10,
+				notify:true
+			}
+		}
+	});
+
+	describe("behavior_followable", function() {
+
+		it("should bind from", function() {
+			var t1 = new TestComp();
+			var t2 = new TestComp();
+			t1.bindFrom('a', t2);
+			t2.set('a',20);// = 20;
+
+			t2.a.should.equal(20);
+			t1.a.should.equal(20);
+		});
+
+		it("should bind to", function() {
+			var t1 = new TestComp();
+			var t2 = new TestComp();
+			t1.bindTo('a', t2);
+			t1.set('a', 20);
+
+			t1.a.should.equal(20);
+			t2.a.should.equal(20);
+		});
+
+		it("should support updatePath", function() {
+			var t1 = new TestComp();
+			var t2 = new TestComp();
+			t1.bindFrom('a', t2, 'b');
+			t2.set('a',20);// = 20;
+
+			t2.a.should.equal(20);
+			t1.a.should.equal(10);
+			t1.b.should.equal(20);
+		});
+
+		it("should support targetPath", function() {
+			var t1 = new TestComp();
+			var t2 = new TestComp();
+			t1.bindTo('a', t2, 'b');
+			t1.set('a', 20);
+
+			t1.a.should.equal(20);
+			t2.a.should.equal(10);
+			t2.b.should.equal(20);
+		});
+
+	});
+
+</script>
+
+</body>
+</html>
