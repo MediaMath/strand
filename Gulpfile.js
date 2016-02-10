@@ -103,11 +103,11 @@ gulp.task('default', function(cb) {
 });
 
 gulp.task('build', function(cb) {
-	run('copy', ['sass','font'],'vulcanize', cb);
+	run('copy',['sass','font'],'vulcanize',cb);
 });
 
 gulp.task('build:prod', function(cb) {
-	run('clean', ['build', 'vulcanize:prod', 'copy:prod'], cb);
+	run('copy',['sass','font'],'vulcanize','vulcanize:prod','copy:prod',cb);
 });
 
 gulp.task('vulcanize:prod', function() {
@@ -126,7 +126,7 @@ gulp.task('vulcanize:prod', function() {
 		.pipe(gulp.dest(BUILD));
 });
 
-gulp.task('copy:prod', function() {
+gulp.task('copy:prod', ['vulcanize:prod'], function() {
 	return gulp.src([BUILD+'**/*.+(html|woff)', '!'+BUILD+'/shared/**/*.html', '!'+BUILD +'**/example.html'])
 		.pipe(changed(DIST))
 		.pipe(debug())
@@ -169,8 +169,6 @@ gulp.task('watch', function () {
 });
 
 /** DEPLOY **/
-
-gulp.task('build:prod', ['clean', 'copy', 'sass', 'font', 'vulcanize:prod']);
 
 gulp.task('bump:major', function(){
 	 return gulp.src(['package.json', 'bower.json'])
