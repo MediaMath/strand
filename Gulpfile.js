@@ -215,5 +215,6 @@ gulp.task('stage-release', function() {
 	var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 	return gulp.src([DIST, 'package.json', 'bower.json', 'CHANGELOG.md'])
 		.pipe(git.add())
-		.pipe(git.commit('Release v'+pkg.version));
+		.pipe(git.commit('Release v'+pkg.version))
+		.pipe(tagVersion());
 });
