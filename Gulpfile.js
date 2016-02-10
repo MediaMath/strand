@@ -32,7 +32,7 @@ var SRC = 'src/';
 var BUILD = 'build/';
 var BUILD_DOCS = 'build_docs/';
 var DIST = 'dist/';
-var TEMPLATES = 'grunt/templates/'; //TODO swap to gulp
+var TEMPLATES = 'gulp/templates/'; //TODO swap to gulp
 
 /** BUILD **/
 
