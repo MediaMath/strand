@@ -25,7 +25,8 @@ var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var git = require('gulp-git');
 var bump = require('gulp-bump');
-var tag_version = require('gulp-tag-version');
+var tagVersion = require('gulp-tag-version');
+var conventionalChangelog = require('gulp-conventional-changelog');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -170,6 +171,16 @@ gulp.task('watch', function () {
 
 /** DEPLOY **/
 
+gulp.task('release:major', function() {
+	run('build:prod', 'bump:major', 'changelog', 'stage-release');
+});
+gulp.task('release:minor', function() {
+	run('build:prod', 'bump:minor', 'changelog', 'stage-release');
+});
+gulp.task('release:patch', function() {
+	run('build:prod', 'bump:patch', 'changelog', 'stage-release');
+});
+
 gulp.task('bump:major', function(){
 	 return gulp.src(['package.json', 'bower.json'])
 		.pipe(bump({type: 'major'}))
@@ -184,6 +195,20 @@ gulp.task('bump:patch', function(){
 	 return gulp.src(['package.json', 'bower.json'])
 		.pipe(bump({type: 'patch'}))
 		.pipe(gulp.dest('./'));
+});
+
+gulp.task('changelog', function() {
+	return gulp.src('CHANGELOG.md')
+		.pipe(conventionalChangelog({
+			pkg: {
+				transform: function(pkg) {
+					pkg.version = 'v'+pkg.version;
+					return pkg;
+				}
+			}
+		}))
+		.pipe(debug())
+		.pipe(gulp.dest('.'));
 });
 
 gulp.task('stage-release', function() {
