@@ -14,6 +14,7 @@ var vulcanize = require('gulp-vulcanize');
 var debug = require('gulp-debug');
 var run = require('run-sequence');
 var htmlmin = require('gulp-minify-html');
+var inlinemin = require('gulp-minify-inline');
 var wrap = require('gulp-wrap');
 var inlineAssets = require('gulp-inline-assets');
 var marked = require('gulp-marked');
@@ -22,6 +23,9 @@ var es = require('event-stream');
 var cache = require('gulp-cached');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
+var git = require('gulp-git');
+var bump = require('gulp-bump');
+var tag_version = require('gulp-tag-version');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -50,7 +54,7 @@ gulp.task('sass', function() {
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(BUILD))
-		// .pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
+		.pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
 		.pipe(wrap(function(data) {
 			data.fname = path.basename(data.file.relative,'.css');
 			return wrapper;
@@ -79,11 +83,7 @@ gulp.task('vulcanize', function() {
 				imports: ['.*polymer\.html']
 			}
 		}))
-		.pipe(htmlmin({
-			quotes: true,
-			empty: true,
-			spare: true
-		}))
+		.pipe(htmlmin())
 		.pipe(gulp.dest(BUILD));
 	var lib = gulp.src(BUILD + "strand.html")
 		.pipe(vulcanize({
@@ -106,20 +106,44 @@ gulp.task('build', function(cb) {
 	run('copy', ['sass','font'],'vulcanize', cb);
 });
 
+gulp.task('build:prod', function(cb) {
+	run('clean', ['build', 'vulcanize:prod', 'copy:prod'], cb);
+});
+
 gulp.task('vulcanize:prod', function() {
-	return gulp.src(BUILD + "mm-*/mm-*.html")
+	return gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
-				inlineScripts:true,
-				inlineCss:true,
-				stripExcludes:false
+			inlineScripts:true,
+			inlineCss:true,
+			stripExcludes:false
 		}))
 		.pipe(htmlmin({
 			quotes: true,
 			empty: true,
 			spare: true
 		}))
+		.pipe(inlinemin())
 		.pipe(gulp.dest(BUILD));
 });
+
+gulp.task('copy:prod', function() {
+	return gulp.src([BUILD+'**/*.+(html|woff)', '!'+BUILD+'/shared/**/*.html', '!'+BUILD +'**/example.html'])
+		.pipe(changed(DIST))
+		.pipe(debug())
+		.pipe(gulp.dest(DIST));
+});
+
+// gulp.task('minify:prod', function() {
+// 	return gulp.src(BUILD+'strand.html')
+// 		.pipe(debug())
+// 		.pipe(htmlmin({
+// 			quotes: true,
+// 			empty: true,
+// 			spare: true
+// 		}))
+// 		.pipe(inlinemin())
+// 		.pipe(gulp.dest(DIST))
+// });
 
 /** DOCS **/
 
@@ -145,3 +169,28 @@ gulp.task('watch', function () {
 });
 
 /** DEPLOY **/
+
+gulp.task('build:prod', ['clean', 'copy', 'sass', 'font', 'vulcanize:prod']);
+
+gulp.task('bump:major', function(){
+	 return gulp.src(['package.json', 'bower.json'])
+		.pipe(bump({type: 'major'}))
+		.pipe(gulp.dest('./'));
+});
+gulp.task('bump:minor', function(){
+	 return gulp.src(['package.json', 'bower.json'])
+		.pipe(bump({type: 'minor'}))
+		.pipe(gulp.dest('./'));
+});
+gulp.task('bump:patch', function(){
+	 return gulp.src(['package.json', 'bower.json'])
+		.pipe(bump({type: 'patch'}))
+		.pipe(gulp.dest('./'));
+});
+
+gulp.task('stage-release', function() {
+	var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+	return gulp.src([DIST, 'package.json', 'bower.json', 'CHANGELOG.md'])
+		.pipe(git.add())
+		.pipe(git.commit('Release v'+pkg.version));
+});
