@@ -172,13 +172,13 @@ gulp.task('watch', function () {
 /** DEPLOY **/
 
 gulp.task('release:major', function() {
-	run('build:prod', 'bump:major', 'changelog', 'stage-release');
+	run('build:prod', 'bump:major', 'changelog', 'stage-release', 'tag-release');
 });
 gulp.task('release:minor', function() {
-	run('build:prod', 'bump:minor', 'changelog', 'stage-release');
+	run('build:prod', 'bump:minor', 'changelog', 'stage-release', 'tag-release');
 });
 gulp.task('release:patch', function() {
-	run('build:prod', 'bump:patch', 'changelog', 'stage-release');
+	run('build:prod', 'bump:patch', 'changelog', 'stage-release', 'tag-release');
 });
 
 gulp.task('bump:major', function(){
@@ -211,10 +211,20 @@ gulp.task('changelog', function() {
 		.pipe(gulp.dest('.'));
 });
 
+function getPkgInfo() {
+	return JSON.parse(fs.readFileSync('package.json', 'utf8'));
+}
+
 gulp.task('stage-release', function() {
-	var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+	var pkg = getPkgInfo();
 	return gulp.src([DIST, 'package.json', 'bower.json', 'CHANGELOG.md'])
 		.pipe(git.add())
-		.pipe(git.commit('Release v'+pkg.version))
-		.pipe(tagVersion());
+		.pipe(git.commit('Release v'+pkg.version));
+});
+
+gulp.task('tag-release', function() {
+	var pkg = getPkgInfo();
+	git.tag('v'+pkg.version, 'Version '+pkg.version, function(err) {
+		console.log(err);
+	});
 });
