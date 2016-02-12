@@ -197,6 +197,40 @@
 			});
 		});
 
+		it("should support batching for collection saving", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var requests = [];
+			xhr.onCreate = function(req) {
+				requests.push(req);
+			};
+
+			var sync = new SyncTest();
+			sync.post([{a:1},{b:2},{c:3}], {mode:'multi'}).then(function() {
+				requests.should.have.length(3);
+				xhr.restore();
+				done();
+			})
+
+		});
+
+		it("should support concurrent batching for collection saving with multiple operations", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var requests = [];
+			xhr.onCreate = function(req) {
+				requests.push(req);
+			};
+
+			var sync = new SyncTest();
+			Promise.all([
+				sync.post([{a:1},{b:2},{c:3}], {mode:'multi'}),
+				sync.post([{a:1},{b:2},{c:3}], {mode:'multi'})
+			]).then(function() {
+				requests.should.have.length(6);
+				xhr.restore();
+				done();
+			});
+		});
+
 		it("should support saving a request", function(done) {
 			var xhr = sinon.useFakeXMLHttpRequest();
 			var request;

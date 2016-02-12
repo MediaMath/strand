@@ -79,6 +79,16 @@ describe("mm-collection", function() {
 	});
 
 	it("should remove a model by index", function() {
+		var c = new Strand.Collection();
+		c.auto = false;
+		c.add({a:1}); //cid 0
+		c.add({a:2}); //cid 1
+		c.add({a:3}); //cid 2
+
+		c.data.should.have.length(3);
+		c.remove(1);
+		c.data.should.have.length(2);
+		c.data[1].should.contain({a:3});
 
 	});
 

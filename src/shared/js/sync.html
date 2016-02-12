@@ -140,7 +140,7 @@
 				options.body = null;
 				data.forEach(function(model) {
 					this._ajax.queue(model, options, 'multi');
-				});
+				},this);
 				promise = this._ajax.execQueue('multi');
 			} else {
 				promise = this._ajax.exec(null, options);
