@@ -48,7 +48,7 @@ Polymer('mm-dropdown', {
 	},
 	
 	domReady: function() {
-		if (!this.fitparent) {		
+		if (!this.fitparent && !this.skinless) {		
 			this.btnWidth = this.btnWidth + this.borderWidth;		
 		}
 

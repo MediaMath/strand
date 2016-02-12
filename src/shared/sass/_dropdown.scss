@@ -39,26 +39,6 @@
 	#caratIcon.opened {
 		@include transform(scaleY(-1));
 	}
-
-	&.skinless {
-		border: none;
-		background: initial;
-		padding: 0 20px 0 8px;
-
-		label {
-			font-weight: 700 !important;
-		}
-
-		&:hover,
-		&:active {
-			background: initial;
-			box-shadow: none;
-		}
-
-		#caratIcon {
-			padding: 0 8px 0 4px;
-		}
-	}
 	
 	mm-icon {
 		pointer-events: none;
@@ -91,6 +71,34 @@
 
 		#caratIcon {
 			padding: 0 8px 0 10px;
+		}
+	}
+
+	polyfill-next-selector { content: ':host > mm-list-item' }
+	::content > mm-list-item {
+		font-size: 11px !important;
+		// line-height: 24px !important;
+	}
+}
+
+:host([skinless]) {
+	.button {
+		border: none;
+		background: initial;
+		padding: 0 20px 0 8px;
+
+		label {
+			font-weight: 700 !important;
+		}
+
+		&:hover,
+		&:active {
+			background: initial;
+			box-shadow: none;
+		}
+
+		#caratIcon {
+			padding: 0 8px 0 4px;
 		}
 	}
 }

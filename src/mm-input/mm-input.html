@@ -12,17 +12,32 @@
 <link rel="import" href="../mm-list/mm-list.html"/>
 <link rel="import" href="../mm-list-item/mm-list-item.html"/>
 <link rel="import" href="../shared/js/measure.html"/>
-<polymer-element name="mm-input" attributes="value overflow placeholder validation disabled search icon clear maxlength autocomplete width layout fitparent maxItems error data type" constructor="MMInput">
+<polymer-element name="mm-input" attributes="value overflow placeholder validation disabled search icon clear maxlength autocomplete width layout fitparent maxItems error data type size" constructor="MMInput">
 	<template>
 		<link href="mm-input.css" rel="stylesheet" type="text/css"/>
+		
+		<!--
 		<input id="input" type="{{type}}" class="_mm_text_input {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', invalid:error == true } | tokenList }}" placeholder="{{placeholder}}" value="{{value}}" maxlength="{{maxlength}}" style="width:{{width | getWidth}}; padding-right:{{ paddingRight }}px;" disabled?="{{disabled}}"/>
+		-->
 
-		<span id="icon">
-			<mm-icon type="{{icon}}" width="14" height="14" primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+		<input id="input" 
+			type="{{type}}" 
+			class="_mm_text_input {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', invalid:error == true } | tokenList }}" 
+			placeholder="{{placeholder}}" 
+			value="{{value}}" 
+			maxlength="{{maxlength}}"
+			disabled?="{{disabled}}"/>
+
+		<span id="icon" class="icon-holder">
+			<mm-icon type="{{icon}}" 
+				width="{{ size | iconSize }}" height="{{ size | iconSize }}"
+				primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
 		</span>
 
 		<span id="clearBtn" class="clear-btn" on-click="{{clearInput}}">
-			<mm-icon type="fail" width="14" height="14" primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
+			<mm-icon type="fail" 
+				width="{{ size | iconSize }}" height="{{ size | iconSize }}"
+				primaryColor="[[PRIMARY_ICON_COLOR]]"></mm-icon>
 		</span>
 
 		<template if="{{autocomplete}}">
