@@ -33,23 +33,12 @@
 	right: 0;
 }
 
-// #icon, #clearBtn {
-// 	width: 14px;
-// 	height: 14px;
-// 	position: absolute;
-// 	display: none;
-// 	right: 0;
-// 	top: 50%;
-// 	margin: -7px 8px 0 0;
-// }
-
 .clear-btn {
 	cursor: pointer;	
 }
 
 ._mm_text_input {
 	height: 29px;
-	// line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
 	line-height: 29px !important;
 	padding: 0 10px;
 }

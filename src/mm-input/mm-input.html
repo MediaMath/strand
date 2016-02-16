@@ -16,10 +16,6 @@
 	<template>
 		<link href="mm-input.css" rel="stylesheet" type="text/css"/>
 		
-		<!--
-		<input id="input" type="{{type}}" class="_mm_text_input {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', invalid:error == true } | tokenList }}" placeholder="{{placeholder}}" value="{{value}}" maxlength="{{maxlength}}" style="width:{{width | getWidth}}; padding-right:{{ paddingRight }}px;" disabled?="{{disabled}}"/>
-		-->
-
 		<input id="input" 
 			type="{{type}}" 
 			class="_mm_text_input {{state}} {{ { bottom:$.closePanel.calcValign == 'BOTTOM', top:$.closePanel.calcValign == 'TOP', invalid:error == true } | tokenList }}" 
