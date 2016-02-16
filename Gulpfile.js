@@ -175,6 +175,15 @@ gulp.task('sass:docs', function() {
 });
 
 gulp.task('docs:templates', function() {
+	function lookupArticle(list, key) {
+		for(var i=0; i<list.length; i++) {
+		 	if (list[i].key === key) {
+		 		return list[i];
+		 	}
+		 }
+		 return null;
+	}
+
 	function mergeDocArray(doc, behavior) {
 		var p = {};
 		if (!behavior) {
@@ -221,13 +230,13 @@ gulp.task('docs:templates', function() {
 	}
 
 	// Ad-hoc plugin for injecting everything else
-	function injectDocsMeta(pkg, moduleList, articleList, articleMap) {
+	function injectModuleMeta(pkg, moduleMap, articleList, articleMap) {
 		return through.obj(function(file, enc, cb) {
 			var moduleDoc = JSON.parse(file.contents);
 
 			// Inject metadata
 			moduleDoc.revision = pkg.version;
-			moduleDoc.modules = moduleList;
+			moduleDoc.modules = moduleMap;
 			moduleDoc.articleList = articleList;
 			moduleDoc.articleMap = articleMap;
 
@@ -237,11 +246,34 @@ gulp.task('docs:templates', function() {
 		});
 	}
 
+	function injectArticleMeta(pkg, moduleMap, articleList, articleMap) {
+		console.log(articleList);
+		console.log(articleMap);
+		return through.obj(function(file, enc, cb) {
+			var articleContents = file.contents.toString('utf8');
+			var articleDoc = {
+				contents: articleContents,
+				revision: pkg.version,
+				modules: moduleMap,
+				articleList: articles,
+				articleMap: articleMap
+			};
+			var templatePath = path.join(__dirname,'docs/article_template.html');
+			var templateString = fs.readFileSync(templatePath).toString('utf8');
+			var template = hogan.compile(templateString);
+			var doc = template.render(articleDoc, partialMap);
+			file.contents = new Buffer(doc, enc);
+			this.push(file);
+			cb();
+		});
+	}
+
 	var pkg = getPkgInfo();
 
 	// Create moduleList from directory listing
 	var modules = glob.sync("mm-*/", {cwd:SRC});
-	var moduleList = modules.map(function(name) { return name.replace('/','') });
+	var moduleList = modules.map(function(name) { return name.replace('/',''); });
+	var moduleMap = moduleList.map(function(name) { return {name: name}; });
 
 	// Create behaviorsMap
 	var behaviors = glob.sync(SRC+'shared/behaviors/*.json');
@@ -256,9 +288,33 @@ gulp.task('docs:templates', function() {
 	// Create articleList and articleMap
 	var articles = glob.sync("*.md", {cwd:"./docs/articles/"});
 	var articleMap = JSON.parse(fs.readFileSync('./docs/articles/manifest.json'));
+	var articleList = articles.map(function(article) {
+		var file = fs.readFileSync('./docs/articles/'+article).toString('utf8'),
+			name = file.split("\n")[0].replace("#",""),
+			key = path.basename(article, '.md'),
+			link = "article_" + key + ".html";
+		return {
+			key: key,
+			name: name,
+			link: link
+		};
+	});
+	articleMap = articleMap.map(function(section) {
+		var a = lookupArticle(articleList, section.key);
+		if (a) {
+			section.link = a.link.trim();
+			section.name = a.name.trim();
+		}
+		if (section.children) {
+			section.children = section.children.map(function(key) {
+				return lookupArticle(articleList, key);
+			});
+		}
+		return section;
+	});
 
 	// Compile partials
-	var partials = glob.sync("*.html", {cwd:"./docs/", ignore: '*_template.html'});
+	var partials = glob.sync("*.html", {cwd:"./docs/", ignore: '(*_template).html'});
 	var partialMap = {};
 	partials.forEach(function(part) {
 		var name = part.replace('.html','');
@@ -268,6 +324,7 @@ gulp.task('docs:templates', function() {
 
 	var indexStream = gulp.src('./docs/index.html')
 		.pipe(through.obj(function(file, enc, cb) {
+			// TODO: Put this in a closure
 			var templateString = file.contents.toString('utf8');
 			var template = hogan.compile(templateString);
 			var doc = template.render(null, partialMap);
@@ -279,8 +336,8 @@ gulp.task('docs:templates', function() {
 
 	var moduleStream = gulp.src(SRC+'mm-*/doc.json')
 		.pipe(injectBehaviorDocs(behaviorsMap))
-		.pipe(injectDocsMeta(pkg, moduleList, articles, articleMap))
-		.pipe(debug())
+		.pipe(injectModuleMeta(pkg, moduleMap, articleList, articleMap))
+		// .pipe(debug())
 		.pipe(through.obj(function(file, enc, cb) {
 			// TODO: Put this in a closure
 			var moduleDoc = JSON.parse(file.contents);
@@ -301,9 +358,10 @@ gulp.task('docs:templates', function() {
 		.on('error',console.log);
 
 	var articleStream = gulp.src('./docs/articles/*.md')
-		.pipe(debug())
+		// .pipe(debug())
 		.pipe(marked().on('error',console.log))
-		.pipe(wrap({src:"./docs/article_template.html"},{},{engine:"hogan"}).on('error',console.log))
+		.pipe(injectArticleMeta(pkg, moduleMap, articleList, articleMap))
+		.pipe(rename({prefix: 'article_'}))
 		.pipe(gulp.dest(BUILD_DOCS));
 
 	return merge(indexStream, moduleStream, articleStream);
