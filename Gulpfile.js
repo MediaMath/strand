@@ -164,7 +164,9 @@ gulp.task('copy:docs', function() {
 	var dist = gulp.src(BUILD+'**')
 		.pipe(debug())
 		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/strand/dist'));
-	return merge(assets, bowerComponents, dist);
+	var cname = gulp.src('CNAME')
+		.pipe(gulp.dest(BUILD_DOCS));
+	return merge(assets, bowerComponents, dist, cname);
 });
 
 gulp.task('sass:docs', function() {
