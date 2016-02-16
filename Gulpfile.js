@@ -27,6 +27,9 @@ var git = require('gulp-git');
 var bump = require('gulp-bump');
 var tagVersion = require('gulp-tag-version');
 var conventionalChangelog = require('gulp-conventional-changelog');
+var ghPages = require('gulp-gh-pages');
+var through = require('through2');
+var tap = require('gulp-tap');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -38,6 +41,10 @@ var TEMPLATES = 'gulp/templates/'; //TODO swap to gulp
 
 gulp.task('clean', function() {
 	return del([BUILD + '**', BUILD_DOCS+ '**', DIST+ '**']);
+});
+
+gulp.task('clean:docs', function() {
+	return del([BUILD_DOCS+'**']);
 });
 
 gulp.task('copy', function() {
@@ -158,7 +165,121 @@ gulp.task('docs', function() {
 		.pipe(marked().on('error',console.log))
 		.pipe(wrap({src:"./docs/article_template.html"},{},{engine:"hogan"}).on('error',console.log))
 		.pipe(gulp.dest(BUILD_DOCS));
+
+	// return merge(moduleStream, articleStream);
 	return articles;
+});
+
+gulp.task('docs:modules', function() {
+	function mergeDocArray(doc, behavior) {
+		var p = {};
+		if (!behavior) {
+			return doc;
+		}
+		if (!doc && behavior) {
+			return behavior;
+		}
+		behavior.forEach(function(obj) {
+			if(obj.name) p[obj.name] = obj;
+			else if(obj.type) p[obj.type] = obj;
+		});
+		doc.forEach(function(obj) {
+			if(obj.name) p[obj.name] = obj;
+			else if(obj.type) p[obj.type] = obj;
+		});
+		return Object.keys(p).map(function(key) {
+			return p[key];
+		});
+	}
+
+	// Ad-hoc plugin for injecting behaviors
+	function injectBehaviorDocs(behaviorsMap) {
+		return through.obj(function(file, enc, cb) {
+			if(!file.isBuffer()) this.emit('error', new gutil.PluginError('Buffer required'));
+
+			var moduleDoc = JSON.parse(file.contents),
+				moduleBehaviors = moduleDoc.behaviors;
+
+			// Merge behaviors docs with component docs
+			moduleBehaviors.forEach(function(key) {
+				var behavior = behaviorsMap[key];
+				if(moduleDoc && behavior) {
+					moduleDoc.attributes = mergeDocArray(moduleDoc.attributes, behavior.attributes);
+					moduleDoc.methods = mergeDocArray(moduleDoc.methods, behavior.methods);
+					moduleDoc.events = mergeDocArray(moduleDoc.events, behavior.events);
+				}
+			});
+
+			file.contents = new Buffer(JSON.stringify(moduleDoc), enc);
+			this.push(file);
+			cb();
+		});
+	}
+
+	// Ad-hoc plugin for injecting everything else
+	function injectDocsMeta(pkg, moduleList, articleList, articleMap) {
+		return through.obj(function(file, enc, cb) {
+			var moduleDoc = JSON.parse(file.contents);
+
+			// Inject metadata
+			moduleDoc.revision = pkg.version;
+			moduleDoc.modules = moduleList;
+			moduleDoc.articleList = articleList;
+			moduleDoc.articleMap = articleMap;
+
+			file.contents = new Buffer(JSON.stringify(moduleDoc), enc);
+			this.push(file);
+			cb();
+		});
+	}
+
+	var pkg = getPkgInfo();
+
+	// Create moduleList
+	var moduleList = [];
+
+	// Create behaviorsMap
+	var behaviors = glob.sync(SRC+'shared/behaviors/*.json');
+	var behaviorsMap = {};
+	behaviors.forEach(function(behavior) {
+		var behaviorKey = behavior.replace(SRC+'shared/behaviors/','')
+			.replace('.json','')
+			.toLowerCase();
+		behaviorsMap[behaviorKey] = JSON.parse(fs.readFileSync(behavior));
+	});
+
+	// Create articleList and articleMap
+	var articleList = [];
+	var articleMap = {};
+
+	// Finally open the stream
+	gulp.src(SRC+'mm-*/doc.json')
+		.pipe(injectBehaviorDocs(behaviorsMap))
+		.pipe(injectDocsMeta(pkg, moduleList, articleList, articleMap))
+		.pipe(tap(function(file, t) {
+			var moduleDoc = JSON.parse(file.contents);
+			var curried = wrap.bind(
+				{src:"./docs/component_template.html"},
+				moduleDoc,
+				{engine:"hogan"}
+			);
+			return t.through(curried, []);
+		}))
+		.pipe(rename(function(path) {
+			path.basename = path.dirname;
+			path.dirname = '';
+			path.extname = '.html';
+		}))
+		.pipe(gulp.dest(BUILD_DOCS))
+		.on('error',console.log);
+});
+
+gulp.task('gh-pages', function() {
+	var pkg = getPkgInfo();
+	return gulp.src(BUILD_DOCS+'**/*')
+		.pipe(ghPages({
+			message: 'docs updates v'+pkg.version
+		}));
 });
 
 /** LIVE **/
