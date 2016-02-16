@@ -156,21 +156,6 @@ gulp.task('copy:prod', ['vulcanize:prod'], function() {
 /** DOCS **/
 
 gulp.task('docs', function() {
-	var modules = glob.sync("mm-*", {cwd:SRC});
-	var articles = glob.sync("*.md", {cwd:"./docs/articles/"});
-	var articleMap = JSON.parse(fs.readFileSync('./docs/articles/manifest.json'));
-
-	var articleStream = gulp.src('./docs/articles/*.md')
-		.pipe(debug())
-		.pipe(marked().on('error',console.log))
-		.pipe(wrap({src:"./docs/article_template.html"},{},{engine:"hogan"}).on('error',console.log))
-		.pipe(gulp.dest(BUILD_DOCS));
-
-	// return merge(moduleStream, articleStream);
-	return articles;
-});
-
-gulp.task('docs:modules', function() {
 	function mergeDocArray(doc, behavior) {
 		var p = {};
 		if (!behavior) {
@@ -235,8 +220,9 @@ gulp.task('docs:modules', function() {
 
 	var pkg = getPkgInfo();
 
-	// Create moduleList
-	var moduleList = [];
+	// Create moduleList from directory listing
+	var modules = glob.sync("mm-*/", {cwd:SRC});
+	var moduleList = modules.map(function(name) { return name.replace('/','') });
 
 	// Create behaviorsMap
 	var behaviors = glob.sync(SRC+'shared/behaviors/*.json');
@@ -249,13 +235,12 @@ gulp.task('docs:modules', function() {
 	});
 
 	// Create articleList and articleMap
-	var articleList = [];
-	var articleMap = {};
+	var articles = glob.sync("*.md", {cwd:"./docs/articles/"});
+	var articleMap = JSON.parse(fs.readFileSync('./docs/articles/manifest.json'));
 
-	// Finally open the stream
-	gulp.src(SRC+'mm-*/doc.json')
+	var moduleStream = gulp.src(SRC+'mm-*/doc.json')
 		.pipe(injectBehaviorDocs(behaviorsMap))
-		.pipe(injectDocsMeta(pkg, moduleList, articleList, articleMap))
+		.pipe(injectDocsMeta(pkg, moduleList, articles, articleMap))
 		.pipe(debug())
 		.pipe(through.obj(function(file, enc, cb) {
 			var moduleDoc = JSON.parse(file.contents);
@@ -274,6 +259,14 @@ gulp.task('docs:modules', function() {
 		}))
 		.pipe(gulp.dest(BUILD_DOCS))
 		.on('error',console.log);
+
+	var articleStream = gulp.src('./docs/articles/*.md')
+		.pipe(debug())
+		.pipe(marked().on('error',console.log))
+		.pipe(wrap({src:"./docs/article_template.html"},{},{engine:"hogan"}).on('error',console.log))
+		.pipe(gulp.dest(BUILD_DOCS));
+
+	return merge(moduleStream, articleStream);
 });
 
 gulp.task('gh-pages', function() {
