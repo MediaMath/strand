@@ -206,7 +206,7 @@
 		},
 	};
 
-	var beh = BehaviorUtils.extend({
+	var beh = BehaviorUtils.extend({}, scope.Sync.prototype, {
 		properties: {
 			data:{
 				notify:true
@@ -221,9 +221,12 @@
 		},
 		ready: function() {
 			scope.Sync.apply(this);
+		},
+		fire: function(type, detail) {
+			Polymer.Base.fire.call(this, this._eventPrefix + type, detail);
 		}
-	}, scope.Sync.prototype);
-	delete beh.fire;
+	});
+	// delete beh.fire;
 
 	scope.Sync.getBehavior = function() {
 		return beh;
