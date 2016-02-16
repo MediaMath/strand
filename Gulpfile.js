@@ -43,10 +43,6 @@ gulp.task('clean', function() {
 	return del([BUILD + '**', BUILD_DOCS+ '**', DIST+ '**']);
 });
 
-gulp.task('clean:docs', function() {
-	return del([BUILD_DOCS+'**']);
-});
-
 gulp.task('copy', function() {
 	return gulp.src([SRC + '**/*.+(html|js|woff)', '!' + SRC +'**/example.html'])
 		.pipe(changed(BUILD))
@@ -154,8 +150,31 @@ gulp.task('copy:prod', ['vulcanize:prod'], function() {
 // });
 
 /** DOCS **/
+gulp.task('docs', ['copy:docs', 'sass:docs', 'docs:templates']);
 
-gulp.task('docs', function() {
+gulp.task('clean:docs', function() {
+	return del([BUILD_DOCS+'**']);
+});
+
+gulp.task('copy:docs', function() {
+	var assets = gulp.src('docs/images/**',{base:'./docs'})
+		.pipe(gulp.dest(BUILD_DOCS));
+	var bowerComponents = gulp.src(['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'],{base:'.'})
+		.pipe(gulp.dest(BUILD_DOCS));
+	var dist = gulp.src(BUILD+'**')
+		.pipe(debug())
+		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/strand/dist'));
+	return merge(assets, bowerComponents, dist);
+});
+
+gulp.task('sass:docs', function() {
+	return gulp.src('docs/**/*.scss')
+		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
+		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
+		.pipe(gulp.dest(BUILD_DOCS));
+});
+
+gulp.task('docs:templates', function() {
 	function mergeDocArray(doc, behavior) {
 		var p = {};
 		if (!behavior) {
@@ -238,16 +257,37 @@ gulp.task('docs', function() {
 	var articles = glob.sync("*.md", {cwd:"./docs/articles/"});
 	var articleMap = JSON.parse(fs.readFileSync('./docs/articles/manifest.json'));
 
+	// Compile partials
+	var partials = glob.sync("*.html", {cwd:"./docs/", ignore: '*_template.html'});
+	var partialMap = {};
+	partials.forEach(function(part) {
+		var name = part.replace('.html','');
+		var partialString = fs.readFileSync('./docs/'+part).toString('utf8');
+		partialMap[name] = hogan.compile(partialString);
+	});
+
+	var indexStream = gulp.src('./docs/index.html')
+		.pipe(through.obj(function(file, enc, cb) {
+			var templateString = file.contents.toString('utf8');
+			var template = hogan.compile(templateString);
+			var doc = template.render(null, partialMap);
+			file.contents = new Buffer(doc, enc);
+			this.push(file);
+			cb();
+		}))
+		.pipe(gulp.dest(BUILD_DOCS));
+
 	var moduleStream = gulp.src(SRC+'mm-*/doc.json')
 		.pipe(injectBehaviorDocs(behaviorsMap))
 		.pipe(injectDocsMeta(pkg, moduleList, articles, articleMap))
 		.pipe(debug())
 		.pipe(through.obj(function(file, enc, cb) {
+			// TODO: Put this in a closure
 			var moduleDoc = JSON.parse(file.contents);
 			var templatePath = path.join(__dirname,'docs/component_template.html');
 			var templateString = fs.readFileSync(templatePath).toString('utf8');
 			var template = hogan.compile(templateString);
-			var doc = template.render(moduleDoc);
+			var doc = template.render(moduleDoc, partialMap);
 			file.contents = new Buffer(doc, enc);
 			this.push(file);
 			cb();
@@ -266,7 +306,7 @@ gulp.task('docs', function() {
 		.pipe(wrap({src:"./docs/article_template.html"},{},{engine:"hogan"}).on('error',console.log))
 		.pipe(gulp.dest(BUILD_DOCS));
 
-	return merge(moduleStream, articleStream);
+	return merge(indexStream, moduleStream, articleStream);
 });
 
 gulp.task('gh-pages', function() {
