@@ -230,15 +230,24 @@ gulp.task('docs:templates', function() {
 	}
 
 	// Ad-hoc plugin for injecting everything else
-	function injectModuleMeta(pkg, moduleMap, articleList, articleMap) {
+	function injectModuleData(pkg, moduleMap, articleList, articleMap) {
 		return through.obj(function(file, enc, cb) {
 			var moduleDoc = JSON.parse(file.contents);
+			var examplePath = path.join(SRC, moduleDoc.name, 'example.html');
+			var example;
+			try {
+				example = fs.readFileSync(examplePath).toString('utf8');
+			} catch(e) {
+				console.log('Missing example.html for '+moduleDoc.name);
+				console.log(e);
+			}
 
 			// Inject metadata
 			moduleDoc.revision = pkg.version;
 			moduleDoc.modules = moduleMap;
 			moduleDoc.articleList = articleList;
 			moduleDoc.articleMap = articleMap;
+			if(example) moduleDoc.example = example;
 
 			file.contents = new Buffer(JSON.stringify(moduleDoc), enc);
 			this.push(file);
@@ -246,7 +255,7 @@ gulp.task('docs:templates', function() {
 		});
 	}
 
-	function injectArticleMeta(pkg, moduleMap, articleList, articleMap) {
+	function injectArticleData(pkg, moduleMap, articleList, articleMap) {
 		console.log(articleList);
 		console.log(articleMap);
 		return through.obj(function(file, enc, cb) {
@@ -336,10 +345,9 @@ gulp.task('docs:templates', function() {
 
 	var moduleStream = gulp.src(SRC+'mm-*/doc.json')
 		.pipe(injectBehaviorDocs(behaviorsMap))
-		.pipe(injectModuleMeta(pkg, moduleMap, articleList, articleMap))
+		.pipe(injectModuleData(pkg, moduleMap, articleList, articleMap))
 		// .pipe(debug())
 		.pipe(through.obj(function(file, enc, cb) {
-			// TODO: Put this in a closure
 			var moduleDoc = JSON.parse(file.contents);
 			var templatePath = path.join(__dirname,'docs/component_template.html');
 			var templateString = fs.readFileSync(templatePath).toString('utf8');
@@ -360,7 +368,7 @@ gulp.task('docs:templates', function() {
 	var articleStream = gulp.src('./docs/articles/*.md')
 		// .pipe(debug())
 		.pipe(marked().on('error',console.log))
-		.pipe(injectArticleMeta(pkg, moduleMap, articleList, articleMap))
+		.pipe(injectArticleData(pkg, moduleMap, articleList, articleMap))
 		.pipe(rename({prefix: 'article_'}))
 		.pipe(gulp.dest(BUILD_DOCS));
 
