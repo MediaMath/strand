@@ -29,7 +29,7 @@ var tagVersion = require('gulp-tag-version');
 var conventionalChangelog = require('gulp-conventional-changelog');
 var ghPages = require('gulp-gh-pages');
 var through = require('through2');
-var tap = require('gulp-tap');
+var hogan = require('hogan.js');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -256,14 +256,16 @@ gulp.task('docs:modules', function() {
 	gulp.src(SRC+'mm-*/doc.json')
 		.pipe(injectBehaviorDocs(behaviorsMap))
 		.pipe(injectDocsMeta(pkg, moduleList, articleList, articleMap))
-		.pipe(tap(function(file, t) {
+		.pipe(debug())
+		.pipe(through.obj(function(file, enc, cb) {
 			var moduleDoc = JSON.parse(file.contents);
-			var curried = wrap.bind(
-				{src:"./docs/component_template.html"},
-				moduleDoc,
-				{engine:"hogan"}
-			);
-			return t.through(curried, []);
+			var templatePath = path.join(__dirname,'docs/component_template.html');
+			var templateString = fs.readFileSync(templatePath).toString('utf8');
+			var template = hogan.compile(templateString);
+			var doc = template.render(moduleDoc);
+			file.contents = new Buffer(doc, enc);
+			this.push(file);
+			cb();
 		}))
 		.pipe(rename(function(path) {
 			path.basename = path.dirname;
