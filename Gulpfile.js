@@ -114,12 +114,11 @@ gulp.task('build', function(cb) {
 	run('copy',['sass','font'],'vulcanize',cb);
 });
 
-gulp.task('build:prod', function(cb) {
-	run('copy',['sass','font'],'vulcanize','vulcanize:prod','copy:prod',cb);
-});
-
-gulp.task('vulcanize:prod', function() {
-	return gulp.src(BUILD + 'strand.html')
+gulp.task('build:prod', ['build'], function() {
+	var assets = gulp.src(path.join(BUILD, '**/*.woff'))
+		.pipe(changed(DIST))
+		.pipe(gulp.dest(DIST));
+	var lib = gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
@@ -132,16 +131,10 @@ gulp.task('vulcanize:prod', function() {
 		}))
 		.pipe(inlinemin())
 		.pipe(header(`<!--\n${fs.readFileSync('BANNER.txt').toString('utf8')}\n-->`))
-		.pipe(gulp.dest(BUILD));
-});
-
-gulp.task('copy:prod', ['vulcanize:prod'], function() {
-	return gulp.src([
-		path.join(BUILD, 'strand.html'),
-		path.join(BUILD, '**/*.woff')
-	])
 		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
+
+	return merge(assets, lib);
 });
 
 /** DOCS **/
