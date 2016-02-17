@@ -1,6 +1,9 @@
 'use strict';
 /*jslint node: true */
 
+//TODO(shuwen): split into multiple files
+//TODO(shuwen): replace path string concatenation with path.join
+
 var fs = require('fs');
 var gulp = require('gulp');
 var glob = require('glob');
@@ -158,16 +161,20 @@ gulp.task('clean:docs', function() {
 
 gulp.task('copy:docs', function() {
 	var assets = gulp.src('docs/images/**',{base:'./docs'});
-	var bower_components = gulp.src(['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'],{base:'.'});
 	var cname = gulp.src('CNAME');
 	var license = gulp.src('LICENSE.txt');
 
-	var merged_static = merge(assets, bower_components, cname, license)
+	var merged_static = merge(assets, cname, license)
 		.pipe(gulp.dest(BUILD_DOCS));
+
+	var bower_components = gulp.src(['bower_components/webcomponentsjs/**/*', 'bower_components/polymer/**/*'], {base:'bower_components'})
+		.pipe(debug())
+		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/'));
+
 	var lib = gulp.src(BUILD+'**')
 		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/strand/dist'));
 
-	return merge(merged_static, lib);
+	return merge(bower_components, merged_static, lib);
 });
 
 gulp.task('sass:docs', function() {
@@ -259,8 +266,6 @@ gulp.task('docs:templates', function() {
 	}
 
 	function injectArticleData(pkg, moduleMap, articleList, articleMap) {
-		console.log(articleList);
-		console.log(articleMap);
 		return through.obj(function(file, enc, cb) {
 			var articleContents = file.contents.toString('utf8');
 			var articleDoc = {
@@ -283,8 +288,8 @@ gulp.task('docs:templates', function() {
 	var pkg = getPkgInfo();
 
 	// Create moduleList from directory listing
-	var modules = glob.sync("mm-*/", {cwd:SRC});
-	var moduleList = modules.map(function(name) { return name.replace('/',''); });
+	var modules = glob.sync("mm-*/doc.json", {cwd:SRC});
+	var moduleList = modules.map(function(name) { return name.replace('/doc.json',''); });
 	var moduleMap = moduleList.map(function(name) { return {name: name}; });
 
 	// Create behaviorsMap
