@@ -10,7 +10,7 @@ Polymer('mm-input', {
 	STATE_OPENED: "opened",
 	STATE_CLOSED: "closed",
 	PRIMARY_ICON_COLOR: Colors.A18,
-	PADDING_ICON: 25,
+	// PADDING_ICON: 25,
 
 	searchItems:[],
 	state: "closed",
@@ -24,13 +24,14 @@ Polymer('mm-input', {
 	error: false,
 	autoItemSelected: false,
 	autocomplete: false,
-	paddingRight: 10,
+	// paddingRight: 10,
 
 	publish: {
 		value: { value: "", reflect: true },
 		disabled: { value: false, reflect: true },
 		fitparent: { value: false, reflect: true },
 		layout: { value: null, reflect: true },
+		size: { value: "", reflect: true },
 		data: []
 	},
 
@@ -39,6 +40,8 @@ Polymer('mm-input', {
 		this.alpha = /^\w+$/;
 		this.inter = /^\d+$/;
 		this.floater = /^\d*[.]\d+$/;
+
+		if (!this.size.length) this.size = 'normal';
 	},
 
 	dataChanged: function(oldData, newData) {
@@ -60,21 +63,25 @@ Polymer('mm-input', {
 
 	searchChanged: function(oldVal, newVal) {
 		if(this.icon === "search" && newVal) {
-			this.paddingRight = this.PADDING_ICON;
+			// this.paddingRight = this.PADDING_ICON;
 			this.$.icon.style.display = "block";
 		}
 	},
 
 	iconChanged: function(oldVal, newVal) {
 		if(this.icon !== "search" && newVal) {
-			this.paddingRight = this.PADDING_ICON;
+			// this.paddingRight = this.PADDING_ICON;
 			this.$.icon.style.display = "block";
 		}
 	},
 
-	clearChanged: function(oldVal, newVal) {
-		this.paddingRight = this.PADDING_ICON;
-	},
+	// clearChanged: function(oldVal, newVal) {
+	// 	this.paddingRight = this.PADDING_ICON;
+	// },
+
+	// sizeChanged: function(oldVal, newVal) {
+	// 	console.log('sizeChanged: ', newVal)
+	// },
 	
 	valueChanged: function(oldVal, newVal) {
 		//update model if needed
@@ -208,11 +215,23 @@ Polymer('mm-input', {
 		this.close();
 	},
 
-	getWidth: function(value) {
-		if(value && !this.fitparent) {
-			return value + "px";
-		} else {
-			return "100%";
+	// getWidth: function(value) {
+	// 	if(value && !this.fitparent) {
+	// 		return value + "px";
+	// 	} else {
+	// 		return "100%";
+	// 	}
+	// }
+
+	iconSize: function(size) {
+		switch(size) {
+			case 'large':
+				return 16;
+			case 'small':
+				return 11;
+			default:
+				return 14;
 		}
 	}
+
 });

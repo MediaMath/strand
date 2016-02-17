@@ -26,24 +26,20 @@
 
 @include fit();
 
-#icon, #clearBtn {
-	width: 14px;
-	height: 14px;
+.icon-holder,
+.clear-btn {
 	position: absolute;
 	display: none;
 	right: 0;
-	top: 50%;
-	margin: -7px 8px 0 0;
 }
 
-#clearBtn {
-	display: none;
+.clear-btn {
 	cursor: pointer;	
 }
 
 ._mm_text_input {
 	height: 29px;
-	line-height: 2.231em !important; // line-height equal to height, in em (don't remember the specifics around this choice but there was a case for this)
+	line-height: 29px !important;
 	padding: 0 10px;
 }
 
@@ -108,5 +104,96 @@
 
 	._mm_text_input:focus {
 		box-shadow: none;
+	}
+}
+
+// support multiple size configurations
+:host([size='large']){
+	._mm_text_input {
+		height: 46px !important;
+		font-size: 15px !important;
+		line-height: 46px !important;
+		padding: 0 15px !important;
+
+		&::placeholder {
+			font-size: 15px !important;
+			line-height: 46px !important;
+		}
+	}
+}
+
+:host([size='large'][search]),
+:host([size='large'][clear]),
+:host([size='normal'][icon]){
+	._mm_text_input {
+		padding: 0 30px 0 15px !important;
+	}
+
+	.icon-holder,
+	.clear-btn {
+		width: 16px;
+		height: 16px;
+		top: 15px;
+		right: 10px;
+	}
+}
+
+:host([size='normal']){
+	._mm_text_input {
+		height: 29px !important;
+		font-size: 13px !important;
+		line-height: 29px !important;
+		padding: 0 10px !important;
+
+		&::placeholder {
+			font-size: 13px !important;
+			line-height: 29px !important;
+		}
+	}
+}
+
+:host([size='normal'][search]),
+:host([size='normal'][clear]),
+:host([size='normal'][icon]){
+	._mm_text_input {
+		padding: 0 25px 0 10px !important;
+	}
+
+	.icon-holder,
+	.clear-btn {
+		width: 14px;
+		height: 14px;
+		top: 7.5px;
+		right: 8px;
+	}
+}
+
+:host([size='small']){
+	._mm_text_input {
+		height: 26px !important;
+		font-size: 11px !important;
+		line-height: 26px !important;
+		padding: 0 8px !important;
+
+		&::placeholder {
+			font-size: 11px !important;
+			line-height: 26px !important;
+		}
+	}
+}
+
+:host([size='small'][search]),
+:host([size='small'][clear]),
+:host([size='normal'][icon]){
+	._mm_text_input {
+		padding: 0 22px 0 8px !important;
+	}
+
+	.icon-holder,
+	.clear-btn {
+		width: 11px;
+		height: 11px;
+		top: 7.5px;
+		right: 8px;
 	}
 }

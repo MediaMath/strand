@@ -106,7 +106,7 @@
 		
 		<div class="col c1">
 			<p><span class="bold">Dropdown:</span> Label wider than list options - first value "pre-selected"</p>
-			<mm-dropdown id="dataTest" overflow="visible" maxItems="10" placeholder="some longer label" value="1" id="ddl" unresolved>
+			<mm-dropdown id="dataTest" overflow="visible" maxItems="10" size="small" placeholder="some longer label" value="1" id="ddl" unresolved>
 			</mm-dropdown>
 			<hr/>
 			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
@@ -124,6 +124,26 @@
 				<mm-list-item value="2">mm-list-item 02</mm-list-item>
 				<mm-list-item value="3">mm-list-item 03</mm-list-item>
 				<mm-list-item value="4">mm-list-item 04</mm-list-item>
+			</mm-dropdown>
+			<hr/>
+			<p><span class="bold">Dropdown:</span> Dropdown small and skinless</p>
+			<mm-dropdown placeholder="Select" size="small" skinless overflow="visible" maxItems="7" unresolved>
+				<mm-input search="true" clear="true" size="small" placeholder="Search"></mm-input>
+				<mm-list-item>Clicks</mm-list-item>
+				<mm-list-item>CTC</mm-list-item>
+				<mm-list-item>CTR</mm-list-item>
+				<mm-list-item>Impressions</mm-list-item>
+				<mm-list-item>Post-Click Conversions</mm-list-item>
+				<mm-list-item>Post-View Conversions</mm-list-item>
+				<mm-list-item>Revenue</mm-list-item>
+				<mm-list-item>Response Rate/1K Imps</mm-list-item>
+				<mm-list-item>Total Conversions</mm-list-item>
+				<mm-list-item>Total Spend</mm-list-item>
+				<mm-list-item>eCPA</mm-list-item>
+				<mm-list-item>eCPC</mm-list-item>
+				<mm-list-item>eCPM</mm-list-item>
+				<mm-list-item>PC CPA</mm-list-item>
+				<mm-list-item>PV CPA</mm-list-item>
 			</mm-dropdown>
 			<hr/>
 			<p><span class="bold">Dropdown:</span> Dropdown hidden at first (bug)</p>

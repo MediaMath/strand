@@ -11,48 +11,94 @@
 	display: block;
 	position: relative;
 	padding-right: 32px;
+
+	label {
+		pointer-events: none;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-transform: none;
+		display: block;
+		width: 100%;
+		font-weight: 400;
+	}
+
+	#caratIcon {
+		padding: 0 10px 0 13px;
+		position: absolute;
+		margin-top: -4px;
+		top: 50%;
+		right:0px;
+		display: block;
+	}
+
+	#caratIcon.closed {
+		@include transform(scaleY(1));
+	}
+
+	#caratIcon.opened {
+		@include transform(scaleY(-1));
+	}
+	
+	mm-icon {
+		pointer-events: none;
+	}
+	
+	.left-items {
+		@include display(flex);
+		@include align-items(center);
+		@include justify-content(start);
+		height: 100%;
+	}
 }
 
-.button label {
-	pointer-events: none;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	text-transform: none;
-	display: block;
-	width: 100%;
-	font-weight: 400;
-}
-
-.button mm-icon {
-	pointer-events: none;
-}
-
-.button .left-items {
-	@include display(flex);
-	@include align-items(center);
-	@include justify-content(start);
-	height: 100%;
-}
-
-#caratIcon {
-	padding: 0 10px 0 13px;
-	position: absolute;
-	margin-top: -4px;
-	top: 50%;
-	right:0px;
-	display: block;
-}
-
-#caratIcon.closed {
-	@include transform(scaleY(1));
-}
-
-#caratIcon.opened {
-	@include transform(scaleY(-1));
-}
 
 .scroll-container {
 	overflow-x: hidden;
 	overflow-y: auto;
+}
+
+// sizing
+:host([size='small']) {
+	.button {
+		padding: 0 26px 0 8px;
+		height: 26px;
+
+		label {
+			font-size: 11px !important;
+			line-height: 24px !important;
+		}
+
+		#caratIcon {
+			padding: 0 8px 0 10px;
+		}
+	}
+
+	::content > mm-list-item,
+	mm-list-item {
+		font-size: 11px !important;
+		line-height: 13px !important;
+	}
+}
+
+:host([skinless]) {
+	.button {
+		border: none;
+		background: initial;
+		padding: 0 20px 0 8px;
+
+		label {
+			font-weight: 700 !important;
+		}
+
+		&:hover,
+		&:active {
+			background: initial;
+			box-shadow: none;
+		}
+
+		#caratIcon {
+			padding: 0 8px 0 4px;
+		}
+	}
 }

@@ -21,7 +21,9 @@ Polymer('mm-dropdown', {
 		disabled: { value: false, reflect: true },
 		fitparent: { value: false, reflect: true },
 		data: null,
-		error: false
+		error: false,
+		skinless: false,
+		size: 'normal'
 	},
 
 	created: function() {
@@ -46,7 +48,7 @@ Polymer('mm-dropdown', {
 	},
 	
 	domReady: function() {
-		if (!this.fitparent) {		
+		if (!this.fitparent && !this.skinless) {		
 			this.btnWidth = this.btnWidth + this.borderWidth;		
 		}
 

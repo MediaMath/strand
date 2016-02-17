@@ -9,32 +9,37 @@
 @import "_fonts";
 @import "_textinput";
 
-::content group,sep {
+::content group, sep {
 	display:none;
 }
 
-polyfill-next-selector{ content: '#input' };
-::content #input {
+polyfill-next-selector{ content: '._mm_text_input:not(.mask)' };
+::content ._mm_text_input:not(.mask) {
 	color: rgba(255, 255, 255, 0);
 }
 
-polyfill-next-selector{ content: '#input::placeholder' };
-::content #input::placeholder {
+polyfill-next-selector{ content: '._mm_text_input:not(.mask)::placeholder' };
+::content ._mm_text_input:not(.mask)::placeholder {
 	color: rgba(255, 255, 255, 0);
 }
 
-polyfill-next-selector{ content: '#input::-webkit-input-placeholder' };
-::content #input::-webkit-input-placeholder {
+polyfill-next-selector{ content: '._mm_text_input:not(.mask)::-webkit-input-placeholder' };
+::content ._mm_text_input:not(.mask)::-webkit-input-placeholder {
 	color: rgba(255, 255, 255, 0);
 }
 
-polyfill-next-selector{ content: '#input::-moz-placeholder' };
-::content #input::-moz-placeholder {
+// hack to hide the placeholder in REAL shadow dom... nothing else works
+._mm_text_input:not(.mask)::shadow ::-webkit-input-placeholder {
 	color: rgba(255, 255, 255, 0);
 }
 
-polyfill-next-selector{ content: '#input:-ms-input-placeholder' };
-::content :-ms-input-placeholder {
+polyfill-next-selector{ content: '._mm_text_input:not(.mask)::-moz-placeholder' };
+::content ._mm_text_input:not(.mask)::-moz-placeholder {
+	color: rgba(255, 255, 255, 0);
+}
+
+polyfill-next-selector{ content: '._mm_text_input:not(.mask):-ms-input-placeholder' };
+::content ._mm_text_input:not(.mask):-ms-input-placeholder {
 	color: rgba(255, 255, 255, 0);
 }
 
@@ -45,7 +50,7 @@ polyfill-next-selector{ content: '#input:-ms-input-placeholder' };
 	height: 29px;
 	font-weight: 400;
 	font-size: 13px !important;
-	line-height: 2.231em !important;
+	line-height: 29px !important;
 	padding: 0 10px;
 
 	.mask {
@@ -53,10 +58,7 @@ polyfill-next-selector{ content: '#input:-ms-input-placeholder' };
 		border: none;
 		box-shadow: none;
 		width: auto;
-		padding: 0;
-		margin: 0;
-		height: 29px;
-		line-height: 2.231em !important;
+		padding: 0 !important;
 
 		@include transition(width .3s ease-in-out);
 
