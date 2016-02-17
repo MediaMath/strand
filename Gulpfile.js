@@ -1,6 +1,6 @@
 'use strict';
 /*jslint node: true */
-
+/*jslint esversion: 6*/
 //TODO(shuwen): split into multiple files
 //TODO(shuwen): replace path string concatenation with path.join
 
@@ -33,6 +33,7 @@ var conventionalChangelog = require('gulp-conventional-changelog');
 var ghPages = require('gulp-gh-pages');
 var through = require('through2');
 var hogan = require('hogan.js');
+var header = require('gulp-header');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -130,27 +131,18 @@ gulp.task('vulcanize:prod', function() {
 			spare: true
 		}))
 		.pipe(inlinemin())
+		.pipe(header(`<!--\n${fs.readFileSync('BANNER.txt').toString('utf8')}\n-->`))
 		.pipe(gulp.dest(BUILD));
 });
 
 gulp.task('copy:prod', ['vulcanize:prod'], function() {
-	return gulp.src([BUILD+'**/*.+(html|woff)', '!'+BUILD+'/shared/**/*.html', '!'+BUILD +'**/example.html'])
+	return gulp.src([
+		path.join(BUILD, 'strand.html'),
+		path.join(BUILD, '**/*.woff')
+	])
 		.pipe(changed(DIST))
-		.pipe(debug())
 		.pipe(gulp.dest(DIST));
 });
-
-// gulp.task('minify:prod', function() {
-// 	return gulp.src(BUILD+'strand.html')
-// 		.pipe(debug())
-// 		.pipe(htmlmin({
-// 			quotes: true,
-// 			empty: true,
-// 			spare: true
-// 		}))
-// 		.pipe(inlinemin())
-// 		.pipe(gulp.dest(DIST))
-// });
 
 /** DOCS **/
 gulp.task('docs', ['copy:docs', 'sass:docs', 'docs:templates']);
