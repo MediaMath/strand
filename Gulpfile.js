@@ -157,16 +157,17 @@ gulp.task('clean:docs', function() {
 });
 
 gulp.task('copy:docs', function() {
-	var assets = gulp.src('docs/images/**',{base:'./docs'})
+	var assets = gulp.src('docs/images/**',{base:'./docs'});
+	var bower_components = gulp.src(['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'],{base:'.'});
+	var cname = gulp.src('CNAME');
+	var license = gulp.src('LICENSE.txt');
+
+	var merged_static = merge(assets, bower_components, cname, license)
 		.pipe(gulp.dest(BUILD_DOCS));
-	var bowerComponents = gulp.src(['bower_components/webcomponentsjs/**', 'bower_components/polymer/**'],{base:'.'})
-		.pipe(gulp.dest(BUILD_DOCS));
-	var dist = gulp.src(BUILD+'**')
-		.pipe(debug())
+	var lib = gulp.src(BUILD+'**')
 		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/strand/dist'));
-	var cname = gulp.src('CNAME')
-		.pipe(gulp.dest(BUILD_DOCS));
-	return merge(assets, bowerComponents, dist, cname);
+
+	return merge(merged_static, lib);
 });
 
 gulp.task('sass:docs', function() {
