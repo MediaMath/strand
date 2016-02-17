@@ -270,7 +270,7 @@
 
 
 	Ajax.getBehavior = function() {
-		var beh = StrandLib.BehaviorUtils.extend({
+		var beh = StrandLib.BehaviorUtils.extend({},Ajax.prototype,{
 			properties: {
 				url: {
 					notify: true
@@ -281,10 +281,11 @@
 			},
 			ready: function() {
 				Ajax.apply(this);
+			},
+			fire: function(type, details) {
+				Polymer.Base.fire.call(this, this._eventPrefix + type, details);
 			}
-		}, Ajax.prototype);
-
-		delete beh['fire'];
+		});
 
 		return beh;
 	}
