@@ -26,6 +26,7 @@
     "gulp-debug": "^2.1.2",
     "gulp-gh-pages": "^0.5.4",
     "gulp-git": "^1.7.0",
+    "gulp-header": "^1.7.1",
     "gulp-inline-assets": "^0.1.1",
     "gulp-marked": "^1.0.0",
     "gulp-minify-html": "^1.0.5",
