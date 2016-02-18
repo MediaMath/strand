@@ -34,6 +34,7 @@ var ghPages = require('gulp-gh-pages');
 var through = require('through2');
 var hogan = require('hogan.js');
 var header = require('gulp-header');
+var base64 = require('gulp-base64');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -115,15 +116,13 @@ gulp.task('build', function(cb) {
 });
 
 gulp.task('build:prod', ['build'], function() {
-	var assets = gulp.src(path.join(BUILD, '**/*.woff'))
-		.pipe(changed(DIST))
-		.pipe(gulp.dest(DIST));
-	var lib = gulp.src(BUILD + 'strand.html')
+	return gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
 			stripExcludes:false
 		}))
+		.pipe(base64(['.woff']))
 		.pipe(htmlmin({
 			quotes: true,
 			empty: true,
@@ -133,8 +132,6 @@ gulp.task('build:prod', ['build'], function() {
 		.pipe(header(`<!--\n${fs.readFileSync('BANNER.txt').toString('utf8')}\n-->`))
 		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
-
-	return merge(assets, lib);
 });
 
 /** DOCS **/
