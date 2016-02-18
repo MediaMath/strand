@@ -237,7 +237,7 @@
 			<hr/>
 			
 			<p><span class="bold">Dropdown:</span> List with overflow: overflowWidth set</p>
-			<mm-dropdown placeholder="Select One Please" overflow="visible" size="small">
+			<mm-dropdown placeholder="Select One Please" overflow="visible" overflow-width="250" size="small">
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 00</mm-list-item>
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 01</mm-list-item>
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 02</mm-list-item>
@@ -272,7 +272,26 @@
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 31</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			
+			<p><span class="bold">Dropdown:</span> Dropdown small and skinless</p>
+			<mm-dropdown placeholder="Select" size="small" skinless overflow="visible" maxItems="7" unresolved>
+				<mm-input search="true" clear="true" size="small" placeholder="Search"></mm-input>
+				<mm-list-item>Clicks</mm-list-item>
+				<mm-list-item>CTC</mm-list-item>
+				<mm-list-item>CTR</mm-list-item>
+				<mm-list-item>Impressions</mm-list-item>
+				<mm-list-item>Post-Click Conversions</mm-list-item>
+				<mm-list-item>Post-View Conversions</mm-list-item>
+				<mm-list-item>Revenue</mm-list-item>
+				<mm-list-item>Response Rate/1K Imps</mm-list-item>
+				<mm-list-item>Total Conversions</mm-list-item>
+				<mm-list-item>Total Spend</mm-list-item>
+				<mm-list-item>eCPA</mm-list-item>
+				<mm-list-item>eCPC</mm-list-item>
+				<mm-list-item>eCPM</mm-list-item>
+				<mm-list-item>PC CPA</mm-list-item>
+				<mm-list-item>PV CPA</mm-list-item>
+			</mm-dropdown>
+			<hr/>
 			<p><span class="bold">Dropdown:</span> Dynamic jQuery test</p>
 			<mm-dropdown placeholder="select one" overflow="visible" fitparent="true" id="dynamic" max-items="10"></mm-dropdown>
 			<hr/>

@@ -175,7 +175,7 @@
 
 		& > ::content label {
 			font-size: 15px !important;
-			line-height: 45px !important;
+			line-height: 46px !important;
 		}
 	}
 }
@@ -193,12 +193,12 @@
 
 :host([size='small']){
 	.button {
-		height: 20px !important;
-		padding: 0 7px;
+		height: 26px !important;
+		padding: 0 8px !important;
 
 		& > ::content label {
 			font-size: 11px!important;
-			line-height: 19px !important;
+			line-height: 26px !important;
 		}
 	}
 }
