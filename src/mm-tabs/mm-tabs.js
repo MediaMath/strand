@@ -44,9 +44,10 @@
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
-			if(newIndex !== oldIndex) {
+			if(this._tabs && newIndex !== oldIndex) {
 				this.set('_tabs.'+oldIndex+'.active', false);
 				this.set('_tabs.'+newIndex+'.active', true);
+				this.attributeFollows('active', this._tabs[newIndex], this._tabs[oldIndex])
 			}
 		},
 
