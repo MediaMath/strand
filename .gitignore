@@ -4,3 +4,4 @@ build/
 build_docs/
 .grunt
 .publish
+.patched_components/

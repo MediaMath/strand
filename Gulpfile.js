@@ -35,6 +35,9 @@ var through = require('through2');
 var hogan = require('hogan.js');
 var header = require('gulp-header');
 var base64 = require('gulp-base64');
+var minimist = require('minimist');
+var tap = require('gulp-tap');
+var replace = require('gulp-replace-path');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -42,7 +45,28 @@ var BUILD_DOCS = 'build_docs/';
 var DIST = 'dist/';
 var TEMPLATES = 'gulp/templates/'; //TODO swap to gulp
 
+var LIB = ['bower_components/moment/**/*.js'];
+
 /** BUILD **/
+
+gulp.task('patch-lib', function() {
+	var paths = LIB.reduce(function(fileList, pattern) {
+		return fileList.concat(glob.sync(pattern));
+	}, []);
+	console.log(paths);
+
+	gulp.src(path.join(__dirname, 'bower_components/**'))
+		.pipe(tap(function(file, t) {
+			if(paths.indexOf(file.path) > -1) {
+				return t.through(wrap("(function(define, require) { {{{contents}}} })();",{},{engine:"hogan"}).on('error',console.error));
+			}
+		}))
+		.pipe(gulp.dest( path.join(__dirname, '.patched_components') ));
+});
+
+gulp.task('replace-lib', function() {
+
+});
 
 gulp.task('clean', function() {
 	return del([BUILD + '**', BUILD_DOCS+ '**', DIST+ '**']);
@@ -383,30 +407,31 @@ gulp.task('watch', function () {
 
 /** DEPLOY **/
 
-gulp.task('release:major', function() {
-	run('build:prod', 'bump:major', 'changelog', 'stage-release', 'tag-release');
-});
-gulp.task('release:minor', function() {
-	run('build:prod', 'bump:minor', 'changelog', 'stage-release', 'tag-release');
-});
-gulp.task('release:patch', function() {
-	run('build:prod', 'bump:patch', 'changelog', 'stage-release', 'tag-release');
+function inc(version) {
+	if(!version) version = 'patch';
+	return gulp.src(['package.json', 'bower.json'])
+	   .pipe(bump({type: version}))
+	   .pipe(gulp.dest(__dirname));
+}
+
+gulp.task('release', function() {
+	var argv = minimist(process.argv.slice(3)),
+		version = argv.v || argv.version,
+		valid = ['major', 'minor', 'patch'];
+
+	if(valid.indexOf(version) > -1) {
+		run(inc(version), 'build:prod', 'changelog', 'stage-release', 'tag-release');
+	}
 });
 
-gulp.task('bump:major', function(){
-	 return gulp.src(['package.json', 'bower.json'])
-		.pipe(bump({type: 'major'}))
-		.pipe(gulp.dest('./'));
+gulp.task('release:major', function() {
+	run(inc('major'), 'build:prod', 'changelog', 'stage-release', 'tag-release');
 });
-gulp.task('bump:minor', function(){
-	 return gulp.src(['package.json', 'bower.json'])
-		.pipe(bump({type: 'minor'}))
-		.pipe(gulp.dest('./'));
+gulp.task('release:minor', function() {
+	run(inc('minor'), 'build:prod', 'changelog', 'stage-release', 'tag-release');
 });
-gulp.task('bump:patch', function(){
-	 return gulp.src(['package.json', 'bower.json'])
-		.pipe(bump({type: 'patch'}))
-		.pipe(gulp.dest('./'));
+gulp.task('release:patch', function() {
+	run(inc('patch'), 'build:prod', 'changelog', 'stage-release', 'tag-release');
 });
 
 gulp.task('changelog', function() {
