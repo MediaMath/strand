@@ -36,8 +36,6 @@ var hogan = require('hogan.js');
 var header = require('gulp-header');
 var base64 = require('gulp-base64');
 var minimist = require('minimist');
-var tap = require('gulp-tap');
-var replace = require('gulp-replace-path');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -45,27 +43,17 @@ var BUILD_DOCS = 'build_docs/';
 var DIST = 'dist/';
 var TEMPLATES = 'gulp/templates/'; //TODO swap to gulp
 
-var LIB = ['bower_components/moment/**/*.js'];
+var PATCH_LIST = [
+	'bower_components/moment/min/moment.min.js'
+];
 
 /** BUILD **/
 
 gulp.task('patch-lib', function() {
-	var paths = LIB.reduce(function(fileList, pattern) {
-		return fileList.concat(glob.sync(pattern));
-	}, []);
-	console.log(paths);
-
-	gulp.src(path.join(__dirname, 'bower_components/**'))
-		.pipe(tap(function(file, t) {
-			if(paths.indexOf(file.path) > -1) {
-				return t.through(wrap("(function(define, require) { {{{contents}}} })();",{},{engine:"hogan"}).on('error',console.error));
-			}
-		}))
-		.pipe(gulp.dest( path.join(__dirname, '.patched_components') ));
-});
-
-gulp.task('replace-lib', function() {
-
+	gulp.src(PATCH_LIST, {base: path.join(__dirname, 'bower_components')})
+		.pipe(debug())
+		.pipe(wrap("(function(define, require) { {{{contents}}} })();",{},{engine:"hogan"}).on('error',console.error))
+		.pipe(gulp.dest( path.join(__dirname, 'bower_components') ));
 });
 
 gulp.task('clean', function() {
@@ -139,7 +127,7 @@ gulp.task('build', function(cb) {
 	run('copy',['sass','font'],'vulcanize',cb);
 });
 
-gulp.task('build:prod', ['build'], function() {
+gulp.task('build:prod', ['patch-lib', 'build'], function() {
 	return gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
 			inlineScripts:true,
