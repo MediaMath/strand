@@ -177,10 +177,10 @@
 			this.frequency_interval = e.detail.value;
 		},
 
-		_useMMFreqSelected: function(e) {
-			if (e.target.state === 'checked') {
+		_useMMFreqOnChange: function(e) {
+			if (e.detail.state === 'checked') {
 				this.use_mm_freq = 1;
-			} else {
+			} else if (e.detail.state === 'unchecked') {
 				this.use_mm_freq = 0;
 			}
 		},

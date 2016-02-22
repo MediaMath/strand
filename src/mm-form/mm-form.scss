@@ -16,11 +16,6 @@
 	box-sizing: border-box;
 }
 
-:host ::content mm-form-message {
-	// TODO: should this style be in the form message?
-	// margin-top: 10px;
-}
-
 :host ::content mm-radio label {
 	line-height: 29px;
 }

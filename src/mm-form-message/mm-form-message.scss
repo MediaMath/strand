@@ -13,8 +13,10 @@
 
 mm-inline-box {
 	display: none;
+	margin-top: 0px;
 }
 
 mm-inline-box[visible] {
 	display: block;
+	margin-top: 10px;
 }

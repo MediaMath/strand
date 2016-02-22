@@ -300,22 +300,32 @@
 		},
 
 		// form validation
-		validateFields: function(data) {
+		validateFields: function() {
 			this._invalidFields = [];
 			this._validFields = [];
 
 			for (var key in this.config) {
-				var value 			= this.data[key],
+				var exclude 		= this.config[key].exclude,
 					validation 		= this.config[key].validation,
 					noValidateFunc 	= typeof this.config[key].noValidate === 'function',
 					noValidate  	= this.config[key].noValidate || false,
-					valid 			= false;
+					valid 			= false,
+					value 			= null;
+
+				if (exclude) {
+					// There could be cases wherein the field is 'excluded', but requires validation.
+					// Since the field is excluded, it's value will not be in the flat 'data' object
+					// and will need to be retrieved from the field itself
+					value = this.config[key].field.value;
+				} else {
+					value = this.data[key];
+				}
 				
 				if (noValidateFunc) {
 					// Call the function to derive true or false
 					noValidate = this.config[key].noValidate(key, value, this.data, this.view);
 				} else if (this.config[key].field.hasAttribute('no-validate')) {
-					// Need to check the field for validate-if attr - as it may have a bind,
+					// Need to check the field for 'no-validate' attr - as it may have a bind,
 					// which could be updated at any time... presence of the attr === true
 					noValidate = true;
 				}

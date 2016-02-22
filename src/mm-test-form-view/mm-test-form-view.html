@@ -96,8 +96,8 @@
 			<div id="freqCapWrapper" class="col" span="2">
 				<mm-checkbox 
 					name="use_mm_freq"
-					on-tap="_useMMFreqChanged" 
-					checked$="{{use_mm_freq}}">
+					on-changed="_useMMFreqOnChange"
+					checked="{{use_mm_freq}}">
 					<mm-header size="medium">Campaign Frequency Cap</mm-header>
 				</mm-checkbox>
 				<div class="custom-item freq-cap">
