@@ -153,7 +153,7 @@
 
 		_handleResult: function(result) {
 
-			this.fire("ready", result);
+			this.fire("ready", result, {prefix:true});
 
 			result = this._plugin.processResponse(result);
 
@@ -164,12 +164,12 @@
 				} else {
 					this.data = result.marshalled;
 				}
-				this.fire("saved", result);
+				this.fire("saved", result, {prefix:true});
 			}
 		},
 
 		_handleError: function(error) {
-			this.fire("error", error);
+			this.fire("error", error, {prefix:true});
 		},
 
 		setGlobal: function(key, value) {
@@ -197,13 +197,18 @@
 			return this._plugin.getConfig("page");
 		},
 
-		fire: function(type, detail) {
-			if (this._eventPrefix) {
+		fire: function(type, detail, options) {
+			if (this._eventPrefix && DataUtils.getPathValue('prefix', options)) {
 				type = this._eventPrefix + type;
 			}
-			var e = new CustomEvent(type, {detail:detail});
-			this.dispatchEvent(e);
-		},
+			if (this.is) {
+				Polymer.Base.fire.call(this, type, detail, options);
+			} else {
+				//JS Object
+				var e = new CustomEvent(type, {detail:detail});
+				this.dispatchEvent(e);
+			}
+	    }
 	};
 
 	var beh = BehaviorUtils.extend({}, scope.Sync.prototype, {
@@ -221,9 +226,6 @@
 		},
 		ready: function() {
 			scope.Sync.apply(this);
-		},
-		fire: function(type, detail) {
-			Polymer.Base.fire.call(this, this._eventPrefix + type, detail);
 		}
 	});
 

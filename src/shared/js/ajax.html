@@ -247,13 +247,18 @@
 			return output;
 		},
 
-		fire: function(type, detail) {
-			if (this._eventPrefix) {
+		fire: function(type, detail, options) {
+			if (this._eventPrefix && DataUtils.getPathValue('prefix', options)) {
 				type = this._eventPrefix + type;
 			}
-			var e = new CustomEvent(type, {detail:detail});
-			this.dispatchEvent(e);
-		},
+			if (this.is) {
+				Polymer.Base.fire.call(this, type, detail, options);
+			} else {
+				//JS Object
+				var e = new CustomEvent(type, {detail:detail});
+				this.dispatchEvent(e);
+			}
+	    },
 
 		get status() {
 			return this.current && this.current.xhr.status;
@@ -281,9 +286,6 @@
 			},
 			ready: function() {
 				Ajax.apply(this);
-			},
-			fire: function(type, details) {
-				Polymer.Base.fire.call(this, this._eventPrefix + type, details);
 			}
 		});
 
