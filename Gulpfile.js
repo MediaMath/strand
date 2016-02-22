@@ -141,7 +141,7 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 			spare: true
 		}))
 		.pipe(inlinemin())
-		.pipe(header(`<!--\n${fs.readFileSync('BANNER.txt').toString('utf8')}\n-->`))
+		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
 		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
 });
