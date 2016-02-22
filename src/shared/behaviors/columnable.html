@@ -15,7 +15,12 @@
 				value: 4,
 				reflectToAttribute: true
 			},
-			spacing: {
+			vSpace: {
+				type: Number,
+				value: 10,
+				reflectToAttribute: true
+			},
+			hSpace: {
 				type: Number,
 				value: 10,
 				reflectToAttribute: true
@@ -23,10 +28,10 @@
 		},
 
 		observers: [
-			"_applyStyles(columns, spacing)"
+			"_applyStyles(columns, hSpace, vSpace)"
 		],
 
-		_applyStyles: function(columns, spacing) {
+		_applyStyles: function(columns, hSpace, vSpace) {
 			var items = this.getLightDOM();
 
 			if (items.length > 0) {
@@ -38,11 +43,11 @@
 				spanItems.forEach(function(item, index){
 					var span = parseInt(item.getAttribute('span')),
 						colWidth = columnWidth * span,
-						calc = 'calc(' + colWidth + '% - ' + spacing + 'px)';
+						calc = 'calc(' + colWidth + '% - ' + hSpace + 'px)';
 
 					item.style.width = calc;
-					item.style.marginRight = spacing + 'px';
-					item.style.marginBottom = spacing + 'px';
+					item.style.marginRight = hSpace + 'px';
+					item.style.marginBottom = vSpace + 'px';
 				});
 			}
 		}

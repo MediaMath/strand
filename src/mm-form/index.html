@@ -11,7 +11,7 @@
 		}
 
 		body {  
-			margin:0;
+			margin:20px;
 			padding:0;
 			background: #eee;
 		}
@@ -29,11 +29,6 @@
 			padding: 0;
 		}
 
-		.col {
-			box-sizing: border-box;
-			padding: 20px 0 0 20px; 
-		}
-
 		mm-form[unresolved] {
 			display: none;
 		}
@@ -42,7 +37,7 @@
 
 	<body>
 		 
-		<mm-form id="testForm" spacing="20" unresolved>
+		<mm-form id="testForm" unresolved>
 			<div class="col" span="1">
 				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
 			</div>
@@ -68,7 +63,6 @@
 				</mm-group>
 			</div>
 		</mm-form>
-		
 
 		<!-- config via markup -->
 		<!-- 

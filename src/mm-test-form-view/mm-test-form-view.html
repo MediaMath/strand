@@ -17,7 +17,14 @@
 <dom-module id="mm-test-form-view">
 	<link rel="import" type="css" href="mm-test-form-view.css"/>
 	<template>
-		<mm-form id="testForm" config="{{formConfig}}" data="{{formData}}" view={{ref}}>
+		<mm-form id="testForm"
+			unresolved
+			h-space="20"
+			v-space="40" 
+			config="{{formConfig}}" 
+			data="{{formData}}" 
+			view="{{ref}}">
+
 			<!-- row 1 -->
 			<div class="col" span="1">
 				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
@@ -48,7 +55,7 @@
 
 			<!-- row 2 -->
 			<div id="widthHeightWrapper" class="col" span="2">
-				<mm-header size="medium">Dimensions</mm-header>
+				<mm-header size="medium" form-header>Dimensions</mm-header>
 				<div class="custom-item dimensions">
 					<mm-radio 
 						id="standardSize" 
@@ -95,6 +102,7 @@
 
 			<div id="freqCapWrapper" class="col" span="2">
 				<mm-checkbox 
+					form-header
 					name="use_mm_freq"
 					on-changed="_useMMFreqOnChange"
 					checked="{{use_mm_freq}}">
@@ -133,13 +141,6 @@
 						<mm-list-item value="month">30 Days</mm-list-item>
 					</mm-dropdown>
 				</div>
-			</div>
-
-			<!-- TODO styling of checkbox? -->
-			<div class="col" span="4">
-				<mm-checkbox>
-					<label>Hi there!</label>
-				</mm-checkbox>
 			</div>
 
 		</mm-form>

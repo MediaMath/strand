@@ -20,11 +20,7 @@
 	line-height: 29px;
 }
 
-:host ::content mm-header[size=medium] {
-	margin-bottom: 10px;
-}
-
-:host ::content mm-checkbox {
+:host ::content [form-header] {
 	margin-bottom: 10px;
 }
 

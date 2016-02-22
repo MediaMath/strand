@@ -241,6 +241,7 @@
 				formLabel.size = 'medium';
 				formLabel.setAttribute('name', name);
 				formLabel.classList.add('_'+key+'-label');
+				formLabel.setAttribute('form-header', true);
 
 				Polymer.dom(formLabel).appendChild(labelTxt);
 				Polymer.dom(parentEleDOM).insertBefore(formLabel, field);
@@ -312,14 +313,9 @@
 					valid 			= false,
 					value 			= null;
 
-				if (exclude) {
-					// There could be cases wherein the field is 'excluded', but requires validation.
-					// Since the field is excluded, it's value will not be in the flat 'data' object
-					// and will need to be retrieved from the field itself
-					value = this.config[key].field.value;
-				} else {
-					value = this.data[key];
-				}
+				// If the field is excluded, it's value will not be in the flat 'this.data' object
+				// and will need to be retrieved from the field itself
+				value = exclude ? this.config[key].field.value : this.data[key];
 				
 				if (noValidateFunc) {
 					// Call the function to derive true or false
