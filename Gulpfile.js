@@ -95,7 +95,7 @@ gulp.task('font', function() {
 
 gulp.task('vulcanize', function() {
 	var modules = gulp.src(BUILD + "mm-*/mm-*.html")
-		.pipe(debug())
+		.pipe(changed(BUILD))
 		.pipe(vulcanize({
 			inlineScripts: true,
 			inlineCss: true,
@@ -122,26 +122,6 @@ gulp.task('default', function(cb) {
 
 gulp.task('build', function(cb) {
 	run('copy',['sass','font'],'vulcanize',cb);
-});
-
-gulp.task('build:modules', function() {
-	var modules = gulp.src(BUILD + 'strand.html')
-		.pipe(vulcanize({
-			inlineScripts:true,
-			inlineCss:true,
-			stripExcludes:false
-		}))
-		.pipe(base64(['.woff']))
-		.pipe(htmlmin({
-			quotes: true,
-			empty: true,
-			spare: true
-		}))
-		.pipe(inlinemin())
-		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
-		.pipe(changed(DIST))
-		.pipe(gulp.dest(DIST));
-	return modules;
 });
 
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
