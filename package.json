@@ -15,6 +15,7 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "autoprefixer": "^6.1.2",
+    "connect": "^3.4.1",
     "del": "^2.0.2",
     "event-stream": "^3.3.2",
     "glob": "^5.0.15",
@@ -32,6 +33,7 @@
     "gulp-marked": "^1.0.0",
     "gulp-minify-html": "^1.0.5",
     "gulp-minify-inline": "^0.2.0",
+    "gulp-open": "^1.0.0",
     "gulp-postcss": "^6.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",
@@ -44,6 +46,7 @@
     "merge-stream": "^1.0.0",
     "minimist": "^1.2.0",
     "run-sequence": "^1.1.4",
+    "serve-static": "^1.10.2",
     "through2": "^2.0.1"
   }
 }

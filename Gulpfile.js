@@ -36,12 +36,18 @@ var hogan = require('hogan.js');
 var header = require('gulp-header');
 var base64 = require('gulp-base64');
 var minimist = require('minimist');
+var serveStatic = require('serve-static');
+var connect = require('connect');
+var open = require('gulp-open');
 
 var SRC = 'src/';
 var BUILD = 'build/';
 var BUILD_DOCS = 'build_docs/';
 var DIST = 'dist/';
 var TEMPLATES = 'gulp/templates/'; //TODO swap to gulp
+
+var LIVE_PORT = 8000;
+var DOCS_PORT = 8001;
 
 var PATCH_LIST = [
 	'bower_components/moment/min/moment.min.js'
@@ -408,6 +414,44 @@ gulp.task('watch', function () {
  // gulp.watch(SRC)
  // gulp.watch('./')
 });
+
+gulp.task('index', function() {
+	var modules = glob.sync("mm-*/index.html", {cwd:SRC});
+	var moduleList = modules.map(function(name) { return name.replace('/index.html',''); });
+	var moduleMap = {modules: moduleList};
+	var templatePath = path.join(__dirname,'gulp/templates/index_template.html');
+	var templateString = fs.readFileSync(templatePath).toString('utf8');
+	var template = hogan.compile(templateString);
+	var index = template.render(moduleMap);
+	fs.writeFileSync(path.join(BUILD,'index.html'), index);
+});
+
+gulp.task('server', function() {
+	var server = connect()
+		.use('/bower_components', serveStatic('./bower_components'))
+		.use(serveStatic(BUILD))
+		.listen(LIVE_PORT);
+
+	gulp.src(__filename)
+		.pipe(open({
+			uri: 'http://localhost:'+LIVE_PORT
+		}));
+});
+
+gulp.task('live', ['index','watch','server']);
+
+gulp.task('server:docs', function() {
+	var server = connect()
+		.use(serveStatic(BUILD_DOCS))
+		.listen(DOCS_PORT);
+
+	gulp.src(__filename)
+		.pipe(open({
+			uri: 'http://localhost:'+DOCS_PORT
+		}));
+});
+
+gulp.task('live:docs', ['watch','server:docs']);
 
 /** DEPLOY **/
 
