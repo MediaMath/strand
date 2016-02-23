@@ -57,7 +57,7 @@ gulp.task('patch-lib', function() {
 });
 
 gulp.task('clean', function() {
-	return del([BUILD + '**', BUILD_DOCS+ '**', DIST+ '**']);
+	return del([BUILD + '**', BUILD_DOCS+ '**']);
 });
 
 gulp.task('copy', function() {
@@ -95,25 +95,22 @@ gulp.task('font', function() {
 
 gulp.task('vulcanize', function() {
 	var modules = gulp.src(BUILD + "mm-*/mm-*.html")
-		.pipe(changed(BUILD))
+		.pipe(debug())
 		.pipe(vulcanize({
-			inlineScripts:true,
-			inlineCss:true,
-			stripExcludes:true,
-			excludes: {
-				imports: ['.*polymer\.html']
-			}
+			inlineScripts: true,
+			inlineCss: true,
+			excludes: ['bower_components/polymer/polymer.html']
 		}))
+		.pipe(debug())
 		.pipe(htmlmin())
 		.pipe(gulp.dest(BUILD));
+
 	var lib = gulp.src(BUILD + "strand.html")
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
 			stripExcludes:false,
-			// excludes: {
-			// 	imports: ['.*\.html','polymer.html']
-			// }
+			excludes: ['bower_components/polymer/polymer.html']
 		}))
 		.pipe(gulp.dest(BUILD));
 	return merge(modules, lib);
@@ -127,8 +124,28 @@ gulp.task('build', function(cb) {
 	run('copy',['sass','font'],'vulcanize',cb);
 });
 
+gulp.task('build:modules', function() {
+	var modules = gulp.src(BUILD + 'strand.html')
+		.pipe(vulcanize({
+			inlineScripts:true,
+			inlineCss:true,
+			stripExcludes:false
+		}))
+		.pipe(base64(['.woff']))
+		.pipe(htmlmin({
+			quotes: true,
+			empty: true,
+			spare: true
+		}))
+		.pipe(inlinemin())
+		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
+		.pipe(changed(DIST))
+		.pipe(gulp.dest(DIST));
+	return modules;
+});
+
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
-	return gulp.src(BUILD + 'strand.html')
+	var lib = gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
 			inlineScripts:true,
 			inlineCss:true,
