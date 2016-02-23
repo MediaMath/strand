@@ -68,14 +68,14 @@ gulp.task('copy', function() {
 });
 
 gulp.task('sass', function() {
-	var wrapper = fs.readFileSync(TEMPLATES + "style_module_template.html");
+	var wrapper = fs.readFileSync(TEMPLATES + "style_module_template.html").toString('utf8');
 	return gulp.src(SRC + 'mm-*/*.scss')
 		// .pipe(cache())
 		.pipe(changed(BUILD, {extension:'.css'}))
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(BUILD))
-		.pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
+		// .pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
 		.pipe(wrap(function(data) {
 			data.fname = path.basename(data.file.relative,'.css');
 			return wrapper;
@@ -125,6 +125,23 @@ gulp.task('build', function(cb) {
 });
 
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
+	var modules = gulp.src(BUILD + 'mm-*/mm-*.html')
+		.pipe(vulcanize({
+			inlineScripts:true,
+			inlineCss:true,
+			stripExcludes:false
+		}))
+		.pipe(base64(['.woff']))
+		.pipe(htmlmin({
+			quotes: true,
+			empty: true,
+			spare: true
+		}))
+		.pipe(inlinemin())
+		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
+		.pipe(changed(DIST))
+		.pipe(gulp.dest(DIST));
+
 	var lib = gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
 			inlineScripts:true,
@@ -141,6 +158,8 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
 		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
+
+	return merge(modules, lib);
 });
 
 /** DOCS **/
