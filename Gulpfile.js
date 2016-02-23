@@ -39,6 +39,7 @@ var minimist = require('minimist');
 var serveStatic = require('serve-static');
 var connect = require('connect');
 var open = require('gulp-open');
+var Vulcanize = require('vulcanize');
 
 var SRC = 'src/';
 var BUILD = 'build/';
@@ -99,17 +100,52 @@ gulp.task('font', function() {
 		.pipe(gulp.dest(BUILD + '/shared/fonts/'));
 });
 
+function vulcanizeSingle(opts, baseList, basePath) {
+    opts = opts || {};
+
+    return through.obj(function (file, enc, cb) {
+		if (file.isNull()) {
+		        cb(null, file);
+		        return;
+		}
+
+		if (file.isStream()) {
+		        cb(new gutil.PluginError('gulp-vulcanize', 'Streaming not supported'));
+		        return;
+		}
+
+		var bl = baseList.slice() || [];
+		var idx = bl.indexOf(basePath + file.relative);
+		console.log(idx, basePath + file.relative);
+		bl.splice(idx, 1);
+		opts.excludes = bl;
+		console.log(opts.excludes);
+
+		(new Vulcanize(opts)).process(file.path, function (err, inlinedHtml) {
+			if (err) {
+			        cb(new gutil.PluginError('gulp-vulcanize', err, {fileName: file.path}));
+			        return;
+			}
+
+			file.contents = new Buffer(inlinedHtml);
+			cb(null, file);
+		}.bind(this));
+    });
+};
+
 gulp.task('vulcanize', function() {
-	var modules = gulp.src(BUILD + "mm-*/mm-*.html")
-		// .pipe(changed(BUILD))
-		.pipe(vulcanize({
-			inlineScripts: true,
-			inlineCss: true,
-			excludes: ['bower_components/polymer/polymer.html']
-		}))
-		.pipe(debug())
-		.pipe(htmlmin())
-		.pipe(gulp.dest(BUILD));
+    var excludes = glob.sync(BUILD + 'mm-*/mm-*.html');
+    excludes.push('bower_components/polymer/polymer.html');
+
+    var modules = gulp.src(BUILD + "mm-*/mm-*.html")
+        // .pipe(changed(BUILD))
+        .pipe(vulcanizeSingle({
+                inlineScripts: true,
+                inlineCss: true
+        }, excludes, BUILD))
+        .pipe(debug())
+        .pipe(htmlmin())
+        .pipe(gulp.dest(BUILD));
 
 	var lib = gulp.src(BUILD + "strand.html")
 		.pipe(vulcanize({
@@ -130,13 +166,14 @@ gulp.task('build', function(cb) {
 });
 
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
+	var excludes = glob.sync(BUILD + 'mm-*/mm-*.html');
+    excludes.push('bower_components/polymer/polymer.html');
+	
 	var modules = gulp.src(BUILD + 'mm-*/mm-*.html')
-		.pipe(vulcanize({
-			inlineScripts:true,
-			inlineCss:true,
-			stripExcludes:false,
-			excludes: ['bower_components/polymer/polymer.html']
-		}))
+		.pipe(vulcanizeSingle({
+				inlineScripts: true,
+				inlineCss: true
+		}, excludes, BUILD))
 		.pipe(base64(['.woff']))
 		.pipe(htmlmin({
 			quotes: true,
