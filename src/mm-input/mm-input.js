@@ -83,8 +83,7 @@
 			fitparent: { 
 				type: Boolean,
 				value: false, 
-				reflectToAttribute: true,
-				// notify: true
+				reflectToAttribute: true
 			},
 			_layout: { 
 				type: String,
