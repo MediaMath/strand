@@ -38,22 +38,27 @@
 		return output;
 	}
 
+	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
+	var Request = StrandLib.Request;
+	var RequestQueue = StrandLib.RequestQueue;
+
 	function Ajax(options) {
 		this._eventPrefix = _eventPrefix;
 		this.recent = {};
 		this.requests = [];
-		this.options = StrandLib.DataUtils.copy({},{
+		this.options = DataUtils.copy({},{
 			"contentType":"application/x-www-form-urlencoded",
-			"method":StrandLib.Request.GET,
+			"method":Request.GET,
 			"withCredentials":false,
 			"timeout":10000
 		}, options);
 	}
 
-	Ajax.GET = StrandLib.Request.GET;
-	Ajax.POST = StrandLib.Request.POST;
-	Ajax.PUT = StrandLib.Request.PUT;
-	Ajax.DELETE = StrandLib.Request.DELETE;
+	Ajax.GET = Request.GET;
+	Ajax.POST = Request.POST;
+	Ajax.PUT = Request.PUT;
+	Ajax.DELETE = Request.DELETE;
 
 	Ajax.prototype = {
 
@@ -66,7 +71,7 @@
 
 		execQueue: function(queueName) {
 			var q = this._getQueue(queueName);
-			var rq = new StrandLib.RequestQueue(q, this.options.concurrency, function(r) {
+			var rq = new RequestQueue(q, this.options.concurrency, function(r) {
 				this.current = r;
 			}.bind(this));
 			rq.exec();
@@ -101,7 +106,7 @@
 
 		_requestFactory: function(data, options) {
 
-			var copy = StrandLib.DataUtils.copy;
+			var copy = DataUtils.copy;
 
 			options = copy({}, this.options, options);
 
@@ -109,7 +114,7 @@
 			url = this.serializeQuery(url, options.query);
 			data = this.setRequestData(options.method, options.contentType, data, options.body);
 
-			return new StrandLib.Request(copy(options, {
+			return new Request(copy(options, {
 				url: url,
 				body: data,
 			}));
@@ -165,7 +170,7 @@
 				if (typeof override === "string") {
 					return override;
 				} else {
-					input = StrandLib.DataUtils.copy({}, body, override);
+					input = DataUtils.copy({}, body, override);
 				}
 			} else {
 				input = body;
@@ -232,7 +237,7 @@
 					// this.dispatchEvent(new CustomEvent(_eventPrefix + "error", {error:e, instance:this}));
 				}
 			}
-			if ( StrandLib.DataUtils.isType(data, "array") ) {
+			if ( DataUtils.isType(data, "array") ) {
 				for (i = data.length - 1; i >= 0; i--) {
 					obj = data[i];
 					if (obj.name !== null && obj.value !== null) {
@@ -275,7 +280,7 @@
 
 
 	Ajax.getBehavior = function() {
-		var beh = StrandLib.BehaviorUtils.extend({},Ajax.prototype,{
+		var beh = BehaviorUtils.extend({},Ajax.prototype,{
 			properties: {
 				url: {
 					notify: true
