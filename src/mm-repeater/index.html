@@ -142,7 +142,7 @@
 					secondOption: "Test 1",
 					validation: function(model) {
 						console.log(arguments);
-						this.errorMessage = 'Setting error message in validation method';
+						// this.errorMessage = 'Setting error message in validation method';
 						return model.name === 'John';
 					},
 					errorMessage: "Name is not John!"

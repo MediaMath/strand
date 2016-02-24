@@ -6,7 +6,7 @@
 */
 (function (scope) {
 
-	scope.MMForm = Polymer({
+	scope.Form = Polymer({
 		is: 'mm-form',
 
 		behaviors: [

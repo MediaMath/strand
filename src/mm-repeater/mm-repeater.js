@@ -131,7 +131,6 @@
 		},
 
 		validate: function() {
-
 			this.data.forEach(function(item, index) {
 				var valid = true;
 
@@ -159,8 +158,6 @@
 				this.set('data.'+index+'.errorMessage', item.errorMessage);
 
 			}, this);
-
-			return false;
 		},
 
 		validation: this.validate,
