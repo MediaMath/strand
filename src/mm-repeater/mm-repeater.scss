@@ -11,13 +11,13 @@
 
 mm-box:first-of-type:last-of-type {
     .control mm-icon {
-        visibility: hidden;
+        display: none;
         pointer-events: none;
     }
 }
 
 mm-box:not(:last-of-type) {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 
     .control mm-action {
         display: none;
@@ -25,16 +25,30 @@ mm-box:not(:last-of-type) {
     }
 }
 
-mm-action {
-    margin-right: 8px;
-}
-
 mm-icon[type="delete"] {
     cursor: pointer;
+    margin-left: 10px;
 }
 
-mm-inline-box[type="error"] {
-    display: block;
-    margin: 8px 0;
-    width: 100%;
+// mm-inline-box[type="error"] {
+//     display: block;
+//     margin: 10px 0;
+//     width: 100%;
+// }
+
+mm-form-message {
+    margin-bottom: 10px;
+}
+
+.fields,
+::content .fields {
+    font-size: 0em;
+
+    & > :not(:last-child) {
+        margin-right: 10px;
+    }
+}
+
+.control mm-icon {
+    color: $color-A6;
 }

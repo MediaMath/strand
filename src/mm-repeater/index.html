@@ -48,7 +48,7 @@
 			}
 
 			.col.c4 {
-				width:50%;
+				width:100%;
 			}
 
 			.col:after {
@@ -150,12 +150,20 @@
 				{
 					name: "Paul",
 					firstOption: "Test Item 1",
-					secondOption: "Test 2"
+					secondOption: "Test 2",
+					validation: function(model) {
+						return model.name === 'Paul';
+					},
+					errorMessage: "Name is not Paul!"
 				},
 				{
 					name: "Ringo",
 					firstOption: "Test Item 1",
-					secondOption: "Test 3"
+					secondOption: "Test 3",
+					validation: function(model) {
+						return model.name === 'Ringo';
+					},
+					errorMessage: "Name is not Ringo!"
 				}
 			]
 			var wd = document.querySelector('#withData');

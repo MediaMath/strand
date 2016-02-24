@@ -12,7 +12,7 @@
 <link rel="import" href="../mm-action/mm-action.html"/>
 <link rel="import" href="../mm-box/mm-box.html"/>
 <link rel="import" href="../mm-icon/mm-icon.html"/>
-<link rel="import" href="../mm-inline-box/mm-inline-box.html"/>
+<link rel="import" href="../mm-form-message/mm-form-message.html"/>
 
 <dom-module id="mm-repeater">
 	<link rel="import" type="css" href="mm-repeater.css"/>
@@ -25,11 +25,7 @@
 					<mm-icon type="delete" on-tap="_removeRow" height="12" width="12"></mm-icon>
 				</mm-box>
 			</mm-box>
-			<template is="dom-if" if="{{item.error}}">
-				<mm-inline-box type="error">
-					{{item.errorMessage}}
-				</mm-inline-box>
-			</template>
+			<mm-form-message type="error" visible="{{item.error}}" message="{{item.errorMessage}}"></mm-form-message>
 		</template>
 	</template>
 </dom-module>
