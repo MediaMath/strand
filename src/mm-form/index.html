@@ -38,9 +38,11 @@
 	<body>
 		 
 		<mm-form id="testForm" unresolved>
+			
 			<div class="col" span="1">
 				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
 			</div>
+			
 			<div class="col" span="1">
 				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
 					<mm-list-item>List Item 1</mm-list-item>
@@ -49,6 +51,7 @@
 					<mm-list-item>List Item 4</mm-list-item>
 				</mm-dropdown>
 			</div>
+			
 			<div class="col" span="2">
 				<mm-group fitparent unresolved name="radio">
 					<mm-radio>
@@ -62,6 +65,26 @@
 					</mm-radio>
 				</mm-group>
 			</div>
+
+			<div class="col" span="4">
+				<mm-repeater id="repeater" name="repeater">
+					<template preserve-content>
+						<mm-input name="name"></mm-input>
+						<mm-dropdown name="firstOption">
+							<mm-list-item>Test Item 1</mm-list-item>
+							<mm-list-item>Test Item 2</mm-list-item>
+							<mm-list-item>Test Item 3</mm-list-item>
+							<mm-list-item>Test Item 4</mm-list-item>
+						</mm-dropdown>
+						<mm-group name="secondOption">
+							<mm-radio><label>Test 1</label></mm-radio>
+							<mm-radio><label>Test 2</label></mm-radio>
+							<mm-radio><label>Test 3</label></mm-radio>
+						</mm-group>
+					</template>
+				</mm-repeater>
+			</div>
+
 		</mm-form>
 
 		<!-- config via markup -->
@@ -117,30 +140,39 @@
 
 			// config/initial data set up this way:
 			var config = {
-				'input' : {
-					validation: 'int|empty',
-					parentEle: null,
-					errorMsgEle: null,
-					errorMsg: 'You need to type a number',
-					label: 'Type a number'
-				},
-				'dropdown' : {
-					validation: 'empty',
-					parentEle: null,
-					errorMsg: 'You need to select an item',
-					label: 'Select an Item'
-				},
-				'radio' : {
-					validation: function(name, value, data) {
-						return data[name] === 'Red' && value === 'Red';
+					'input' : {
+						validation: 'int|empty',
+						parentEle: null,
+						errorMsgEle: null,
+						errorMsg: 'You need to type a number',
+						label: 'Type a number'
 					},
-					parentEle: null,
-					errorMsgEle: null,
-					errorMsg: 'You need to select \'Red\'',
-					label: 'Select a Color'
-				},
-				// 'empty' : {}
-			};
+					'dropdown' : {
+						validation: 'empty',
+						parentEle: null,
+						errorMsg: 'You need to select an item',
+						label: 'Select an Item'
+					},
+					'radio' : {
+						validation: function(name, value, data) {
+							return data[name] === 'Red' && value === 'Red';
+						},
+						parentEle: null,
+						errorMsgEle: null,
+						errorMsg: 'You need to select \'Red\'',
+						label: 'Select a Color'
+					},
+					'repeater': {
+						validation: function(name, value, data, field, view) {
+							return field.validate();
+						},
+						parentEle: null,
+						errorMsgEle: null,
+						errorMsg: 'You need to select some stuff',
+						label: 'Repeat Things'
+					}
+					// 'empty' : {}
+				};
 
 			// data that holds any actual values
 			// var data = {
@@ -158,11 +190,14 @@
 			// };
 
 			window.addEventListener('WebComponentsReady', function(e) {
-				var testForm = document.querySelector('#testForm');
+				var testForm = document.querySelector('#testForm'),
+					repeater = document.querySelector('#repeater');
 
 				// Ordering!
 				testForm.config = config;
 				// testForm.data = data;
+
+
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);

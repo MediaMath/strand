@@ -91,6 +91,7 @@
 		</style>
 	</head>
 	<body>
+
 		<div id='container' class="col c4">
 			<mm-repeater id="repeater">
 				<template preserve-content>
@@ -111,27 +112,26 @@
 
 			<hr style="margin-bottom: 30px;">
 
-		<mm-header>Prepopulated</mm-header>
-		<mm-repeater id="withData">
-			<template preserve-content>
-				<mm-input name="name" validation="alpha"></mm-input>
-				<mm-dropdown name="firstOption">
-					<mm-list-item>Test Item 1</mm-list-item>
-					<mm-list-item>Test Item 2</mm-list-item>
-					<mm-list-item>Test Item 3</mm-list-item>
-					<mm-list-item>Test Item 4</mm-list-item>
-				</mm-dropdown>
-				<mm-group name="secondOption">
-					<mm-radio><label>Test 1</label></mm-radio>
-					<mm-radio><label>Test 2</label></mm-radio>
-					<mm-radio><label>Test 3</label></mm-radio>
-				</mm-group>
-			</template>
-		</mm-repeater>
+			<mm-header>Prepopulated</mm-header>
+			<mm-repeater id="withData">
+				<template preserve-content>
+					<mm-input name="name" validation="alpha"></mm-input>
+					<mm-dropdown name="firstOption">
+						<mm-list-item>Test Item 1</mm-list-item>
+						<mm-list-item>Test Item 2</mm-list-item>
+						<mm-list-item>Test Item 3</mm-list-item>
+						<mm-list-item>Test Item 4</mm-list-item>
+					</mm-dropdown>
+					<mm-group name="secondOption">
+						<mm-radio><label>Test 1</label></mm-radio>
+						<mm-radio><label>Test 2</label></mm-radio>
+						<mm-radio><label>Test 3</label></mm-radio>
+					</mm-group>
+				</template>
+			</mm-repeater>
 
-
-
-		<mm-button style="margin: 10px 0;" id="validateBtn"><label>Validate!</label></mm-button>
+			<mm-button style="margin: 10px 0;" id="validateBtn"><label>Validate!</label></mm-button>
+			
 		</div>
 
 		<script>

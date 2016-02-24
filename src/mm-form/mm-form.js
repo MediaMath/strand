@@ -368,7 +368,7 @@
 
 				valid = result.length === testSet.length;
 			} else if (typeof(validation) === 'function') {
-				valid = validation(key, value, this.data, this.view);
+				valid = validation(key, value, this.data, field, this.view);
 			}
 			
 			// show or hide messaging in the ui
