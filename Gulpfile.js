@@ -101,7 +101,7 @@ gulp.task('font', function() {
 });
 
 function vulcanizeSingle(opts, baseList, basePath) {
-    opts = opts || {};
+	opts = opts || {};
 
     return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
@@ -123,25 +123,26 @@ function vulcanizeSingle(opts, baseList, basePath) {
 
 		(new Vulcanize(opts)).process(file.path, function (err, inlinedHtml) {
 			if (err) {
-			        cb(new gutil.PluginError('gulp-vulcanize', err, {fileName: file.path}));
-			        return;
+				cb(new gutil.PluginError('gulp-vulcanize', err, {fileName: file.path}));
+				return;
 			}
 
 			file.contents = new Buffer(inlinedHtml);
 			cb(null, file);
 		}.bind(this));
     });
-};
+}
 
 gulp.task('vulcanize', function() {
     var excludes = glob.sync(BUILD + 'mm-*/mm-*.html');
     excludes.push('bower_components/polymer/polymer.html');
 
     var modules = gulp.src(BUILD + "mm-*/mm-*.html")
-        // .pipe(changed(BUILD))
+        .pipe(changed(BUILD))
         .pipe(vulcanizeSingle({
-                inlineScripts: true,
-                inlineCss: true
+            inlineScripts: true,
+            inlineCss: true,
+			implicitStrip: false
         }, excludes, BUILD))
         .pipe(debug())
         .pipe(htmlmin())
@@ -149,9 +150,8 @@ gulp.task('vulcanize', function() {
 
 	var lib = gulp.src(BUILD + "strand.html")
 		.pipe(vulcanize({
-			inlineScripts:true,
-			inlineCss:true,
-			stripExcludes:false
+			inlineScripts: true,
+			inlineCss: true
 		}))
 		.pipe(gulp.dest(BUILD));
 	return merge(modules, lib);
@@ -168,11 +168,12 @@ gulp.task('build', function(cb) {
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
 	var excludes = glob.sync(BUILD + 'mm-*/mm-*.html');
     excludes.push('bower_components/polymer/polymer.html');
-	
+
 	var modules = gulp.src(BUILD + 'mm-*/mm-*.html')
 		.pipe(vulcanizeSingle({
 				inlineScripts: true,
-				inlineCss: true
+				inlineCss: true,
+				implicitStrip: false
 		}, excludes, BUILD))
 		.pipe(base64(['.woff']))
 		.pipe(htmlmin({
@@ -187,9 +188,9 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 
 	var lib = gulp.src(BUILD + 'strand.html')
 		.pipe(vulcanize({
-			inlineScripts:true,
-			inlineCss:true,
-			stripExcludes:false
+			inlineScripts: true,
+			inlineCss: true,
+			stripExcludes: []
 		}))
 		.pipe(base64(['.woff']))
 		.pipe(htmlmin({
