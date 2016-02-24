@@ -163,13 +163,6 @@
 						label: 'Select a Color'
 					},
 					'repeater': {
-						// TODO: Do the validation in the form
-						// validation: function(name, value, data, field, view) {
-						// 	return field.validate();
-						// },
-						parentEle: null,
-						errorMsgEle: null,
-						errorMsg: 'You need to select some stuff',
 						label: 'Repeat Things'
 					}
 					// 'empty' : {}
@@ -197,8 +190,6 @@
 				// Ordering!
 				testForm.config = config;
 				// testForm.data = data;
-
-
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);

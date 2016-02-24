@@ -29,6 +29,10 @@
 				value: true,
 				notify: true
 			},
+			autoValidate: {
+				type: Boolean,
+				value: true
+			},
 			// Footer related
 			footerMessages: {
 				type: Object,
@@ -275,7 +279,7 @@
 					this.unsaved = this._diffData();
 				}
 
-				if (validation) this._validateField(key, value);
+				if (validation && this.autoValidate) this._validateField(key, value);
 
 				// show messaging in the footer
 				if (this.unsaved && this.showUnsavedMessage) {
@@ -338,6 +342,15 @@
 				} else if (validation && noValidate) {
 					// clean up prior validations if they were there
 					this.resetFieldValidation(key);
+				} else {
+					// special case for mm-repeater
+					// mm-repeater will handle it's own validation
+					var field = this.config[key].field,
+						tagName = field.tagName.toLowerCase();
+
+					if (tagName === 'mm-repeater') {
+						field.validate();
+					}
 				}
 				
 				// show messaging in the footer
@@ -350,7 +363,7 @@
 		},
 
 		_validateField: function(key, value) {
-			var valid 			= null,
+			var valid 			= false,
 				field 			= this.config[key].field,
 				validation 		= this.config[key].validation,
 				errorMsg 		= this.config[key].errorMsg,
