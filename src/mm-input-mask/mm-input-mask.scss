@@ -43,9 +43,10 @@
 	input {
 		font-family: Arimo, sans-serif !important;
 		font-size: 13px !important;
-		line-height: 2.231em !important;
+		line-height: 29px !important;
 		&::placeholder {
 			font-size: 13px !important;
+			line-height: 29px !important;
 			font-style: italic;
 		}
 	}

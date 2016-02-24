@@ -74,6 +74,10 @@
 				type: String,
 				reflectToAttribute: true
 			},
+			skinless: {
+				type: Boolean,
+				reflectToAttribute: true
+			},
 			_layout: String
 		},
 
@@ -317,7 +321,7 @@
 		},
 
 		_lockWidth: function() {
-			if (!this.fitparent && this.buttonWidth > 0) {
+			if (!this.fitparent && this.buttonWidth > 0 && !this.skinless) {
 				this.$.target.style.width = this.buttonWidth + 'px';
 			} else {
 				return;

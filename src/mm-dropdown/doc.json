@@ -87,10 +87,18 @@
 		{
 			"name":"size",
 			"type":"String",
-			"description":"instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large')",
+			"description":"Instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large').",
 			"optional":true,
 			"default":"none",
 			"options":["normal","large", "small"],
+			"reflect":true
+		},
+		{
+			"name":"skinless",
+			"type":"String",
+			"description":"Instructs the component to be displayed without a background or border.",
+			"optional":true,
+			"default":"none",
 			"reflect":true
 		}
 	],
