@@ -116,10 +116,8 @@ function vulcanizeSingle(opts, baseList, basePath) {
 
 		var bl = baseList.slice() || [];
 		var idx = bl.indexOf(basePath + file.relative);
-		console.log(idx, basePath + file.relative);
 		bl.splice(idx, 1);
 		opts.excludes = bl;
-		console.log(opts.excludes);
 
 		(new Vulcanize(opts)).process(file.path, function (err, inlinedHtml) {
 			if (err) {
@@ -138,7 +136,7 @@ gulp.task('vulcanize', function() {
     excludes.push('bower_components/polymer/polymer.html');
 
     var modules = gulp.src(BUILD + "mm-*/mm-*.html")
-        .pipe(changed(BUILD))
+        // .pipe(changed(BUILD))
         .pipe(vulcanizeSingle({
             inlineScripts: true,
             inlineCss: true,
