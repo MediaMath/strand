@@ -2,13 +2,8 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="mm-repeater.html" />
-		<link rel="import" href="../mm-group/mm-group.html" />
-		<link rel="import" href="../mm-button/mm-button.html" />
-		<link rel="import" href="../mm-radio/mm-radio.html" />
-		<link rel="import" href="../mm-input/mm-input.html" />
-		<link rel="import" href="../mm-dropdown/mm-dropdown.html" />
-		<link rel="import" href="../mm-list-item/mm-list-item.html" />
+		<link rel="import" href="../../build/strand.html" />
+		
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -91,7 +86,6 @@
 		</style>
 	</head>
 	<body>
-
 		<div id='container' class="col c4">
 			<mm-repeater id="repeater">
 				<template preserve-content>
@@ -165,14 +159,22 @@
 					},
 					errorMessage: "Name is not Ringo!"
 				}
-			]
-			var wd = document.querySelector('#withData');
-			// wd.set('data', data);
-			wd.value = data;
+			];
 
-			document.querySelector('#validateBtn').addEventListener('click', function() {
-				wd.validate();
+			window.addEventListener('WebComponentsReady', function(e) {
+				var wd = document.querySelector('#withData');
+				// wd.set('data', data);
+				wd.value = data;
+
+				document.querySelector('#validateBtn').addEventListener('click', function() {
+					wd.validate();
+				});
 			});
 		</script>
 	</body>
 </html>
+
+
+
+
+
