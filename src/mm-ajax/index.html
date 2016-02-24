@@ -44,6 +44,7 @@
 					Go!
 				</label>
 			</mm-button>
+			<span>{{response}}</span>
 			<mm-textarea value="{{result}}"></mm-textarea>
 			<div id="log"></div>
 
@@ -72,7 +73,7 @@
 		</mm-button>
 	</div>
 	<script>
-
+	/*jshint esversion: 6 */
 	HTMLImports.whenReady(function(){
 		Polymer({
 			is: 'test-result',
@@ -86,8 +87,9 @@
 					value: '[{"name":"cake","value":100}]'
 				},
 				response: {
-					type: String,
-					notify: true
+					type: Object,
+					notify: true,
+					observer:"responseChanged"
 				}
 			},
 
@@ -103,8 +105,8 @@
 				);
 			},
 			responseChanged: function(_old, _new) {
-				if (typeof this.response !== "string") {
-					this.result = JSON.stringify(this.response);
+				if (typeof this.resp !== "string") {
+					this.result = JSON.stringify(this.resp);
 				} else {
 					this.result = this.response;
 				}

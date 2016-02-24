@@ -123,7 +123,6 @@
 		abort: function() {
 			if (this.current) {
 				this.current.abort();
-				// this.dispatchEvent(new CustomEvent(_eventPrefix + "abort", {instance:this}));
 				this.fire("abort", {instance:this});
 			}
 		},
@@ -131,15 +130,9 @@
 		abortQueue: function(queueName) {
 			_getQueue(queueName).running.abort();
 			this.fire("abort-queue", {instance:this});
-			// this.dispatchEvent(new CustomEvent(_eventPrefix + "abort-queue", {instance:this}));
 		},
 
 		handleProgress: function(e) {
-			// this.dispatchEvent(new CustomEvent(_eventPrefix + "progress", {
-			// 	percent: e.totalSize/e.position,
-			// 	total: e.totalSize,
-			// 	current: e.position
-			// }));
 			this.fire("progress", {
 				percent: e.totalSize/e.position,
 				total: e.totalSize,
@@ -185,11 +178,11 @@
 						data = input;
 					} else {
 						var fd = new FormData();
-						this.serialize(input, fd.append.bind(fd));
+						this.__serialize(input, fd.append.bind(fd));
 						data = fd;
 					}
 				} else {
-					data = this.serialize( input ).join("&");
+					data = this.__serialize( input ).join("&");
 				}
 			}
 
@@ -220,12 +213,12 @@
 				} else {
 					url += "?";
 				}
-				url += this.serialize(query).join("&");
+				url += this.__serialize(query).join("&");
 			}
 			return url;
 		},
 
-		serialize: function(data, paramaterize) {
+		__serialize: function(data, paramaterize) {
 
 			paramaterize = paramaterize || _paramaterize;
 			var i, obj, output = [];
@@ -234,7 +227,6 @@
 					data = JSON.parse(data);
 				} catch(e) {
 					this.fire("error", {error:e, instance:this});
-					// this.dispatchEvent(new CustomEvent(_eventPrefix + "error", {error:e, instance:this}));
 				}
 			}
 			if ( DataUtils.isType(data, "array") ) {
@@ -278,22 +270,23 @@
 		}
 	};
 
+	var beh = BehaviorUtils.extend({},Ajax.prototype,{
+		properties: {
+			url: {
+				type:String,
+				notify: true
+			},
+			response: {
+				type:Object,
+				notify: true
+			}
+		},
+		ready: function() {
+			Ajax.apply(this);
+		}
+	});
 
 	Ajax.getBehavior = function() {
-		var beh = BehaviorUtils.extend({},Ajax.prototype,{
-			properties: {
-				url: {
-					notify: true
-				},
-				data: {
-					notify: true
-				}
-			},
-			ready: function() {
-				Ajax.apply(this);
-			}
-		});
-
 		return beh;
 	}
 

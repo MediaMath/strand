@@ -149,8 +149,9 @@
 		},
 
 		_handleResponse: function(resp) {
-			if (resp.response)
+			if (resp.response) {
 				this.set("response", resp.response);
+			}
 			this.fire("data-ready", resp);
 		},
 
