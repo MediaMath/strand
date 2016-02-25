@@ -34,7 +34,6 @@ var inlinemin = require('gulp-minify-inline');
 var wrap = require('gulp-wrap');
 var inlineAssets = require('gulp-inline-assets');
 var marked = require('gulp-marked');
-var changed = require('gulp-changed');
 var cache = require('gulp-cached');
 var postcss = require('gulp-postcss');
 var git = require('gulp-git');
@@ -80,7 +79,7 @@ gulp.task('clean:dist', function() {
 
 gulp.task('copy', function() {
 	return gulp.src([j(SRC,'**/*.+(html|js|woff)'), j('!',SRC,'**/example.html')])
-		.pipe(changed(BUILD))
+		.pipe(cache('copy'))
 		.pipe(debug())
 		.pipe(gulp.dest(BUILD));
 });
@@ -88,7 +87,7 @@ gulp.task('copy', function() {
 gulp.task('sass', function() {
 	var wrapper = fs.readFileSync(j(TEMPLATES,"style_module_template.html"),'utf8');
 	return gulp.src(SRC + 'mm-*/*.scss')
-		.pipe(changed(BUILD, {extension:'.css'}))
+		.pipe(cache('scss'))
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(BUILD))
@@ -146,7 +145,7 @@ gulp.task('vulcanize', function() {
     excludes.push('bower_components/polymer/polymer.html');
 
     var modules = gulp.src(moduleGlob)
-        // .pipe(changed(BUILD))
+        .pipe(cache('v-modules'))
         .pipe(vulcanizeSingle({
             inlineScripts: true,
             inlineCss: true,
@@ -191,7 +190,6 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 		}))
 		.pipe(inlinemin())
 		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
-		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
 
 	var lib = gulp.src(j(BUILD,'strand.html'))
@@ -208,7 +206,6 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 		}))
 		.pipe(inlinemin())
 		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
-		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
 
 	return merge(modules, lib);
@@ -402,7 +399,7 @@ gulp.task('docs:templates', function() {
 	});
 
 	var indexStream = gulp.src('./docs/index.html')
-		.pipe(changed(BUILD_DOCS))
+		.pipe(cache('docs_dex'))
 		.pipe(through.obj(function(file, enc, cb) {
 			// TODO: Put this in a closure
 			var templateString = file.contents.toString('utf8');
@@ -415,7 +412,7 @@ gulp.task('docs:templates', function() {
 		.pipe(gulp.dest(BUILD_DOCS));
 
 	var moduleStream = gulp.src(j(SRC,'mm-*/doc.json'))
-		.pipe(changed(BUILD_DOCS))
+		.pipe(cache('docs_module'))
 		.pipe(injectBehaviorDocs(behaviorsMap))
 		.pipe(injectModuleData(pkg, moduleMap, articleList, articleMap))
 		// .pipe(debug())
@@ -438,7 +435,7 @@ gulp.task('docs:templates', function() {
 		.on('error',console.log);
 
 	var articleStream = gulp.src('./docs/articles/*.md')
-		.pipe(changed(BUILD_DOCS))
+		.pipe(cache('docs_article'))
 		.pipe(marked().on('error',console.log))
 		.pipe(injectArticleData(pkg, moduleMap, articleList, articleMap))
 		.pipe(rename({prefix: 'article_'}))
