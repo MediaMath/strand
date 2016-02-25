@@ -137,7 +137,7 @@
 		},
 
 		abort: function() {
-			var inherited = BehaviorUtils.findSuper(_ajax, 'exec');
+			var inherited = BehaviorUtils.findSuper(_ajax, 'abort');
 			inherited.apply(this, arguments);
 			if (this.current) {
 				this.current.promise.then(this._handleAbort.bind(this), this._handleAbort.bind(this));
