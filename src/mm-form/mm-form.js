@@ -337,7 +337,7 @@
 				} else if (tagName === 'mm-repeater') {
 					// special case for mm-repeater
 					// mm-repeater will handle it's own validation
-					// TODO: Make sure mm-repeater returns something
+					// TODO: Make sure mm-repeater returns true or false
 					valid = field.validate();
 				} else if (validation && noValidate) {
 					// clean up prior validations if they were there

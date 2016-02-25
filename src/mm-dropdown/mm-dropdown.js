@@ -89,8 +89,7 @@
 			StrandTraits.Jqueryable,
 			StrandTraits.AutoTogglable,
 			StrandTraits.PositionableDropdown,
-			StrandTraits.Refable,
-			StrandTraits.Formable
+			StrandTraits.Refable
 		],
 
 		_widthLocked: false,

@@ -13,8 +13,7 @@
 			StrandTraits.Resolvable,
 			StrandTraits.Stylable,
 			StrandTraits.Validatable,
-			StrandTraits.Refable,
-			StrandTraits.Formable
+			StrandTraits.Refable
 		],
 
 		properties: {
