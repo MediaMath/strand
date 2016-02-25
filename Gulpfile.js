@@ -25,6 +25,7 @@ var run = require('run-sequence');
 
 //gulp plugins
 var gutil = require('gulp-util');
+var gif = require('gulp-if');
 var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var vulcanize = require('gulp-vulcanize');
@@ -60,11 +61,18 @@ var PATCH_LIST = [
 	'bower_components/moment/min/moment.min.js'
 ];
 
+var IS_DEBUG = !!gutil.env.debug;
+console.log(IS_DEBUG);
+
+function dbg(t) {
+	return gif(IS_DEBUG, debug({title:t}));
+}
+
 /** BUILD **/
 
 gulp.task('patch-lib', function() {
 	gulp.src(PATCH_LIST, {base: j(__dirname, 'bower_components')})
-		.pipe(debug())
+		.pipe(dbg('patch-lib'))
 		.pipe(wrap("(function(define, require) { {{{contents}}} })();",{},{engine:"hogan"}).on('error',console.error))
 		.pipe(gulp.dest( j(__dirname, 'bower_components') ));
 });
@@ -80,7 +88,7 @@ gulp.task('clean:dist', function() {
 gulp.task('copy', function() {
 	return gulp.src([j(SRC,'**/*.+(html|js|woff)'), j('!',SRC,'**/example.html')])
 		.pipe(cache('copy'))
-		.pipe(debug())
+		.pipe(dbg('copy'))
 		.pipe(gulp.dest(BUILD));
 });
 
@@ -90,21 +98,25 @@ gulp.task('sass', function() {
 		.pipe(cache('scss'))
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
+		.pipe(dbg('sass'))
 		.pipe(gulp.dest(BUILD))
 		.pipe(wrap(function(data) {
 			data.fname = path.basename(data.file.relative,'.css');
 			return wrapper;
 		},{},{engine:"hogan"}))
 		.pipe(rename({basename:"style", extname: ".html"}))
+		.pipe(dbg('sass-html'))
 		.pipe(gulp.dest(BUILD));
 });
 
 gulp.task('font', function() {
 	return gulp.src(SRC + 'shared/fonts/fonts.scss')
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
+		.pipe(dbg('font'))
 		.pipe(gulp.dest(BUILD + 'shared/fonts/'))
 		.pipe(wrap("<style>{{{contents}}}</style>",{},{engine:"hogan"}).on('error',console.log))
 		.pipe(rename("fonts.html").on('error',console.log))
+		.pipe(dbg('font-output'))
 		.pipe(gulp.dest(j(BUILD,'/shared/fonts/')));
 });
 
@@ -151,7 +163,7 @@ gulp.task('vulcanize', function() {
             inlineCss: true,
 			implicitStrip: false
         }, excludes, BUILD))
-        .pipe(debug())
+        .pipe(dbg('vulcanize-modules'))
         .pipe(htmlmin())
         .pipe(gulp.dest(BUILD));
 
@@ -160,6 +172,7 @@ gulp.task('vulcanize', function() {
 			inlineScripts: true,
 			inlineCss: true
 		}))
+		.pipe(dbg('vulcanize-lib'))
 		.pipe(gulp.dest(BUILD));
 	return merge(modules, lib);
 });
@@ -190,6 +203,7 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 		}))
 		.pipe(inlinemin())
 		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
+		.pipe(dbg('vulcanize-modules'))
 		.pipe(gulp.dest(DIST));
 
 	var lib = gulp.src(j(BUILD,'strand.html'))
@@ -206,6 +220,7 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 		}))
 		.pipe(inlinemin())
 		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
+		.pipe(dbg('vulcanize-lib'))
 		.pipe(gulp.dest(DIST));
 
 	return merge(modules, lib);
@@ -227,10 +242,11 @@ gulp.task('copy:docs', function() {
 		.pipe(gulp.dest(BUILD_DOCS));
 
 	var bower_components = gulp.src(['bower_components/webcomponentsjs/**/*', 'bower_components/polymer/**/*'], {base:'bower_components'})
-		.pipe(debug())
+		.pipe(dbg('copy-bower'))
 		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/'));
 
 	var lib = gulp.src(j(BUILD,'**'))
+		.pipe(dbg('copy-lib'))
 		.pipe(gulp.dest(j(BUILD_DOCS,'/bower_components/strand/dist')));
 
 	return merge(bower_components, merged_static, lib);
@@ -238,6 +254,7 @@ gulp.task('copy:docs', function() {
 
 gulp.task('sass:docs', function() {
 	return gulp.src('docs/**/*.scss')
+		.pipe(dbg('sass-docs'))
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(BUILD_DOCS));
@@ -415,7 +432,7 @@ gulp.task('docs:templates', function() {
 		.pipe(cache('docs_module'))
 		.pipe(injectBehaviorDocs(behaviorsMap))
 		.pipe(injectModuleData(pkg, moduleMap, articleList, articleMap))
-		// .pipe(debug())
+		.pipe(dbg('docs-modules'))
 		.pipe(through.obj(function(file, enc, cb) {
 			var moduleDoc = JSON.parse(file.contents);
 			var templatePath = path.join(__dirname,'docs/component_template.html');
@@ -439,6 +456,7 @@ gulp.task('docs:templates', function() {
 		.pipe(marked().on('error',console.log))
 		.pipe(injectArticleData(pkg, moduleMap, articleList, articleMap))
 		.pipe(rename({prefix: 'article_'}))
+		.pipe(dbg('docs-articles'))
 		.pipe(gulp.dest(BUILD_DOCS));
 
 	return merge(indexStream, moduleStream, articleStream);
@@ -447,6 +465,7 @@ gulp.task('docs:templates', function() {
 gulp.task('gh-pages', function() {
 	var pkg = getPkgInfo();
 	return gulp.src(BUILD_DOCS+'**/*')
+		.pipe(dbg('gh-pages'))
 		.pipe(ghPages({
 			message: 'docs updates v'+pkg.version
 		}));
@@ -467,7 +486,7 @@ gulp.task('index', function() {
 	var templateString = fs.readFileSync(templatePath).toString('utf8');
 	var template = hogan.compile(templateString);
 	var index = template.render(moduleMap);
-	fs.writeFileSync(path.join(BUILD,'index.html'), index);
+	fs.writeFileSync(j(BUILD,'index.html'), index);
 });
 
 gulp.task('server', function() {
@@ -540,7 +559,7 @@ gulp.task('changelog', function() {
 				}
 			}
 		}))
-		.pipe(debug())
+		.pipe(dbg('changelog'))
 		.pipe(gulp.dest('.'));
 });
 
