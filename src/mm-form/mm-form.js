@@ -314,6 +314,8 @@
 					validation 		= this.config[key].validation,
 					noValidateFunc 	= typeof this.config[key].noValidate === 'function',
 					noValidate  	= this.config[key].noValidate || false,
+					field 			= this.config[key].field,
+					tagName 		= this.config[key].field.tagName.toLowerCase(),
 					valid 			= false,
 					value 			= null;
 
@@ -332,24 +334,22 @@
 
 				if (validation && !noValidate) {
 					valid = this._validateField(key, value);
+				} else if (tagName === 'mm-repeater') {
+					// special case for mm-repeater
+					// mm-repeater will handle it's own validation
+					// TODO: Make sure mm-repeater returns something
+					valid = field.validate();
+				} else if (validation && noValidate) {
+					// clean up prior validations if they were there
+					this.resetFieldValidation(key);
+				}
 
-					// Store valid and invalid for this validation pass
+				// Store valid and invalid for this validation pass
+				if (validation && !noValidate || tagName === 'mm-repeater' && !noValidate) {
 					if (valid) {
 						this._validFields.push(key);
 					} else {
 						this._invalidFields.push(key);
-					}
-				} else if (validation && noValidate) {
-					// clean up prior validations if they were there
-					this.resetFieldValidation(key);
-				} else {
-					// special case for mm-repeater
-					// mm-repeater will handle it's own validation
-					var field = this.config[key].field,
-						tagName = field.tagName.toLowerCase();
-
-					if (tagName === 'mm-repeater') {
-						field.validate();
 					}
 				}
 				
