@@ -4,46 +4,53 @@
 //TODO(shuwen): split into multiple files
 //TODO(shuwen): replace path string concatenation with path.join
 
+//node packages
 var fs = require('fs');
-var gulp = require('gulp');
+var path = require('path');
+var j = path.join;
 var glob = require('glob');
-var gutil = require('gulp-util');
 var del = require('del');
+var autoprefixer = require('autoprefixer');
+var hogan = require('hogan.js');
+var serveStatic = require('serve-static');
+var connect = require('connect');
+var Vulcanize = require('vulcanize');
+
+//stream/gulp related
+var merge = require('merge-stream');
+var es = require('event-stream');
+var gulp = require('gulp');
+var through = require('through2');
+var run = require('run-sequence');
+
+//gulp plugins
+var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var rename = require('gulp-rename');
-var merge = require('merge-stream');
-var path = require('path');
 var vulcanize = require('gulp-vulcanize');
 var debug = require('gulp-debug');
-var run = require('run-sequence');
 var htmlmin = require('gulp-minify-html');
 var inlinemin = require('gulp-minify-inline');
 var wrap = require('gulp-wrap');
 var inlineAssets = require('gulp-inline-assets');
 var marked = require('gulp-marked');
 var changed = require('gulp-changed');
-var es = require('event-stream');
 var cache = require('gulp-cached');
 var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
 var git = require('gulp-git');
 var bump = require('gulp-bump');
 var tagVersion = require('gulp-tag-version');
 var conventionalChangelog = require('gulp-conventional-changelog');
 var ghPages = require('gulp-gh-pages');
-var through = require('through2');
-var hogan = require('hogan.js');
 var header = require('gulp-header');
 var base64 = require('gulp-base64');
 var minimist = require('minimist');
-var serveStatic = require('serve-static');
-var connect = require('connect');
 var open = require('gulp-open');
-var Vulcanize = require('vulcanize');
 
 var SRC = 'src/';
 var BUILD = 'build/';
 var BUILD_DOCS = 'build_docs/';
+var DOCS = 'docs/';
 var DIST = 'dist/';
 var TEMPLATES = 'gulp/templates/'; //TODO swap to gulp
 
@@ -57,32 +64,34 @@ var PATCH_LIST = [
 /** BUILD **/
 
 gulp.task('patch-lib', function() {
-	gulp.src(PATCH_LIST, {base: path.join(__dirname, 'bower_components')})
+	gulp.src(PATCH_LIST, {base: j(__dirname, 'bower_components')})
 		.pipe(debug())
 		.pipe(wrap("(function(define, require) { {{{contents}}} })();",{},{engine:"hogan"}).on('error',console.error))
-		.pipe(gulp.dest( path.join(__dirname, 'bower_components') ));
+		.pipe(gulp.dest( j(__dirname, 'bower_components') ));
 });
 
 gulp.task('clean', function() {
-	return del([BUILD + '**', BUILD_DOCS+ '**']);
+	return del([j(BUILD,'**'), j(BUILD_DOCS,'**')]);
+});
+
+gulp.task('clean:dist', function() {
+	return del([j(DIST,'**')]);
 });
 
 gulp.task('copy', function() {
-	return gulp.src([SRC + '**/*.+(html|js|woff)', '!' + SRC +'**/example.html'])
+	return gulp.src([j(SRC,'**/*.+(html|js|woff)'), j('!',SRC,'**/example.html')])
 		.pipe(changed(BUILD))
 		.pipe(debug())
 		.pipe(gulp.dest(BUILD));
 });
 
 gulp.task('sass', function() {
-	var wrapper = fs.readFileSync(TEMPLATES + "style_module_template.html").toString('utf8');
+	var wrapper = fs.readFileSync(j(TEMPLATES,"style_module_template.html"),'utf8');
 	return gulp.src(SRC + 'mm-*/*.scss')
-		// .pipe(cache())
 		.pipe(changed(BUILD, {extension:'.css'}))
 		.pipe(sass({includePaths: ['./bower_components/bourbon/app/assets/stylesheets/', './src/shared/sass/']}).on('error', sass.logError))
 		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(BUILD))
-		// .pipe(wrap({src:TEMPLATES + "style_module_template.html"},{},{engine:"hogan"}))
 		.pipe(wrap(function(data) {
 			data.fname = path.basename(data.file.relative,'.css');
 			return wrapper;
@@ -97,7 +106,7 @@ gulp.task('font', function() {
 		.pipe(gulp.dest(BUILD + 'shared/fonts/'))
 		.pipe(wrap("<style>{{{contents}}}</style>",{},{engine:"hogan"}).on('error',console.log))
 		.pipe(rename("fonts.html").on('error',console.log))
-		.pipe(gulp.dest(BUILD + '/shared/fonts/'));
+		.pipe(gulp.dest(j(BUILD,'/shared/fonts/')));
 });
 
 function vulcanizeSingle(opts, baseList, basePath) {
@@ -132,10 +141,11 @@ function vulcanizeSingle(opts, baseList, basePath) {
 }
 
 gulp.task('vulcanize', function() {
-    var excludes = glob.sync(BUILD + 'mm-*/mm-*.html');
+	var moduleGlob = j(BUILD,'mm-*/mm-*.html');
+    var excludes = glob.sync(moduleGlob);
     excludes.push('bower_components/polymer/polymer.html');
 
-    var modules = gulp.src(BUILD + "mm-*/mm-*.html")
+    var modules = gulp.src(moduleGlob)
         // .pipe(changed(BUILD))
         .pipe(vulcanizeSingle({
             inlineScripts: true,
@@ -146,7 +156,7 @@ gulp.task('vulcanize', function() {
         .pipe(htmlmin())
         .pipe(gulp.dest(BUILD));
 
-	var lib = gulp.src(BUILD + "strand.html")
+	var lib = gulp.src(j(BUILD,"strand.html"))
 		.pipe(vulcanize({
 			inlineScripts: true,
 			inlineCss: true
@@ -164,10 +174,10 @@ gulp.task('build', function(cb) {
 });
 
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
-	var excludes = glob.sync(BUILD + 'mm-*/mm-*.html');
+	var excludes = glob.sync(j(BUILD,'mm-*/mm-*.html'));
     excludes.push('bower_components/polymer/polymer.html');
 
-	var modules = gulp.src(BUILD + 'mm-*/mm-*.html')
+	var modules = gulp.src(j(BUILD,'mm-*/mm-*.html'))
 		.pipe(vulcanizeSingle({
 				inlineScripts: true,
 				inlineCss: true,
@@ -180,11 +190,11 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 			spare: true
 		}))
 		.pipe(inlinemin())
-		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
+		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
 
-	var lib = gulp.src(BUILD + 'strand.html')
+	var lib = gulp.src(j(BUILD,'strand.html'))
 		.pipe(vulcanize({
 			inlineScripts: true,
 			inlineCss: true,
@@ -197,7 +207,7 @@ gulp.task('build:prod', ['patch-lib', 'build'], function() {
 			spare: true
 		}))
 		.pipe(inlinemin())
-		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt').toString('utf8') + ' -->'))
+		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 		.pipe(changed(DIST))
 		.pipe(gulp.dest(DIST));
 
@@ -223,8 +233,8 @@ gulp.task('copy:docs', function() {
 		.pipe(debug())
 		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/'));
 
-	var lib = gulp.src(BUILD+'**')
-		.pipe(gulp.dest(BUILD_DOCS+'/bower_components/strand/dist'));
+	var lib = gulp.src(j(BUILD,'**'))
+		.pipe(gulp.dest(j(BUILD_DOCS,'/bower_components/strand/dist')));
 
 	return merge(bower_components, merged_static, lib);
 });
@@ -345,10 +355,10 @@ gulp.task('docs:templates', function() {
 	var moduleMap = moduleList.map(function(name) { return {name: name}; });
 
 	// Create behaviorsMap
-	var behaviors = glob.sync(SRC+'shared/behaviors/*.json');
+	var behaviors = glob.sync(j(SRC,'shared/behaviors/*.json'));
 	var behaviorsMap = {};
 	behaviors.forEach(function(behavior) {
-		var behaviorKey = behavior.replace(SRC+'shared/behaviors/','')
+		var behaviorKey = behavior.replace(j(SRC,'shared/behaviors/'),'')
 			.replace('.json','')
 			.toLowerCase();
 		behaviorsMap[behaviorKey] = JSON.parse(fs.readFileSync(behavior));
@@ -404,7 +414,7 @@ gulp.task('docs:templates', function() {
 		}))
 		.pipe(gulp.dest(BUILD_DOCS));
 
-	var moduleStream = gulp.src(SRC+'mm-*/doc.json')
+	var moduleStream = gulp.src(j(SRC,'mm-*/doc.json'))
 		.pipe(changed(BUILD_DOCS))
 		.pipe(injectBehaviorDocs(behaviorsMap))
 		.pipe(injectModuleData(pkg, moduleMap, articleList, articleMap))
@@ -448,8 +458,8 @@ gulp.task('gh-pages', function() {
 /** LIVE **/
 
 gulp.task('watch', function () {
-	gulp.watch(SRC + 'mm-*/*.scss', ['sass']);
-	gulp.watch(SRC + 'mm-*/*.html', ['copy', 'vulcanize']);
+	gulp.watch(j(SRC,'mm-*/*.scss'), ['sass']);
+	gulp.watch(j(SRC,'mm-*/*.html'), ['copy', 'vulcanize']);
 });
 
 gulp.task('index', function() {
