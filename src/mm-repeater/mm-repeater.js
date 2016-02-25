@@ -41,10 +41,6 @@
 			}
 		},
 
-		// Track added
-		// Track deleted
-		// changed = ∆( {orig} - {deleted}, {current} - added )
-
 		behaviors: [
 			StrandTraits.Refable,
 			StrandTraits.Resolvable
@@ -131,6 +127,8 @@
 		},
 
 		validate: function() {
+			var allValid = true;
+
 			this.data.forEach(function(item, index) {
 				var valid = true;
 
@@ -157,7 +155,11 @@
 				this.set('data.'+index+'.error', !valid);
 				this.set('data.'+index+'.errorMessage', item.errorMessage);
 
+				allValid = allValid && valid;
+
 			}, this);
+
+			return allValid;
 		},
 
 		validation: this.validate,
