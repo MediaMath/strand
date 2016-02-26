@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../../build/strand.html" />
-		
+		<link rel="import" href="../strand.html" />
+
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -125,45 +125,52 @@
 			</mm-repeater>
 
 			<mm-button style="margin: 10px 0;" id="validateBtn"><label>Validate!</label></mm-button>
-			
+
 		</div>
 
 		<script>
+			var acceptedNames = ['John', 'Paul', 'George', 'Ringo'];
+			var config = {
+				'name': {
+					validation: function(name) {
+						return acceptedNames.indexOf(name) < 0;
+					},
+					errorMessage: 'Name is not in the list of accepted values'
+				},
+				'firstOption': {
+					validation: function() {
+						return true;
+					}
+				},
+				'secondOption': {
+					validation: function() {
+						return true;
+					}
+				}
+			};
+
 			var data = [
 				{
 					name: "John",
 					firstOption: "Test Item 2",
-					secondOption: "Test 1",
-					validation: function(model) {
-						console.log(arguments);
-						// this.errorMessage = 'Setting error message in validation method';
-						return model.name === 'John';
-					},
-					errorMessage: "Name is not John!"
+					secondOption: "Test 1"
 				},
 				{
 					name: "Paul",
 					firstOption: "Test Item 1",
-					secondOption: "Test 2",
-					validation: function(model) {
-						return model.name === 'Paul';
-					},
-					errorMessage: "Name is not Paul!"
+					secondOption: "Test 2"
 				},
 				{
 					name: "Ringo",
 					firstOption: "Test Item 1",
-					secondOption: "Test 3",
-					validation: function(model) {
-						return model.name === 'Ringo';
-					},
-					errorMessage: "Name is not Ringo!"
+					secondOption: "Test 3"
 				}
 			];
 
 			window.addEventListener('WebComponentsReady', function(e) {
 				var wd = document.querySelector('#withData');
 				// wd.set('data', data);
+				wd.config = config;
 				wd.value = data;
 
 				document.querySelector('#validateBtn').addEventListener('click', function() {
@@ -173,8 +180,3 @@
 		</script>
 	</body>
 </html>
-
-
-
-
-

@@ -6,20 +6,27 @@
 */
 (function(scope) {
 
+	var Validator = StrandLib.Validator,
+		DataUtils = StrandLib.DataUtils;
+
 	scope.Repeater = Polymer({
 		is: 'mm-repeater',
 
 		properties: {
-			template: {
+			config: {
 				type: Object,
-				value: null
+				value: {}
 			},
-
 			data: {
 				type: Array,
 				notify: true,
 				value: function() { return [{}]; },
 				observer: '_handleDataChanged'
+			},
+
+			template: {
+				type: Object,
+				value: null
 			},
 
 			added: {
@@ -30,6 +37,7 @@
 				type: Array,
 				value: []
 			},
+
 			_origData: {
 				type: Array,
 				value: []
@@ -127,39 +135,41 @@
 		},
 
 		validate: function() {
-			var allValid = true;
+			return this.data.reduce(function(sum, row) {
+				var valid = this.validateRow(row);
+				return sum && valid;
+			}.bind(this), true);
+		},
 
-			this.data.forEach(function(item, index) {
-				var valid = true;
+		validateRow: function(row) {
+			var keys = Object.keys(row);
+			var error = keys.reduce(function(sum, key) {
+				var validation = DataUtils.getPathValue(key+'.validation', this.config),
+					valid = true;
 
-				if(typeof item.validation === 'function') {
-					// Custom validation provided: call validation, passing name:value pairs as arguments
-					var elems = item._ref.querySelectorAll('[name]'),
-						rowData = new Object();
-						Object.keys(elems).forEach(
-							function(key) {
-								var elem = elems[key];
-								rowData[elem.getAttribute('name')] = elem.value;
-							}
-						);
-					valid = item.validation.call(item, rowData);
-				} else {
-					// Default validation: call validate on each form element and fold them together
-					var fields = item._ref.querySelectorAll('[validation]');
-					valid = Object.keys(fields).reduce(function(sum, elt) {
-						return sum && (!fields[elt].validate || fields[elt].validate(fields[elt].value));
-					}, true);
+				switch(typeof validation) {
+					case "function":
+						valid = validation.apply(this.config[key], [row[key], row, row._ref]);
+						break;
+					case "string":
+						valid = Validator.rules[item](value);
+						break;
+					default:
+						break;
 				}
+				return sum && valid;
 
-				// Reflect validation to the model for error messaging
-				this.set('data.'+index+'.error', !valid);
-				this.set('data.'+index+'.errorMessage', item.errorMessage);
+			}.bind(this), true);
+			var errorMessage = keys.reduce(function(sum, key) {
+				var message = DataUtils.getPathValue(key+'.errorMessage', this.config);
+				return sum + " " + (message || "");
+			}.bind(this), "");
 
-				allValid = allValid && valid;
+			var prefix = 'data.' + this.data.indexOf(row) + '.';
+			this.set(prefix+'error', error);
+			this.set(prefix+'errorMessage', errorMessage.trim());
 
-			}, this);
-
-			return allValid;
+			return error;
 		},
 
 		validation: this.validate,
