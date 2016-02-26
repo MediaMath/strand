@@ -13,6 +13,11 @@
     "Shuwen Qian <sqian@mediamath.com>"
   ],
   "license": "BSD-3-Clause",
+  "scripts":{
+    "build":"gulp",
+    "start":"gulp live",
+    "deploy":"gulp deploy"
+  },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
     "connect": "^3.4.1",
