@@ -509,7 +509,7 @@ gulp.task('server', function() {
 		}));
 });
 
-gulp.task('live', ['index', 'watch', 'server']);
+gulp.task('live', ['build', 'index', 'watch', 'server']);
 
 gulp.task('watch:docs', function() {
 	gulp.watch([j(C.DOCS,'/**/*.md'), C.SRC + '**/doc.json'], ['docs:templates']);
