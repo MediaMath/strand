@@ -60,14 +60,11 @@ var C = {
 	BOWER: 'bower_components/',
 	SASS_INCLUDE: ['bower_components/bourbon/app/assets/stylesheets/', 'src/shared/sass/'],
 	LIVE_PORT: 8000,
-	DOCS_PORT: 8001
+	DOCS_PORT: 8001,
+	PATCH_LIST: [
+		'bower_components/moment/min/moment.min.js'
+	]
 };
-
-
-
-var PATCH_LIST = [
-	j(C.BOWER, '/moment/min/moment.min.js')
-];
 
 var IS_DEBUG = !!gutil.env.debug;
 
@@ -78,9 +75,17 @@ function dbg(t) {
 /** BUILD **/
 
 gulp.task('patch-lib', function() {
+
 	gulp.src(C.PATCH_LIST, {base: j(__dirname, C.BOWER)})
 		.pipe(dbg('patch-lib'))
-		.pipe(wrap("(function(define, require) { {{{contents}}} })();",{},{engine:"hogan"}).on('error',console.error))
+		.pipe(wrap(function(data) {
+			// console.log(data.file.contents.toString('utf8'));
+			if (data.file.contents.toString('utf8').indexOf('/*patched*/') !== -1) {
+				return "{{{contents}}}";
+			} else {
+				return "/*patched*/\n(function(define, require) { {{{contents}}} })();";
+			}
+		},{},{engine:'hogan'}).on('error',console.error))
 		.pipe(gulp.dest( j(__dirname, C.BOWER) ));
 });
 
@@ -191,6 +196,10 @@ gulp.task('default', function(cb) {
 gulp.task('build', function(cb) {
 	run('copy',['sass','font'],'vulcanize',cb);
 });
+
+// gulp.task('build:dist', function(cb) {
+// 	run('clean','patch-lib', )
+// });
 
 gulp.task('build:prod', ['patch-lib', 'build'], function() {
 	var excludes = glob.sync(j(C.BUILD,C.MODULE_MASK, C.MODULE_HTML));
