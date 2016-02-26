@@ -10,9 +10,12 @@
 		is: 'mm-form',
 
 		behaviors: [
+			StrandTraits.Stylable,
 			StrandTraits.LightDomGettable,
 			StrandTraits.Resolvable,
-			StrandTraits.Columnable
+			StrandTraits.Columnable,
+			StrandTraits.Refable,
+			StrandTraits.Falsifiable
 		],
 
 		properties: {
@@ -22,7 +25,8 @@
 			unsaved: {
 				type: Boolean,
 				value: true,
-				notify: true
+				notify: true,
+				readOnly: true
 			},
 			showUnsavedMessage: {
 				type: Boolean,
@@ -70,6 +74,16 @@
 				value: true,
 				notify: true
 			},
+			footerFixed: {
+				type: Boolean,
+				value: true,
+				notify: true
+			},
+			footerLeft: {
+				type: Number,
+				value: 0,
+				notify: true
+			},
 			_footerType: {
 				type: String,
 				notify: true
@@ -111,6 +125,9 @@
 		attached: function() {
 			if (this._isEmpty(this.config)) this.debounce('initConfig', this._initConfig);
 			if (this._isEmpty(this.data)) this.debounce('initData', this._initData);
+			
+			// Temp warning message
+			console.warn('This component contains experimental features. The configuration and API are subject to change. Please use at your own risk.');
 		},
 
 		_dataChanged: function(newVal, oldVal) {
@@ -276,7 +293,7 @@
 
 				if (!exclude) {
 					this._updateData(key, value);
-					this.unsaved = this._diffData();
+					this._setUnsaved(this._diffData());
 				}
 
 				if (validation && this.autoValidate) this._validateField(key, value);
@@ -452,7 +469,22 @@
 
 		_displayMessage: function(_showFooterMessage, showFooterMessages) {
 			return _showFooterMessage && showFooterMessages;
-		}			
+		},
+
+		_footerStyle: function(footerFixed, footerLeft) {
+			if (footerFixed) {
+				return this.styleBlock({
+					position: 'fixed',
+					left: footerLeft + 'px',
+					bottom: '0px'
+				});
+			} else {
+				return this.styleBlock({
+					position: 'relative',
+					marginTop: '10px'
+				});
+			}
+		}		
 	});
 
 })(window.Strand = window.Strand || {});
