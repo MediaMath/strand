@@ -110,6 +110,7 @@
 			<mm-repeater id="withData">
 				<template preserve-content>
 					<mm-input name="name" validation="alpha"></mm-input>
+					<mm-input name="number"></mm-input>
 					<mm-dropdown name="firstOption">
 						<mm-list-item>Test Item 1</mm-list-item>
 						<mm-list-item>Test Item 2</mm-list-item>
@@ -136,6 +137,10 @@
 						return acceptedNames.indexOf(name) < 0;
 					},
 					errorMessage: 'Name is not in the list of accepted values'
+				},
+				'number': {
+					validation: 'int',
+					errorMessage: 'Not an integer'
 				},
 				'firstOption': {
 					validation: function() {

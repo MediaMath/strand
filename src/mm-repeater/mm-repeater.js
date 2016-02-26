@@ -143,7 +143,9 @@
 
 		validateRow: function(row) {
 			var keys = Object.keys(row);
-			var error = keys.reduce(function(sum, key) {
+			var errorMessage = "";
+
+			var valid = keys.reduce(function(sum, key) {
 				var validation = DataUtils.getPathValue(key+'.validation', this.config),
 					valid = true;
 
@@ -152,24 +154,25 @@
 						valid = validation.apply(this.config[key], [row[key], row, row._ref]);
 						break;
 					case "string":
-						valid = Validator.rules[item](value);
+						validatef = Validator.rules[validation];
+						if(validatef) valid = validatef(row[key]);
 						break;
 					default:
 						break;
 				}
-				return sum && valid;
 
+				if(!valid) {
+					var message = DataUtils.getPathValue(key+'.errorMessage', this.config);
+					errorMessage += ' '+message;
+				}
+				return sum && valid;
 			}.bind(this), true);
-			var errorMessage = keys.reduce(function(sum, key) {
-				var message = DataUtils.getPathValue(key+'.errorMessage', this.config);
-				return sum + " " + (message || "");
-			}.bind(this), "");
 
 			var prefix = 'data.' + this.data.indexOf(row) + '.';
-			this.set(prefix+'error', error);
+			this.set(prefix+'error', !valid);
 			this.set(prefix+'errorMessage', errorMessage.trim());
 
-			return error;
+			return valid;
 		},
 
 		validation: this.validate,
