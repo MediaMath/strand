@@ -2,7 +2,6 @@
 /*jslint node: true */
 /*jslint esversion: 6*/
 //TODO(shuwen): split into multiple files
-//TODO(shuwen): replace path string concatenation with path.join
 
 //node packages
 var fs = require('fs');
@@ -79,7 +78,6 @@ gulp.task('patch-lib', function() {
 	gulp.src(C.PATCH_LIST, {base: j(__dirname, C.BOWER)})
 		.pipe(dbg('patch-lib'))
 		.pipe(wrap(function(data) {
-			// console.log(data.file.contents.toString('utf8'));
 			if (data.file.contents.toString('utf8').indexOf('/*patched*/') !== -1) {
 				return "{{{contents}}}";
 			} else {
@@ -197,11 +195,11 @@ gulp.task('build', function(cb) {
 	run('copy',['sass','font'],'vulcanize',cb);
 });
 
-// gulp.task('build:dist', function(cb) {
-// 	run('clean','patch-lib', )
-// });
+gulp.task('build:dist', function(cb) {
+	run('clean','patch-lib', 'copy',['sass','font'], 'build:prod', cb);
+});
 
-gulp.task('build:prod', ['patch-lib', 'build'], function() {
+gulp.task('build:prod', function() {
 	var excludes = glob.sync(j(C.BUILD,C.MODULE_MASK, C.MODULE_HTML));
     excludes.push('bower_components/polymer/polymer.html');
 
