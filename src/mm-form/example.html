@@ -1,0 +1,59 @@
+<mm-form id="testForm" columns="4" footer-fixed="false">
+	<div class="col" span="1">
+		<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
+	</div>
+	<div class="col" span="1">
+		<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
+			<mm-list-item>List Item 1</mm-list-item>
+			<mm-list-item>List Item 2</mm-list-item>
+			<mm-list-item>List Item 3</mm-list-item>
+			<mm-list-item>List Item 4</mm-list-item>
+		</mm-dropdown>
+	</div>
+	
+	<div class="col" span="2">
+		<mm-group fitparent name="radio">
+			<mm-radio>
+				<label>Red</label>
+			</mm-radio>
+			<mm-radio>
+				<label>Green</label>
+			</mm-radio>	
+			<mm-radio>
+				<label>Blue</label>
+			</mm-radio>
+		</mm-group>
+	</div>
+</mm-form>
+
+<script>
+	var config = {
+		'input' : {
+			validation: 'int|empty',
+			parentEle: null,
+			errorMsgEle: null,
+			errorMsg: 'You need to type a number',
+			label: 'Type a number'
+		},
+		'dropdown' : {
+			validation: 'empty',
+			parentEle: null,
+			errorMsg: 'You need to select an item',
+			label: 'Select an Item'
+		},
+		'radio' : {
+			validation: function(name, value, data) {
+				return data[name] === 'Red' && value === 'Red';
+			},
+			parentEle: null,
+			errorMsgEle: null,
+			errorMsg: 'You need to select \'Red\'',
+			label: 'Select a Color'
+		}
+	};
+
+	window.addEventListener("WebComponentsReady", function() {
+		var testForm = document.querySelector('#testForm');
+		testForm.config = config;
+	});
+</script>

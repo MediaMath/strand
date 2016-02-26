@@ -9,6 +9,11 @@
 				<div class="docs-content">
 					<h1>{{name}}</h1>
 					<p>{{description}}</p>
+					{{#experimental.length}}
+					{{#experimental}}
+					<mm-inline-box type="warning" fitparent>{{message}}</mm-inline-box>
+					{{/experimental}}
+					{{/experimental.length}}
 					<hr/>
 					<section>
 						<h3>Example HTML Editor</h3>
