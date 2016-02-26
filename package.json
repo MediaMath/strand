@@ -16,7 +16,8 @@
   "scripts":{
     "build":"gulp",
     "start":"gulp live",
-    "deploy":"gulp deploy"
+    "dist":"gulp build:dist",
+    "release":"gulp release:patch"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
