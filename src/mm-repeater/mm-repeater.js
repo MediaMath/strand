@@ -161,6 +161,9 @@
 						break;
 				}
 
+				var el = row._ref.querySelector('[name='+key+']');
+				if(el) el.error = !valid;
+
 				if(!valid) {
 					var message = DataUtils.getPathValue(key+'.errorMessage', this.config);
 					errorMessage += ' '+message;

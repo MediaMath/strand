@@ -134,7 +134,7 @@
 			var config = {
 				'name': {
 					validation: function(name) {
-						return acceptedNames.indexOf(name) < 0;
+						return acceptedNames.indexOf(name) >= 0;
 					},
 					errorMessage: 'Name is not in the list of accepted values'
 				},
