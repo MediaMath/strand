@@ -4,7 +4,7 @@
 
 mm-sync provides a higher level API similar to jQuery or Backbone in terms of having pre-configured XHR calls for the most common RESTful scenarios. Sync is designed heavily around 2-way binding so virtually all of the request params can be manipulated via the DOM (and thus via 2-way binding) as we will see in the examples.
 
-Sync is used as the base class for all 'adapters' which provide API specific implementations of sync that are usable with mm-model and mm-collection.  For more information on extending mm-sync please see [creating adapters](data_comps_creating_adapters.html).
+Sync is used as the base class for all 'adapters' which provide API specific implementations of sync that are usable with mm-model and mm-collection.
 
 Unlike mm-ajax which is designed to handle a single call at a time, mm-sync can handle multiple concurrent calls. The default concurrency setting is 4 simultaneous calls, but if more are desired they can be set via the `requestConcurrency` param (either markup or JS).
 
