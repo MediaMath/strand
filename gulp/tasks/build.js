@@ -27,7 +27,7 @@
 
 		gulp.task('patch-lib', function() {
 
-			gulp.src(C.PATCH_LIST, {base: j(__dirname, C.BOWER)})
+			gulp.src(C.PATCH_LIST, {base: C.BOWER})
 				.pipe(dbg('patch-lib'))
 				.pipe(plugins.wrap(function(data) {
 					if (data.file.contents.toString('utf8').indexOf('/*patched*/') !== -1) {
@@ -36,7 +36,7 @@
 						return "/*patched*/\n(function(define, require) { {{{contents}}} })();";
 					}
 				},{},{engine:'hogan'}).on('error',console.error))
-				.pipe(gulp.dest( j(__dirname, C.BOWER) ));
+				.pipe(gulp.dest(C.BOWER));
 		});
 
 		gulp.task('clean', function() {

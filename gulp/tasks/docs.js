@@ -152,7 +152,7 @@
 						articleList: articles,
 						articleMap: articleMap
 					};
-					var templatePath = j(__dirname, C.DOCS,'/article_template.html');
+					var templatePath = j(C.DOCS,'/article_template.html');
 					var templateString = fs.readFileSync(templatePath).toString('utf8');
 					var template = hogan.compile(templateString);
 					var doc = template.render(articleDoc, partialMap);
@@ -236,7 +236,7 @@
 				.pipe(dbg('docs-modules'))
 				.pipe(through.obj(function(file, enc, cb) {
 					var moduleDoc = JSON.parse(file.contents);
-					var templatePath = j(__dirname,C.DOCS,'/component_template.html');
+					var templatePath = j(C.DOCS,'/component_template.html');
 					var templateString = fs.readFileSync(templatePath, 'utf8');
 					var template = hogan.compile(templateString);
 					var doc = template.render(moduleDoc, partialMap);

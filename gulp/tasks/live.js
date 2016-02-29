@@ -39,7 +39,7 @@
 			var modules = glob.sync(j(C.MODULE_MASK,"/index.html"), {cwd:C.SRC});
 			var moduleList = modules.map(function(name) { return name.replace('/index.html',''); });
 			var moduleMap = {modules: moduleList};
-			var templatePath = j(__dirname, C.TEMPLATES, '/index_template.html');
+			var templatePath = j(C.TEMPLATES, '/index_template.html');
 			var templateString = fs.readFileSync(templatePath, 'utf8');
 			var template = hogan.compile(templateString);
 			var index = template.render(moduleMap);

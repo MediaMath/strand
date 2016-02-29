@@ -2,7 +2,8 @@
 	'use strict';
 
 	module.exports = {
-		SRC:'src/',
+		ROOT: '.',
+		SRC: 'src/',
 		BUILD: 'build/',
 		BUILD_DOCS: 'build_docs/',
 		DOCS: 'docs/',

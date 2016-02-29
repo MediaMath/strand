@@ -33,7 +33,7 @@
 			if(!version) version = 'patch';
 			return gulp.src(['package.json', 'bower.json'])
 			   .pipe(plugins.bump({type: version}))
-			   .pipe(gulp.dest(__dirname));
+			   .pipe(gulp.dest(C.ROOT));
 		}
 
 		gulp.task('release', function() {

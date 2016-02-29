@@ -8,6 +8,8 @@ var j = path.join;
 
 //gulp plugins
 var plugins = require('gulp-load-plugins')({
+	camelize: true,
+	lazy: true,
 	rename: {
 		'gulp-util': 'gutil',
 		'gulp-if': 'gif',
