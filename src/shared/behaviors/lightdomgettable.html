@@ -17,7 +17,8 @@
 		},
 
 		getLightDOM: function() {
-			return this.getEffectiveChildren();
+			// return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
+			return Polymer.dom(this.contentTarget).queryDistributedElements("*");
 		}
 	};
 
