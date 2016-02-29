@@ -1,4 +1,7 @@
-### Using mm-repeater
+# Using mm-repeater
+
+## Overview
+
 `mm-repeater` allows the duplication of a set of fields contained within a template tag.
 
 ```html
@@ -16,7 +19,7 @@
 </mm-repeater>
 ```
 
-#### Validation
+## Validation
 Like `mm-form`, `mm-repeater` takes a `config` object, which can take `validation` as a `string` or a custom validation method taking the arguments `value, row:Object, domref:HTMLElement`, and an `errorMessage`. If a custom validation method is used, `this.errorMessage` can be set dynamically.
 
 ```javascript
@@ -50,8 +53,10 @@ myRepeater.config = {
 }
 ```
 
-#### Getting data from `mm-repeater`
+## Getting data from `mm-repeater`
 User data from repeated form fields are accessible through the `value` property on the `mm-repeater` element. `value` is a getter/setter interface for the `data` property—this ensures Polymer's data binding updates properly. Each object in the `value` array corresponds to a single repeater row, with key-value pairs corresponding to the name-value pairs of the form elements.
+
+## Getting data into `mm-repeater`
 
 Data can be preloaded into the repeater by setting the `value`. This is useful in views where the end user wishes to edit some pre-existing data.
 ```javascript
