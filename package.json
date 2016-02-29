@@ -13,11 +13,11 @@
     "Shuwen Qian <sqian@mediamath.com>"
   ],
   "license": "BSD-3-Clause",
-  "scripts":{
-    "build":"gulp",
-    "start":"gulp live",
-    "dist":"gulp build:dist",
-    "release":"gulp release:patch"
+  "scripts": {
+    "build": "gulp",
+    "start": "gulp live",
+    "dist": "gulp build:dist",
+    "release": "gulp release:patch"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
@@ -36,6 +36,7 @@
     "gulp-header": "^1.7.1",
     "gulp-if": "^2.0.0",
     "gulp-inline-assets": "^0.1.1",
+    "gulp-load-plugins": "^1.2.0",
     "gulp-marked": "^1.0.0",
     "gulp-minify-html": "^1.0.5",
     "gulp-minify-inline": "^0.2.0",

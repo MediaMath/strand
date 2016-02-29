@@ -14,6 +14,7 @@ var hogan = require('hogan.js');
 var serveStatic = require('serve-static');
 var connect = require('connect');
 var Vulcanize = require('vulcanize');
+var minimist = require('minimist');
 
 //stream/gulp related
 var merge = require('merge-stream');
@@ -23,52 +24,22 @@ var through = require('through2');
 var run = require('run-sequence');
 
 //gulp plugins
-var gutil = require('gulp-util');
-var gif = require('gulp-if');
-var sass = require('gulp-sass');
-var rename = require('gulp-rename');
-var vulcanize = require('gulp-vulcanize');
-var debug = require('gulp-debug');
-var htmlmin = require('gulp-minify-html');
-var inlinemin = require('gulp-minify-inline');
-var wrap = require('gulp-wrap');
-var inlineAssets = require('gulp-inline-assets');
-var marked = require('gulp-marked');
-var cache = require('gulp-cached');
-var postcss = require('gulp-postcss');
-var git = require('gulp-git');
-var bump = require('gulp-bump');
-var tagVersion = require('gulp-tag-version');
-var conventionalChangelog = require('gulp-conventional-changelog');
-var ghPages = require('gulp-gh-pages');
-var header = require('gulp-header');
-var base64 = require('gulp-base64');
-var minimist = require('minimist');
-var open = require('gulp-open');
+var plugins = require('gulp-load-plugins')({
+	rename: {
+		'gulp-util': 'gutil',
+		'gulp-if': 'gif',
+		'gulp-minify-html': 'htmlmin',
+		'gulp-minify-inline': 'inlinemin',
+		'gulp-cached': 'cache'
+	}
+});
 
-var C = {
-	SRC:'src/',
-	BUILD: 'build/',
-	BUILD_DOCS: 'build_docs/',
-	DOCS: 'docs/',
-	DIST: 'dist/',
-	TEMPLATES: 'gulp/templates/',
-	MODULE_MASK: 'mm-*',
-	MODULE_HTML: 'mm-*.html',
-	SHARED: 'shared/',
-	BOWER: 'bower_components/',
-	SASS_INCLUDE: ['bower_components/bourbon/app/assets/stylesheets/', 'src/shared/sass/'],
-	LIVE_PORT: 8000,
-	DOCS_PORT: 8001,
-	PATCH_LIST: [
-		'bower_components/moment/min/moment.min.js'
-	]
-};
+var C = require(j(__dirname, 'gulp/env.js'));
 
-var IS_DEBUG = !!gutil.env.debug;
+var IS_DEBUG = !!plugins.gutil.env.debug;
 
 function dbg(t) {
-	return gif(IS_DEBUG, debug({title:t}));
+	return plugins.gif(IS_DEBUG, plugins.debug({title:t}));
 }
 
 /** BUILD **/
@@ -77,7 +48,7 @@ gulp.task('patch-lib', function() {
 
 	gulp.src(C.PATCH_LIST, {base: j(__dirname, C.BOWER)})
 		.pipe(dbg('patch-lib'))
-		.pipe(wrap(function(data) {
+		.pipe(plugins.wrap(function(data) {
 			if (data.file.contents.toString('utf8').indexOf('/*patched*/') !== -1) {
 				return "{{{contents}}}";
 			} else {
@@ -97,7 +68,7 @@ gulp.task('clean:dist', function() {
 
 gulp.task('copy', function() {
 	return gulp.src([j(C.SRC,'**/*.+(html|js|woff)'), j('!',C.SRC,'**/example.html')])
-		.pipe(cache('copy'))
+		.pipe(plugins.cache('copy'))
 		.pipe(dbg('copy'))
 		.pipe(gulp.dest(C.BUILD));
 });
@@ -105,27 +76,27 @@ gulp.task('copy', function() {
 gulp.task('sass', function() {
 	var wrapper = fs.readFileSync(j(C.TEMPLATES,"style_module_template.html"),'utf8');
 	return gulp.src(j(C.SRC, C.MODULE_MASK,'*.scss'))
-		.pipe(cache('scss'))
-		.pipe(sass({includePaths: C.SASS_INCLUDE}).on('error', sass.logError))
-		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
+		.pipe(plugins.cache('scss'))
+		.pipe(plugins.sass({includePaths: C.SASS_INCLUDE}).on('error', plugins.sass.logError))
+		.pipe(plugins.postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(dbg('sass'))
 		.pipe(gulp.dest(C.BUILD))
-		.pipe(wrap(function(data) {
+		.pipe(plugins.wrap(function(data) {
 			data.fname = path.basename(data.file.relative,'.css');
 			return wrapper;
 		},{},{engine:"hogan"}))
-		.pipe(rename({basename:"style", extname: ".html"}))
+		.pipe(plugins.rename({basename:"style", extname: ".html"}))
 		.pipe(dbg('sass-html'))
 		.pipe(gulp.dest(C.BUILD));
 });
 
 gulp.task('font', function() {
 	return gulp.src(j(C.SRC, C.SHARED, '/fonts/fonts.scss'))
-		.pipe(sass({includePaths: C.SASS_INCLUDE}).on('error', sass.logError))
+		.pipe(plugins.sass({includePaths: C.SASS_INCLUDE}).on('error', plugins.sass.logError))
 		.pipe(dbg('font'))
 		.pipe(gulp.dest(C.BUILD + 'shared/fonts/'))
-		.pipe(wrap("<style>{{{contents}}}</style>",{},{engine:"hogan"}).on('error',console.log))
-		.pipe(rename("fonts.html").on('error',console.log))
+		.pipe(plugins.wrap("<style>{{{contents}}}</style>",{},{engine:"hogan"}).on('error',console.log))
+		.pipe(plugins.rename("fonts.html").on('error',console.log))
 		.pipe(dbg('font-output'))
 		.pipe(gulp.dest(j(C.BUILD,'/shared/fonts/')));
 });
@@ -140,7 +111,7 @@ function vulcanizeSingle(opts, baseList, basePath) {
 		}
 
 		if (file.isStream()) {
-		        cb(new gutil.PluginError('gulp-vulcanize', 'Streaming not supported'));
+		        cb(new plugins.gutil.PluginError('gulp-vulcanize', 'Streaming not supported'));
 		        return;
 		}
 
@@ -151,7 +122,7 @@ function vulcanizeSingle(opts, baseList, basePath) {
 
 		(new Vulcanize(opts)).process(file.path, function (err, inlinedHtml) {
 			if (err) {
-				cb(new gutil.PluginError('gulp-vulcanize', err, {fileName: file.path}));
+				cb(new plugins.gutil.PluginError('gulp-vulcanize', err, {fileName: file.path}));
 				return;
 			}
 
@@ -167,18 +138,18 @@ gulp.task('vulcanize', function() {
     excludes.push(j(C.BOWER, '/polymer/polymer.html'));
 
     var modules = gulp.src(moduleGlob)
-        .pipe(cache('v-modules'))
+        .pipe(plugins.cache('v-modules'))
         .pipe(vulcanizeSingle({
             inlineScripts: true,
             inlineCss: true,
 			implicitStrip: false
         }, excludes, C.BUILD))
         .pipe(dbg('vulcanize-modules'))
-        .pipe(htmlmin())
+        .pipe(plugins.htmlmin())
         .pipe(gulp.dest(C.BUILD));
 
 	var lib = gulp.src(j(C.BUILD,"strand.html"))
-		.pipe(vulcanize({
+		.pipe(plugins.vulcanize({
 			inlineScripts: true,
 			inlineCss: true
 		}))
@@ -218,30 +189,30 @@ gulp.task('build:prod', function() {
 				inlineCss: true,
 				implicitStrip: false
 		}, excludes, C.BUILD))
-		.pipe(base64(['.woff']))
-		.pipe(htmlmin({
+		.pipe(plugins.base64(['.woff']))
+		.pipe(plugins.htmlmin({
 			quotes: true,
 			empty: true,
 			spare: true
 		}))
-		.pipe(inlinemin())
-		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
+		.pipe(plugins.inlinemin())
+		.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 		.pipe(dbg('vulcanize-modules'))
 		.pipe(gulp.dest(C.DIST));
 
 	var lib = gulp.src(j(C.BUILD,'strand.html'))
-		.pipe(vulcanize({
+		.pipe(plugins.vulcanize({
 			inlineScripts: true,
 			inlineCss: true
 		}))
-		.pipe(base64(['.woff']))
-		.pipe(htmlmin({
+		.pipe(plugins.base64(['.woff']))
+		.pipe(plugins.htmlmin({
 			quotes: true,
 			empty: true,
 			spare: true
 		}))
-		.pipe(inlinemin())
-		.pipe(header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
+		.pipe(plugins.inlinemin())
+		.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 		.pipe(dbg('vulcanize-lib'))
 		.pipe(gulp.dest(C.DIST));
 
@@ -277,8 +248,8 @@ gulp.task('copy:docs', function() {
 gulp.task('sass:docs', function() {
 	return gulp.src(j(C.DOCS,'/**/*.scss'))
 		.pipe(dbg('sass-docs'))
-		.pipe(sass({includePaths: C.SASS_INCLUDE}).on('error', sass.logError))
-		.pipe(postcss([autoprefixer({browsers: ['last 2 versions']})]))
+		.pipe(plugins.sass({includePaths: C.SASS_INCLUDE}).on('error', plugins.sass.logError))
+		.pipe(plugins.postcss([autoprefixer({browsers: ['last 2 versions']})]))
 		.pipe(gulp.dest(C.BUILD_DOCS));
 });
 
@@ -316,7 +287,7 @@ gulp.task('docs:templates', function() {
 	// Ad-hoc plugin for injecting behaviors
 	function injectBehaviorDocs(behaviorsMap) {
 		return through.obj(function(file, enc, cb) {
-			if(!file.isBuffer()) this.emit('error', new gutil.PluginError('Buffer required'));
+			if(!file.isBuffer()) this.emit('error', new plugins.gutil.PluginError('Buffer required'));
 
 			var moduleDoc = JSON.parse(file.contents),
 				moduleBehaviors = moduleDoc.behaviors;
@@ -438,7 +409,7 @@ gulp.task('docs:templates', function() {
 	});
 
 	var indexStream = gulp.src(j(C.DOCS,'/index.html'))
-		.pipe(cache('docs_dex'))
+		.pipe(plugins.cache('docs_dex'))
 		.pipe(through.obj(function(file, enc, cb) {
 			// TODO: Put this in a closure
 			var templateString = file.contents.toString('utf8');
@@ -451,7 +422,7 @@ gulp.task('docs:templates', function() {
 		.pipe(gulp.dest(C.BUILD_DOCS));
 
 	var moduleStream = gulp.src(j(C.SRC,C.MODULE_MASK,'/doc.json'))
-		.pipe(cache('docs_module'))
+		.pipe(plugins.cache('docs_module'))
 		.pipe(injectBehaviorDocs(behaviorsMap))
 		.pipe(injectModuleData(pkg, moduleMap, articleList, articleMap))
 		.pipe(dbg('docs-modules'))
@@ -465,7 +436,7 @@ gulp.task('docs:templates', function() {
 			this.push(file);
 			cb();
 		}))
-		.pipe(rename(function(path) {
+		.pipe(plugins.rename(function(path) {
 			path.basename = path.dirname;
 			path.dirname = '';
 			path.extname = '.html';
@@ -474,10 +445,10 @@ gulp.task('docs:templates', function() {
 		.on('error',console.log);
 
 	var articleStream = gulp.src(j(C.DOCS,'/articles/*.md'))
-		.pipe(cache('docs_article'))
-		.pipe(marked().on('error',console.log))
+		.pipe(plugins.cache('docs_article'))
+		.pipe(plugins.marked().on('error',console.log))
 		.pipe(injectArticleData(pkg, moduleMap, articleList, articleMap))
-		.pipe(rename({prefix: 'article_'}))
+		.pipe(plugins.rename({prefix: 'article_'}))
 		.pipe(dbg('docs-articles'))
 		.pipe(gulp.dest(C.BUILD_DOCS));
 
@@ -488,7 +459,7 @@ gulp.task('gh-pages', function() {
 	var pkg = getPkgInfo();
 	return gulp.src(C.BUILD_DOCS+'**/*')
 		.pipe(dbg('gh-pages'))
-		.pipe(ghPages({
+		.pipe(plugins.ghPages({
 			message: 'docs updates v'+pkg.version
 		}));
 });
@@ -519,7 +490,7 @@ gulp.task('server', function() {
 		.listen(C.LIVE_PORT);
 
 	gulp.src(__filename)
-		.pipe(open({
+		.pipe(plugins.open({
 			uri: 'http://localhost:'+C.LIVE_PORT
 		}));
 });
@@ -536,7 +507,7 @@ gulp.task('server:docs', function() {
 		.listen(C.DOCS_PORT);
 
 	gulp.src(__filename)
-		.pipe(open({
+		.pipe(plugins.open({
 			uri: 'http://localhost:'+C.DOCS_PORT
 		}));
 });
@@ -548,7 +519,7 @@ gulp.task('live:docs', ['watch:docs', 'server:docs']);
 function inc(version) {
 	if(!version) version = 'patch';
 	return gulp.src(['package.json', 'bower.json'])
-	   .pipe(bump({type: version}))
+	   .pipe(plugins.bump({type: version}))
 	   .pipe(gulp.dest(__dirname));
 }
 
@@ -574,7 +545,7 @@ gulp.task('release:patch', function() {
 
 gulp.task('changelog', function() {
 	return gulp.src('CHANGELOG.md')
-		.pipe(conventionalChangelog({
+		.pipe(plugins.conventionalChangelog({
 			pkg: {
 				transform: function(pkg) {
 					pkg.version = 'v'+pkg.version;
@@ -593,13 +564,13 @@ function getPkgInfo() {
 gulp.task('stage-release', function() {
 	var pkg = getPkgInfo();
 	return gulp.src([C.DIST, 'package.json', 'bower.json', 'CHANGELOG.md'])
-		.pipe(git.add())
-		.pipe(git.commit('Release v'+pkg.version));
+		.pipe(plugins.git.add())
+		.pipe(plugins.git.commit('Release v'+pkg.version));
 });
 
 gulp.task('tag-release', function() {
 	var pkg = getPkgInfo();
-	git.tag('v'+pkg.version, 'Version '+pkg.version, function(err) {
+	plugins.git.tag('v'+pkg.version, 'Version '+pkg.version, function(err) {
 		console.log(err);
 	});
 });
