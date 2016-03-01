@@ -1,6 +1,5 @@
 <link rel="import" href="../js/datautils.html"/>
 <link rel="import" href="../js/behaviorutils.html"/>
-<link rel="import" href="../js/sync.html"/>
 <link rel="import" href="../js/eventdispatcher.html"/>
 <script>
 /**
@@ -23,7 +22,6 @@
 
 		set mId (input) {
 			this.set("data.id", input);
-			// this.data.id = input;
 		},
 
 		get cId() {
@@ -35,8 +33,6 @@
 		},
 
 		init: function(data) {
-			// this.data = DataUtils.copy({}, this.data, data);
-			// this.fire("changed", {instance: this, data:this.data});
 			this.set("data", data);
 		},
 
@@ -59,10 +55,6 @@
 			return JSON.stringify(this.data);
 		},
 
-		// _handleResponse: function(e) {
-		// 	this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
-		// 	this.fire("changed", {instance:this, data:this.data});
-		// },
 
 	};
 
