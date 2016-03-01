@@ -207,7 +207,7 @@
 			if(this._isEmpty(this.config)) return;
 
 			for (var key in this.config) {
-				var field 	= this.config.field || this._select('[name='+key+']');
+				var field 	= this.config[key].field || this._select('[name='+key+']');
 
 				if (!field) {
 					throw 'There must be a corresponding DOM element for data[\''+key+'\']';

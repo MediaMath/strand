@@ -67,9 +67,9 @@
 					// first custom item
 					'widthHeight' : {
 						validation: 'empty',
-						noValidate: function(name, value, data, view) {
-							return !view.standardSize;
-						},
+						// noValidate: function(name, value, data, view) {
+						// 	return !view.standardSize;
+						// },
 						errorMsg: 'You need to select a standard size',
 						errorMsgEle: 'heightWidthError',
 						exclude: true
@@ -106,21 +106,21 @@
 						// },
 						errorMsg: 'Select a type'
 					},
-					'frequency_interval' : {
+					'frequency_amount' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'int|empty',
 						// noValidate: function(name, value, data, view) {
 						// 	return view.use_mm_freq;
 						// },
-						errorMsg: 'Select an interval'
+						errorMsg: 'Enter an amount'
 					},
-					'frequency_amount' : {
+					'frequency_interval' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
 						// noValidate: function(name, value, data, view) {
 						// 	return view.use_mm_freq;
 						// },
-						errorMsg: 'Enter an amount'
+						errorMsg: 'Select an interval'
 					}
 				}
 			},
