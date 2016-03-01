@@ -132,14 +132,6 @@
 			this.fire("abort-queue", {instance:this}, {prefix:true});
 		},
 
-		handleProgress: function(e) {
-			this.fire("progress", {
-				percent: e.totalSize/e.position,
-				total: e.totalSize,
-				current: e.position
-			}, {prefix:true});
-		},
-
 		addHeader: function(name, value) {
 			this.options.headers = this.options.headers || [];
 			this.options.headers.push({name:name, value:value});

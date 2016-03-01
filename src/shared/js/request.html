@@ -116,15 +116,22 @@
 		},
 
 		handleProgress: function(e) {
-			var detail = {
-					percent: e.total || e.totalSize/e.loaded || e.position,
-					total: e.total || e.totalSize,
-					current: e.loaded || e.position
-			};
+			var detail = this._getProgressDetail(e);
 			if (this.progress) {
 				this.progress(detail);
 			}
 			this.fire('progress', detail);
+		},
+
+		_getProgressDetail(e) {
+			var current = e.loaded || e.position;
+			var total = e.total || e.totalSize;
+
+			return {
+				percent: Math.round(current/total*100),
+				total: e.total || e.totalSize,
+				current: e.loaded || e.position
+			};
 		},
 
 		responseHandler: {
