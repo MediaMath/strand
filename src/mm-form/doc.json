@@ -97,7 +97,7 @@
 	],
 	"methods": [
 		{
-			"name":"validateFields",
+			"name":"validate",
 			"description":"Instructs the mm-form to sweep through the form fields and perform the validation provided in the configuration."
 		},
 

@@ -122,12 +122,14 @@
 			'changed' : '_handleChanged'
 		},
 
+		// Temp warning message
+		created: function() {
+			console.warn('This component contains experimental features. The configuration and API are subject to change. Please use at your own risk.');
+		},
+
 		attached: function() {
 			if (this._isEmpty(this.config)) this.debounce('initConfig', this._initConfig);
 			if (this._isEmpty(this.data)) this.debounce('initData', this._initData);
-			
-			// Temp warning message
-			console.warn('This component contains experimental features. The configuration and API are subject to change. Please use at your own risk.');
 		},
 
 		_dataChanged: function(newVal, oldVal) {
@@ -175,7 +177,7 @@
 					parentEleDOM: 	this._select('#'+attrs['parent-ele']) || Polymer.dom(field).parentNode,
 					exclude: 		attrs.exclude || null
 				};
-			}.bind(this));
+			}, this);
 
 			// Update config and mux the domConfig with the developer supplied
 			// config - values from config override domConfig
@@ -312,17 +314,13 @@
 		},
 
 		_diffData: function() {
-			var diff = [];
-			for (var key in this.data) {
-				if (this.data[key] !== this._initialData[key]) {
-					diff.push(key);	
-				}
-			}
-			return diff.length > 0;
+			return Object.keys(this.data).filter(function(key) {
+				return this.data[key] !== this._initialData[key];
+			}.bind(this)).length > 0;
 		},
 
 		// form validation
-		validateFields: function() {
+		validate: function() {
 			this._invalidFields = [];
 			this._validFields = [];
 
@@ -354,7 +352,6 @@
 				} else if (tagName === 'mm-repeater') {
 					// special case for mm-repeater
 					// mm-repeater will handle it's own validation
-					// TODO: Make sure mm-repeater returns true or false
 					valid = field.validate();
 				} else if (validation && noValidate) {
 					// clean up prior validations if they were there
@@ -435,7 +432,7 @@
 		},
 
 		serializeForm: function() {
-			this.validateFields();
+			this.validate();
 
 			this.fire('serialize-form', {
 				valid: !this._invalidFields.length > 0,

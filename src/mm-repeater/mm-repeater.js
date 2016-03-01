@@ -15,7 +15,7 @@
 		properties: {
 			config: {
 				type: Object,
-				value: {}
+				value: function() { return {}; }
 			},
 			data: {
 				type: Array,
@@ -23,12 +23,10 @@
 				value: function() { return [{}]; },
 				observer: '_handleDataChanged'
 			},
-
 			template: {
 				type: Object,
 				value: null
 			},
-
 			added: {
 				type: Array,
 				value: []
@@ -37,12 +35,10 @@
 				type: Array,
 				value: []
 			},
-
 			_origData: {
 				type: Array,
 				value: []
 			},
-
 			addRowLabel: {
 				type: String,
 				value: '+Add Item'
@@ -71,6 +67,11 @@
 		observers: [
 			'_handleDataPath(data.*)'
 		],
+
+		// Temp warning message
+		created: function() {
+			console.warn('This component contains experimental features. The configuration and API are subject to change. Please use at your own risk.');
+		},
 
 		_handleDataPath: function(e) {
 			var path = e.path.split('.'),
