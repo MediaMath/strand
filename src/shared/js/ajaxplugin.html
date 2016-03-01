@@ -11,12 +11,15 @@
 	var DataUtils = StrandLib.DataUtils;
 
 	scope.AjaxPlugin = function(pluginQueue) {
-		
+
 		this.queue = [];
 		if (pluginQueue) {
 			this.queue = pluginQueue.map(function(p) {
-				if (typeof p === "function")
+				if (typeof p === "function") {
 					return new p();
+				} else {
+					return p;
+				}
 			});
 		}
 	};
@@ -47,7 +50,7 @@
 			return this.queue.reduce(function(prev, curr) {
 				var out;
 				if (curr[method])
-					var out = curr[method](prev);
+					out = curr[method](prev);
 				if(curr.reset)
 					curr.reset();
 				return out || prev;
@@ -69,5 +72,5 @@
 		}
 
 	};
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>

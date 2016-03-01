@@ -43,7 +43,7 @@
 				xhr.restore();
 				done();
 			});
-			m.fetch();
+			m.get();
 			request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1, "test":true, "zappo":"zap" }');
 
 		});

@@ -1,4 +1,5 @@
-<link rel="import" href="zousan.html"/>
+<link rel="import" href="es6-promise.html"/>
+<!-- <link rel="import" href="zousan.html"/> -->
 <script>
 /**
  * @license
@@ -17,7 +18,11 @@
 		this.flight = [];
 		this.concurrency = concurrency;
 		this.processHook = hook;
-		this.promise = new Zousan();
+		this.defer = {};
+		this.promise = new Promise(function(resolve, reject) {
+			this.defer.resolve = resolve;
+			this.defer.reject = reject;
+		}.bind(this));
 
 	}
 
@@ -34,14 +39,14 @@
 			},this);
 
 			if (chunk && chunk.length > 0) {
-				var all = Zousan.all(chunk);
+				var all = Promise.all(chunk);
 				all.then(this.next.bind(this), this.fail.bind(this));
 			} else {
-				this.promise.resolve(this.results);
+				this.defer.resolve(this.results);
 			}
 		},
 		fail: function(val) {
-			this.promise.reject(val);
+			this.defer.reject(val);
 			this.failures.push(val);
 		},
 		exec: function() {
@@ -52,11 +57,11 @@
 			this.flight.forEach(function(r) {
 				r.abort();
 			});
-			this.promise.reject(new Error("Aborted"));
+			this.defer.reject(new Error("Aborted"));
 		}
 	};
 
 	scope.RequestQueue = RequestQueue;
 
-})(window.StrandLib = window.StrandLib || {}); 
+})(window.StrandLib = window.StrandLib || {});
 </script>

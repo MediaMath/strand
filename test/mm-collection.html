@@ -13,7 +13,7 @@
 </head>
 <body>
 <script>
-
+/*jshint -W030 */
 describe("mm-collection", function() {
 
 	it("should exist", function() {
@@ -30,15 +30,14 @@ describe("mm-collection", function() {
 	it("should create models", function() {
 		var c = new Strand.Collection(false);
 		c.auto = false;
-		c.create({ id: 10, name:"aces" }, false);
+		c.add({ id: 10, name:"aces" }, false);
 		c.data.should.have.length(1);
-		c.data[0].data.id.should.equal(10);
+		c.data[0].id.should.equal(10);
 	});
 
 	it("should detect cid conflicts", function() {
 		var c = new Strand.Collection(false);
-		var m = new Strand.Model();
-		m.data = {cats:true, dogs:true};
+		var m = {cats:true, dogs:true};
 		m.cid = 0;
 		c.add(m);
 		should.throw(function() {
@@ -46,17 +45,102 @@ describe("mm-collection", function() {
 		}, "Model Conflict - matching id's, use force flag to add manually");
 	});
 
+	it("should return the index for a given cId that exists", function() {
+		var c = new Strand.Collection();
+		c.auto = false;
+		c.add({a:1}); //cid 0
+		c.add({a:2}); //cid 1
+		c.add({a:3}); //cid 2
+
+		var b = c.shift('data');
+		c.push('data',b);
+
+		c.getIndexOfCid(1).should.equal(0);
+		c.getIndexOfCid(2).should.equal(1);
+		c.getIndexOfCid(0).should.equal(2);
+		c.getIndexOfCid(10).should.equal(-1);
+	});
+
 	it("should return models at indicies", function() {
 		var c = new Strand.Collection(false);
-		c.create({ id: 10, name:"aces" }, false);
+		c.add({ id: 10, name:"aces" }, false);
 		c.getDataAt(0).should.be.an("object");
 		c.getDataAt(0).name.should.equal("aces");
+	});
+
+	it("should remove a model when passed", function() {
+		var c = new Strand.Collection(false);
+		var a = {a:1};
+		c.set('data',[a]);
+		c.data.should.have.length(1);
+		c.remove(a);
+		c.data.should.be.empty;
+
+	});
+
+	it("should remove a model by index", function() {
+		var c = new Strand.Collection();
+		c.auto = false;
+		c.add({a:1}); //cid 0
+		c.add({a:2}); //cid 1
+		c.add({a:3}); //cid 2
+
+		c.data.should.have.length(3);
+		c.remove(1);
+		c.data.should.have.length(2);
+		c.data[1].should.contain({a:3});
+
+	});
+
+	it("should properly track added models", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]); //init
+		c.add({d:4});
+		c.add({e:5});
+		c.added.should.have.length(2);
+		c.added[0].should.contain({d:4});
+		c.added[1].should.contain({e:5});
+	});
+
+	it("should properly track removed models", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]); //init
+		c.add({d:4});
+		var k = {e:5};
+		c.add(k);
+		c.remove(0);
+		c.removed.should.have.length(1);
+		c.removed[0].should.contain({a:1});
+		c.remove(k);
+		c.removed.should.have.length(1);
+		c.removed[0].should.contain({a:1});
+
+	});
+
+	it("should propertly track modified models", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]);
+		c.modified.should.be.empty;
+		c.set('data.#0.a', 10);
+		c.modified.should.have.length(1);
+		c.modified[0].should.contain({a:10});
+
+	});
+
+	it("should empty the tracking arrays when empty is called", function() {
+		var c = new Strand.Collection(false);
+		c.set('data',[{a:1},{b:2},{c:3}]);
+		c.add({d:4});
+		c.add({e:5});
+		c.added.should.have.length(2);
+		c.empty();
+		c.added.should.have.length(0);
 	});
 
 	it("should support each on every model", function() {
 		var c = new Strand.Collection(false);
 		for(var i =0; i<= 10; i++) {
-			c.create({ id: i, name:"aces"+i }, false);
+			c.add({ id: i, name:"aces"+i }, false);
 		}
 		var inc = 0;
 		c.each(function(m) {
@@ -69,9 +153,9 @@ describe("mm-collection", function() {
 	it("should find models matching constraining objects using where", function() {
 		var c = new Strand.Collection(false);
 		for(var i =0; i< 10; i++) {
-			c.create({ id: i, name:"aces"+i }, false);
+			c.add({ id: i, name:"aces"+i }, false);
 		}
-		c.create({id: 11, name:"aces11"});
+		c.add({id: 11, name:"aces11"});
 
 		c.where({name:"aces2"}, true).should.have.length(1);
 		c.where({name:1}).should.have.length(11);
@@ -85,7 +169,7 @@ describe("mm-collection", function() {
 		c1.addEventListener("data-changed", s1);
 		var c2 = new Strand.Collection(false);
 		c2.addEventListener("data-changed", s2);
-		c1._sync._handleResult();
+		c1._handleResult();
 		s1.calledOnce.should.be.true;
 		s2.calledOnce.should.be.false;
 	});
@@ -100,9 +184,10 @@ describe("mm-collection", function() {
 		var m = new Strand.Collection(false);
 		m.addEventListener("data-changed", function(e) {
 			this.data[0].should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
+			xhr.restore();
 			done();
 		});
-		m.fetch();
+		m.get();
 		request.respond(200, { "Content-Type": "application/json" }, '[{ "id": 1, "test":true, "zappo":"zap" }]');
 
 	});
@@ -120,7 +205,7 @@ describe("mm-collection", function() {
 		var col = new Strand.Collection();
 		document.body.appendChild(col);
 
-		var ip = document.createElement("input-params");
+		var ip = document.createElement("GET");
 		col.appendChild(ip);
 		var qp = document.createElement("queryParam");
 		qp.setAttribute("name", "q");

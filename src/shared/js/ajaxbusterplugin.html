@@ -10,16 +10,17 @@
 
 	var DataUtils = StrandLib.DataUtils;
 
-	scope.AjaxBusterPlugin = function (config) {
+	scope.AjaxBusterPlugin = function (config, name) {
 		this.config = DataUtils.copy({
 			name:"nocache",
 			enabled:true
 		}, config);
+		this.name = name;
 	};
 
 	scope.AjaxBusterPlugin.prototype = {
 		requestHandler: function(ajaxOptions) {
-			var qp = DataUtils.getPathValue("params", ajaxOptions);
+			var qp = DataUtils.getPathValue("query", ajaxOptions);
 			if (this.config.enabled && qp) {
 				qp.push(DataUtils.param(this.config.name, Date.now()));
 			}

@@ -26,23 +26,23 @@ describe("mm-ajax", function() {
         var xhr = sinon.useFakeXMLHttpRequest(); //prevent requests from actually calling
         aj.url = "///"
         flush(function() {
-            aj.ajax.options.url.should.equal("///");
+            aj.options.url.should.equal("///");
             done();
         })
     });
 
     it("should pass through exec", function() {
         var aj = document.querySelector("#ajax1");
-        var execSpy = sinon.spy(aj.ajax, "exec");
+        var execSpy = sinon.spy(aj, "exec");
         aj.exec();
         execSpy.calledOnce.should.be.true;
     });
 
     it("should pass through promises", function() {
         var aj = document.querySelector("#ajax1");
-        aj.exec().should.be.instanceof(Zousan);
-        aj.queue().should.be.instanceof(Zousan);
-        aj.execQueue().should.be.instanceof(Zousan);
+        aj.exec().should.be.instanceof(Promise);
+        aj.queue().should.be.instanceof(Promise);
+        aj.execQueue().should.be.instanceof(Promise);
     });
 
     it("should pass through external prop manipulators", function() {
@@ -52,14 +52,14 @@ describe("mm-ajax", function() {
         aj.addParam("p-test","paramVal");
         aj.addUrlParam("testing123");
 
-        aj.ajax.options.headers.should.have.length(1);
-        aj.ajax.options.headers[0].should.deep.equal({name:"x-test",value:"headerVal"});
+        aj.options.headers.should.have.length(1);
+        aj.options.headers[0].should.deep.equal({name:"x-test",value:"headerVal"});
 
-        aj.ajax.options.params.should.have.length(1);
-        aj.ajax.options.params[0].should.deep.equal({name:"p-test",value:"paramVal"});
+        aj.options.query.should.have.length(1);
+        aj.options.query[0].should.deep.equal({name:"p-test",value:"paramVal"});
 
-        aj.ajax.options.urlParams.should.have.length(1);
-        aj.ajax.options.urlParams[0].should.equal("testing123");
+        aj.options.urlParams.should.have.length(1);
+        aj.options.urlParams[0].should.equal("testing123");
     });
 
     it("should pass through the 'latest' xhr call", function() {

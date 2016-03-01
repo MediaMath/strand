@@ -1,0 +1,60 @@
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="../js/behaviorutils.html"/>
+<link rel="import" href="../js/eventdispatcher.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
+	var _eventPrefix = "data-";
+
+	scope.Model = {
+
+		get mId() {
+			return this.data.id || null;
+		},
+
+		set mId (input) {
+			this.set("data.id", input);
+		},
+
+		get cId() {
+			return this._cid;
+		},
+
+		set cId(input) {
+			this._cid = input;
+		},
+
+		init: function(data) {
+			this.set("data", data);
+		},
+
+		clear: function() {
+			this.data = {};
+			this.fire("changed", {instance: this, data:this.data});
+		},
+
+		getProp: function(path) {
+			return DataUtils.getPathValue(path, this.data);
+		},
+
+		setProp: function(path, value) {
+			this.set("data." + path, value);
+		},
+
+		toJSON: function() {
+			return JSON.stringify(this.data);
+		},
+
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

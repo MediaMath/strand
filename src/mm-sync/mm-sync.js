@@ -9,7 +9,7 @@
 	scope.Sync = Polymer({
 		is:"mm-sync",
 		behaviors:[
-			StrandTraits.Syncable,
+			StrandLib.Sync.getBehavior(),
 			StrandTraits.DomSyncable,
 			StrandTraits.Refable
 		],
