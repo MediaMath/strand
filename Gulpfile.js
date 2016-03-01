@@ -162,7 +162,7 @@ function vulcanizeSingle(opts, baseList, basePath) {
 }
 
 gulp.task('vulcanize', function() {
-	var moduleGlob = j(C.BUILD,C.MODULE_MASK, C.MODULE_HTML); 
+	var moduleGlob = j(C.BUILD,C.MODULE_MASK, C.MODULE_HTML);
     var excludes = glob.sync(moduleGlob);
     excludes.push(j(C.BOWER, '/polymer/polymer.html'));
 
@@ -188,15 +188,24 @@ gulp.task('vulcanize', function() {
 });
 
 gulp.task('default', function(cb) {
-	run('clean','copy',['sass','font'],'vulcanize',cb);
+	run('clean','copy',['sass','font'],'lib-version','vulcanize',cb);
 });
 
 gulp.task('build', function(cb) {
-	run('copy',['sass','font'],'vulcanize',cb);
+	run('copy',['sass','font'],'lib-version','vulcanize',cb);
 });
 
 gulp.task('build:dist', function(cb) {
-	run('clean','patch-lib', 'copy',['sass','font'], 'build:prod', cb);
+	run('clean','patch-lib', 'copy',['sass','font'], 'lib-version','build:prod', cb);
+});
+
+gulp.task('lib-version', function() {
+	var pkg = getPkgInfo();
+	var templatePath = j(C.TEMPLATES, '/lib_version.html');
+	var templateString = fs.readFileSync(templatePath, 'utf8');
+	var template = hogan.compile(templateString);
+	var index = template.render(pkg);
+	fs.writeFileSync(j(C.BUILD,'version.html'), index);
 });
 
 gulp.task('build:prod', function() {
@@ -223,8 +232,7 @@ gulp.task('build:prod', function() {
 	var lib = gulp.src(j(C.BUILD,'strand.html'))
 		.pipe(vulcanize({
 			inlineScripts: true,
-			inlineCss: true,
-			stripExcludes: []
+			inlineCss: true
 		}))
 		.pipe(base64(['.woff']))
 		.pipe(htmlmin({
