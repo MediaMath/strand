@@ -196,7 +196,7 @@ gulp.task('build', function(cb) {
 });
 
 gulp.task('build:dist', function(cb) {
-	run('clean','patch-lib', 'copy',['sass','font'], 'lib-version','build:prod', cb);
+	run('clean','clean:dist','patch-lib', 'copy',['sass','font'], 'lib-version','build:prod', cb);
 });
 
 gulp.task('lib-version', function() {
