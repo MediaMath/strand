@@ -315,7 +315,7 @@
 		_diffData: function() {
 			return Object.keys(this.data).filter(function(key) {
 				return this.data[key] !== this._initialData[key];
-			}.bind(this)).length > 0;
+			}, this).length > 0;
 		},
 
 		// form validation
