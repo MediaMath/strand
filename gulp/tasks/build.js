@@ -9,7 +9,6 @@
 	var autoprefixer = require('autoprefixer');
 	var hogan = require('hogan.js');
 	var Vulcanize = require('vulcanize');
-	var minimist = require('minimist');
 
 	//stream/gulp related
 	var merge = require('merge-stream');

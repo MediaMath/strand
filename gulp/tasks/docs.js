@@ -9,10 +9,6 @@
 	var del = require('del');
 	var autoprefixer = require('autoprefixer');
 	var hogan = require('hogan.js');
-	var serveStatic = require('serve-static');
-	var connect = require('connect');
-	var Vulcanize = require('vulcanize');
-	var minimist = require('minimist');
 
 	//stream/gulp related
 	var merge = require('merge-stream');

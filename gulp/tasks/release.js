@@ -2,23 +2,12 @@
 	'use strict';
 
 	//node packages
-	var fs = require('fs');
-	var path = require('path');
-	var j = path.join;
-	var glob = require('glob');
-	var del = require('del');
-	var autoprefixer = require('autoprefixer');
-	var hogan = require('hogan.js');
-	var serveStatic = require('serve-static');
-	var connect = require('connect');
-	var Vulcanize = require('vulcanize');
 	var minimist = require('minimist');
 
 	//stream/gulp related
 	var merge = require('merge-stream');
 	var es = require('event-stream');
 	var gulp = require('gulp');
-	var through = require('through2');
 	var run = require('run-sequence');
 
 	module.exports = function(gulp, plugins, C) {
