@@ -20,6 +20,7 @@
 		gulp.task('watch', function () {
 			gulp.watch(j(C.SRC, C.MODULE_MASK, '/*.scss'), ['sass']);
 			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_HTML), ['copy', 'vulcanize']);
+			gulp.watch(j(C.SRC, C.MODULE_MASK, 'index.html'), ['copy']);
 			gulp.watch(j(C.SRC, C.SHARED, '**'), ['copy']);
 		});
 
