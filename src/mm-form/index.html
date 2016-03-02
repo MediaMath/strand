@@ -11,7 +11,7 @@
 		}
 
 		body {  
-			margin:20px;
+			margin: 20px;
 			padding:0;
 			background: #eee;
 		}
@@ -36,7 +36,6 @@
 	</head>
 
 	<body>
-		 
 		<mm-form id="testForm" unresolved>
 			
 			<div class="col" span="1">
@@ -140,33 +139,62 @@
 
 			// config/initial data set up this way:
 			var config = {
-					'input' : {
-						validation: 'int|empty',
-						parentEle: null,
-						errorMsgEle: null,
-						errorMsg: 'You need to type a number',
-						label: 'Type a number'
+				'input' : {
+					validation: 'int|empty',
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'You need to type a number',
+					label: 'Type a number'
+				},
+				'dropdown' : {
+					validation: 'empty',
+					parentEle: null,
+					errorMsg: 'You need to select an item',
+					label: 'Select an Item'
+				},
+				'radio' : {
+					validation: function(name, value, data) {
+						return data[name] === 'Red' && value === 'Red';
 					},
-					'dropdown' : {
-						validation: 'empty',
-						parentEle: null,
-						errorMsg: 'You need to select an item',
-						label: 'Select an Item'
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'You need to select \'Red\'',
+					label: 'Select a Color'
+				},
+				'repeater': {
+					label: 'Repeat Things'
+				}
+				// 'empty' : {}
+			};
+
+			// An extra config to test config switching
+			var config2 = {
+				'input' : {
+					validation: 'int|empty',
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'Type a number please',
+					label: 'Stuff 1'
+				},
+				'dropdown' : {
+					validation: 'empty',
+					parentEle: null,
+					errorMsg: 'Select an item please',
+					label: 'Stuff 2'
+				},
+				'radio' : {
+					validation: function(name, value, data) {
+						return data[name] === 'Green' && value === 'Green';
 					},
-					'radio' : {
-						validation: function(name, value, data) {
-							return data[name] === 'Red' && value === 'Red';
-						},
-						parentEle: null,
-						errorMsgEle: null,
-						errorMsg: 'You need to select \'Red\'',
-						label: 'Select a Color'
-					},
-					'repeater': {
-						label: 'Repeat Things'
-					}
-					// 'empty' : {}
-				};
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'You need to select \'Green\'',
+					label: 'Stuff 3'
+				},
+				'repeater': {
+					label: 'Repeat Stuff 4'
+				}
+			};
 
 			// data that holds any actual values
 			// var data = {
