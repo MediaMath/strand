@@ -22,11 +22,6 @@
 	var run = require('run-sequence');
 
 	module.exports = function(gulp, plugins, C) {
-		var IS_DEBUG = !!plugins.gutil.env.debug;
-
-		function dbg(t) {
-			return plugins.gif(IS_DEBUG, plugins.debug({title:t}));
-		}
 
 		gulp.task('docs', ['copy:docs', 'sass:docs', 'docs:templates']);
 
@@ -43,11 +38,11 @@
 				.pipe(gulp.dest(C.BUILD_DOCS));
 
 			var bower_components = gulp.src([j(C.BOWER,'/webcomponentsjs/**/*'), j(C.BOWER,'/polymer/**/*')], {base:C.BOWER})
-				.pipe(dbg('copy-bower'))
+				.pipe(C.dbg('copy-bower'))
 				.pipe(gulp.dest(j(C.BUILD_DOCS,C.BOWER)));
 
 			var lib = gulp.src(j(C.BUILD,'**'))
-				.pipe(dbg('copy-lib'))
+				.pipe(C.dbg('copy-lib'))
 				.pipe(gulp.dest(j(C.BUILD_DOCS,C.BOWER,'/strand/dist')));
 
 			return merge(bower_components, merged_static, lib);
@@ -55,7 +50,7 @@
 
 		gulp.task('sass:docs', function() {
 			return gulp.src(j(C.DOCS,'/**/*.scss'))
-				.pipe(dbg('sass-docs'))
+				.pipe(C.dbg('sass-docs'))
 				.pipe(plugins.sass({includePaths: C.SASS_INCLUDE}).on('error', plugins.sass.logError))
 				.pipe(plugins.postcss([autoprefixer({browsers: ['last 2 versions']})]))
 				.pipe(gulp.dest(C.BUILD_DOCS));
@@ -162,7 +157,7 @@
 				});
 			}
 
-			var pkg = getPkgInfo();
+			var pkg = C.getPkgInfo();
 
 			// Create moduleList from directory listing
 			var modules = glob.sync(j(C.MODULE_MASK, "/doc.json"), {cwd:C.SRC});
@@ -233,7 +228,7 @@
 				.pipe(plugins.cache('docs_module'))
 				.pipe(injectBehaviorDocs(behaviorsMap))
 				.pipe(injectModuleData(pkg, moduleMap, articleList, articleMap))
-				.pipe(dbg('docs-modules'))
+				.pipe(C.dbg('docs-modules'))
 				.pipe(through.obj(function(file, enc, cb) {
 					var moduleDoc = JSON.parse(file.contents);
 					var templatePath = j(C.DOCS,'/component_template.html');
@@ -257,16 +252,16 @@
 				.pipe(plugins.marked().on('error',console.log))
 				.pipe(injectArticleData(pkg, moduleMap, articleList, articleMap))
 				.pipe(plugins.rename({prefix: 'article_'}))
-				.pipe(dbg('docs-articles'))
+				.pipe(C.dbg('docs-articles'))
 				.pipe(gulp.dest(C.BUILD_DOCS));
 
 			return merge(indexStream, moduleStream, articleStream);
 		});
 
 		gulp.task('gh-pages', function() {
-			var pkg = getPkgInfo();
+			var pkg = C.getPkgInfo();
 			return gulp.src(C.BUILD_DOCS+'**/*')
-				.pipe(dbg('gh-pages'))
+				.pipe(C.dbg('gh-pages'))
 				.pipe(plugins.ghPages({
 					message: 'docs updates v'+pkg.version
 				}));

@@ -23,12 +23,6 @@
 
 	module.exports = function(gulp, plugins, C) {
 
-		var IS_DEBUG = !!plugins.gutil.env.debug;
-
-		function dbg(t) {
-			return plugins.gif(IS_DEBUG, plugins.debug({title:t}));
-		}
-
 		function inc(version) {
 			if(!version) version = 'patch';
 			return gulp.src(['package.json', 'bower.json'])
@@ -66,23 +60,19 @@
 						}
 					}
 				}))
-				.pipe(dbg('changelog'))
+				.pipe(C.dbg('changelog'))
 				.pipe(gulp.dest('.'));
 		});
 
-		function getPkgInfo() {
-			return JSON.parse(fs.readFileSync('package.json', 'utf8'));
-		}
-
 		gulp.task('stage-release', function() {
-			var pkg = getPkgInfo();
+			var pkg = C.getPkgInfo();
 			return gulp.src([C.DIST, 'package.json', 'bower.json', 'CHANGELOG.md'])
 				.pipe(plugins.git.add())
 				.pipe(plugins.git.commit('Release v'+pkg.version));
 		});
 
 		gulp.task('tag-release', function() {
-			var pkg = getPkgInfo();
+			var pkg = C.getPkgInfo();
 			plugins.git.tag('v'+pkg.version, 'Version '+pkg.version, function(err) {
 				console.log(err);
 			});

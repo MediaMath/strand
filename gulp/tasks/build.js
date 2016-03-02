@@ -19,16 +19,11 @@
 	var run = require('run-sequence');
 
 	module.exports = function(gulp, plugins, C) {
-		var IS_DEBUG = !!plugins.gutil.env.debug;
-
-		function dbg(t) {
-			return plugins.gif(IS_DEBUG, plugins.debug({title:t}));
-		}
 
 		gulp.task('patch-lib', function() {
 
 			gulp.src(C.PATCH_LIST, {base: C.BOWER})
-				.pipe(dbg('patch-lib'))
+				.pipe(C.dbg('patch-lib'))
 				.pipe(plugins.wrap(function(data) {
 					if (data.file.contents.toString('utf8').indexOf('/*patched*/') !== -1) {
 						return "{{{contents}}}";
@@ -46,7 +41,7 @@
 		gulp.task('copy', function() {
 			return gulp.src([j(C.SRC,'**/*.+(html|js|woff)'), j('!',C.SRC,'**/example.html')])
 				.pipe(plugins.cache('copy'))
-				.pipe(dbg('copy'))
+				.pipe(C.dbg('copy'))
 				.pipe(gulp.dest(C.BUILD));
 		});
 
@@ -56,25 +51,25 @@
 				.pipe(plugins.cache('scss'))
 				.pipe(plugins.sass({includePaths: C.SASS_INCLUDE}).on('error', plugins.sass.logError))
 				.pipe(plugins.postcss([autoprefixer({browsers: ['last 2 versions']})]))
-				.pipe(dbg('sass'))
+				.pipe(C.dbg('sass'))
 				.pipe(gulp.dest(C.BUILD))
 				.pipe(plugins.wrap(function(data) {
 					data.fname = path.basename(data.file.relative,'.css');
 					return wrapper;
 				},{},{engine:"hogan"}))
 				.pipe(plugins.rename({basename:"style", extname: ".html"}))
-				.pipe(dbg('sass-html'))
+				.pipe(C.dbg('sass-html'))
 				.pipe(gulp.dest(C.BUILD));
 		});
 
 		gulp.task('font', function() {
 			return gulp.src(j(C.SRC, C.SHARED, '/fonts/fonts.scss'))
 				.pipe(plugins.sass({includePaths: C.SASS_INCLUDE}).on('error', plugins.sass.logError))
-				.pipe(dbg('font'))
+				.pipe(C.dbg('font'))
 				.pipe(gulp.dest(C.BUILD + 'shared/fonts/'))
 				.pipe(plugins.wrap("<style>{{{contents}}}</style>",{},{engine:"hogan"}).on('error',console.log))
 				.pipe(plugins.rename("fonts.html").on('error',console.log))
-				.pipe(dbg('font-output'))
+				.pipe(C.dbg('font-output'))
 				.pipe(gulp.dest(j(C.BUILD,'/shared/fonts/')));
 		});
 
@@ -121,7 +116,7 @@
 		            inlineCss: true,
 					implicitStrip: false
 		        }, excludes, C.BUILD))
-		        .pipe(dbg('vulcanize-modules'))
+		        .pipe(C.dbg('vulcanize-modules'))
 		        .pipe(plugins.htmlmin())
 		        .pipe(gulp.dest(C.BUILD));
 
@@ -130,7 +125,7 @@
 					inlineScripts: true,
 					inlineCss: true
 				}))
-				.pipe(dbg('vulcanize-lib'))
+				.pipe(C.dbg('vulcanize-lib'))
 				.pipe(gulp.dest(C.BUILD));
 			return merge(modules, lib);
 		});
@@ -148,7 +143,7 @@
 		});
 
 		gulp.task('lib-version', function() {
-			var pkg = getPkgInfo();
+			var pkg = C.getPkgInfo();
 			var templatePath = j(C.TEMPLATES, '/lib_version.html');
 			var templateString = fs.readFileSync(templatePath, 'utf8');
 			var template = hogan.compile(templateString);
@@ -174,7 +169,7 @@
 				}))
 				.pipe(plugins.inlinemin())
 				.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
-				.pipe(dbg('vulcanize-modules'))
+				.pipe(C.dbg('vulcanize-modules'))
 				.pipe(gulp.dest(C.DIST));
 
 			var lib = gulp.src(j(C.BUILD,'strand.html'))
@@ -191,7 +186,7 @@
 				}))
 				.pipe(plugins.inlinemin())
 				.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
-				.pipe(dbg('vulcanize-lib'))
+				.pipe(C.dbg('vulcanize-lib'))
 				.pipe(gulp.dest(C.DIST));
 
 			return merge(modules, lib);

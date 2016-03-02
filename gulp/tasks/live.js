@@ -23,12 +23,6 @@
 
 	module.exports = function(gulp, plugins, C) {
 
-		var IS_DEBUG = !!plugins.gutil.env.debug;
-
-		function dbg(t) {
-			return plugins.gif(IS_DEBUG, plugins.debug({title:t}));
-		}
-
 		gulp.task('watch', function () {
 			gulp.watch(j(C.SRC, C.MODULE_MASK, '/*.scss'), ['sass']);
 			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_HTML), ['copy', 'vulcanize']);
