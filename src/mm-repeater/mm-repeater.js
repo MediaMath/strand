@@ -147,12 +147,13 @@
 			var errorMessage = "";
 
 			var valid = keys.reduce(function(sum, key) {
-				var validation = DataUtils.getPathValue(key+'.validation', this.config),
-					valid = true;
+				var validation = DataUtils.getPathValue(key+'.validation', this.config);
+				var valid = true;
+				var validatef = null;
 
 				switch(typeof validation) {
 					case "function":
-						valid = validation.apply(this.config[key], [row[key], row, row._ref]);
+						valid = validation.call(this.config[key], row[key], row, row._ref);
 						break;
 					case "string":
 						validatef = Validator.rules[validation];
