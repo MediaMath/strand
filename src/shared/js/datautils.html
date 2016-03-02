@@ -11,6 +11,10 @@
 		return Object.prototype.toString.call(value).toLowerCase() === "[object "+type.toLowerCase()+"]";
 	}
 
+	function _isDef(value) {
+		return value !==(void 0) && value !== null;
+	}
+
 	function _clone(list) {
 		if (list)
 		return Array.prototype.slice.call(list);
@@ -160,6 +164,7 @@
 		copy: _copy,
 		isType: _isType,
 		objectifyAttributes: _objectifyAttributes,
+		isDef: _isDef,
 
 		param: function(name, value) {
 			return {

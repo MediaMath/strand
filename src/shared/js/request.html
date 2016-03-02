@@ -124,13 +124,13 @@
 		},
 
 		_getProgressDetail(e) {
-			var current = e.loaded || e.position;
-			var total = e.total || e.totalSize;
+			var current = DataUtils.isDef(e.loaded) ? e.loaded : e.position;
+			var total = DataUtils.isDef(e.total) ? e.total : e.totalSize;
 
 			return {
 				percent: Math.round(current/total*100),
-				total: e.total || e.totalSize,
-				current: e.loaded || e.position
+				current: current,
+				total: total
 			};
 		},
 
