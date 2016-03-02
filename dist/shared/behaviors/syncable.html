@@ -1,0 +1,191 @@
+<link rel="import" href="../js/sync.html"/>
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="../js/ajax.html"/>
+<link rel="import" href="../behaviors/domgettable.html"/>
+<link rel="import" href="../behaviors/domsyncable.html"/>
+<link rel="import" href="../behaviors/falsifiable.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function(scope) {
+
+	function _getParamBase(obj) {
+		obj = obj || {};
+		return {
+			params: obj.queryparam || [],
+			urlParams: obj.urlparam || [],
+			headers: obj.header || []
+		};
+	}
+
+	var DataUtils = StrandLib.DataUtils;
+	var Sync = StrandLib.Sync;
+	var Ajax = StrandLib.Ajax;
+
+	var Syncable = {
+		properties: {
+			_sync: {
+				type:Object,
+				value:function() {
+					return new Sync();
+				}
+			},
+
+			endpoint:{
+				type:String,
+				value:"/",
+				observer:"_updateEndpoint"
+			},
+
+			options:{
+				type:Object,
+				value:function() {
+					return {
+						contentType:"application/x-www-form-urlencoded",
+						timeout:10000,
+						withCredentials:false,
+						concurrency:4
+					};
+				},
+				observer:"_updateOptions"
+			},
+
+			saveResponse: {
+				type:Boolean,
+				value:true,
+				observer:"_updateResponse"
+			},
+
+			apiMarshaller:{
+				type:Object,
+				value:function() {
+					return {
+						noop:function(o) {return o;}
+					};
+				},
+				observer:"_updateMarshaller"
+			},
+
+			responseMarshaller: {
+				type:String,
+				value:"noop",
+				observer:"_updateMarshaller"
+			},
+
+			requestMarshaller: {
+				type:String,
+				value:"noop",
+				observer:"_updateMarshaller"
+			},
+			cacheCsrf:{
+				type:Boolean,
+				value:false,
+				observer:"_updateCSRF"
+			},
+			csrfHeader:{
+				type:String,
+				value:"X-CSRF-Token",
+				observer:"_updateCSRF"
+			},
+			cacheBuster: {
+				type:Boolean,
+				value:true,
+				observer:"_updateBuster"
+			},
+			
+		},
+
+		ready: function() {
+			//TODO: determine a better way of passing this change through
+			this._sync.addEventListener("data-saved", function() { 
+				this.data = this._sync.data;
+				this.fire("data-changed");
+			}.bind(this));
+		},
+
+		get: function(data, options) {
+			return this._sync.get(data, options);
+		},
+
+		post: function(data, options) {
+			return this._sync.get(data, options);
+		},
+
+		put: function(data, options) {
+			return this._sync.get(data, options);
+		},
+
+		delete: function (data, options) {
+			return this._sync.get(data, options);
+		},
+
+		sync: function(method, data, options) {
+			return this._sync.sync(method, data, options);
+		},
+
+		_updateEndpoint: function() {
+			this._sync.endpoint = this.endpoint;
+		},
+
+		_updateOptions: function() {
+			this._sync.options = this.options;
+		},
+
+		_updateMarshaller: function() {
+
+			this._sync.apiConfig = DataUtils.copy(this._sync.apiConfig, {
+				marshaller:this.apiMarshaller,
+				defaultRequest:this.requestMarshaller,
+				defaultResponse:this.responseMarshaller
+			});
+		},
+
+		_updateCSRF: function() {
+			this._sync.csrfConfig = DataUtils.copy(this._sync.csrfConfig, {
+				enabled:this.cacheCsrf,
+				useCache:this.cacheCsrf,
+				header:this.csrfHeader
+			});
+		},
+
+		_updateBuster: function() {
+			this._sync.busterConfig = DataUtils.copy(this._sync.busterConfig, {
+				enabled:this.cacheBuster,
+				name: typeof this.cacheBuster === "string" ? this.cacheBuster : "nocache"
+			});
+		},
+
+		_updateResponse: function() {
+			this._sync.saveResponse = this.saveResponse;
+		},
+
+		_handleError: function(error) {
+			this.fire("data-error",error);
+		},
+
+		setGlobal: function(key, value) {
+			this._sync.setGlobal(key, value);
+		},
+
+		getGlobal: function(key) {
+			return this._sync.getGlobal(key);
+		},
+
+		get data() {
+			return this._sync.data;
+		},
+
+		set data(input) {
+			this._sync.data = input;
+		}
+	};
+	
+	scope.Syncable = Syncable;
+
+}(window.StrandTraits = window.StrandTraits || {}));
+
+</script>

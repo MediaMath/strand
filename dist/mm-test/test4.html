@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../../webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="../../../polymer/polymer.html"/>
+		<link rel="import" href="../shared/behaviors/domgettable.html"/>
+	</head>
+	<body>
+		<dom-module id="test-gettable">
+			<template>
+				<content id="gridcols" select="mm-grid-column"></content>
+			</template>
+		</dom-module>
+		<script>
+		Polymer({
+			is:"test-gettable",
+			behaviors:[StrandTraits.DomGettable],
+			domObjectChanged: function(domObject) {
+				console.log("dom changed",domObject);
+			},
+			properties:{
+				contentId:{
+					value:"gridcols"
+				}
+			}
+		})
+		</script>
+		<test-gettable>
+			<mm-grid-column field="namething" label="labelthing" width="200" minWidth="100"></mm-grid-column>
+			<mm-grid-column></mm-grid-column>
+			<mm-grid-column></mm-grid-column>
+		</test-gettable>
+	</body>
+</html>

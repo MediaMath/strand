@@ -1,0 +1,172 @@
+<link rel="import" href="model.html"/>
+<link rel="import" href="sync.html"/>
+<link rel="import" href="datautils.html"/>
+<link rel="import" href="eventdispatcher.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var Sync = StrandLib.Sync;
+	var Model = StrandLib.Model;
+	var DataUtils = StrandLib.DataUtils;
+
+	function _generateCid(collection, model) {
+		model.cId = ++collection._cidIndex;
+	}
+
+	var _eventPrefix = "data-";
+
+	scope.Collection = function(data, opts, sync) {
+		this._eventPrefix = _eventPrefix;
+		this._cidIndex = 0;
+		this.data = data || [];
+		this._opts = opts;
+		this._sync = sync || new Sync();
+	};
+
+	scope.Collection.prototype = {
+
+		create: function(init, silent) {
+			var t = new Model(init, null, null, this);
+			return this.add(t, silent);
+		},
+
+		add:function(model, silent, force) {
+			this._silent = silent;
+
+			if(!(model instanceof Model)) {
+				//TODO: (dlasky) may need to pass sync here as well
+				model = new Model(model, null, null, this);
+			}
+
+			if (!model.cId || model.cId === -1) {
+				_generateCid(this, model);
+			}
+
+			var check = this.data.filter(function(m) {
+				return m.cId === model.cId || m.mId === model.mId;
+			});
+			if (check.length === 0 || force) {
+				this.data.push(model);
+				if (!silent) this.fire("changed", {instance:this, data:this.data});
+				return model;
+			} else {
+				throw(new Error("Model Conflict - matching id's, use force flag to add manually"));
+			}
+
+		},
+
+		getDataAt: function(index) {
+			return DataUtils.getPathValue("data", this.getModelAt(index));
+		},
+
+		getModelAt: function(index) {
+			return this.data[index];
+		},
+
+		getIndexOf: function(model) {
+			return this.data.indexOf(model);
+		},
+
+		save: function() {
+			return this.connection.post();
+		},
+
+		update: function() {
+			return this.connection.put();
+		},
+
+		fetch: function() {
+			return this.connection.get();
+		},
+		
+		delete: function(input) {
+			if (input instanceof Model) {
+				this.data.slice(this.data.indexOf(input), 1);
+			} else {
+				var d = this.data.slice(input, 1);
+				if (!d) {
+					this.data.filter(function(model) {
+						return model.mid !== input && model.cId !== input;
+					});
+				}
+			}
+		},
+
+		empty: function(silent) {
+			this._silent = silent;
+			var o = this.data.slice();
+			this.data = [];
+			return o;
+		},
+
+		destroy: function() {
+			return this.connection.delete();
+		},
+
+		each: function(callback) {
+			if(this.data && this.data.length) {
+				this.data.forEach(callback, this);
+			}
+		},
+
+		where: function(obj, matchValues) {
+			if (this.data && this.data.length) {
+				var objKeys = Object.keys(obj);
+				return this.data.filter(function match(model) {
+					var data = model.data;
+					return objKeys.reduce(function(prev, key) {
+						return prev && (matchValues ? data[key] === obj[key] : data.hasOwnProperty(key));
+					}, true);
+				});
+			}
+		},
+
+		_handleResponse: function(e) {
+			this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
+			this.fire("changed", {instance:this, data:this.data});
+		},
+
+		get _sync() {
+			return this.__sync;
+		},
+
+		set _sync(inp) {
+			this.__sync = inp;
+			this.__sync.addEventListener("data-saved", this._handleResponse.bind(this));
+		},
+
+		get connection() {
+			return this._sync;
+		},
+
+		get length() {
+			return this.data.length;
+		},
+
+		get count() {
+			return this._count || this.length;
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
+		},
+
+		toJSON: function() {
+			this.data.toJSON();
+		}
+	};
+
+	EventDispatcher.prototype.apply(scope.Collection.prototype);
+
+})(window.StrandLib = window.StrandLib || {}); 
+</script>

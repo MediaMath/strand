@@ -1,0 +1,100 @@
+<link rel="import" href="datautils.html"/>
+<link rel="import" href="sync.html"/>
+<link rel="import" href="eventdispatcher.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+	var _eventPrefix = "data-";
+
+	scope.Model = function(data, opts, sync, collection) {
+		this._eventPrefix = _eventPrefix;
+		this.data = data || {};
+		this._opts = opts;
+		this._sync = sync || new StrandLib.Sync;
+		this._cid = -1;
+		this.collection = collection;
+		if (this.collection && this.collection._cidFactory) {
+			this._cid = this.collection._cidFactory();
+		}
+	};
+
+	scope.Model.prototype = {
+		
+		get mId() {
+			return this.data.id || null;
+		},
+		
+		set mId (input) {
+			this.data.id = input;
+		},
+
+		get cId() {
+			return this._cid;
+		},
+
+		set cId(input) {
+			this._cid = input;
+		},
+
+		init: function(data) {
+			this.data = DataUtils.copy({}, this.data, data);
+			this.fire("changed", {instance: this, data:this.data});
+		},
+
+		clear: function() {
+			this.data = {};
+			this.fire("changed", {instance: this, data:this.data});
+		},
+
+		get: function(path) {
+			return DataUtils.getPathValue(path, this.data);
+		},
+
+		set: function(path, value) {
+			this.dispatchEvent(new CustomEvent("data-changed"));
+			DataUtils.setPathValue(path, this.data, value);
+		},
+
+		toJSON: function() {
+			return JSON.stringify(this.data);
+		},
+
+		_handleResponse: function(e) {
+			this.data = DataUtils.getPathValue("detail.marshalled",e) || DataUtils.getPathValue("detail.response",e);
+			this.fire("changed", {instance:this, data:this.data});
+		},
+
+		fire: function(type, detail) {
+			if (this._eventPrefix) {
+				type = this._eventPrefix + type;
+			}
+			var e = new CustomEvent(type, {detail:detail});
+			this.dispatchEvent(e);
+		},
+
+		get _sync() {
+			return this.__sync;
+		},
+
+		set _sync(input) {
+			this.__sync = input;
+			this.__sync.addEventListener("data-saved", this._handleResponse.bind(this));
+		},
+
+		get connection() {
+			return this._sync;
+		},
+
+	};
+
+	EventDispatcher.prototype.apply(scope.Model.prototype);
+
+})(window.StrandLib = window.StrandLib || {}); 
+</script>

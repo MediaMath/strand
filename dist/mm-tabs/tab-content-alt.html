@@ -1,0 +1,56 @@
+<template>
+
+<mm-grid data="{{data}}" id="mmTestGrid2" selectable expandable item-template="customTemplate" style="width: 100%; height: 300px;">
+	<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+	<mm-grid-column width="20%" field="id" sort resize>Id</mm-grid-column>
+	<mm-grid-column width="20%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+	<mm-grid-column width="20%" field="concept" sort resize>Concept</mm-grid-column>
+	<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+	<mm-grid-column width="10%" field="actions"></mm-grid-column>
+	<template id="customTemplate">
+		<mm-grid-item model="{{model}}" scope="{{scope}}">
+			<div field="actions">
+				<!-- Using mm-tooltip in a custom grid item -->
+				<mm-icon width="15" height="15" type="actions" id="{{createId('tooltip', model.id)}}"></mm-icon>
+				<mm-tooltip model="{{model}}" target$="{{createId('#tooltip', model.id)}}">
+					<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
+				</mm-tooltip>
+				<!-- Using mm-menu in a custom grid item - uncomment to try -->
+				<!--
+				<mm-icon type="actions" id="{{createId('menu', model.id)}}" width="15" height="15"></mm-icon>
+				<mm-menu id="testMenu" direction="s" offset="15" target$="{{createId('#menu', model.id)}}">
+					<mm-list-item value="m1">menu item 1</mm-list-item>
+					<mm-list-item value="m2">menu item 2</mm-list-item>
+					<mm-list-item value="m3">menu item 3</mm-list-item>
+					<mm-list-item value="m4">menu item 4</mm-list-item>
+					<mm-list-item value="m5">menu item 5</mm-list-item>
+				</mm-menu>
+				-->
+			</div>
+			<div field="name">
+				Creative - <span>{{model.name}}</span>
+			</div>
+			<div class="expansion">
+				<div class="expansion-row">
+					<div class="expansion-col">
+						<h4>Expanded Content</h4>
+						<span>{{model.name}}</span>
+					</div>
+					<div class="expansion-col">
+						<h4>Expanded Advertiser</h4>
+						<span>{{model.advertiser}}</span>
+					</div>
+					<div class="expansion-col">
+						<h4>Expanded Concept</h4>
+						<span>{{model.concept}}</span>
+					</div>
+				</div>
+				<div class="expansion-row">
+					<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
+				</div>
+			</div>
+		</mm-grid-item>
+	</template>
+</mm-grid>
+
+</template>

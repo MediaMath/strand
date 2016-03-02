@@ -1,0 +1,29 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function(scope) {
+
+	var LightDomGettable = {
+
+		properties: {
+			contentTarget:{
+				type:Object,
+				value:function() { return this; }
+			}
+		},
+
+		getLightDOM: function() {
+			// return Polymer.dom(this.contentTarget.$[this.contentId]).getDistributedNodes();
+			return Polymer.dom(this.contentTarget).queryDistributedElements("*");
+		}
+	};
+
+	scope.LightDomGettable = LightDomGettable;
+
+}(window.StrandTraits = window.StrandTraits || {}));
+
+</script>

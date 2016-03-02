@@ -1,0 +1,13 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+ -->
+<dom-module id="mm-grid-item-style">
+	<template>
+		<style>
+			:host ._mm_column{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0px 10px;vertical-align:middle;box-sizing:border-box;float:left}:host ._mm_column.right{text-align:right}:host ._mm_column.checkbox,:host ._mm_column.toggle{box-sizing:content-box;margin:auto 0;padding:0px 5px}:host ._mm_column.checkbox:first-of-type,:host ._mm_column.toggle:first-of-type{padding-left:15px}:host ._mm_column.checkbox{width:18px}:host ._mm_column.toggle{width:10px}:host ._mm_column.toggle mm-icon{cursor:pointer;-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-ms-transform:rotate(-90deg);-o-transform:rotate(-90deg);transform:rotate(-90deg)}:host ._mm_column.toggle.expanded mm-icon{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-ms-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}:host{display:block;position:relative;overflow:hidden;background:#fff;font-family:"Arimo", sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:antialiased;font-weight:400;font-size:12px;color:#333;border-bottom:1px solid #E5E5E5}polyfill-next-selector{content:':host ._mm_item'}._mm_item{padding:10px 0}#columnContainer{overflow:hidden;white-space:nowrap}#loader{position:absolute;top:0;bottom:0;left:0;right:0;margin:auto}::content [field]{overflow:inherit;text-overflow:inherit;white-space:inherit}::content .expansion{background:#f5f5f5;color:#4C4C4C;box-shadow:inset 0 2px 2px #e9e9e9,inset 0 -2px 2px #e9e9e9;overflow:hidden}::content .expansion-row{border-bottom:1px solid #E5E5E5;padding:10px 10px 10px 40px;display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex}::content .expansion-col{margin-right:20px;-webkit-flex-grow:1;-moz-flex-grow:1;flex-grow:1;-ms-flex-positive:1}
+
+		</style>
+	</template>
+</dom-module>

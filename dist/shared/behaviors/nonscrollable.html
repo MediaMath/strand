@@ -1,0 +1,56 @@
+<link rel="import" href="../js/rectangle.html">
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function(scope) {
+	
+	scope.NonScrollable = {
+		properties: {
+			disableScroll: {
+				type: Boolean,
+				value: true
+			}
+		},
+
+		observers:["_handleState(state)"],
+
+		detached: function() {
+			this.style.pointerEvents = this.__oldInstancePointer  || "";
+			if(this._target && this._target.style) this._target.style.pointerEvents = this.__oldTargetPointer || "";
+			document.body.style.pointerEvents = this.__oldBodyPointer || "";
+		},
+
+		_handleState:function() {
+			if (this.disableScroll) {
+				this.debounce("nonscrollable", this._updateStyles);
+			}
+		},
+
+		_updateStyles: function() {
+			if (this.state === "opened") {
+				
+				this.__oldInstancePointer = this.style.pointerEvents;
+				this.style.pointerEvents = "all";
+
+				if(this._target && this._target.style) {
+					this.__oldTargetPointer = this._target.style.pointerEvents;
+					this._target.style.pointerEvents = "all";
+				}
+
+				this.__oldBodyPointer = document.body.style.pointerEvents;
+				document.body.style.pointerEvents = "none";
+			} else {
+				this.style.pointerEvents = this.__oldInstancePointer  || "";
+				if(this._target && this._target.style) this._target.style.pointerEvents = this.__oldTargetPointer || "";
+				document.body.style.pointerEvents = this.__oldBodyPointer || "";
+			}
+		},
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>
