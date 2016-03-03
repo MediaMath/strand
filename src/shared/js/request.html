@@ -1,4 +1,5 @@
 <link rel="import" href="es6-promise.html"/>
+<link rel="import" href="datautils.html"/>
 <link rel="import" href="eventdispatcher.html"/>
 <script>
 /**
@@ -10,7 +11,8 @@
 (function(scope) {
 
 	var _eventPrefix = "request-";
-
+	var DataUtils = StrandLib.DataUtils;
+	
 	function Request(options) {
 
 		options = options || {};
@@ -124,13 +126,13 @@
 		},
 
 		_getProgressDetail(e) {
-			var current = e.loaded || e.position;
-			var total = e.total || e.totalSize;
+			var current = DataUtils.isDef(e.loaded) ? e.loaded : e.position;
+			var total = DataUtils.isDef(e.total) ? e.total : e.totalSize;
 
 			return {
 				percent: Math.round(current/total*100),
-				total: e.total || e.totalSize,
-				current: e.loaded || e.position
+				current: current,
+				total: total
 			};
 		},
 
