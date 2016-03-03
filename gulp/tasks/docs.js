@@ -26,12 +26,13 @@
 		});
 
 		gulp.task('copy:docs', function() {
-			var assets = gulp.src(j(C.DOCS,'/images/**'),{base:C.DOCS});
+			var assets = gulp.src(j(C.DOCS,'/images/*.svg'),{base:C.DOCS});
 			var cname = gulp.src('CNAME');
 			var license = gulp.src('LICENSE.txt');
+			var touchIcons = gulp.src('apple-*.png');
 			var favicon = gulp.src('favicon.ico');
 
-			var merged_static = merge(assets, cname, license, favicon)
+			var merged_static = merge(assets, cname, license, touchIcons, favicon)
 				.pipe(gulp.dest(C.BUILD_DOCS));
 
 			var bower_components = gulp.src([j(C.BOWER,'/webcomponentsjs/**/*'), j(C.BOWER,'/polymer/**/*')], {base:C.BOWER})
