@@ -71,7 +71,6 @@
 			},
 			value: {
 				type: String,
-				value: null,
 				observer: "_valueChanged",
 				notify: true
 			},
@@ -87,6 +86,7 @@
 			},
 			_layout: { 
 				type: String,
+				value: false, 
 				reflectToAttribute: true 
 			},
 			_clearVisible: {
@@ -127,12 +127,12 @@
 		}, 
 		
 		_valueChanged: function(newVal, oldVal) {
-			if (newVal && newVal.length > 0) {
+			if (newVal && String(newVal).length > 0) {
 				this._clearVisible = this.clear;
 			} else {
 				this._clearVisible = false;
 			}
-			this.fire("changed", { value: newVal });
+			this.fire("changed", { value: newVal });	
 		},
 
 		clearInput: function(e) {

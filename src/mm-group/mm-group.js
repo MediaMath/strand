@@ -209,9 +209,11 @@
 		},
 
 		_valueChanged: function(newVal, oldVal) {
-			if (this._type === 'mm-radio') {
-				this._selectRadioByValue(newVal);
-			}
+			this.async(function() {
+				if (this._type === 'mm-radio') {
+					this._selectRadioByValue(newVal);
+				}
+			});
 			this.fire("changed", { value: newVal });
 		},
 

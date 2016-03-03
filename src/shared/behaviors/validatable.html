@@ -1,3 +1,4 @@
+<link rel="import" href="../js/validator.html"/>
 <script>
 /**
  * @license
@@ -6,7 +7,9 @@
 
 */
 (function (scope) {
-	
+
+	var Validator = StrandLib.Validator;
+
 	scope.Validatable = {
 
 		listeners: {
@@ -21,39 +24,6 @@
 			validation: {
 				type: String,
 				observer: "_validationChanged"
-			}
-		},
-
-		// common validation rules
-		rules: {
-			email: function(i) {
-				var regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				return regEx.test(i);
-			},
-			alpha: function(i) {
-				var regEx = /^\w+$/;
-				return regEx.test(i);
-			},
-			int: function(i) {
-				var regEx = /^\d+$/;
-				return regEx.test(i);
-			},
-			decimal: function(i) {
-				var regEx = /^\d*[.]\d+$/;
-				return regEx.test(i);
-			},
-			whitespace: function(i) {
-				var regEx = /\s/;
-				return i.length > 0 && !regEx.test(i);
-			},
-			checked: function(i) {
-				return i === true;
-			},
-			empty: function(i) {
-				return i && i.length > 0;
-			},
-			blank: function(i) {
-				return i.trim().length > 0;
 			}
 		},
 
@@ -78,7 +48,7 @@
 		validate: function(value) {
 			if(this.validation) {
 				var result = this.testSet.map(function(item) {
-					return this.rules[item](value);
+					return Validator.rules[item](value);
 				}, this).filter(function(item) {
 					return item === true;
 				});
@@ -90,5 +60,5 @@
 
 	};
 
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
 </script>

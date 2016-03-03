@@ -8,6 +8,16 @@
 @import "_color";
 @import "_mixins";
 
+@mixin bodyFont() {
+	font-size: 13px !important;
+	line-height: 18px !important;
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-weight: 400;
+	font-style: normal;
+	color: $color-A2;
+}
+
 h1, .header-large {
 	font-size: 20px !important;
 	line-height: 25px !important;
@@ -61,11 +71,5 @@ h5, .header-tiny {
 }
 
 .body-normal {
-	font-size: 13px !important;
-	line-height: 18px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 400;
-	font-style: normal;
-	color: $color-A2;
+	@include bodyFont();
 }

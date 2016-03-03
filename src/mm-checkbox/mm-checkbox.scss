@@ -124,7 +124,15 @@
 	background: #00FF00;
 }
 
-// This approach is acceptable with only one content bucket
+:host > ::content label,
+:host > ::content mm-header {
+	margin-left: 7px;
+	display: inline-block;
+	vertical-align: middle;
+	white-space: normal;
+	pointer-events: none;
+}
+
 :host > ::content label {
 	font-family: 'Arimo', sans-serif;
 	@include fontSmoothing();
@@ -132,9 +140,9 @@
 	font-size: 13px;
 	line-height: 15px;
 	font-weight: 400;
-	margin-left: 7px;
-	display: inline-block;
-	vertical-align: middle;
-	white-space: normal;
-	pointer-events: none;
+}
+
+:host ::content mm-header {
+	margin-top: 0;
+	margin-bottom: 0; 
 }

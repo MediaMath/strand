@@ -58,6 +58,7 @@
 			value: {
 				type: String,
 				reflectToAttribute: true,
+				notify: true,
 				observer: "_valueChanged"
 			},
 			_name: {

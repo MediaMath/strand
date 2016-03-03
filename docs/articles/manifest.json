@@ -12,5 +12,8 @@
 	},
 	{
 		"key":"migration_guide"
+	},
+	{
+		"key":"repeater"
 	}
 ]

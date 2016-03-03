@@ -1,0 +1,36 @@
+<script src="../../../bower_components/validator-js/validator.min.js"/></script>
+<script type="text/javascript">
+(function (scope) {
+
+	// default rules for common cases:
+	scope.Validator = {
+		rules: {
+			email: function(i) {
+				return validator.isEmail(i);
+			},
+			alpha: function(i) {
+				return validator.isAlpha(i);
+			},
+			int: function(i) {
+				return validator.isInt(i);
+			},
+			decimal: function(i) {
+				return validator.isDecimal(i);
+			},
+			whitespace: function(i) {
+				return /^\s+$/.test(str);
+			},
+			checked: function(i) {
+				return i.toString() === 'true' || i === true;
+			},
+			empty: function(i) {
+				return i && i.length > 0;
+			},
+			blank: function(i) {
+				return i.trim().length > 0;
+			}
+		}
+	};
+
+})(window.StrandLib = window.StrandLib || {});
+</script>

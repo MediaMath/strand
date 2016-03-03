@@ -1,0 +1,151 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
+<link rel="import" href="../mm-list-item/mm-list-item.html"/>
+<link rel="import" href="../mm-group/mm-group.html"/>
+<link rel="import" href="../mm-radio/mm-radio.html"/>
+<link rel="import" href="../mm-input/mm-input.html"/>
+<link rel="import" href="../mm-form/mm-form.html"/>
+<link rel="import" href="../mm-checkbox/mm-checkbox.html"/>
+
+<dom-module id="mm-test-form-view">
+	<link rel="import" type="css" href="mm-test-form-view.css"/>
+	<template>
+		<mm-form id="testForm"
+			unresolved
+			h-space="20"
+			v-space="40" 
+			config="{{formConfig}}" 
+			data="{{formData}}" 
+			view="{{ref}}">
+
+			<!-- row 1 -->
+			<div class="col" span="1">
+				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
+			</div>
+
+			<div class="col" span="1">
+				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
+					<mm-list-item>List Item 1</mm-list-item>
+					<mm-list-item>List Item 2</mm-list-item>
+					<mm-list-item>List Item 3</mm-list-item>
+					<mm-list-item>List Item 4</mm-list-item>
+				</mm-dropdown>
+			</div>
+
+			<div class="col" span="2">
+				<mm-group fitparent unresolved name="radio">
+					<mm-radio>
+						<label>Red</label>
+					</mm-radio>
+					<mm-radio>
+						<label>Green</label>
+					</mm-radio>	
+					<mm-radio>
+						<label>Blue</label>
+					</mm-radio>			
+				</mm-group>
+			</div>
+
+			<!-- row 2 -->
+			<div id="widthHeightWrapper" class="col" span="2">
+				<mm-header size="medium" form-header>Dimensions</mm-header>
+				<div class="custom-item dimensions">
+					<mm-radio 
+						id="standardSize" 
+						group="sizes"
+						checked$="{{standardSize}}"
+						on-tap="_sizeRadioSelected"></mm-radio>
+					<mm-dropdown 
+						id="standardSizeDdl" 
+						disabled$="{{!standardSize}}"
+						no-validate$="{{!standardSize}}"
+						name="widthHeight"
+						on-changed="_standardSizeDdl" 
+						placeholder="Select One">
+						<mm-list-item>160x600</mm-list-item>
+						<mm-list-item>728x90</mm-list-item>
+						<mm-list-item>300x250</mm-list-item>
+					</mm-dropdown>
+					<mm-radio 
+						id="nonStandardSize" 
+						group="sizes"
+						checked$="{{!standardSize}}"
+						on-tap="_sizeRadioSelected"></mm-radio>
+					<mm-group 
+						id="nonStandardSizeGroup" 
+						disabled$="{{standardSize}}" 
+						fitparent>
+						<mm-input 
+							name="width"
+							placeholder="Width" 
+							no-validate$="{{standardSize}}"
+							value="{{width}}"></mm-input>
+						<mm-input 
+							name="height"
+							placeholder="Height" 
+							no-validate$="{{standardSize}}"
+							value="{{height}}"></mm-input>
+					</mm-group>
+				</div>
+				<mm-form-message 
+					id="heightWidthError" 
+					type="error" 
+					message="Special form message"></mm-form-message>
+			</div>
+
+			<div id="freqCapWrapper" class="col" span="2">
+				<mm-checkbox 
+					form-header
+					name="use_mm_freq"
+					on-changed="_useMMFreqOnChange"
+					checked="{{use_mm_freq}}">
+					<mm-header size="medium">Campaign Frequency Cap</mm-header>
+				</mm-checkbox>
+				<div class="custom-item freq-cap">
+					<mm-dropdown 
+						id="typeDdl" 
+						disabled$="{{!use_mm_freq}}"
+						no-validate$="{{!use_mm_freq}}"
+						name="frequency_type"
+						on-changed="_freqTypeChanged"
+						value="{{frequency_type}}" 
+						placeholder="Type">
+						<mm-list-item valur="even">Even</mm-list-item>
+						<mm-list-item value="asap">ASAP</mm-list-item>
+					</mm-dropdown>
+					<mm-input 
+						name="frequency_amount"
+						disabled$="{{!use_mm_freq}}"
+						no-validate$="{{!use_mm_freq}}"
+						placeholder="#"
+						value="{{frequency_amount}}"></mm-input>
+					<p>per</p>
+					<mm-dropdown 
+						id="standardSizeDdl" 
+						disabled$="{{!use_mm_freq}}"
+						no-validate$="{{!use_mm_freq}}"
+						name="frequency_interval"
+						on-changed="_freqIntervalChanged" 
+						value="{{frequency_interval}}" 
+						placeholder="Interval">
+						<mm-list-item value="hour">Hour</mm-list-item>
+						<mm-list-item value="day">Day</mm-list-item>
+						<mm-list-item value="week">7 Days</mm-list-item>
+						<mm-list-item value="month">30 Days</mm-list-item>
+					</mm-dropdown>
+				</div>
+			</div>
+
+		</mm-form>
+
+	</template>
+</dom-module>
+
+<script src="mm-test-form-view.js"></script>

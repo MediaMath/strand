@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../../build/strand.html" />
+
+	<style type="text/css">
+		body, html {
+			height: 100%;
+			min-height: 100%;
+		}
+
+		body {  
+			margin: 20px;
+			padding:0;
+			background: #eee;
+		}
+
+		p {
+			font-family: "Arimo", sans-serif;
+			font-weight: 400;
+			font-size: 13px !important;
+			line-height: 28px !important;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			font-smoothing: antialiased;
+			color: #333;
+			margin: 0;
+			padding: 0;
+		}
+
+		mm-form[unresolved] {
+			display: none;
+		}
+	</style>
+	</head>
+
+	<body>
+		<mm-form id="testForm" unresolved>
+			
+			<div class="col" span="1">
+				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
+			</div>
+			
+			<div class="col" span="1">
+				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
+					<mm-list-item>List Item 1</mm-list-item>
+					<mm-list-item>List Item 2</mm-list-item>
+					<mm-list-item>List Item 3</mm-list-item>
+					<mm-list-item>List Item 4</mm-list-item>
+				</mm-dropdown>
+			</div>
+			
+			<div class="col" span="2">
+				<mm-group fitparent unresolved name="radio">
+					<mm-radio>
+						<label>Red</label>
+					</mm-radio>
+					<mm-radio>
+						<label>Green</label>
+					</mm-radio>	
+					<mm-radio>
+						<label>Blue</label>
+					</mm-radio>
+				</mm-group>
+			</div>
+
+			<div class="col" span="4">
+				<mm-repeater id="repeater" name="repeater">
+					<template preserve-content>
+						<mm-input name="name"></mm-input>
+						<mm-dropdown name="firstOption">
+							<mm-list-item>Test Item 1</mm-list-item>
+							<mm-list-item>Test Item 2</mm-list-item>
+							<mm-list-item>Test Item 3</mm-list-item>
+							<mm-list-item>Test Item 4</mm-list-item>
+						</mm-dropdown>
+						<mm-group name="secondOption">
+							<mm-radio><label>Test 1</label></mm-radio>
+							<mm-radio><label>Test 2</label></mm-radio>
+							<mm-radio><label>Test 3</label></mm-radio>
+						</mm-group>
+					</template>
+				</mm-repeater>
+			</div>
+
+		</mm-form>
+
+		<!-- config via markup -->
+		<!-- 
+		<mm-form id="testForm" unresolved>
+			<div class="col" span="1">
+				<mm-input 
+					fitparent 
+					name="input"
+					label="Input"
+					error-msg="Type a number"
+					validation="int|empty"
+					placeholder="Type a Number"></mm-input>
+			</div>
+			<div class="col" span="1">
+				<mm-dropdown 
+					fitparent 
+					name="dropdown" 
+					label="Dropdown"
+					error-msg="Select an item"
+					error-msg-ele="special"
+					validation="empty"
+					placeholder="Select an Item">
+					<mm-list-item>List Item 1</mm-list-item>
+					<mm-list-item>List Item 2</mm-list-item>
+					<mm-list-item>List Item 3</mm-list-item>
+					<mm-list-item>List Item 4</mm-list-item>
+				</mm-dropdown>
+				<mm-form-message id="special"></mm-form-message>
+			</div>
+			<div class="col" span="2">
+				<mm-group 
+					fitparent 
+					name="radio"
+					label="Radio"
+					error-msg="Choose a color"
+					validation="empty">
+					<mm-radio>
+						<label>Red</label>
+					</mm-radio>
+					<mm-radio>
+						<label>Green</label>
+					</mm-radio>	
+					<mm-radio>
+						<label>Blue</label>
+					</mm-radio>
+				</mm-group>
+			</div>
+		</mm-form>
+		 -->
+
+		<script>
+
+			// config/initial data set up this way:
+			var config = {
+				'input' : {
+					validation: 'int|empty',
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'You need to type a number',
+					label: 'Type a number'
+				},
+				'dropdown' : {
+					validation: 'empty',
+					parentEle: null,
+					errorMsg: 'You need to select an item',
+					label: 'Select an Item'
+				},
+				'radio' : {
+					validation: function(name, value, data) {
+						return data[name] === 'Red' && value === 'Red';
+					},
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'You need to select \'Red\'',
+					label: 'Select a Color'
+				},
+				'repeater': {
+					label: 'Repeat Things'
+				}
+				// 'empty' : {}
+			};
+
+			// An extra config to test config switching
+			var config2 = {
+				'input' : {
+					validation: 'int|empty',
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'Type a number please',
+					label: 'Stuff 1'
+				},
+				'dropdown' : {
+					validation: 'empty',
+					parentEle: null,
+					errorMsg: 'Select an item please',
+					label: 'Stuff 2'
+				},
+				'radio' : {
+					validation: function(name, value, data) {
+						return data[name] === 'Green' && value === 'Green';
+					},
+					parentEle: null,
+					errorMsgEle: null,
+					errorMsg: 'You need to select \'Green\'',
+					label: 'Stuff 3'
+				},
+				'repeater': {
+					label: 'Repeat Stuff 4'
+				}
+			};
+
+			// data that holds any actual values
+			// var data = {
+			// 	'input' : '1',
+			// 	'dropdown' : 'List Item 1', 
+			// 	'radio' : 'Red'
+			// };
+
+			// returned from server-side validation
+			// the key plus the message
+			// var returnedData = {
+			// 	'input' : 'Type a number greater than 0',
+			// 	'dropdown' : 'Select a different item', 
+			// 	'radio' : 'Select Green'
+			// };
+
+			window.addEventListener('WebComponentsReady', function(e) {
+				var testForm = document.querySelector('#testForm'),
+					repeater = document.querySelector('#repeater');
+
+				// Ordering!
+				testForm.config = config;
+				// testForm.data = data;
+
+				testForm.addEventListener('serialize-form', function(e){
+					console.log('serialize-form', e.detail);
+				});
+
+				testForm.addEventListener('cancel-form', function(e){
+					console.log('cancel-form');
+				});
+			});
+
+		</script>
+
+	</body>
+</html>
