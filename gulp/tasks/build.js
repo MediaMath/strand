@@ -37,6 +37,10 @@
 			return del([j(C.BUILD,'**'), j(C.BUILD_DOCS,'**')]);
 		});
 
+		gulp.task('clean:dist', function() {
+			return del([j(C.DIST,'**')]);
+		});
+
 		gulp.task('copy', function() {
 			return gulp.src([j(C.SRC,'**/*.+(html|js|woff)'), j('!',C.SRC,'**/example.html')])
 				.pipe(plugins.cache('copy'))
