@@ -53,6 +53,7 @@
     "merge-stream": "^1.0.0",
     "minimist": "^1.2.0",
     "run-sequence": "^1.1.4",
+    "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.2",
     "through2": "^2.0.1",
     "vulcanize": "^1.14.6"

@@ -14,6 +14,7 @@
 	var merge = require('merge-stream');
 	var es = require('event-stream');
 	var gulp = require('gulp');
+	var favicon = require('serve-favicon');
 
 	module.exports = function(gulp, plugins, C) {
 
@@ -39,6 +40,7 @@
 			var server = connect()
 				.use('/bower_components', serveStatic(C.BOWER))
 				.use(serveStatic(C.BUILD))
+				.use(favicon('favicon.ico'))
 				.listen(C.LIVE_PORT);
 
 			gulp.src(__filename)

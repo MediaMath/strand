@@ -29,8 +29,9 @@
 			var assets = gulp.src(j(C.DOCS,'/images/**'),{base:C.DOCS});
 			var cname = gulp.src('CNAME');
 			var license = gulp.src('LICENSE.txt');
+			var favicon = gulp.src('favicon.ico');
 
-			var merged_static = merge(assets, cname, license)
+			var merged_static = merge(assets, cname, license, favicon)
 				.pipe(gulp.dest(C.BUILD_DOCS));
 
 			var bower_components = gulp.src([j(C.BOWER,'/webcomponentsjs/**/*'), j(C.BOWER,'/polymer/**/*')], {base:C.BOWER})
