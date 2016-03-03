@@ -137,6 +137,20 @@
 			run('copy',['sass','font'],'lib-version','vulcanize',cb);
 		});
 
+		gulp.task('debug', function() {
+			run('clean','build:debug');
+		});
+
+		gulp.task('build:debug', function() {
+			run('copy',['sass','font'],'lib-version','copy:debug');
+		});
+
+		gulp.task('copy:debug', function() {
+			gulp.src(j(C.BUILD,'**/*'))
+				.pipe(C.dbg('debug'))
+				.pipe(gulp.dest(C.DIST));
+		});
+
 		gulp.task('build:dist', function(cb) {
 			run('clean','clean:dist','patch-lib', 'copy',['sass','font'], 'lib-version','build:prod', cb);
 		});
