@@ -1,9 +1,6 @@
 (function() {
 	'use strict';
 
-	//node packages
-	var minimist = require('minimist');
-
 	//stream/gulp related
 	var merge = require('merge-stream');
 	var es = require('event-stream');
@@ -19,24 +16,18 @@
 			   .pipe(gulp.dest(C.ROOT));
 		}
 
-		gulp.task('release', function() {
-			var argv = minimist(process.argv.slice(3)),
-				version = argv.v || argv.version,
-				valid = ['major', 'minor', 'patch'];
-
-			if(valid.indexOf(version) > -1) {
-				run(inc(version), 'build:prod', 'changelog', 'stage-release', 'tag-release');
-			}
-		});
+		gulp.task('bump:major', inc('major'));
+		gulp.task('bump:minor', inc('minor'));
+		gulp.task('bump:patch', inc('patch'));
 
 		gulp.task('release:major', function() {
-			run(inc('major'), 'build:prod', 'changelog', 'stage-release', 'tag-release');
+			run('bump:major', 'build:prod', 'changelog', 'stage-release', 'tag-release');
 		});
 		gulp.task('release:minor', function() {
-			run(inc('minor'), 'build:prod', 'changelog', 'stage-release', 'tag-release');
+			run('bump:minor', 'build:prod', 'changelog', 'stage-release', 'tag-release');
 		});
 		gulp.task('release:patch', function() {
-			run(inc('patch'), 'build:prod', 'changelog', 'stage-release', 'tag-release');
+			run('bump:patch', 'build:prod', 'changelog', 'stage-release', 'tag-release');
 		});
 
 		gulp.task('changelog', function() {
