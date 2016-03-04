@@ -21,13 +21,13 @@
 		gulp.task('bump:patch', function() { return inc('major'); });
 
 		gulp.task('release:major', function() {
-			run('bump:major', 'build:prod', 'changelog', 'stage-release', 'tag-release');
+			run('bump:major', 'build:dist', 'changelog', 'stage-release', 'tag-release');
 		});
 		gulp.task('release:minor', function() {
-			run('bump:minor', 'build:prod', 'changelog', 'stage-release', 'tag-release');
+			run('bump:minor', 'build:dist', 'changelog', 'stage-release', 'tag-release');
 		});
 		gulp.task('release:patch', function() {
-			run('bump:patch', 'build:prod', 'changelog', 'stage-release', 'tag-release');
+			run('bump:patch', 'build:dist', 'changelog', 'stage-release', 'tag-release');
 		});
 
 		gulp.task('changelog', function() {
