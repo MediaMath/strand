@@ -94,7 +94,7 @@
 						moduleBehaviors = moduleDoc.behaviors;
 
 					// Merge behaviors docs with component docs
-					moduleBehaviors.forEach(function(key) {
+					if(moduleBehaviors) moduleBehaviors.forEach(function(key) {
 						var behavior = behaviorsMap[key];
 						if(moduleDoc && behavior) {
 							moduleDoc.attributes = mergeDocArray(moduleDoc.attributes, behavior.attributes);

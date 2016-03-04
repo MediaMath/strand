@@ -18,7 +18,7 @@
 
 		gulp.task('bump:major', function() { return inc('major'); });
 		gulp.task('bump:minor', function() { return inc('minor'); });
-		gulp.task('bump:patch', function() { return inc('patch'); });
+		gulp.task('bump:patch', function() { return inc('major'); });
 
 		gulp.task('release:major', function() {
 			run('bump:major', 'build:prod', 'changelog', 'stage-release', 'tag-release');
@@ -47,7 +47,7 @@
 		gulp.task('stage-release', function() {
 			var pkg = C.getPkgInfo();
 			return gulp.src([C.DIST, 'package.json', 'bower.json', 'CHANGELOG.md'])
-				.pipe(plugins.git.add())
+				.pipe(plugins.git.add({args: '--no-ignore-removal'}))
 				.pipe(plugins.git.commit('Release v'+pkg.version));
 		});
 
