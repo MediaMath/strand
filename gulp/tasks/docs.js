@@ -20,7 +20,7 @@
 	module.exports = function(gulp, plugins, C) {
 
 		gulp.task('docs', function() {
-			run('clean','clean:docs', 'build','copy:docs', 'sass:docs', 'docs:templates');
+			run('clean','clean:docs', 'build:dist','copy:docs', 'sass:docs', 'docs:templates');
 		});
 
 		gulp.task('clean:docs', function() {
