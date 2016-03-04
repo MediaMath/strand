@@ -138,7 +138,7 @@
 		});
 
 		gulp.task('build', function(cb) {
-			run('copy',['sass','font'],'lib-version','vulcanize',cb);
+			run('copy',['sass','font'],'lib-version',cb);
 		});
 
 		gulp.task('debug', function() {
