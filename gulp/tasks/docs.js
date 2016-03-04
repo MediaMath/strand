@@ -19,7 +19,9 @@
 
 	module.exports = function(gulp, plugins, C) {
 
-		gulp.task('docs', ['copy:docs', 'sass:docs', 'docs:templates']);
+		gulp.task('docs', function() {
+			run('clean','clean:docs', 'build','copy:docs', 'sass:docs', 'docs:templates');
+		});
 
 		gulp.task('clean:docs', function() {
 			return del([C.BUILD_DOCS+'**']);
