@@ -41,7 +41,7 @@
 				.pipe(C.dbg('copy-bower'))
 				.pipe(gulp.dest(j(C.BUILD_DOCS,C.BOWER)));
 
-			var lib = gulp.src(j(C.BUILD,'**'))
+			var lib = gulp.src(j(C.DIST,'**'))
 				.pipe(C.dbg('copy-lib'))
 				.pipe(gulp.dest(j(C.BUILD_DOCS,C.BOWER,'/strand/dist')));
 
