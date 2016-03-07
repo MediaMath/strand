@@ -6,6 +6,12 @@
     "type": "git",
     "url": "git://github.com/MediaMath/strand.git"
   },
+  "scripts": {
+    "mm2strand": "(cd srcOriginal || cp -r src srcOriginal) && npm install replace renamer && replace 'mm-' 'strand-' grunt src -r && renamer --find 'mm-' --replace 'strand-' src/**/* src/**",
+    "noconflict": "npm install replace && replace 'polymer/polymer.html' 'polymerLegacy/polymer.html' src -r && grunt clean build:dist copy:dist",
+    "bower": "bower",
+    "grunt": "grunt"
+  },
   "contributors": [
     "Anthony Koerber <akoerber@mediamath.com>",
     "Dan Lasky <dlasky@mediamath.com>",
