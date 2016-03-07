@@ -36,7 +36,7 @@
 
 		observers:['_handleInputUpdate(input.*, _parsedRules)'],
 
-		_handleInputUpdate() {
+		_handleInputUpdate: function() {
 			var o = this.input.map(function(i) {
 				var o = {};
 				this._parsedRules.forEach(function(rule) {
