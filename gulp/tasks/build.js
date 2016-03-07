@@ -178,7 +178,7 @@
 						inlineCss: true,
 						implicitStrip: false
 				}, excludes, C.BUILD))
-				.pipe(plugins.base64(['.woff']))
+				.pipe(plugins.cssBase64())
 				.pipe(plugins.htmlmin({
 					quotes: true,
 					empty: true,
@@ -195,7 +195,7 @@
 					inlineCss: true,
 					stripExcludes: []
 				}))
-				.pipe(plugins.base64(['.woff']))
+				.pipe(plugins.cssBase64())
 				.pipe(plugins.htmlmin({
 					quotes: true,
 					empty: true,
