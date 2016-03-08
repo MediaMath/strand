@@ -31,25 +31,33 @@
 				type:String,
 				value:"",
 				observer:"_parseRules"
+			},
+			highlight:{
+				type:String,
+				value:"",
+				observer:"_highlightChanged"
 			}
 		},
 
 		observers:['_handleInputUpdate(input.*, _parsedRules)'],
 
 		_handleInputUpdate: function() {
-			var o = this.input.map(function(i) {
-				var o = {};
-				this._parsedRules.forEach(function(rule) {
-					var val = rule.from === '.' ? i : i[rule.from];
-					if (rule.to !== '.') {
-						o[rule.to] = val;
-					} else {
-						o = val;
-					}
-				})
-				return o;
-			},this);
-			this.set('output', o);
+			if (this.input && this.input.length) {
+				var o = this.input.map(function(i) {
+					var o = {};
+					this._parsedRules.forEach(function(rule) {
+						var val = rule.from === '.' ? i : i[rule.from];
+						if (rule.to !== '.') {
+							o[rule.to] = val;
+						} else {
+							o = val;
+						}
+					});
+					if (typeof o !== 'string' && this.highlight) o.highlight = this.highlight
+					return o;
+				},this);
+				this.set('output', o);
+			}
 		},
 
 		_parseRules: function() {
@@ -62,6 +70,19 @@
 					}
 				}
 			}, this).filter(function(o) { return !!o });
+		},
+
+		_highlightChanged: function() {
+			// if (this.input && this.inpu.length) {
+			// 	this.set('output', this.output.map(function(o) {
+			// 		o.highlight = this.highlight;
+			// 	}));
+			// } else {
+			// 	this._handleInputUpdate();
+			// 	this.set('output', this.output.map(function(o) {
+			// 		o.highlight = this.highlight;
+			// 	}));
+			// }
 		}
 
 	});
