@@ -26,6 +26,7 @@
 		TEMPLATES: 'gulp/templates/',
 		MODULE_MASK: 'mm-*',
 		MODULE_HTML: 'mm-*.html',
+		MODULE_JS: 'mm-*.js',
 		SHARED: 'shared/',
 		BOWER: 'bower_components/',
 		SASS_INCLUDE: ['bower_components/bourbon/app/assets/stylesheets/', 'src/shared/sass/'],
