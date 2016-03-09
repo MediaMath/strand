@@ -10,17 +10,17 @@
 
 		is: "mm-list-item",
 
-		behaviors: [ 
-			StrandTraits.Resolvable, 
-			StrandTraits.DomMutable, 
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.DomMutable,
 			StrandTraits.Resizable,
 			StrandTraits.Refable
 		],
 
 		properties: {
-			selected: { 
+			selected: {
 				type: Boolean,
-				value: false, 
+				value: false,
 				reflectToAttribute: true,
 				notify: true
 			},
@@ -29,6 +29,12 @@
 				value: false,
 				reflectToAttribute: true,
 				notify: true,
+			},
+			highlight:{
+				type:String,
+				value:"",
+				notify:true,
+				observer:"_highlightChanged"
 			},
 			observeSubtree: {
 				value:true
@@ -61,6 +67,13 @@
 			this.debounce("update-title",this.updateTitle,0);
 		},
 
+		_highlightChanged: function() {
+			if (this.highlight && this.highlight.length > 0) {
+				var ta = this.innerText.split(this.highlight);
+				Polymer.dom(this).innerHTML = ta.join('<span class="mm-list-item highlight">'+this.highlight+'</span>');
+			}
+		},
+
 		elementResize: function() {
 			this.debounce("update-title", this.updateTitle, 0);
 		},
@@ -77,4 +90,4 @@
 		}
 
 	});
-})(window.Strand = window.Strand || {}); 
+})(window.Strand = window.Strand || {});
