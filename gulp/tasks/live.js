@@ -41,6 +41,10 @@
 			var server = connect()
 				.use('/bower_components', serveStatic(C.BOWER))
 				.use(serveStatic(C.BUILD))
+				//for /test/* routes
+				.use('/build',serveStatic(C.BUILD))
+				.use('/test', serveStatic('./test'))
+				//end test routes
 				.use(favicon('favicon.ico'))
 				.listen(C.LIVE_PORT);
 
