@@ -69,8 +69,12 @@
 
 		_highlightChanged: function() {
 			if (this.highlight && this.highlight.length > 0) {
-				var ta = this.innerText.split(this.highlight);
-				Polymer.dom(this).innerHTML = ta.join('<span class="mm-list-item highlight">'+this.highlight+'</span>');
+				var s = this.innerText;
+				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
+					return '<span class="mm-list-item highlight">'+orig+'</span>';
+				},'ig');
+			} else {
+				Polymer.dom(this).innerHTML = this.innerText; //strip any formatting
 			}
 		},
 

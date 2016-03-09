@@ -30,6 +30,10 @@
 :host-context([highlighted]) {
 	background: $color-D12;
 	color: $color-F0;
+	.highlight {
+		color: $color-A2;
+		background: $color-D10;
+	}
 }
 
 :host(:active) {
