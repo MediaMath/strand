@@ -58,10 +58,18 @@
 			var domConfig = this.domObject[ method.toLowerCase() ];
 			domConfig = _getParamBase(domConfig) || _getParamBase();
 
+			var nodeIf = function(nodeObj) { return DataUtils.nodeCheckIf(nodeObj, DataUtils.nodeToParam); };
+			var innerIf = function(nodeObj) { return DataUtils.nodeCheckIf(nodeObj, DataUtils.nodeInnerValue); };
+			var filter = function(o) { return !!o; };
+			// return {
+			// 	headers: domConfig.headers.map(DataUtils.nodeToParam),
+			// 	query: domConfig.query.map(DataUtils.nodeToParam),
+			// 	urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
+			// };
 			return {
-				headers: domConfig.headers.map(DataUtils.nodeToParam),
-				query: domConfig.query.map(DataUtils.nodeToParam),
-				urlParams: domConfig.urlParams.map(DataUtils.nodeInnerValue)
+				headers: domConfig.headers.map(nodeIf).filter(filter),
+				query: domConfig.query.map(nodeIf).filter(filter),
+				urlParams: domConfig.urlParams.map(innerIf).filter(filter)
 			};
 		},
 

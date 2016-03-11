@@ -146,6 +146,19 @@
 		};
 	}
 
+	function _nodeCheckIf(nodeObj, callback) {
+		if (nodeObj.conditional) {
+			var useMe = !_isDef(nodeObj.if) || JSON.parse(nodeObj.if);
+			var iff = _isDef(nodeObj.if) && JSON.parse(nodeObj.if);
+			if (iff) {
+				return callback(nodeObj);
+			} else {
+				return null;
+			}
+		}
+		return callback(nodeObj);
+	}
+
 	function _compoundObserver(obj, observer) {
 		for(var i in obj) {
 			if (obj.hasOwnProperty(i)) {
@@ -186,7 +199,7 @@
 		objectifyDistributedNodes: function(elementList, ignoreList) {
 
 			function elements(n) {
-				return n.nodeType === Node.ELEMENT_NODE && n.nodeName !== "TEMPLATE";
+				return n.nodeType === Node.ELEMENT_NODE;
 			}
 
 			elementList = _clone(elementList)
@@ -206,6 +219,7 @@
 
 		nodeInnerValue: _nodeInnerValue,
 		nodeToParam: _nodeToParam,
+		nodeCheckIf: _nodeCheckIf,
 
 		mergeParamLists: function() {
 			var i,

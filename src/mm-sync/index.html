@@ -4,6 +4,7 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
     <link rel="import" href="../mm-input/mm-input.html"/>
     <link rel="import" href="../mm-button/mm-button.html"/>
+    <link rel="import" href="../mm-checkbox/mm-checkbox.html"/>
     <link rel="import" href="../mm-textarea/mm-textarea.html"/>
     <link rel="import" href="../mm-header/mm-header.html"/>
     <link rel="import" href="mm-sync.html"/>
@@ -57,10 +58,11 @@
 
 <dom-module id="s-test">
     <template>
+        <mm-checkbox checked="{{allow}}"><label>Allow</label></mm-checkbox>
         <mm-input value="{{autoTest}}"></mm-input><span>{{autotest}}</span>
         <mm-sync endpoint="http://localhost:8000/ajax" data="{{zippy}}">
             <GET>
-                <queryParam name="q" value="ui.*"></queryParam>
+                <queryParam name="q" value="ui.*" conditional if$="{{allow}}"></queryParam>
                 <queryParam name="user">userInnerVal</queryParam>
                 <urlParam value="ajax"></urlParam>
                 <urlParam value="123"></urlParam>
