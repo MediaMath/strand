@@ -10,6 +10,7 @@
 @import "_mixins";
 
 :host {
+	background-color: #fff;
 	box-sizing: border-box;
 	color: $color-A2;
 	font-family: 'Arimo', Arial, sans-serif;
@@ -19,6 +20,7 @@
 
 ol {
 	align-items: center;
+	background-color: inherit;
 	border-bottom: 1px solid $color-A9;
 	border-top: 1px solid $color-A9;
 	box-sizing: border-box;
