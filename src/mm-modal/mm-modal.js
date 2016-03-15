@@ -11,6 +11,7 @@
 		is: 'mm-modal',
 
 		behaviors:[
+			StrandTraits.Falsifiable,
 			StrandTraits.Resolvable,
 			StrandTraits.Stackable,
 			StrandTraits.Refable
