@@ -10,17 +10,16 @@
 
 		is: "mm-list-item",
 
-		behaviors: [ 
-			StrandTraits.Resolvable, 
-			StrandTraits.DomMutable, 
-			StrandTraits.Resizable,
+		behaviors: [
+			StrandTraits.Resolvable,
+			StrandTraits.DomMutable,
 			StrandTraits.Refable
 		],
 
 		properties: {
-			selected: { 
+			selected: {
 				type: Boolean,
-				value: false, 
+				value: false,
 				reflectToAttribute: true,
 				notify: true
 			},
@@ -29,6 +28,12 @@
 				value: false,
 				reflectToAttribute: true,
 				notify: true,
+			},
+			highlight:{
+				type:String,
+				value:"",
+				notify:true,
+				observer:"_highlightChanged"
 			},
 			observeSubtree: {
 				value:true
@@ -50,7 +55,8 @@
 		listeners:{
 			"added":"_updateTitleHandler",
 			"removed":"_updateTitleHandler",
-			"modified":"_updateTitleHandler"
+			"modified":"_updateTitleHandler",
+			"mouseover":"_updateTitleHandler"
 		},
 
 		attached: function () {
@@ -59,6 +65,17 @@
 
 		_updateTitleHandler: function() {
 			this.debounce("update-title",this.updateTitle,0);
+		},
+
+		_highlightChanged: function() {
+			if (this.highlight) {
+				var s = this.innerText;
+				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
+					return '<span class="mm-list-item highlight">'+orig+'</span>';
+				},'ig');
+			} else {
+				Polymer.dom(this).innerHTML = this.innerText; //strip any formatting
+			}
 		},
 
 		elementResize: function() {
@@ -70,11 +87,13 @@
 			var computed = m.textWidth(this, this.textContent);
 			var actual = m.getBoundingClientRect(this).width;
 			if (computed > actual) {
-				this.title = this.textContent.trim();
+				var txt = this.textContent.trim();
+				if (this.title !== txt)
+					this.title = txt;
 			} else {
 				this.title = null;
 			}
 		}
 
 	});
-})(window.Strand = window.Strand || {}); 
+})(window.Strand = window.Strand || {});
