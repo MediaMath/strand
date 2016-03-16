@@ -68,7 +68,7 @@
 		},
 
 		_highlightChanged: function() {
-			if (this.highlight && this.highlight.length > 0) {
+			if (this.highlight) {
 				var s = this.innerText;
 				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
 					return '<span class="mm-list-item highlight">'+orig+'</span>';
