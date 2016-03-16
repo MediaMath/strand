@@ -68,13 +68,13 @@
 		},
 
 		_highlightChanged: function() {
-			if (this.highlight) {
+			if (this.highlight && this.highlight.length > 0) {
 				var s = this.innerText;
 				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
 					return '<span class="mm-list-item highlight">'+orig+'</span>';
 				},'ig');
-			} else {
-				Polymer.dom(this).innerHTML = this.innerText; //strip any formatting
+			} else if (this.innerText.trim()){
+				Polymer.dom(this).innerHTML = this.innerText.trim(); //strip any formatting
 			}
 		},
 
