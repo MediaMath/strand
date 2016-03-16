@@ -28,7 +28,7 @@
 			"optional":"true",
 			"description":"A string used for highlighting search text within the list-item. If the value is found (case insensitive) it will be wrapped in a yellow span.",
 			"attribute":"N/A"
-		}
+		},
 		{
 			"name":"observeSubtree",
 			"type":"Boolean",
