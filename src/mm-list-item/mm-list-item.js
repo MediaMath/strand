@@ -73,7 +73,7 @@
 				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
 					return '<span class="mm-list-item highlight">'+orig+'</span>';
 				},'ig');
-			} else if (this.innerText.trim()){
+			} else if (this.innerText && this.innerText.trim()){
 				Polymer.dom(this).innerHTML = this.innerText.trim(); //strip any formatting
 			}
 		},
