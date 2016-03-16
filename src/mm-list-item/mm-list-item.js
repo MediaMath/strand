@@ -13,7 +13,6 @@
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.DomMutable,
-			StrandTraits.Resizable,
 			StrandTraits.Refable
 		],
 
@@ -56,7 +55,8 @@
 		listeners:{
 			"added":"_updateTitleHandler",
 			"removed":"_updateTitleHandler",
-			"modified":"_updateTitleHandler"
+			"modified":"_updateTitleHandler",
+			"mouseover":"_updateTitleHandler"
 		},
 
 		attached: function () {
@@ -87,7 +87,9 @@
 			var computed = m.textWidth(this, this.textContent);
 			var actual = m.getBoundingClientRect(this).width;
 			if (computed > actual) {
-				this.title = this.textContent.trim();
+				var txt = this.textContent.trim();
+				if (this.title !== txt)
+					this.title = txt;
 			} else {
 				this.title = null;
 			}
