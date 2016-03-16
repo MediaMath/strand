@@ -70,6 +70,11 @@
 				notify: true,
 				observer: '_dataChanged'
 			},
+			isLoading:{
+				type:Boolean,
+				notify: true,
+				value: false
+			},			
 			index: {
 				type:Number,
 				notify:true,
