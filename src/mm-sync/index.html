@@ -60,7 +60,10 @@
     <template>
         <mm-checkbox checked="{{allow}}"><label>Allow</label></mm-checkbox>
         <mm-input value="{{autoTest}}"></mm-input><span>{{autotest}}</span>
-        <mm-sync endpoint="http://localhost:8000/ajax" data="{{zippy}}">
+        <template is="dom-if" if="{{isLoading}}">
+            <span>Is Loading!</span>
+        </template>
+        <mm-sync endpoint="http://localhost:8000/ajax" data="{{zippy}}" is-loading="{{isLoading}}">
             <GET>
                 <queryParam name="q" value="ui.*" conditional if$="{{allow}}"></queryParam>
                 <queryParam name="user">userInnerVal</queryParam>
