@@ -52,9 +52,10 @@
 }
 
 #spinner {
-	padding: 0 10px 0 13px;
 	position: absolute;
-	top: -3px;
-	right:-4px;
+	padding-right: 6px;
+	overflow: visible;
+	right: 0px;
+	top: 4px;
 	display: block;
 }

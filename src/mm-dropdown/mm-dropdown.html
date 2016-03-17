@@ -39,9 +39,7 @@
 				<mm-icon id="caratIcon" class$="{{state}}" type="carat" width="8" height="8"></mm-icon>
 			</template>
 			<template is="dom-if" if="{{isLoading}}">
-				<div id="spinner">
-					<content select="mm-spinner"></content>
-				</div>
+				<mm-spinner id="spinner" fill-color="#333333" radius="8"></mm-spinner>
 			</template>
 		</div>
 		<div id="panel" on-tap="_updateSelectedItem">
