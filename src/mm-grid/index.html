@@ -308,6 +308,10 @@
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
 
+			app.addEventListener('grid-item-clicked', function(e) {
+				console.log('grid-item-clicked: ', e.detail);
+			});
+
 			// setTimeout(function () {
 			// 	app.data = data.slice(data.length >> 2, data.length >> 1);
 			// }, 3000);

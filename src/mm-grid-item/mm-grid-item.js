@@ -31,6 +31,21 @@
 			"_expansionChanged(model.expanded)",
 		],
 
+		listeners: {
+			"click" : "_itemClicked"
+		},
+
+		_itemClicked: function(e) {
+			var evt = Polymer.dom(e);
+			var detail = {
+				target: evt.rootTarget,
+				item: evt.localTarget,
+				model: evt.localTarget.model,
+				path: evt.path
+			};
+			this.fire('grid-item-clicked', detail);
+		},
+
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
