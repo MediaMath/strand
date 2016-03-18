@@ -24,7 +24,8 @@
 			query:true,
 			body:false,
 			pageType:"offset",
-			countPath:""
+			countPath:"",
+			stampPage:true,
 		},config);
 		this.name = name;
 	};
@@ -47,6 +48,10 @@
 			if (opts.enabled) {
 				ajaxOpts = _getParamBase(ajaxOpts);
 				var page = opts.pageType === "offset" ? opts.page * opts.pageSize : opts.page;
+				if (opts.stampPage) {
+					ajaxOpts._page = opts.page
+					ajaxOpts._pageSize = opts.pageSize;
+				}
 
 				if (opts.url) {
 					if (opts.pageName) {
@@ -74,7 +79,20 @@
 		responseHandler:function(response) {
 
 			if (this.config.enabled && this.config.countPath) {
-				response.count = DataUtils.getValuePath("response." + this.config.countPath, response);
+				response.count = DataUtils.getPathValue("response." + this.config.countPath, response);
+			}
+
+			if (this.config.enabled && this.config.stampPage) {
+				var _page = DataUtils.getPathValue('instance.options._page', response);
+				var _pageSize = DataUtils.getPathValue('instance.options._pageSize', response);
+				var meta = DataUtils.getPathValue('marshalled.meta', response);
+				if (meta) {
+					meta._page = _page;
+					meta._pageSize = _pageSize;
+				} else {
+					response._page = _page;
+					response._pageSize = _pageSize;
+				}
 			}
 
 			return response;

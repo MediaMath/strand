@@ -130,6 +130,38 @@ describe("AjaxPagePlugin", function() {
 		result2.query[0].value.should.equal(2);
 	});
 
+	it("should be able to stamp the page data into the response", function() {
+		var pg1 = new StrandLib.AjaxPagePlugin({
+			enabled:true,
+			pageType:"index",
+			page:2,
+			stampPage:true
+		});
+		var result0 = pg1.requestHandler({body:{}});
+		result0.query[0].value.should.equal(2);
+		var result1 = pg1.responseHandler({
+			result:{},
+			instance:{
+				options:{
+					_page:1,
+					_pageSize:1}
+				},
+			marshalled:{meta:{}}});
+		result1.marshalled.meta._page.should.equal(1);
+		result1.marshalled.meta._pageSize.should.equal(1);
+		var result2 = pg1.responseHandler({
+			result:{},
+			instance:{
+				options:{
+					_page:1,
+					_pageSize:1}
+				},
+			});
+		result2._page.should.equal(1);
+		result2._pageSize.should.equal(1);
+
+	});
+
 	it("should stop when disabled", function() {
 		//disabled is default for paging since only collections need it
 		var pg = new StrandLib.AjaxPagePlugin();
