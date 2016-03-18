@@ -38,7 +38,7 @@
 			if (this.config.enabled && response) {
 				var opt = DataUtils.getPathValue("instance.responseMarshaller", response);
 				var marshaller = this.config.marshaller[opt || this.config.defaultResponse];
-				DataUtils.setPathValue("marshalled", response, marshaller(DataUtils.getPathValue("response", response)));
+				DataUtils.setPathValue("marshalled", response, marshaller(DataUtils.getPathValue("response", response), response));
 			}
 
 			return response;
