@@ -17,7 +17,8 @@
 <dom-module id="mm-tooltip">
 	<link rel="import" type="css" href="mm-tooltip.css"/>
 	<template>
-		<div id="container" class$="{{_updateClass(auto)}}" style$="{{_containerStyle}}">
+		<!-- <div id="container" class$="{{_updateClass(auto)}}" style$="{{_containerStyle}}"> -->
+		<div id="container" style$="{{_containerStyle}}">
 			<content select="label"></content>
 			<template is="dom-if" if="{{!auto}}">
 				<mm-icon type="delete" class="close-icon" width="8" height="8"></mm-icon>

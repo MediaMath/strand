@@ -87,16 +87,28 @@
 			&:after {
 				border-#{get-item($directions, $i, -1)}: $size solid transparent; 
 				border-#{get-item($directions, $i, 1)}: $size solid transparent; 
+				// #{'border'}-#{get-item($directions, $i, -1)}-#{'style'}: solid;
+				// #{'border'}-#{get-item($directions, $i, -1)}-#{'width'}: $size;
+				// #{'border'}-#{get-item($directions, $i, -1)}-#{'color'}: transparent;
+				// #{'border'}-#{get-item($directions, $i, 1)}-#{'style'}: solid;
+				// #{'border'}-#{get-item($directions, $i, 1)}-#{'width'}: $size;
+				// #{'border'}-#{get-item($directions, $i, 1)}-#{'color'}: transparent;
 			}
 
 			&:before {
 				#{$direction}: 0px;
 				border-#{get-item($directions, $i, 2)}: $size solid $strokeColor;
+				// #{'border'}-#{get-item($directions, $i, 2)}-#{'style'}: solid;
+				// #{'border'}-#{get-item($directions, $i, 2)}-#{'width'}: $size;
+				// #{'border'}-#{get-item($directions, $i, 2)}-#{'color'}: $strokeColor;
 			}
 
 			&:after {
 				#{$direction}: 1px;
 				border-#{get-item($directions, $i, 2)}: $size solid $color;
+				// #{'border'}-#{get-item($directions, $i, 2)}-#{'style'}: solid;
+				// #{'border'}-#{get-item($directions, $i, 2)}-#{'width'}: $size;
+				// #{'border'}-#{get-item($directions, $i, 2)}-#{'color'}: $color;
 			}
 		} 
 	}
