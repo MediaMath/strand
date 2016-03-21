@@ -15,12 +15,13 @@
 						return JSON.parse(value);
 					} catch(e) {
 						console.warn('falsifiable: couldn`t decode Boolean');
+						return value;
 					}
 					break;
 				default:
 					return Polymer.Base.deserialize(value,type);
-			}	
+			}
 		}
 	};
-})(window.StrandTraits = window.StrandTraits || {}); 
+})(window.StrandTraits = window.StrandTraits || {});
 </script>
