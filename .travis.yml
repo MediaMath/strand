@@ -1,0 +1,21 @@
+language: node_js
+node_js: stable
+addons:
+  firefox: latest
+  apt:
+    sources:
+    - google-chrome
+    - ubuntu-toolchain-r-test
+    packages:
+    - google-chrome-stable
+    - g++-4.8
+before_script:
+- npm install -g bower web-component-tester
+- npm install
+- bower install
+- gulp clean
+- gulp build
+script: xvfb-run wct
+env:
+  global:
+    - CXX=g++-4.8
