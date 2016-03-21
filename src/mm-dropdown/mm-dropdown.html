@@ -27,9 +27,9 @@
 	<link href="mm-dropdown.css" rel="import" type="css"/>
 	<template>
 		<div
-			id="target" 
-			class$="{{_updateButtonClass(direction, fitparent, error, state, _type)}}" 
-			tabindex="0" 
+			id="target"
+			class$="{{_updateButtonClass(direction, fitparent, error, state, _type)}}"
+			tabindex="0"
 			title$="{{_updateTitle(selectedIndex)}}">
 			<span class="left-items">
 				<content select="mm-icon" id="icon"></content>
@@ -42,13 +42,14 @@
 				<content hidden$="{{_hideInsertionPoints(data)}}" id="search" select="mm-input"></content>
 				<div id="list">
 					<content hidden$="{{_hideInsertionPoints(data)}}" id="content" select="mm-list-item"></content>
-					<mm-item-recycler 
-						id="itemRecycler" 
-						data="{{data}}" 
-						hidden$="{{!_hideInsertionPoints(data)}}">
+					<mm-item-recycler
+						id="itemRecycler"
+						data="{{data}}"
+						hidden$="{{!_hideInsertionPoints(data)}}"
+						index="{{index}}">
 						<template preserve-content>
-							<mm-list-item 
-								value$="{{model.value}}" 
+							<mm-list-item
+								value$="{{model.value}}"
 								selected$="{{model.selected}}"
 								highlighted$="{{model.highlighted}}">{{model.name}}</mm-list-item>
 						</template>

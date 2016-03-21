@@ -70,6 +70,10 @@
 				notify: true,
 				observer: '_dataChanged'
 			},
+			index: {
+				type:Number,
+				notify:true,
+			},
 			size: {
 				type: String,
 				reflectToAttribute: true
@@ -138,7 +142,7 @@
 					valueStr = value.toString();
 
 				if (!this._widthLocked) this._lockWidth();
-				
+
 				if (this.data) {
 					item = this._getDataItemByValue(valueStr);
 				} else {
@@ -236,10 +240,10 @@
 				var newSelected = this.items[newIndex],
 					value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim(),
 					name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
-				
+
 				this.value = value;
 
-				if (this.data) { 
+				if (this.data) {
 					this.set('data.' + newIndex + '.selected', true);
 				} else {
 					newSelected.selected = true;
@@ -259,13 +263,13 @@
 			if (typeof oldIndex === 'number') {
 				var oldSelected = this.items[oldIndex];
 
-				if (this.data) { 
+				if (this.data) {
 					this.set('data.' + oldIndex + '.selected', false);
 				} else {
 					oldSelected.selected = false;
 				}
 			}
-			
+
 			if (this.state === this.STATE_OPENED) this.close();
 		},
 
@@ -289,7 +293,7 @@
 
 			if (typeof selectedIndex === 'number') {
 				var selectedItem = this.items[selectedIndex];
-					
+
 				label = this.data ? selectedItem.name : selectedItem.textContent.trim();
 			}
 			return label;
@@ -336,9 +340,9 @@
 
 	 	_setMaxHeight: function(maxItems) {
 			var actualMax = Math.min(this.items.length, maxItems);
-			
+
 			this.$.list.style.height = this.itemHeight * actualMax + 'px';
-			
+
 			if (this.data) {
 				this._itemRecycler.style.height = this.itemHeight * actualMax + 'px';
 				this.$.list.style.overflowY = "hidden";
