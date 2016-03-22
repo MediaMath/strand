@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobile-header="Strand Docs">
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-tab</h1>
+					<p>A single tab.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;mm-tab tab-label=&quot;First&quot; icon=&quot;info&quot; active&gt;
+	&lt;p&gt;Is it that by its indefiniteness it shadows forth the heartless voids and immensities of the universe, and thus stabs us from behind with the thought of annihilation, when beholding the white depths of the milky way? Or is it, that as in essence whiteness is not so much a colour as the visible absence of colour; and at the same time the concrete of all colours; is it for these reasons that there is such a dumb blankness, full of meaning, in a wide landscape of snows&amp;mdash;a colourless, all-colour of atheism from which we shrink? And when we consider that other theory of the natural philosophers, that all other earthly hues&amp;mdash;every stately or lovely emblazoning&amp;mdash;the sweet tinges of sunset skies and woods; yea, and the gilded velvets of butterflies, and the butterfly cheeks of young girls; all these are but subtile deceits, not actually inherent in substances, but only laid on from without; so that all deified Nature absolutely paints like the harlot, whose allurements cover nothing but the charnel-house within; and when we proceed further, and consider that the mystical cosmetic which produces every one of her hues, the great principle of light, for ever remains white or colourless in itself, and if operating without medium upon matter, would touch all objects, even tulips and roses, with its own blank tinge&amp;mdash;pondering all this, the palsied universe lies before us a leper; and like wilful travellers in Lapland, who refuse to wear coloured and colouring glasses upon their eyes, so the wretched infidel gazes himself blind at the monumental white shroud that wraps all the prospect around him. And of all these things the Albino whale was the symbol. Wonder ye then at the fiery hunt?&lt;/p&gt;
+&lt;/mm-tab&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-tab"><mm-tab tab-label="First" icon="info" active>
+	<p>Is it that by its indefiniteness it shadows forth the heartless voids and immensities of the universe, and thus stabs us from behind with the thought of annihilation, when beholding the white depths of the milky way? Or is it, that as in essence whiteness is not so much a colour as the visible absence of colour; and at the same time the concrete of all colours; is it for these reasons that there is such a dumb blankness, full of meaning, in a wide landscape of snows&mdash;a colourless, all-colour of atheism from which we shrink? And when we consider that other theory of the natural philosophers, that all other earthly hues&mdash;every stately or lovely emblazoning&mdash;the sweet tinges of sunset skies and woods; yea, and the gilded velvets of butterflies, and the butterfly cheeks of young girls; all these are but subtile deceits, not actually inherent in substances, but only laid on from without; so that all deified Nature absolutely paints like the harlot, whose allurements cover nothing but the charnel-house within; and when we proceed further, and consider that the mystical cosmetic which produces every one of her hues, the great principle of light, for ever remains white or colourless in itself, and if operating without medium upon matter, would touch all objects, even tulips and roses, with its own blank tinge&mdash;pondering all this, the palsied universe lies before us a leper; and like wilful travellers in Lapland, who refuse to wear coloured and colouring glasses upon their eyes, so the wretched infidel gazes himself blind at the monumental white shroud that wraps all the prospect around him. And of all these things the Albino whale was the symbol. Wonder ye then at the fiery hunt?</p>
+</mm-tab></div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">tabLabel : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">tab-label</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The text displayed on the tab</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">icon : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">icon</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The name of an mm-icon displayed next to the tab label</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">url : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">url</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Relative path to an external html document to lazily load into the tab. The content of the external document must be surrounded by a &lt;template&gt; tag and may use Polymer&#39;s binding annotations. Use the loadExternal method if a callback is required when the tab loads.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">active : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">active</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Whether this tab is active. There should only be one active tab at a time. If no active tab is set, the first tab defaults to active.</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">loadExternal</span>(<span><span class="italic option">url</span><span class="italic option">callback</span></span>)<br/>
+									<span class="desc">Lazily load this tab&#39;s content from an external html document, and attach a callback for when the tab content is loaded. The content of the external document must be surrounded by a &lt;template&gt; tag and may use Polymer&#39;s binding annotations.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">url : </span><span class="italic">String</span><br/>
+										<br/>
+										<span class="desc">Relative path to an external html document to lazily load into the tab.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">callback : </span><span class="italic">Function&nbsp;(optional)</span><br/>
+										<br/>
+										<span class="desc">Function to call when the tab is loaded. The template instance is passed as an argument to the callback, useful when accessing properties on the current binding scope is needed.</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Events</h3>
+						<table>
+							<tr>
+								<th>Event</th>
+								<th>Event Detail</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'loaded'</span>
+									
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">label</span> : <span class="italic">String</span><br/>
+										<span class="desc">The text label of the tab that fired the event</span>
+									</span>
+									<span class="arg">
+										<span class="bold">target</span> : <span class="italic">Object</span><br/>
+										<span class="desc">Reference to the tab that fired the event</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_getting_started.html">Getting Started</a></li>
+							<li><a href="article_data_comps_intro.html">Introduction to Data Components</a></li>
+							<li><a href="article_grid_intro.html">Introduction to mm-grid</a></li>
+							<li><a href="article_migration_guide.html">Migration Guide</a></li>
+							<li><a href="article_repeater.html">Using mm-repeater</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</mm-docs-shell>
+		<script>
+			var name = "mm-tab",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				// console.log("update was called!");
+				$example.empty().html(editor.session.getValue());
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
+			}
+
+			function navigateToPage(e) {
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
+			}	
+		</script>
+	</body>
+</html>

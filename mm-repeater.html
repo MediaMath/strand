@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobile-header="Strand Docs">
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-repeater</h1>
+					<p>A component for duplicating a set of form fields from a template</p>
+					<mm-inline-box type="warning" fitparent>This component contains experimental features. The configuration and API are subject to change. Please use at your own risk.</mm-inline-box>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;mm-repeater id=&quot;repeater&quot;&gt;
+	&lt;template preserve-content&gt;
+		&lt;mm-input name=&quot;name&quot;&gt;&lt;/mm-input&gt;
+		&lt;mm-dropdown name=&quot;firstOption&quot;&gt;
+			&lt;mm-list-item&gt;Test Item 1&lt;/mm-list-item&gt;
+			&lt;mm-list-item&gt;Test Item 2&lt;/mm-list-item&gt;
+			&lt;mm-list-item&gt;Test Item 3&lt;/mm-list-item&gt;
+			&lt;mm-list-item&gt;Test Item 4&lt;/mm-list-item&gt;
+		&lt;/mm-dropdown&gt;
+		&lt;mm-group name=&quot;secondOption&quot;&gt;
+			&lt;mm-radio&gt;&lt;label&gt;Test 1&lt;/label&gt;&lt;/mm-radio&gt;
+			&lt;mm-radio&gt;&lt;label&gt;Test 2&lt;/label&gt;&lt;/mm-radio&gt;
+			&lt;mm-radio&gt;&lt;label&gt;Test 3&lt;/label&gt;&lt;/mm-radio&gt;
+		&lt;/mm-group&gt;
+	&lt;/template&gt;
+&lt;/mm-repeater&gt;
+</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-repeater"><mm-repeater id="repeater">
+	<template preserve-content>
+		<mm-input name="name"></mm-input>
+		<mm-dropdown name="firstOption">
+			<mm-list-item>Test Item 1</mm-list-item>
+			<mm-list-item>Test Item 2</mm-list-item>
+			<mm-list-item>Test Item 3</mm-list-item>
+			<mm-list-item>Test Item 4</mm-list-item>
+		</mm-dropdown>
+		<mm-group name="secondOption">
+			<mm-radio><label>Test 1</label></mm-radio>
+			<mm-radio><label>Test 2</label></mm-radio>
+			<mm-radio><label>Test 3</label></mm-radio>
+		</mm-group>
+	</template>
+</mm-repeater>
+</div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">value : </span><span class="italic">Array&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">value</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">An array containing key:value maps of the mm-repeater data, one per row</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">config : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">config</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">An configuration object used to provide validation rules and error messaging</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">addRowLabel : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">Add Row</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">addRowLabel</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Custom text for adding a row</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">added : </span><span class="italic">Array&nbsp;&nbsp;(read-only)</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">added</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A read-only array of key:value maps of rows that have been added by the user</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">changed : </span><span class="italic">Array&nbsp;&nbsp;(read-only)</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">changed</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A read-only array of key:value maps of rows that have been modified by the user</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">removed : </span><span class="italic">Array&nbsp;&nbsp;(read-only)</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">removed</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A read-only array of key:value maps of rows that have been removed by the user</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">validate</span>(<span></span>)<br/>
+									<span class="desc">Validate the data in the repeater according to the rules provided in config. Returns a Boolean indicating whether all of the data is valid</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_getting_started.html">Getting Started</a></li>
+							<li><a href="article_data_comps_intro.html">Introduction to Data Components</a></li>
+							<li><a href="article_grid_intro.html">Introduction to mm-grid</a></li>
+							<li><a href="article_migration_guide.html">Migration Guide</a></li>
+							<li><a href="article_repeater.html">Using mm-repeater</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</mm-docs-shell>
+		<script>
+			var name = "mm-repeater",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				// console.log("update was called!");
+				$example.empty().html(editor.session.getValue());
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
+			}
+
+			function navigateToPage(e) {
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
+			}	
+		</script>
+	</body>
+</html>

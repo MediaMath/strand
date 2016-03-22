@@ -6,45 +6,46 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="HandheldFriendly" content="True"/>
 		<meta name="MobileOptimized" content="320"/>
-		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="theme-color" content="#000000"/>
 		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
 		<title>Strand Web Components</title>
-		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-		<link rel="import" href="strand.html"/>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
-		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
-	</head>	<body unresolved>
-		<mm-docs-shell id="docsShell" version="1.0.1" mobileHeader="Strand Docs">
-			<div class="docs-logo">
-				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
-					<img src="images/strand-logo.svg" />
-				</a>
-				<p class="mini-subhead version">v1.0.1</p>
-			</div>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobile-header="Strand Docs">
 			<mm-docs-nav id="articlesNav">
 				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
-				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
-				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
-				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
-				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
-				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
-				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
-				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
 			</mm-docs-nav>
 			<mm-docs-nav id="componentsNav">
 				<mm-header size="medium">Components</mm-header>
 				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
 				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
 				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
 				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
 				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
 				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
 				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
 				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
 				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
 				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
@@ -52,187 +53,33 @@
 				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
 				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
 				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
 				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
 				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
 				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
 				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
 				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
 				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
 				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
 				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
 				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
 				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
 				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
 				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
 				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
-			</mm-docs-nav>			<article class="layout-article">
-				<div class="docs-content">
-					<h1>mm-footer</h1>
-					<p>A fully-styled form footer - for use within a form footer or popover component. Capable of displaying variable button set and feedback messages.</p>
-					<hr/>
-					<section>
-						<h3>Example HTML Editor</h3>
-						<div class="editor-wrapper">
-							<div id="editor-mm-footer" class="editor">&lt;mm-footer fitparent=&quot;true&quot; unresolved&gt;
-	&lt;mm-action underline=&quot;true&quot;&gt;
-		&lt;label&gt;Close&lt;/label&gt;
-	&lt;/mm-action&gt;
-	&lt;mm-button type=&quot;secondary&quot;&gt;
-		&lt;label&gt;Save &amp;amp; Close&lt;/label&gt;
-	&lt;/mm-button&gt;
-	&lt;mm-button&gt;
-		&lt;label&gt;Save &amp;amp; Add Another&lt;/label&gt;
-	&lt;/mm-button&gt;
-&lt;/mm-footer&gt;
-&lt;!-- footer with error message --&gt;
-&lt;mm-footer id=&quot;footer&quot; fitparent=&quot;true&quot; unresolved&gt;
-	&lt;mm-action underline=&quot;true&quot;&gt;
-		&lt;label&gt;Close&lt;/label&gt;
-	&lt;/mm-action&gt;
-	&lt;mm-button&gt;
-		&lt;label&gt;Save&lt;/label&gt;
-	&lt;/mm-button&gt;
-&lt;/mm-footer&gt;
-&lt;!-- Script to display message --&gt;
-&lt;script&gt;
-	var footer;
-
-    window.addEventListener(&quot;polymer-ready&quot;, function() {
-    	footer = document.body.querySelector(&#39;#footer&#39;);
-		footer.message = &quot;Error some text is here.&quot;;
-		footer.type = &quot;error&quot;;
-
-		// show the message:
-		footer.showMessage();
-	});
-&lt;/script&gt;</div>
-						</div>
-					</section>
-					<section>
-						<h3>Example Output</h3>
-						<div class="content-box example" id="example-mm-footer"><mm-footer fitparent="true" unresolved>
-	<mm-action underline="true">
-		<label>Close</label>
-	</mm-action>
-	<mm-button type="secondary">
-		<label>Save &amp; Close</label>
-	</mm-button>
-	<mm-button>
-		<label>Save &amp; Add Another</label>
-	</mm-button>
-</mm-footer>
-<!-- footer with error message -->
-<mm-footer id="footer" fitparent="true" unresolved>
-	<mm-action underline="true">
-		<label>Close</label>
-	</mm-action>
-	<mm-button>
-		<label>Save</label>
-	</mm-button>
-</mm-footer>
-<!-- Script to display message -->
-<script>
-	var footer;
-
-    window.addEventListener("polymer-ready", function() {
-    	footer = document.body.querySelector('#footer');
-		footer.message = "Error some text is here.";
-		footer.type = "error";
-
-		// show the message:
-		footer.showMessage();
-	});
-</script></div>
-					</section>
-					<section>
-						<h3>Attributes</h3>
-						<table>
-							<tr>
-								<th>Attribute</th>								
-								<th>Options</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">message : </span>String
-									<span class="desc italic">Default value: none</span>
-									<span class="desc">The feedback message to display, usually feedback for validation success or failure.</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">type : </span>String
-									<span class="desc italic">Default value: info</span>
-									<span class="desc">The type of inline message styling to be applied.</span>
-								</td>
-								<td><span class="option">'error'</span><span class="option">'warning'</span><span class="option">'info'</span><span class="option">'success'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">fitparent : </span>Boolean (Optional)
-									<span class="desc italic">Default value: null</span>
-									<span class="desc">Instructs the component to fit to its parent container&#39;s width (percent or pixel width).</span>
-								</td>
-								<td>none</td>
-							</tr>
-						</table>
-					</section>
-					<section>
-						<h3>Public Methods</h3>
-						<table>
-							<tr>
-								<th>Method</th>
-								<th>Arguements</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">showMessage</span>(<span></span>)
-									<span class="desc">Show the inline feedback message when needed.</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">hideMessage</span>(<span></span>)
-									<span class="desc">Hide the inline feedback message when needed.</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-						</table>
-					</section>
-					<section>
-						<h3>Public Properties</h3>
-						<table>
-							<tr>
-								<th>Properties</th>								
-								<th>Options</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">message : </span>String
-									<span class="desc italic">Default value: none</span>
-									<span class="desc">The feedback message to display, usually feedback for validation success or failure.</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">type : </span>String
-									<span class="desc italic">Default value: info</span>
-									<span class="desc">The type of inline message styling to be applied. Valid values are (&#39;error&#39;,&#39;warning&#39;,&#39;success&#39; and &#39;info&#39;)</span>
-								</td>
-								<td>none</td>
-							</tr>
-						</table>
-					</section>
-				</div>
-				<div class="layout-push"></div>
-			</article>
-			<footer class="footer">
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
 						<div class="powered-by">
@@ -245,7 +92,291 @@
 					</div>
 					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
 				</div>
-			</footer>		</mm-docs-shell>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-footer</h1>
+					<p>A fully-styled form footer - for use within a form footer or popover component. Capable of displaying variable button set and feedback messages.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;!-- Default Example --&gt;
+&lt;mm-footer unresolved fitparent&gt;
+	&lt;mm-button&gt;
+		&lt;label&gt;Save&lt;/label&gt;
+	&lt;/mm-button&gt;
+&lt;/mm-footer&gt;
+&lt;!-- Display Message / Multiple Buttons Example --&gt;
+&lt;mm-footer id=&quot;tf1&quot; unresolved fitparent&gt;
+	&lt;mm-action id=&quot;closeLink&quot; underline=&quot;true&quot;&gt;
+		&lt;label&gt;Close&lt;/label&gt;
+	&lt;/mm-action&gt;
+	&lt;mm-button id=&quot;saveAndClose&quot;&gt;
+		&lt;label&gt;Save &amp;amp; Close&lt;/label&gt;
+	&lt;/mm-button&gt;
+	&lt;mm-button id=&quot;saveAndAdd&quot;&gt;
+		&lt;label&gt;Save &amp;amp; Add Another&lt;/label&gt;
+	&lt;/mm-button&gt;
+&lt;/mm-footer&gt;
+&lt;!-- Align Items Left or Right Example --&gt;
+&lt;mm-footer id=&quot;tf2&quot; unresolved fitparent&gt;
+	&lt;mm-checkbox class=&quot;left&quot;&gt;
+		&lt;label&gt;Don&#39;t show again&lt;/label&gt;
+	&lt;/mm-checkbox&gt;
+	&lt;mm-button&gt;
+		&lt;label&gt;Close&lt;/label&gt;
+	&lt;/mm-button&gt;
+&lt;/mm-footer&gt;
+&lt;!-- Example Scripts --&gt;
+&lt;script&gt;
+	var tf1,
+		tf2,
+		closeLink,
+		saveAndClose,
+		saveAndAdd;
+
+	window.addEventListener(&quot;WebComponentsReady&quot;, function() {
+		tf1 = document.querySelector(&quot;#tf1&quot;);
+		tf2 = document.querySelector(&quot;#tf2&quot;);
+
+		closeLink = document.querySelector(&quot;#closeLink&quot;);
+		saveAndClose = document.querySelector(&quot;#saveAndClose&quot;);
+		saveAndAdd = document.querySelector(&quot;#saveAndAdd&quot;);
+
+		closeLink.addEventListener(&quot;click&quot;, closeHandler);
+		saveAndClose.addEventListener(&quot;click&quot;, saveCloseHandler);
+		saveAndAdd.addEventListener(&quot;click&quot;, saveAddHandler);
+	});
+
+	function closeHandler(e) {
+		e.preventDefault();
+		console.log(&quot;closeHandler&quot;);
+		// Test messaging:
+		tf1.message = &quot;This is a neat message.&quot;;
+		tf1.type = &quot;success&quot;;
+		tf1.showMessage();
+	}
+
+	function saveCloseHandler(e) {
+		console.log(&quot;saveCloseHandler&quot;);
+		// Test messaging:
+		tf1.message = &quot;This is a super message.&quot;;
+		tf1.type = &quot;error&quot;;
+		tf1.showMessage();
+	}
+
+	function saveAddHandler(e) {
+		console.log(&quot;saveAddHandler&quot;);
+		// Test messaging:
+		tf1.message = &quot;This is a test message.&quot;;
+		tf1.type = &quot;warning&quot;;
+		tf1.showMessage();
+	}
+&lt;/script&gt;
+</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-footer"><!-- Default Example -->
+<mm-footer unresolved fitparent>
+	<mm-button>
+		<label>Save</label>
+	</mm-button>
+</mm-footer>
+<!-- Display Message / Multiple Buttons Example -->
+<mm-footer id="tf1" unresolved fitparent>
+	<mm-action id="closeLink" underline="true">
+		<label>Close</label>
+	</mm-action>
+	<mm-button id="saveAndClose">
+		<label>Save &amp; Close</label>
+	</mm-button>
+	<mm-button id="saveAndAdd">
+		<label>Save &amp; Add Another</label>
+	</mm-button>
+</mm-footer>
+<!-- Align Items Left or Right Example -->
+<mm-footer id="tf2" unresolved fitparent>
+	<mm-checkbox class="left">
+		<label>Don't show again</label>
+	</mm-checkbox>
+	<mm-button>
+		<label>Close</label>
+	</mm-button>
+</mm-footer>
+<!-- Example Scripts -->
+<script>
+	var tf1,
+		tf2,
+		closeLink,
+		saveAndClose,
+		saveAndAdd;
+
+	window.addEventListener("WebComponentsReady", function() {
+		tf1 = document.querySelector("#tf1");
+		tf2 = document.querySelector("#tf2");
+
+		closeLink = document.querySelector("#closeLink");
+		saveAndClose = document.querySelector("#saveAndClose");
+		saveAndAdd = document.querySelector("#saveAndAdd");
+
+		closeLink.addEventListener("click", closeHandler);
+		saveAndClose.addEventListener("click", saveCloseHandler);
+		saveAndAdd.addEventListener("click", saveAddHandler);
+	});
+
+	function closeHandler(e) {
+		e.preventDefault();
+		console.log("closeHandler");
+		// Test messaging:
+		tf1.message = "This is a neat message.";
+		tf1.type = "success";
+		tf1.showMessage();
+	}
+
+	function saveCloseHandler(e) {
+		console.log("saveCloseHandler");
+		// Test messaging:
+		tf1.message = "This is a super message.";
+		tf1.type = "error";
+		tf1.showMessage();
+	}
+
+	function saveAddHandler(e) {
+		console.log("saveAddHandler");
+		// Test messaging:
+		tf1.message = "This is a test message.";
+		tf1.type = "warning";
+		tf1.showMessage();
+	}
+</script>
+</div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">message : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">message</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the feedback message to display, for example - feedback for validation success or failure.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">type : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">info</span><br/>
+									options : <span class="italic"><span class="option">error</span><span class="option">warning</span><span class="option">info</span><span class="option">success</span></span><br/>
+									attribute : <span class="italic">type</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The type of inline message styling to be applied.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">messageVisible : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">message-visible</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets or returns the visible state of the feedback message.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">semiTransparent : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">semi-transparent</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the background of the footer to be semi-transparent, for scenarios where the footer overlays scrollable content.</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">showMessage</span>(<span></span>)<br/>
+									<span class="desc">Shows the feedback message.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">hideMessage</span>(<span></span>)<br/>
+									<span class="desc">Hides the feedback message.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_getting_started.html">Getting Started</a></li>
+							<li><a href="article_data_comps_intro.html">Introduction to Data Components</a></li>
+							<li><a href="article_grid_intro.html">Introduction to mm-grid</a></li>
+							<li><a href="article_migration_guide.html">Migration Guide</a></li>
+							<li><a href="article_repeater.html">Using mm-repeater</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</mm-docs-shell>
 		<script>
 			var name = "mm-footer",
 				articlesNav,
@@ -256,16 +387,17 @@
 				$example,
 				firstRun = true; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
 			function initDoc() {
 				if (firstRun) {
-					articlesNav = document.querySelector("#articlesNav");
-					componentsNav = document.querySelector("#componentsNav");
-					docsShell = document.querySelector("#docsShell");
-					navItems = document.querySelectorAll("mm-list-item");
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
 
 					// default expanded:
 					articlesNav.expanded = false;
@@ -280,9 +412,8 @@
 
 					docsShell.addEventListener("docs-nav-selected", navigateToPage);
 
-					editor = ace.edit("editor-mm-footer");
+					editor = ace.edit("editor");
 					editor.setTheme("ace/theme/chrome");
-					editor.session.setUseWrapMode(true);
 					editor.session.setMode("ace/mode/html");
 					editor.getSession().on('change', _.debounce(update, 500));
 
@@ -292,13 +423,17 @@
 			}
 
 			function update(e) {
+				// console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
-				// hacks to retrigger the scripts in example:
-				window.dispatchEvent(new Event('polymer-ready'));
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
 			}
 
 			function navigateToPage(e) {
-				window.location = e.detail.value;
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
 			}	
 		</script>
 	</body>

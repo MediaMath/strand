@@ -6,45 +6,46 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="HandheldFriendly" content="True"/>
 		<meta name="MobileOptimized" content="320"/>
-		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="theme-color" content="#000000"/>
 		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
 		<title>Strand Web Components</title>
-		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-		<link rel="import" href="strand.html"/>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
-		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
-	</head>	<body unresolved>
-		<mm-docs-shell id="docsShell" version="1.0.1" mobileHeader="Strand Docs">
-			<div class="docs-logo">
-				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
-					<img src="images/strand-logo.svg" />
-				</a>
-				<p class="mini-subhead version">v1.0.1</p>
-			</div>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobile-header="Strand Docs">
 			<mm-docs-nav id="articlesNav">
 				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
-				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
-				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
-				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
-				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
-				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
-				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
-				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
 			</mm-docs-nav>
 			<mm-docs-nav id="componentsNav">
 				<mm-header size="medium">Components</mm-header>
 				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
 				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
 				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
 				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
 				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
 				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
 				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
 				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
 				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
 				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
@@ -52,20 +53,46 @@
 				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
 				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
 				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
 				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
 				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
 				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
 				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
 				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
 				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
 				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
 				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
 				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
 				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
 				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
 				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
 				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
-			</mm-docs-nav>			<article class="layout-article">
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
 				<div class="docs-content">
 					<h1>mm-icon</h1>
 					<p>A set of MediaMath&#39;s commonly used icons.</p>
@@ -73,9 +100,9 @@
 					<section>
 						<h3>Example HTML Editor</h3>
 						<div class="editor-wrapper">
-							<div id="editor-mm-icon" class="editor">&lt;ul&gt;
+							<div id="editor">&lt;ul&gt;
 	&lt;li&gt;
-		&lt;mm-icon type=&quot;actions&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
+		&lt;mm-icon class=&quot;actions&quot; type=&quot;actions&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;actions&lt;/p&gt;
 	&lt;/li&gt;
 	&lt;li&gt;
@@ -101,6 +128,10 @@
 	&lt;li&gt;
 		&lt;mm-icon type=&quot;bar-chart&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;bar-chart&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;mm-icon type=&quot;block-arrow&quot; width=&quot;32&quot; height=&quot;32&quot; unresolved&gt;&lt;/mm-icon&gt;
+		&lt;p&gt;block-arrow&lt;/p&gt;
 	&lt;/li&gt;
 	&lt;li&gt;
 		&lt;mm-icon type=&quot;budget-flight&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
@@ -162,6 +193,12 @@
 		&lt;mm-icon type=&quot;clock&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;clock&lt;/p&gt;
 	&lt;/li&gt;
+
+	&lt;li&gt;
+		&lt;mm-icon type=&quot;companion&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
+		&lt;p&gt;companion&lt;/p&gt;
+	&lt;/li&gt;
+
 	&lt;li&gt;
 		&lt;mm-icon type=&quot;contextual&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;contextual&lt;/p&gt;
@@ -343,6 +380,10 @@
 		&lt;p&gt;play&lt;/p&gt;
 	&lt;/li&gt;
 	&lt;li&gt;
+		&lt;mm-icon type=&quot;player&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
+		&lt;p&gt;player&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
 		&lt;mm-icon type=&quot;plus&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;plus&lt;/p&gt;
 	&lt;/li&gt;
@@ -399,6 +440,10 @@
 		&lt;p&gt;tools&lt;/p&gt;
 	&lt;/li&gt;
 	&lt;li&gt;
+		&lt;mm-icon type=&quot;tracker&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
+		&lt;p&gt;tracker&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
 		&lt;mm-icon type=&quot;unlock&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;unlock&lt;/p&gt;
 	&lt;/li&gt;
@@ -426,6 +471,10 @@
 		&lt;mm-icon type=&quot;wireless&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
 		&lt;p&gt;wireless&lt;/p&gt;
 	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;mm-icon type=&quot;xml&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/mm-icon&gt;
+		&lt;p&gt;xml&lt;/p&gt;
+	&lt;/li&gt;
 &lt;/ul&gt;</div>
 						</div>
 					</section>
@@ -433,7 +482,7 @@
 						<h3>Example Output</h3>
 						<div class="content-box example" id="example-mm-icon"><ul>
 	<li>
-		<mm-icon type="actions" width="32" height="32"></mm-icon>
+		<mm-icon class="actions" type="actions" width="32" height="32"></mm-icon>
 		<p>actions</p>
 	</li>
 	<li>
@@ -459,6 +508,10 @@
 	<li>
 		<mm-icon type="bar-chart" width="32" height="32"></mm-icon>
 		<p>bar-chart</p>
+	</li>
+	<li>
+		<mm-icon type="block-arrow" width="32" height="32" unresolved></mm-icon>
+		<p>block-arrow</p>
 	</li>
 	<li>
 		<mm-icon type="budget-flight" width="32" height="32"></mm-icon>
@@ -520,6 +573,12 @@
 		<mm-icon type="clock" width="32" height="32"></mm-icon>
 		<p>clock</p>
 	</li>
+
+	<li>
+		<mm-icon type="companion" width="32" height="32"></mm-icon>
+		<p>companion</p>
+	</li>
+
 	<li>
 		<mm-icon type="contextual" width="32" height="32"></mm-icon>
 		<p>contextual</p>
@@ -701,6 +760,10 @@
 		<p>play</p>
 	</li>
 	<li>
+		<mm-icon type="player" width="32" height="32"></mm-icon>
+		<p>player</p>
+	</li>
+	<li>
 		<mm-icon type="plus" width="32" height="32"></mm-icon>
 		<p>plus</p>
 	</li>
@@ -757,6 +820,10 @@
 		<p>tools</p>
 	</li>
 	<li>
+		<mm-icon type="tracker" width="32" height="32"></mm-icon>
+		<p>tracker</p>
+	</li>
+	<li>
 		<mm-icon type="unlock" width="32" height="32"></mm-icon>
 		<p>unlock</p>
 	</li>
@@ -784,123 +851,124 @@
 		<mm-icon type="wireless" width="32" height="32"></mm-icon>
 		<p>wireless</p>
 	</li>
+	<li>
+		<mm-icon type="xml" width="32" height="32"></mm-icon>
+		<p>xml</p>
+	</li>
 </ul></div>
 					</section>
-					<section>
-						<h3>Attributes</h3>
-						<table>
-							<tr>
-								<th>Attribute</th>								
-								<th>Options</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">type : </span>String (Optional)
-									<span class="desc italic">Default value: plus</span>
-									<span class="desc">The name of the icon.</span>
-								</td>
-								<td><span class="option">'actions'</span><span class="option">'action'</span><span class="option">'alerts'</span><span class="option">'all channels'</span><span class="option">'apps'</span><span class="option">'audience'</span><span class="option">'bar-chart'</span><span class="option">'budget-flight'</span><span class="option">'calendar'</span><span class="option">'campaigns'</span><span class="option">'carat-line'</span><span class="option">'carat'</span><span class="option">'card'</span><span class="option">'certificate'</span><span class="option">'changelog'</span><span class="option">'chart-dashed-2'</span><span class="option">'chart-dashed'</span><span class="option">'chart'</span><span class="option">'check-alt'</span><span class="option">'check'</span><span class="option">'circle-arrow'</span><span class="option">'clock'</span><span class="option">'contextual'</span><span class="option">'creatives'</span><span class="option">'cycle-arrow'</span><span class="option">'day-part'</span><span class="option">'deals'</span><span class="option">'delete'</span><span class="option">'details'</span><span class="option">'display'</span><span class="option">'document'</span><span class="option">'dots'</span><span class="option">'download'</span><span class="option">'drag-drop'</span><span class="option">'duplicate'</span><span class="option">'edit'</span><span class="option">'event-marker'</span><span class="option">'exclude'</span><span class="option">'expand-all'</span><span class="option">'fail'</span><span class="option">'favorite'</span><span class="option">'filter'</span><span class="option">'geo-map'</span><span class="option">'geo-tag'</span><span class="option">'grid-table'</span><span class="option">'group'</span><span class="option">'health'</span><span class="option">'include-outline'</span><span class="option">'include'</span><span class="option">'info'</span><span class="option">'jump-to'</span><span class="option">'left-right-arrow'</span><span class="option">'lego'</span><span class="option">'line-chart-2nd'</span><span class="option">'line-chart'</span><span class="option">'lock'</span><span class="option">'mail'</span><span class="option">'minus'</span><span class="option">'my-data'</span><span class="option">'partial-include'</span><span class="option">'partial'</span><span class="option">'pause'</span><span class="option">'pie-chart'</span><span class="option">'pixels'</span><span class="option">'play'</span><span class="option">'plus'</span><span class="option">'preview'</span><span class="option">'question'</span><span class="option">'refresh'</span><span class="option">'reporting'</span><span class="option">'scatter-plot'</span><span class="option">'search'</span><span class="option">'site-list'</span><span class="option">'sort'</span><span class="option">'success'</span><span class="option">'supply-node'</span><span class="option">'supply'</span><span class="option">'three-pas-adserver'</span><span class="option">'tools'</span><span class="option">'unlock'</span><span class="option">'up-arrow'</span><span class="option">'upload'</span><span class="option">'user'</span><span class="option">'video'</span><span class="option">'warning'</span><span class="option">'wireless'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">width : </span>Number (Optional)
-									<span class="desc italic">Default value: 28</span>
-									<span class="desc">the width of the icon in pixels</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">height : </span>Number (Optional)
-									<span class="desc italic">Default value: 28</span>
-									<span class="desc">the height of the icon in pixels</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">primaryColor : </span>String (Optional)
-									<span class="desc italic">Default value: #333</span>
-									<span class="desc">The hex value to color the icon</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">hoverColor : </span>String (Optional)
-									<span class="desc italic">Default value: null</span>
-									<span class="desc">The hex value to color the icon upon hover</span>
-								</td>
-								<td>none</td>
-							</tr>
-						</table>
-					</section>
+
 					<section>
 						<h3>Public Properties</h3>
 						<table>
 							<tr>
-								<th>Properties</th>								
-								<th>Options</th>
+								<th>Property</th>
+								<th>Description</th>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">width : </span>Number
-									<span class="desc italic">Default value: 28</span>
-									<span class="desc">the width of the icon in pixels</span>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
 								</td>
-								<td>none</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">height : </span>Number
-									<span class="desc italic">Default value: 28</span>
-									<span class="desc">the height of the icon in pixels</span>
+									<span class="bold">type : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">plus</span><br/>
+									options : <span class="italic"><span class="option">actions</span><span class="option">action</span><span class="option">alerts</span><span class="option">all channels</span><span class="option">apps</span><span class="option">audience</span><span class="option">bar-chart</span><span class="option">block-arrow</span><span class="option">budget-flight</span><span class="option">calendar</span><span class="option">campaigns</span><span class="option">carat-line</span><span class="option">carat</span><span class="option">card</span><span class="option">certificate</span><span class="option">changelog</span><span class="option">chart-dashed-2</span><span class="option">chart-dashed</span><span class="option">chart</span><span class="option">check-alt</span><span class="option">check</span><span class="option">circle-arrow</span><span class="option">clock</span><span class="option">companion</span><span class="option">contextual</span><span class="option">creatives</span><span class="option">cycle-arrow</span><span class="option">day-part</span><span class="option">deals</span><span class="option">delete</span><span class="option">details</span><span class="option">display</span><span class="option">document</span><span class="option">dots</span><span class="option">download</span><span class="option">drag-drop</span><span class="option">duplicate</span><span class="option">edit</span><span class="option">event-marker</span><span class="option">exclude</span><span class="option">expand-all</span><span class="option">fail</span><span class="option">favorite</span><span class="option">filter</span><span class="option">geo-map</span><span class="option">geo-tag</span><span class="option">grid-table</span><span class="option">group</span><span class="option">health</span><span class="option">include-outline</span><span class="option">include</span><span class="option">info</span><span class="option">jump-to</span><span class="option">left-right-arrow</span><span class="option">lego</span><span class="option">line-chart-2nd</span><span class="option">line-chart</span><span class="option">lock</span><span class="option">mail</span><span class="option">minus</span><span class="option">my-data</span><span class="option">partial-include</span><span class="option">partial</span><span class="option">pause</span><span class="option">pie-chart</span><span class="option">pixels</span><span class="option">play</span><span class="option">player</span><span class="option">plus</span><span class="option">preview</span><span class="option">question</span><span class="option">refresh</span><span class="option">reporting</span><span class="option">scatter-plot</span><span class="option">search</span><span class="option">site-list</span><span class="option">sort</span><span class="option">success</span><span class="option">supply-node</span><span class="option">supply</span><span class="option">three-pas-adserver</span><span class="option">tools</span><span class="option">tracker</span><span class="option">unlock</span><span class="option">up-arrow</span><span class="option">upload</span><span class="option">user</span><span class="option">video</span><span class="option">warning</span><span class="option">wireless</span><span class="option">xml</span></span><br/>
+									attribute : <span class="italic">type</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
 								</td>
-								<td>none</td>
+								<td>
+									<span class="desc">A string value for the name of the desired icon. Sets the type of icon to be displayed. See the options for naming and example for visual reference.</span>
+								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">type : </span>String
-									<span class="desc italic">Default value: plus</span>
-									<span class="desc">the type of icon to display. values are identical to the type html attribute.</span>
+									<span class="bold">width : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">28</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">width</span><br/>
+									reflected to attribute : <span class="italic">no</span>
 								</td>
-								<td>none</td>
+								<td>
+									<span class="desc">Sets the width of the icon in pixels.</span>
+								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">primaryColor : </span>String
-									<span class="desc italic">Default value: #333</span>
-									<span class="desc">The hex value to color the icon</span>
+									<span class="bold">height : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">28</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">height</span><br/>
+									reflected to attribute : <span class="italic">no</span>
 								</td>
-								<td>none</td>
-							</tr>
-							<tr>
 								<td>
-									<span class="bold">hoverColor : </span>String
-									<span class="desc italic">Default value: null</span>
-									<span class="desc">The hex value to color the icon upon hover</span>
+									<span class="desc">Sets the height of the icon in pixels.</span>
 								</td>
-								<td>none</td>
 							</tr>
 						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">styleBlock</span>(<span></span>)<br/>
+									<span class="desc">Returns an array of styles to be used in attribute binding.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">classBlock</span>(<span></span>)<br/>
+									<span class="desc">Returns an array of classes to be used in attribute binding.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_getting_started.html">Getting Started</a></li>
+							<li><a href="article_data_comps_intro.html">Introduction to Data Components</a></li>
+							<li><a href="article_grid_intro.html">Introduction to mm-grid</a></li>
+							<li><a href="article_migration_guide.html">Migration Guide</a></li>
+							<li><a href="article_repeater.html">Using mm-repeater</a></li>
+						</ul>
 					</section>
 				</div>
 				<div class="layout-push"></div>
 			</article>
-			<footer class="footer">
-				<div class="docs-footer">
-					<div class="footer-logo-box">
-						<div class="powered-by">
-							<p class="mini-subhead">Powered By</p>
-							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
-						</div>
-						<div class="mediamath">
-							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
-						</div>
-					</div>
-					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
-				</div>
-			</footer>		</mm-docs-shell>
+		</mm-docs-shell>
 		<script>
 			var name = "mm-icon",
 				articlesNav,
@@ -911,16 +979,17 @@
 				$example,
 				firstRun = true; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
 			function initDoc() {
 				if (firstRun) {
-					articlesNav = document.querySelector("#articlesNav");
-					componentsNav = document.querySelector("#componentsNav");
-					docsShell = document.querySelector("#docsShell");
-					navItems = document.querySelectorAll("mm-list-item");
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
 
 					// default expanded:
 					articlesNav.expanded = false;
@@ -935,9 +1004,8 @@
 
 					docsShell.addEventListener("docs-nav-selected", navigateToPage);
 
-					editor = ace.edit("editor-mm-icon");
+					editor = ace.edit("editor");
 					editor.setTheme("ace/theme/chrome");
-					editor.session.setUseWrapMode(true);
 					editor.session.setMode("ace/mode/html");
 					editor.getSession().on('change', _.debounce(update, 500));
 
@@ -947,13 +1015,17 @@
 			}
 
 			function update(e) {
+				// console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
-				// hacks to retrigger the scripts in example:
-				window.dispatchEvent(new Event('polymer-ready'));
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
 			}
 
 			function navigateToPage(e) {
-				window.location = e.detail.value;
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
 			}	
 		</script>
 	</body>

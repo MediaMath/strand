@@ -6,45 +6,46 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="HandheldFriendly" content="True"/>
 		<meta name="MobileOptimized" content="320"/>
-		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="theme-color" content="#000000"/>
 		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
 		<title>Strand Web Components</title>
-		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-		<link rel="import" href="strand.html"/>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
-		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
-	</head>	<body unresolved>
-		<mm-docs-shell id="docsShell" version="1.0.1" mobileHeader="Strand Docs">
-			<div class="docs-logo">
-				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
-					<img src="images/strand-logo.svg" />
-				</a>
-				<p class="mini-subhead version">v1.0.1</p>
-			</div>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobile-header="Strand Docs">
 			<mm-docs-nav id="articlesNav">
 				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
-				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
-				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
-				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
-				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
-				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
-				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
-				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
 			</mm-docs-nav>
 			<mm-docs-nav id="componentsNav">
 				<mm-header size="medium">Components</mm-header>
 				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
 				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
 				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
 				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
 				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
 				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
 				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
 				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
 				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
 				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
@@ -52,120 +53,33 @@
 				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
 				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
 				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
 				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
 				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
 				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
 				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
 				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
 				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
 				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
 				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
 				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
 				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
 				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
 				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
 				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
-			</mm-docs-nav>			<article class="layout-article">
-				<div class="docs-content">
-					<h1>mm-button</h1>
-					<p>A fully-styled primary and secondary button.</p>
-					<hr/>
-					<section>
-						<h3>Example HTML Editor</h3>
-						<div class="editor-wrapper">
-							<div id="editor-mm-button" class="editor">&lt;mm-button type=&quot;secondary&quot; unresolved&gt;
-	&lt;label&gt;button title here&lt;/label&gt;
-&lt;/mm-button&gt;
-&lt;mm-button type=&quot;primary&quot; unresolved&gt;
-	&lt;label&gt;button title here&lt;/label&gt;
-&lt;/mm-button&gt;
-&lt;mm-button type=&quot;primary&quot; fitparent unresolved&gt;
-	&lt;label&gt;button title here&lt;/label&gt;
-&lt;/mm-button&gt;</div>
-						</div>
-					</section>
-					<section>
-						<h3>Example Output</h3>
-						<div class="content-box example" id="example-mm-button"><mm-button type="secondary" unresolved>
-	<label>button title here</label>
-</mm-button>
-<mm-button type="primary" unresolved>
-	<label>button title here</label>
-</mm-button>
-<mm-button type="primary" fitparent unresolved>
-	<label>button title here</label>
-</mm-button></div>
-					</section>
-					<section>
-						<h3>Attributes</h3>
-						<table>
-							<tr>
-								<th>Attribute</th>								
-								<th>Options</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">type : </span>String (Optional)
-									<span class="desc italic">Default value: primary</span>
-									<span class="desc">The type of styling to be applied to the button</span>
-								</td>
-								<td><span class="option">'primary'</span><span class="option">'secondary'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">selected : </span>Boolean (Optional)
-									<span class="desc italic">Default value: null</span>
-									<span class="desc">Display the selected state of button, for use in a toggle scenario</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">fit : </span>Boolean (Optional)
-									<span class="desc italic">Default value: null</span>
-									<span class="desc">Instructs the component to fit to its parent container&#39;s width (percent or pixel width).</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">disabled : </span>Boolean (Optional)
-									<span class="desc italic">Default value: false</span>
-									<span class="desc">Disable the item</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-						</table>
-					</section>
-					<section>
-						<h3>Public Properties</h3>
-						<table>
-							<tr>
-								<th>Properties</th>								
-								<th>Options</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">type : </span>String
-									<span class="desc italic">Default value: primary</span>
-									<span class="desc">The type of the button -- which informs it&#39;s style (&#39;primary&#39; for primary, secondary otherwise).</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">error : </span>Boolean
-									<span class="desc italic">Default value: false</span>
-									<span class="desc">Triggers the display of invalid visual state.</span>
-								</td>
-								<td>none</td>
-							</tr>
-						</table>
-					</section>
-				</div>
-				<div class="layout-push"></div>
-			</article>
-			<footer class="footer">
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
 						<div class="powered-by">
@@ -178,7 +92,185 @@
 					</div>
 					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
 				</div>
-			</footer>		</mm-docs-shell>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-button</h1>
+					<p>A fully-styled primary and secondary button.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;mm-button type=&quot;secondary&quot;&gt;
+	&lt;label&gt;button title here&lt;/label&gt;
+&lt;/mm-button&gt;
+&lt;mm-button type=&quot;primary&quot;&gt;
+	&lt;label&gt;button title here&lt;/label&gt;
+&lt;/mm-button&gt;
+&lt;mm-button type=&quot;primary&quot; fitparent&gt;
+	&lt;label&gt;button title here&lt;/label&gt;
+&lt;/mm-button&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-button"><mm-button type="secondary">
+	<label>button title here</label>
+</mm-button>
+<mm-button type="primary">
+	<label>button title here</label>
+</mm-button>
+<mm-button type="primary" fitparent>
+	<label>button title here</label>
+</mm-button></div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">type : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">primary</span><br/>
+									options : <span class="italic"><span class="option">primary</span><span class="option">secondary</span></span><br/>
+									attribute : <span class="italic">type</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">Sets the type of styling which is applied to the button.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">selected : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">selected</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">Sets the visual state to &#39;selected&#39;. Ideal for use in scenario where it may be necessary to toggle the button&#39;s visual state (see: mm-group).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">fitparent : </span><span class="italic">Boolen&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">fitparent</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">Sets the width of the component to fill the width of it&#39;s parent element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">layout : </span><span class="italic">Boolen&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic"><span class="option">hgroup-left</span><span class="option">hgroup-center</span><span class="option">hgroup-right</span></span><br/>
+									attribute : <span class="italic">layout</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">Sets the layout of the button, used to style mm-buttons which appears in a grouping scenario (see: mm-group).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">disabled : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">disabled</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">Sets the visual and interaction state to be disabled.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">size : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic"><span class="option">normal</span><span class="option">large</span><span class="option">small</span></span><br/>
+									attribute : <span class="italic">size</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">instructs the component to be displayed at a predetermined size (i.e. - &#39;normal&#39; or &#39;large&#39;)</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">styleBlock</span>(<span></span>)<br/>
+									<span class="desc">Returns an array of styles to be used in attribute binding.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">classBlock</span>(<span></span>)<br/>
+									<span class="desc">Returns an array of classes to be used in attribute binding.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_getting_started.html">Getting Started</a></li>
+							<li><a href="article_data_comps_intro.html">Introduction to Data Components</a></li>
+							<li><a href="article_grid_intro.html">Introduction to mm-grid</a></li>
+							<li><a href="article_migration_guide.html">Migration Guide</a></li>
+							<li><a href="article_repeater.html">Using mm-repeater</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</mm-docs-shell>
 		<script>
 			var name = "mm-button",
 				articlesNav,
@@ -189,16 +281,17 @@
 				$example,
 				firstRun = true; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
 			function initDoc() {
 				if (firstRun) {
-					articlesNav = document.querySelector("#articlesNav");
-					componentsNav = document.querySelector("#componentsNav");
-					docsShell = document.querySelector("#docsShell");
-					navItems = document.querySelectorAll("mm-list-item");
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
 
 					// default expanded:
 					articlesNav.expanded = false;
@@ -213,9 +306,8 @@
 
 					docsShell.addEventListener("docs-nav-selected", navigateToPage);
 
-					editor = ace.edit("editor-mm-button");
+					editor = ace.edit("editor");
 					editor.setTheme("ace/theme/chrome");
-					editor.session.setUseWrapMode(true);
 					editor.session.setMode("ace/mode/html");
 					editor.getSession().on('change', _.debounce(update, 500));
 
@@ -225,13 +317,17 @@
 			}
 
 			function update(e) {
+				// console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
-				// hacks to retrigger the scripts in example:
-				window.dispatchEvent(new Event('polymer-ready'));
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
 			}
 
 			function navigateToPage(e) {
-				window.location = e.detail.value;
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
 			}	
 		</script>
 	</body>

@@ -6,45 +6,46 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="HandheldFriendly" content="True"/>
 		<meta name="MobileOptimized" content="320"/>
-		<meta name="theme-color" content="#000000"/><!-- TODO : Add correct theme color -->
+		<meta name="theme-color" content="#000000"/>
 		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
 		<title>Strand Web Components</title>
-		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-		<link rel="import" href="strand.html"/>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="docs.css" shim-shadowdom/>
-		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
-	</head>	<body unresolved>
-		<mm-docs-shell id="docsShell" version="1.0.1" mobileHeader="Strand Docs">
-			<div class="docs-logo">
-				<a href="http://mediamath.github.io/strand/" target="_self" class="strand-logo">
-					<img src="images/strand-logo.svg" />
-				</a>
-				<p class="mini-subhead version">v1.0.1</p>
-			</div>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobile-header="Strand Docs">
 			<mm-docs-nav id="articlesNav">
 				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
-				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introducing Data Components</mm-list-item>
-				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using MM-Ajax</mm-list-item>
-				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using MM-Sync</mm-list-item>
-				<mm-list-item id="data_comps_creating_adapters" value="article_data_comps_creating_adapters.html" class="child">Creating Adapters</mm-list-item>
-				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
-				<mm-list-item id="grid_config" value="article_grid_config.html" class="child">Configuring mm-grid</mm-list-item>
-				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child">Data Integration with mm-grid</mm-list-item>
 			</mm-docs-nav>
 			<mm-docs-nav id="componentsNav">
 				<mm-header size="medium">Components</mm-header>
 				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
 				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
 				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
 				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
 				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
 				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
 				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
 				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
 				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
 				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
@@ -52,365 +53,33 @@
 				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
 				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
 				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
 				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
 				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
 				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
 				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
 				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
 				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
 				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
 				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
 				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
 				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
 				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
 				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
 				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
-			</mm-docs-nav>			<article class="layout-article">
-				<div class="docs-content">
-					<h1>mm-collection</h1>
-					<p>A simple collection wrapper component useful for 2 way binding to lists of data</p>
-					<hr/>
-					<section>
-						<h3>Example HTML Editor</h3>
-						<div class="editor-wrapper">
-							<div id="editor-mm-collection" class="editor">&lt;!-- note this example is intended to show how to use a collection with a data adapter, the example adapter does not exist --&gt;
-&lt;template is=&quot;auto-binding&quot;&gt;
-	&lt;mm-input value=&quot;{{terms}}&quot;&gt;&lt;/mm-input&gt;
-	&lt;mm-collection id=&quot;searchResults&quot; adapter=&quot;MMAdapterGithub&quot; auto&gt;
-		&lt;q&gt;{{terms}}&lt;/q&gt;
-	&lt;/mm-collection&gt;
-	&lt;template repeat=&quot;{{$.searchResults.data}}&quot;&gt;
-		&lt;div&gt;{{name}}&lt;/div&gt;
-	&lt;/template&gt;
-&lt;/template&gt;</div>
-						</div>
-					</section>
-					<section>
-						<h3>Example Output</h3>
-						<div class="content-box example" id="example-mm-collection"><!-- note this example is intended to show how to use a collection with a data adapter, the example adapter does not exist -->
-<template is="auto-binding">
-	<mm-input value="{{terms}}"></mm-input>
-	<mm-collection id="searchResults" adapter="MMAdapterGithub" auto>
-		<q>{{terms}}</q>
-	</mm-collection>
-	<template repeat="{{$.searchResults.data}}">
-		<div>{{name}}</div>
-	</template>
-</template></div>
-					</section>
-					<section>
-						<h3>Attributes</h3>
-						<table>
-							<tr>
-								<th>Attribute</th>								
-								<th>Options</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">batchSync : </span>Boolean (Optional)
-									<span class="desc italic">Default value: false</span>
-									<span class="desc">Manages adapter batch mode. When true and POSTing a collection, the adapter will make individual model calls instead of trying to post the data in a single call</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">adapter : </span>string (Optional)
-									<span class="desc italic">Default value: &#39;&#39;</span>
-									<span class="desc">A constructor string for the adapter to inflate for this model to persist changes to that API. This is typically of the format MMAdapterAPINAME</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">dirtyFetch : </span>Boolean (Optional)
-									<span class="desc italic">Default value: false</span>
-									<span class="desc">Indicates that the sorting has changed for the collection so the next fetch should replace all existing data with clean server data.  Generally only used by adapters</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">isLoading : </span>Boolean (Optional)
-									<span class="desc italic">Default value: false</span>
-									<span class="desc">Bindable flag to determine if the collection is loading data or not. This is useful for binding a loading indicator&#39;s display to.</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">auto : </span>Boolean/String (Optional)
-									<span class="desc italic">Default value: false</span>
-									<span class="desc">Setting for the adapter to automatically sync data to and from server when params or data change</span>
-								</td>
-								<td><span class="option">'false'</span><span class="option">'true'</span><span class="option">'load'</span><span class="option">'save'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">sparse : </span>Boolean (Optional)
-									
-									<span class="desc">Determines if the collection.data should retain empty places for pages that have not yet been fetched. This is useful for showing accurate scrollbars in bound grids.</span>
-								</td>
-								<td><span class="option">'true'</span><span class="option">'false'</span></td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">data : </span>Array (Optional)
-									<span class="desc italic">Default value: []</span>
-									<span class="desc">The array that this collection stores its data in</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">page : </span>Number (Optional)
-									
-									<span class="desc">The current page number of records to retrieve</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">pageSize : </span>Number (Optional)
-									<span class="desc italic">Default value: 10</span>
-									<span class="desc">How many records to retrieve for each call. </span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">index : </span>Number (Optional)
-									<span class="desc italic">Default value: 0</span>
-									<span class="desc">Index is the raw record that the collection is currently &#39;pointed&#39; at. This is essentially the page * pageSize with some readahead values</span>
-								</td>
-								<td>none</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">indexOffset : </span>Number (Optional)
-									<span class="desc italic">Default value: 0</span>
-									<span class="desc">The readahead value used to calculate index. This is useful for fast scrolling lists like grids where the data should be retrieved ahead of users&#39;s actions where possible</span>
-								</td>
-								<td>none</td>
-							</tr>
-						</table>
-					</section>
-					<section>
-						<h3>Public Methods</h3>
-						<table>
-							<tr>
-								<th>Method</th>
-								<th>Arguements</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">create</span>(<span><span class="option">init</span><span class="option">silent</span></span>)
-									<span class="desc">Creates a new MM-Model instance and appends it to the collection data</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">init</span> : Object
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">The data to insert into the model</span>
-									</span>
-									<span class="arg">
-										<span class="bold">silent</span> : Boolean (Optional)
-										<span class="desc italic">Default value: false</span>
-										<span class="desc">If true the collection will not fire an event when the new model is added.</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">add</span>(<span><span class="option">model</span><span class="option">silent</span><span class="option">force</span></span>)
-									<span class="desc">Adds an existing MM-Model instance to the collection.</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">model</span> : Object
-										
-										<span class="desc">MM-Model reference to add to collection.</span>
-									</span>
-									<span class="arg">
-										<span class="bold">silent</span> :  (Optional)
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">If true the collection will not fire an event when the new model is added.</span>
-									</span>
-									<span class="arg">
-										<span class="bold">force</span> :  (Optional)
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">If true the collection will skip model verification and append to the data array without checking for duplicates.</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">get</span>(<span><span class="option">index</span></span>)
-									<span class="desc">Retreieves a model by niave index</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">index</span> : Number
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">The index of the model to retreive</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">getData</span>(<span><span class="option">index</span></span>)
-									<span class="desc">Retrieves the data for a model at a niave index</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">index</span> : Number
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">The index of the model from which to obtain data</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">delete</span>(<span><span class="option">model</span></span>)
-									<span class="desc">Deletes a model from the collection</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">model</span> : Object/Index
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">May be either an MM-Model object or a niave index to a model in the collection that you wish to delete. Client side deletion only.</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">clear</span>(<span><span class="option">silent</span></span>)
-									<span class="desc">Empties the collection. Client side.</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">silent</span> : Boolean
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">If true a changed event is not dispatched from the collection when it is emptied</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">empty</span>(<span><span class="option">silent</span></span>)
-									<span class="desc">Empties the collection. Client side.</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">silent</span> : Boolean
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">If true a changed event is not dispatched from the collection when it is emptied</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">save</span>(<span></span>)
-									<span class="desc">An alias method to post() in the adapter</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">update</span>(<span></span>)
-									<span class="desc">An alias method to put() in the adapter</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">fetch</span>(<span></span>)
-									<span class="desc">An alias method to get() in the adapter</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">destroy</span>(<span></span>)
-									<span class="desc">An alias method to delete() in the adapter</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">each</span>(<span><span class="option">callback</span></span>)
-									<span class="desc">ala forEach in an array, calls the callback for each model in the array and passes it the model</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">callback</span> : Function
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">The callback to call for each model. This behaves identically to instance.data.forEach</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">where</span>(<span><span class="option">obj</span><span class="option">matchValues</span></span>)
-									<span class="desc">Return a filtered set of collections based on a matching object. If the 2nd param is true the values in this object must also match.</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">obj</span> : Object
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">The matching Object to filter the collection by</span>
-									</span>
-									<span class="arg">
-										<span class="bold">matchValues</span> : Boolean
-										<span class="desc italic">Default value: null</span>
-										<span class="desc">When matchValues is false, the filter will return any models that have the same keys as the matching object. When true the values will be considered as well when filtering.</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">invalidate</span>(<span></span>)
-									<span class="desc">Invalidates the collection when sorting has changed. This assumes that all current data is now invalid and should be replaced with the next fetch.</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-						</table>
-					</section>
-					<section>
-						<h3>Events</h3>
-						<table>
-							<tr>
-								<th>Event</th>
-								<th>Event Detail</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">Type</span> : ''</span>
-									
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold"></span> : 
-										
-									</span>
-								</td>
-							</tr>
-						</table>
-					</section>
-				</div>
-				<div class="layout-push"></div>
-			</article>
-			<footer class="footer">
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
 						<div class="powered-by">
@@ -423,7 +92,352 @@
 					</div>
 					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
 				</div>
-			</footer>		</mm-docs-shell>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>mm-collection</h1>
+					<p>A simple collection wrapper component useful for 2 way binding to lists of data</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;template is=&quot;dom-bind&quot;&gt;
+	&lt;mm-collection id=&quot;searchResults&quot; data=&quot;{{dataList}}&quot; auto=&quot;false&quot;&gt;
+	&lt;/mm-collection&gt;
+	&lt;template is=&quot;dom-repeat&quot; items=&quot;{{datalist}}&quot;&gt;
+		&lt;div&gt;{{item.name}}&lt;/div&gt;
+	&lt;/template&gt;
+&lt;/template&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-mm-collection"><template is="dom-bind">
+	<mm-collection id="searchResults" data="{{dataList}}" auto="false">
+	</mm-collection>
+	<template is="dom-repeat" items="{{datalist}}">
+		<div>{{item.name}}</div>
+	</template>
+</template></div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">page : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">page</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">the current page number</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">pageSize : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">10</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">pageSize</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">the current number of records requested per page</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">index : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">0</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">index</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">the current record offset. this is used for binding to item recycled UI components</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">pageOptions : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">pageOptions</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Configuration object used to configure paging behavior. pageName is used to denote the key used for the paging index, pageSize is used to denote the width or lenght of a page, url, query and body are all booleans used to determine how the paging data should be passed to the ajax call, and pageType is either &#39;index&#39; or &#39;offset&#39; depending on if the page is calculated from an index and count or is a single record offset value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">adapter : </span><span class="italic">string&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">&#39;&#39;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">adapter</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Futureproofing for API marshalling</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">data : </span><span class="italic">Array&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">[]</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">data</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The array that this collection stores its data in</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">nextPage</span>(<span></span>)<br/>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">prevPage</span>(<span></span>)<br/>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">create</span>(<span><span class="italic option">init</span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Creates a new MM-Model instance and appends it to the collection data</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">init : </span><span class="italic">Object</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The data to insert into the model</span>
+									</span>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">Boolean&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">If true the collection will not fire an event when the new model is added.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">add</span>(<span><span class="italic option">model</span><span class="italic option">silent</span><span class="italic option">force</span></span>)<br/>
+									<span class="desc">Adds an existing MM-Model instance to the collection.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">model : </span><span class="italic">Object</span><br/>
+										<br/>
+										<span class="desc">MM-Model reference to add to collection.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">&nbsp;(optional)</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true the collection will not fire an event when the new model is added.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">force : </span><span class="italic">&nbsp;(optional)</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true the collection will skip model verification and append to the data array without checking for duplicates.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">getModelAt</span>(<span><span class="italic option">index</span></span>)<br/>
+									<span class="desc">Retreieves a model by niave index</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">index : </span><span class="italic">Number</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The index of the model to retreive</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">getDataAt</span>(<span><span class="italic option">index</span></span>)<br/>
+									<span class="desc">Retrieves the data for a model at a niave index</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">index : </span><span class="italic">Number</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The index of the model from which to obtain data</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">delete</span>(<span><span class="italic option">model</span></span>)<br/>
+									<span class="desc">Deletes a model from the collection</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">model : </span><span class="italic">Object/Index</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">May be either an MM-Model object or a niave index to a model in the collection that you wish to delete. Client side deletion only.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">clear</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Empties the collection. Client side.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">Boolean</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true a changed event is not dispatched from the collection when it is emptied</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">empty</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Empties the collection. Client side.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">Boolean</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true a changed event is not dispatched from the collection when it is emptied</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">save</span>(<span></span>)<br/>
+									<span class="desc">An alias method to post() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">update</span>(<span></span>)<br/>
+									<span class="desc">An alias method to put() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">fetch</span>(<span></span>)<br/>
+									<span class="desc">An alias method to get() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">destroy</span>(<span></span>)<br/>
+									<span class="desc">An alias method to delete() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">each</span>(<span><span class="italic option">callback</span></span>)<br/>
+									<span class="desc">ala forEach in an array, calls the callback for each model in the array and passes it the model</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">callback : </span><span class="italic">Function</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The callback to call for each model. This behaves identically to instance.data.forEach</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">where</span>(<span><span class="italic option">obj</span><span class="italic option">matchValues</span></span>)<br/>
+									<span class="desc">Return a filtered set of collections based on a matching object. If the 2nd param is true the values in this object must also match.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">obj : </span><span class="italic">Object</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The matching Object to filter the collection by</span>
+									</span>
+									<span class="arg">
+										<span class="bold">matchValues : </span><span class="italic">Boolean</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">When matchValues is false, the filter will return any models that have the same keys as the matching object. When true the values will be considered as well when filtering.</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Related Articles</h3>
+						<ul>
+							<li><a href="article_getting_started.html">Getting Started</a></li>
+							<li><a href="article_data_comps_intro.html">Introduction to Data Components</a></li>
+							<li><a href="article_grid_intro.html">Introduction to mm-grid</a></li>
+							<li><a href="article_migration_guide.html">Migration Guide</a></li>
+							<li><a href="article_repeater.html">Using mm-repeater</a></li>
+						</ul>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</mm-docs-shell>
 		<script>
 			var name = "mm-collection",
 				articlesNav,
@@ -434,16 +448,17 @@
 				$example,
 				firstRun = true; 
 
-			window.addEventListener("polymer-ready", function(e) {
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
 				initDoc();
 			});
 
 			function initDoc() {
 				if (firstRun) {
-					articlesNav = document.querySelector("#articlesNav");
-					componentsNav = document.querySelector("#componentsNav");
-					docsShell = document.querySelector("#docsShell");
-					navItems = document.querySelectorAll("mm-list-item");
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
 
 					// default expanded:
 					articlesNav.expanded = false;
@@ -458,9 +473,8 @@
 
 					docsShell.addEventListener("docs-nav-selected", navigateToPage);
 
-					editor = ace.edit("editor-mm-collection");
+					editor = ace.edit("editor");
 					editor.setTheme("ace/theme/chrome");
-					editor.session.setUseWrapMode(true);
 					editor.session.setMode("ace/mode/html");
 					editor.getSession().on('change', _.debounce(update, 500));
 
@@ -470,13 +484,17 @@
 			}
 
 			function update(e) {
+				// console.log("update was called!");
 				$example.empty().html(editor.session.getValue());
-				// hacks to retrigger the scripts in example:
-				window.dispatchEvent(new Event('polymer-ready'));
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
 			}
 
 			function navigateToPage(e) {
-				window.location = e.detail.value;
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
 			}	
 		</script>
 	</body>

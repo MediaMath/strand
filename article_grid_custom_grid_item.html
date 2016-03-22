@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<mm-docs-shell id="docsShell" version="3.0.0" mobileHeader="Strand Docs">
+			<mm-docs-nav id="articlesNav">
+				<mm-header size="medium">Articles</mm-header>
+				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
+				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</mm-list-item>
+				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using mm-ajax</mm-list-item>
+				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using mm-sync</mm-list-item>
+				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
+				<mm-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring mm-grid</mm-list-item>
+				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with mm-grid</mm-list-item>
+				<mm-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</mm-list-item>
+				<mm-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</mm-list-item>
+				<mm-list-item id="repeater" value="article_repeater.html">Using mm-repeater</mm-list-item>
+			</mm-docs-nav>
+			<mm-docs-nav id="componentsNav">
+				<mm-header size="medium">Components</mm-header>
+				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
+				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
+				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
+				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
+				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
+				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
+				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
+				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
+				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
+				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
+				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
+				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
+				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
+				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
+				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
+				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
+				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
+				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
+				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
+				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
+				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
+				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
+				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
+				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
+				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
+				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
+				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
+				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
+				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
+				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
+				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
+				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
+				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
+				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
+				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
+				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
+				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
+				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
+				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
+				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
+				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
+				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
+			</mm-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v3.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content article">
+					<h1 id="creating-custom-grid-items">Creating Custom Grid Items</h1>
+<h2 id="overview">Overview</h2>
+<p>The grid is quite extendable and can utilize a user-defined template to generate grid items. We recommend utilizing the built-in <code>mm-grid-item</code> component, as it works in tandem with the grid - re-sizable columns, selections, and expansions work out of the box. However, there will undoubtedly be situations where grid items require a more customized approach. </p>
+<h3 id="creating-a-custom-grid-item-template">Creating a custom grid item template</h3>
+<p>In order to use a custom template we create a <code>template</code> DOM fragment inside of our <code>mm-grid</code> tag. Note that the template tag must include the attribute <code>preserve-content</code>, which prevents Polymer from modifying nested <code>&lt;template/&gt;</code> elements unintentionally. </p>
+<p>In this example, we define an <code>&lt;mm-grid-item&gt;</code> with the attributes <code>model</code> and <code>scope</code>. These are two special attributes that give us a particular grid item&#39;s model as well as giving us access to the &quot;scope&quot; of the grid itself.</p>
+<p>Defining <code>&lt;div field=&quot;...&quot;&gt;</code> inside of an <code>mm-grid-item</code> allows us to override that particular data field&#39;s DOM. In the example below we have overridden the <code>first_name</code> column, adding an some custom text, and added a new custom column <code>star_rating</code>.</p>
+<pre><code class="lang-html">    &lt;mm-grid id=&quot;customItems&quot;&gt;
+        &lt;mm-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;star_rating&quot;&gt;Star Rating&lt;/mm-grid-column&gt;
+
+        &lt;template preserve-content&gt;
+            &lt;mm-grid-item model=&quot;{{model}}&quot; scope=&quot;{{scope}}&quot;&gt;
+                &lt;div field=&quot;first_name&quot;&gt;
+                    &lt;span&gt;Star Employee: {{model.first_name}}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div field=&quot;star_rating&quot;&gt;
+                    &lt;template is=&quot;dom-repeat&quot; items=&quot;{{model.stars}}&quot;&gt;
+                        &lt;mm-icon width=&quot;12&quot; height=&quot;12&quot; type=&quot;favorite&quot;&gt;&lt;/mm-icon&gt;
+                    &lt;/template&gt;
+                &lt;/div&gt;
+            &lt;/mm-grid-item&gt;
+        &lt;/template&gt;
+    &lt;/mm-grid&gt;
+
+    &lt;script&gt;
+        window.addEventListener(&quot;WebComponentsReady&quot;, function() {
+            var customItems = document.querySelector(&#39;#customItems&#39;);
+
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            customItems.data = [
+                {     id:0, 
+                    first_name: &quot;Bob&quot;, 
+                    last_name: &quot;Smith&quot;, 
+                    email: &quot;bsmith@gmail.com&quot;, 
+                    stars: new Array(randomInt(1,5)) 
+                },
+                { 
+                    id:1, 
+                    first_name: &quot;Jane&quot;, 
+                    last_name: &quot;Doe&quot;, 
+                    email: &quot;jdoe@gmail.com&quot;, 
+                    stars: new Array(randomInt(1,5))  
+                },
+                { 
+                    id:2, 
+                    first_name: &quot;Rick&quot;, 
+                    last_name: &quot;James&quot;, 
+                    email: &quot;rjames@gmail.com&quot;, 
+                    stars: new Array(randomInt(1,5))  
+                },
+                /* more data items here... */
+            ];
+        });
+    &lt;/script&gt;
+</code></pre>
+<h3 id="using-positionable-strand-components-in-a-custom-grid-item-template">Using positionable Strand components in a custom grid item template</h3>
+<p>When adding some of the web components from the Strand library to a custom grid item, there will be some additional configuration required. Most of the &#39;positionable&#39; components in the Strand library (see: <a href="mm-popover.html">mm-popover</a>, <a href="mm-tooltip.html">mm-tooltip</a>, and <a href="mm-menu.html">mm-menu</a>) require that a <code>target</code> element be specified. Normally, it is sufficient to simply to supply an id string to this attribute, but custom grid items represent a special case.</p>
+<h4 id="adding-a-target-to-a-positionable-component-in-a-custom-grid-item-template">Adding a target to a positionable component in a custom grid item template</h4>
+<p>To supply a <code>target</code> to a positionable component in a custom grid item, a convenience method is available on all Strand components, called <code>findById()</code>. Giving the target element an id. Next, on the positionable element, bind the property <code>target={{findById(&#39;someTargetId&#39;)}}</code>. The positionable component will work as expected within the custom grid item. NOTE: this approach is not necessary when using positionable components outside of a custom grid item template.</p>
+<pre><code class="lang-html">    &lt;mm-grid id=&quot;customItems&quot;&gt;
+        &lt;mm-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;info&quot;&gt;Info&lt;/mm-grid-column&gt;
+
+        &lt;template preserve-content&gt;
+            &lt;mm-grid-item model=&quot;{{model}}&quot; scope=&quot;{{scope}}&quot;&gt;
+                &lt;div field=&quot;info&quot;&gt;
+                    &lt;mm-icon type=&quot;info&quot; id=&quot;infoIcon&quot; width=&quot;12&quot; height=&quot;12&quot;&gt;&lt;/mm-icon&gt;
+                    &lt;mm-tooltip 
+                        id=&quot;infoTip&quot;
+                        model=&quot;{{model}}&quot; 
+                        target=&quot;{{findById(&#39;infoIcon&#39;)}}&quot;&gt;
+                            &lt;label&gt;{{model.tip}}&lt;/label&gt;
+                        &lt;/mm-tooltip&gt;
+                &lt;/div&gt;
+            &lt;/mm-grid-item&gt;
+        &lt;/template&gt;
+    &lt;/mm-grid&gt;
+
+    &lt;script&gt;
+        window.addEventListener(&quot;WebComponentsReady&quot;, function() {
+            var customItems = document.querySelector(&#39;#customItems&#39;);
+
+            customItems.data = [
+                { first_name: &quot;Bob&quot;, last_name: &quot;Smith&quot;, tip: &quot;A real all star employee&quot; },
+                { first_name: &quot;Jane&quot;, last_name: &quot;Doe&quot;, tip: &quot;A great leader&quot;  },
+                { first_name: &quot;Rick&quot;, last_name: &quot;James&quot;, tip: &quot;He&#39;s a cool guy&quot; },
+                /* more data items here... */
+            ];
+        });
+    &lt;/script&gt;
+</code></pre>
+<h3 id="using-dropdowns-in-a-custom-grid-item-template">Using dropdowns in a custom grid item template</h3>
+<p>When using an <code>mm-dropdown</code> component inside of an <code>mm-grid, there will also be some special considerations. At it&#39;s core, the</code>mm-grid` uses item recycling to minimize the amount of DOM nodes necessary in the document. Therefor, the minimum number of grid items are rendered to fill the viewport, and they will be reused over and over, with different data injected.</p>
+<p>To ensure that an custom grid item maintains its state during item recycling, the data for the dropdown must be added to the model for the grid item, and the value for that data also stored to the same model. This way, <code>mm-grid</code> ensures that each item&#39;s model data populates each <code>mm-dropdown</code> is correctly updated upon recycling. </p>
+<pre><code class="lang-html">    &lt;mm-grid id=&quot;customItems&quot;&gt;
+        &lt;mm-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
+        &lt;mm-grid-column field=&quot;role&quot;&gt;Role&lt;/mm-grid-column&gt;
+
+        &lt;template preserve-content&gt;
+            &lt;mm-grid-item model=&quot;{{model}}&quot; scope=&quot;{{scope}}&quot;&gt;
+                &lt;div field=&quot;role&quot;&gt;
+                    &lt;mm-dropdown 
+                        data=&quot;{{model.dropdown_data}}&quot; 
+                        value=&quot;{{model.dropdown_data_value}}&quot;
+                        placeholder=&quot;Select Role&quot;&gt;&lt;/mm-dropdown&gt;
+                &lt;/div&gt;
+            &lt;/mm-grid-item&gt;
+        &lt;/template&gt;
+    &lt;/mm-grid&gt;
+
+    &lt;script&gt;
+        var NUM_ITEMS = 300,
+            data = [];
+
+        function randomInt(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        for(var i=0; i&lt;NUM_ITEMS; i++) {
+            generateItem();
+        }
+
+        function generateItem() {
+            var firstName = Math.random().toString(36).substring(7),
+                lastName =  Math.random().toString(36).substring(7);
+
+            data.push({
+                id:0, 
+                first_name: firstName, 
+                last_name: lastName, 
+                email: lastName + &#39;@gmail.com&#39;, 
+                dropdown_data: getDropdownData(lastName), 
+                dropdown_data_value: null
+            });
+        }
+
+        function getDropdownData(lastName) {
+            return [
+                { &quot;name&quot; : &quot;manager&quot;, &quot;value&quot; : &quot;man&quot; },
+                { &quot;name&quot; : &quot;sales&quot;, &quot;value&quot; : &quot;sal&quot; },
+                { &quot;name&quot; : &quot;developer&quot;, &quot;value&quot; : &quot;dev&quot; },
+                { &quot;name&quot; : &quot;designer&quot;, &quot;value&quot; : &quot;des&quot; },
+            ];
+        }
+
+        window.addEventListener(&quot;WebComponentsReady&quot;, function() {
+            var customItems = document.querySelector(&#39;#customItems&#39;);
+            customItems.data = data;
+        });
+    &lt;/script&gt;
+</code></pre>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</mm-docs-shell>
+		<script>
+			var name = "",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems; 
+
+			window.addEventListener('WebComponentsReady', function() {
+				initDoc();
+			});
+
+			function initDoc() {
+				articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+				componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+				docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+				navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
+
+				// default expanded:
+				articlesNav.expanded = true;
+				componentsNav.expanded = false;
+
+				hljs.initHighlighting();
+
+				Array.prototype.slice.call(navItems).forEach(function(item) {
+					if (item.id === name) {
+						item.selected = true;
+						return;
+					}
+				});
+
+				docsShell.addEventListener("docs-nav-selected", navigateToPage);
+			}
+
+			function navigateToPage(e) {
+				window.location = e.detail.value;
+			}
+		</script>
+	</body>
+</html>
