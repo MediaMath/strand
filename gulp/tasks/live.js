@@ -26,6 +26,14 @@
 			gulp.watch(j(C.SRC, C.SHARED, '**'), ['copy']);
 		});
 
+		gulp.task('debugwatch', function () {
+			gulp.watch(j(C.SRC, C.MODULE_MASK, '/*.scss'), ['debug']);
+			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_HTML), ['debug']);
+			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_JS), ['debug']);
+			gulp.watch(j(C.SRC, C.MODULE_MASK, 'index.html'), ['debug']);
+			gulp.watch(j(C.SRC, C.SHARED, '**'), ['debug']);
+		});
+
 		gulp.task('index', function() {
 			var modules = glob.sync(j(C.MODULE_MASK,"/index.html"), {cwd:C.SRC});
 			var moduleList = modules.map(function(name) { return name.replace('/index.html',''); });
@@ -55,6 +63,8 @@
 		});
 
 		gulp.task('live', ['build', 'index', 'watch', 'server']);
+
+		gulp.task('debug:live', ['debug', 'debugwatch']);
 
 		gulp.task('watch:docs', function() {
 			gulp.watch([j(C.DOCS,'/**/*.md'), C.SRC + '**/doc.json'], ['docs:templates']);
