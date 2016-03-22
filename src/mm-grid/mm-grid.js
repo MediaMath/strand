@@ -70,6 +70,7 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
+			StrandTraits.MixinFindable,
 			StrandTraits.TemplateFindable,
 			StrandTraits.Refable
 		],

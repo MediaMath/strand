@@ -72,10 +72,11 @@ found here: https://github.com/Polymer/core-list
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.WindowNotifier,
+			StrandTraits.MixinFindable,
 			StrandTraits.TemplateFindable,
 			StrandTraits.TemplateComponentizable,
 			StrandTraits.SizeResponsible,
-			StrandTraits.Refable
+			StrandTraits.Refable,
 		],
 
 		properties: {
@@ -645,7 +646,7 @@ found here: https://github.com/Polymer/core-list
 				bound.value = new BoundValue(null, this.scope);
 				bound.element = document.createElement("DIV");
 				this.toggleClass("recycler-panel", true, bound.element);
-				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom);
+				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom, this);
 
 				bound.instance.set("scope", this.scope);
 				bound.instance.set("model", this.data[young]);

@@ -17,7 +17,7 @@
 		(a^Math.random()*16>>a/4).toString(16):
 		([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,b)}; // https://gist.github.com/jed/982883/b64ba1ce6e0d5793473766f55f5422e620e4430e
 
-	function componentFromTemplate (template) {
+	function componentFromTemplate (template, mixinFindable) {
 		var templateIndex = -1;
 		var componentIndex = -1;
 		var html = "";
@@ -32,7 +32,7 @@
 
 				if (componentIndex < 0) {
 					componentIndex = -1 + _htmls.push(html);
-					_components.push(componentFromHTML(html, componentIndex));
+					_components.push(componentFromHTML(html, componentIndex, mixinFindable, template));
 				}
 
 				_templateIndexToComponentIndex.push(componentIndex);
@@ -56,11 +56,45 @@
 		return id;
 	}
 
-	function arrayConcat (a, b) {
-		return a.concat(b);
+	function asArray (value) {
+		return Array.isArray(value) ? value : [ value ];
 	}
 
-	function componentFromHTML (html, index) {
+	function assignFromObjects () {
+		var target = this;
+		var source = this;
+		var count = arguments.length;
+		var index = 0;
+		var descriptor = null;
+
+		for (index; index < count; index++) {
+			source = arguments[index];
+
+			for (var key in source) {
+				descriptor = retrieveDescriptor.call(target, key);
+				if (descriptor) {
+					Object.defineProperty(target, key, descriptor);
+				} else {
+					target[key] = source[key];
+				}
+			}
+		}
+
+		return target;
+	}
+
+	function retrieveDescriptor (key) {
+		var value = this;
+		var descriptor = null;
+
+		do {
+			descriptor = Object.getOwnPropertyDescriptor(value, key) || null;
+		} while (!descriptor && (value = Object.getPrototypeOf(value)))
+
+		return descriptor;
+	}
+
+	function componentFromHTML (html, index, mixinFindable, lookupValue) {
 		var instanceAmount = 1;
 		var guid = reservedUUID();
 		var is = "mm-gen-comp-n"+index+"-x"+guid.split("-").join("");
@@ -211,84 +245,105 @@
 
 
 
-		return Polymer({
-			is: is,
-			extends: "div",
+		var archetype = {};
 
-			behaviors: [
-				StrandTraits.Refable
-			],
+		(function (primaryMixins) {
+			if (primaryMixins) {
+				assignFromObjects.apply(archetype, asArray(primaryMixins));
+			}
+		}(mixinFindable ?
+			mixinFindable.mixinsForValue(lookupValue) ||
+			mixinFindable.mixinsForValuePath(lookupValue, []) : null));
 
-			properties: (function () {
-				var properties = {
-					model: {
-						type: Object,
-						notify: true,
-					},
-					scope: {
-						type: Object,
-						notify: true,
-					},
-				};
+		archetype.is = is;
+		archetype.extends = "div";
 
-				properties[field] = {
-					type: Object,
-					readOnly: true,
-					value: function () {
-						var value = {};
-						value._childNodes = null;
-						value._correctedStyleScopes = 0|false;
-						return value;
-					},
-				};
+		archetype.behaviors = [];
 
-				return properties;
-			}()),
+		(function (behaviorMixins) {
+			if (behaviorMixins) {
+				archetype.behaviors.push.apply(archetype.behaviors, asArray(behaviorMixins));
+			}
+		}(mixinFindable && mixinFindable.mixinsForValuePath(lookupValue, ["behaviors"])));
 
-			instanceTemplate: function (template) {
-				var dom = CustomElements.useNative ?
-					document.importNode(template.content, true) :
-					document.adoptNode(template.content.cloneNode(true));
+		archetype.behaviors.push(StrandTraits.Refable);
 
-				// the above does not work in Safari 8 without the following fix applied
-				if (originals) {
-					Array.apply(null, dom.querySelectorAll("template:not([is])")).forEach(patch, originals);
-				}
+		archetype.properties = {};
 
-				return dom;
+		(function (propertyMixins) {
+			if (propertyMixins) {
+				assignFromObjects.apply(archetype.properties, asArray(propertyMixins));
+			}
+		}(mixinFindable && mixinFindable.mixinsForValuePath(lookupValue, ["properties"])));
+
+
+
+		archetype.properties.model = {
+			type: Object,
+			notify: true,
+		};
+		archetype.properties.scope = {
+			type: Object,
+			notify: true,
+		};
+		archetype.properties[field] = {
+			type: Object,
+			readOnly: true,
+			value: function () {
+				var value = {};
+				value._childNodes = null;
+				value._correctedStyleScopes = 0|false;
+				return value;
 			},
+		};
 
-			attached: function () {
-				if (this.preferLightDom) {
-					lightDomify.call(this);
-				}
+		archetype.instanceTemplate = function (template) {
+			var dom = CustomElements.useNative ?
+				document.importNode(template.content, true) :
+				document.adoptNode(template.content.cloneNode(true));
 
-				if (this[field]._childNodes) {
-					this.async(correctStyleScoping, 0);
-				}
-			},
+			// the above does not work in Safari 8 without the following fix applied
+			if (originals) {
+				Array.apply(null, dom.querySelectorAll("template:not([is])")).forEach(patch, originals);
+			}
 
-			ready: function () {
-				if (this.preferLightDom) {
-					lightDomify.call(this);
-				}
-			},
+			return dom;
+		};
 
-			useLightDom: function () {
-				this.preferLightDom = true;
+		archetype.attached = function () {
+			if (this.preferLightDom) {
 				lightDomify.call(this);
-				this.async(correctStyleScoping, 0);
-			},
+			}
 
-		});
+			if (this[field]._childNodes) {
+				this.async(correctStyleScoping, 0);
+			}
+		};
+
+		archetype.ready = function () {
+			if (this.preferLightDom) {
+				lightDomify.call(this);
+			}
+		};
+
+		archetype.useLightDom = function () {
+			this.preferLightDom = true;
+			lightDomify.call(this);
+			this.async(correctStyleScoping, 0);
+		};
+
+
+
+		return Polymer(archetype);
 	}
 
 
 
 	scope.TemplateComponentizable = {
 
-		instantiateTemplate: function (template, useLightDom) {
-			var Type = template && componentFromTemplate(template) || null;
+		instantiateTemplate: function (template, useLightDom, mixinFindable) {
+			var findable = mixinFindable ? mixinFindable.mixinFindable : null;
+			var Type = template && componentFromTemplate(template, findable) || null;
 			var instance = Type ? new Type : null;
 
 			if (useLightDom) {

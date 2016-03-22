@@ -1,0 +1,54 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var MixinFindable = scope.MixinFindable = {
+
+		properties: {
+			mixinFindable: {
+				type: Object,
+				value: function () {
+					return this;
+				},
+				notify: true,
+			},
+		},
+
+		mixinsForValue: function (value) {
+			return null; // override
+		},
+
+		mixinsForValuePath: function (value, path) {
+			return null; // override
+		},
+
+		prototypeAsMixin: function (prototype) {
+			var mixin = {};
+
+			if (Array.isArray(prototype.behaviors) &&
+				prototype.behaviors.indexOf(MixinFindable) < 0) {
+				prototype.behaviors.push(MixinFindable);
+			} else if (!prototype.behaviors) {
+				prototype.behaviors = [ MixinFindable ];
+			}
+
+			for (var key in prototype) {
+				mixin[key] = prototype[key];
+			}
+
+			prototype.mixinsForValue = function () {
+				return mixin;
+			};
+
+			return prototype;
+		},
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>
