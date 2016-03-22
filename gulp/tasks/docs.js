@@ -128,7 +128,7 @@
 					moduleDoc.revision = pkg.version;
 					moduleDoc.modules = moduleMap;
 					moduleDoc.articleList = articleList;
-					moduleDoc.articleMap = articleMap;
+					moduleDoc.articles = articleMap;
 					if(example) moduleDoc.example = example;
 
 					file.contents = new Buffer(JSON.stringify(moduleDoc), enc);
