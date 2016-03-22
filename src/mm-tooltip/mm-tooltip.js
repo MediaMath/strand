@@ -34,7 +34,8 @@
 			guideTip: {
 				type: Boolean,
 				value: false,
-				refelctToAttribute: true
+				refelctToAttribute: true,
+				observer: '_guideTipChanged'
 			},
 			tipWidth: {
 				type: Number,
@@ -76,11 +77,10 @@
 			this.style.width = newVal + 'px';
 		},
 
-		// _updateClass: function(auto) {
-		// 	var o = {};
-		// 	o.auto = !auto;
-		// 	return this.classBlock(o);
-		// },
+		_guideTipChanged: function(newVal, oldVal) {
+			// don't supress document body clicks for guide tips
+			this.disableScroll = !newVal;
+		},
 
 		_closeFilter: function(instance, e, original) {
 			var closeIcon = instance.$$('.close-icon');

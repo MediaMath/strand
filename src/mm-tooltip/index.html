@@ -169,9 +169,9 @@
 		<mm-button id="showGuide">
 			<label>Show Guide Tip</label>
 		</mm-button>
-		<!-- <mm-button id="hideGuide">
+		<mm-button id="hideGuide">
 			<label>Hide Guide Tip</label>
-		</mm-button> -->
+		</mm-button>
 		<hr/>
 	</div>
 	<script>
@@ -181,7 +181,7 @@
 				l = document.createElement('label'),
 				de = document.querySelector('#dynamicExample'),
 				sg = document.querySelector('#showGuide'),
-				// hg = document.querySelector('#hideGuide'),
+				hg = document.querySelector('#hideGuide'),
 				gt = document.querySelector('#guideTip');
 
 			d.classList.add('div-targ');
@@ -192,9 +192,9 @@
 				gt.open();
 			}); 
 
-			// hg.addEventListener('click', function(e) {
-			// 	gt.close();
-			// }); 
+			hg.addEventListener('click', function(e) {
+				gt.close();
+			}); 
 			
 			de.appendChild(d);
 			Polymer.dom(de).appendChild(t);

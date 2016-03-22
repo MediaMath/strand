@@ -18,6 +18,15 @@
 			"optional":true,
 			"default":"false",
 			"reflect":true
+		},
+		{
+			"name":"guideTip",
+			"type":"Boolean",
+			"description":"Instructs the tooltip to display as a directional tooltip, which can be controlled by the developer. When enabled, styling and hovering interaction differ from the default.",
+			"optional":true,
+			"default":"false",
+			"reflect":true,
+			"attribute":"guide-tip"
 		}
 	],
 	"articles": ["grid_custom_grid_item"],
