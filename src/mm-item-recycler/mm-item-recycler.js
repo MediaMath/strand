@@ -203,25 +203,32 @@ found here: https://github.com/Polymer/core-list
 			var path = change.path;
 			var modelChanged = path.indexOf(prefix) === 0;
 			var delimiter = path.indexOf(".", offset);
-			var num = 0;
+			var num = NaN;
 			var binds = this._bindingList;
 			var count = 0|(binds && binds.length);
 			var index = 0;
 			var bound = null;
 
-			if (modelChanged &&
-				delimiter > offset) {
+			if (modelChanged) {
 				if (path.charCodeAt(offset) === "#".charCodeAt(0)) {
 					offset += 1;
 				}
-				num = Number(path.slice(offset, delimiter));
+
+				if (delimiter < offset) {
+					delimiter = path.length;
+				}
+
+				if (delimiter > offset) {
+					num = Number(path.slice(offset, delimiter));
+				}
+
 				if (!isNaN(num)) {
 					for (index; index < count; index++) {
 						bound = binds[index];
 
 						if (bound &&
 							bound.young === num) {
-							bound.instance.notifyPath("model." + change.path.slice(delimiter + 1), change.value);
+							bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
 						}
 					}
 				}
