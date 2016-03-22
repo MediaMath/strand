@@ -128,7 +128,11 @@
 					moduleDoc.revision = pkg.version;
 					moduleDoc.modules = moduleMap;
 					moduleDoc.articleList = articleList;
-					moduleDoc.articles = articleMap;
+					if(moduleDoc.articles) {
+						moduleDoc.articles = moduleDoc.articles.map(function(articleName) {
+							return lookupArticle(articleList, articleName);
+						});
+					}
 					if(example) moduleDoc.example = example;
 
 					file.contents = new Buffer(JSON.stringify(moduleDoc), enc);
