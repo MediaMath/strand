@@ -8,6 +8,7 @@
 	    </script>
 		<link rel="import" href="../mm-list-item/mm-list-item.html">
 		<link rel="import" href="../mm-input/mm-input.html">
+		<link rel="import" href="../mm-spinner/mm-spinner.html">
 		<link rel="import" href="mm-dropdown.html">
 		<script language="javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<style type="text/css">
@@ -16,7 +17,7 @@
 				min-height: 100%;
 			}
 
-			body {  
+			body {
 				margin:0;
 				padding:0;
 				background: #eee;
@@ -98,7 +99,7 @@
 	</head>
 	<body>
 		<div class="col c1">
-			
+
 			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
 			<mm-dropdown id="dataTest" overflow="visible" max-items="10" overflow-width="200" placeholder="Some Longer Label" unresolved>
 			</mm-dropdown>
@@ -107,7 +108,7 @@
 			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
 			<mm-dropdown id="dataTestShort" placeholder="Some Label" unresolved></mm-dropdown>
 			<hr/>
-			
+
 			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
 			<mm-dropdown placeholder="Some Longer Label" value="0" max-items="7" unresolved>
 				<mm-input search="true" clear="true" placeholder="Search" unresolved></mm-input>
@@ -125,7 +126,7 @@
 				<mm-list-item value="11" unresolved>mm-list-item 12</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			
+
 			<p><span class="bold">Dropdown:</span> error</p>
 			<mm-dropdown placeholder="Some Longer Label" error unresolved>
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
@@ -144,7 +145,7 @@
 				<mm-list-item value="4" unresolved>mm-list-item 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			
+
 			<div id="ddlHide" unresolved>
 				<p><span class="bold">Dropdown:</span> Dropdown hidden at first (bug)</p>
 				<mm-dropdown>
@@ -161,9 +162,9 @@
 			</div>
 
 		</div>
-		
+
 		<div class="vr"></div>
-		
+
 		<div class="col c1">
 			<p><span class="bold">Dropdown:</span> List options wider than label</p>
 			<mm-dropdown unresolved>
@@ -197,9 +198,9 @@
 		</div>
 
 		<div class="vr"></div>
-		
+
 		<div class="col c1">
-			
+
 			<p><span class="bold">Dropdown:</span> List with overflow: visible</p>
 			<mm-dropdown placeholder="Select One" overflow="visible">
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 01</mm-list-item>
@@ -225,7 +226,7 @@
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			
+
 			<p><span class="bold">Dropdown:</span> List with overflow: visible with search added</p>
 			<mm-dropdown placeholder="Select One" overflow="visible">
 				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
@@ -235,7 +236,7 @@
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 04</mm-list-item>
 			</mm-dropdown>
 			<hr/>
-			
+
 			<p><span class="bold">Dropdown:</span> List with overflow: overflowWidth set</p>
 			<mm-dropdown placeholder="Select One Please" overflow="visible" overflow-width="250" size="small">
 				<mm-list-item unresolved>mm-list-item with an exremely long label or name in here 00</mm-list-item>
@@ -295,9 +296,13 @@
 			<p><span class="bold">Dropdown:</span> Dynamic jQuery test</p>
 			<mm-dropdown placeholder="select one" overflow="visible" fitparent="true" id="dynamic" max-items="10"></mm-dropdown>
 			<hr/>
-			
+			<p><span class="bold">Dropdown:</span> With spinner</p>
+			<mm-dropdown is-loading="true">
+				<mm-input search="true" clear="true" placeholder="Search"></mm-input>
+			</mm-dropdown>
+			<hr/>
 		</div>
-		
+
 		<script>
 			var ddlHide,
 				$d,
@@ -312,10 +317,10 @@
 			}
 
 			// *******************************
-			// jQuery and data dropdown: 
+			// jQuery and data dropdown:
 			// requires preselected value to be set after data is set
 			// *******************************
-			
+
 			document.addEventListener("WebComponentsReady", function(e) {
 				// init dynamic data test:
 				dataTest = document.querySelector("#dataTest");
@@ -323,7 +328,7 @@
 				dataTestShort = document.querySelector("#dataTestShort");
 				dataTest.data = dataTestHidden.data = dataTestShort.data = dataItems;
 				dataTest.value = dataTestHidden.value = 1;
-				
+
 				// init jQuery test:
 				$d = $("#dynamic");
 				addListItems(50);
@@ -359,7 +364,7 @@
 					length = dynamicItems.length - 1;
 				for (var i = range; i > -1; i--) {
 					dynamicItems[i].remove();
-				} 
+				}
 				dynamicItems = dynamicItems.splice(0, length-range);
 			}
 		</script>

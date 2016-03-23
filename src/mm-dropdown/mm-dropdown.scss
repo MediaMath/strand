@@ -50,3 +50,12 @@
 #caratIcon {
 	color: $color-A2;
 }
+
+#spinner {
+	position: absolute;
+	padding-right: 6px;
+	overflow: visible;
+	right: 0px;
+	top: 4px;
+	display: block;
+}
