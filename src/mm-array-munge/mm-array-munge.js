@@ -39,25 +39,40 @@
 			}
 		},
 
-		observers:['_handleInputUpdate(input.*, _parsedRules)'],
+		observers:[
+			'_handleInputUpdate(input.*, _parsedRules)',
+			'_handleInputUpdate(input.slices)',
+		],
 
-		_handleInputUpdate: function() {
+		_handleInputUpdate: function(change) {
+			if (change && change.path) {
+				var path = change.path.split(".");
+				if (path.length > 1) {
+					var idx = parseInt(path[1].substr(1));
+					var model = this.input[idx];
+					this.set('output.#' + idx, this._generateModel(model));
+					return;
+				}
+
+			}
 			if (this.input && this.input.length) {
-				var o = this.input.map(function(i) {
-					var o = {};
-					this._parsedRules.forEach(function(rule) {
-						var val = rule.from === '.' ? i : i[rule.from];
-						if (rule.to !== '.') {
-							o[rule.to] = val;
-						} else {
-							o = val;
-						}
-					});
-					if (typeof o !== 'string' && this.highlight) o.highlight = this.highlight
-					return o;
-				},this);
+				var o = this.input.map(this._generateModel,this);
 				this.set('output', o);
 			}
+		},
+
+		_generateModel: function(i) {
+			var o = {};
+			this._parsedRules.forEach(function(rule) {
+				var val = rule.from === '.' ? i : i[rule.from] || 'l';
+				if (rule.to !== '.') {
+					o[rule.to] = val;
+				} else {
+					o = val;
+				}
+			});
+			if (typeof o !== 'string' && this.highlight) o.highlight = this.highlight
+			return o;
 		},
 
 		_parseRules: function() {
