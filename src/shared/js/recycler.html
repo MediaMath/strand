@@ -988,32 +988,51 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 	function ContiguousRecycler (heightGetter, unavailableIndexGetter, changeListener, continuumProvider) {
-		var interpret = [];
-		var transform = [];
-		var previous = [];
-		var active = 0;
+		var outer2inner = []; // inner values indexed by outer values
+		var inner2outer = []; // outer values indexed by inner values
+		var previous = []; // stores the contiguous "old" position that should be passed to the handler
+		var active = 0; // the number of contiguous indices in use
 
 		Recycler.call(this, heightGetter, unavailableIndexGetter, function (inner, young, old, recycler) {
-			var count = interpret.length;
+			var count = inner2outer.length;
+			var outer = inner;
+			var swap = -1;
+
 			if (old < 0) {
-				while (count < inner) {
-					interpret[count++] = -1;
-				}
-				interpret[inner] = active;
-				transform[active] = inner;
-				previous[interpret[inner]] = young;
+				outer = active;
 				active++;
-				changeListener.call(this, interpret[inner], young, old, recycler);
-			} else if (young < 0) {
-				active--;
-				changeListener.call(this, transform[active], young, previous[transform[active]], recycler);
-				changeListener.call(this, interpret[inner], previous[transform[active]], previous[interpret[inner]], recycler);
-				interpret[inner] = interpret[transform[active]];
-				interpret[transform[active]] = -1;
-				transform[active] = -1;
+				while (count < inner) {
+					inner2outer[count++] = -1;
+				}
+				inner2outer[inner] = outer;
+				outer2inner[outer] = inner;
 			} else {
-				previous[interpret[inner]] = young;
-				changeListener.call(this, interpret[inner], young, old, recycler);
+				outer = inner2outer[inner];
+				if (young < 0) {
+					active--;
+					if (outer !== active) {
+						changeListener.call(this, active, young, previous[active], recycler);
+						changeListener.call(this, outer, previous[active], old, recycler);
+
+						previous[outer] = previous[active];
+						previous[active] = young;
+
+						swap = outer2inner[outer];
+						outer2inner[outer] = outer2inner[active];
+						outer2inner[active] = swap;
+
+						swap = inner2outer[outer2inner[outer]];
+						inner2outer[outer2inner[outer]] = inner2outer[outer2inner[active]];
+						inner2outer[outer2inner[active]] = swap;
+
+						swap = 0;
+					}
+				}
+			}
+
+			if (swap < 0) {
+				previous[outer] = young;
+				changeListener.call(this, outer, young, old, recycler);
 			}
 		}, continuumProvider);
 	}

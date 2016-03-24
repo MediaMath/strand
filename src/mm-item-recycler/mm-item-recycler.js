@@ -195,7 +195,77 @@ found here: https://github.com/Polymer/core-list
 			"_needsInitialization(data, _templateFound)",
 			"_scopeChanged(scope.*)",
 			"_dataChanged(data.*)",
+			"_dataSpliced(data.splices)",
 		],
+
+		_dataSpliced: function(record) {
+			var binds = this._bindingList;
+			var young = -1;
+			var splices = record ? record.indexSplices : null;
+			var count = 0|(splices && splices.length);
+			var index = 0;
+			var delta = 0;
+			var lower = this._getDataLength();
+			var upper = -1;
+			var added = 0;
+			var at = 0;
+
+			if (!count) {
+				return;
+			}
+
+			for (index; index < count; index++) {
+				at = splices[index].index;
+				added = splices[index].addedCount;
+				delta += added - splices[index].removed.length;
+
+				if (lower > at) {
+					lower = at;
+				}
+
+				if (upper < at + added) {
+					upper = at + added - 1;
+				}
+			}
+
+			if (delta) {
+				throw new Error("data.length change mutations are currently unsupported");
+			}
+
+			at = this._recycler.getLowestIndex();
+
+			if (lower > at) {
+				lower = at;
+			}
+
+			at = this._recycler.getHighestIndex();
+
+			if (upper < at) {
+				upper = at;
+			}
+
+			if (lower < upper) {
+				return;
+			}
+
+			added = upper - lower + 1;
+			count = binds.length;
+			index = 0;
+			for (index; index < count; index++) {
+				young = binds[index].young;
+
+				if (young < lower ||
+					young > upper) {
+					continue;
+				}
+
+				binds[index].instance.notifyPath("model", this.data[young]);
+
+				if (2 > added--) {
+					break;
+				}
+			}
+		},
 
 		_dataChanged: function (change) {
 			var prefix = "data.";
