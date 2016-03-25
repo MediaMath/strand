@@ -48,7 +48,6 @@
 			if (change && change.path && change.path !== "input.length") {
 				if (change.path === "input.splices") {
 					change.value.indexSplices.forEach(function(splice) {
-						console.log('upstream',splice)
 						var idx = splice.index;
 						var count = splice.addedCount;
 						var output = this.input.slice(idx, idx+count).map(this._generateModel, this);
@@ -84,7 +83,7 @@
 					o = val;
 				}
 			});
-			if (typeof o !== 'string' && this.highlight) o.highlight = this.highlight
+			if (typeof o !== 'string' && this.highlight) o.highlight = this.highlight;
 			return o;
 		},
 
@@ -95,9 +94,9 @@
 					return {
 						from:parsed[0],
 						to:parsed[1]
-					}
+					};
 				}
-			}, this).filter(function(o) { return !!o });
+			}, this).filter(function(o) { return !!o; });
 		},
 
 		_highlightChanged: function() {
