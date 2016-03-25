@@ -234,17 +234,19 @@ found here: https://github.com/Polymer/core-list
 
 			at = this._recycler.getLowestIndex();
 
-			if (lower > at) {
+			if (at > -1 &&
+				lower > at) {
 				lower = at;
 			}
 
 			at = this._recycler.getHighestIndex();
 
-			if (upper < at) {
+			if (at > -1 &&
+				upper < at) {
 				upper = at;
 			}
 
-			if (lower < upper) {
+			if (upper < lower) {
 				return;
 			}
 
