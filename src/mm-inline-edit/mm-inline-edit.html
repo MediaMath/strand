@@ -5,16 +5,23 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/js/measure.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../mm-input/mm-input.html"/>
 
 <dom-module id="mm-inline-edit">
 	<link rel="import" type="css" href="mm-inline-edit.css"/>
 	<template>
-		
-		
-		
+		<span id="editable" on-click="_editClick">
+			<content></content>
+		</span>
+
+		<template is="dom-if" if="{{_isInput(value, showEditor)}}">
+			<mm-input value="{{value}}"></mm-input>
+		</template>
+
 	</template>
 </dom-module>
 

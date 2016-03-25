@@ -2,8 +2,10 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<link rel="import" href="mm-inline-edit.html">
+		<link rel="import" href="mm-inline-edit.html"/>
+		<link rel="import" href="../mm-grid/mm-grid.html"/>
+		<link rel="import" href="../mm-grid-column/mm-grid-column.html"/>
+		<link rel="import" href="../mm-grid-item/mm-grid-item.html"/>
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -102,9 +104,11 @@
 
 		<div class="col c4">
 			<p><span class="bold">mm-inline-edit</span>: Default state</p>
-			<mm-inline-edit unresolved></mm-inline-edit>
+			<mm-inline-edit unresolved>Something here</mm-inline-edit>
 			<hr>
 		</div>
+
+		<!-- A grid example -->
 
 		<script>
 			

@@ -6,6 +6,8 @@
 */
 (function(scope) {
 
+	var Measure = StrandLib.Measure;
+
 	scope.InlineEdit = Polymer({
 		is: 'mm-inline-edit',
 
@@ -15,11 +17,53 @@
 			StrandTraits.Refable
 		],
 
+		// type: entity | collection | date
+
 		properties: {
-			
+
+			value: {
+				type: Object,
+				value: 'cheese'
+			},
+
+			showEditor: {
+				type: Boolean,
+				value: false
+			}
+
+			// entity: {
+			// 	type: Object,
+			// 	value: true
+			// },
+
+			// collection: {
+			// 	type: Object
+			// },
+
 		},
 
-		
+		_editClick: function(e) {
+			this._beginEdit();
+		},
+
+		_beginEdit: function() {
+			// position the resulting editor
+			var targetMetrics = Measure.getBoundingClientRect(this.$.editable);
+			this.showEditor = true;
+
+		},
+
+		_isInput: function(value, showEditor) {
+
+			if (typeof value === 'string') {
+				return true && showEditor;
+			} else {
+				return false && !showEditor;
+			}
+
+		}
+
+
 
 	});
 
