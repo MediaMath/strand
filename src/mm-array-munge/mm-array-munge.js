@@ -45,14 +45,27 @@
 		],
 
 		_handleInputUpdate: function(change) {
-			if (change && change.path) {
-				var path = change.path.split(".");
-				if (path.length > 1) {
-					var idx = parseInt(path[1].substr(1));
-					var model = this.input[idx];
-					this.set('output.#' + idx, this._generateModel(model));
+			if (change && change.path && change.path !== "input.length") {
+				if (change.path === "input.splices") {
+					change.value.indexSplices.forEach(function(splice) {
+						console.log('upstream',splice)
+						var idx = splice.index;
+						var count = splice.addedCount;
+						var output = this.input.slice(idx, idx+count).map(this._generateModel, this);
+						var args = ['output', idx, count].concat(output);
+						this.splice.apply(this, args);
+					},this);
 					return;
+				} else {
+					var path = change.path.split(".");
+					if (path.length > 1) {
+						var idx = parseInt(path[1].substr(1));
+						var model = this.input[idx];
+						this.set('output.#' + idx, this._generateModel(model));
+						return;
+					}
 				}
+
 
 			}
 			if (this.input && this.input.length) {
