@@ -7,14 +7,6 @@
 @import "_bourbon";
 // mixins.scss
 
-@mixin buttonFont() {
-	font-family: "Arimo", sans-serif;
-	font-weight: 700;
-	font-size: 13px!important;
-	line-height: 29px !important;
-	@include fontSmoothing();
-}
-
 // fix for google's fit behavior
 @mixin fit() {
   :host([fitparent]) {
@@ -36,7 +28,21 @@
 	box-shadow: inset 0 5px 1px $boxShadowColor;
 }
 
-// font smoothing
+// fonts
+@mixin defaultFont($size: 13px, $line-height: 18px, $weight: 400, $style: normal, $color: $color-A2) {
+	font-family: "Arimo", sans-serif;
+	@include fontSmoothing();
+	font-size: $size !important;
+	line-height: $line-height !important;
+	font-weight: $weight;
+	font-style: normal;
+	color: $color-A2;
+}
+
+@mixin buttonFont() {
+	@include defaultFont(13px, 29px, 700);
+}
+
 // defaults to antialiased
 // Values: antialiased | auto | subpixel-antialiased
 @mixin fontSmoothing($value: antialiased) {

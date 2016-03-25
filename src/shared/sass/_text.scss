@@ -8,68 +8,28 @@
 @import "_color";
 @import "_mixins";
 
-@mixin bodyFont() {
-	font-size: 13px !important;
-	line-height: 18px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 400;
-	font-style: normal;
-	color: $color-A2;
-}
-
 h1, .header-large {
-	font-size: 20px !important;
-	line-height: 25px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-style: normal;
-	color: $color-A2;
+	@include defaultFont(20px, 25px, 700);
 }
 
 h2, .header-medium {
-	font-size: 15px !important;
-	line-height: 20px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-style: normal;
-	color: $color-A2;
+	@include defaultFont(15px, 20px, 700);
 }
 
 h3, .header-small {
-	font-size: 13px !important;
-	line-height: 18px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-style: normal;
-	color: $color-A2;
+	@include defaultFont(13px, 18px, 700);
 }
 
 h4, .header-normal {
-	font-size: 11px !important;
-	line-height: 14px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-style: normal;
+	@include defaultFont(11px, 14px, 700, normal, $color-D2);
 	text-transform: uppercase;
-	color: $color-D2;
 }
 
 h5, .header-tiny {
-	font-size: 9px !important;
-	line-height: 12px !important;
-	font-family: "Arimo", sans-serif;
-	@include fontSmoothing();
-	font-weight: 700;
-	font-style: normal;
+	@include defaultFont(9px, 12px, 700, normal, $color-A3);
 	text-transform: uppercase;
-	color: $color-A3;
 }
 
 .body-normal {
-	@include bodyFont();
+	@include defaultFont();
 }
