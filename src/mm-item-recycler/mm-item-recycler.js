@@ -352,7 +352,7 @@ found here: https://github.com/Polymer/core-list
 
 		_paneResponse: function (e) {
 			var itemRecycler = this;
-			var delta = +(elementHeight(itemRecycler.$.pane) - itemRecycler._viewportHeight) || 0;
+			var delta = +(elementHeight(itemRecycler.$.quad) - itemRecycler._viewportHeight) || 0;
 
 			delta -= (this._headerHeight + this._footerHeight);
 
@@ -558,7 +558,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_initializeViewport: function() {
-			var viewportHeight = elementHeight(this.$.pane);
+			var viewportHeight = elementHeight(this.$.quad);
 
 			this._headerHeight = elementHeight(this.$.header);
 			this._footerHeight = elementHeight(this.$.footer);
