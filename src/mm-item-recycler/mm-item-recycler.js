@@ -198,6 +198,23 @@ found here: https://github.com/Polymer/core-list
 			"_dataSpliced(data.splices)",
 		],
 
+		_spliceTxn: function (fn, itemRecycler, splices) {
+			var transactor = this;
+			var count = 0|(splices && splices.length);
+			var index = 0;
+			var mutation = null;
+			var initializations = null; // required to keep _middleHeight accurate
+
+			for (index; index < count; index++) {
+				mutation = splices[index];
+				initializations = mutation.addedCount ? new Array(mutation.addedCount) : null;
+				itemRecycler._measurements.removeHeights(mutation.index, mutation.removed.length);
+				itemRecycler._measurements.addHeights(mutation.index, mutation.addedCount);
+				transactor.removeHeightsAtIndex(mutation.index, mutation.removed.length);
+				transactor.addHeightsAtIndex(mutation.index, mutation.addedCount, initializations);
+			}
+		},
+
 		_dataSpliced: function(record) {
 			var binds = this._bindingList;
 			var young = -1;
@@ -229,7 +246,7 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if (delta) {
-				throw new Error("data.length change mutations are currently unsupported");
+				this._recycler.transactHeightMutations(this._spliceTxn, this, splices);
 			}
 
 			at = this._recycler.getLowestIndex();
@@ -250,7 +267,7 @@ found here: https://github.com/Polymer/core-list
 				return;
 			}
 
-			added = upper - lower + 1;
+			added = upper - lower + 1 + delta;
 			count = binds.length;
 			index = 0;
 			for (index; index < count; index++) {

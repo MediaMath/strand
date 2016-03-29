@@ -128,6 +128,32 @@ This code may only be used under the BSD style license found at http://mediamath
 		this._array = this._array.slice.apply(this._array, arguments);
 	};
 
+	ItemList.prototype.add = function (index, amount, values, from) {
+		var at = 0|from;
+		var count = 0|amount;
+		var use = new Array(2);
+		use[0] = 0|index;
+		use[1] = 0;
+
+		if (!Array.isArray(values)) {
+			use.push.apply(use, new Array(amount));
+		} else if (at) {
+			use.push.apply(use, values.slice(at, at + count));
+		}
+
+		if (use.length < amount + 2) {
+			use.push.apply(use, new Array(amount + 2 - use.length));
+		}
+
+		this._array.splice.apply(this._array, use);
+
+		return amount;
+	};
+
+	ItemList.prototype.remove = function (index, amount) {
+		return -this._array.splice(0|index, 0|amount).length;
+	};
+
 
 
 	var _reference = new Segment(0, 0, _bitOR(KNOWN_ELEVATION, KNOWN_HEIGHT)).rebit(STATIC);
@@ -289,6 +315,60 @@ This code may only be used under the BSD style license found at http://mediamath
 				}
 			}
 		}
+	};
+
+	function valueAtIndex (index, list, fallback) {
+		return !Array.isArray(list) ?
+			fallback : list.length > index ?
+			list[index] : fallback;
+	}
+
+	Continuum.prototype.addHeights = function (index, amount, initializations) {
+		var at = 0|index;
+		var count = 0|amount;
+		var place = at;
+		var limit = at + count;
+		var delta = 0;
+
+		if (this._items.add(at, count)) {
+			this._lowerBoundEagerRange(at);
+
+			for (place; place < limit; place++) {
+				this._items.set(place, _placeholder);
+				this._segment(place);
+			}
+
+			place = 0;
+			limit = 0|(Array.isArray(initializations) && initializations.length);
+
+			for (place; place < limit; place++) {
+				delta += this.setHeight(at + place, +initializations[place] || 0);
+			}
+		}
+
+		return delta;
+	};
+
+	Continuum.prototype.removeHeights = function (index, amount) {
+		var at = 0|index;
+		var count = 0|amount;
+		var place = at;
+		var limit = this._items.length();
+		var delta = 0;
+
+		if (limit > count) {
+			limit = count;
+		}
+
+		for (place; place < limit; place++) {
+			delta += this._items.get(place).getHeight();
+		}
+
+		if (this._items.remove(at, count)) {
+			this._lowerBoundEagerRange(at);
+		}
+
+		return delta;
 	};
 
 	Continuum.prototype.adjustHeight = function (index, delta) {
