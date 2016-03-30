@@ -37,6 +37,10 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 	margin: auto;
 }
 
+mm-inline-edit[hidden] {
+	display: none;
+}
+
 ::content [field] {
 	overflow: inherit;
 	text-overflow: inherit;

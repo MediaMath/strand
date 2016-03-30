@@ -14,11 +14,23 @@
 	position: relative;
 }
 
-#editable {
+#target {
 	@include defaultFont(12px, normal);
 	display: inline-block;
+	margin: 1px 0;
 	
 	&:hover {
 		border-bottom: 1px dotted $color-A2;
+		margin-bottom: 0;
 	}
 }
+
+#panel {
+	position: fixed;
+	display: block;
+	z-index: 1;
+}
+
+// #editor {
+// 	position: absolute;
+// }

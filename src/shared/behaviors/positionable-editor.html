@@ -1,0 +1,45 @@
+<link rel="import" href="../js/measure.html">
+<link rel="import" href="../js/rectangle.html">
+<link rel="import" href="../js/behaviorutils.html"/>
+<link rel="import" href="positionable.html">
+<script type="text/javascript">
+(function(scope) {
+
+	var Measure = StrandLib.Measure,
+		Rectangle = StrandLib.Rectangle,
+		BehaviorUtils = StrandLib.BehaviorUtils;
+	
+	var PositionableEditor = {
+
+		properties: {
+			target: {
+				type: Object,
+				observer: '_positionableTargetChanged'
+			},
+			boundaryOffset: {
+				value: 0
+			}
+		},
+
+		_positionableTargetChanged: function(newVal, oldVal) {
+			this._target = newVal;
+		},
+
+		_updatePosition: function() {
+			var panelRect 			= this.metrics;
+			var targetRect 			= this.targetMetrics;
+
+			panelRect.left = targetRect.left;
+			panelRect.top = targetRect.top + (targetRect.height - panelRect.height)/2;
+
+			panelRect.toCSS(this._panel);
+		}
+	};
+
+	scope.PositionableEditor = [
+		scope.Positionable,
+		PositionableEditor
+	];
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>
