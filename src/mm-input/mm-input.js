@@ -135,6 +135,15 @@
 			this.fire("changed", { value: newVal });	
 		},
 
+		setFocus: function() {
+			this.$.input.focus();
+			// this.$.input.select();
+		},
+
+		setBlur: function() {
+			this.$.input.blur();
+		},
+
 		clearInput: function(e) {
 			this.value = null;
 			this._clearVisible = false;
