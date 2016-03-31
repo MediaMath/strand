@@ -43,8 +43,9 @@
 
 		requestHandler:function(ajaxOpts) {
 
+			var pg = DataUtils.getPathValue('page', ajaxOpts);
+			var opts = DataUtils.copy({}, this.config, pg);
 
-			var opts = this.config;
 			if (opts.enabled) {
 				ajaxOpts = _getParamBase(ajaxOpts);
 				var page = opts.pageType === "offset" ? opts.page * opts.pageSize : opts.page;
