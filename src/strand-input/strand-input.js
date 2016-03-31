@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Input = Polymer({
-		is: 'strand-input',
+		is: 'mm-input',
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -84,7 +84,7 @@
 				value: false, 
 				reflectToAttribute: true
 			},
-			layout: { 
+			_layout: { 
 				type: String,
 				value: false, 
 				reflectToAttribute: true 
@@ -135,11 +135,12 @@
 			this.fire("changed", { value: newVal });	
 		},
 
-		focus: function() {
+		setFocus: function() {
 			this.$.input.focus();
+			// this.$.input.select();
 		},
 
-		blur: function() {
+		setBlur: function() {
 			this.$.input.blur();
 		},
 

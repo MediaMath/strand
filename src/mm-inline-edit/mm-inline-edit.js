@@ -20,8 +20,7 @@
 			StrandTraits.Stackable
 		],
 
-		// type: entity | collection | date
-		TYPE_ENTITY: 'entity',
+		TYPE_PRIMITIVE: 'primitive',
 		TYPE_COLLECTION: 'collection',
 		TYPE_DATE: 'date',
 
@@ -30,25 +29,19 @@
 			type: {
 				type: String,
 				value: function() {
-					return this.TYPE_ENTITY
+					return this.TYPE_PRIMITIVE
 				},
 				notify: true
 			},
 			value: {
 				type: Object
 			},
-			model: Object,
-			field: {
-				type: String,
-				observer: '_fieldChanged'
+			model: {
+				type: Object
 			},
-			// entity: {
-			// 	type: Object,
-			// 	value: true
-			// },
-			// collection: {
-			// 	type: Object
-			// },
+			field: {
+				type: String
+			},
 			_scope: {
 				type: Object,
 				value: function() { return this; }
@@ -72,6 +65,11 @@
 			'keydown': '_handleKeydown'
 		},
 
+		attached: function() {
+			this.field = this._getFieldFromModel(this.value, this.model);
+			console.log(this.field);
+		},
+
 		_edit: function(e) {
 			e.preventDefault();
 			this._beginEdit();
@@ -82,29 +80,55 @@
 		},
 
 		_beginEdit: function() {
-			// TODO: probably more setup necessary here
-			// for the other types of edit scenarios
-			this.open();
-		},
-
-		_fieldChanged: function(newVal) {
-			console.log(newVal);
-		},
-
-		_onEnter: function() {
-			if (this.type === this.TYPE_ENTITY) {
-				// console.log('enter pressed: ', this.value);
-				// TODO: update the model 
-				// console.log(this.model);
-				// this.set(this.model[this.field], this.value);
-				var path = String('model.' + this.field);
-				this.set(path, this.value);
-				this.close();
+			switch (this.type) {
+				case this.TYPE_PRIMITIVE:
+					this.open();
+					this.$$('#input').setFocus();
+					break;
+				case this.TYPE_COLLECTION:
+					// TODO
+					break;
+				case this.TYPE_DATE:
+					// TODO
+					break;
 			}
 		},
 
-		_typeInput: function(type) {
-			return type === this.TYPE_ENTITY;
+		_getFieldFromModel: function(value, model) {
+			return Object.keys(model).reduce(function(prevVal, currVal){
+				if (model[currVal] === value) {
+					return currVal;
+				} 
+				return prevVal;
+			}, null);
+		},
+
+		_onEnter: function() {
+			this._handleValueChange();
+		},
+
+		_onEsc: function() {
+			this.close();
+		},
+
+		_handleValueChange: function() {
+			switch (this.type) {
+				case this.TYPE_PRIMITIVE:
+					var path = String('model.' + this.field);
+					this.set(path, this.value);
+					break;
+				case this.TYPE_COLLECTION:
+					// TODO
+					break;
+				case this.TYPE_DATE:
+					// TODO
+					break;
+			}
+			this.close();
+		},
+
+		_typePrimitive: function(type) {
+			return type === this.TYPE_PRIMITIVE;
 		},
 
 		_typeCollection: function(type) {

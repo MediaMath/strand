@@ -13,6 +13,7 @@
 <link rel="import" href="../shared/behaviors/keyboardable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 <link rel="import" href="../mm-input/mm-input.html"/>
+<link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
 
 <dom-module id="mm-inline-edit">
 	<link rel="import" type="css" href="mm-inline-edit.css"/>
@@ -22,17 +23,27 @@
 			<content></content>
 		</span>
 
-		<div id="panel">
+		<div id="panel" hidden$="{{}}">
 			<div id="container">
-				<!-- <mm-input value="{{value}}" _layout="editor"></mm-input> -->
-				
-				<template is="dom-if" if="{{_typeInput(type)}}">
-					<mm-input value="{{value}}"></mm-input>
+				<template is="dom-if" if="{{_typePrimitive(type)}}">
+					<mm-input id="input" value="{{value}}" _layout="editor"></mm-input>
 				</template>
-
+				<!-- TODO
+				<template is="dom-if" if="{{_typeCollection(type)}}">
+					<mm-dropdown id="dropdown" value="{{value}}" _layout="editor" data="{{collection}}"></mm-input>
+				</template>
+				-->
 			</div>
-			<!-- TODO: button bar -->
 		</div>
+
+		<!-- 
+		TODO: Date picker is a special case - as it will not
+		live in the #panel... 
+		-->
+
+		<template is="dom-if" if="{{_typeCollection(type)}}">
+			<mm-dropdown id="dropdown" value="{{value}}" _layout="editor" data="{{data}}"></mm-input>
+		</template>
 
 	</template>
 </dom-module>
