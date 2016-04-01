@@ -83,6 +83,10 @@
 		},
 
 		_beginEdit: function() {
+
+			// TODO: Store the pre-edit value, as 
+			// esc and cancel are a thing
+
 			switch (this.type) {
 				case this.TYPE_PRIMITIVE:
 					this.open();
@@ -112,6 +116,17 @@
 
 		_onEsc: function() {
 			this.close();
+			// TODO
+			// restore pre edit value
+		},
+
+		_save: function(e) {
+			// TODO
+		},
+
+		_cancel: function(e) {
+			// TODO
+			// restore pre edit value
 		},
 
 		_handleValueChange: function() {

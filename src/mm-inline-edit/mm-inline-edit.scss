@@ -31,6 +31,40 @@
 	z-index: 1;
 }
 
-// #editor {
-// 	position: absolute;
-// }
+#buttons {
+	width: 46px;
+	height: 18px;
+	position: absolute;
+	display: flex;
+	right: 0;
+	top: -18px;
+	background: #333;
+	border-radius: 4px 4px 0 0;
+}
+
+#cancel,
+#save {
+	width:23px;
+	height: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+
+	mm-icon {
+		pointer-events: none;
+		color: $color-F0;
+	}
+}
+
+#cancel:hover {
+	mm-icon {
+		color: $color-C2;
+	}
+}
+
+#save:hover {
+	mm-icon {
+		color: $color-B4;
+	}
+}

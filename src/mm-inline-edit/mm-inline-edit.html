@@ -26,13 +26,21 @@
 		<div id="panel" hidden$="{{}}">
 			<div id="container">
 				<template is="dom-if" if="{{_typePrimitive(type)}}">
-					<mm-input id="input" value="{{value}}" _layout="editor"></mm-input>
+					<mm-input id="input" value="{{value}}" layout="editor"></mm-input>
 				</template>
 				<!-- TODO
 				<template is="dom-if" if="{{_typeCollection(type)}}">
-					<mm-dropdown id="dropdown" value="{{value}}" _layout="editor" data="{{collection}}"></mm-input>
+					<mm-dropdown id="dropdown" value="{{value}}" layout="editor" data="{{collection}}"></mm-input>
 				</template>
 				-->
+			</div>
+			<div id="buttons">
+				<div id="save" on-tap="_save">
+					<mm-icon type="check-alt" width="8" height="8"></mm-icon>
+				</div>
+				<div id="cancel" on-tap="_cancel">
+					<mm-icon type="delete" width="8" height="8"></mm-icon>
+				</div>
 			</div>
 		</div>
 
@@ -42,7 +50,7 @@
 		-->
 
 		<template is="dom-if" if="{{_typeCollection(type)}}">
-			<mm-dropdown id="dropdown" value="{{value}}" _layout="editor" data="{{data}}"></mm-input>
+			<mm-dropdown id="dropdown" value="{{value}}" layout="editor" data="{{data}}"></mm-input>
 		</template>
 
 	</template>
