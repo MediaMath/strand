@@ -2,9 +2,8 @@
 <html>
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-	<link rel="import" href="../mm-grid/mm-grid.html"/>
-	<link rel="import" href="mm-grid-item.html"/>
-	<style type="text/css">
+    <link rel="import" href="mm-grid-item.html">
+    <style type="text/css">
 		html, body {
 			padding: 0;
 			margin: 0;
@@ -16,56 +15,39 @@
 		*[unresolved] {
 			display: none;
 		}
-	</style>
-	</head>
-	<body>
-	
-	<!--
-	<mm-grid id="grid" selectable unresolved>
-		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
-				<div field="actions">
-					<mm-icon class="field-id" width="15" height="15" type="actions"></mm-icon>
-				</div>
-			</mm-grid-item>
-		</template>
-	</mm-grid>
-	-->
-
-	<!-- A default grid item example -->
-	<mm-grid id="grid" selectable style="width: 100%; height: 900px;">
-		<mm-grid-column editable field="first_name">First Name</mm-grid-column>
-		<mm-grid-column field="last_name">Last Name</mm-grid-column>
-		<mm-grid-column field="email">Email</mm-grid-column>
-		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
-				<div field="first_name">
-					<mm-inline-edit value="{{model.first_name}}" model="{{model}}">{{model.first_name}}</mm-inline-edit>
-				</div>
-			</mm-grid-item>
-		</template>
-	</mm-grid>
-
-	<script type="text/javascript">
-		var data = [];
-
-		function generateItems(numItems) {
-			for (var i=0; i < numItems-1; i++) {
-					data.push({
-					first_name: String(Math.floor(Math.random()*300)) + 'first',
-					last_name: String(Math.floor(Math.random()*300)) + 'last',
-					email: String(Math.floor(Math.random()*300)) + 'email@email.com'
-				});
-			}
-		}
-
-		generateItems(1000);
-
-		window.addEventListener("WebComponentsReady", function() {
-			grid = document.querySelector('#grid');
-			grid.data = data;
-		});
+    </style>
+  </head>
+  <body>
+    <mm-grid-item id="testItem">
+    	<div field="actions">
+			<mm-icon class="field-id" width="15" height="15" type="actions"></mm-icon>
+		</div>
+    </mm-grid-item>
+    <script type="text/javascript">
+    	var item,
+			model = {
+				id: 0,
+				name: Math.random().toString(36).substring(7),
+				advertiser: "Advertiser No. " + 0,
+				concept: "Concept No. " + 0,
+				type: "swf",
+				file: "Creative_File_" + 0 + ".swf",
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300))
+			},
+			columns = [
+				{field: "id", label:"id", width:"10%"},
+				{field: "name", label: "Name Here", width: "25%", sort: true, info: true},
+				{field: "advertiser", label: "Advertiser", width: "20%", sort: true, align:"right"},
+				{field: "concept", label: "Concept", width: "15%", sort: true, align:"right"},
+				{field: "type", label: "Type", width: "15%", sort: true, align:"right"},
+				{field: "dimensions", label: "Dimensions", width: "15%", sort: true, align:"right"},
+				{field: "actions", width: "50px"}
+			];
 		
-	</script>
+		item = document.getElementById("testItem");
+		item.scope = {expandable: true, selectable: true, columns: columns};
+		item.model = model;
+		
+    </script>
   </body>
 </html>

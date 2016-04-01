@@ -102,22 +102,40 @@
 	</head>
 	<body>
 
-		<div class="col c4">
-			<p><span class="bold">mm-inline-edit</span>: Default state</p>
-			<mm-inline-edit unresolved>Something here</mm-inline-edit>
-			<hr>
-		</div>
+		<!-- A default grid item example -->
+		<mm-grid id="grid" selectable style="width: 100%; height: 900px;">
+			<mm-grid-column editable field="first_name">First Name</mm-grid-column>
+			<mm-grid-column field="last_name">Last Name</mm-grid-column>
+			<mm-grid-column field="email">Email</mm-grid-column>
+			<template preserve-content>
+				<mm-grid-item model="{{model}}" scope="{{scope}}">
+					<div field="first_name">
+						<mm-inline-edit value="{{model.first_name}}" model="{{model}}">{{model.first_name}}</mm-inline-edit>
+					</div>
+				</mm-grid-item>
+			</template>
+		</mm-grid>
 
-		<!-- A grid example -->
+		<script type="text/javascript">
+			var data = [];
 
-		<script>
-			
-			window.addEventListener('WebComponentsReady', function(e) {
+			function generateItems(numItems) {
+				for (var i=0; i < numItems-1; i++) {
+						data.push({
+						first_name: String(Math.floor(Math.random()*300)) + 'first',
+						last_name: String(Math.floor(Math.random()*300)) + 'last',
+						email: String(Math.floor(Math.random()*300)) + 'email@email.com'
+					});
+				}
+			}
 
-				//
+			generateItems(1000);
 
+			window.addEventListener("WebComponentsReady", function() {
+				grid = document.querySelector('#grid');
+				grid.data = data;
 			});
-
 		</script>
+		
 	</body>
 </html>
