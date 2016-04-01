@@ -42,6 +42,9 @@
 			field: {
 				type: String
 			},
+			collection: {
+				type: Array
+			},
 			_scope: {
 				type: Object,
 				value: function() { return this; }
@@ -83,7 +86,7 @@
 			switch (this.type) {
 				case this.TYPE_PRIMITIVE:
 					this.open();
-					this.$$('#input').setFocus();
+					this.$$('#input').focus();
 					break;
 				case this.TYPE_COLLECTION:
 					// TODO
