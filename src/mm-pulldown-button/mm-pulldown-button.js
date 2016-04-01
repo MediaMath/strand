@@ -44,7 +44,7 @@
 				type: Number,
 				value: null
 			},
-			_layout: String
+			layout: String
 		},
 
 		behaviors: [

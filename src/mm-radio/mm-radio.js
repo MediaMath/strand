@@ -59,7 +59,7 @@
 				type: String,
 				reflectToAttribute:true 
 			},
-			_layout: {
+			layout: {
 				type: String,
 				reflectToAttribute:true
 			}

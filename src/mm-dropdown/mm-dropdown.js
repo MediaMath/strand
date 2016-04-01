@@ -87,7 +87,7 @@
 				type: Boolean,
 				reflectToAttribute: true
 			},
-			_layout: String
+			layout: String
 		},
 
 		behaviors: [
@@ -113,7 +113,7 @@
 				// set input layout default - is there an input?
 				var search = this.querySelector('mm-input');
 				if (search) {
-					search._layout = this.LAYOUT_TYPE;
+					search.layout = this.LAYOUT_TYPE;
 				}
 			});
 		},
