@@ -25,7 +25,6 @@
 		TYPE_DATE: 'date',
 
 		properties: {
-
 			type: {
 				type: String,
 				value: function() {
@@ -34,7 +33,8 @@
 				notify: true
 			},
 			value: {
-				type: Object
+				type: Object,
+				notify: true
 			},
 			model: {
 				type: Object
@@ -43,7 +43,8 @@
 				type: String
 			},
 			collection: {
-				type: Array
+				type: Array,
+				notify: true
 			},
 			_scope: {
 				type: Object,
@@ -61,7 +62,9 @@
 				type: Object,
 				value: function() { return this.$.panel; }
 			},
-
+			_preEditVal: {
+				type: Object
+			}
 		},
 
 		listeners: {
@@ -73,34 +76,6 @@
 			console.log(this.field);
 		},
 
-		_edit: function(e) {
-			e.preventDefault();
-			this._beginEdit();
-		},
-
-		_handleKeydown: function(e) {
-			this._routeKeyEvent(e);
-		},
-
-		_beginEdit: function() {
-
-			// TODO: Store the pre-edit value, as 
-			// esc and cancel are a thing
-
-			switch (this.type) {
-				case this.TYPE_PRIMITIVE:
-					this.open();
-					this.$$('#input').focus();
-					break;
-				case this.TYPE_COLLECTION:
-					// TODO
-					break;
-				case this.TYPE_DATE:
-					// TODO
-					break;
-			}
-		},
-
 		_getFieldFromModel: function(value, model) {
 			return Object.keys(model).reduce(function(prevVal, currVal){
 				if (model[currVal] === value) {
@@ -110,26 +85,51 @@
 			}, null);
 		},
 
+		_beginEdit: function() {
+			this._preEditVal = this.value;
+
+			switch (this.type) {
+				case this.TYPE_PRIMITIVE:
+					this.$$('#input').focus();
+					break;
+				case this.TYPE_COLLECTION:
+					// TODO
+					break;
+				case this.TYPE_DATE:
+					// TODO
+					break;
+			}
+			this.open();
+		},
+
+		// actions
+		_handleKeydown: function(e) {
+			this._routeKeyEvent(e);
+		},
+
 		_onEnter: function() {
-			this._handleValueChange();
+			this._changeValue();
 		},
 
 		_onEsc: function() {
-			this.close();
-			// TODO
-			// restore pre edit value
+			this._restoreValue();
 		},
 
 		_save: function(e) {
-			// TODO
+			this._changeValue();
 		},
 
 		_cancel: function(e) {
-			// TODO
-			// restore pre edit value
+			this._restoreValue();
+		},
+		
+		_edit: function(e) {
+			e.preventDefault();
+			this._beginEdit();
 		},
 
-		_handleValueChange: function() {
+		// values
+		_changeValue: function() {
 			switch (this.type) {
 				case this.TYPE_PRIMITIVE:
 					var path = String('model.' + this.field);
@@ -145,12 +145,23 @@
 			this.close();
 		},
 
+		_restoreValue: function() {
+			// TODO: may need to switch here
+			// if there is a requirement for a 
+			// different behavior for types
+			var path = String('model.' + this.field);
+			this.value = this._preEditVal;
+			this.set(path, this._preEditVal);
+			this.close();
+		},
+
+		// layout and styling
 		_typePrimitive: function(type) {
 			return type === this.TYPE_PRIMITIVE;
 		},
 
-		_typeCollection: function(type) {
-			return type === this.TYPE_COLLECTION;
+		_typeCollection: function(type, collection) {
+			return type === this.TYPE_COLLECTION && collection;
 		},
 
 		_typeDate: function(type) {

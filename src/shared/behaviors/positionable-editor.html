@@ -26,13 +26,18 @@
 		},
 
 		_updatePosition: function() {
+			var hostMetrics			= Rectangle.fromElement(this);
 			var panelRect 			= this.metrics;
 			var targetRect 			= this.targetMetrics;
 
 			panelRect.left = targetRect.left;
 			panelRect.top = targetRect.top + (targetRect.height - panelRect.height)/2;
+			panelRect.width = hostMetrics.width;
 
-			panelRect.toCSS(this._panel);
+			// panelRect.toCSS(this._panel);
+			this._panel.style.left = panelRect.left + 'px';
+			this._panel.style.top = panelRect.top  + 'px';
+			this._panel.style.width = panelRect.width  + 'px';
 		}
 	};
 

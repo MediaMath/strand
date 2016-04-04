@@ -110,7 +110,7 @@
 			<template preserve-content>
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
 					<div field="first_name">
-						<mm-inline-edit value="{{model.first_name}}" model="{{model}}">{{model.first_name}}</mm-inline-edit>
+						<mm-inline-edit type="collection" value="{{model.first_name}}" collection="{{model.collection}}" model="{{model}}">{{model.first_name}}</mm-inline-edit>
 					</div>
 				</mm-grid-item>
 			</template>
@@ -121,10 +121,19 @@
 
 			function generateItems(numItems) {
 				for (var i=0; i < numItems-1; i++) {
+						var first = String(Math.floor(Math.random()*300)) + 'first';
+						var last = String(Math.floor(Math.random()*300)) + 'last';
+						var email = first + '.' + last + '@email.com';
 						data.push({
-						first_name: String(Math.floor(Math.random()*300)) + 'first',
-						last_name: String(Math.floor(Math.random()*300)) + 'last',
-						email: String(Math.floor(Math.random()*300)) + 'email@email.com'
+						first_name: first,
+						last_name: last,
+						email: email,
+						collection: [
+							{ name: first, value: first },
+							{ name:'Jimmy Hoffa', value:'Hoffa' },
+							{ name:'Dirk Diggler', value:'Diggler' },
+							{ name:'Mick Jagger', value:'Jagger' }
+						] 
 					});
 				}
 			}

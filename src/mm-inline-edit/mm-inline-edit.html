@@ -23,16 +23,15 @@
 			<content></content>
 		</span>
 
-		<div id="panel" hidden$="{{}}">
+		<!-- <div id="panel" hidden$="{{}}"> -->
+		<div id="panel">
 			<div id="container">
 				<template is="dom-if" if="{{_typePrimitive(type)}}">
-					<mm-input id="input" value="{{value}}" layout="editor"></mm-input>
+					<mm-input id="input" value="{{value}}" layout="editor" fitparent></mm-input>
 				</template>
-				<!-- TODO
-				<template is="dom-if" if="{{_typeCollection(type)}}">
-					<mm-dropdown id="dropdown" value="{{value}}" layout="editor" data="{{collection}}"></mm-input>
+				<template is="dom-if" if="{{_typeCollection(type, collection)}}">
+					<mm-dropdown id="dropdown" value="{{value}}" layout="editor" data="{{collection}}" fitparent></mm-input>
 				</template>
-				-->
 			</div>
 			<div id="buttons">
 				<div id="save" on-tap="_save">
