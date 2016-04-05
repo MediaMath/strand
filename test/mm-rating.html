@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="TestHelper.js"></script>
+    <script>
+        var should = chai.should();
+    </script>
+    <link rel="import" href="../build/strand.html">
+</head>
+<body>
+    <div>
+        Rating Component : <mm-rating id="rating-with-default-configuration" display-totals display-greetings></mm-rating>
+    </div>
+    <div>
+        Rating Component : <mm-rating id="rating-with-configuration"
+                                      custom-icon="abc.jpg"
+                                      values="{0: 'One Star', 1: 'Two Star', 2: 'Three Star', 3: 'Four Star', 4: 'Five Star'}"></mm-rating>
+    </div>
+
+    <script type="text/javascript">
+
+    describe("mm-rating", function() {
+        var defaultRating = document.querySelector('#rating-with-default-configuration');
+        var configuredRating = document.querySelector('#rating-with-configuration');
+
+        it("should have an element constructor", function() {
+            var a = new Strand.Rating;
+            a.nodeName.should.equal("MM-RATING");
+        });
+
+        it("should have a default icon width and height of 20px by 20px", function(done) {
+            var img = configuredRating.querySelector("img"),
+                width = 0,
+                height = 0;
+
+            should.exist(img.width);
+            should.exist(img.height);
+            img.width.should.equal(20);
+            img.height.should.equal(20);
+
+            flush(function() {
+                width = TestHelper.widthIntRounded(img);
+                height = TestHelper.heightIntRounded(img);
+                height.should.equal(20);
+                width.should.equal(20);
+                done();
+            });
+        });
+
+        it("should have a default rating 0", function(done) {
+            var a = defaultRating.querySelector(".totals"),
+                aInner = Polymer.dom(a).querySelector("span"),
+                rating = 0;
+
+            aInner.innerHTML.should.equal('0');
+
+            flush(function() {
+                rating = aInner.innerHTML;
+                rating.should.equal('0');
+                done();
+            });
+        });
+
+        it("should have a custom icon if it rendered correctly", function(done) {
+            var a = configuredRating,
+                customIcon = '';
+
+            should.exist(a.customIcon);
+
+            flush(function() {
+                customIcon = a.customIcon;
+                customIcon.should.equal('abc.jpg');
+                done();
+            });
+        });
+
+        it("should show 'current rating/total rating' value if it rendered correctly", function(done) {
+            var a = defaultRating,
+                displayTotals;
+
+            should.exist(a.displayTotals);
+
+            flush(function() {
+                displayTotals = a.displayTotals;
+                displayTotals.should.equal(true);
+                done();
+            });
+        });
+
+        it("displayGreetings value should equal 'true' if it rendered correctly", function(done) {
+            var a = defaultRating,
+                displayGreetings;
+
+            should.exist(a.displayGreetings);
+
+            flush(function() {
+                displayGreetings = a.displayGreetings;
+                displayGreetings.should.equal(true);
+                done();
+            });
+        });
+
+        it("readonly value should equal 'false' if it rendered correctly", function(done) {
+            var a = defaultRating,
+                readonly;
+
+            should.exist(a.readonly);
+
+            flush(function() {
+                readonly = a.readonly;
+                readonly.should.equal(false);
+                done();
+            });
+        });
+
+        it("should have default rating values 'Poor', 'Need Improvement', 'Reasonable', 'Good', 'Excellent'", function(done) {
+            var a = defaultRating,
+                values = {};
+
+            should.exist(a.values);
+
+            flush(function() {
+                values = a.values;
+                values.should.have.property('0', 'Poor');
+                values.should.have.property('1', 'Need Improvement');
+                values.should.have.property('2', 'Reasonable');
+                values.should.have.property('3', 'Good');
+                values.should.have.property('4', 'Excellent');
+                done();
+            });
+        });
+
+        it("should have rating values 'One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'", function(done) {
+            var a = configuredRating,
+                    values = {};
+            var greetObj = eval("("+ a.values +")");
+            should.exist(a.values);
+
+            flush(function() {
+                values = greetObj;
+                values.should.have.property('0', 'One Star');
+                values.should.have.property('1', 'Two Star');
+                values.should.have.property('2', 'Three Star');
+                values.should.have.property('3', 'Four Star');
+                values.should.have.property('4', 'Five Star');
+                done();
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../mm-icon/mm-icon.html"/>
+
+<dom-module id="mm-rating">
+    <link rel="import" type="css" href="mm-rating.css"/>
+    <template>
+        <div class="rating-wrapper">
+            <template is="dom-if" if="{{isDisplayTotals(displayTotals)}}">
+                <span class="totals"><span>{{rating}}</span>/<span>{{_noOfIcons}}</span></span>
+            </template>
+            <template is="dom-if" if="{{isDisplayGreetings(displayGreetings)}}">
+                <span class="greetings"><i>{{greeting}}</i></span>
+            </template>
+            <template is="dom-repeat" items="{{_defaultNoOfIcons}}">
+                <span class$="{{isActive(index)}}" on-tap="calculateRating" data-index$="{{index}}"
+                      on-mouseover='_overHandler' on-mouseout='_outHandler'>
+                    <template is="dom-if" if="{{!isCustomIcon()}}">
+                        <mm-icon type="favorite" width="{{iconWidth}}" height="{{iconHeight}}"></mm-icon>
+                    </template>
+                    <template is="dom-if" if="{{isCustomIcon()}}">
+                       <img src="{{isCustomIcon()}}" width="{{iconWidth}}" height="{{iconHeight}}"/>
+                    </template>
+                </span>
+            </template>
+        </div>
+    </template>
+</dom-module>
+
+<script src="mm-rating.js"></script>

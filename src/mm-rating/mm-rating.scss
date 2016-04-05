@@ -1,0 +1,50 @@
+/* mm-rating sass */
+
+.rating-wrapper {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: center;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 5px;
+  display: inline-block;
+}
+.rating-wrapper > span {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  opacity: 0.4;
+}
+.rating-wrapper > span.active,
+.rating-wrapper > span.active ~ span {
+  opacity: 1;
+  color: #FDBA15;
+}
+.rating-wrapper:hover > span.active,
+.rating-wrapper:hover > span.active ~ span {
+  opacity: 0.4;
+}
+.rating-wrapper > span:hover,
+.rating-wrapper > span:hover ~ span,
+.rating-wrapper > span.active:hover ~ span {
+  color: #FDBA15 !important;
+  opacity: 0.8 !important;
+}
+.rating-wrapper > span:hover {
+  color: #FDBA15 !important;
+  opacity: 0.9 !important;
+}
+.rating-wrapper > span.totals {
+  opacity: 1 !important;
+  margin-left: 15px;
+}
+.rating-wrapper > span.totals:hover {
+  opacity: 1 !important;
+}
+.rating-wrapper > span.greetings {
+  opacity: 1 !important;
+  margin-left: 10px;
+}
+.rating-wrapper > span.greetings:hover {
+  opacity: 1 !important;
+}
