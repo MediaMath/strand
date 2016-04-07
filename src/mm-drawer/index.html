@@ -33,8 +33,8 @@
 			</mm-drawer>
 		</template>
 
-		<template is="auto-binding">
-			<mm-drawer id="drawer2" expanded="{{checked}}" closedHeight="44">
+		<template is="auto-binding" id="widget">
+			<mm-drawer id="drawer2" expanded="{{checked}}" closedHeight="44" on-toggled="{{didToggle}}">
 				<div class="container">
 					<mm-checkbox checked="{{checked}}" id="checkbox"><label>Toggle Inset Drawer</label></mm-checkbox>
 					<h1>Well Hello.</h1>
@@ -47,6 +47,14 @@
 				var drawer2 = document.querySelector("#drawer2");
 				var toggleBtn = document.querySelector("#toggleBtn");
 				var hideBtn = document.querySelector("#hideBtn");
+
+				drawer2.addEventListener("toggled", function (ev) {
+					console.log(ev);
+				});
+
+				document.querySelector("#widget").didToggle = function () {
+					console.log("bound listener");
+				};
 
 				toggleBtn.onclick = function(){
 					drawer2.closedHeight = 44;

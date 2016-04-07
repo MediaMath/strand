@@ -111,6 +111,9 @@
 		created: function() {
 			this.loader = new FontLoader();
 			this.loader.add("Arimo");
+
+			this._focusHandler = this.handleFocus.bind(this);
+			this._blurHandler = this.handleBlur.bind(this);
 		},
 
 		ready: function() {
@@ -124,7 +127,6 @@
 			}
 			//TODO: remove this in favor of dom notifier
 			this.parseMask();
-
 		},
 
 		domReady: function() {
@@ -133,13 +135,13 @@
 		},
 
 		attached: function() {
-			this.$.input.addEventListener("focus", this.handleFocus.bind(this));
-			this.$.input.addEventListener("blur", this.handleBlur.bind(this));
+			this.$.input.addEventListener("focus", this._focusHandler);
+			this.$.input.addEventListener("blur", this._blurHandler);
 		},
 
 		detached: function() {
-			this.$.input.removeEventListener("focus");
-			this.$.input.removeEventListener("blur");
+			this.$.input.removeEventListener("focus", this._focusHandler);
+			this.$.input.removeEventListener("blur", this._blurHandler);
 		},
 
 		parseMask: function() {
