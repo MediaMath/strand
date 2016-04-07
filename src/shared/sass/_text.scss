@@ -10,26 +10,32 @@
 
 h1, .header-large {
 	@include defaultFont(20px, 25px, 700);
+	color: $color-A2;
 }
 
 h2, .header-medium {
 	@include defaultFont(15px, 20px, 700);
+	color: $color-A2;
 }
 
 h3, .header-small {
 	@include defaultFont(13px, 18px, 700);
+	color: $color-A2;
 }
 
 h4, .header-normal {
-	@include defaultFont(11px, 14px, 700, normal, $color-D2);
+	@include defaultFont(11px, 14px, 700, normal);
+	color: $color-D2;
 	text-transform: uppercase;
 }
 
 h5, .header-tiny {
-	@include defaultFont(9px, 12px, 700, normal, $color-A3);
+	@include defaultFont(9px, 12px, 700, normal);
+	color: $color-A3;
 	text-transform: uppercase;
 }
 
 .body-normal {
 	@include defaultFont();
+	color: $color-A2;
 }
