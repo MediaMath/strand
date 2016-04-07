@@ -9,11 +9,6 @@
 @import "_mixins";
 
 :host {
-	position: relative;
-	display: inline-block;
-	vertical-align: middle;
-	// font-size: 0em;
-	// line-height: 0em;
 	box-sizing: border-box;
 	position: fixed;
 	display: block;
@@ -78,13 +73,10 @@
 }
 
 .range-presets:first-of-type {
-	// border-bottom: 1px solid $color-A9;
 	padding-bottom: 0;
 }
 
 .range-presets:last-of-type {
-	// border-top: 1px solid $color-A9;
-	// border-bottom: none;
 	padding-top: 0;
 	clear: left;
 }
