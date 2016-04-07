@@ -27,10 +27,19 @@
 		<div id="panel">
 			<div id="container">
 				<template is="dom-if" if="{{_typePrimitive(type)}}">
-					<mm-input id="input" value="{{value}}" layout="editor" fitparent></mm-input>
+					<mm-input 
+						id="input" 
+						value="{{value}}" 
+						layout="editor" 
+						fitparent></mm-input>
 				</template>
 				<template is="dom-if" if="{{_typeCollection(type, collection)}}">
-					<mm-dropdown id="dropdown" value="{{value}}" layout="editor" data="{{collection}}" fitparent></mm-input>
+					<mm-dropdown 
+						id="dropdown" 
+						value="{{value}}" 
+						layout="editor" 
+						data="{{collection}}"
+						fitparent></mm-dropdown>
 				</template>
 			</div>
 			<div id="buttons">
@@ -48,8 +57,9 @@
 		live in the #panel... 
 		-->
 
-		<template is="dom-if" if="{{_typeCollection(type)}}">
-			<mm-dropdown id="dropdown" value="{{value}}" layout="editor" data="{{data}}"></mm-input>
+		<template is="dom-if" if="{{_typeDate(type)}}">	
+			<mm-datepicker
+			id="datepicker"></mm-datepicker>
 		</template>
 
 	</template>

@@ -34,11 +34,16 @@
 			panelRect.top = targetRect.top + (targetRect.height - panelRect.height)/2;
 			panelRect.width = hostMetrics.width;
 
-			// panelRect.toCSS(this._panel);
-			this._panel.style.left = panelRect.left + 'px';
-			this._panel.style.top = panelRect.top  + 'px';
+			panelRect.toCSS(this._panel);
+			
+			// add width to the styling for this scenario:
 			this._panel.style.width = panelRect.width  + 'px';
-		}
+		},
+
+		close: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "close");
+			inherited.apply(this, [silent]);
+		},
 	};
 
 	scope.PositionableEditor = [

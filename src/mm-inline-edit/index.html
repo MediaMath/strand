@@ -6,6 +6,7 @@
 		<link rel="import" href="../mm-grid/mm-grid.html"/>
 		<link rel="import" href="../mm-grid-column/mm-grid-column.html"/>
 		<link rel="import" href="../mm-grid-item/mm-grid-item.html"/>
+		<link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -102,7 +103,15 @@
 	</head>
 	<body>
 
-		<!-- A default grid item example -->
+		<mm-dropdown id="ddl" unresolved>
+			<mm-list-item>n</mm-list-item>
+			<mm-list-item>e</mm-list-item>
+			<mm-list-item>s</mm-list-item>
+			<mm-list-item>w</mm-list-item>
+			<mm-list-item>c</mm-list-item>
+		</mm-dropdown>
+
+		<!-- A default grid item example 
 		<mm-grid id="grid" selectable style="width: 100%; height: 900px;">
 			<mm-grid-column editable field="first_name">First Name</mm-grid-column>
 			<mm-grid-column field="last_name">Last Name</mm-grid-column>
@@ -115,12 +124,17 @@
 				</mm-grid-item>
 			</template>
 		</mm-grid>
+		-->
+
+		<div style="padding:50px;">
+			<mm-inline-edit id="single" type="collection">SOME_BOUND_VALUE</mm-inline-edit>
+		</div>
 
 		<script type="text/javascript">
 			var data = [];
 
 			function generateItems(numItems) {
-				for (var i=0; i < numItems-1; i++) {
+				for (var i=0; i < numItems; i++) {
 						var first = String(Math.floor(Math.random()*300)) + 'first';
 						var last = String(Math.floor(Math.random()*300)) + 'last';
 						var email = first + '.' + last + '@email.com';
@@ -138,11 +152,17 @@
 				}
 			}
 
-			generateItems(1000);
+			generateItems(1);
+			
+			var single = document.querySelector('#single');
+			single.model = data[0];
+			single.value = data[0].first_name;
+			single.collection = data[0].collection;
+			// single.textContent = data[0].first_name;
 
 			window.addEventListener("WebComponentsReady", function() {
-				grid = document.querySelector('#grid');
-				grid.data = data;
+				// grid = document.querySelector('#grid');
+				// grid.data = data;
 			});
 		</script>
 		

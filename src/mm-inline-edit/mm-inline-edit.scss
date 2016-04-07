@@ -17,6 +17,7 @@
 
 #target {
 	@include defaultFont(12px, normal);
+	color: $color-A2;
 	display: inline-block;
 	margin: 1px 0;
 	
@@ -29,7 +30,7 @@
 #panel {
 	position: fixed;
 	display: block;
-	z-index: 1;
+	// z-index: 1;
 }
 
 #buttons {

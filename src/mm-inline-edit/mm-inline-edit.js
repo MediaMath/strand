@@ -7,17 +7,18 @@
 (function(scope) {
 
 	var Measure = StrandLib.Measure;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.InlineEdit = Polymer({
 		is: 'mm-inline-edit',
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Stylable,
-			StrandTraits.Refable,
+			StrandTraits.Stackable,
 			StrandTraits.PositionableEditor,
+			StrandTraits.Stylable,
 			StrandTraits.Keyboardable,
-			StrandTraits.Stackable
+			StrandTraits.Refable,
 		],
 
 		TYPE_PRIMITIVE: 'primitive',
@@ -154,6 +155,18 @@
 			this.set(path, this._preEditVal);
 			this.close();
 		},
+
+		// close: function(silent) {
+		// 	var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableEditor, "close");
+			
+		// 	// close any open panels
+		// 	if (this.type === this.TYPE_COLLECTION &&
+		// 		this.$$('#dropdown').state === 'opened') {
+		// 		this.$$('#dropdown').state === 'closed';
+		// 	}
+
+		// 	inherited.apply(this, [silent]);
+		// },
 
 		// layout and styling
 		_typePrimitive: function(type) {
