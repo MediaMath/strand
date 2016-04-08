@@ -35,7 +35,7 @@ Polymer('mm-dropdown', {
 			this.initialValue = true;
 		}
 
-		// Bugfix hack for attribute selector css: 
+		// Bugfix hack for attribute selector css:
 		this.style.webkitTransform = this.style.webkitTransform;
 	},
 
@@ -46,10 +46,10 @@ Polymer('mm-dropdown', {
 	detached: function() {
 		WindowNotifier.removeInstance(this);
 	},
-	
+
 	domReady: function() {
-		if (!this.fitparent && !this.skinless) {		
-			this.btnWidth = this.btnWidth + this.borderWidth;		
+		if (!this.fitparent && !this.skinless) {
+			this.btnWidth = this.btnWidth + this.borderWidth;
 		}
 
 		// set input layout default - is there an input?
@@ -109,7 +109,7 @@ Polymer('mm-dropdown', {
 		this.updateTitle();
 	},
 
-	set btnWidth(i) {		
+	set btnWidth(i) {
 		this.$.buttonMain.style.width = i + "px";
  	},
 
@@ -238,11 +238,12 @@ Polymer('mm-dropdown', {
 	},
 
 	updateTitle: function() {
-		var textBounds = Measure.getTextBounds(this.$.labelText),
-			availableTxtArea = (this.btnWidth + this.borderWidth) - this.btnPaddingWidth;
+		var title = this.selectedItem ? this.selectedItem.label : this.placeholder
+		var textBounds = {width: Measure.textWidth(this.$.labelText, title)};
+		var availableTxtArea = (this.btnWidth + this.borderWidth) - this.btnPaddingWidth;
 
 		if(textBounds.width >= availableTxtArea) {
-			this.displayTitle = this.selectedItem ? this.selectedItem.label : this.placeholder;
+			this.displayTitle = title
 		} else {
 			this.displayTitle = "";
 		}
