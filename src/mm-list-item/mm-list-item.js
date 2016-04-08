@@ -19,7 +19,7 @@ Polymer('mm-list-item', {
 	attached: function() {
 		WindowNotifier.addResizeListener(this, this.resize.bind(this));
 	},
-	
+
 	detached: function() {
 		WindowNotifier.removeAllResizeListeners(this);
 		WindowNotifier.removeInstance(this);
@@ -54,7 +54,7 @@ Polymer('mm-list-item', {
 
 	get textBounds() {
 		if (this.$)
-		return Measure.getTextBounds(this);
+		return {width: Measure.textWidth(this, this.innerText)}
 	},
 
 	get paddingWidth() {
