@@ -12,25 +12,28 @@
 	}
 
 	function _removeInstance(instance) {
+		_hideClosePanel(instance);
 		_instances.splice(_instances.indexOf(instance), 1);
 	}
 
 	function _setCurrentInstance(instance) {
-		_previousInstance = _currentInstance !== null ? _currentInstance : null;
+		_previousInstance = _currentInstance;
 		_currentInstance = instance;
 	}
 
 	function _hideClosePanel(instance) {
-		if(instance == _currentInstance) {
+		if(_currentInstance && instance === _currentInstance) {
 			_closePanel.close();
+			_currentInstance = null;
 		}
 	}
 
 	function _showClosePanel(instance) {
-		if(instance == _currentInstance) {
+		if(_currentInstance && instance === _currentInstance) {
 			// clean up any existing "auto" tooltips, so the close panel can be reused:
 			if (_previousInstance && _previousInstance.auto === false) {
 				_previousInstance.close();
+				_previousInstance = null;
 			}
 			_closePanel.auto = instance.auto;
 			_closePanel.open();

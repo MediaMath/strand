@@ -4,6 +4,7 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<link rel="import" href="../mm-icon/mm-icon.html" />
 	<link rel="import" href="../mm-action/mm-action.html" />
+	<link rel="import" href="../mm-button/mm-button.html" />
 	<link rel="import" href="mm-tooltip.html" />
 	<style type="text/css">
 			body, html {
@@ -173,6 +174,30 @@
 			</mm-tooltip>
 		</p>
 		<hr/>
+		<p id="removeP">
+			<span class="bold">Tooltip:</span> Remove parent test
+			<mm-tooltip id="tip" tipWidth="200" auto="false">
+				<template>
+					<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
+				</template>
+				<mm-action underline="true"><label>Awesome</label></mm-action>
+			</mm-tooltip>
+			<mm-button id="removeBtn">
+				<label>Remove</label>
+			</mm-button>
+		</p>
 	</div>
+
+	<script type="text/javascript">
+		window.addEventListener("polymer-ready", function() {
+			var tip = document.getElementById("tip");
+			var removeP = document.getElementById("removeP");
+			var removeBtn = document.getElementById("removeBtn");
+
+			removeBtn.addEventListener('click', function() {
+				removeP.removeChild(tip);
+			});
+		});
+	</script>
   </body>
 </html>
