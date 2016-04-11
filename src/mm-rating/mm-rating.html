@@ -5,20 +5,25 @@
     <link rel="import" type="css" href="mm-rating.css"/>
     <template>
         <div class="rating-wrapper">
-            <template is="dom-if" if="{{isDisplayTotals(displayTotals)}}">
-                <span class="totals"><span>{{rating}}</span>/<span>{{_noOfIcons}}</span></span>
+            <template is="dom-if" if="{{displayTotals}}">
+                <span class="totals">
+                    <span>{{rating}}</span>/<span>{{_noOfIcons}}</span>
+                </span>
             </template>
-            <template is="dom-if" if="{{isDisplayGreetings(displayGreetings)}}">
-                <span class="greetings"><i>{{greeting}}</i></span>
+            <template is="dom-if" if="{{displayGreetings}}">
+                <span class="greetings"><i>{{greeting.name}}</i></span>
             </template>
-            <template is="dom-repeat" items="{{_defaultNoOfIcons}}">
-                <span class$="{{isActive(index)}}" on-tap="calculateRating" data-index$="{{index}}"
+            <template is="dom-repeat" items="{{data}}">
+                <span class$="{{ updateClass(index) }}" on-tap="calculateRating" data-index$="{{index}}"
                       on-mouseover='_overHandler' on-mouseout='_outHandler'>
-                    <template is="dom-if" if="{{!isCustomIcon()}}">
+                    <template is="dom-if" if="{{isCustomIcon(item)}}" id="default-icon">
                         <mm-icon type="favorite" width="{{iconWidth}}" height="{{iconHeight}}"></mm-icon>
                     </template>
-                    <template is="dom-if" if="{{isCustomIcon()}}">
-                       <img src="{{isCustomIcon()}}" width="{{iconWidth}}" height="{{iconHeight}}"/>
+                    <template is="dom-if" if="{{customIcon}}" id="single-custom-icon">
+                        <img src="{{customIcon}}" width="{{iconWidth}}" height="{{iconHeight}}"/>
+                    </template>
+                    <template is="dom-if" if="{{item.icon}}" id="multiple-custom-icon">
+                        <img src="{{item.icon}}" width="{{iconWidth}}" height="{{iconHeight}}"/>
                     </template>
                 </span>
             </template>

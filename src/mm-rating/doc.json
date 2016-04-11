@@ -3,13 +3,6 @@
   "description":"A re-usable rating component for rating a product or different things.",
   "attributes": [
     {
-      "name":"icon",
-      "type":"String",
-      "description":"Instructs the mm-rating to set default star icon",
-      "default":"star",
-      "attribute":"N/A"
-    },
-    {
       "name":"customIcon",
       "type":"String",
       "description":"Instructs the mm-rating to set custom icon provided by user",
@@ -65,11 +58,11 @@
       "attribute":"N/A"
     },
     {
-      "name":"values",
-      "type":"Object",
-      "description":"The values object provided to the mm-rating. The values object should contain name/key and current value for each rate in the mm-rating. Can be provided to the mm-rating if initial values are necessary",
+      "name":"data",
+      "type":"Array",
+      "description":"The data array object provided to the mm-rating. The data array object should contain objects name/key and current value for each rate in the mm-rating. Can be provided to the mm-rating if initial values are necessary",
       "optional":true,
-      "default":"{0: 'Poor', 1: 'Need Improvement', 2: 'Reasonable', 3: 'Good', 4: 'Excellent'}",
+      "default":"[{'name': 'Poor'}, {'name': 'Need Improvement'}, {'name': 'Reasonable'}, {'name': 'Good'}, {'name': 'Excellent'}]",
       "attribute":"N/A"
     }
   ],
@@ -79,55 +72,19 @@
       "description":"Instructs the mm-rating to set custom icon or not."
     },
     {
-      "name":"isActive",
-      "description":"Instructs the mm-rating to set the active class for rating.",
-      "arguments":[
-        {
-          "name":"index",
-          "type":"Number",
-          "optional":false,
-          "default":"none",
-          "description":"index of currenlty active rating."
-        }
-      ]
-    },
-    {
-      "name":"isDisplayTotals",
-      "description":"Instructs the mm-rating to show ratings out of total number of ratings.",
-      "arguments":[
-        {
-          "name":"displayTotals",
-          "type":"Boolean",
-          "optional":false,
-          "default":"none",
-          "description":"Instructs the mm-rating to show total number of ratings or not."
-        }
-      ]
-    },
-    {
-      "name":"isDisplayGreetings",
-      "description":"Instructs the mm-rating to show different greetings for each ratings.",
-      "arguments":[
-        {
-          "name":"displayGreetings",
-          "type":"Boolean",
-          "optional":false,
-          "default":"none",
-          "description":"Instructs the mm-rating to show greetings for each rating or not."
-        }
-      ]
-    },
-    {
       "name":"calculateRating",
       "description":"First of all it checks that the readonly is set or not if set then it does not allow user to rate but if readonly is not set then it calculate the number of ratings and according to that it sets the style, greeting, and total number of rating."
     },
     {
-      "name":"onHovered",
+      "name":"_overHandler",
       "description":"It sets the style, greetings and total number of rating on the hover effect."
     },
     {
-      "name":"onUnhovered",
+      "name":"_outHandler",
       "description":"It removes the style and greetings of rating on the un-hover effect."
     }
+  ],
+  "behaviors":[
+    "stylable"
   ]
 }

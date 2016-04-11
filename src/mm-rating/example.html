@@ -15,4 +15,9 @@
 
 <!--Example With Showing Custom Values For Each Ratings-->
 <mm-rating display-greetings
-           values="{0: 'One Star', 1: 'Two Star', 2: 'Three Star', 3: 'Four Star', 4: 'Five Star'}"></mm-rating>
+           values="[{0: 'One Star'}, {name: 'Two Star'}, {name: 'Three Star'}, {name: 'Four Star'}, {name: 'Five Star'}]"></mm-rating>
+
+<!--Example With Showing Multiple Custom Icons For Each Rating-->
+<mm-rating display-greetings
+           values="[{name: 'One Star', icon: 'one.jpg'}, {name: 'Two Star', icon: 'two.jpg'}, {name: 'Three Star', icon: 'three.jpg'}, {name: 'Four Star', icon: 'four.jpg'}, {name: 'Five Star', icon: 'five.jpg'}]">
+</mm-rating>

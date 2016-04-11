@@ -17,7 +17,7 @@
     <div>
         Rating Component : <mm-rating id="rating-with-configuration"
                                       custom-icon="abc.jpg"
-                                      values="{0: 'One Star', 1: 'Two Star', 2: 'Three Star', 3: 'Four Star', 4: 'Five Star'}"></mm-rating>
+                                      data='[{"name": "One Star"}, {"name": "Two Star"}, {"name": "Three Star"}, {"name": "Four Star"}, {"name": "Five Star"}]'></mm-rating>
     </div>
 
     <script type="text/javascript">
@@ -117,18 +117,17 @@
         });
 
         it("should have default rating values 'Poor', 'Need Improvement', 'Reasonable', 'Good', 'Excellent'", function(done) {
-            var a = defaultRating,
-                values = {};
+            var a = defaultRating, values = {};
 
-            should.exist(a.values);
+            should.exist(a.data);
 
             flush(function() {
-                values = a.values;
-                values.should.have.property('0', 'Poor');
-                values.should.have.property('1', 'Need Improvement');
-                values.should.have.property('2', 'Reasonable');
-                values.should.have.property('3', 'Good');
-                values.should.have.property('4', 'Excellent');
+                values = a.data;
+                values[0].should.have.property('name', 'Poor');
+                values[1].should.have.property('name', 'Need Improvement');
+                values[2].should.have.property('name', 'Reasonable');
+                values[3].should.have.property('name', 'Good');
+                values[4].should.have.property('name', 'Excellent');
                 done();
             });
         });
@@ -136,16 +135,16 @@
         it("should have rating values 'One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'", function(done) {
             var a = configuredRating,
                     values = {};
-            var greetObj = eval("("+ a.values +")");
-            should.exist(a.values);
-
+            var greetObj = a.data;
+            should.exist(a.data);
+            console.log(a.data);
             flush(function() {
                 values = greetObj;
-                values.should.have.property('0', 'One Star');
-                values.should.have.property('1', 'Two Star');
-                values.should.have.property('2', 'Three Star');
-                values.should.have.property('3', 'Four Star');
-                values.should.have.property('4', 'Five Star');
+                values[0].should.have.property('name', 'One Star');
+                values[1].should.have.property('name', 'Two Star');
+                values[2].should.have.property('name', 'Three Star');
+                values[3].should.have.property('name', 'Four Star');
+                values[4].should.have.property('name', 'Five Star');
                 done();
             });
         });
