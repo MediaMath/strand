@@ -116,9 +116,9 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 
-	function Placeholder (inner) {
+	function Placeholder (inner, outer) {
 		this._innerIndex = 0|inner;
-		this._outerIndex = -1;
+		this._outerIndex = 0|outer;
 	}
 
 	Placeholder.prototype.getInnerIndex = function () {
@@ -133,6 +133,10 @@ This code may only be used under the BSD style license found at http://mediamath
 		var old = this._outerIndex;
 		this._outerIndex = 0|index;
 		return old;
+	};
+
+	Placeholder.prototype.deltaOuterIndex = function (amount) {
+		return this.setOuterIndex(this._outerIndex + (0|amount)); // spliceIn
 	};
 
 
@@ -411,12 +415,12 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 
-	function makePlaceholder(inner) {
-		return new Placeholder(inner);
+	function makePlaceholder(inner, outer) {
+		return new Placeholder(inner, outer);
 	}
 
 	function Solver () {
-		var placeholder = makePlaceholder(0);
+		var placeholder = makePlaceholder(0, -1);
 
 		this._placeholders = null;
 		this._placeholders = new Snake(null, null);
@@ -544,7 +548,6 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Solver.prototype._pushUp = function (iface, placeholders, amount, available, recycler) {
-		var p = null;
 		var snake = placeholders.getTail();
 		var young = snake ? snake.body.getOuterIndex() : -1;
 		var index = 0;
@@ -552,15 +555,12 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		while (count-- > 0) {
 			index = this._claimAvailable(placeholders, available);
-			p = makePlaceholder(index);
-			p.setOuterIndex(++young);
-			placeholders.addTail().body = p;
+			placeholders.addTail().body = makePlaceholder(index, ++young);
 			iface.notify(index, young, -1, recycler);
 		}
 	};
 
 	Solver.prototype._pushDown = function (iface, placeholders, amount, available, recycler) {
-		var p = null;
 		var snake = placeholders.getHead(0);
 		var young = snake ? snake.body.getOuterIndex() : -1;
 		var index = 0;
@@ -568,9 +568,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		while (count-- > 0) {
 			index = this._claimAvailable(placeholders, available);
-			p = makePlaceholder(index);
-			p.setOuterIndex(--young);
-			placeholders.addHead().body = p;
+			placeholders.addHead().body = makePlaceholder(index, --young);
 			iface.notify(index, young, -1, recycler);
 		}
 	};
@@ -638,32 +636,86 @@ This code may only be used under the BSD style license found at http://mediamath
 		return snake ? snake.body.getOuterIndex() : -2;
 	};
 
-	Solver.prototype.propagateHeightChangeAtIndex = function (index, iface, recycler) {
-		var at = 0|index,
-			snake = this._placeholders.getHead(0),
-			outer = 0;
+	Solver.prototype._snakeWithOuterGreaterThanOrEqualToIndex = function (outer) {
+		var at = 0|outer,
+			snake = this._placeholders.getHead(0);
 
 		while (snake && at > snake.body.getOuterIndex()) {
 			snake = snake.getTail();
 		}
 
+		return snake;
+	};
+
+	Solver.prototype.propagateHeightChangeAtIndex = function (outer, iface, recycler) {
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(0|outer);
+			unchanged = 0;
+
 		while (snake) {
-			outer = snake.body.getOuterIndex();
-			iface.notify(snake.body.getInnerIndex(), outer, outer, recycler);
+			unchanged = snake.body.getOuterIndex();
+			iface.notify(snake.body.getInnerIndex(), unchanged, unchanged, recycler);
 			snake = snake.getTail();
+		}
+	};
+
+	Solver.prototype.spliceOut = function (outer, iface, recycler) {
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
+			inner = 0;
+
+		if (snake &&
+			snake.body.getOuterIndex() === outer) {
+			inner = snake.body.getInnerIndex();
+			snake = snake.dropTailwise(1);
+			this._abandonAvailable(inner, this._available);
+
+			while (snake) {
+				snake.body.deltaOuterIndex(-1);
+				snake = snake.getTail();
+			}
+
+			iface.notify(-1 - inner, -1, outer, recycler);
+		} else {
+			throw new Error("could not find spliced-out outer index === "+outer);
+		}
+	};
+
+	Solver.prototype.spliceIn = function (outer, iface, recycler) {
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
+			inner = 0,
+			index = 0|this._placeholders.getCount();
+
+		if (snake &&
+			snake.body.getOuterIndex() === outer) {
+			inner = this._claimAvailable(this._placeholders, this._available);
+			snake.addHead().body = makePlaceholder(inner, outer);
+
+			while (snake) {
+				index--;
+				snake.body.deltaOuterIndex(1);
+				snake = snake.getTail();
+			}
+
+			iface.notify(-1 - inner, outer, -1 - index, recycler);
+		} else {
+			throw new Error("could not find spliced-in outer index === "+outer);
 		}
 	};
 
 
 
-	function Transactor (iface, fence) {
+	function Transactor (iface, fence, solver, recycler) {
 		this._index = -1;
 		this._height = 0;
 		this._delta = 0;
+		this._spliced = 0|false;
 		this._continuumInterface = null;
 		this._continuumInterface = iface;
 		this._fence = null;
 		this._fence = fence;
+		this._solver = null;
+		this._solver = solver;
+		this._recycler = null;
+		this._recycler = recycler;
 	}
 
 	Transactor.prototype.getHeight = function () {
@@ -686,7 +738,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		return this._index;
 	};
 
-	Transactor.prototype.resetCandidate = function () {
+	Transactor.prototype._resetCandidate = function () {
 		this._index = -1;
 	};
 
@@ -697,6 +749,38 @@ This code may only be used under the BSD style license found at http://mediamath
 				this._index = index;
 			}
 		}
+	};
+
+	Transactor.prototype._splicing = function (spliced) {
+		var wasSpliced = 0|this._spliced;
+		this._spliced = 0|spliced;
+		return wasSpliced;
+	};
+
+	Transactor.prototype.addHeightsAtIndex = function (index, amount, initializations) {
+		var iface = this._continuumInterface;
+		var delta = iface.addHeights.apply(iface, arguments);
+		var place = 0;
+		if (delta) {
+			this._splicing(0|true);
+			for (place; place < amount; place++) {
+				this._solver.spliceIn(index + place, iface, this._recycler);
+			}
+		}
+		this._considerCandidate(0|index, amount);
+	};
+
+	Transactor.prototype.removeHeightsAtIndex = function (index, amount) {
+		var iface = this._continuumInterface;
+		var delta = iface.removeHeights.apply(iface, arguments);
+		var place = amount;
+		if (delta) {
+			this._splicing(0|true);
+			for (place; place-- > 0 ; ) {
+				this._solver.spliceOut(index + place, iface, this._recycler);
+			}
+		}
+		this._considerCandidate(0|index, amount);
 	};
 
 	Transactor.prototype.assignHeightAtIndex = function (index, height) {
@@ -713,18 +797,6 @@ This code may only be used under the BSD style license found at http://mediamath
 		this.setHeight(+height || 0);
 		this.setDelta(+delta || 0);
 		this._considerCandidate(0|index, +delta || 0);
-	};
-
-	Transactor.prototype.addHeightsAtIndex = function (index, amount, initializations) {
-		var iface = this._continuumInterface;
-		var delta = iface.addHeights.apply(iface, arguments);
-		this._considerCandidate(0|index, amount);
-	};
-
-	Transactor.prototype.removeHeightsAtIndex = function (index, amount) {
-		var iface = this._continuumInterface;
-		var delta = iface.removeHeights.apply(iface, arguments);
-		this._considerCandidate(0|index, amount);
 	};
 
 	Transactor.prototype.repositionFrame = function (position) {
@@ -780,7 +852,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		this._solver = new Solver();
 
-		this._transactor = new Transactor(this._continuumInterface, this._fence);
+		this._transactor = new Transactor(this._continuumInterface, this._fence, this._solver, this);
 
 		this._process();
 	}
@@ -872,17 +944,20 @@ This code may only be used under the BSD style license found at http://mediamath
 	Recycler.prototype.transactHeightMutations = function (transaction, extra, context, params) {
 		var transactor = this._transactor;
 		var index = -1;
+		var spliced = 0|false;
 
-		transactor.resetCandidate();
+		transactor._resetCandidate();
 
 		transaction.apply(transactor, arguments);
 
 		index = transactor.getCandidate();
 
 		if (index > -1) {
+			spliced = 0|transactor._splicing(0|false);
+
 			this._solver.propagateHeightChangeAtIndex(index, this._continuumInterface, this);
 
-			this._process(NONDESTRUCTIVE);
+			this._process(spliced ? DESTRUCTIVE : NONDESTRUCTIVE);
 		}
 	};
 
@@ -1043,42 +1118,90 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 	function ContiguousRecycler (heightGetter, unavailableIndexGetter, changeListener, continuumProvider) {
-		var outer2inner = []; // inner values indexed by outer values
-		var inner2outer = []; // outer values indexed by inner values
+		var blocked2inner = []; // inner values indexed by blocked values
+		var inner2blocked = []; // blocked values indexed by inner values
 		var previous = []; // stores the contiguous "old" position that should be passed to the handler
 		var active = 0; // the number of contiguous indices in use
 
-		Recycler.call(this, heightGetter, unavailableIndexGetter, function (inner, young, old, recycler) {
-			var count = inner2outer.length;
-			var outer = inner;
+		Recycler.call(this, heightGetter, unavailableIndexGetter, function (id, young, old, recycler) {
+			var spliced = 0|(id < 0);
+			var inner = spliced ? -1 - id : id;
+			var count = inner2blocked.length;
+			var blocked = inner;
 			var swap = -1;
+			var unordered = -1;
 
-			if (old < 0) {
-				outer = active;
-				active++;
-				while (count < inner) {
-					inner2outer[count++] = -1;
-				}
-				inner2outer[inner] = outer;
-				outer2inner[outer] = inner;
-			} else {
-				outer = inner2outer[inner];
-				if (young < 0) {
-					active--;
-					if (outer !== active) {
-						changeListener.call(this, active, young, previous[active], recycler);
-						changeListener.call(this, outer, previous[active], old, recycler);
+			if (spliced) {
+				if (old < 0) {
+					// "splice" in -- using "old-encoded" position instead of previous.indexOf(young)
+					// blocked = previous.indexOf(young);
+					blocked = -old - 1;
+					if (blocked < 0) {
+						blocked = active;
+					}
+					swap = active;
+					for (swap; swap-- > blocked;) {
+						unordered = blocked2inner[swap];
+						blocked2inner[swap + 1] = unordered;
+						inner2blocked[unordered] = swap + 1;
+						previous[swap + 1] = previous[swap];
+					}
+					active++;
+					blocked2inner[blocked] = inner;
+					inner2blocked[inner] = blocked;
+					previous[blocked] = young;
 
-						previous[outer] = previous[active];
+					changeListener.call(this, -1 - blocked, young, old, recycler);
+				} else {
+					if (young < 0) {
+						// "splice" out
+						blocked = inner2blocked[inner];
+						swap = blocked + 1;
+						for (swap; swap < active; swap++) {
+							unordered = blocked2inner[swap];
+							blocked2inner[swap - 1] = unordered;
+							inner2blocked[unordered] = swap - 1;
+							previous[swap - 1] = previous[swap];
+						}
+						active--;
+						blocked2inner[active] = inner;
+						inner2blocked[inner] = active;
 						previous[active] = young;
 
-						swap = outer2inner[outer];
-						outer2inner[outer] = outer2inner[active];
-						outer2inner[active] = swap;
+						changeListener.call(this, -1 - blocked, young, old, recycler);
+					} else {
+						// "in-place echanged" not (yet) supported (use previous.indexOf(young && old))
+					}
+				}
 
-						swap = inner2outer[outer2inner[outer]];
-						inner2outer[outer2inner[outer]] = inner2outer[outer2inner[active]];
-						inner2outer[outer2inner[active]] = swap;
+				swap = 0;
+				return;
+			} else if (old < 0) {
+				blocked = active;
+				active++;
+				while (count < inner) {
+					inner2blocked[count++] = -1;
+				}
+				inner2blocked[inner] = blocked;
+				blocked2inner[blocked] = inner;
+			} else {
+				blocked = inner2blocked[inner];
+				if (young < 0) {
+					active--;
+					if (blocked !== active) {
+						changeListener.call(this, active, young, previous[active], recycler);
+						changeListener.call(this, blocked, previous[active], old, recycler);
+
+						previous[blocked] = previous[active];
+						previous[active] = young;
+
+						swap = blocked2inner[blocked];
+						blocked2inner[blocked] = blocked2inner[active];
+						blocked2inner[active] = swap;
+
+						swap = inner2blocked[blocked2inner[blocked]];
+						inner2blocked[blocked2inner[blocked]] = inner2blocked[blocked2inner[active]];
+						inner2blocked[blocked2inner[active]] = swap;
 
 						swap = 0;
 					}
@@ -1086,8 +1209,8 @@ This code may only be used under the BSD style license found at http://mediamath
 			}
 
 			if (swap < 0) {
-				previous[outer] = young;
-				changeListener.call(this, outer, young, old, recycler);
+				previous[blocked] = young;
+				changeListener.call(this, blocked, young, old, recycler);
 			}
 		}, continuumProvider);
 	}

@@ -49,7 +49,7 @@ found here: https://github.com/Polymer/core-list
 		this.pane = null;
 		this.header = null;
 		this.footer = null;
-		this.boundMap = {};
+		this.boundMap = []; // {};
 	}
 
 
@@ -724,7 +724,8 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_handleRecycling: function (id, young, old, recycler) {
-			var index = 0|id;
+			var spliced = 0|(id < 0);
+			var index = 0|(spliced ? 0|-id - 1 : id);
 			var bound = null;
 			var binds = this._bindingList;
 			var count = 0|(binds && binds.length);
@@ -733,7 +734,18 @@ found here: https://github.com/Polymer/core-list
 			var offset = this._calculateStaticPositionOffset(index, binds);
 			var useLightDom = 0|true;
 
-			if (old < 0) {
+			if (spliced) {
+				if (old < 0) {
+					bound = this._includeBoundAtIndex(index, binds, young, useLightDom);
+					count++;
+				} else if (young < 0) {
+					bound = this._excludeBoundAtIndex(index, binds);
+					count--;
+					bound = null;
+				} else {
+					return;
+				}
+			} else if (old < 0) {
 				while (count < index) {
 					count = binds.push(null);
 				}
@@ -772,7 +784,8 @@ found here: https://github.com/Polymer/core-list
 				} else {
 					height = recycler.getHeightAtIndex(young);
 					bound.pendingResponse = 0|true;
-					this.debounce(young, this._getBoundResponse(bound, id, index)); // defer validation of the height
+					// defer validation of the height
+					this.debounce(young, this._getBoundResponse(bound, spliced ? -1 - id : id, index));
 				}
 
 				if (this._measurements.isElevationKnown(young)) {
@@ -795,6 +808,68 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			this.debounce("settle-down", this._settleDown, 1);
+		},
+
+		_includeBoundAtIndex: function (at, binds, young, useLightDom) {
+			var index = 0|at;
+			var map = this._responders.boundMap;
+			var count = binds.length;
+			var bound = new BoundReference(this, index);
+			var included = bound;
+			var replaced = index < count ? binds[index] : null;
+
+			for (count; count-- > index; ) {
+				bound = binds[count + 1] = binds[count];
+				bound.id++;
+				bound.young++;
+				map[count + 1] = map[count];
+			}
+
+			bound = included;
+			index = 0|at;
+
+			binds[index] = bound;
+			map[index] = null;
+
+			bound.value = new BoundValue(null, this.scope);
+			bound.element = document.createElement("DIV");
+			this.toggleClass("recycler-panel", true, bound.element);
+			bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom);
+
+			bound.instance.set("scope", this.scope);
+			bound.instance.set("model", this.data[young]);
+
+			Polymer.dom(bound.element).appendChild(bound.instance);
+			Polymer.dom(this.$.middle).insertBefore(bound.element, replaced.element);
+			this._addBoundResponse(bound, bound.id, index);
+
+			return bound;
+		},
+
+		_excludeBoundAtIndex: function (at, binds) {
+			var index = 0|at;
+			var map = this._responders.boundMap;
+			var count = binds.length;
+			var bound = binds[index];
+			var excluded = bound;
+
+			for (index++; index < count; index++) {
+				bound = binds[index - 1] = binds[index];
+				bound.id--;
+				bound.young--;
+				map[index - 1] = map[index];
+			}
+
+			binds[count - 1] = null;
+			map[count - 1] = null;
+
+			bound = excluded;
+			index = 0|at;
+
+			this._removeBoundResponse(bound, bound.id, index);
+			Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
+
+			return bound;
 		},
 
 		_calculateStaticPositionOffset: function (place, binds) {

@@ -150,7 +150,7 @@
 			}
 
 			if (model && index > -1) {
-				this.set("data."+index+".selected", model.selected);
+				this.set("data.#"+index+".selected", model.selected);
 			}
 
 			this._selectAllState = state;
@@ -165,7 +165,7 @@
 			this._selectAllState = value ? "checked" : "unchecked";
 			if (this.data) {
 				this.data.forEach(function(item, i) {
-					var path = 'data.'+i+'.selected';
+					var path = 'data.#'+i+'.selected';
 					this.set(path, value);
 				}, this);
 			}
@@ -212,7 +212,7 @@
 				if(column.width.indexOf("%") !== -1){
 					column.set('width', column.offsetWidth + 'px');
 				}
-				this.notifyPath("scope._columns."+index+".width", column.width);
+				this.notifyPath("scope._columns.#"+index+".width", column.width);
 			}, this);
 		},
 
@@ -253,7 +253,7 @@
 			this.$.viewport.inferOffviewHeightsAfterNextMutation();
 			if (this.data) {
 				this.data.forEach(function(item, index) {
-					this.set("data." + index + ".expanded", this.expanded);
+					this.set("data.#" + index + ".expanded", this.expanded);
 				}, this);
 			}
 		},
