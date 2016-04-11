@@ -144,7 +144,11 @@
 		areDatesValid: function() {
 			var sd = moment(this.startDate, this.dateFormat, true);
 			var ed = moment(this.endDate, this.dateFormat, true);
-			return sd.isValid() && ed.isValid();
+			if (this.dual) {
+				return sd.isValid() && ed.isValid();
+			} else {
+				return sd.isValid();
+			}
 		},
 
 		validateDates: function() {
