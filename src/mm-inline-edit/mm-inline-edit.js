@@ -35,7 +35,8 @@
 			},
 			value: {
 				type: Object,
-				notify: true
+				notify: true,
+				// observer: '_valueChanged'
 			},
 			model: {
 				type: Object
@@ -74,7 +75,6 @@
 
 		attached: function() {
 			this.field = this._getFieldFromModel(this.value, this.model);
-			console.log(this.field);
 		},
 
 		_getFieldFromModel: function(value, model) {
@@ -91,15 +91,18 @@
 
 			switch (this.type) {
 				case this.TYPE_PRIMITIVE:
+					this.$$('#input').value = this.value;
 					this.$$('#input').focus();
 					break;
 				case this.TYPE_COLLECTION:
-					// TODO
+					this.$$('#dropdown').data = this.model.collection;
+					this.$$('#dropdown').value = this.value;
 					break;
 				case this.TYPE_DATE:
 					// TODO
 					break;
 			}
+
 			this.open();
 		},
 
@@ -129,44 +132,40 @@
 			this._beginEdit();
 		},
 
+		// _valueChanged: function(newVal, oldVal) {
+		// 	console.log('mm-inline-edit :: _valueChanged :: newVal: ', newVal);
+		// 	console.log('mm-inline-edit :: _valueChanged :: oldVal: ', oldVal);
+		// },
+
 		// values
 		_changeValue: function() {
+			var path = String('model.' + this.field);
+			var value = null;
+
 			switch (this.type) {
 				case this.TYPE_PRIMITIVE:
-					var path = String('model.' + this.field);
-					this.set(path, this.value);
+					value = this.$$('#input').value;
 					break;
 				case this.TYPE_COLLECTION:
-					// TODO
+					value = this.$$('#dropdown').value;
 					break;
 				case this.TYPE_DATE:
 					// TODO
 					break;
 			}
+
+			this.set(path, value);
 			this.close();
 		},
 
 		_restoreValue: function() {
-			// TODO: may need to switch here
-			// if there is a requirement for a 
-			// different behavior for types
+			// TODO: may need to switch here if there is
+			// a requirement for a different behavior for types
 			var path = String('model.' + this.field);
 			this.value = this._preEditVal;
 			this.set(path, this._preEditVal);
 			this.close();
 		},
-
-		// close: function(silent) {
-		// 	var inherited = BehaviorUtils.findSuper(StrandTraits.PositionableEditor, "close");
-			
-		// 	// close any open panels
-		// 	if (this.type === this.TYPE_COLLECTION &&
-		// 		this.$$('#dropdown').state === 'opened') {
-		// 		this.$$('#dropdown').state === 'closed';
-		// 	}
-
-		// 	inherited.apply(this, [silent]);
-		// },
 
 		// layout and styling
 		_typePrimitive: function(type) {

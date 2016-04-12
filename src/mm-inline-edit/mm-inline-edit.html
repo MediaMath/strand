@@ -14,6 +14,7 @@
 <link rel="import" href="../shared/behaviors/refable.html"/>
 <link rel="import" href="../mm-input/mm-input.html"/>
 <link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
+<link rel="import" href="../mm-datepicker/mm-datepicker.html"/>
 
 <dom-module id="mm-inline-edit">
 	<link rel="import" type="css" href="mm-inline-edit.css"/>
@@ -23,22 +24,18 @@
 			<content></content>
 		</span>
 
-		<!-- <div id="panel" hidden$="{{}}"> -->
-		<div id="panel">
+		<div id="panel" hidden$="{{_typeDate(type)}}">
 			<div id="container">
 				<template is="dom-if" if="{{_typePrimitive(type)}}">
 					<mm-input 
-						id="input" 
-						value="{{value}}" 
+						id="input"
 						layout="editor" 
 						fitparent></mm-input>
 				</template>
 				<template is="dom-if" if="{{_typeCollection(type, collection)}}">
 					<mm-dropdown 
-						id="dropdown" 
-						value="{{value}}" 
+						id="dropdown"
 						layout="editor" 
-						data="{{collection}}"
 						fitparent></mm-dropdown>
 				</template>
 			</div>
@@ -52,10 +49,12 @@
 			</div>
 		</div>
 
-		<!-- 
-		TODO: Date picker is a special case - as it will not
-		live in the #panel... 
-		-->
+		<!-- Date picker is a special case - as it will not live in the panel -->
+		<template is="dom-if" if="{{_typeDate(type)}}">
+			<mm-datepicker
+				id="datepicker"></mm-datepicker>
+		</template>
+
 
 		<template is="dom-if" if="{{_typeDate(type)}}">	
 			<mm-datepicker

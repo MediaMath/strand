@@ -103,66 +103,79 @@
 	</head>
 	<body>
 
-		<mm-dropdown id="ddl" unresolved>
-			<mm-list-item>n</mm-list-item>
-			<mm-list-item>e</mm-list-item>
-			<mm-list-item>s</mm-list-item>
-			<mm-list-item>w</mm-list-item>
-			<mm-list-item>c</mm-list-item>
-		</mm-dropdown>
-
-		<!-- A default grid item example 
+		<!-- A default grid item example -->
 		<mm-grid id="grid" selectable style="width: 100%; height: 900px;">
 			<mm-grid-column editable field="first_name">First Name</mm-grid-column>
 			<mm-grid-column field="last_name">Last Name</mm-grid-column>
 			<mm-grid-column field="email">Email</mm-grid-column>
+			
 			<template preserve-content>
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
+					
 					<div field="first_name">
 						<mm-inline-edit type="collection" value="{{model.first_name}}" collection="{{model.collection}}" model="{{model}}">{{model.first_name}}</mm-inline-edit>
 					</div>
+
+					<div field="last_name">
+						<mm-inline-edit type="primitive" value="{{model.last_name}}" model="{{model}}">{{model.last_name}}</mm-inline-edit>
+					</div>
+					
 				</mm-grid-item>
 			</template>
-		</mm-grid>
-		-->
 
+		</mm-grid>
+	
+
+		<!--
 		<div style="padding:50px;">
 			<mm-inline-edit id="single" type="collection">SOME_BOUND_VALUE</mm-inline-edit>
 		</div>
+		-->
 
 		<script type="text/javascript">
 			var data = [];
+			var totalItems = 1000;
+
+			function generateUUID() {
+				var d = new Date().getTime();
+				var uuid = 'xxx-4xx-yxx'.replace(/[xy]/g, function(c) {
+					var r = (d + Math.random()*16)%16 | 0;
+					d = Math.floor(d/16);
+					return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+				});
+				return uuid;
+			}
 
 			function generateItems(numItems) {
 				for (var i=0; i < numItems; i++) {
-						var first = String(Math.floor(Math.random()*300)) + 'first';
-						var last = String(Math.floor(Math.random()*300)) + 'last';
+						var rnd = generateUUID();
+						var first = rnd + 'first';
+						var last = rnd + 'last';
 						var email = first + '.' + last + '@email.com';
 						data.push({
-						first_name: first,
-						last_name: last,
-						email: email,
-						collection: [
-							{ name: first, value: first },
-							{ name:'Jimmy Hoffa', value:'Hoffa' },
-							{ name:'Dirk Diggler', value:'Diggler' },
-							{ name:'Mick Jagger', value:'Jagger' }
-						] 
-					});
+							first_name: first,
+							last_name: last,
+							email: email,
+							collection: [
+								{ name: first, value: first },
+								{ name:'Hoffa', value:'Hoffa' },
+								{ name:'Diggler', value:'Diggler' },
+								{ name:'Jagger', value:'Jagger' }
+							] 
+						});
 				}
 			}
 
-			generateItems(1);
+			generateItems(totalItems);
 			
-			var single = document.querySelector('#single');
-			single.model = data[0];
-			single.value = data[0].first_name;
-			single.collection = data[0].collection;
-			// single.textContent = data[0].first_name;
+			// var single = document.querySelector('#single');
+			// single.model = data[0];
+			// single.value = data[0].first_name;
+			// single.collection = data[0].collection;
 
 			window.addEventListener("WebComponentsReady", function() {
-				// grid = document.querySelector('#grid');
-				// grid.data = data;
+				grid = document.querySelector('#grid');
+				grid.data = data;
 			});
 		</script>
 		
