@@ -114,6 +114,7 @@
 
 :host([layout=editor]) {
 	border: 1px solid $color-A8;
+	box-sizing: border-box;
 }
 
 // support multiple size configurations
