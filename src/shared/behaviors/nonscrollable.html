@@ -8,15 +8,15 @@
 */
 (function(scope) {
 
-	var _openedInstances = [];
+	var _openedInstances = new Set();
 	var __oldBodyPointer;
 
 	function _addOpenedInstance(instance) {
-		_openedInstances.push(instance);
+		_openedInstances.add(instance);
 	}
 
 	function _removeOpenedInstance(instance) {
-		_openedInstances.splice(_openedInstances.indexOf(instance), 1);
+		_openedInstances.delete(instance);
 	}
 
 	// There are cases where multiple panels can be opened simultaneously
@@ -25,13 +25,13 @@
 		var bodyPointer = document.body.style.pointerEvents;
 		if (state === 'opened') {
 			// Only set body on first opened instance
-			if (_openedInstances.length === 1) {
+			if (_openedInstances.size === 1) {
 				__oldBodyPointer = document.body.style.pointerEvents;
 				document.body.style.pointerEvents = 'none';
 			}
 		} else {
 			// only reset body if no opened instance
-			if (_openedInstances.length === 0) {
+			if (_openedInstances.size === 0) {
 				document.body.style.pointerEvents = this.__oldBodyPointer || '';
 			}
 		}
