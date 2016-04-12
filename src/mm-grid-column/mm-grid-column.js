@@ -13,46 +13,15 @@
 			StrandTraits.Refable
 		],
 
+		SORT_DEFAULT: 0,
+		SORT_ASCENDING: 1,
+		SORT_DESCENDING: -1,
+		SORT_EVENT: "column-sort",
+		RESIZE_EVENT: "column-resize",
+		RESIZE_START_EVENT: "column-resize-start",
+		RESIZE_END_EVENT: "column-resize-end",
+
 		properties: {
-
-			SORT_ICON_COLOR: {
-				type: String,
-				value: Colors.A2,
-			},
-			INFO_ICON_COLOR: {
-				type: String,
-				value: Colors.A4,
-			},
-
-			SORT_DEFAULT: {
-				type: Number,
-				value: 0,
-			},
-			SORT_ASCENDING: {
-				type: Number,
-				value: 1,
-			},
-			SORT_DESCENDING: {
-				type: Number,
-				value: -1,
-			},
-			SORT_EVENT: {
-				type: String,
-				value: "column-sort",
-			},
-			RESIZE_EVENT: {
-				type: String,
-				value: "column-resize",
-			},
-			RESIZE_START_EVENT: {
-				type: String,
-				value: "column-resize-start",
-			},
-			RESIZE_END_EVENT: {
-				type: String,
-				value: "column-resize-end",
-			},
-
 			field: {
 				type: String
 			},
@@ -76,6 +45,12 @@
 				type: Boolean,
 				value: false
 			},
+			info: {
+				type: String,
+				value: null,
+				notify: true,
+				// observer: "_infoChanged"
+			},
 			align: {
 				type: String,
 				value: "left"
@@ -88,7 +63,7 @@
 			minWidth: {
 				type: Number,
 				value: 75
-			}
+			},
 		},
 
 		listeners: {
@@ -110,11 +85,15 @@
 			return sortOrder === this.SORT_ASCENDING ? 'asc' : 'des';
 		},
 
+		_computeColumnClass: function (align) {
+			return "_mm_container " + (align || "");
+		},
+
 		_widthChanged: function(newVal, oldVal) {
 			this.style.width = newVal;
 		},
 
-		_handleTap: function() {
+		_handleTap: function(e) {
 			if(this.sort) {
 				this._toggleSort();
 				this.fire(this.SORT_EVENT, { field: this.sortField, val: this.sortOrder });
@@ -122,7 +101,7 @@
 		},
 
 		_handleGrabberTap: function(e) {
-			//Prevent toggling "sort" when resizing:
+			// Prevent toggling "sort" when resizing:
 			e.preventDefault();
 			e.stopImmediatePropagation();
 		},
@@ -155,6 +134,14 @@
 		_onTrackEnd: function(e) {
 			this.set('width', this.desiredWidth + 'px');
 			this.fire(this.RESIZE_END_EVENT, { field: this.field, val: this.desiredWidth - this.startWidth });
+		},
+
+		_hasInfoTip: function(info) {
+			if (info && info.length > 0) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 
 	});

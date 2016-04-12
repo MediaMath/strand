@@ -8,17 +8,24 @@
 <link rel="import" href="../shared/fonts/fonts.html">
 <link rel="import" href="../shared/js/colors.html">
 <link rel="import" href="../mm-icon/mm-icon.html">
+<link rel="import" href="../mm-tooltip/mm-tooltip.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
 <dom-module id="mm-grid-column">
 	<link rel="import" type="css" href="mm-grid-column.css">
 	<template>
-		<div class="_mm_container">
+		<div class$="{{_computeColumnClass(align)}}">
 			<div class="left-items">
 				<div id="label"></div>
+				<!-- <template is="dom-if" if="{{info}}"> -->
+				<mm-icon id="info" hidden$="{{_hasInfoTip(info)}}" width="14" height="14" type="info"></mm-icon>
+				<mm-tooltip id="infoTip" hidden$="{{_hasInfoTip(info)}}" target="{{findById('info')}}" _scope="{{ref}}">
+					<label>{{info}}</label>
+				</mm-tooltip>
+				<!-- </template> -->
 			</div>
-			<template is="dom-if" if="{{sortOrder}}">
-				<mm-icon id="sort" width="10" height="10" type="sort" class$="{{_computeSortClass(sortOrder)}}" primaryColor="{{SORT_ICON_COLOR}}"></mm-icon>
+			<template is="dom-if" if="{{sort}}">
+				<mm-icon id="sort" width="10" height="10" type="sort" class$="{{_computeSortClass(sortOrder)}}"></mm-icon>
 			</template>
 		</div>
 		<template is="dom-if" if="{{resize}}">

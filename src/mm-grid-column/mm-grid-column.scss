@@ -22,20 +22,16 @@
 	cursor: pointer;
 }
 
-polyfill-next-selector { content: ':host > ._mm_container'; }
 ._mm_container {
 	user-select: none;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	font-family: "Arimo", sans-serif;
-	font-weight: bold;
-	font-size: 11px;
 	margin: auto 0;
 	width: 100%;
 
 	&.right {
-		justify-content: end;
+		justify-content: flex-end;
 	}
 
 	.left-items {
@@ -45,7 +41,13 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 }
 
 #label {
+	// TODO: switch this block to the mixin for default font
+	font-family: "Arimo", sans-serif;
+	font-weight: bold;
+	font-size: 11px;
+	line-height: 11px;
 	color: $color-A2;
+	
 	text-transform: uppercase;
 	white-space: nowrap;
 	overflow: hidden;
@@ -58,6 +60,8 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 }
 
 #sort {
+	color: $color-A2;
+
 	&.asc {
 		transform: scaleY(1);
 	}
@@ -65,6 +69,15 @@ polyfill-next-selector { content: ':host > ._mm_container'; }
 	&.des{
 		transform: scaleY(-1);
 	}
+}
+
+#info {
+	color: $color-A4,
+}
+
+#info[hidden],
+#infoTip[hidden] {
+	display: none;
 }
 
 #grabber {
