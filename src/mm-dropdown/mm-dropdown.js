@@ -55,21 +55,6 @@
 				type: String,
 				value: 'Select',
 			},
-			maxItems: {
-				type: Number,
-				observer: '_maxItemsChanged'
-			},
-			value: {
-				type: String,
-				reflectToAttribute: true,
-				notify: true,
-				observer: '_valueChanged'
-			},
-			data: {
-				type: Array,
-				notify: true,
-				observer: '_dataChanged'
-			},
 			isLoading:{
 				type:Boolean,
 				notify: true,
@@ -87,7 +72,22 @@
 				type: Boolean,
 				reflectToAttribute: true
 			},
-			layout: String
+			layout: String,
+			data: {
+				type: Array,
+				notify: true,
+				observer: '_dataChanged'
+			},
+			value: {
+				type: String,
+				reflectToAttribute: true,
+				notify: true,
+				observer: '_valueChanged'
+			},
+			maxItems: {
+				type: Number,
+				observer: '_maxItemsChanged'
+			}
 		},
 
 		behaviors: [
@@ -143,8 +143,8 @@
 
 		_selectItemByValue: function(value) {
 			this.async(function(){
-				var item = null,
-					valueStr = value.toString();
+				var item = null;
+				var valueStr = value.toString();
 
 				if (!this._widthLocked) this._lockWidth();
 
@@ -158,9 +158,9 @@
 		},
 
 		_updateSelectedItem: function(e) {
-			var target = Polymer.dom(e).path[0],
-				value = this._getValueFromDom(target).toString(),
-				targetIndex = null;
+			var target = Polymer.dom(e).path[0];
+			var value = this._getValueFromDom(target).toString();
+			var targetIndex = null;
 
 			if (this.data) {
 				targetIndex = this._getDataIndexFromDom(value);
@@ -198,7 +198,8 @@
 				if (!this.maxItems) {
 					this.maxItems = 10;
 				}
-				if (this.value) this._selectItemByValue(this.value);
+				// reset selectedIndex for recycler scenarios
+				this.selectedIndex = null;
 			} else {
 				this.reset();
 			}
@@ -206,8 +207,8 @@
 
 		// Getters
 		get itemHeight() {
-			var itemHeight = null,
-				items = this.items;
+			var itemHeight = null;
+			var items = this.items;
 
 			if (this.items.length > 0) {
 				if (this.data) {
@@ -242,9 +243,9 @@
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if (typeof newIndex === 'number') {
-				var newSelected = this.items[newIndex],
-					value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim(),
-					name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
+				var newSelected = this.items[newIndex];
+				var value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim();
+				var name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
 
 				this.value = value;
 
@@ -306,8 +307,8 @@
 
 		_updateTitle: function(selectedIndex) {
 			if (typeof selectedIndex === 'number') {
-				var selectedItem = this.items[selectedIndex],
-					title = '';
+				var selectedItem = this.items[selectedIndex];
+				var title = '';
 
 				if (selectedItem) {
 					var availableArea = (this.buttonWidth + this.borderWidth) - this.paddingWidth,
@@ -322,7 +323,7 @@
 		},
 
 		_hideInsertionPoints: function(data) {
-			if(data && data.length > 0) {
+			if (data && data.length > 0) {
 				return true;
 			} else {
 				return false;
@@ -340,7 +341,8 @@
 		},
 
 		_maxItemsChanged: function(newVal, oldVal) {
-			if(newVal && this.state === this.STATE_OPENED) this._setMaxHeight(newVal);
+			// if(newVal && this.state === this.STATE_OPENED) this._setMaxHeight(newVal);
+			this._setMaxHeight(newVal);
 	 	},
 
 	 	_setMaxHeight: function(maxItems) {
