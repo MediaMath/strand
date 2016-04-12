@@ -80,7 +80,6 @@
             if(index > currentIndex || index == currentIndex) {
                 o.active = true;
             }
-
             return this.classBlock(o);
         }
     });
