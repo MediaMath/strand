@@ -59,12 +59,8 @@
             var deep = Polymer.dom(this.root);
             if(!this.readonly){
                 var index = this.$.domRepeat.indexForElement(event.target);
-                var indexOld = (this.rating * -1) + this._noOfIcons;
+                this.indexOld = (this.rating * -1) + this._noOfIcons;
                 this.rating = (index - this._noOfIcons) * -1;
-                if (indexOld < this._noOfIcons) {
-                    deep.querySelector('[data-index="'+ indexOld +'"]').classList.remove("active");
-                }
-                deep.querySelector('[data-index="'+ index +'"]').classList.add("active");
                 this.greeting = this._customIcons[index];
             }
         },
@@ -79,8 +75,9 @@
             this.greeting = this.finalGreet[this.rating - 1];
         },
         _updateClass: function(index) {
+            var currentIndex = this.$.domRepeat.indexForElement(event.target);
             var o = {};
-            if ((index - this._noOfIcons) * -1 == this.rating) {
+            if(index > currentIndex || index == currentIndex) {
                 o.active = true;
             }
             return this.classBlock(o);
