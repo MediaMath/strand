@@ -12,11 +12,12 @@
 </head>
 <body>
     <div>
-        Rating Component : <mm-rating id="rating-with-default-configuration" display-totals display-greetings></mm-rating>
+        Rating Component : <mm-rating id="rating-with-default-configuration" display-totals></mm-rating>
     </div>
     <div>
         Rating Component : <mm-rating id="rating-with-configuration"
                                       custom-icon="abc.jpg"
+                                      display-greetings
                                       data='[{"name": "One Star"}, {"name": "Two Star"}, {"name": "Three Star"}, {"name": "Four Star"}, {"name": "Five Star"}]'></mm-rating>
     </div>
 
@@ -91,7 +92,7 @@
         });
 
         it("displayGreetings value should equal 'true' if it rendered correctly", function(done) {
-            var a = defaultRating,
+            var a = configuredRating,
                 displayGreetings;
 
             should.exist(a.displayGreetings);
@@ -123,28 +124,27 @@
 
             flush(function() {
                 values = a.data;
-                values[0].should.have.property('name', 'Poor');
-                values[1].should.have.property('name', 'Need Improvement');
+                values[0].should.have.property('name', 'Excellent');
+                values[1].should.have.property('name', 'Good');
                 values[2].should.have.property('name', 'Reasonable');
-                values[3].should.have.property('name', 'Good');
-                values[4].should.have.property('name', 'Excellent');
+                values[3].should.have.property('name', 'Need Improvement');
+                values[4].should.have.property('name', 'Poor');
                 done();
             });
         });
 
         it("should have rating values 'One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'", function(done) {
             var a = configuredRating,
-                    values = {};
-            var greetObj = a.data;
+                    values = {},
+                    greetObj = a.data;
             should.exist(a.data);
-            console.log(a.data);
             flush(function() {
                 values = greetObj;
-                values[0].should.have.property('name', 'One Star');
-                values[1].should.have.property('name', 'Two Star');
+                values[0].should.have.property('name', 'Five Star');
+                values[1].should.have.property('name', 'Four Star');
                 values[2].should.have.property('name', 'Three Star');
-                values[3].should.have.property('name', 'Four Star');
-                values[4].should.have.property('name', 'Five Star');
+                values[3].should.have.property('name', 'Two Star');
+                values[4].should.have.property('name', 'One Star');
                 done();
             });
         });

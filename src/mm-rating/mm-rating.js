@@ -43,6 +43,7 @@
         ready: function() {
             this._defaultNoOfIcons = [];
             this._noOfIcons = this.data.length;
+            this._customIcons = this.data.reverse();
             for (var i = this._noOfIcons - 1; i >= 0; i--) {
                 this._defaultNoOfIcons.push(i+1);
             }
@@ -54,33 +55,30 @@
                 return this.customIcon;
             }
         },
-        calculateRating: function(e) {
-            deep = Polymer.dom(this.root);
+        calculateRating: function() {
+            var deep = Polymer.dom(this.root);
             if(!this.readonly){
-                var index = e.model.index;
+                var index = this.$.domRepeat.indexForElement(event.target);
                 var indexOld = (this.rating * -1) + this._noOfIcons;
                 this.rating = (index - this._noOfIcons) * -1;
                 if (indexOld < this._noOfIcons) {
                     deep.querySelector('[data-index="'+ indexOld +'"]').classList.remove("active");
                 }
                 deep.querySelector('[data-index="'+ index +'"]').classList.add("active");
-                var greetObj = this.data;
-                this.greetArr = Object.keys(greetObj).map(function (key) {return greetObj[key]});
-                this.finalGreet = this.greetArr.reverse();
-                this.greeting = this.finalGreet[index];
+                this.greeting = this._customIcons[index];
             }
         },
-        _overHandler: function(e) {
-            var index = e.model.index;
-            var greetObj = this.data;
+        _overHandler: function() {
+            var index = this.$.domRepeat.indexForElement(event.target);
+            this.greeting = this._customIcons[index];
+        },
+        _outHandler: function() {
+            var greetObj = this._customIcons;
             this.greetArr = Object.keys(greetObj).map(function (key) {return greetObj[key]});
             this.finalGreet = this.greetArr.reverse();
-            this.greeting = this.finalGreet[index];
+            this.greeting = this.finalGreet[this.rating - 1];
         },
-        _outHandler: function(e) {
-            this.greeting = this.data[this.rating - 1];
-        },
-        updateClass: function(index) {
+        _updateClass: function(index) {
             var o = {};
             if ((index - this._noOfIcons) * -1 == this.rating) {
                 o.active = true;
