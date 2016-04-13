@@ -78,9 +78,9 @@
 			}
 		},
 
-		elementResize: function() {
-			this.debounce("update-title", this.updateTitle, 0);
-		},
+		// elementResize: function() {
+		// 	this.debounce("update-title", this.updateTitle, 0);
+		// },
 
 		updateTitle: function() {
 			var m = StrandLib.Measure;

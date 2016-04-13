@@ -7,27 +7,25 @@
 */
 (function (scope) {
 
-	var _instances = [];
+	var _instances = new Set();
 
 	function _addInstance(instance) {
-		_instances.push(instance);
+		_instances.add(instance);
 	}
 
 	function _removeInstance(instance) {
-		_instances.splice(_instances.indexOf(instance), 1);
+		_instances.delete(instance);
 	}
 
 	function _resizeHandler() {
-		var i;
-		for (i = _instances.length - 1; i >= 0; i--) {
-			if (_instances[i].resize) { _instances[i].resize(); }
+		for (var instance of _instances) {
+			if (instance.resize) instance.resize();
 		}
 	}
 
 	function _scrollHandler (argument) {
-		var i;
-		for (i = _instances.length - 1; i >= 0; i--) {
-			if (_instances[i].scroll) { _instances[i].scroll(); }
+		for (var instance of _instances) {
+			if (instance.scroll) instance.scroll(); 
 		}
 	}
 
