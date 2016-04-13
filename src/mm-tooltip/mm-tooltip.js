@@ -31,6 +31,12 @@
 				type: String,
 				value: "tooltip"
 			},
+			guideTip: {
+				type: Boolean,
+				value: false,
+				refelctToAttribute: true,
+				observer: '_guideTipChanged'
+			},
 			tipWidth: {
 				type: Number,
 				value: false, // if not set, assume it should be the width of it's content
@@ -41,7 +47,7 @@
 
 		attached: function() {
 			this.async(function() {
-				if (this._target) {
+				if (!this.guideTip && this._target) {
 					this._target.addEventListener('mouseover', this._overHandler.bind(this));
 					this._target.addEventListener('mouseout', this._outHandler.bind(this));
 					this._target.style.cursor = 'pointer';
@@ -50,7 +56,7 @@
 		},
 
 		removed: function() {
-			if (this._target) {
+			if (!this.guideTip && this._target) {
 				this._target.removeEventListener('mouseover', this._overHandler.bind(this));
 				this._target.removeEventListener('mouseout', this._outHandler.bind(this));
 				this._target.style.cursor = 'default';
@@ -71,10 +77,9 @@
 			this.style.width = newVal + 'px';
 		},
 
-		_updateClass: function(auto) {
-			var o = {};
-			o.auto = !auto;
-			return this.classBlock(o);
+		_guideTipChanged: function(newVal, oldVal) {
+			// don't supress document body clicks for guide tips
+			this.disableScroll = !newVal;
 		},
 
 		_closeFilter: function(instance, e, original) {

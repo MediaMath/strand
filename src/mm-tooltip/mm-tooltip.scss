@@ -10,6 +10,7 @@
 
 $arrow-size: 5px;
 $bg-color: $color-A1;
+$bg-color-guide: $color-D12;
 
 :host {
 	position: fixed;
@@ -33,30 +34,13 @@ $bg-color: $color-A1;
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
 
-	&.auto {
-		padding: 16px;
-
-		.close-icon {
-			position: absolute;
-			cursor: pointer;
-			top: 8px;
-			right: 8px;
-			color: $color-A4;
-
-			&:hover {
-				color: $color-F0;
-			}
-		}
-
-		& > ::content a {
-			color: $color-F0;
-		}
+	& > ::content a {
+		color: $color-F0;
 	}
 }
 
 :host([direction="n"]) {
 	padding-bottom: $arrow-size !important;
-	
 	@include arrow(bottom, $arrow-size, $bg-color, $bg-color);
 }
 
@@ -67,10 +51,62 @@ $bg-color: $color-A1;
 
 :host([direction="e"]) {
 	padding-left: $arrow-size !important;
-	@include arrow(left, $arrow-size, $bg-color, $bg-color);
+	@include arrow(bottom, $arrow-size, $bg-color, $bg-color);
 }
 
 :host([direction="w"]) {
 	padding-right: $arrow-size !important;
-	@include arrow(right, $arrow-size, $bg-color, $bg-color);
+	@include arrow(bottom, $arrow-size, $bg-color, $bg-color);
+}
+
+:host([auto="false"]) {
+	#container {
+		padding: 16px;
+	}
+
+	.close-icon {
+		position: absolute;
+		cursor: pointer;
+		top: 8px;
+		right: 8px;
+		color: $color-F0;
+
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+}
+
+:host([direction="n"][guide-tip]) {
+	&:before,
+	&:after {
+		border-top-color: $bg-color-guide;
+	}
+}
+
+:host([direction="s"][guide-tip]) {
+	&:before,
+	&:after {
+		border-bottom-color: $bg-color-guide;
+	}
+}
+
+:host([direction="e"][guide-tip]) {
+	&:before,
+	&:after {
+		border-left-color: $bg-color-guide;
+	}
+}
+
+:host([direction="w"][guide-tip]) {
+	&:before,
+	&:after {
+		border-right-color: $bg-color-guide;
+	}
+}
+
+:host([guide-tip]) {
+	#container {
+		background: $bg-color-guide;
+	}
 }

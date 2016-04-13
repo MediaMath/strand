@@ -4,6 +4,7 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<link rel="import" href="../mm-icon/mm-icon.html" />
 	<link rel="import" href="../mm-action/mm-action.html" />
+	<link rel="import" href="../mm-button/mm-button.html" />
 	<link rel="import" href="mm-tooltip.html" />
 	<style type="text/css">
 			body, html {
@@ -160,11 +161,17 @@
 		</p>
 		<hr/>
 		<p>
-			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-action <mm-action id="custom3Targ" underline="true" unresolved><label>Best Thing Ever!</label></mm-action>
-			<mm-tooltip tip-width="200" target="#custom3Targ" unresolved>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a mm-action, guide tip example<mm-action id="custom3Targ" underline="true" unresolved><label>Best Thing Ever!</label></mm-action>
+			<mm-tooltip id="guideTip" tip-width="200" auto="false" target="#custom3Targ" guide-tip unresolved>
 				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
 			</mm-tooltip>
 		</p>
+		<mm-button id="showGuide">
+			<label>Show Guide Tip</label>
+		</mm-button>
+		<mm-button id="hideGuide">
+			<label>Hide Guide Tip</label>
+		</mm-button>
 		<hr/>
 	</div>
 	<script>
@@ -172,11 +179,22 @@
 			var t = new Strand.Tooltip(),
 				d = document.createElement('div'),
 				l = document.createElement('label'),
-				de = document.querySelector('#dynamicExample');
+				de = document.querySelector('#dynamicExample'),
+				sg = document.querySelector('#showGuide'),
+				hg = document.querySelector('#hideGuide'),
+				gt = document.querySelector('#guideTip');
 
 			d.classList.add('div-targ');
 			l.innerHTML = "dynamic tooltip, oh yeah!";
 			t.target = d;
+
+			sg.addEventListener('click', function(e) {
+				gt.open();
+			}); 
+
+			hg.addEventListener('click', function(e) {
+				gt.close();
+			}); 
 			
 			de.appendChild(d);
 			Polymer.dom(de).appendChild(t);
