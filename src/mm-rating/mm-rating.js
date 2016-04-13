@@ -19,7 +19,8 @@
             },
             rating: {
                 type: Number,
-                value: 0
+                value: 0,
+                observer: "_valueChanged"
             },
             displayTotals: {
                 type: Boolean,
@@ -74,10 +75,18 @@
             this.finalGreet = this.greetArr.reverse();
             this.greeting = this.finalGreet[this.rating - 1];
         },
+        _valueChanged: function(newVal, oldVal) {
+            if (newVal !== null) {
+                this.debounce("valueChanged", this._handleChangeValue);
+                this.indexOld =  newVal;
+            }
+        },
+        _handleChangeValue: function() {
+            this.indexOld = this.rating - 1;
+        },
         _updateClass: function(index) {
-            var currentIndex = this.$.domRepeat.indexForElement(event.target);
             var o = {};
-            if(index > currentIndex || index == currentIndex) {
+            if ((index - this._noOfIcons) * -1 <= this.rating) {
                 o.active = true;
             }
             return this.classBlock(o);
