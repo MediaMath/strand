@@ -108,6 +108,8 @@
 			<mm-grid-column editable field="first_name">First Name</mm-grid-column>
 			<mm-grid-column field="last_name">Last Name</mm-grid-column>
 			<mm-grid-column field="email">Email</mm-grid-column>
+			<mm-grid-column field="start_date">Start Date</mm-grid-column>
+			<mm-grid-column field="end_date">End Date</mm-grid-column>
 			
 			<template preserve-content>
 				<mm-grid-item model="{{model}}" scope="{{scope}}">
@@ -118,6 +120,14 @@
 
 					<div field="last_name">
 						<mm-inline-edit type="primitive" value="{{model.last_name}}" model="{{model}}">{{model.last_name}}</mm-inline-edit>
+					</div>
+
+					<div field="start_date">
+						<mm-inline-edit type="date" value="{{model.start_date}}" model="{{model}}">{{model.start_date}}</mm-inline-edit>
+					</div>
+
+					<div field="end_date">
+						<mm-inline-edit type="date" value="{{model.end_date}}" model="{{model}}">{{model.end_date}}</mm-inline-edit>
 					</div>
 					
 				</mm-grid-item>
@@ -156,6 +166,8 @@
 							first_name: first,
 							last_name: last,
 							email: email,
+							start_date: '05/01/2016',
+							end_date: '06/30/2016',
 							collection: [
 								{ name: first, value: first },
 								{ name:'Hoffa', value:'Hoffa' },

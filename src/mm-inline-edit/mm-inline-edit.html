@@ -24,7 +24,7 @@
 			<content></content>
 		</span>
 
-		<div id="panel" hidden$="{{_typeDate(type)}}">
+		<div id="panel">
 			<div id="container">
 				<template is="dom-if" if="{{_typePrimitive(type)}}">
 					<mm-input 
@@ -50,15 +50,15 @@
 		</div>
 
 		<!-- Date picker is a special case - as it will not live in the panel -->
-		<template is="dom-if" if="{{_typeDate(type)}}">
+		<template is="dom-if" if="{{showDate}}" restamp>
 			<mm-datepicker
-				id="datepicker"></mm-datepicker>
-		</template>
-
-
-		<template is="dom-if" if="{{_typeDate(type)}}">	
-			<mm-datepicker
-			id="datepicker"></mm-datepicker>
+				id="datepicker"
+				use-timezone="false"
+				use-time="false"
+				use-range="false"
+				on-saved="_dateSaved"
+				on-close="_dateClosed"
+				dual="false"></mm-datepicker>
 		</template>
 
 	</template>

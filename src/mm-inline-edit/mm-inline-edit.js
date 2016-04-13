@@ -18,6 +18,7 @@
 			StrandTraits.PositionableEditor,
 			StrandTraits.Stylable,
 			StrandTraits.Keyboardable,
+			// StrandTraits.Falsifiable,
 			StrandTraits.Refable,
 		],
 
@@ -47,6 +48,14 @@
 			collection: {
 				type: Array,
 				notify: true
+			},
+			// dual: {
+			// 	type: Boolean,
+			// 	value: false
+			// },
+			showDate: {
+				type: Boolean,
+				value: false
 			},
 			_scope: {
 				type: Object,
@@ -93,17 +102,22 @@
 				case this.TYPE_PRIMITIVE:
 					this.$$('#input').value = this.value;
 					this.$$('#input').focus();
+					this.open();
 					break;
 				case this.TYPE_COLLECTION:
 					this.$$('#dropdown').data = this.model.collection;
 					this.$$('#dropdown').value = this.value;
+					this.open();
 					break;
 				case this.TYPE_DATE:
-					// TODO
+					this.showDate = true;
+					this.async(function() {
+						this.$$('#datepicker').target = this.$.target;
+						this.$$('#datepicker').startDate = this.value;
+						this.$$('#datepicker').open();
+					});
 					break;
 			}
-
-			this.open();
 		},
 
 		// actions
@@ -137,6 +151,16 @@
 		// 	console.log('mm-inline-edit :: _valueChanged :: oldVal: ', oldVal);
 		// },
 
+		_dateSaved: function(e) {
+			console.log('_dateSaved: ', e);
+		},
+
+		_dateClosed: function(e) {
+			console.log('_dateClosed', e);
+			// TODO: temp move later
+			this.showDate = false;
+		},
+
 		// values
 		_changeValue: function() {
 			var path = String('model.' + this.field);
@@ -145,17 +169,23 @@
 			switch (this.type) {
 				case this.TYPE_PRIMITIVE:
 					value = this.$$('#input').value;
+					this.close();
 					break;
 				case this.TYPE_COLLECTION:
 					value = this.$$('#dropdown').value;
+					this.close();
 					break;
 				case this.TYPE_DATE:
-					// TODO
+					// this.async(function() {
+					// 	this.$$('#datepicker').target = this.$.target;
+					// 	this.$$('#datepicker').startDate = this.value;
+					// 	this.$$('#datepicker').open();
+					// });
+					// this.showDate = false;
 					break;
 			}
 
 			this.set(path, value);
-			this.close();
 		},
 
 		_restoreValue: function() {
