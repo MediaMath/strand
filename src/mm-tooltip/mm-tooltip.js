@@ -41,6 +41,7 @@
 
 		_boundOverHandler: null,
 		_boundOutHandler: null,
+		_prevTargetCursor: null,
 
 		attached: function() {
 			this._boundOverHandler = this._overHandler.bind(this);
@@ -50,6 +51,7 @@
 				if (this._target) {
 					this._target.addEventListener('mouseover', this._boundOverHandler);
 					this._target.addEventListener('mouseout', this._boundOutHandler);
+					this._prevTargetCursor = this._target.style.cursor;
 					this._target.style.cursor = 'pointer';
 				}
 			});
@@ -59,7 +61,7 @@
 			if (this._target) {
 				this._target.removeEventListener('mouseover', this._boundOverHandler);
 				this._target.removeEventListener('mouseout', this._boundOutHandler);
-				this._target.style.cursor = 'default';
+				this._target.style.cursor = this._prevTargetCursor;
 			}
 		},
 
