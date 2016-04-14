@@ -39,20 +39,26 @@
 			}
 		},
 
+		_boundOverHandler: null,
+		_boundOutHandler: null,
+
 		attached: function() {
+			this._boundOverHandler = this._overHandler.bind(this);
+			this._boundOutHandler = this._outHandler.bind(this);
+
 			this.async(function() {
 				if (this._target) {
-					this._target.addEventListener('mouseover', this._overHandler.bind(this));
-					this._target.addEventListener('mouseout', this._outHandler.bind(this));
+					this._target.addEventListener('mouseover', this._boundOverHandler);
+					this._target.addEventListener('mouseout', this._boundOutHandler);
 					this._target.style.cursor = 'pointer';
 				}
 			});
 		},
 
-		removed: function() {
+		detached: function() {
 			if (this._target) {
-				this._target.removeEventListener('mouseover', this._overHandler.bind(this));
-				this._target.removeEventListener('mouseout', this._outHandler.bind(this));
+				this._target.removeEventListener('mouseover', this._boundOverHandler);
+				this._target.removeEventListener('mouseout', this._boundOutHandler);
 				this._target.style.cursor = 'default';
 			}
 		},
