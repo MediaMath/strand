@@ -38,6 +38,55 @@
 	</style>
 </head>
 <body>
+	<dom-module id="arbitrary-controller">
+		<template>
+			<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{arbitraryData}}" mixin-findable="{{ref}}" arbitrary-field="{{ref}}">
+				<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+				<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+				<template preserve-content>
+					<mm-grid-item model="{{model}}" scope="{{scope}}">
+						<div class="expansion">
+							<div class="expansion-row">
+								<div class="expansion-col" on-tap="_echo">
+									<h4>Expanded Content</h4>
+									<span>{{model.name}}</span>
+								</div>
+								<div class="expansion-col">
+									<h4>Expanded Advertiser</h4>
+									<span>{{model.advertiser}}</span>
+								</div>
+								<div class="expansion-col">
+									<h4>Expanded Concept</h4>
+									<span>{{model.concept}}</span>
+								</div>
+							</div>
+						</div>
+					</mm-grid-item>
+				</template>
+			</mm-grid>
+		</template>
+		<style>
+			#unused {
+				display: none;
+			}
+		</style>
+		<script>
+			HTMLImports.whenReady(function() {
+				Polymer(StrandTraits.MixinFindable.prototypeAsMixin({
+					is:"arbitrary-controller",
+					behaviors: [
+						StrandTraits.Refable,
+					],
+
+					_echo: function (ev) {
+						var templateInstance = this;
+						var arbitraryController = this.scope.arbitraryField;
+						console.log("_echo", arbitraryController.is, ev);
+					},
+				}));
+			});
+		</script>
+	</dom-module>
 	<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
 		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
 		<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
@@ -47,7 +96,8 @@
 		<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
 		<mm-grid-column width="30%" field="actions"></mm-grid-column>
 
-		<template preserve-content>
+		<template preserve-content id="arbitraryIdentifier">
+			<mm-icon type="info" on-click="_customClick" on-track="_customDrag"></mm-icon>
 			<mm-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="actions">
 					<!-- 
@@ -84,30 +134,7 @@
 						value="{{model.value}}">
 					</mm-dropdown>
 					-->
-					<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
-						<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-						<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-						<template preserve-content>
-							<mm-grid-item model="{{model}}" scope="{{scope}}">
-								<div class="expansion">
-									<div class="expansion-row">
-										<div class="expansion-col">
-											<h4>Expanded Content</h4>
-											<span>{{model.name}}</span>
-										</div>
-										<div class="expansion-col">
-											<h4>Expanded Advertiser</h4>
-											<span>{{model.advertiser}}</span>
-										</div>
-										<div class="expansion-col">
-											<h4>Expanded Concept</h4>
-											<span>{{model.concept}}</span>
-										</div>
-									</div>
-								</div>
-							</mm-grid-item>
-						</template>
-					</mm-grid>
+					<arbitrary-controller id="mixin" arbitrary-data="{{model.subdata}}"></arbitrary-controller>
 				</div>
 				<div field="name">
 					Creative - {{model.name}}
@@ -306,6 +333,20 @@
 
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
+			app.mixinsForValue = function (value) {
+				if (value.id === "arbitraryIdentifier" &&
+					value instanceof HTMLTemplateElement) {
+					return [{
+						_customClick: function (ev) {
+							console.log("_customClick", ev);
+						},
+					}, {
+						_customDrag: function (ev) {
+							console.log("_customDrag", ev);
+						},
+					}];
+				}
+			};
 			app.data = data;
 
 			app.addEventListener('grid-item-clicked', function(e) {

@@ -17,7 +17,8 @@
     "build": "gulp",
     "start": "gulp live",
     "dist": "gulp build:dist",
-    "release": "gulp release:patch"
+    "release": "gulp release:patch",
+    "bower": "bower"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
