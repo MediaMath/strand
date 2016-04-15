@@ -155,8 +155,6 @@
 				return all;
 			}, []);
 
-			Polymer.StyleUtil.clearStyleRules(style);
-
 			style.textContent += "\n\n"+Polymer.StyleUtil.toCssText(css, null, 0|preserveProperties);
 		}
 
