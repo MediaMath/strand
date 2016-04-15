@@ -30,31 +30,11 @@
 	</style>
 </head>
 <body>
-	<dom-module id="some-controller">
-		<template>
-			<mm-grid id="mmTestGrid" gpu="4d" selectable unresolved data="{{data}}" mixin-findable="{{mixinFindable}}">
-				<mm-grid-column width="10%" field="drag">DRAG</mm-grid-column>
-
-				<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-				<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-				<mm-grid-column width="10%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-				<mm-grid-column width="10%" field="concept" sort resize>Concept</mm-grid-column>
-				<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-				<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
-
-				<template preserve-content id="potentiallyUsedForDifferentiatingInvocationsTo-mixinsForValue">
-					<mm-grid-item model="{{model}}" scope="{{scope}}">
-						<div field="drag" on-track="_customDrag"></div>
-						<div field="id" on-mouseover="_customHover">HOVER {{model.id}}</div>
-						<div field="name" on-click="_customClick">CLICK {{model.name}}</div>
-					</mm-grid-item>
-				</template>
-			</mm-grid>
-		</template>
+	<dom-module id="some-adapter">
 		<script>
 			HTMLImports.whenReady(function() {
 				Polymer({
-					is:"some-controller",
+					is:"some-adapter",
 					behaviors: [
 						StrandTraits.MixinFindable,
 					],
@@ -88,7 +68,29 @@
 		</script>
 	</dom-module>
 
-	<some-controller id="mmTestGridController"></some-controller>
+	<template is="dom-bind" id="mmTestGridApp">
+		<!-- some-adapter must be a child preceding the mm-grid for the "someAdapter" bind to work properly -->
+		<some-adapter id="mmTestGridController" mixin-findable="{{someAdapter}}"></some-adapter>
+
+		<mm-grid id="mmTestGrid" gpu="4d" selectable unresolved data="{{data}}" mixin-findable="{{someAdapter}}">
+			<mm-grid-column width="10%" field="drag">DRAG</mm-grid-column>
+
+			<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+			<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
+			<mm-grid-column width="10%" field="advertiser" sort resize>Advertiser</mm-grid-column>
+			<mm-grid-column width="10%" field="concept" sort resize>Concept</mm-grid-column>
+			<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
+			<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
+
+			<template preserve-content id="potentiallyUsedForDifferentiatingInvocationsTo-mixinsForValue">
+				<mm-grid-item model="{{model}}" scope="{{scope}}">
+					<div field="drag" on-track="_customDrag"></div>
+					<div field="id" on-mouseover="_customHover">HOVER {{model.id}}</div>
+					<div field="name" on-click="_customClick">CLICK {{model.name}}</div>
+				</mm-grid-item>
+			</template>
+		</mm-grid>
+	</template>
 
 	<script type="text/javascript">
 		var data = [],
@@ -129,7 +131,7 @@
 		}
 
 		window.addEventListener("WebComponentsReady", function() {
-			app = document.querySelector("#mmTestGridController");
+			app = document.querySelector("#mmTestGridApp");
 			app.data = data;
 
 		});

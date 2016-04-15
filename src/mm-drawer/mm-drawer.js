@@ -75,6 +75,8 @@
 		_expandedChanged: function(expanded) {
 			if(!this.openedHeight || this.forceMeasure)
 				this.openedHeight = this.$.content.offsetHeight;
+
+			this.fire("toggled", this.expanded);
 		},
 
 		open: function () {
