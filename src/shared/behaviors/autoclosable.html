@@ -8,14 +8,14 @@
 */
 (function (scope) {
 
-	var _instances = [];
+	var _instances = new Set();
 
 	function _addInstance(instance) {
-		_instances.push(instance);
+		_instances.add(instance);
 	}
 
 	function _removeInstance(instance) {
-		_instances.splice(_instances.indexOf(instance), 1);
+		_instances.delete(instance);
 	}
 
 	document.addEventListener("mouseup", function(e) {
@@ -23,8 +23,7 @@
 		var instance;
 		var scope;
 		var filter;
-		for(var i in _instances) {
-			instance = _instances[i];
+		for (var instance of _instances) {
 			filter = instance._closeFilter;
 			scope = typeof instance.scope === "object" ? instance.scope : instance;
 			filter.apply(scope, [instance, normalized, e]);

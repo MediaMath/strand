@@ -8,38 +8,41 @@
 
 (function (scope) {
 
-	var _instances = [];
+	var _instances = new Set();
 	var _il = 0;
 	var _backoff = 0;
 	var _backoff_inc = 200;
 	var _backoff_max = 2000;
 
 	function _addInstance(instance, target) {
-		_instances.push({
-			target:target,
+		var meta = {
+			target: target,
 			instance: instance,
-			width:target.offsetWidth,
-			height:target.offsetHeight,
-		});
+			width: target.offsetWidth,
+			height: target.offsetHeight,
+		};
+		_instances.add(meta);
 		_il++;
 		requestAnimationFrame(_measure);
 	}
 
 	function _removeInstance(instance) {
-		_instances.filter(function(meta) {
-			return meta.instance === instance;
-		}).forEach(function(target) {
-			_instances.splice(_instances.indexOf(target), 1);
-			_il--;
-		});
+		var metaArr = Array.from(_instances);
+		var meta = metaArr.filter(function(item){
+			return item.instance === instance;
+		})[0];
+		_instances.delete(meta);
+		_il--;
 	}
 
 	function _measure() {
 		_backoff += _backoff_inc;
 		if (_backoff > _backoff_max) _backoff = _backoff_max;
 
+		var _instArr = Array.from(_instances);
+
 		for(var i=0; i<_il; i++) {
-			var meta = _instances[i];
+			var meta = _instArr[i];
 			var w = meta.target.offsetWidth;
 			var h = meta.target.offsetHeight;
 			if (meta.width !== w) {
