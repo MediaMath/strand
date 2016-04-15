@@ -12,19 +12,19 @@
 		modal:{
 			base:1*_w,
 			max:2*_w,
-			items:[],
+			items: new Set(),
 			topIndex:1*_w
 		},
 		ui:{
 			base:2*_w,
 			max:3*_w,
-			items:[],
+			items: new Set(),
 			topIndex:2*_w
 		},
 		tooltip:{
 			base:3*_w,
 			max:4*_w,
-			items:[],
+			items: new Set(),
 			topIndex:3*_w
 		}
 	};
@@ -33,11 +33,10 @@
 		var cat = _instances[type],
 			inst = !instance ? host : instance;
 
-		if (cat && cat.items.length < cat.max) {
-			cat.items.push(inst);
+		if (cat && cat.items.size < cat.max) {
+			cat.items.add(inst);
 			host._setDepth(cat.topIndex);
 			cat.topIndex++;
-			// instance._setDepth(cat.items.length + cat.base);
 		} else {
 			throw(new Error("Could not add item at " + cat.max));
 		}
@@ -48,7 +47,7 @@
 			inst = !instance ? host : instance;
 
 		if (cat) {
-			cat.items.splice(cat.items.indexOf(inst), 1);
+			cat.items.delete(inst);
 		}
 	}
 

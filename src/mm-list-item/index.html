@@ -1,19 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
+	<head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="mm-list-item.html">
-    <link rel="import" href="../mm-input/mm-input.html">
-  </head>
-  <body>
+		<link rel="import" href="mm-list-item.html">
+		<link rel="import" href="../mm-input/mm-input.html">
+		<link rel="import" href="../shared/behaviors/resizable.html"/>
+	</head>
+	<body>
+		<!-- testing resizable, which we don't actually use in mm-list-item anymore -->
+		<!--
+		<dom-module id="mm-test">
+			<template>
+				<style>
+					:host {
+						display: block;
+						position: relative;
+					}
+				</style>
+				<div id="d" style="width:100%; height: 20px; background: #ff0000;"></div>
+			</template>
+			<script>
+				HTMLImports.whenReady(function() {
+					Polymer({
+						is: 'mm-test',
+						properties: {
+							resizeTarget:{
+								type:Object,
+								value: function() { return this.$.d; }
+							}
+						},
+						behaviors: [
+							StrandTraits.Resizable
+						],
+						elementResize: function(w, h, target) {
+							console.log(w, h, target);
+						}
+					});
+				});
+			</script>
+		</dom-module>
+		-->
 
-    <mm-list-item>Item here 00</mm-list-item>
-    <mm-list-item>I am a moderate amount of text. Just a bit but not too much</mm-list-item>
-    <mm-list-item >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mm-list-item>
-    <mm-list-item highlight="Lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mm-list-item>
-    <template is="dom-bind">
-        <mm-input value="{{hl}}"></mm-input>
-        <mm-list-item highlight="{{hl}}">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mm-list-item>
-    </template>
-  </body>
+		<mm-list-item>Item here 00</mm-list-item>
+		<mm-list-item>I am a moderate amount of text. Just a bit but not too much</mm-list-item>
+		<mm-list-item >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mm-list-item>
+		<mm-list-item highlight="Lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mm-list-item>
+		<template is="dom-bind">
+				<mm-input value="{{hl}}"></mm-input>
+				<mm-list-item highlight="{{hl}}">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mm-list-item>
+		</template>
+
+		<!--
+		<mm-test></mm-test>
+		<mm-test></mm-test>
+		<mm-test></mm-test>
+		<mm-test></mm-test>
+		<mm-test></mm-test>
+
+		<script type="text/javascript">
+			// document.addEventListener("WebComponentsReady", function(e) {
+			// 	console.log(e);
+			// });
+		</script>
+		-->
+
+	</body>
 </html>
