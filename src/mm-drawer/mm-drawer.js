@@ -32,6 +32,7 @@ Polymer('mm-drawer', {
 		} else {
 			this.close();
 		}
+		this.fire("toggled", this.expanded);
 	},
 
 	open: function() {
