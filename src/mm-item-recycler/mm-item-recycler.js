@@ -298,10 +298,12 @@ found here: https://github.com/Polymer/core-list
 			var count = 0|(binds && binds.length);
 			var index = 0;
 			var bound = null;
+			var convert = 0|false;
 
 			if (modelChanged) {
 				if (path.charCodeAt(offset) === "#".charCodeAt(0)) {
 					offset += 1;
+					convert = 0|true;
 				}
 
 				if (delimiter < offset) {
@@ -313,6 +315,14 @@ found here: https://github.com/Polymer/core-list
 				}
 
 				if (!isNaN(num)) {
+					if (convert) {
+						num = this.data.indexOf(Polymer.Collection.get(this.data).getItem("#"+num));
+						if (num < 0 ||
+							num > this.data.length - 1) {
+							throw new Error("Polymer.Collection splicing likely caused a fatal inconsistency");
+						}
+					}
+
 					for (index; index < count; index++) {
 						bound = binds[index];
 
