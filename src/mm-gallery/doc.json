@@ -1,0 +1,32 @@
+{
+  "name": "mm-gallery",
+  "description": "A fully-styled, image gallery with thumbnail slider & enlarged image view.",
+  "attributes": [
+    {
+      "name": "data",
+      "type": "Array",
+      "description": "The array of data with configurations for image sources & caption for gallery.",
+      "optional": false,
+      "default": "[]"
+    }
+  ],
+  "methods": [{
+    "name": "_slideLeft",
+    "description": "Slides thumbnail images within the slider to the left."
+  }, {
+    "name": "_slideRight",
+    "description": "Slides thumbnail images within the slider to the right."
+  }, {
+    "name": "_handleActiveClass",
+    "description": "Handles the active/inactive behavior on click of thumbnail image."
+  }, {
+    "name": "_updateClass",
+    "description": "Updates the image element class based on index."
+  }, {
+    "name": "_checkIfEmpty",
+    "description": "Performs a check to see if the value passed is null/undefined."
+  }],
+  "behaviors" : [
+    "Stylable"
+  ]
+}

@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="TestHelper.js"></script>
+    <script>
+        var should = chai.should();
+    </script>
+    <link rel="import" href="../build/strand.html">
+</head>
+<body>
+<script>
+    describe("mm-gallery", function() {
+
+        it("should have an element constructor", function() {
+            var element = new Strand.Gallery;
+            element.nodeName.should.equal("MM-GALLERY");
+        });
+
+        it("should have data property", function() {
+            var gallery = document.querySelector("#gallery");
+            should.exist(gallery.data);
+        });
+
+        it("should render items when data is set", function(done) {
+            var gallery = document.querySelector("#gallery");
+            var imgdata = [{
+                "id": "1",
+                "thumb_src": "../../docs/images/gallery/thumbnails/01.JPG",
+                "img_src": "../../docs/images/gallery/01.JPG",
+                "caption": "Image 1",
+                "caption_position": "bottom"
+            }, {
+                "id": "2",
+                "thumb_src": "../../docs/images/gallery/thumbnails/02.JPG",
+                "img_src": "../../docs/images/gallery/02.JPG",
+                "caption": "Image 2",
+                "caption_position": ""
+            }, {
+                "id": "3",
+                "thumb_src": "../../docs/images/gallery/thumbnails/03.JPG",
+                "img_src": "../../docs/images/gallery/03.JPG",
+                "caption": "Image 3",
+                "caption_position": "bottom"
+            }, {
+                "id": "4",
+                "thumb_src": "../../docs/images/gallery/thumbnails/04.JPG",
+                "img_src": "../../docs/images/gallery/04.JPG",
+                "caption": "Image 4",
+                "caption_position": "top"
+            }, {
+                "id": "5",
+                "thumb_src": "../../docs/images/gallery/thumbnails/05.JPG",
+                "img_src": "../../docs/images/gallery/05.JPG",
+                "caption": "Image 5",
+                "caption_position": "top"
+            }, {
+                "id": "6",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img01.jpg",
+                "img_src": "../../docs/images/gallery/img01.jpg",
+                "caption": "Image 6",
+                "caption_position": "top"
+            }, {
+                "id": "7",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img02.jpg",
+                "img_src": "../../docs/images/gallery/img02.jpg",
+                "caption": "Image 7",
+                "caption_position": "bottom"
+            }, {
+                "id": "8",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img03.jpg",
+                "img_src": "../../docs/images/gallery/img03.jpg",
+                "caption": "Image 8",
+                "caption_position": "top"
+            }, {
+                "id": "9",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img05.jpg",
+                "img_src": "../../docs/images/gallery/img05.jpg",
+                "caption": "Image 9",
+                "caption_position": "bottom"
+            }, {
+                "id": "10",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img06.jpg",
+                "img_src": "../../docs/images/gallery/img06.jpg",
+                "caption": "Image 10",
+                "caption_position": "top"
+            },
+            {
+                "id": "11",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img07.jpg",
+                "img_src": "../../docs/images/gallery/img07.jpg",
+                "caption": "Image 11",
+                "caption_position": "bottom"
+            }, {
+                "id": "12",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img08.jpg",
+                "img_src": "../../docs/images/gallery/img08.jpg",
+                "caption": "Image 12",
+                "caption_position": "top"
+            }, {
+                "id": "13",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img09.jpg",
+                "img_src": "../../docs/images/gallery/img09.jpg",
+                "caption": "Image 13",
+                "caption_position": "bottom"
+            }, {
+                "id": "14",
+                "thumb_src": "../../docs/images/gallery/thumbnails/img10.jpg",
+                "img_src": "../../docs/images/gallery/img10.jpg",
+                "caption": "Image 14",
+                "caption_position": "bottom"
+            }];
+
+            gallery._setData(imgdata);
+            gallery.selectedImg = imgdata[0];
+
+            flush(function(){
+                var items = Polymer.dom(gallery.root).querySelectorAll(".img-slider img");
+                items.length.should.be.greaterThan(0);
+                done();
+            });
+        });
+        it("should respond to click handler", function(done) {
+            var gallery = document.querySelector("#gallery");
+            flush(function(){
+                var items = Polymer.dom(gallery.root).querySelectorAll(".img-slider img");
+                items[1].click();
+                expect(items[1]).itself.to.respondTo('click');
+                done();
+            });
+        });
+    });
+</script>
+<mm-gallery id="gallery">
+</mm-gallery>
+
+</body>
+</html>

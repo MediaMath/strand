@@ -1,0 +1,42 @@
+<mm-gallery id="imggallery">
+</mm-gallery>
+
+<script>
+    var imgdata = [{
+        "id": "1",
+        "thumb_src": "../../docs/images/gallery/thumbnails/01.JPG",
+        "img_src": "../../docs/images/gallery/01.JPG",
+        "caption": "Image 1",
+        "caption_position": "bottom"
+    }, {
+        "id": "2",
+        "thumb_src": "../../docs/images/gallery/thumbnails/02.JPG",
+        "img_src": "../../docs/images/gallery/02.JPG",
+        "caption": "Image 2",
+        "caption_position": ""
+    }, {
+        "id": "3",
+        "thumb_src": "../../docs/images/gallery/thumbnails/03.JPG",
+        "img_src": "../../docs/images/gallery/03.JPG",
+        "caption": "Image 3",
+        "caption_position": "bottom"
+    }, {
+        "id": "4",
+        "thumb_src": "../../docs/images/gallery/thumbnails/04.JPG",
+        "img_src": "../../docs/images/gallery/04.JPG",
+        "caption": "Image 4",
+        "caption_position": "top"
+    }, {
+        "id": "5",
+        "thumb_src": "../../docs/images/gallery/thumbnails/05.JPG",
+        "img_src": "../../docs/images/gallery/05.JPG",
+        "caption": "Image 5",
+        "caption_position": "top"
+    }];
+
+    window.addEventListener('HTMLImportsLoaded', function() {
+        var gallery = document.querySelector('#gallery');
+        var data = JSON.stringify(imgdata);
+        gallery.setAttribute('data', data);
+    });
+</script>
