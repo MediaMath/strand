@@ -323,6 +323,11 @@ This code may only be used under the BSD style license found at http://mediamath
 			list[index] : fallback;
 	}
 
+	Continuum.prototype.calculateOverflow = function (index, amount) {
+		var overflow = (0|index) + (0|amount) - this._items.length();
+		return overflow < 0 ? 0 : overflow;
+	};
+
 	Continuum.prototype.addHeights = function (index, amount, initializations) {
 		var at = 0|index;
 		var count = 0|amount;
@@ -353,12 +358,8 @@ This code may only be used under the BSD style license found at http://mediamath
 		var at = 0|index;
 		var count = 0|amount;
 		var place = at;
-		var limit = this._items.length();
+		var limit = at + count - this.calculateOverflow(at, count);
 		var delta = 0;
-
-		if (limit > count) {
-			limit = count;
-		}
 
 		for (place; place < limit; place++) {
 			delta += this._items.get(place).getHeight();

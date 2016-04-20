@@ -22,9 +22,18 @@ found here: https://github.com/Polymer/core-list
 
 	window.addEventListener("mousewheel", Function());
 
-	function BoundReference (itemRecycler, id) {
+	function _identity (value) {
+		return value;
+	}
+
+	function _orderBindsByDOM (less, more) {
+		return less.nthDOM - more.nthDOM;
+	}
+
+	function BoundReference (itemRecycler, nthBind) {
 		this.itemRecycler = itemRecycler;
-		this.id = id;
+		this.nthBind = nthBind;
+		this.nthDOM = -1;
 		this.young = -1;
 		this.height = 0;
 		this.offset = 0;
@@ -204,15 +213,20 @@ found here: https://github.com/Polymer/core-list
 			var count = 0|(splices && splices.length);
 			var index = 0;
 			var mutation = null;
-			var initializations = null; // required to keep _middleHeight accurate
+			var added = 0;
+			var removed = 0;
 
 			for (index; index < count; index++) {
 				mutation = splices[index];
-				initializations = mutation.addedCount ? new Array(mutation.addedCount) : null;
-				itemRecycler._measurements.removeHeights(mutation.index, mutation.removed.length);
-				itemRecycler._measurements.addHeights(mutation.index, mutation.addedCount);
-				transactor.removeHeightsAtIndex(mutation.index, mutation.removed.length);
-				transactor.addHeightsAtIndex(mutation.index, mutation.addedCount, initializations);
+				if (removed = 0|mutation.removed.length) {
+					itemRecycler._measurements.removeHeights(mutation.index, removed);
+					transactor.removeHeightsAtIndex(mutation.index, removed);
+				}
+				if (added = 0|mutation.addedCount) {
+					itemRecycler._measurements.addHeights(mutation.index, added);
+					// height initialization array required to keep _middleHeight accurate
+					transactor.addHeightsAtIndex(mutation.index, added, new Array(added));
+				}
 			}
 		},
 
@@ -453,7 +467,7 @@ found here: https://github.com/Polymer/core-list
 						itemRecycler.async(itemRecycler._modifyPadding, 1);
 					}
 				}
-				itemRecycler._changeOffsetsAfter(bound, delta);
+				itemRecycler._changeOffsetsAfter(bound.nthDOM, delta);
 				itemRecycler._deltaMiddleHeight(itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height));
 				itemRecycler._repositionHeader();
 				itemRecycler._repositionFooter();
@@ -505,13 +519,14 @@ found here: https://github.com/Polymer/core-list
 
 		_modifyPadding: function () {
 			var binds = this._bindingList;
-			var count = 0|(binds && binds.length);
+			var sorted = !binds ? null : binds.filter(_identity).sort(_orderBindsByDOM)
+			var count = 0|(sorted && sorted.length);
 			var index = 0;
 			var bound = null;
 			var offset = 0;
 
 			for (index = 0; index < count; index++) {
-				bound = binds[index];
+				bound = sorted[index];
 				if (bound &&
 					bound.offset !== offset) {
 					bound.offset = offset;
@@ -525,16 +540,17 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_changeOffsetsAfter: function (reference, delta) {
+		_changeOffsetsAfter: function (nthDOM, delta) {
 			var binds = this._bindingList;
 			var count = 0|(delta && binds && binds.length);
 			var index = 0;
 			var bound = null;
 
-			for (index = 1 + (0|reference.id); index < count; index++) {
+			for (index; index < count; index++) {
 				bound = binds[index];
 
-				if (bound) {
+				if (bound &&
+					bound.nthDOM > nthDOM) {
 					bound.offset += delta;
 					this._repositionBound(bound);
 				}
@@ -734,33 +750,36 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_handleRecycling: function (id, young, old, recycler) {
-			var spliced = 0|(id < 0);
-			var index = 0|(spliced ? 0|-id - 1 : id);
+		_handleRecycling: function (clustered, young, old, recycler) {
+			var index = 0|(clustered);
+			var spliced = 0|(0|index < 0);
 			var bound = null;
 			var binds = this._bindingList;
 			var count = 0|(binds && binds.length);
 			var place = 0;
 			var height = 0;
-			var offset = this._calculateStaticPositionOffset(index, binds);
 			var useLightDom = 0|true;
 
 			if (spliced) {
 				if (old < 0) {
-					bound = this._includeBoundAtIndex(index, binds, young, useLightDom);
+					bound = this._includeBoundAtIndex(-1 - index, young, spliced,  useLightDom);
 					count++;
 				} else if (young < 0) {
-					bound = this._excludeBoundAtIndex(index, binds);
-					count--;
+					bound = this._excludeBoundAtIndex(-1 - index, old, spliced);
 					bound = null;
+					while (count-- > 0 && !binds[count]) {
+						binds.pop();
+					}
+					count++;
 				} else {
 					return;
 				}
 			} else if (old < 0) {
-				while (count < index) {
-					count = binds.push(null);
+				if (count !== index) {
+					throw new Error("Recycler constraints broken -- count !== index: "+ count + " / " + index);
 				}
-				count = binds.push(bound = new BoundReference(this, id));
+				count = binds.push(bound = new BoundReference(this, count));
+				bound.nthDOM = count - 1;
 				bound.value = new BoundValue(null, this.scope);
 				bound.element = document.createElement("DIV");
 				this.toggleClass("recycler-panel", true, bound.element);
@@ -771,13 +790,11 @@ found here: https://github.com/Polymer/core-list
 
 				Polymer.dom(bound.element).appendChild(bound.instance);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
-				this._addBoundResponse(bound, id, index);
+				this._addBoundResponse(bound);
 			} else if (young < 0) {
-				bound = binds[index];
-				this._removeBoundResponse(bound, id, index);
-				Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
-				bound = binds[index] = null;
-				while (count > 0 && !binds[--count]) {
+				bound = this._excludeBoundAtIndex(index, old, spliced);
+				bound = null;
+				while (count-- > 0 && !binds[count]) {
 					binds.pop();
 				}
 				count++;
@@ -786,7 +803,7 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if (bound) {
-				if (old !== young) {
+				if (old !== young || spliced) {
 					bound.instance.set("model", this.data[young]);
 				}
 
@@ -796,7 +813,7 @@ found here: https://github.com/Polymer/core-list
 					height = recycler.getHeightAtIndex(young);
 					bound.pendingResponse = 0|true;
 					// defer validation of the height
-					this.debounce(young, this._getBoundResponse(bound, spliced ? -1 - id : id, index));
+					this.debounce(young, this._getBoundResponse(bound));
 				}
 
 				if (this._measurements.isElevationKnown(young)) {
@@ -805,10 +822,10 @@ found here: https://github.com/Polymer/core-list
 					place = bound.location = recycler.getElevationAtIndex(young);
 				}
 
-				this._changeOffsetsAfter(bound, height - bound.height);
-				bound.height = height;
-				bound.offset = offset;
 				bound.young = young;
+				this._changeOffsetsAfter(bound.nthDOM, height - bound.height);
+				bound.height = height;
+				bound.offset = this._calculateStaticPositionOffset(bound.nthDOM);
 
 				if (place < this._maxPixels) {
 					this._repositionBound(bound);
@@ -821,27 +838,83 @@ found here: https://github.com/Polymer/core-list
 			this.debounce("settle-down", this._settleDown, 1);
 		},
 
-		_includeBoundAtIndex: function (at, binds, young, useLightDom) {
-			var index = 0|at;
+		_adjustNthDOM: function (limit, delta) {
+			var binds = this._bindingList;
+			var count = binds.length;
+			var index = 0;
+			var bound = null;
+			var amount = 0|delta;
+			var nthDOM = 0|limit;
+
+			for (index = 0; index < count; index++) {
+				bound = binds[index];
+				if (bound &&
+					bound.nthDOM > nthDOM) {
+					bound.nthDOM += amount;
+				}
+			}
+		},
+
+		_calculateStaticPositionOffset: function (nthDOM) {
+			var binds = this._bindingList;
+			var count = binds.length;
+			var index = 0;
+			var bound = null;
+			var offset = 0;
+
+			for (index; index < count; index++) {
+				bound = binds[index];
+				if (bound &&
+					bound.nthDOM < nthDOM) {
+					offset += bound.height;
+				}
+			}
+
+			return offset;
+		},
+
+		_includeBoundAtIndex: function (nthBind, young, spliced, useLightDom) {
+			var index = 0|nthBind;
 			var map = this._responders.boundMap;
+			var binds = this._bindingList;
 			var count = binds.length;
 			var bound = new BoundReference(this, index);
 			var included = bound;
-			var replaced = index < count ? binds[index] : null;
+			var replaced = included;
+			var limit = young - 1;
 
-			for (count; count-- > index; ) {
-				bound = binds[count + 1] = binds[count];
-				bound.id++;
-				bound.young++;
-				map[count + 1] = map[count];
+			if (spliced) {
+				for (index = 0; index < count; index++) {
+					bound = binds[index];
+					if (bound &&
+						bound.young > limit) {
+						if (young === bound.young++) {
+							replaced = bound;
+						}
+					}
+				}
 			}
 
+			if (replaced === included) {
+				replaced = null;
+				limit = count;
+			} else {
+				limit = replaced.nthDOM - 1;
+			}
+
+			this._adjustNthDOM(limit, 1);
+
 			bound = included;
-			index = 0|at;
+			index = 0|nthBind;
+
+			if (count !== index) {
+				throw new Error("Internal recycling inconsistency due to splicing");
+			}
 
 			binds[index] = bound;
 			map[index] = null;
 
+			bound.nthDOM = limit + 1;
 			bound.value = new BoundValue(null, this.scope);
 			bound.element = document.createElement("DIV");
 			this.toggleClass("recycler-panel", true, bound.element);
@@ -851,68 +924,82 @@ found here: https://github.com/Polymer/core-list
 			bound.instance.set("model", this.data[young]);
 
 			Polymer.dom(bound.element).appendChild(bound.instance);
-			Polymer.dom(this.$.middle).insertBefore(bound.element, replaced.element);
-			this._addBoundResponse(bound, bound.id, index);
+			if (replaced) {
+				Polymer.dom(this.$.middle).insertBefore(bound.element, replaced.element);
+			} else {
+				Polymer.dom(this.$.middle).appendChild(bound.element);
+			}
+			this._addBoundResponse(bound);
 
 			return bound;
 		},
 
-		_excludeBoundAtIndex: function (at, binds) {
-			var index = 0|at;
+		_excludeBoundAtIndex: function (nthBind, old, spliced) {
+			var index = 0|nthBind;
 			var map = this._responders.boundMap;
+			var responder = map[index];
+			var binds = this._bindingList;
 			var count = binds.length;
 			var bound = binds[index];
 			var excluded = bound;
+			var limit = count - 1;
 
-			for (index++; index < count; index++) {
-				bound = binds[index - 1] = binds[index];
-				bound.id--;
-				bound.young--;
-				map[index - 1] = map[index];
+			bound = binds[index];
+			binds[index] = binds[limit];
+			binds[limit] = bound;
+
+			binds[index].nthBind = index;
+			binds[limit].nthBind = limit;
+
+			responder = map[index];
+			map[index] = map[limit];
+			map[limit] = responder;
+
+			if (spliced) {
+				limit = old - 1;
+
+				for (index = 0; index < count; index++) {
+					bound = binds[index];
+					if (bound &&
+						bound.young > limit) {
+						bound.young--;
+					}
+				}
 			}
 
-			binds[count - 1] = null;
-			map[count - 1] = null;
+			this._adjustNthDOM(excluded.nthDOM, -1);
 
 			bound = excluded;
-			index = 0|at;
+			index = 0|--count;
 
-			this._removeBoundResponse(bound, bound.id, index);
+			bound.nthDOM = -1;
+			this._removeBoundResponse(bound);
 			Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
+
+			map[count] = null;
+			binds[count] = null;
 
 			return bound;
 		},
 
-		_calculateStaticPositionOffset: function (place, binds) {
-			var limit = 0|place;
-			var index = 0;
-			var bound = null;
-			var offset = 0;
-
-			for (index; index < limit; index++) {
-				bound = binds[index];
-				offset += bound.height;
-			}
-
-			return offset;
-		},
-
-		_addBoundResponse: function (bound, id, index) {
+		_addBoundResponse: function (bound) {
+			var nthBind = bound.nthBind;
 			var responder = this._boundResponse.bind(bound);
-			this._responders.boundMap[id] = null;
-			this._responders.boundMap[id] = responder;
+			this._responders.boundMap[nthBind] = null;
+			this._responders.boundMap[nthBind] = responder;
 			this.addResizeListener(responder, bound.element);
 			return responder;
 		},
 
-		_getBoundResponse: function (bound, id, index) {
-			return this._responders.boundMap[id];
+		_getBoundResponse: function (bound) {
+			return this._responders.boundMap[bound.nthBind];
 		},
 
-		_removeBoundResponse: function (bound, id, index) {
-			var responder = this._responders.boundMap[id];
+		_removeBoundResponse: function (bound) {
+			var nthBind = bound.nthBind;
+			var responder = this._responders.boundMap[nthBind];
 			this.removeResizeListener(responder, bound.element);
-			this._responders.boundMap[id] = null;
+			this._responders.boundMap[nthBind] = null;
 		},
 
 		_rebaseTransform: function () {

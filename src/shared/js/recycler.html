@@ -296,6 +296,11 @@ This code may only be used under the BSD style license found at http://mediamath
 		return continuum.removeHeights.apply(continuum, arguments);
 	};
 
+	ContinuumInterface.prototype.calculateOverflow = function (index, amount) {
+		var continuum = this.getContinuum();
+		return continuum.calculateOverflow.apply(continuum, arguments);
+	};
+
 
 
 	var NumberList = Snake.prototype.implementationFactory();
@@ -660,7 +665,8 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	Solver.prototype.spliceOut = function (outer, iface, recycler) {
 		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
-			inner = 0;
+			inner = 0,
+			index = (0|this._placeholders.getCount()) - 1;
 
 		if (snake &&
 			snake.body.getOuterIndex() === outer) {
@@ -668,14 +674,17 @@ This code may only be used under the BSD style license found at http://mediamath
 			snake = snake.dropTailwise(1);
 			this._abandonAvailable(inner, this._available);
 
-			while (snake) {
-				snake.body.deltaOuterIndex(-1);
-				snake = snake.getTail();
+			if (snake !== this._placeholders) {
+				while (snake) {
+					index--;
+					snake.body.deltaOuterIndex(-1);
+					snake = snake.getTail();
+				}
 			}
 
-			iface.notify(-1 - inner, -1, outer, recycler);
+			iface.notify(-1 - inner, -1 - index, outer, recycler);
 		} else {
-			throw new Error("could not find spliced-out outer index === "+outer);
+			// throw new Error("could not find spliced-out outer index === "+outer);
 		}
 	};
 
@@ -697,7 +706,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 			iface.notify(-1 - inner, outer, -1 - index, recycler);
 		} else {
-			throw new Error("could not find spliced-in outer index === "+outer);
+			// throw new Error("could not find spliced-in outer index === "+outer);
 		}
 	};
 
@@ -759,28 +768,30 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	Transactor.prototype.addHeightsAtIndex = function (index, amount, initializations) {
 		var iface = this._continuumInterface;
+		var count = (0|amount);
 		var delta = iface.addHeights.apply(iface, arguments);
 		var place = 0;
-		if (delta) {
+		if (count) {
 			this._splicing(0|true);
 			for (place; place < amount; place++) {
 				this._solver.spliceIn(index + place, iface, this._recycler);
 			}
 		}
-		this._considerCandidate(0|index, amount);
+		this._considerCandidate(0|index, delta);
 	};
 
 	Transactor.prototype.removeHeightsAtIndex = function (index, amount) {
 		var iface = this._continuumInterface;
+		var count = (0|amount) - iface.calculateOverflow(index, amount);
 		var delta = iface.removeHeights.apply(iface, arguments);
 		var place = amount;
-		if (delta) {
+		if (count) {
 			this._splicing(0|true);
 			for (place; place-- > 0 ; ) {
 				this._solver.spliceOut(index + place, iface, this._recycler);
 			}
 		}
-		this._considerCandidate(0|index, amount);
+		this._considerCandidate(0|index, delta);
 	};
 
 	Transactor.prototype.assignHeightAtIndex = function (index, height) {
@@ -1117,116 +1128,139 @@ This code may only be used under the BSD style license found at http://mediamath
 
 
 
-	function ContiguousRecycler (heightGetter, unavailableIndexGetter, changeListener, continuumProvider) {
-		var blocked2inner = []; // inner values indexed by blocked values
-		var inner2blocked = []; // blocked values indexed by inner values
+	function _clusterSwapOut (clustered2sparse, sparse2clustered, previous, clustered, active) {
+		var swap = 0;
+		var young = -1;
+
+		previous[clustered] = previous[active];
+		previous[active] = young;
+
+		swap = clustered2sparse[clustered];
+		clustered2sparse[clustered] = clustered2sparse[active];
+		clustered2sparse[active] = swap;
+
+		swap = sparse2clustered[clustered2sparse[clustered]];
+		sparse2clustered[clustered2sparse[clustered]] = sparse2clustered[clustered2sparse[active]];
+		sparse2clustered[clustered2sparse[active]] = swap;
+	}
+
+	function _clusterSpliceIn (clustered2sparse, sparse2clustered, previous, active, id, young) {
+		var sparse = -1 - id;
+		var clustered = -1;
+		var limit = young - 1;
+
+		for (clustered = 0; clustered < active; clustered++) {
+			if (previous[clustered] > limit) {
+				previous[clustered]++;
+			}
+		}
+
+		clustered = active;
+		clustered2sparse[clustered] = sparse;
+		sparse2clustered[sparse] = clustered;
+		previous[clustered] = young;
+
+		return clustered;
+	}
+
+	function _clusterSpliceOut (clustered2sparse, sparse2clustered, previous, active, id, old) {
+		var clustered = -1;
+		var index = 0;
+		var limit = old - 1;
+
+		for (index; index < active; index++) {
+			if (previous[index] > limit) {
+				if (old === previous[index]--) {
+					clustered = index;
+				}
+			}
+		}
+
+		_clusterSwapOut(clustered2sparse, sparse2clustered, previous, clustered, active - 1);
+
+		return clustered;
+	}
+
+	function _clusterHandler (clustered2sparse, sparse2clustered, previous, active, id, young, old) {
+		var sparse = 0|id;
+		var clustered = active;
+		var count = sparse2clustered.length;
+
+		if (old < 0) {
+			while (count < sparse) {
+				sparse2clustered[count++] = -1;
+			}
+			sparse2clustered[sparse] = clustered;
+			clustered2sparse[clustered] = sparse;
+		} else {
+			clustered = sparse2clustered[sparse];
+			if (young < 0) {
+				if (clustered !== active - 1) {
+					_clusterSwapOut(clustered2sparse, sparse2clustered, previous, clustered, active - 1);
+					return clustered;
+					return -1 - clustered;
+				}
+			}
+		}
+
+		previous[clustered] = young;
+		return clustered;
+	}
+
+	function ClusteredRecycler (heightGetter, unavailableIndexGetter, changeListener, continuumProvider) {
+		var clustered2sparse = []; // sparse values indexed by clustered values
+		var sparse2clustered = []; // clustered values indexed by sparse values
 		var previous = []; // stores the contiguous "old" position that should be passed to the handler
 		var active = 0; // the number of contiguous indices in use
 
 		Recycler.call(this, heightGetter, unavailableIndexGetter, function (id, young, old, recycler) {
-			var spliced = 0|(id < 0);
-			var inner = spliced ? -1 - id : id;
-			var count = inner2blocked.length;
-			var blocked = inner;
-			var swap = -1;
-			var unordered = -1;
+			var spliced = 0|(0|id < 0);
+			var clustered = -1;
 
 			if (spliced) {
 				if (old < 0) {
-					// "splice" in -- using "old-encoded" position instead of previous.indexOf(young)
-					// blocked = previous.indexOf(young);
-					blocked = -old - 1;
-					if (blocked < 0) {
-						blocked = active;
-					}
-					swap = active;
-					for (swap; swap-- > blocked;) {
-						unordered = blocked2inner[swap];
-						blocked2inner[swap + 1] = unordered;
-						inner2blocked[unordered] = swap + 1;
-						previous[swap + 1] = previous[swap];
-					}
+					clustered = _clusterSpliceIn(clustered2sparse, sparse2clustered, previous, active, id, young);
 					active++;
-					blocked2inner[blocked] = inner;
-					inner2blocked[inner] = blocked;
-					previous[blocked] = young;
-
-					changeListener.call(this, -1 - blocked, young, old, recycler);
-				} else {
-					if (young < 0) {
-						// "splice" out
-						blocked = inner2blocked[inner];
-						swap = blocked + 1;
-						for (swap; swap < active; swap++) {
-							unordered = blocked2inner[swap];
-							blocked2inner[swap - 1] = unordered;
-							inner2blocked[unordered] = swap - 1;
-							previous[swap - 1] = previous[swap];
-						}
-						active--;
-						blocked2inner[active] = inner;
-						inner2blocked[inner] = active;
-						previous[active] = young;
-
-						changeListener.call(this, -1 - blocked, young, old, recycler);
-					} else {
-						// "in-place echanged" not (yet) supported (use previous.indexOf(young && old))
-					}
-				}
-
-				swap = 0;
-				return;
-			} else if (old < 0) {
-				blocked = active;
-				active++;
-				while (count < inner) {
-					inner2blocked[count++] = -1;
-				}
-				inner2blocked[inner] = blocked;
-				blocked2inner[blocked] = inner;
-			} else {
-				blocked = inner2blocked[inner];
-				if (young < 0) {
+					changeListener.call(this, -1 - clustered, young, old, recycler);
+				} else if (young < 0) {
+					clustered = _clusterSpliceOut(clustered2sparse, sparse2clustered, previous, active, id, old);
 					active--;
-					if (blocked !== active) {
-						changeListener.call(this, active, young, previous[active], recycler);
-						changeListener.call(this, blocked, previous[active], old, recycler);
-
-						previous[blocked] = previous[active];
-						previous[active] = young;
-
-						swap = blocked2inner[blocked];
-						blocked2inner[blocked] = blocked2inner[active];
-						blocked2inner[active] = swap;
-
-						swap = inner2blocked[blocked2inner[blocked]];
-						inner2blocked[blocked2inner[blocked]] = inner2blocked[blocked2inner[active]];
-						inner2blocked[blocked2inner[active]] = swap;
-
-						swap = 0;
-					}
+					changeListener.call(this, -1 - clustered, young, old, recycler);
+				} else {
+					// "in-place echanged" not (yet) supported (use previous.indexOf(young && old))
 				}
-			}
+			} else {
+				clustered = _clusterHandler(clustered2sparse, sparse2clustered, previous, active, id, young, old);
 
-			if (swap < 0) {
-				previous[blocked] = young;
-				changeListener.call(this, blocked, young, old, recycler);
+				if (old < 0) {
+					active++;
+				} else if (young < 0) {
+					active--;
+				}
+
+				if (clustered < 0) {
+					clustered = -1 - clustered;
+					changeListener.call(this, active, young, previous[clustered], recycler);
+					changeListener.call(this, clustered, previous[clustered], old, recycler);
+				} else {
+					changeListener.call(this, clustered, young, old, recycler);
+				}
 			}
 		}, continuumProvider);
 	}
 
 
 
-	ContiguousRecycler.prototype = new Recycler(function (index) {
+	ClusteredRecycler.prototype = new Recycler(function (index) {
 		return 44;
 	}, function (request) {
 		return -1;
 	}, function (inner, young, old, recycler) {
 	}, null);
 
-	ContiguousRecycler.prototype.SparseRecycler = Recycler;
+	ClusteredRecycler.prototype.SparseRecycler = Recycler;
 
-	scope.Recycler = ContiguousRecycler;
+	scope.Recycler = ClusteredRecycler;
 
 } (window));
 </script>
