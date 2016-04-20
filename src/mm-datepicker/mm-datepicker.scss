@@ -117,6 +117,7 @@ $arrow-size: 10px;
 	@include arrow(bottom, $arrow-size, $color-F0, $color-A8);
 }
 
+:host([direction="n"]).has-footer,
 :host([direction="n"][class="has-footer"]) {
 	@include arrow(bottom, $arrow-size, $color-A12, $color-A8);
 }
