@@ -117,8 +117,7 @@ $arrow-size: 10px;
 	@include arrow(bottom, $arrow-size, $color-F0, $color-A8);
 }
 
-// Account for footer arrow color:
-:host([direction="n"][class="hasFooter"]) {
+:host([direction="n"][class="has-footer"]) {
 	@include arrow(bottom, $arrow-size, $color-A12, $color-A8);
 }
 
