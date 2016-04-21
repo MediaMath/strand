@@ -25,6 +25,7 @@
 		TYPE_PRIMITIVE: 'primitive',
 		TYPE_COLLECTION: 'collection',
 		TYPE_DATE: 'date',
+		// TYPE_DATE_RANGE: 'date-range',
 
 		properties: {
 			type: {
@@ -36,8 +37,7 @@
 			},
 			value: {
 				type: Object,
-				notify: true,
-				// observer: '_valueChanged'
+				notify: true
 			},
 			model: {
 				type: Object
@@ -48,14 +48,6 @@
 			collection: {
 				type: Array,
 				notify: true
-			},
-			// dual: {
-			// 	type: Boolean,
-			// 	value: false
-			// },
-			showDate: {
-				type: Boolean,
-				value: false
 			},
 			_scope: {
 				type: Object,
@@ -75,7 +67,18 @@
 			},
 			_preEditVal: {
 				type: Object
-			}
+			},
+			// datepicker config
+			// dual: {
+			// 	type: Boolean,
+			// 	value: false,
+			// 	computed: "_computeDual(type)"
+			// },
+			_showDate: {
+				type: Boolean,
+				value: false
+			},
+
 		},
 
 		listeners: {
@@ -110,13 +113,15 @@
 					this.open();
 					break;
 				case this.TYPE_DATE:
-					this.showDate = true;
+					this._showDate = true;
 					this.async(function() {
 						this.$$('#datepicker').target = this.$.target;
 						this.$$('#datepicker').startDate = this.value;
 						this.$$('#datepicker').open();
 					});
 					break;
+				// case this.TYPE_DATE_RANGE:
+				// 	break;
 			}
 		},
 
@@ -152,13 +157,11 @@
 		// },
 
 		_dateSaved: function(e) {
-			console.log('_dateSaved: ', e);
+			this._changeValue();
 		},
 
 		_dateClosed: function(e) {
-			console.log('_dateClosed', e);
-			// TODO: temp move later
-			this.showDate = false;
+			this._showDate = false;
 		},
 
 		// values
@@ -176,21 +179,16 @@
 					this.close();
 					break;
 				case this.TYPE_DATE:
-					// this.async(function() {
-					// 	this.$$('#datepicker').target = this.$.target;
-					// 	this.$$('#datepicker').startDate = this.value;
-					// 	this.$$('#datepicker').open();
-					// });
-					// this.showDate = false;
+					value = this.$$('#datepicker').startDate;
 					break;
+				// case this.TYPE_DATE_RANGE:
+				// 	break;
 			}
 
 			this.set(path, value);
 		},
 
 		_restoreValue: function() {
-			// TODO: may need to switch here if there is
-			// a requirement for a different behavior for types
 			var path = String('model.' + this.field);
 			this.value = this._preEditVal;
 			this.set(path, this._preEditVal);
@@ -210,6 +208,9 @@
 			return type === this.TYPE_DATE;
 		},
 
+ 		//_computeDual: function(type) {
+		// 	return type === this.TYPE_DATE_RANGE;
+		// }
 	});
 
 })(window.Strand = window.Strand || {});
