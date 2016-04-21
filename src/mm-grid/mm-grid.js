@@ -65,14 +65,21 @@
 				},
 				notify: true,
 				observer: "_columnsChanged",
-			}
+			},
+			mutationTarget: {
+				type: Object,
+				value: function () {
+					return this.$.columnContainer;
+				},
+			},
 		},
 
 		behaviors: [
 			StrandTraits.Resolvable,
 			StrandTraits.MixinFindable,
 			StrandTraits.TemplateFindable,
-			StrandTraits.Refable
+			StrandTraits.Refable,
+			StrandTraits.DomMutable,
 		],
 		
 		listeners: {
@@ -81,6 +88,9 @@
 			'column-resize-end': '_onColumnResizeEnd',
 			'column-sort': "_onColumnSort",
 			'item-selected': '_onItemSelected',
+			'added': '_initialize',
+			'removed': '_initialize',
+			'modified': '_initialize',
 		},
 
 		observers: [
