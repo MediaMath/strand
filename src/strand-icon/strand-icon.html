@@ -6,7 +6,6 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
-<link rel="import" href="style.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
@@ -14,8 +13,8 @@
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
 <dom-module id="strand-icon">
+	<link href="strand-icon.css" rel="import" type="css"/>
 	<template>
-		<style include="strand-icon-style"></style>
 		<span id="iconGlyph" class$="{{_updateClass(type)}}" style$="{{_updateStyle(width, height)}}"></span>
 	</template>
 </dom-module>
