@@ -1,5 +1,5 @@
 {
-	"name":"mm-dropdown",
+	"name":"strand-dropdown",
 	"description":"A fully-styled dropdown list containing multiple options.",
 	"attributes": [
 		{
@@ -48,7 +48,7 @@
 		{
 			"name":"data",
 			"type":"Array",
-			"description":"The data which populates the dropdown panel list, expressed as an array of objects with key value pairs i.e. - [ { name: 'name', value: 'value' }, {...} ]. If a data array is provided to mm-dropdown, it will ONLY be populated by the provided data, as it does not support mixing dom and data configuration.",
+			"description":"The data which populates the dropdown panel list, expressed as an array of objects with key value pairs i.e. - [ { name: 'name', value: 'value' }, {...} ]. If a data array is provided to strand-dropdown, it will ONLY be populated by the provided data, as it does not support mixing dom and data configuration.",
 			"optional":true,
 			"default":"none"
 		},
@@ -120,7 +120,7 @@
 				{
 					"name":"value",
 					"type":"String",
-					"description":"The value of the selected mm-list-item. If no value was supplied, it will return the text content of the list item."
+					"description":"The value of the selected strand-list-item. If no value was supplied, it will return the text content of the list item."
 				}
 			]
 		},

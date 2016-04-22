@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.WizardRibbon = Polymer({
-		is: "mm-wizard-ribbon",
+		is: "strand-wizard-ribbon",
 
 		behaviors: [
 			StrandTraits.LightDomGettable,

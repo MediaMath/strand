@@ -8,7 +8,7 @@
 
 	scope.DocsNav = Polymer({
 
-		is: 'mm-docs-nav', 
+		is: 'strand-docs-nav', 
 
 		behaviors: [
 			StrandTraits.Stylable

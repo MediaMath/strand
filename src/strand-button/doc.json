@@ -1,5 +1,5 @@
 {
-	"name":"mm-button",
+	"name":"strand-button",
 	"description":"A fully-styled primary and secondary button.",
 	"attributes": [
 		{
@@ -14,7 +14,7 @@
 		{
 			"name":"selected",
 			"type":"Boolean",
-			"description":"Sets the visual state to 'selected'. Ideal for use in scenario where it may be necessary to toggle the button's visual state (see: mm-group).",
+			"description":"Sets the visual state to 'selected'. Ideal for use in scenario where it may be necessary to toggle the button's visual state (see: strand-group).",
 			"optional":true,
 			"default":"none",
 			"reflect":true
@@ -30,7 +30,7 @@
 		{
 			"name":"layout",
 			"type":"Boolen",
-			"description":"Sets the layout of the button, used to style mm-buttons which appears in a grouping scenario (see: mm-group).",
+			"description":"Sets the layout of the button, used to style strand-buttons which appears in a grouping scenario (see: strand-group).",
 			"optional":true,
 			"default":"none",
 			"options":["hgroup-left", "hgroup-center", "hgroup-right"],

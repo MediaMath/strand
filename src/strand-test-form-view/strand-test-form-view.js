@@ -8,7 +8,7 @@
 (function (scope) {
 
 	scope.TestFormView = Polymer({
-		is: "mm-test-form-view",
+		is: "strand-test-form-view",
 
 		behaviors: [
 			StrandTraits.Refable

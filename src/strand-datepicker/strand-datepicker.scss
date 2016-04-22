@@ -21,14 +21,14 @@
 	}
 }
 
-._mm-start, ._mm-end {
+._strand-start, ._strand-end {
 	box-sizing: border-box;
 	background: $color-F0;
 	position: relative;
 	float: left;
 	width: 212px;
 
-	mm-calendar {
+	strand-calendar {
 		padding: 5px 12px 12px 12px;
 	}
 
@@ -44,18 +44,18 @@
 	}
 
 	.input-top {
-		mm-header, mm-input, mm-checkbox {
+		strand-header, strand-input, strand-checkbox {
 			display: block;
 			margin-bottom: 10px;
 		}
 
-		mm-input:last-child {
+		strand-input:last-child {
 			margin: 0;
 		}
 	}
 }
 
-._mm-end {
+._strand-end {
 	.vert-stroke {
 		position: absolute;
 		width:0px;
@@ -81,7 +81,7 @@
 	clear: left;
 }
 
-mm-footer {
+strand-footer {
 	clear: left;
 }
 
@@ -100,11 +100,11 @@ mm-footer {
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
 
-	& ::content .body mm-checkbox:last-child {
+	& ::content .body strand-checkbox:last-child {
 		margin-bottom: 0;
 	}
 
-	& ::content .body mm-checkbox {
+	& ::content .body strand-checkbox {
 		display: block;
 		margin: 10px 0;
 		text-align: left;

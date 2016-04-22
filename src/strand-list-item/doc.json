@@ -1,6 +1,6 @@
 {
-	"name":"mm-list-item",
-	"description":"A list item component used in other components that require lists of items, such as mm-dropdown and mm-menu.",
+	"name":"strand-list-item",
+	"description":"A list item component used in other components that require lists of items, such as strand-dropdown and strand-menu.",
 	"attributes": [
 		{
 			"name":"selected",

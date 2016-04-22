@@ -1,5 +1,5 @@
 {
-	"name":"mm-collection",
+	"name":"strand-collection",
 	"description":"A simple collection wrapper component useful for 2 way binding to lists of data",
 	"attributes": [
 		{

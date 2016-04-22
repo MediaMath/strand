@@ -16,31 +16,31 @@
 	margin: 32px 30px 30px;
 }
 
-.content-top mm-icon {
+.content-top strand-icon {
 	display: block;
 	float: left;
 	margin-right: -35px;
 	width: 25px;
 }
 
-:host-context([type="info"]) mm-icon {
+:host-context([type="info"]) strand-icon {
 	color: $color-D3;
 }
-:host-context([type="success"]) mm-icon {
+:host-context([type="success"]) strand-icon {
 	color: $color-B6;
 }
-:host-context([type="warning"]) mm-icon {
+:host-context([type="warning"]) strand-icon {
 	color: $color-E5;
 }
-:host-context([type="error"]) mm-icon {
+:host-context([type="error"]) strand-icon {
 	color: $color-C3;
 }
 
-.content-top mm-header {
+.content-top strand-header {
 	display: block;
 	margin-left: 35px;
 }
-.content-top mm-header:after {
+.content-top strand-header:after {
 	clear: both;
 	content: ' ';
 	display: block;

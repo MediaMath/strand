@@ -115,7 +115,7 @@
 	};
 
 	scope.InputMask = Polymer({
-		is: 'mm-input-mask',
+		is: 'strand-input-mask',
 
 		behaviors: [
 			StrandTraits.Resolvable,

@@ -10,16 +10,16 @@
 <link rel="import" href="../shared/js/behaviorutils.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
-<link rel="import" href="../mm-button/mm-button.html"/>
-<link rel="import" href="../mm-input/mm-input.html"/>
+<link rel="import" href="../strand-button/strand-button.html"/>
+<link rel="import" href="../strand-input/strand-input.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-file-upload">
-	<link href="mm-file-upload.css" rel="import" type="css"/>
+<dom-module id="strand-file-upload">
+	<link href="strand-file-upload.css" rel="import" type="css"/>
 	<template>
-		<mm-input id="fileName" placeholder="{{placeholder}}" value="{{fileNames}}" disabled="{{disabled}}" error="{{error}}" readonly></mm-input>
+		<strand-input id="fileName" placeholder="{{placeholder}}" value="{{fileNames}}" disabled="{{disabled}}" error="{{error}}" readonly></strand-input>
 		<input name="fileInput" id="fileInput" type="file" accept$="{{accept}}" multiple$="{{multiple}}" on-change="_handleChange">
-		<mm-button type="secondary" on-tap="_handleTap" disabled="{{disabled}}"><label>{{browseLabel}}<label></mm-button>
+		<strand-button type="secondary" on-tap="_handleTap" disabled="{{disabled}}"><label>{{browseLabel}}<label></strand-button>
 	</template>
 </dom-module>
-<script src="mm-file-upload.js"></script>
+<script src="strand-file-upload.js"></script>

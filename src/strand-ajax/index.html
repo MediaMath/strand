@@ -14,10 +14,10 @@
 	}
 	</style>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="mm-ajax.html"/>
-		<link rel="import" href="../mm-textarea/mm-textarea.html"/>
-		<link rel="import" href="../mm-input/mm-input.html"/>
-		<link rel="import" href="../mm-button/mm-button.html"/>
+		<link rel="import" href="strand-ajax.html"/>
+		<link rel="import" href="../strand-textarea/strand-textarea.html"/>
+		<link rel="import" href="../strand-input/strand-input.html"/>
+		<link rel="import" href="../strand-button/strand-button.html"/>
 	</head>
 	<body>
 
@@ -36,16 +36,16 @@
 			}
 			</style>
 		<template>
-			<mm-ajax id="ajax" url="{{url}}" method="GET" query="{{query}}" auto response="{{response}}" on-data-error="log" on-data-ready="log" on-data-result="log" on-data-progress="log" on-data-abort="log" debug></mm-ajax>
-			<mm-input id="url" value="{{url}}"></mm-input>
-			<mm-input id="query" value="{{query}}"></mm-input>
-			<mm-button id="btn" on-click="update">
+			<strand-ajax id="ajax" url="{{url}}" method="GET" query="{{query}}" auto response="{{response}}" on-data-error="log" on-data-ready="log" on-data-result="log" on-data-progress="log" on-data-abort="log" debug></strand-ajax>
+			<strand-input id="url" value="{{url}}"></strand-input>
+			<strand-input id="query" value="{{query}}"></strand-input>
+			<strand-button id="btn" on-click="update">
 				<label>
 					Go!
 				</label>
-			</mm-button>
+			</strand-button>
 			<span>{{response}}</span>
-			<mm-textarea value="{{result}}"></mm-textarea>
+			<strand-textarea value="{{result}}"></strand-textarea>
 			<div id="log"></div>
 
 		</template>
@@ -54,23 +54,23 @@
 	<div><test-result></test-result></div>
 
 	<div>
-		<mm-ajax id="a1" url="http://localhost:8000/ajax" method="GET">
-		</mm-ajax>
-		<mm-button id="b1">
+		<strand-ajax id="a1" url="http://localhost:8000/ajax" method="GET">
+		</strand-ajax>
+		<strand-button id="b1">
 			<label>GET!</label>
-		</mm-button>
+		</strand-button>
 	</div>
 	<div>
-		<mm-ajax id="a2" url="http://localhost:8000/ajax" method="POST"></mm-ajax>
-		<mm-button id="b2">
+		<strand-ajax id="a2" url="http://localhost:8000/ajax" method="POST"></strand-ajax>
+		<strand-button id="b2">
 			<label>POST!</label>
-		</mm-button>
+		</strand-button>
 	</div>
 	<div>
-		<mm-ajax id="a3" url="http://localhost:8000/ajax" method="POST"></mm-ajax>
-		<mm-button id="b3">
+		<strand-ajax id="a3" url="http://localhost:8000/ajax" method="POST"></strand-ajax>
+		<strand-button id="b3">
 			<label>POST JSON!</label>
-		</mm-button>
+		</strand-button>
 	</div>
 	<script>
 	/*jshint esversion: 6 */

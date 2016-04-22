@@ -2,9 +2,9 @@
 <html>
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-	<link rel="import" href="../mm-input/mm-input.html">
-	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
-	<link rel="import" href="mm-item-recycler.html">
+	<link rel="import" href="../strand-input/strand-input.html">
+	<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+	<link rel="import" href="strand-item-recycler.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -12,11 +12,11 @@
 			background: #eee;
 		}
 
-		mm-item-recycler[unresolved] {
+		strand-item-recycler[unresolved] {
 			display: none;
 		}
 
-		mm-item-recycler {
+		strand-item-recycler {
 			height: 500px;
 			/*padding-top: 30px;*/
 		}
@@ -45,33 +45,33 @@
   <body>
 	<button id="switch">toggle</button>
 	<div id="toggle" style="display: notnone">
-		<mm-item-recycler id="itemRecycler" template-uri="./template.html" unresolved>
+		<strand-item-recycler id="itemRecycler" template-uri="./template.html" unresolved>
 			<div id="header" recycler="header">Header <br/> Text</div>
 			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
 			Hello World
-		</mm-item-recycler>
+		</strand-item-recycler>
 
-		<mm-item-recycler id="itemRecycler2" unresolved>
+		<strand-item-recycler id="itemRecycler2" unresolved>
 			<div id="header" recycler="header">Header <br/> Text</div>
 			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
 			Hello World
 			<template>
 				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
-					<span>{{model.num}}</span><mm-input value="{{model.name}}"></mm-input>
+					<span>{{model.num}}</span><strand-input value="{{model.name}}"></strand-input>
 				</div>
 			</template>
-		</mm-item-recycler>
+		</strand-item-recycler>
 
-		<mm-item-recycler id="itemRecycler3" template-uri="./template.html" unresolved>
+		<strand-item-recycler id="itemRecycler3" template-uri="./template.html" unresolved>
 			<div id="header" recycler="header">Header <br/> Text</div>
 			<div id="footer" recycler="footer">Footer <br/> Text <br/> Too</div>
 			Hello World
 			<template>
 				<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
-					<span>{{model.num}}</span><mm-input value="{{model.name}}"></mm-input>
+					<span>{{model.num}}</span><strand-input value="{{model.name}}"></strand-input>
 				</div>
 			</template>
-		</mm-item-recycler>
+		</strand-item-recycler>
 	</div>
 	<script type="text/javascript">
 		var data = [],

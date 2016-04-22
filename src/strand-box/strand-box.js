@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Box = Polymer({
-		is: "mm-box",
+		is: "strand-box",
 
 		behaviors: [
 			StrandTraits.Resolvable,

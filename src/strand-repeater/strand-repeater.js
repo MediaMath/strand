@@ -10,7 +10,7 @@
 		DataUtils = StrandLib.DataUtils;
 
 	scope.Repeater = Polymer({
-		is: 'mm-repeater',
+		is: 'strand-repeater',
 
 		properties: {
 			config: {

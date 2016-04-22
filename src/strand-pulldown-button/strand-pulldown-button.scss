@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* mm-pulldown-button sass */
+/* strand-pulldown-button sass */
 @import "_bourbon";
 @import "_color";
 @import "_button";
@@ -46,12 +46,12 @@
 		white-space: nowrap;
 	}
 
-	& > .left-items ::content mm-icon {
+	& > .left-items ::content strand-icon {
 		display: block;
 		pointer-events: none;
 	}
 
-	& > .left-items ::content mm-icon + label {
+	& > .left-items ::content strand-icon + label {
 		padding-left: 7px;
 	}
 }

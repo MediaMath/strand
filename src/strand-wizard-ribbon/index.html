@@ -2,9 +2,9 @@
 <html>
   <head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-        <link rel="import" href="../mm-button/mm-button.html">
-        <link rel="import" href="../mm-footer/mm-footer.html">
-        <link rel="import" href="mm-wizard-ribbon.html">
+        <link rel="import" href="../strand-button/strand-button.html">
+        <link rel="import" href="../strand-footer/strand-footer.html">
+        <link rel="import" href="strand-wizard-ribbon.html">
 
 		<style type="text/css">
 			body, html {
@@ -88,16 +88,16 @@
 				float: left;
 			}
 
-			mm-wizard[unresolved] {
+			strand-wizard[unresolved] {
 				display: none;
 			}
 
-            mm-tab {
+            strand-tab {
                 padding-top: 30px;
                 padding-left: 30px;
             }
 
-            mm-footer {
+            strand-footer {
                 margin-left: -30px;
                 margin-top: 30px;
             }
@@ -106,12 +106,12 @@
   <body>
 
 	<div style="background-color: #fff; padding: 10px;">
-		<mm-wizard-ribbon>
+		<strand-wizard-ribbon>
 			<step>Step 1</step>
 			<step>Step 2</step>
 			<step>Step 3</step>
 			<step>Step 4</step>
-		</mm-wizard-ribbon>
+		</strand-wizard-ribbon>
 	</div>
 
   </body>

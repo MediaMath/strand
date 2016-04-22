@@ -11,25 +11,25 @@
 <link rel="import" href="../shared/behaviors/validatable.html"/>
 <link rel="import" href="../shared/js/validator.html"/>
 <link rel="import" href="../shared/js/datautils.html"/>
-<link rel="import" href="../mm-action/mm-action.html"/>
-<link rel="import" href="../mm-box/mm-box.html"/>
-<link rel="import" href="../mm-icon/mm-icon.html"/>
-<link rel="import" href="../mm-form-message/mm-form-message.html"/>
+<link rel="import" href="../strand-action/strand-action.html"/>
+<link rel="import" href="../strand-box/strand-box.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
+<link rel="import" href="../strand-form-message/strand-form-message.html"/>
 
-<dom-module id="mm-repeater">
-	<link rel="import" type="css" href="mm-repeater.css"/>
+<dom-module id="strand-repeater">
+	<link rel="import" type="css" href="strand-repeater.css"/>
 	<template>
 		<template is="dom-repeat" items="{{data}}" id="repeater">
-			<mm-box ref="{{item._ref}}" align="stretch" justify="space-between" on-selected="_updateModel" on-changed="_updateModel">
+			<strand-box ref="{{item._ref}}" align="stretch" justify="space-between" on-selected="_updateModel" on-changed="_updateModel">
 				<div class="fields" align="center" inner-h-t-m-l="{{template}}"></div>
-				<mm-box class="control" align="center">
-					<mm-action on-tap="_addRow"><label>{{addRowLabel}}</label></mm-action>
-					<mm-icon type="delete" on-tap="_removeRow" height="12" width="12"></mm-icon>
-				</mm-box>
-			</mm-box>
-			<mm-form-message type="error" visible="{{item.error}}" message="{{item.errorMessage}}"></mm-form-message>
+				<strand-box class="control" align="center">
+					<strand-action on-tap="_addRow"><label>{{addRowLabel}}</label></strand-action>
+					<strand-icon type="delete" on-tap="_removeRow" height="12" width="12"></strand-icon>
+				</strand-box>
+			</strand-box>
+			<strand-form-message type="error" visible="{{item.error}}" message="{{item.errorMessage}}"></strand-form-message>
 		</template>
 	</template>
 </dom-module>
 
-<script src="mm-repeater.js"></script>
+<script src="strand-repeater.js"></script>

@@ -8,7 +8,7 @@
 (function (scope) {
 
 	Polymer({
-		is: 'mm-template-finder',
+		is: 'strand-template-finder',
 
 		behaviors: [
 			StrandTraits.TemplateFindable,

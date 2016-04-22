@@ -1,6 +1,6 @@
 {
-	"name":"mm-loader",
-	"description":"A fully styled loading graphic with the option for variable messaging. You can override the default spinner graphic by providing your own mm-spinner element.",
+	"name":"strand-loader",
+	"description":"A fully styled loading graphic with the option for variable messaging. You can override the default spinner graphic by providing your own strand-spinner element.",
 	"attributes": [
 		{
 			"name":"bgColor",

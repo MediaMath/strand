@@ -1,6 +1,6 @@
 {
-	"name":"mm-grid-column",
-	"description":"Provides configuration for data fields in mm-grid.",
+	"name":"strand-grid-column",
+	"description":"Provides configuration for data fields in strand-grid.",
 	"attributes": [
 		{
 			"name":"field",

@@ -2,10 +2,10 @@
 <html>
 	<head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-	<link rel="import" href="../mm-action/mm-action.html">
-	<link rel="import" href="../mm-button/mm-button.html">
-	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
-	<link rel="import" href="mm-footer.html">
+	<link rel="import" href="../strand-action/strand-action.html">
+	<link rel="import" href="../strand-button/strand-button.html">
+	<link rel="import" href="../strand-checkbox/strand-checkbox.html">
+	<link rel="import" href="strand-footer.html">
 	<style type="text/css">
 			body, html {
 				height: 100%;
@@ -89,10 +89,10 @@
 				float: left;
 			}
 
-			mm-footer[unresolved],
-			mm-action[unresolved],
-			mm-button[unresolved],
-			mm-checkbox[unresolved] {
+			strand-footer[unresolved],
+			strand-action[unresolved],
+			strand-button[unresolved],
+			strand-checkbox[unresolved] {
 				display:none;
 			}
 		</style>
@@ -101,62 +101,62 @@
 
 		<div class="col cX">
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer unresolved>
-					<mm-button>
+				<strand-footer unresolved>
+					<strand-button>
 						<label>Save</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Display Message / Multiple Buttons</p>
-				<mm-footer id="tf1" unresolved>
-					<mm-action id="closeLink" underline unresolved>
+				<strand-footer id="tf1" unresolved>
+					<strand-action id="closeLink" underline unresolved>
 						<label>Close</label>
-					</mm-action>
-					<mm-button id="saveAndClose" unresolved>
+					</strand-action>
+					<strand-button id="saveAndClose" unresolved>
 						<label>Save &amp; Close</label>
-					</mm-button>
-					<mm-button id="saveAndAdd" unresolved>
+					</strand-button>
+					<strand-button id="saveAndAdd" unresolved>
 						<label>Save &amp; Add Another</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="warning" message="Some message content" message-visible="true" unresolved>
-					<mm-button unresolved>
+				<strand-footer id="tf2" type="warning" message="Some message content" message-visible="true" unresolved>
+					<strand-button unresolved>
 						<label>Close</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="error" message="Some message content" message-visible="true" unresolved>
-					<mm-button unresolved>
+				<strand-footer id="tf2" type="error" message="Some message content" message-visible="true" unresolved>
+					<strand-button unresolved>
 						<label>Close</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="info" message="Some message content" message-visible="true" unresolved>
-					<mm-button unresolved>
+				<strand-footer id="tf2" type="info" message="Some message content" message-visible="true" unresolved>
+					<strand-button unresolved>
 						<label>Close</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" type="success" message="Some message content" message-visible="true" unresolved>
-					<mm-button unresolved>
+				<strand-footer id="tf2" type="success" message="Some message content" message-visible="true" unresolved>
+					<strand-button unresolved>
 						<label>Close</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 			<p><span class="bold">Footer:</span> Default</p>
-				<mm-footer id="tf2" unresolved>
-					<mm-checkbox class="left" unresolved>
+				<strand-footer id="tf2" unresolved>
+					<strand-checkbox class="left" unresolved>
 						<label>Don't show again</label>
-					</mm-checkbox>
-					<mm-button unresolved>
+					</strand-checkbox>
+					<strand-button unresolved>
 						<label>Close</label>
-					</mm-button>
-				</mm-footer>
+					</strand-button>
+				</strand-footer>
 			<hr/>
 		</div>
 

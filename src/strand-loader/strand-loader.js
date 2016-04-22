@@ -6,7 +6,7 @@
 */
 (function(scope) {
 	scope.Loader = Polymer({
-		is: 'mm-loader',
+		is: 'strand-loader',
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -53,7 +53,7 @@
 		_getSpinner: function() {
 			this.async(function() {
 				this.hasUserSpinner = Polymer.dom(this.$.userSpinner).getDistributedNodes().length !== 0;
-				this.spinner = this.hasUserSpinner ? this.querySelector('mm-spinner') : this.$.spinner;
+				this.spinner = this.hasUserSpinner ? this.querySelector('strand-spinner') : this.$.spinner;
 				if(this.hasUserSpinner) this.spinnerRadius = this.spinner.radius;
 			});
 		},

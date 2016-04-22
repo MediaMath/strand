@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Drawer = Polymer({
-		is: 'mm-drawer',
+		is: 'strand-drawer',
 
 		properties: {
 			label: {

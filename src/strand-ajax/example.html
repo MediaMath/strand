@@ -1,13 +1,13 @@
 <template is="dom-bind">
-    <mm-ajax
+    <strand-ajax
         method="GET"
         url="//strand.mediamath.com/LICENSE.txt"
         response="{{resp}}"
         response-type="text"
         auto>
-    </mm-ajax>
-    <mm-scroll-panel style="width:100%; height: 120px">
-        <mm-header size="tiny">data:</mm-header>
+    </strand-ajax>
+    <strand-scroll-panel style="width:100%; height: 120px">
+        <strand-header size="tiny">data:</strand-header>
         <pre>{{resp}}</pre>
-    </mm-scroll-panel>
+    </strand-scroll-panel>
 </template>

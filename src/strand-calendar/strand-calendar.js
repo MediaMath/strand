@@ -20,7 +20,7 @@
 	};
 
 	scope.Calendar = Polymer({
-		is: 'mm-calendar',
+		is: 'strand-calendar',
 
 		properties: {
 			date: {

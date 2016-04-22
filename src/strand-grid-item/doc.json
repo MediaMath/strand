@@ -1,5 +1,5 @@
 {
-	"name":"mm-grid-item",
+	"name":"strand-grid-item",
 	"description":"A fully styled, configurable data grid item.",
 	"attributes": [
 		{

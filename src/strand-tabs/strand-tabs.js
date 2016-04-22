@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Tabs = Polymer({
-		is: "mm-tabs",
+		is: "strand-tabs",
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -19,7 +19,7 @@
 		properties: {
 			_filterElementType: {
 				type: String,
-				value: "mm-tab"
+				value: "strand-tab"
 			},
 			inner: {
 				type: Boolean,
@@ -64,7 +64,7 @@
 			}
 
 			if (this._tabs.length > 0) {
-				var activeTabs = Polymer.dom(this).querySelectorAll('mm-tab[active]'),
+				var activeTabs = Polymer.dom(this).querySelectorAll('strand-tab[active]'),
 					active = activeTabs.shift();
 				for(var i=0; i<activeTabs.length; i++) {
 					activeTabs[i].active = false;

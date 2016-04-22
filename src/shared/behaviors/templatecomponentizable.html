@@ -97,7 +97,7 @@
 	function componentFromHTML (html, index, mixinFindable, lookupValue) {
 		var instanceAmount = 1;
 		var guid = reservedUUID();
-		var is = "mm-gen-comp-n"+index+"-x"+guid.split("-").join("");
+		var is = "strand-gen-comp-n"+index+"-x"+guid.split("-").join("");
 		var field = "__mmgencompn"+index+"x"+guid.slice(0,8);
 		var module = document.createElement("dom-module");
 		var template = document.createElement("template");

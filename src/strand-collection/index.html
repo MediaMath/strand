@@ -2,32 +2,32 @@
 <html>
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-    <link rel="import" href="mm-collection.html">
-    <link rel="import" href="../mm-button/mm-button.html">
-    <link rel="import" href="../mm-input/mm-input.html">
+    <link rel="import" href="strand-collection.html">
+    <link rel="import" href="../strand-button/strand-button.html">
+    <link rel="import" href="../strand-input/strand-input.html">
   </head>
   <body>
-    <mm-collection></mm-collection>
+    <strand-collection></strand-collection>
     <dom-module id="c-test">
         <template>
-            <mm-collection
+            <strand-collection
                 id="col"
                 data="{{data}}"
                 removed="{{removed}}"
                 added="{{added}}"
                 modified="{{modified}}"
                 auto="false">
-            </mm-collection>
-            <mm-button on-click="addItem">
+            </strand-collection>
+            <strand-button on-click="addItem">
                 <label>Add</label>
-            </mm-button>
-            <mm-button on-click="addPreset">
+            </strand-button>
+            <strand-button on-click="addPreset">
                 <label>Preset</label>
-            </mm-button>
+            </strand-button>
             <template is="dom-repeat" items="{{data}}" id="rpt">
                 <div>
-                    <mm-button on-click="removeItem"><label>Remove</label></mm-button>
-                    <mm-input value="{{item.cake}}"></mm-input>
+                    <strand-button on-click="removeItem"><label>Remove</label></strand-button>
+                    <strand-input value="{{item.cake}}"></strand-input>
                     <span>{{item.cId}}{{item.cake}}</span>
                 </div>
             </template>
@@ -73,7 +73,7 @@
 
     <script type="text/javascript">
     window.addEventListener("WebComponentsReady", function() {
-    	document.querySelector("mm-collection").addEventListener("data-changed", function(e) {
+    	document.querySelector("strand-collection").addEventListener("data-changed", function(e) {
     		console.log("test handler - data changed", e);
     	});
     });

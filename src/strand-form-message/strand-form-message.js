@@ -7,7 +7,7 @@
 (function (scope) {
 	
 	scope.FormMessage = Polymer({
-		is: 'mm-form-message',
+		is: 'strand-form-message',
 
 		behaviors: [
 			StrandTraits.Resolvable

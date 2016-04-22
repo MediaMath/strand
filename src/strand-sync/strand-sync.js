@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Sync = Polymer({
-		is:"mm-sync",
+		is:"strand-sync",
 		behaviors:[
 			StrandLib.Sync.getBehavior(),
 			StrandTraits.DomSyncable,

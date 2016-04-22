@@ -15,11 +15,11 @@
 <link rel="import" href="../shared/js/measure.html">
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/measure.html">
-<link rel="import" href="../mm-input/mm-input.html">
+<link rel="import" href="../strand-input/strand-input.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-input-mask">
-	<link href="mm-input-mask.css" rel="import" type="css">
+<dom-module id="strand-input-mask">
+	<link href="strand-input-mask.css" rel="import" type="css">
 	<template>
 		<div id="pseudo">
 			<template is="dom-repeat" id="domRepeat" items="{{_maskConfig}}"><template is="dom-if" if="{{item.type}}"><input id$="{{item.id}}" type="text" size$="{{item.max}}" maxlength$="{{item.max}}" style$="{{ _groupStyle(item.*, value) }}" class="mask" disabled$="{{item.disabled}}" layout$="{{layout}}" value="{{item.value}}"
@@ -31,9 +31,9 @@
 						on-paste="_handlePaste"
 						placeholder="{{item.placeholder}}"></input></template><template is="dom-if" if="{{!item.type}}"><span class$="{{ _sepClass(value) }}">{{item.value}}</span></template></template>
 		</div>
-		<mm-input icon$="{{icon}}" id="input"></mm-input>
+		<strand-input icon$="{{icon}}" id="input"></strand-input>
 		<content id="content" select="group,sep"></content>
 	</template>
 </dom-module>
 
-<script src="mm-input-mask.js"></script>
+<script src="strand-input-mask.js"></script>

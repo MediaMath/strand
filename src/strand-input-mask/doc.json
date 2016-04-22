@@ -1,5 +1,5 @@
 {
-	"name":"mm-input-mask",
+	"name":"strand-input-mask",
 	"description":"A fully-styled input mask component.",
 	"attributes": [
 		{
@@ -25,10 +25,10 @@
 		{
 			"name":"icon",
 			"type":"String",
-			"description":"Adds a custom icon glyph to the input field, using icons found in mm-icon.",
+			"description":"Adds a custom icon glyph to the input field, using icons found in strand-icon.",
 			"optional":true,
 			"default":"",
-			"options":["*see mm-icon for options"]
+			"options":["*see strand-icon for options"]
 		},
 		{
 			"name":"rules",

@@ -1,5 +1,5 @@
 {
-	"name":"mm-popover",
+	"name":"strand-popover",
 	"description":"A fully-styled popover",
 	"articles": ["grid_custom_grid_item"],
 	"behaviors": [

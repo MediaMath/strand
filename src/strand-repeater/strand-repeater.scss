@@ -4,39 +4,39 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* mm-repeater.sass */
+/* strand-repeater.sass */
 @import "_bourbon";
 @import "_color";
 @import "_mixins";
 
-mm-box:first-of-type:last-of-type {
-    .control mm-icon {
+strand-box:first-of-type:last-of-type {
+    .control strand-icon {
         display: none;
         pointer-events: none;
     }
 }
 
-mm-box:not(:last-of-type) {
+strand-box:not(:last-of-type) {
     margin-bottom: 10px;
 
-    .control mm-action {
+    .control strand-action {
         display: none;
         pointer-events: none;
     }
 }
 
-mm-icon[type="delete"] {
+strand-icon[type="delete"] {
     cursor: pointer;
     margin-left: 10px;
 }
 
-// mm-inline-box[type="error"] {
+// strand-inline-box[type="error"] {
 //     display: block;
 //     margin: 10px 0;
 //     width: 100%;
 // }
 
-mm-form-message {
+strand-form-message {
     margin-bottom: 10px;
 }
 
@@ -49,6 +49,6 @@ mm-form-message {
     }
 }
 
-.control mm-icon {
+.control strand-icon {
     color: $color-A6;
 }

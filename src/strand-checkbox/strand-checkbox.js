@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Checkbox = Polymer({
-		is: 'mm-checkbox',
+		is: 'strand-checkbox',
 
 		behaviors: [
 			StrandTraits.Resolvable,

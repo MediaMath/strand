@@ -5,17 +5,17 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../mm-inline-box/mm-inline-box.html">
+<link rel="import" href="../strand-inline-box/strand-inline-box.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-footer">
-	<link rel="import" type="css" href="mm-footer.css"/>
+<dom-module id="strand-footer">
+	<link rel="import" type="css" href="strand-footer.css"/>
 	<template>
 		<div class="_mm_footer">
 			<div class="left-box">
 				<template is="dom-if" if="{{messageVisible}}">
-					<mm-inline-box id="messageBox" type="{{type}}" layout="message">{{message}}</mm-inline-box>
+					<strand-inline-box id="messageBox" type="{{type}}" layout="message">{{message}}</strand-inline-box>
 				</template>
 				<content select=".left"></content>
 			</div>
@@ -26,4 +26,4 @@
 	</template>
 </dom-module>
 
-<script src="mm-footer.js"></script>
+<script src="strand-footer.js"></script>

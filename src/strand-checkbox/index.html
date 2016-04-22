@@ -3,7 +3,7 @@
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<link rel="import" href="mm-checkbox.html">
+		<link rel="import" href="strand-checkbox.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -83,11 +83,11 @@
 				float: left;
 			}
 
-			mm-checkbox[unresolved] {
+			strand-checkbox[unresolved] {
 				display: none;
 			}
 
-			mm-checkbox:not(:last-child) {
+			strand-checkbox:not(:last-child) {
 				margin-right: 20px;
 			}
 
@@ -104,26 +104,26 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Checkbox:</span> group default</p>
-			<mm-checkbox id="cbxv" validation="checked" unresolved></mm-checkbox>
-			<mm-checkbox id="cbxjq" unresolved>
+			<strand-checkbox id="cbxv" validation="checked" unresolved></strand-checkbox>
+			<strand-checkbox id="cbxjq" unresolved>
 				<label>Checkbox With Label</label>
-			</mm-checkbox>
-			<mm-checkbox state="partial" unresolved></mm-checkbox>
-			<mm-checkbox checked="true" unresolved></mm-checkbox>
-			<mm-checkbox checked="true" disabled="true" unresolved></mm-checkbox>
+			</strand-checkbox>
+			<strand-checkbox state="partial" unresolved></strand-checkbox>
+			<strand-checkbox checked="true" unresolved></strand-checkbox>
+			<strand-checkbox checked="true" disabled="true" unresolved></strand-checkbox>
 			<hr/>
 			<p><span class="bold">Checkbox:</span> custom icon</p>
-			<mm-checkbox icon="chart" unresolved></mm-checkbox>
-			<mm-checkbox class="check-cbx" checked="true" icon="check" unresolved>
+			<strand-checkbox icon="chart" unresolved></strand-checkbox>
+			<strand-checkbox class="check-cbx" checked="true" icon="check" unresolved>
 				<label>Check me out</label>
-			</mm-checkbox>
+			</strand-checkbox>
 			<hr/>
 			<p><span class="bold">Checkbox:</span> State set programmatically</p>
-			<mm-checkbox id="cbp" disabled unresolved><label>parent</label></mm-checkbox>
+			<strand-checkbox id="cbp" disabled unresolved><label>parent</label></strand-checkbox>
 			<br/>
-			<mm-checkbox id="cbc1" class="cbc" unresolved><label>Child 1</label></mm-checkbox>
-			<mm-checkbox id="cbc2" class="cbc" unresolved><label>Child 2</label></mm-checkbox>
-			<mm-checkbox id="cbc3" class="cbc" unresolved><label>Child 3</label></mm-checkbox>
+			<strand-checkbox id="cbc1" class="cbc" unresolved><label>Child 1</label></strand-checkbox>
+			<strand-checkbox id="cbc2" class="cbc" unresolved><label>Child 2</label></strand-checkbox>
+			<strand-checkbox id="cbc3" class="cbc" unresolved><label>Child 3</label></strand-checkbox>
 			<hr/>
 		</div>
 		<div class="vr"></div>

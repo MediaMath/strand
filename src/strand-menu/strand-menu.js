@@ -1,7 +1,7 @@
 (function(scope) {
 
 	scope.Menu = Polymer({
-		is: 'mm-menu',
+		is: 'strand-menu',
 
 		behaviors: [
 			StrandTraits.Resolvable,

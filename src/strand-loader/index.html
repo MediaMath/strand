@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="mm-loader.html">
-		<link rel="import" href="../mm-button/mm-button.html">
+		<link rel="import" href="strand-loader.html">
+		<link rel="import" href="../strand-button/strand-button.html">
 		<style is="custom-style" type="text/css">
 			body, html {
 				height: 100%;
@@ -89,12 +89,12 @@
 				position: relative;
 			}
 
-			mm-loader[unresolved],
-			mm-button[unresolved] {
+			strand-loader[unresolved],
+			strand-button[unresolved] {
 				display: none;
 			}
 
-			mm-button {
+			strand-button {
 				margin-right: 20px;
 			}
 
@@ -104,34 +104,34 @@
 
 		<div class="col c4">
 			<p><span class="bold">Show &amp; Hide:</span> Show and hide all loaders</p>=
-			<mm-button id="showBtn" unresolved>
+			<strand-button id="showBtn" unresolved>
 				<label>Show All Loaders</label>
-			</mm-button>
-			<mm-button id="hideBtn" unresolved>
+			</strand-button>
+			<strand-button id="hideBtn" unresolved>
 				<label>Hide All Loaders</label>
-			</mm-button>
+			</strand-button>
 			
 			<hr/>
 			<p><span class="bold">Loader:</span> Default</p>
 			<div class="loader-holder">
-				<mm-loader id="l1" unresolved>
+				<strand-loader id="l1" unresolved>
 					<label>Loading...</label>
-				</mm-loader>
+				</strand-loader>
 			</div>
 			<hr/>
 			<p><span class="bold">Loader:</span> Customized Variant</p>
 			<div class="loader-holder">
-				<mm-loader id="l2" unresolved bg-color="#003C71" bg-opacity="1">
-					<mm-spinner radius="12" line-length="0.6" line-weight="0.6"></mm-spinner>
+				<strand-loader id="l2" unresolved bg-color="#003C71" bg-opacity="1">
+					<strand-spinner radius="12" line-length="0.6" line-weight="0.6"></strand-spinner>
 					<label>Waiting...</label>
-				</mm-loader>
+				</strand-loader>
 			</div>
 			<hr/>
 			<p><span class="bold">Loader:</span> Customized Variant</p>
 			<div class="loader-holder">
-				<mm-loader id="l3" unresolved padding-top="10" padding-left="10" bg-color="#cccccc" bg-opacity="0.75">
-					<mm-spinner radius="32" line-length="0.6" line-weight="0.9" fill-color="#003C71"></mm-spinner>
-				</mm-loader>
+				<strand-loader id="l3" unresolved padding-top="10" padding-left="10" bg-color="#cccccc" bg-opacity="0.75">
+					<strand-spinner radius="32" line-length="0.6" line-weight="0.9" fill-color="#003C71"></strand-spinner>
+				</strand-loader>
 			</div>
 			<hr/>
 		</div>

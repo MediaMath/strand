@@ -15,7 +15,7 @@
 			if (original.innerHTML.trim()) {
 				// an attempt to handle templates that have not passed through Polymer.Annotations_parseTemplate()
 				// (https://github.com/Polymer/polymer/issues/2181)
-				helper = document.createElement("template", "mm-stampbindable-template");
+				helper = document.createElement("template", "strand-stampbindable-template");
 				helper.innerHTML = original.outerHTML;
 				Polymer.Templatizer.templatize.call(helper, helper);
 				instance = Polymer.Templatizer.stamp.call(helper);
@@ -31,7 +31,7 @@
 	];
 
 	Polymer({
-		is: 'mm-stampbindable-template',
+		is: 'strand-stampbindable-template',
 		extends: 'template',
 		behaviors: [Polymer.Templatizer],
 	});

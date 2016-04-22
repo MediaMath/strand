@@ -1,5 +1,5 @@
 {
-	"name":"mm-repeater",
+	"name":"strand-repeater",
 	"description":"A component for duplicating a set of form fields from a template",
 	"experimental" : [
 		{
@@ -10,7 +10,7 @@
 		{
 			"name":"value",
 			"type":"Array",
-			"description":"An array containing key:value maps of the mm-repeater data, one per row"
+			"description":"An array containing key:value maps of the strand-repeater data, one per row"
 		},
 		{
 			"name":"config",

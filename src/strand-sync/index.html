@@ -2,17 +2,17 @@
 <html>
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-    <link rel="import" href="../mm-input/mm-input.html"/>
-    <link rel="import" href="../mm-button/mm-button.html"/>
-    <link rel="import" href="../mm-checkbox/mm-checkbox.html"/>
-    <link rel="import" href="../mm-textarea/mm-textarea.html"/>
-    <link rel="import" href="../mm-header/mm-header.html"/>
-    <link rel="import" href="mm-sync.html"/>
+    <link rel="import" href="../strand-input/strand-input.html"/>
+    <link rel="import" href="../strand-button/strand-button.html"/>
+    <link rel="import" href="../strand-checkbox/strand-checkbox.html"/>
+    <link rel="import" href="../strand-textarea/strand-textarea.html"/>
+    <link rel="import" href="../strand-header/strand-header.html"/>
+    <link rel="import" href="strand-sync.html"/>
 
-    <!-- <link rel="import" href="../mm-model/mm-model.html">
-    <link rel="import" href="../mm-collection/mm-collection.html"> -->
+    <!-- <link rel="import" href="../strand-model/strand-model.html">
+    <link rel="import" href="../strand-collection/strand-collection.html"> -->
 
-    <link rel="import" href="mm-sync.html">
+    <link rel="import" href="strand-sync.html">
     <style>
       body {
         background: #eee;
@@ -34,8 +34,8 @@
   </script> -->
 
 <!-- <template is="dom-bind">
-    <mm-input value="{{autoTest}}"></mm-input><span>{{autoTest}}</span>
-    <mm-sync endpoint="http://localhost:8000/ajax" debug="true" data="{{toaster}}">
+    <strand-input value="{{autoTest}}"></strand-input><span>{{autoTest}}</span>
+    <strand-sync endpoint="http://localhost:8000/ajax" debug="true" data="{{toaster}}">
       <input-params>
         <queryParam name="q" value="ui.*"></queryParam>
         <queryParam name="user">userInnerVal</queryParam>
@@ -49,7 +49,7 @@
         <urlParam>1234</urlParam>
         <header name="x-test">acesInner</header>
       </output-params>
-  </mm-sync>
+  </strand-sync>
   <span>{{toaster}}</span>
   <span>{{toaster.user}}</span>
   <span>{{toaster.q}}</span>
@@ -58,12 +58,12 @@
 
 <dom-module id="s-test">
     <template>
-        <mm-checkbox checked="{{allow}}"><label>Allow</label></mm-checkbox>
-        <mm-input value="{{autoTest}}"></mm-input><span>{{autotest}}</span>
+        <strand-checkbox checked="{{allow}}"><label>Allow</label></strand-checkbox>
+        <strand-input value="{{autoTest}}"></strand-input><span>{{autotest}}</span>
         <template is="dom-if" if="{{isLoading}}">
             <span>Is Loading!</span>
         </template>
-        <mm-sync endpoint="http://localhost:8000/ajax" data="{{zippy}}" is-loading="{{isLoading}}">
+        <strand-sync endpoint="http://localhost:8000/ajax" data="{{zippy}}" is-loading="{{isLoading}}">
             <GET>
                 <queryParam name="q" value="ui.*" conditional if$="{{allow}}"></queryParam>
                 <queryParam name="user">userInnerVal</queryParam>
@@ -85,7 +85,7 @@
                 <urlParam>1234</urlParam>
                 <header name="x-test">acesInner</header>
             </delete>
-        </mm-sync>
+        </strand-sync>
       <span>{{zippy.user}}</span>
       <span>{{zippy.q}}</span>
       <span>{{zippy.nocache}}</span>
@@ -118,40 +118,40 @@ Polymer({
       flex-direction: column;
       width: 400px;
     }
-    mm-input, mm-textarea, .padded {
+    strand-input, strand-textarea, .padded {
       padding-bottom: 20px;
     }
     </style>
     <div class="container">
 
-      <mm-input id="login" placeholder="username" value="{{user}}"></mm-input>
-      <mm-input id="password" type="password" placeholder="password" value="{{password}}"></mm-input>
+      <strand-input id="login" placeholder="username" value="{{user}}"></strand-input>
+      <strand-input id="password" type="password" placeholder="password" value="{{password}}"></strand-input>
 
-      <mm-sync id="data" auto="true" debug="true" data="{{daterz}}" cacheBuster="time_now" on-data-ready="{{getUserId}}" withCredentials="true"></mm-sync>
-
-      <div class="padded">
-        <mm-button on-click="{{handleLogin}}"><label>Login</label></mm-button>
-        <mm-button type="secondary" on-click="{{handleClear}}"><label>Cancel</label></mm-button>
-      </div>
-
-      <mm-textarea value="{{ daterz | kstringify}}"></mm-textarea>
+      <strand-sync id="data" auto="true" debug="true" data="{{daterz}}" cacheBuster="time_now" on-data-ready="{{getUserId}}" withCredentials="true"></strand-sync>
 
       <div class="padded">
-        <mm-button on-click="{{handlePrefs}}"><label>Get Prefs</label></mm-button>
-        <mm-button type="secondary" on-click="{{handleClear}}"><label>Cancel</label></mm-button>
+        <strand-button on-click="{{handleLogin}}"><label>Login</label></strand-button>
+        <strand-button type="secondary" on-click="{{handleClear}}"><label>Cancel</label></strand-button>
       </div>
 
-      <mm-input id="userId" placeholder="userId" value="{{userId}}"></mm-input>
+      <strand-textarea value="{{ daterz | kstringify}}"></strand-textarea>
 
-      <mm-sync id="prefs" auto="true" debug="true" data="{{prefsData}}" cacheBuster="currentTime" withCredentials="true">
+      <div class="padded">
+        <strand-button on-click="{{handlePrefs}}"><label>Get Prefs</label></strand-button>
+        <strand-button type="secondary" on-click="{{handleClear}}"><label>Cancel</label></strand-button>
+      </div>
+
+      <strand-input id="userId" placeholder="userId" value="{{userId}}"></strand-input>
+
+      <strand-sync id="prefs" auto="true" debug="true" data="{{prefsData}}" cacheBuster="currentTime" withCredentials="true">
         <input-params>
           <queryParam name="q" value="ui.*"></queryParam>
           <urlParam value="{{userId}}"></urlParam>
           <urlParam value="settings"></urlParam>
         </input-params>
-      </mm-sync>
+      </strand-sync>
 
-      <mm-textarea id="prefsoutput" value="{{prefsData | kstringify}}"></mm-textarea>
+      <strand-textarea id="prefsoutput" value="{{prefsData | kstringify}}"></strand-textarea>
 
     </div>
     </template>
@@ -211,7 +211,7 @@ Polymer({
     });
     </script>
   </polymer-element>
-  <mm-header>Login/Prefs Test</mm-header>
+  <strand-header>Login/Prefs Test</strand-header>
   <br/>
   <test-login></test-login> -->
   </body>

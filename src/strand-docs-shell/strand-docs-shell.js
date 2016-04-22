@@ -8,7 +8,7 @@
 
 	scope.DocsShell = Polymer({
 
-		is: 'mm-docs-shell',
+		is: 'strand-docs-shell',
 
 		behaviors: [
 			StrandTraits.Stylable,

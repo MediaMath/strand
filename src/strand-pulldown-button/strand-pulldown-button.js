@@ -9,7 +9,7 @@
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.PulldownButton = Polymer({
-		is: 'mm-pulldown-button',
+		is: 'strand-pulldown-button',
 
 		properties: {
 			_scope: {

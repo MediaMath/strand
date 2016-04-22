@@ -4,7 +4,7 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* mm-input sass */
+/* strand-input sass */
 @import "_bourbon";
 @import "_color";
 @import "_dropdown";
@@ -30,7 +30,7 @@
 	position: absolute;
 	right: 0;
 	
-	mm-icon {
+	strand-icon {
 		color: $color-A18 !important;
 	}
 }
@@ -95,7 +95,7 @@
 	}
 }
 
-// dropdown - mm-input nested in a dropdown
+// dropdown - strand-input nested in a dropdown
 :host([layout=dropdown]),
 :host([layout=editor]) {
 	display: block;

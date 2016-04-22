@@ -1,6 +1,6 @@
 {
-	"name":"mm-calendar",
-	"description":"A simple calendar rendering component. Intended for use in mm-datepicker but can be used for standalone date selection. Note: mm-calendar makes heavy use of moment.js",
+	"name":"strand-calendar",
+	"description":"A simple calendar rendering component. Intended for use in strand-datepicker but can be used for standalone date selection. Note: strand-calendar makes heavy use of moment.js",
 	"attributes": [
 		{
 			"name":"date",
@@ -12,7 +12,7 @@
 		{
 			"name":"pairDate",
 			"type":"Date",
-			"description":"A secondary date object used to denote selection range. For use in a dual mm-datepicker scenario (see: mm-datepicker).",
+			"description":"A secondary date object used to denote selection range. For use in a dual strand-datepicker scenario (see: strand-datepicker).",
 			"default":"none",
 			"attribute":"N/A"
 		},

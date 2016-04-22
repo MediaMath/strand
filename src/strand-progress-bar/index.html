@@ -3,7 +3,7 @@
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<link rel="import" href="mm-progress-bar.html">
+		<link rel="import" href="strand-progress-bar.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -85,11 +85,11 @@
 				float: left;
 			}
 
-			mm-checkbox:not(:last-child) {
+			strand-checkbox:not(:last-child) {
 				margin-right: 20px;
 			}
 
-			mm-checkbox[unresolved] {
+			strand-checkbox[unresolved] {
 				display: none;
 			}
 
@@ -100,59 +100,59 @@
 	</head>
 	<body>
 		<div class="col c4">
-			<p><span class="bold">mm-progress-bar</span>: Default state</p>
-			<mm-progress-bar unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Default state</p>
+			<strand-progress-bar unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Complete</p>
-			<mm-progress-bar percent-complete="100" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Complete</p>
+			<strand-progress-bar percent-complete="100" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Set custom fill color and percent complete</p>
-			<mm-progress-bar fill-color="hotpink" percent-complete="25" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Set custom fill color and percent complete</p>
+			<strand-progress-bar fill-color="hotpink" percent-complete="25" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Custom background color</p>
-			<mm-progress-bar fill-color="#469bef" background-color="#d9d9d9" percent-complete="50" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Custom background color</p>
+			<strand-progress-bar fill-color="#469bef" background-color="#d9d9d9" percent-complete="50" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Custom size (small)</p>
-			<mm-progress-bar height="8" width="262" percent-complete="50" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Custom size (small)</p>
+			<strand-progress-bar height="8" width="262" percent-complete="50" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Custom size</p>
-			<mm-progress-bar height="20" width="125" percent-complete="50" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Custom size</p>
+			<strand-progress-bar height="20" width="125" percent-complete="50" unresolved></strand-progress-bar>
 
 		</div>
 		<div class="vr"></div>
 		<div class="col c4">
-			<p><span class="bold">mm-progress-bar</span>: Indeterminate state</p>
-			<mm-progress-bar indeterminate unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Indeterminate state</p>
+			<strand-progress-bar indeterminate unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Indeterminate state with custom colors</p>
-			<mm-progress-bar indeterminate background-color="#d9d9d9" fill-color="hotpink" secondary-fill-color="#f1c40f" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Indeterminate state with custom colors</p>
+			<strand-progress-bar indeterminate background-color="#d9d9d9" fill-color="hotpink" secondary-fill-color="#f1c40f" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Custom size (small) with indeterminate state</p>
-			<mm-progress-bar indeterminate height="8" width="62" percent-complete="50" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Custom size (small) with indeterminate state</p>
+			<strand-progress-bar indeterminate height="8" width="62" percent-complete="50" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Change percent progress animation</p>
-			<mm-progress-bar id="myProgressBar" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Change percent progress animation</p>
+			<strand-progress-bar id="myProgressBar" unresolved></strand-progress-bar>
 
 			<hr>
 
-			<p><span class="bold">mm-progress-bar</span>: Change indeterminate state</p>
-			<mm-progress-bar id="myIndeterminateProgressBar" percent-complete="25" unresolved></mm-progress-bar>
+			<p><span class="bold">strand-progress-bar</span>: Change indeterminate state</p>
+			<strand-progress-bar id="myIndeterminateProgressBar" percent-complete="25" unresolved></strand-progress-bar>
 		</div>
 
 		<script>

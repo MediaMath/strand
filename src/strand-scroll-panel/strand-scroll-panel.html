@@ -10,19 +10,19 @@
 <link rel="import" href="../shared/behaviors/dommutable.html">
 <link rel="import" href="../shared/behaviors/mousewheelable.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
-<link rel="import" href="../mm-scrollbar-y/mm-scrollbar-y.html">
+<link rel="import" href="../strand-scrollbar-y/strand-scrollbar-y.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-scroll-panel">
-	<link rel="import" type="css" href="mm-scroll-panel.css" />
+<dom-module id="strand-scroll-panel">
+	<link rel="import" type="css" href="strand-scroll-panel.css" />
 	<template>
 		<div id="viewport" class="container">
 			<div id="holder">
 				<content></content>
 			</div>
 		</div>
-		<mm-scrollbar-y id="scrollbar" interface="{{_scrollbarInterface}}"></mm-scrollbar-y>
+		<strand-scrollbar-y id="scrollbar" interface="{{_scrollbarInterface}}"></strand-scrollbar-y>
 	</template>
 </dom-module>
 
-<script src="mm-scroll-panel.js"></script>
+<script src="strand-scroll-panel.js"></script>

@@ -11,17 +11,17 @@
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="import" href="../shared/behaviors/templatefindable.html"/>
 <link rel="import" href="../shared/behaviors/templatecomponentizable.html"/>
-<link rel="import" href="../mm-template-finder/mm-template-finder.html"/>
+<link rel="import" href="../strand-template-finder/strand-template-finder.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-tab">
-	<link rel="import" type="css" href="mm-tab.css"/>
+<dom-module id="strand-tab">
+	<link rel="import" type="css" href="strand-tab.css"/>
 	<template>
-		<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+		<strand-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 			<content select="template:not([is])"></content>
-		</mm-template-finder>
+		</strand-template-finder>
 		<content id="view"></content>
 	</template>
 </dom-module>
 
-<script src="mm-tab.js"></script>
+<script src="strand-tab.js"></script>

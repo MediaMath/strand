@@ -1,5 +1,5 @@
 {
-	"name":"mm-datepicker",
+	"name":"strand-datepicker",
 	"description":"A single and dual (range) date/time picker component including numeric and calendar based inputs",
 	"attributes": [
 		{
@@ -66,7 +66,7 @@
 		{
 			"name":"dateFormat",
 			"type":"String",
-			"description":"The moment.js format string used for date formatting. Please note that support for additional formats would require the internal input mask configuration to be edited (see: mm-input-mask).",
+			"description":"The moment.js format string used for date formatting. Please note that support for additional formats would require the internal input mask configuration to be edited (see: strand-input-mask).",
 			"optional":true,
 			"default":"MM/DD/YYYY",
 			"options":["MM/DD/YYYY", "DD/MM/YYYY"],
@@ -75,7 +75,7 @@
 		{
 			"name":"timeFormat",
 			"type":"String",
-			"description":"The moment.js format string used for time formatting. Please note that mm-datepicker currently only supports 12 hour time.",
+			"description":"The moment.js format string used for time formatting. Please note that strand-datepicker currently only supports 12 hour time.",
 			"optional":true,
 			"default":"hh:mm a",
 			"attribute":"time-format"
@@ -98,7 +98,7 @@
 		{
 			"name":"rangePresets",
 			"type":"Array",
-			"description":"Configuration data used to populate the range pressets dropdown. Requires an array of objects which should contain a name, start, and end property. The 'name' property sets the dropdown item's label. The 'start' and 'end' properties require JS Date objects. The supplied 'start' and 'end' dates will set the mm-datepicker's date range.",
+			"description":"Configuration data used to populate the range pressets dropdown. Requires an array of objects which should contain a name, start, and end property. The 'name' property sets the dropdown item's label. The 'start' and 'end' properties require JS Date objects. The supplied 'start' and 'end' dates will set the strand-datepicker's date range.",
 			"optional":true,
 			"default":"none",
 			"attribute":"N/A"
@@ -121,7 +121,7 @@
 		{
 			"name":"timezones",
 			"type":"Array",
-			"description":"Configuration data used to populate the timezone dropdown. Requires an array of objects which should contain a name and value property. The 'name' property sets the dropdown item's label. The 'value' property sets the mm-datepicker's timezone.",
+			"description":"Configuration data used to populate the timezone dropdown. Requires an array of objects which should contain a name and value property. The 'name' property sets the dropdown item's label. The 'value' property sets the strand-datepicker's timezone.",
 			"optional":true,
 			"default":"none",
 			"attribute":"N/A"
@@ -162,7 +162,7 @@
 		{
 			"name":"startLabel",
 			"type":"String",
-			"description":"The label text for the blue header which appears in the top left section of the mm-datepicker.",
+			"description":"The label text for the blue header which appears in the top left section of the strand-datepicker.",
 			"optional":true,
 			"default":"Start",
 			"attribute":"start-label"
@@ -170,7 +170,7 @@
 		{
 			"name":"startEnabledLabel",
 			"type":"String",
-			"description":"If set, instructs the component to display a start enabled checkbox. Typically used when the mm-datepicker needs to be constrained to a particular start date. This also the text which will be displayed next to the checkbox.",
+			"description":"If set, instructs the component to display a start enabled checkbox. Typically used when the strand-datepicker needs to be constrained to a particular start date. This also the text which will be displayed next to the checkbox.",
 			"optional":true,
 			"default":"none",
 			"attribute":"start-enabled-label"
@@ -178,7 +178,7 @@
 		{
 			"name":"startDate",
 			"type":"String",
-			"description":"A string in the specified dateFormat (see: dateFormat) used to set the mm-datepicker's default start date.",
+			"description":"A string in the specified dateFormat (see: dateFormat) used to set the strand-datepicker's default start date.",
 			"optional":true,
 			"default":"none",
 			"attribute":"start-date"
@@ -234,7 +234,7 @@
 		{
 			"name":"endLabel",
 			"type":"String",
-			"description":"The label text for the blue header which appears in the top right section of the mm-datepicker.",
+			"description":"The label text for the blue header which appears in the top right section of the strand-datepicker.",
 			"optional":true,
 			"default":"End",
 			"attribute":"end-label"
@@ -242,7 +242,7 @@
 		{
 			"name":"endEnabledLabel",
 			"type":"String",
-			"description":"If set, instructs the component to display a end enabled checkbox. Typically used when the mm-datepicker needs to be constrained to a particular end date. This also the text which will be displayed next to the checkbox.",
+			"description":"If set, instructs the component to display a end enabled checkbox. Typically used when the strand-datepicker needs to be constrained to a particular end date. This also the text which will be displayed next to the checkbox.",
 			"optional":true,
 			"default":"none",
 			"attribute":"end-enabled-label"
@@ -250,7 +250,7 @@
 		{
 			"name":"endDate",
 			"type":"String",
-			"description":"A string in the specified dateFormat (see: dateFormat) used to set the mm-datepicker's default end date.",
+			"description":"A string in the specified dateFormat (see: dateFormat) used to set the strand-datepicker's default end date.",
 			"optional":true,
 			"default":"none",
 			"attribute":"end-date"
@@ -313,7 +313,7 @@
 		},
 		{
 			"name":"save",
-			"description":"Commits any pending date or date range values selected, and closes the mm-datepicker."
+			"description":"Commits any pending date or date range values selected, and closes the strand-datepicker."
 		}
 	],
 	"events": [

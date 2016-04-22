@@ -6,9 +6,9 @@
 			// window.Polymer = window.Polymer || {};
 		    // window.Polymer.dom = 'shadow';
 	    </script>
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
-		<link rel="import" href="../mm-input/mm-input.html">
-		<link rel="import" href="mm-autocomplete.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="strand-autocomplete.html">
 		<script language="javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<style type="text/css">
 			body, html {
@@ -86,7 +86,7 @@
 				float: left;
 			}
 
-			mm-autocomplete[unresolved] {
+			strand-autocomplete[unresolved] {
 				display: none;
 			}
 		</style>
@@ -95,10 +95,10 @@
 
 		<div class="col c1">
 			<p><span class="bold">autocomplete:</span> default</p>
-			<mm-autocomplete id="dataTest1" unresolved></mm-autocomplete>
+			<strand-autocomplete id="dataTest1" unresolved></strand-autocomplete>
 			<hr/>
 			<p><span class="bold">autocomplete:</span> with max items</p>
-			<mm-autocomplete id="dataTest2" max-items="10" fitparent unresolved></mm-autocomplete>
+			<strand-autocomplete id="dataTest2" max-items="10" fitparent unresolved></strand-autocomplete>
 			<hr/>
 		</div>
 		

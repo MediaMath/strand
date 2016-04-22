@@ -1,6 +1,6 @@
 {
 	"name":"PositionableDropdown",
-	"description":"Positions the dropdown panel for dropdown-like elements (mm-dropdown, mm-autocomplete, mm-pulldown-button)",
+	"description":"Positions the dropdown panel for dropdown-like elements (strand-dropdown, strand-autocomplete, strand-pulldown-button)",
 	"attributes": [
 		{
 			"name":"overflow",

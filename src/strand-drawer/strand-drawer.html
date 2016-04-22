@@ -5,13 +5,13 @@
 
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../mm-icon/mm-icon.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
 <link rel="import" href="../shared/behaviors/stylable.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-drawer">
-  <link rel="import" type="css" href="mm-drawer.css">
+<dom-module id="strand-drawer">
+  <link rel="import" type="css" href="strand-drawer.css">
   <template>
 		<div id="container" class$="{{ _computeClass(expanded) }}" style$="{{ _computeStyle(_height) }}">
 			<div id="content">
@@ -20,10 +20,10 @@
 		</div>
 		<template is="dom-if" if="{{_showLabel}}">
 			<div id="toggle" on-tap="toggle" class$="{{ _computeClass(expanded) }}">
-				<mm-icon type="upload" width="11" height="11" primary-color="#525252"></mm-icon>
+				<strand-icon type="upload" width="11" height="11" primary-color="#525252"></strand-icon>
 				<span>{{_computeLabel(label,openedLabel,closedLabel,expanded)}}</span>
 			</div>
 		</template>
 	</template>
-  <script src="mm-drawer.js"></script>
+  <script src="strand-drawer.js"></script>
 </dom-module>

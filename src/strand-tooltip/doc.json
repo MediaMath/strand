@@ -1,5 +1,5 @@
 {
-	"name":"mm-tooltip",
+	"name":"strand-tooltip",
 	"description":"A custom styled tooltip which accepts variable and partially styleable content.",
 	"attributes": [
 		{

@@ -1,5 +1,5 @@
 {
-	"name":"mm-form",
+	"name":"strand-form",
 	"description":"A form component for creating visual layout, collecting and validating data from the individual fields placed within. ",
 	"experimental" : [
 		{ 
@@ -10,21 +10,21 @@
 		{
 			"name":"view",
 			"type":"Object",
-			"description":"A reference to the view in which the mm-form resides. The most common use case for the mm-form will be within a custom view web component, so a reference to the view will be advantageous, especially when creating custom validation methods.",
+			"description":"A reference to the view in which the strand-form resides. The most common use case for the strand-form will be within a custom view web component, so a reference to the view will be advantageous, especially when creating custom validation methods.",
 			"optional":true,
 			"default":"none"
 		},
 		{
 			"name":"unsaved",
 			"type":"Boolean",
-			"description":"Returns true if the mm-form contains values entered by the user - i.e. the current state of the data differs from the initial data provided to the mm-form.",
+			"description":"Returns true if the strand-form contains values entered by the user - i.e. the current state of the data differs from the initial data provided to the strand-form.",
 			"default":"false",
 			"attribute":"N/A"
 		},
 		{
 			"name":"showUnsavedMessage",
 			"type":"Boolean",
-			"description":"By default, mm-form will present messaging to the user in it's built-in mm-footer. The messaging will be presented if the mm-form contains values entered by the user - i.e. the current state of the data differs from the initial data provided to the mm-form. This can be disabled by setting the value of showUnsavedMessage to false.",
+			"description":"By default, strand-form will present messaging to the user in it's built-in strand-footer. The messaging will be presented if the strand-form contains values entered by the user - i.e. the current state of the data differs from the initial data provided to the strand-form. This can be disabled by setting the value of showUnsavedMessage to false.",
 			"optional":true,
 			"default":"true",
 			"attribute":"show-unsaved-message"
@@ -32,7 +32,7 @@
 		{
 			"name":"autoValidate",
 			"type":"Boolean",
-			"description":"By default, mm-form will present validation messaging (as provided in the configuration) to the user upon entering values into form fields. This can be disabled by setting the value of autoValidate to false.",
+			"description":"By default, strand-form will present validation messaging (as provided in the configuration) to the user upon entering values into form fields. This can be disabled by setting the value of autoValidate to false.",
 			"optional":true,
 			"default":"true",
 			"attribute":"auto-validate"
@@ -40,7 +40,7 @@
 		{
 			"name":"footerMessages",
 			"type":"Object",
-			"description":"An object containing the desired text to be displayed in the mm-form's built-in mm-footer. By default, mm-form will present messaging to the user in it's built-in mm-footer, which can be configured here. The message types are as follows: 'error', 'warning', and 'success'.",
+			"description":"An object containing the desired text to be displayed in the strand-form's built-in strand-footer. By default, strand-form will present messaging to the user in it's built-in strand-footer, which can be configured here. The message types are as follows: 'error', 'warning', and 'success'.",
 			"optional":true,
 			"default":"{ 'error' : 'This form contains errors', 'success' : 'This form does not contain any errors', 'warning' : 'This form contains unsaved changes' }",
 			"attribute":"footer-messages"
@@ -48,7 +48,7 @@
 		{
 			"name":"actions",
 			"type":"Array",
-			"description":"An array of objects representing the actions to be displayed in the footer of the mm-form. Each object provided should follow the format { label: String, type: String, callback: Function }. The property 'label' sets the name of the action. The property 'type' ('primary', 'secondary', or 'action') sets the button type. The property 'callback' may take optional arguments for the event object and the mm-form node.",
+			"description":"An array of objects representing the actions to be displayed in the footer of the strand-form. Each object provided should follow the format { label: String, type: String, callback: Function }. The property 'label' sets the name of the action. The property 'type' ('primary', 'secondary', or 'action') sets the button type. The property 'callback' may take optional arguments for the event object and the strand-form node.",
 			"optional":true,
 			"default":"{ label: 'Cancel', type: 'action', callback: function(e,host) { host.cancel(); } }, { label: 'Save', type: 'primary', callback: function(e,host) { host.serializeForm(); } } ",
 			"options":"*for property 'type': primary, secondary, action",
@@ -57,7 +57,7 @@
 		{
 			"name":"showFooterMessages",
 			"type":"Boolean",
-			"description":"Instructs the mm-form to display footer messaging. This behavior can be disabled by setting the value of showFooterMessages to false.",
+			"description":"Instructs the strand-form to display footer messaging. This behavior can be disabled by setting the value of showFooterMessages to false.",
 			"optional":true,
 			"default":"true",
 			"attribute":"show-footer-messages"
@@ -65,7 +65,7 @@
 		{
 			"name":"footerFixed",
 			"type":"Boolean",
-			"description":"Instructs the mm-form to style it's built-in mm-footer as fixed position element. Typically, the mm-footer will float at the bottom of the screen, overlaying the form's contents, to denote the form is scrollable.",
+			"description":"Instructs the strand-form to style it's built-in strand-footer as fixed position element. Typically, the strand-footer will float at the bottom of the screen, overlaying the form's contents, to denote the form is scrollable.",
 			"optional":true,
 			"default":"true",
 			"attribute":"footer-fixed"
@@ -73,7 +73,7 @@
 		{
 			"name":"footerLeft",
 			"type":"Boolean",
-			"description":"Instructs the mm-form to style it's built-in mm-footer's left position, in pixels, given that it is a fixed footer (see: footerFixed).",
+			"description":"Instructs the strand-form to style it's built-in strand-footer's left position, in pixels, given that it is a fixed footer (see: footerFixed).",
 			"optional":true,
 			"default":"true",
 			"attribute":"footer-left"
@@ -81,7 +81,7 @@
 		{
 			"name":"config",
 			"type":"Object",
-			"description":"The configuration object provided to the mm-form. The configuration should contain a manifest of all the named fields marked up in the mm-form's light dom, as well as configuration for validation, error messaging and label for the field. If provided, an error message element and label element will be created for each form field. Validation configuration can be a custom method, or string for common cases ('empty', 'int', 'decimal', 'email', 'alpha', 'whitespace', 'checked', 'blank').",
+			"description":"The configuration object provided to the strand-form. The configuration should contain a manifest of all the named fields marked up in the strand-form's light dom, as well as configuration for validation, error messaging and label for the field. If provided, an error message element and label element will be created for each form field. Validation configuration can be a custom method, or string for common cases ('empty', 'int', 'decimal', 'email', 'alpha', 'whitespace', 'checked', 'blank').",
 			"optional":false,
 			"default":"none",
 			"attribute":"N/A"
@@ -89,7 +89,7 @@
 		{
 			"name":"data",
 			"type":"Object",
-			"description":"Sets or returns a flat data object containing name/key and current value for each field in the mm-form. Can be provided to the mm-form if initial values are necessary, i.e. - editing a saved form.",
+			"description":"Sets or returns a flat data object containing name/key and current value for each field in the strand-form. Can be provided to the strand-form if initial values are necessary, i.e. - editing a saved form.",
 			"optional":false,
 			"default":"none",
 			"attribute":"N/A"
@@ -98,7 +98,7 @@
 	"methods": [
 		{
 			"name":"validate",
-			"description":"Instructs the mm-form to sweep through the form fields and perform the validation provided in the configuration."
+			"description":"Instructs the strand-form to sweep through the form fields and perform the validation provided in the configuration."
 		},
 
 		{
@@ -116,7 +116,7 @@
 		},
 		{
 			"name":"resetFieldValidation",
-			"description":"Instructs the mm-form to reset the visual validation state of a field based upon the key provided.",
+			"description":"Instructs the strand-form to reset the visual validation state of a field based upon the key provided.",
 			"arguements" : [
 				{
 					"name":"key",
@@ -129,7 +129,7 @@
 		},
 		{
 			"name":"serializeForm",
-			"description":"Instructs the mm-form to validate all fields and returns a flat data object containing the key value pairs for each named field. As a convenience, also fires a 'serialize-form' event which contains the form data, and information pertaining to validation (see: 'serialize-form' event for more information)."
+			"description":"Instructs the strand-form to validate all fields and returns a flat data object containing the key value pairs for each named field. As a convenience, also fires a 'serialize-form' event which contains the form data, and information pertaining to validation (see: 'serialize-form' event for more information)."
 		}
 	],
 	"events": [
@@ -154,7 +154,7 @@
 				{
 					"name":"data",
 					"type":"Object",
-					"description":"a flat data object containing name/key and current value for each field in the mm-form."
+					"description":"a flat data object containing name/key and current value for each field in the strand-form."
 				}
 			]
 		},

@@ -13,18 +13,18 @@
 <link rel="import" href="../shared/behaviors/autoclosable.html">
 <link rel="import" href="../shared/behaviors/autotogglable.html">
 <link rel="import" href="../shared/behaviors/stylable.html">
-<link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module name="mm-pulldown-button">
-	<link rel="import" type="css" href="mm-pulldown-button.css"/>
+<dom-module name="strand-pulldown-button">
+	<link rel="import" type="css" href="strand-pulldown-button.css"/>
 	<template>
 		<div class$="{{_updateButtonClass(direction, fitparent, error, state, type)}}" id="target" tabindex="0">
 			<span class="left-items">
-				<content select="mm-icon" id="icon"></content>
+				<content select="strand-icon" id="icon"></content>
 				<content select="label" id="label"></content>
 			</span>
-			<mm-icon id="caratIcon" class$="{{state}}" type="carat" width="8" height="8"></mm-icon>
+			<strand-icon id="caratIcon" class$="{{state}}" type="carat" width="8" height="8"></strand-icon>
 		</div>
 		<div id="panel" on-tap="_updateSelectedItem">
 			<div id="list">
@@ -35,4 +35,4 @@
 		</div>
 	</template>
 </dom-module>
-<script src="mm-pulldown-button.js"></script>
+<script src="strand-pulldown-button.js"></script>

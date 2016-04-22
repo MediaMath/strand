@@ -4,9 +4,9 @@
 	});
 </script>
 <template is="dom-bind">
-	<mm-model id="model" data="{{data}}" auto="false">
-	</mm-model>
-	<mm-input value="{{data.name}}"></mm-input>
-	<mm-input value="{{data.link}}"></mm-input>
-	<mm-action href="{{data.link}}"><label>{{data.name}}</label></mm-action>
+	<strand-model id="model" data="{{data}}" auto="false">
+	</strand-model>
+	<strand-input value="{{data.name}}"></strand-input>
+	<strand-input value="{{data.link}}"></strand-input>
+	<strand-action href="{{data.link}}"><label>{{data.name}}</label></strand-action>
 </template>

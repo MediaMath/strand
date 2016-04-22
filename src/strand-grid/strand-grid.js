@@ -15,7 +15,7 @@
 
 	scope.Grid = Polymer({
 
-		is: 'mm-grid',
+		is: 'strand-grid',
 
 		properties: {
 			gpu: {

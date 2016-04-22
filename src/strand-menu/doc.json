@@ -1,5 +1,5 @@
 {
-	"name":"mm-menu",
+	"name":"strand-menu",
 	"description":"A popover menu",
 	"behaviors": [
 		"resolvable",

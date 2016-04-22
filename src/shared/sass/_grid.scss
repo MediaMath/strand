@@ -35,13 +35,13 @@
 	&.toggle {
 		width: 10px;
 
-		mm-icon {
+		strand-icon {
 			cursor: pointer;
 			transform: rotate(-90deg);
 		}
 
 		&.expanded {
-			mm-icon {
+			strand-icon {
 				transform: rotate(0deg);
 			}
 		}

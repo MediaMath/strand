@@ -10,8 +10,8 @@
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-progress-bar">
-	<link rel="import" type="css" href="mm-progress-bar.css"/>
+<dom-module id="strand-progress-bar">
+	<link rel="import" type="css" href="strand-progress-bar.css"/>
 	<template>
 		<div class="bar" style$="{{ _updateBarStyle(backgroundColor, height, width) }}">
 			<div class="fill" style$="{{ _updateFillStyle(percentComplete, fillColor, secondaryFillColor, indeterminate) }}"></div>
@@ -19,4 +19,4 @@
 	</template>
 </dom-module>
 
-<script src="mm-progress-bar.js"></script>
+<script src="strand-progress-bar.js"></script>

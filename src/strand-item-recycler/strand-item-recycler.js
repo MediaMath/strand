@@ -76,7 +76,7 @@ found here: https://github.com/Polymer/core-list
 
 
 	Polymer({
-		is: 'mm-item-recycler',
+		is: 'strand-item-recycler',
 
 		behaviors: [
 			StrandTraits.Resolvable,

@@ -37,7 +37,7 @@
 	}
 
 	scope.Radio = Polymer({
-		is: 'mm-radio',
+		is: 'strand-radio',
 
 		properties: {
 			checked: { 

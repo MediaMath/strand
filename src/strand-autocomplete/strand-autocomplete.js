@@ -9,7 +9,7 @@
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.AutoComplete = Polymer({
-		is: 'mm-autocomplete',
+		is: 'strand-autocomplete',
 
 		properties: {
 			_panel: {
@@ -180,7 +180,7 @@
 		},
 
 		get domItems() {
-	 		return Polymer.dom(this.$.list).querySelectorAll('mm-list-item');
+	 		return Polymer.dom(this.$.list).querySelectorAll('strand-list-item');
 		},
 
 		_selectedIndexChanged: function(newIndex, oldIndex) {

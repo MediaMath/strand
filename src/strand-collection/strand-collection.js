@@ -12,7 +12,7 @@
 
 	scope.Collection = Polymer({
 
-		is:"mm-collection",
+		is:"strand-collection",
 
 		_cidIndex: 0,
 

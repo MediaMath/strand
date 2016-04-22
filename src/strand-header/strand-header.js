@@ -7,7 +7,7 @@
 (function (scope) {
  
 	scope.Header = Polymer({
-		is:"mm-header",
+		is:"strand-header",
 
 		properties: {
 			size: {

@@ -4,11 +4,11 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-/* mm-modal.js */
+/* strand-modal.js */
 (function(scope) {
 
 	scope.Modal = Polymer({
-		is: 'mm-modal',
+		is: 'strand-modal',
 
 		behaviors:[
 			StrandTraits.Falsifiable,

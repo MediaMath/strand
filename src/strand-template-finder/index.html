@@ -2,7 +2,7 @@
 <html>
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-	<link rel="import" href="mm-template-finder.html">
+	<link rel="import" href="strand-template-finder.html">
 	<link rel="import" href="../shared/behaviors/templatecomponentizable.html"/>
 	<style type="text/css">
 		html, body {
@@ -28,24 +28,24 @@
   </head>
   <body>
 
-	<mm-template-finder id="distributed" template-match="#lightdom">
+	<strand-template-finder id="distributed" template-match="#lightdom">
 		<template id="lightdom">
 			<div>passed as light-dom <span>{{obj.field}}</span></div>
 		</template>
-	</mm-template-finder>
+	</strand-template-finder>
 
 	<br>
 
-	<mm-template-finder id="imported" template-uri="./template.html">
-	</mm-template-finder>
+	<strand-template-finder id="imported" template-uri="./template.html">
+	</strand-template-finder>
 
 	<br>
 
 	<template id="bind">
 		<div>passed as binding <span>{{obj.field}}</span></div>
 	</template>
-	<mm-template-finder id="bound" template-bind="{{boundTemplate}}">
-	</mm-template-finder>
+	<strand-template-finder id="bound" template-bind="{{boundTemplate}}">
+	</strand-template-finder>
 
 	<script type="text/javascript">
 

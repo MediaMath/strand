@@ -11,7 +11,7 @@
 		_ajax = StrandLib.Ajax.getBehavior();
 
 	scope.Ajax = Polymer({
-		is: 'mm-ajax',
+		is: 'strand-ajax',
 
 		GET: StrandLib.Ajax.GET,
 		POST: StrandLib.Ajax.POST,

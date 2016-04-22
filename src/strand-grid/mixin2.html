@@ -2,7 +2,7 @@
 <html>
 <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-	<link rel="import" href="mm-grid.html">
+	<link rel="import" href="strand-grid.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -17,7 +17,7 @@
 			display: none;
 		}
 
-		mm-grid {
+		strand-grid {
 			height: 100%;
 		}
 
@@ -32,24 +32,24 @@
 <body>
 	<dom-module id="some-controller">
 		<template>
-			<mm-grid id="mmTestGrid" gpu="4d" selectable unresolved data="{{data}}" mixin-findable="{{mixinFindable}}">
-				<mm-grid-column width="10%" field="drag">DRAG</mm-grid-column>
+			<strand-grid id="mmTestGrid" gpu="4d" selectable unresolved data="{{data}}" mixin-findable="{{mixinFindable}}">
+				<strand-grid-column width="10%" field="drag">DRAG</strand-grid-column>
 
-				<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-				<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-				<mm-grid-column width="10%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-				<mm-grid-column width="10%" field="concept" sort resize>Concept</mm-grid-column>
-				<mm-grid-column width="10%" field="type" resize>Type</mm-grid-column>
-				<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
+				<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
+				<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
+				<strand-grid-column width="10%" field="advertiser" sort resize>Advertiser</strand-grid-column>
+				<strand-grid-column width="10%" field="concept" sort resize>Concept</strand-grid-column>
+				<strand-grid-column width="10%" field="type" resize>Type</strand-grid-column>
+				<strand-grid-column width="10%" field="dimensions">Dimensions</strand-grid-column>
 
 				<template preserve-content id="potentiallyUsedForDifferentiatingInvocationsTo-mixinsForValue">
-					<mm-grid-item model="{{model}}" scope="{{scope}}">
+					<strand-grid-item model="{{model}}" scope="{{scope}}">
 						<div field="drag" on-track="_customDrag"></div>
 						<div field="id" on-mouseover="_customHover">HOVER {{model.id}}</div>
 						<div field="name" on-click="_customClick">CLICK {{model.name}}</div>
-					</mm-grid-item>
+					</strand-grid-item>
 				</template>
-			</mm-grid>
+			</strand-grid>
 		</template>
 		<script>
 			HTMLImports.whenReady(function() {

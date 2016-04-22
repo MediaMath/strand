@@ -53,14 +53,14 @@
 	cursor: pointer;
 	white-space: nowrap;
 
-	mm-icon {
+	strand-icon {
 		color: #525252;
 		vertical-align: inherit;
 		transform: scaleY(-1);
 	}
 
 	&.expanded {
-		mm-icon {
+		strand-icon {
 			transform: scaleY(1);
 		}
 	}

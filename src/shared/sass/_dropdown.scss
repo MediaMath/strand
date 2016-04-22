@@ -39,7 +39,7 @@
 		transform: scaleY(-1);
 	}
 
-	mm-icon {
+	strand-icon {
 		pointer-events: none;
 	}
 
@@ -131,8 +131,8 @@ $border-color: $color-A18 !default;
 		}
 	}
 
-	#container > ::content mm-list-item,
-	mm-list-item {
+	#container > ::content strand-list-item,
+	strand-list-item {
 		font-size: 11px !important;
 		line-height: 13px !important;
 	}

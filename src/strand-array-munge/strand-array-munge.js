@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.ArrayMunge = Polymer({
-		is: "mm-array-munge",
+		is: "strand-array-munge",
 
 		behaviors: [
 			StrandTraits.Resolvable,

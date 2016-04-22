@@ -6,18 +6,18 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
-<link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
-<link rel="import" href="../mm-list-item/mm-list-item.html"/>
-<link rel="import" href="../mm-group/mm-group.html"/>
-<link rel="import" href="../mm-radio/mm-radio.html"/>
-<link rel="import" href="../mm-input/mm-input.html"/>
-<link rel="import" href="../mm-form/mm-form.html"/>
-<link rel="import" href="../mm-checkbox/mm-checkbox.html"/>
+<link rel="import" href="../strand-dropdown/strand-dropdown.html"/>
+<link rel="import" href="../strand-list-item/strand-list-item.html"/>
+<link rel="import" href="../strand-group/strand-group.html"/>
+<link rel="import" href="../strand-radio/strand-radio.html"/>
+<link rel="import" href="../strand-input/strand-input.html"/>
+<link rel="import" href="../strand-form/strand-form.html"/>
+<link rel="import" href="../strand-checkbox/strand-checkbox.html"/>
 
-<dom-module id="mm-test-form-view">
-	<link rel="import" type="css" href="mm-test-form-view.css"/>
+<dom-module id="strand-test-form-view">
+	<link rel="import" type="css" href="strand-test-form-view.css"/>
 	<template>
-		<mm-form id="testForm"
+		<strand-form id="testForm"
 			unresolved
 			h-space="20"
 			v-space="40" 
@@ -27,89 +27,89 @@
 
 			<!-- row 1 -->
 			<div class="col" span="1">
-				<mm-input fitparent name="input" placeholder="Type a Number"></mm-input>
+				<strand-input fitparent name="input" placeholder="Type a Number"></strand-input>
 			</div>
 
 			<div class="col" span="1">
-				<mm-dropdown fitparent name="dropdown" placeholder="Select an Item">
-					<mm-list-item>List Item 1</mm-list-item>
-					<mm-list-item>List Item 2</mm-list-item>
-					<mm-list-item>List Item 3</mm-list-item>
-					<mm-list-item>List Item 4</mm-list-item>
-				</mm-dropdown>
+				<strand-dropdown fitparent name="dropdown" placeholder="Select an Item">
+					<strand-list-item>List Item 1</strand-list-item>
+					<strand-list-item>List Item 2</strand-list-item>
+					<strand-list-item>List Item 3</strand-list-item>
+					<strand-list-item>List Item 4</strand-list-item>
+				</strand-dropdown>
 			</div>
 
 			<div class="col" span="2">
-				<mm-group fitparent unresolved name="radio">
-					<mm-radio>
+				<strand-group fitparent unresolved name="radio">
+					<strand-radio>
 						<label>Red</label>
-					</mm-radio>
-					<mm-radio>
+					</strand-radio>
+					<strand-radio>
 						<label>Green</label>
-					</mm-radio>	
-					<mm-radio>
+					</strand-radio>	
+					<strand-radio>
 						<label>Blue</label>
-					</mm-radio>			
-				</mm-group>
+					</strand-radio>			
+				</strand-group>
 			</div>
 
 			<!-- row 2 -->
 			<div id="widthHeightWrapper" class="col" span="2">
-				<mm-header size="medium" form-header>Dimensions</mm-header>
+				<strand-header size="medium" form-header>Dimensions</strand-header>
 				<div class="custom-item dimensions">
-					<mm-radio 
+					<strand-radio 
 						id="standardSize" 
 						group="sizes"
 						checked$="{{standardSize}}"
-						on-tap="_sizeRadioSelected"></mm-radio>
-					<mm-dropdown 
+						on-tap="_sizeRadioSelected"></strand-radio>
+					<strand-dropdown 
 						id="standardSizeDdl" 
 						disabled$="{{!standardSize}}"
 						no-validate$="{{!standardSize}}"
 						name="widthHeight"
 						on-changed="_standardSizeDdl" 
 						placeholder="Select One">
-						<mm-list-item>160x600</mm-list-item>
-						<mm-list-item>728x90</mm-list-item>
-						<mm-list-item>300x250</mm-list-item>
-					</mm-dropdown>
-					<mm-radio 
+						<strand-list-item>160x600</strand-list-item>
+						<strand-list-item>728x90</strand-list-item>
+						<strand-list-item>300x250</strand-list-item>
+					</strand-dropdown>
+					<strand-radio 
 						id="nonStandardSize" 
 						group="sizes"
 						checked$="{{!standardSize}}"
-						on-tap="_sizeRadioSelected"></mm-radio>
-					<mm-group 
+						on-tap="_sizeRadioSelected"></strand-radio>
+					<strand-group 
 						id="nonStandardSizeGroup" 
 						disabled$="{{standardSize}}" 
 						fitparent>
-						<mm-input 
+						<strand-input 
 							name="width"
 							placeholder="Width" 
 							no-validate$="{{standardSize}}"
-							value="{{width}}"></mm-input>
-						<mm-input 
+							value="{{width}}"></strand-input>
+						<strand-input 
 							name="height"
 							placeholder="Height" 
 							no-validate$="{{standardSize}}"
-							value="{{height}}"></mm-input>
-					</mm-group>
+							value="{{height}}"></strand-input>
+					</strand-group>
 				</div>
-				<mm-form-message 
+				<strand-form-message 
 					id="heightWidthError" 
 					type="error" 
-					message="Special form message"></mm-form-message>
+					message="Special form message"></strand-form-message>
 			</div>
 
 			<div id="freqCapWrapper" class="col" span="2">
-				<mm-checkbox 
+				<strand-checkbox 
 					form-header
 					name="use_mm_freq"
 					on-changed="_useMMFreqOnChange"
 					checked="{{use_mm_freq}}">
-					<mm-header size="medium">Campaign Frequency Cap</mm-header>
-				</mm-checkbox>
+					<strand-header size="medium">Campaign Frequency Cap</strand-header>
+				</strand-checkbox>
 				<div class="custom-item freq-cap">
-					<mm-dropdown 
+					<strand-dropdown 
 						id="typeDdl" 
 						disabled$="{{!use_mm_freq}}"
 						no-validate$="{{!use_mm_freq}}"
@@ -117,17 +117,17 @@
 						on-changed="_freqTypeChanged"
 						value="{{frequency_type}}" 
 						placeholder="Type">
-						<mm-list-item valur="even">Even</mm-list-item>
-						<mm-list-item value="asap">ASAP</mm-list-item>
-					</mm-dropdown>
-					<mm-input 
+						<strand-list-item valur="even">Even</strand-list-item>
+						<strand-list-item value="asap">ASAP</strand-list-item>
+					</strand-dropdown>
+					<strand-input 
 						name="frequency_amount"
 						disabled$="{{!use_mm_freq}}"
 						no-validate$="{{!use_mm_freq}}"
 						placeholder="#"
-						value="{{frequency_amount}}"></mm-input>
+						value="{{frequency_amount}}"></strand-input>
 					<p>per</p>
-					<mm-dropdown 
+					<strand-dropdown 
 						id="standardSizeDdl" 
 						disabled$="{{!use_mm_freq}}"
 						no-validate$="{{!use_mm_freq}}"
@@ -135,17 +135,17 @@
 						on-changed="_freqIntervalChanged" 
 						value="{{frequency_interval}}" 
 						placeholder="Interval">
-						<mm-list-item value="hour">Hour</mm-list-item>
-						<mm-list-item value="day">Day</mm-list-item>
-						<mm-list-item value="week">7 Days</mm-list-item>
-						<mm-list-item value="month">30 Days</mm-list-item>
-					</mm-dropdown>
+						<strand-list-item value="hour">Hour</strand-list-item>
+						<strand-list-item value="day">Day</strand-list-item>
+						<strand-list-item value="week">7 Days</strand-list-item>
+						<strand-list-item value="month">30 Days</strand-list-item>
+					</strand-dropdown>
 				</div>
 			</div>
 
-		</mm-form>
+		</strand-form>
 
 	</template>
 </dom-module>
 
-<script src="mm-test-form-view.js"></script>
+<script src="strand-test-form-view.js"></script>

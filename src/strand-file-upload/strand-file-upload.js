@@ -1,7 +1,7 @@
 (function(scope) {
 
 	scope.FileUpload = Polymer({
-		is: 'mm-file-upload',
+		is: 'strand-file-upload',
 
 		behaviors: [
 			StrandTraits.Resolvable,

@@ -2,12 +2,12 @@
 <html>
 <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-	<link rel="import" href="mm-popover.html">
-	<link rel="import" href="../mm-action/mm-action.html"/>
-	<link rel="import" href="../mm-button/mm-button.html"/>
-	<link rel="import" href="../mm-input/mm-input.html"/>
-	<link rel="import" href="../mm-footer/mm-footer.html"/>
-	<link rel="import" href="../mm-checkbox/mm-checkbox.html"/>
+	<link rel="import" href="strand-popover.html">
+	<link rel="import" href="../strand-action/strand-action.html"/>
+	<link rel="import" href="../strand-button/strand-button.html"/>
+	<link rel="import" href="../strand-input/strand-input.html"/>
+	<link rel="import" href="../strand-footer/strand-footer.html"/>
+	<link rel="import" href="../strand-checkbox/strand-checkbox.html"/>
 	<style type="text/css">
 			body, html {
 				height: 100%;
@@ -91,8 +91,8 @@
 				position: absolute;
 			}
 
-			mm-popover[unresolved],
-			mm-button[unresolved] {
+			strand-popover[unresolved],
+			strand-button[unresolved] {
 				display: none;
 			}
 		</style>
@@ -102,55 +102,55 @@
 	
 	<div>
 		<div class="col c0">
-			<mm-button id="cpb1" unresolved>
+			<strand-button id="cpb1" unresolved>
 				<label>open popover</label>
-			</mm-button>
+			</strand-button>
 		</div>
 	</div>
 
 	<div>
-		<mm-popover target="#cpb1" id="popover1" direction="s" unresolved>
+		<strand-popover target="#cpb1" id="popover1" direction="s" unresolved>
 			<div class="body">
-				<mm-input></mm-input>
+				<strand-input></strand-input>
 			</div>
-			<mm-footer>
-				<mm-action id="closeLink1" underline>
+			<strand-footer>
+				<strand-action id="closeLink1" underline>
 					<label>Close</label>
-				</mm-action>
-				<mm-button id="applyBtn1">
+				</strand-action>
+				<strand-button id="applyBtn1">
 					<label>Apply</label>
-				</mm-button>
-			</mm-footer>
-		</mm-popover>
+				</strand-button>
+			</strand-footer>
+		</strand-popover>
 	</div>
 
-	<mm-button id="cpb" unresolved>
+	<strand-button id="cpb" unresolved>
 		<label>open popover multiselect (draggable)</label>
-	</mm-button> 
+	</strand-button> 
 
 	<div>
-		<mm-popover id="popover" target="#cpb" direction="s" unresolved>
-			<mm-input search="true" layout="dropdown"></mm-input> 
+		<strand-popover id="popover" target="#cpb" direction="s" unresolved>
+			<strand-input search="true" layout="dropdown"></strand-input> 
 			<div class="body">
-				<mm-checkbox>
+				<strand-checkbox>
 					<label>Item One</label>
-				</mm-checkbox>
-				<mm-checkbox>
+				</strand-checkbox>
+				<strand-checkbox>
 					<label>Item Two</label>
-				</mm-checkbox>
-				<mm-checkbox>
+				</strand-checkbox>
+				<strand-checkbox>
 					<label>Item Three</label>
-				</mm-checkbox>
+				</strand-checkbox>
 			</div>
-			<mm-footer>
-				<mm-action id="closeLink" underline>
+			<strand-footer>
+				<strand-action id="closeLink" underline>
 					<label>Close</label>
-				</mm-action>
-				<mm-button id="applyBtn">
+				</strand-action>
+				<strand-button id="applyBtn">
 					<label>Apply</label>
-				</mm-button>
-			</mm-footer>
-		</mm-popover>
+				</strand-button>
+			</strand-footer>
+		</strand-popover>
 	</div>
  
 	<script>

@@ -21,7 +21,7 @@
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.Datepicker = Polymer({
-		is: 'mm-datepicker',
+		is: 'strand-datepicker',
 
 		properties: {
 			closeLabel: {

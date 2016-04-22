@@ -7,7 +7,7 @@
 (function (scope) {
 	
 	scope.Textarea = Polymer({
-		is: 'mm-textarea',
+		is: 'strand-textarea',
 
 		behaviors: [
 			StrandTraits.Resolvable,

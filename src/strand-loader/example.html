@@ -2,22 +2,22 @@
 <!-- Note: by default, loaders are positioned absolutely -->
 <!-- Note: loaders are nested in a div for demonstration purposes only -->
 <div class="loader-holder" style="width:100%; height:28px;">
-	<mm-loader id="l1">
+	<strand-loader id="l1">
 		<label>Loading...</label>
-	</mm-loader>
+	</strand-loader>
 </div>
 <!-- Customized Variant -->
 <div class="loader-holder" style="width:100%; height:34px;">
-	<mm-loader id="l2" bg-color="#003C71" bg-opacity="1">
-		<!-- You can override the default spinner graphic by providing your own mm-spinner element -->
-		<mm-spinner radius="16" inner-radius="0.8" line-width="0.2"></mm-spinner>
+	<strand-loader id="l2" bg-color="#003C71" bg-opacity="1">
+		<!-- You can override the default spinner graphic by providing your own strand-spinner element -->
+		<strand-spinner radius="16" inner-radius="0.8" line-width="0.2"></strand-spinner>
 		<label>Waiting...</label>
-	</mm-loader>
+	</strand-loader>
 </div>
 <!-- Customized Variant -->
 <div class="loader-holder" style="width:100%; height:84px;">
-	<mm-loader id="l3" padding-top="10" padding-left="10" bg-color="#cccccc" bg-opacity="0.75">
-		<!-- You can override the default spinner graphic by providing your own mm-spinner element -->
-		<mm-spinner radius="32" line-width="10" line-weight="4" fill-color="#003C71"></mm-spinner>
-	</mm-loader>
+	<strand-loader id="l3" padding-top="10" padding-left="10" bg-color="#cccccc" bg-opacity="0.75">
+		<!-- You can override the default spinner graphic by providing your own strand-spinner element -->
+		<strand-spinner radius="32" line-width="10" line-weight="4" fill-color="#003C71"></strand-spinner>
+	</strand-loader>
 </div>

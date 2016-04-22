@@ -1,5 +1,5 @@
 {
-	"name":"mm-input",
+	"name":"strand-input",
 	"description":"A fully-styled text input.",
 	"attributes": [
 		{
@@ -20,10 +20,10 @@
 		{
 			"name":"icon",
 			"type":"String",
-			"description":"Adds a custom icon glyph to the input field, using icons found in mm-icon.",
+			"description":"Adds a custom icon glyph to the input field, using icons found in strand-icon.",
 			"optional":true,
 			"default":"search",
-			"options":["*see mm-icon for options"]
+			"options":["*see strand-icon for options"]
 		},
 		{
 			"name":"search",

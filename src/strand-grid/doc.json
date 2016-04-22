@@ -1,11 +1,11 @@
 {
-	"name":"mm-grid",
+	"name":"strand-grid",
 	"description":"A fully styled, configurable data grid with item recycling.",
 	"attributes": [
 		{
 			"name":"data",
 			"type":"Array",
-			"description":"The array of data or mm-collection to render into the grid.",
+			"description":"The array of data or strand-collection to render into the grid.",
 			"optional":false,
 			"default":"null"
 		},
@@ -103,7 +103,7 @@
 	"methods": [
 		{
 			"name":"createId",
-			"description":"Creates a unique identification string for positionable elements nested within an mm-grid. This will be necessary when using mm-menu, mm-popover, or mm-tooltip within a custom mm-grid-item (see: mm-popover, mm-tooltip, mm-menu).",
+			"description":"Creates a unique identification string for positionable elements nested within an strand-grid. This will be necessary when using strand-menu, strand-popover, or strand-tooltip within a custom strand-grid-item (see: strand-popover, strand-tooltip, strand-menu).",
 			"arguments":[
 				{
 					"name":"string",
@@ -117,7 +117,7 @@
 					"type":"Number",
 					"optional":false,
 					"default":"none",
-					"description":"The model.id for the mm-grid-item."
+					"description":"The model.id for the strand-grid-item."
 				}
 			]
 		},

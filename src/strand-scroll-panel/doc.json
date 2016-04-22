@@ -1,5 +1,5 @@
 {
-	"name":"mm-scroll-panel",
+	"name":"strand-scroll-panel",
 	"description":"A scrollable content container with custom scrollbars - for use in instances where native scrollbars interfere with layout",
 	"methods": [
 		{

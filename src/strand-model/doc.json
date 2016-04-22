@@ -1,5 +1,5 @@
 {
-	"name":"mm-model",
+	"name":"strand-model",
 	"description":"Simple model component for 2 way binding to model data",
 	"attributes": [
 		{

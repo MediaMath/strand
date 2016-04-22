@@ -11,16 +11,16 @@
 <link rel="import" href="../shared/behaviors/refable.html">
 <link rel="import" href="../shared/behaviors/positionable-panel.html"/>
 
-<dom-module id="mm-popover">
-	<link rel="import" type="css" href="mm-popover.css"/>
+<dom-module id="strand-popover">
+	<link rel="import" type="css" href="strand-popover.css"/>
 	<template>
 		<div id="container" style$="{{_containerStyle}}">
-			<content select="mm-input"></content>
+			<content select="strand-input"></content>
 			<div class="body-content">
 				<content select=".body"></content>
 			</div>
-			<content id="footer" select="mm-footer"></content>
+			<content id="footer" select="strand-footer"></content>
 		</div>		
 	</template>
 </dom-module>
-<script src="mm-popover.js"></script>
+<script src="strand-popover.js"></script>

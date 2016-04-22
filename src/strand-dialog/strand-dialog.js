@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Dialog = Polymer({
-		is: 'mm-dialog',
+		is: 'strand-dialog',
 
 		iconMap: {
 			info:    { type: "info" },

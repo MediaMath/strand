@@ -2,13 +2,13 @@
 <html>
 <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-	<link rel="import" href="mm-grid.html">
-	<link rel="import" href="../mm-checkbox/mm-checkbox.html">
-	<link rel="import" href="../mm-dropdown/mm-dropdown.html">
-	<link rel="import" href="../mm-list-item/mm-list-item.html">
-	<link rel="import" href="../mm-menu/mm-menu.html">
-	<link rel="import" href="../mm-icon/mm-icon.html">
-	<link rel="import" href="../mm-tooltip/mm-tooltip.html">
+	<link rel="import" href="strand-grid.html">
+	<link rel="import" href="../strand-checkbox/strand-checkbox.html">
+	<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+	<link rel="import" href="../strand-list-item/strand-list-item.html">
+	<link rel="import" href="../strand-menu/strand-menu.html">
+	<link rel="import" href="../strand-icon/strand-icon.html">
+	<link rel="import" href="../strand-tooltip/strand-tooltip.html">
 	<style type="text/css">
 		html, body {
 			padding: 0;
@@ -28,67 +28,67 @@
 			height: 100%;
 		}
 
-		mm-grid {
+		strand-grid {
 			height: 100%;
 		}
 
-		mm-grid[unresolved] {
+		strand-grid[unresolved] {
 			display: none;
 		}
 	</style>
 </head>
 <body>
-	<mm-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
-		<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-		<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
-		<mm-grid-column width="10%" field="advertiser" sort resize>Advertiser</mm-grid-column>
-		<mm-grid-column width="10%" field="concept" sort resize>Concept</mm-grid-column>
-		<mm-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff" align="right" sort resize>Type</mm-grid-column>
-		<mm-grid-column width="10%" field="dimensions">Dimensions</mm-grid-column>
-		<mm-grid-column width="30%" field="actions"></mm-grid-column>
+	<strand-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
+		<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
+		<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
+		<strand-grid-column width="10%" field="advertiser" sort resize>Advertiser</strand-grid-column>
+		<strand-grid-column width="10%" field="concept" sort resize>Concept</strand-grid-column>
+		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff" align="right" sort resize>Type</strand-grid-column>
+		<strand-grid-column width="10%" field="dimensions">Dimensions</strand-grid-column>
+		<strand-grid-column width="30%" field="actions"></strand-grid-column>
 
 		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
+			<strand-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="actions">
 					<!-- 
-					<mm-icon width="15" height="15" type="actions" id="actionIcon"></mm-icon>
-					<mm-tooltip model="{{model}}" target="{{findById('actionIcon')}}">
+					<strand-icon width="15" height="15" type="actions" id="actionIcon"></strand-icon>
+					<strand-tooltip model="{{model}}" target="{{findById('actionIcon')}}">
 						<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
-					</mm-tooltip>
+					</strand-tooltip>
 					 -->
 					<!--
-					<mm-icon type="actions" id="actionMenuIcon" width="15" height="15"></mm-icon>
-					<mm-menu id="testMenu" direction="s" offset="15" model="{{model}}" target="{{findById('actionMenuIcon')}}">
-						<mm-list-item value="m1">{{model.name}} item 1</mm-list-item>
-						<mm-list-item value="m2">{{model.name}} item 2</mm-list-item>
-						<mm-list-item value="m3">{{model.name}} item 3</mm-list-item>
-						<mm-list-item value="m4">{{model.name}} item 4</mm-list-item>
-						<mm-list-item value="m5">{{model.name}} item 5</mm-list-item>
-					</mm-menu>
+					<strand-icon type="actions" id="actionMenuIcon" width="15" height="15"></strand-icon>
+					<strand-menu id="testMenu" direction="s" offset="15" model="{{model}}" target="{{findById('actionMenuIcon')}}">
+						<strand-list-item value="m1">{{model.name}} item 1</strand-list-item>
+						<strand-list-item value="m2">{{model.name}} item 2</strand-list-item>
+						<strand-list-item value="m3">{{model.name}} item 3</strand-list-item>
+						<strand-list-item value="m4">{{model.name}} item 4</strand-list-item>
+						<strand-list-item value="m5">{{model.name}} item 5</strand-list-item>
+					</strand-menu>
 					-->
 					<!-- 
-					<mm-dropdown>
-						<mm-list-item>List Item</mm-list-item>
-						<mm-list-item>List Item</mm-list-item>
-						<mm-list-item>List Item</mm-list-item>
-						<mm-list-item>List Item</mm-list-item>
-					</mm-dropdown>
+					<strand-dropdown>
+						<strand-list-item>List Item</strand-list-item>
+						<strand-list-item>List Item</strand-list-item>
+						<strand-list-item>List Item</strand-list-item>
+						<strand-list-item>List Item</strand-list-item>
+					</strand-dropdown>
 					 -->
 					 <!--
-					<mm-dropdown data='[
+					<strand-dropdown data='[
 						{"name":"apples", "value":"apples"},
 						{"name":"bears", "value":"bears"},
 						{"name":"candy", "value":"candy"},
 						{"name":"ducks", "value":"ducks"},
 						{"name":"everything", "value":"everything"}]'
 						value="{{model.value}}">
-					</mm-dropdown>
+					</strand-dropdown>
 					-->
-					<mm-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
-						<mm-grid-column width="20%" field="name" sort resize>Name</mm-grid-column>
-						<mm-grid-column width="10%" field="id" sort resize>Id</mm-grid-column>
+					<strand-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
+						<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
+						<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
 						<template preserve-content>
-							<mm-grid-item model="{{model}}" scope="{{scope}}">
+							<strand-grid-item model="{{model}}" scope="{{scope}}">
 								<div class="expansion">
 									<div class="expansion-row">
 										<div class="expansion-col">
@@ -105,9 +105,9 @@
 										</div>
 									</div>
 								</div>
-							</mm-grid-item>
+							</strand-grid-item>
 						</template>
-					</mm-grid>
+					</strand-grid>
 				</div>
 				<div field="name">
 					Creative - {{model.name}}
@@ -131,51 +131,51 @@
 						<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
 					</div>
 				</div>
-			</mm-grid-item>
+			</strand-grid-item>
 		</template>
-	</mm-grid>
+	</strand-grid>
 
 	<!-- Examples for documentation -->
 	<!-- 
-	<mm-grid id="customItems">
-		<mm-grid-column field="first_name">First Name</mm-grid-column>
-		<mm-grid-column field="last_name">Last Name</mm-grid-column>
-		<mm-grid-column field="email">Email</mm-grid-column>
-		<mm-grid-column field="star_rating">Star Rating</mm-grid-column>
+	<strand-grid id="customItems">
+		<strand-grid-column field="first_name">First Name</strand-grid-column>
+		<strand-grid-column field="last_name">Last Name</strand-grid-column>
+		<strand-grid-column field="email">Email</strand-grid-column>
+		<strand-grid-column field="star_rating">Star Rating</strand-grid-column>
 		
 		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
+			<strand-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="first_name">
 					<span>Star Employee: {{model.first_name}}</span>
 				</div>
 				<div field="star_rating">
 					<template is="dom-repeat" items="{{model.stars}}">
-						<mm-icon width="12" height="12" type="favorite"></mm-icon>
+						<strand-icon width="12" height="12" type="favorite"></strand-icon>
 					</template>
 				</div>
-			</mm-grid-item>
+			</strand-grid-item>
 		</template>
-	</mm-grid>
+	</strand-grid>
 	
-	<mm-grid id="customItems">
-		<mm-grid-column field="first_name">First Name</mm-grid-column>
-		<mm-grid-column field="last_name">Last Name</mm-grid-column>
-		<mm-grid-column field="info">Info</mm-grid-column>
+	<strand-grid id="customItems">
+		<strand-grid-column field="first_name">First Name</strand-grid-column>
+		<strand-grid-column field="last_name">Last Name</strand-grid-column>
+		<strand-grid-column field="info">Info</strand-grid-column>
 		
 		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
+			<strand-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="info">
-					<mm-icon type="info" id="infoIcon" width="12" height="12"></mm-icon>
-					<mm-tooltip 
+					<strand-icon type="info" id="infoIcon" width="12" height="12"></strand-icon>
+					<strand-tooltip 
 						id="infoTip"
 						model="{{model}}" 
 						target="{{findById('infoIcon')}}">
 							<label>{{model.tip}}</label>
-						</mm-tooltip>
+						</strand-tooltip>
 				</div>
-			</mm-grid-item>
+			</strand-grid-item>
 		</template>
-	</mm-grid>
+	</strand-grid>
 
 	<script>
 		window.addEventListener("WebComponentsReady", function() {
@@ -190,23 +190,23 @@
 		});
 	</script>
 
-	<mm-grid id="customItems">
-		<mm-grid-column field="first_name">First Name</mm-grid-column>
-		<mm-grid-column field="last_name">Last Name</mm-grid-column>
-		<mm-grid-column field="email">Email</mm-grid-column>
-		<mm-grid-column field="role">Role</mm-grid-column>
+	<strand-grid id="customItems">
+		<strand-grid-column field="first_name">First Name</strand-grid-column>
+		<strand-grid-column field="last_name">Last Name</strand-grid-column>
+		<strand-grid-column field="email">Email</strand-grid-column>
+		<strand-grid-column field="role">Role</strand-grid-column>
 		
 		<template preserve-content>
-			<mm-grid-item model="{{model}}" scope="{{scope}}">
+			<strand-grid-item model="{{model}}" scope="{{scope}}">
 				<div field="role">
-					<mm-dropdown 
+					<strand-dropdown 
 						data="{{model.dropdown_data}}" 
 						value="{{model.dropdown_data_value}}"
-						placeholder="Select Role"></mm-dropdown>
+						placeholder="Select Role"></strand-dropdown>
 				</div>
-			</mm-grid-item>
+			</strand-grid-item>
 		</template>
-	</mm-grid>
+	</strand-grid>
 
 	<script>
 		var NUM_ITEMS = 300,

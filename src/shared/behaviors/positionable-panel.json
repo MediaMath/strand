@@ -1,6 +1,6 @@
 {
 	"name":"PositionablePanel",
-	"description":"Positions the popover panel for popover-like elements (mm-popover, mm-tooltip, mm-datepicker)",
+	"description":"Positions the popover panel for popover-like elements (strand-popover, strand-tooltip, strand-datepicker)",
 	"attributes": [
 		{
 			"name":"direction",

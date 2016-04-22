@@ -1,5 +1,5 @@
 {
-	"name":"mm-localstore",
+	"name":"strand-localstore",
 	"description":"A non-rendered wrapper around the localStorage api",
 	"attributes": [
 		{

@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.ProgressBar = Polymer({
-		is: 'mm-progress-bar',
+		is: 'strand-progress-bar',
 
 		behaviors: [
 			StrandTraits.Resolvable,

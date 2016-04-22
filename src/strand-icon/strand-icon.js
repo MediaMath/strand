@@ -7,7 +7,7 @@
 (function (scope) {
 	
 	scope.Icon = Polymer({
-		is:"mm-icon",
+		is:"strand-icon",
 
 		behaviors: [
 			StrandTraits.Resolvable,

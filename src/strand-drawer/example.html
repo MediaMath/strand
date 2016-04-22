@@ -1,33 +1,33 @@
 <style>
-	mm-drawer { width: 100%; }
+	strand-drawer { width: 100%; }
 	#drawer1 { padding-top: 5px; }
 	#drawer2 { margin: 30px 0 10px; }
 	.container { padding: 10px; }
 </style>
 <!-- Tab style Drawer example -->
 <template is="dom-bind">
-	<mm-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer">
+	<strand-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer">
 		<div class="container">
 			<h2>Nothing to see here...</h2>
 		</div>
-	</mm-drawer>
+	</strand-drawer>
 </template>
 <!-- Inset style Drawer example -->
 <template is="dom-bind">
-	<mm-drawer id="drawer2" expanded="{{checked}}" closedHeight="45">
+	<strand-drawer id="drawer2" expanded="{{checked}}" closedHeight="45">
 		<div class="container">
-			<mm-checkbox checked="{{checked}}" id="checkbox"><label>Toggle Inset Drawer</label></mm-checkbox>
+			<strand-checkbox checked="{{checked}}" id="checkbox"><label>Toggle Inset Drawer</label></strand-checkbox>
 			<h2>Well Hello.</h2>
 		</div>
-	</mm-drawer>
+	</strand-drawer>
 
 	<div>
-		<mm-button id="toggleBtn">
+		<strand-button id="toggleBtn">
 			<label>Toggle Inset Drawer</label>
-		</mm-button>
-		<mm-button id="hideBtn">
+		</strand-button>
+		<strand-button id="hideBtn">
 			<label>Hide Inset Drawer</label>
-		</mm-button>
+		</strand-button>
 	</div>
 
 	<script type="text/javascript">

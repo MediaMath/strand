@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../mm-button/mm-button.html">
-		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
-		<link rel="import" href="../mm-action/mm-action.html">
-		<link rel="import" href="../mm-footer/mm-footer.html">
-		<link rel="import" href="../mm-header/mm-header.html">
-		<link rel="import" href="mm-modal.html">
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="../strand-action/strand-action.html">
+		<link rel="import" href="../strand-footer/strand-footer.html">
+		<link rel="import" href="../strand-header/strand-header.html">
+		<link rel="import" href="strand-modal.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -80,22 +80,22 @@
 				float: left;
 			}
 
-			mm-modal[unresolved],
-			mm-button[unresolved] {
+			strand-modal[unresolved],
+			strand-button[unresolved] {
 				display: none;
 			}
 
-			mm-modal {}
+			strand-modal {}
 
-			mm-modal p {
+			strand-modal p {
 				margin: 0;
 			}
 
-			mm-header {
+			strand-header {
 				margin-bottom: 20px; 
 			}
 
-			mm-modal .content-top {
+			strand-modal .content-top {
 				padding: 15px;
 			}
 
@@ -122,47 +122,47 @@ Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non di
 			<p><span class="bold">Fake Content:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus. Curabitur mattis dictum elit non sagittis. Sed lobortis velit nisl, sed varius leo semper ut. Quisque dapibus leo at leo consequat rutrum.<br/><br/>
 Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non diam fermentum tempus eget et eros. Ut hendrerit risus ac tortor dapibus, sed laoreet metus tempor. Cras egestas neque ac dictum feugiat. Mauris ac venenatis odio, sit amet vulputate diam. Pellentesque est urna, convallis eu rhoncus eu, porta sed augue. Nulla ornare nibh malesuada est scelerisque, nec tristique mauris ornare. Integer et tristique augue. Quisque dapibus tempor dapibus. Mauris pellentesque ullamcorper nibh, nec ornare massa. Aenean placerat condimentum dolor ut consectetur. Praesent faucibus purus vitae posuere consectetur.</p>
 			<hr/>
-			<mm-button id="showBtn">
+			<strand-button id="showBtn">
 				<label>Show</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		
-		<mm-modal id="testModal" unresolved>
+		<strand-modal id="testModal" unresolved>
 			<div class="content-top">
-				<mm-header size="medium">Header Content Here</mm-header>
+				<strand-header size="medium">Header Content Here</strand-header>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
-				<mm-dropdown placeholder="Placeholder" max-items="5">
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-					<mm-list-item>Item 1</mm-list-item>
-				</mm-dropdown>
+				<strand-dropdown placeholder="Placeholder" max-items="5">
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+				</strand-dropdown>
 			</div>
-			<mm-footer fitparent="true">
-				<mm-action underline="true">
+			<strand-footer fitparent="true">
+				<strand-action underline="true">
 					<label>Close</label>
-				</mm-action>
-				<mm-button type="secondary">
+				</strand-action>
+				<strand-button type="secondary">
 					<label>Save &amp; Close</label>
-				</mm-button>
-				<mm-button>
+				</strand-button>
+				<strand-button>
 					<label>Save &amp; Add Another</label>
-				</mm-button>
-			</mm-footer>
-		</mm-modal>
+				</strand-button>
+			</strand-footer>
+		</strand-modal>
 		
 		<script language="javascript">
 			window.addEventListener("WebComponentsReady", function() { 

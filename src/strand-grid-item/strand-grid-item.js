@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.GridItem = Polymer({
-		is: 'mm-grid-item',
+		is: 'strand-grid-item',
 
 		behaviors: [
 			StrandTraits.Refable

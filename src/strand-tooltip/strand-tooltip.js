@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Tooltip = Polymer({
-		is: 'mm-tooltip',
+		is: 'strand-tooltip',
 
 		behaviors: [
 			StrandTraits.Resolvable,

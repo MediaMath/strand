@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Tab = Polymer({
-		is: "mm-tab",
+		is: "strand-tab",
 
 		properties: {
 			active: {

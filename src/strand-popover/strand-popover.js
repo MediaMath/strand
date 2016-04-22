@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Popover = Polymer({
-		is: 'mm-popover',
+		is: 'strand-popover',
 
 		behaviors: [
 			StrandTraits.Resolvable,

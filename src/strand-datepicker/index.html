@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../mm-button/mm-button.html">
-		<link rel="import" href="../mm-input/mm-input.html">
-		<link rel="import" href="../mm-input-mask/mm-input-mask.html">
-		<link rel="import" href="../mm-popover/mm-popover.html">
-		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-input-mask/strand-input-mask.html">
+		<link rel="import" href="../strand-popover/strand-popover.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
 		<link rel="import" href="../shared/js/moment.html">
-		<link rel="import" href="mm-datepicker.html">
+		<link rel="import" href="strand-datepicker.html">
 		<style type="text/css">
 
 			body, html {
@@ -32,13 +32,13 @@
 				margin-top: -15px;
 			}
 
-			mm-datepicker[unresolved],
-			mm-button[unresolved],
-			mm-dropdown[unresolved] {
+			strand-datepicker[unresolved],
+			strand-button[unresolved],
+			strand-dropdown[unresolved] {
 				display: none;
 			}
 
-			mm-datepicker {}
+			strand-datepicker {}
 
 			.controller {
 				width: 500px;
@@ -52,7 +52,7 @@
 				margin-bottom: 10px;
 			}
 
-			.controller mm-dropdown {
+			.controller strand-dropdown {
 				margin-top: 10px;
 			}
 
@@ -64,18 +64,18 @@
 	</head>
 	<body>
 		<template is="dom-bind">
-			<mm-dropdown id="ddl" value="{{direction}}" unresolved>
-				<mm-list-item>n</mm-list-item>
-				<mm-list-item>e</mm-list-item>
-				<mm-list-item>s</mm-list-item>
-				<mm-list-item>w</mm-list-item>
-				<mm-list-item>c</mm-list-item>
-			</mm-dropdown>
+			<strand-dropdown id="ddl" value="{{direction}}" unresolved>
+				<strand-list-item>n</strand-list-item>
+				<strand-list-item>e</strand-list-item>
+				<strand-list-item>s</strand-list-item>
+				<strand-list-item>w</strand-list-item>
+				<strand-list-item>c</strand-list-item>
+			</strand-dropdown>
 
-			<mm-button id="dpb" unresolved>
+			<strand-button id="dpb" unresolved>
 				<label>datepicker target</label>
-			</mm-button>
-			<mm-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb" unresolved></mm-datepicker>
+			</strand-button>
+			<strand-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb" unresolved></strand-datepicker>
 		</template>
 
 		<!-- <template id="tmp" is="auto-binding">
@@ -83,36 +83,36 @@
 				<span id="show" on-tap="{{op}}"><b>Start:</b>{{$.dp2.start}} <b>End:</b>{{$.dp2.end}}</span>
 				<div layout horizontal>
 					<div>
-						<mm-header>Start Allowed</mm-header>
-						<mm-calendar id="allowedStart" date="{{ast}}"></mm-calendar>
+						<strand-header>Start Allowed</strand-header>
+						<strand-calendar id="allowedStart" date="{{ast}}"></strand-calendar>
 					</div>
 					<div>
-						<mm-header>End Allowed</mm-header>
-						<mm-calendar id="allowedEnd" date="{{aet}}"></mm-calendar>
+						<strand-header>End Allowed</strand-header>
+						<strand-calendar id="allowedEnd" date="{{aet}}"></strand-calendar>
 					</div>
 				</div>
-				<mm-dropdown placeholder="Click behavior" value="{{clickType}}">
-					<mm-list-item value="constrainTap">T1 Limited</mm-list-item>
-					<mm-list-item value="lazyTap">Lazy Selection</mm-list-item>
-					<mm-list-item value="selectTap">DoubleTap (alpha)</mm-list-item>
-				</mm-dropdown>
-				<mm-checkbox checked="{{userStartEnabled}}">
+				<strand-dropdown placeholder="Click behavior" value="{{clickType}}">
+					<strand-list-item value="constrainTap">T1 Limited</strand-list-item>
+					<strand-list-item value="lazyTap">Lazy Selection</strand-list-item>
+					<strand-list-item value="selectTap">DoubleTap (alpha)</strand-list-item>
+				</strand-dropdown>
+				<strand-checkbox checked="{{userStartEnabled}}">
 					<label>User Enableable Start</label>
-				</mm-checkbox>
-				<mm-checkbox checked="{{userEndEnabled}}">
+				</strand-checkbox>
+				<strand-checkbox checked="{{userEndEnabled}}">
 					<label>User Enableable End</label>
-				</mm-checkbox>
-				<mm-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></mm-datepicker>
+				</strand-checkbox>
+				<strand-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></strand-datepicker>
 			</div>
 		</template> -->
-		<!-- <mm-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></mm-datepicker> -->
+		<!-- <strand-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></strand-datepicker> -->
 
 		<!-- <template is="dom-bind" id="t">
-			<mm-button id="btn">
+			<strand-button id="btn">
 				<label>Select a Date</label>
-			</mm-button>
-			<mm-datepicker id="dp" target="#btn" start-enabled end-enabled use-timezone="false" use-range="false">
-			</mm-datepicker>
+			</strand-button>
+			<strand-datepicker id="dp" target="#btn" start-enabled end-enabled use-timezone="false" use-range="false">
+			</strand-datepicker>
 		</template> -->
 
 		<script>

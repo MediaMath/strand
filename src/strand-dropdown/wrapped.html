@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
-		<link rel="import" href="../mm-input/mm-input.html">
-		<link rel="import" href="mm-dropdown.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="strand-dropdown.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -81,20 +81,20 @@
 				float: left;
 			}
 
-			mm-dropdown[unresolved] {
+			strand-dropdown[unresolved] {
 				display: none;
 			}
 
-			mm-dropdown {}
+			strand-dropdown {}
 		</style>
 		<polymer-element name="test-wrapper" attributes="data">
 			<template>
 				<div>Wrapper</div>
-				<mm-dropdown placeholder="Wrapped DDL">
+				<strand-dropdown placeholder="Wrapped DDL">
 					<template repeat="{{data}}">
-						<mm-list-item>{{}}</mm-list-item>
+						<strand-list-item>{{}}</strand-list-item>
 					</template>
-				</mm-dropdown>
+				</strand-dropdown>
 			</template>
 			<script type="text/javascript">
 			Polymer("test-wrapper", {
@@ -116,12 +116,12 @@
 		<polymer-element name="test-search" attributes="data value">
 			<template>
 				<div>Wrapper</div>
-				<mm-dropdown placeholder="Wrapped DDL">
-				<mm-input search="true" clear="true" placeholder="Search" value="{{value}}"></mm-input>
+				<strand-dropdown placeholder="Wrapped DDL">
+				<strand-input search="true" clear="true" placeholder="Search" value="{{value}}"></strand-input>
 					<template repeat="{{data}}">
-						<mm-list-item>{{}}</mm-list-item>
+						<strand-list-item>{{}}</strand-list-item>
 					</template>
-				</mm-dropdown>
+				</strand-dropdown>
 			</template>
 			<script type="text/javascript">
 			Polymer("test-search", {
@@ -151,12 +151,12 @@
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Dropdown:</span> Label wider than list options</p>
-			<mm-dropdown placeholder="some longer label" unresolved>
-				<mm-list-item>mm-list-item 01</mm-list-item>
-				<mm-list-item>mm-list-item 02</mm-list-item>
-				<mm-list-item>mm-list-item 03</mm-list-item>
-				<mm-list-item>mm-list-item 04</mm-list-item>
-			</mm-dropdown>
+			<strand-dropdown placeholder="some longer label" unresolved>
+				<strand-list-item>strand-list-item 01</strand-list-item>
+				<strand-list-item>strand-list-item 02</strand-list-item>
+				<strand-list-item>strand-list-item 03</strand-list-item>
+				<strand-list-item>strand-list-item 04</strand-list-item>
+			</strand-dropdown>
 			<p><span class="bold">Dropdown:</span> Wrapped in test wrapper with template for items</p>
 			<test-wrapper></test-wrapper>
 			<p><span class="bold">Dropdown:</span> Wrapped in test wrapper with template for items + search</p>

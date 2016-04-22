@@ -2,8 +2,8 @@
 <html>
   <head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../mm-icon/mm-icon.html">
-		<link rel="import" href="mm-action.html">
+		<link rel="import" href="../strand-icon/strand-icon.html">
+		<link rel="import" href="strand-action.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -83,8 +83,8 @@
 				float: left;
 			}
 
-			mm-action[unresolved],
-			mm-icon[unresolved] {
+			strand-action[unresolved],
+			strand-icon[unresolved] {
 				display: none;
 			}
 		</style>
@@ -92,32 +92,32 @@
   <body>
   	<div class="col c4">
 		<p><span class="bold">Action:</span> default</p>
-		<mm-action unresolved>
+		<strand-action unresolved>
 			<label>+Add Item</label>
-		</mm-action>
+		</strand-action>
 		<hr/>
 		<p><span class="bold">Action:</span> default disabled</p>
-		<mm-action disabled unresolved>
+		<strand-action disabled unresolved>
 			<label>+Add Item</label>
-		</mm-action>
+		</strand-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with icon</p>
-		<mm-action href="http://www.google.com" unresolved>
-			<mm-icon type="favorite" width="16" height="16" unresolved></mm-icon>
+		<strand-action href="http://www.google.com" unresolved>
+			<strand-icon type="favorite" width="16" height="16" unresolved></strand-icon>
 			<label>Awesome</label>
-		</mm-action>
+		</strand-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with underline and target '_blank'</p>
-		<mm-action href="http://www.github.com" underline="true" target="_blank" unresolved>
-			<mm-icon type="favorite" width="16" height="16" unresolved></mm-icon>
+		<strand-action href="http://www.github.com" underline="true" target="_blank" unresolved>
+			<strand-icon type="favorite" width="16" height="16" unresolved></strand-icon>
 			<label>Underline Me</label>
-		</mm-action>
+		</strand-action>
 		<hr/>
 		<p><span class="bold">Action:</span> with icon disabled</p>
-		<mm-action disabled unresolved>
-			<mm-icon type="favorite" width="16" height="16" unresolved></mm-icon>
+		<strand-action disabled unresolved>
+			<strand-icon type="favorite" width="16" height="16" unresolved></strand-icon>
 			<label>Awesome</label>
-		</mm-action>
+		</strand-action>
 		<hr/>
 	</div>
 	<div class="vr"></div>

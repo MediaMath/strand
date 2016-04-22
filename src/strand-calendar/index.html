@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
-		<link rel="import" href="mm-calendar.html">
+		<link rel="import" href="strand-calendar.html">
 		<style type="text/css">
 
 			body, html {
@@ -18,11 +18,11 @@
 				color: #333;
 			}
 
-			mm-calendar[unresolved] {
+			strand-calendar[unresolved] {
 				display: none;
 			}
 
-			mm-calendar {
+			strand-calendar {
 				margin: 25px;
 			}
 
@@ -34,13 +34,13 @@
 		</style>
 	</head>
 	<body>
-		<mm-calendar id="cal1" unresolved></mm-calendar>
-		<mm-calendar id="cal2" disable-future="true" unresolved></mm-calendar>
-		<mm-calendar id="cal3" disabled unresolved></mm-calendar>
+		<strand-calendar id="cal1" unresolved></strand-calendar>
+		<strand-calendar id="cal2" disable-future="true" unresolved></strand-calendar>
+		<strand-calendar id="cal3" disabled unresolved></strand-calendar>
 		<template id="calPair" is="dom-bind">
 			<div>
-				<mm-calendar id="cal4" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true" unresolved></mm-calendar>
-				<mm-calendar id="cal5" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true" unresolved></mm-calendar>
+				<strand-calendar id="cal4" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true" unresolved></strand-calendar>
+				<strand-calendar id="cal5" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true" unresolved></strand-calendar>
 			</div>
 		</template>
 

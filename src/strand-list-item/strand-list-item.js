@@ -8,7 +8,7 @@
 (function (scope) {
 	scope.ListItem = Polymer({
 
-		is: "mm-list-item",
+		is: "strand-list-item",
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -71,7 +71,7 @@
 			if (this.highlight && this.highlight.length > 0) {
 				var s = this.innerText;
 				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
-					return '<span class="mm-list-item highlight">'+orig+'</span>';
+					return '<span class="strand-list-item highlight">'+orig+'</span>';
 				},'ig');
 			} else if (this.innerText && this.innerText.trim()){
 				Polymer.dom(this).innerHTML = this.innerText.trim(); //strip any formatting

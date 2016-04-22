@@ -2,11 +2,11 @@
 <html>
   <head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-        <link rel="import" href="../mm-button/mm-button.html">
-        <link rel="import" href="../mm-footer/mm-footer.html">
-        <link rel="import" href="../mm-modal/mm-modal.html">
-        <link rel="import" href="../mm-wizard-ribbon/mm-wizard-ribbon.html">
-        <link rel="import" href="mm-wizard.html">
+        <link rel="import" href="../strand-button/strand-button.html">
+        <link rel="import" href="../strand-footer/strand-footer.html">
+        <link rel="import" href="../strand-modal/strand-modal.html">
+        <link rel="import" href="../strand-wizard-ribbon/strand-wizard-ribbon.html">
+        <link rel="import" href="strand-wizard.html">
 
 		<style is="custom-style" type="text/css">
 			body, html {
@@ -99,15 +99,15 @@
                 margin: 20px 0;
             }
 
-            mm-wizard {
+            strand-wizard {
                 height: 600px;
             }
 
-            mm-tab {
+            strand-tab {
                 box-sizing: border-box;
             }
 
-            /*mm-footer {
+            /*strand-footer {
         		bottom: 0;
         		margin-top: 60px;
         		position: absolute;
@@ -115,15 +115,15 @@
         	}*/
         </style>
         <template>
-            <mm-modal id="modal" dismiss="false">
-    		<mm-wizard id="wizza" selected-index="{{selectedIndex}}" allow-skip unresolved>
-                <mm-wizard-ribbon selected-index="{{selectedIndex}}" allow-skip>
+            <strand-modal id="modal" dismiss="false">
+    		<strand-wizard id="wizza" selected-index="{{selectedIndex}}" allow-skip unresolved>
+                <strand-wizard-ribbon selected-index="{{selectedIndex}}" allow-skip>
                     <step>Step 1</step>
                     <step>Step 2</step>
                     <step>Step 3</step>
-        		</mm-wizard-ribbon>
+        		</strand-wizard-ribbon>
 
-                <mm-tab active>
+                <strand-tab active>
                     <p>
                         I met a traveller from an antique land<br>
                         Who said: “Two vast and trunkless legs of stone<br>
@@ -140,29 +140,29 @@
                         Of that colossal wreck, boundless and bare<br>
                         The lone and level sands stretch far away.”
                     </p>
-                    <mm-footer>
-                        <mm-button on-tap="_nextHandler"><label>Next</label></mm-button>
-                    </mm-footer>
-                </mm-tab>
+                    <strand-footer>
+                        <strand-button on-tap="_nextHandler"><label>Next</label></strand-button>
+                    </strand-footer>
+                </strand-tab>
 
-    			<mm-tab>
+    			<strand-tab>
                     <p>The ostensible reason why Ahab did not go on board of the whaler we had spoken was this: the wind and sea betokened storms. But even had this not been the case, he would not after all, perhaps, have boarded her&mdash;judging by his subsequent conduct on similar occasions&mdash;if so it had been that, by the process of hailing, he had obtained a negative answer to the question he put. For, as it eventually turned out, he cared not to consort, even for five minutes, with any stranger captain, except he could contribute some of that information he so absorbingly sought. But all this might remain inadequately estimated, were not something said here of the peculiar usages of whaling-vessels when meeting each other in foreign seas, and especially on a common cruising-ground.</p>
-                    <mm-footer>
-                        <mm-button type="secondary" on-tap="_prevHandler"><label>Previous</label></mm-button>
-                        <mm-button on-tap="_nextHandler"><label>Next</label></mm-button>
-                    </mm-footer>
-    			</mm-tab>
+                    <strand-footer>
+                        <strand-button type="secondary" on-tap="_prevHandler"><label>Previous</label></strand-button>
+                        <strand-button on-tap="_nextHandler"><label>Next</label></strand-button>
+                    </strand-footer>
+    			</strand-tab>
 
-                <mm-tab>
+                <strand-tab>
                     <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-87.96546936035156%2C41.61338889474735%2C-87.49855041503906%2C42.05388140723485&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="http://www.openstreetmap.org/#map=11/41.8340/-87.7320">View Larger Map</a></small>
-                    <mm-footer>
-                        <mm-button type="secondary" on-tap="_prevHandler"><label>Previous</label></mm-button>
-                    </mm-footer>
-                </mm-tab>
-    		</mm-wizard>
-            </mm-modal>
+                    <strand-footer>
+                        <strand-button type="secondary" on-tap="_prevHandler"><label>Previous</label></strand-button>
+                    </strand-footer>
+                </strand-tab>
+    		</strand-wizard>
+            </strand-modal>
 
-            <mm-button on-tap="_openWizard"><label>Open Wizard</label></mm-button>
+            <strand-button on-tap="_openWizard"><label>Open Wizard</label></strand-button>
         </template>
     </dom-module>
 

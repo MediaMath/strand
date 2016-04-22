@@ -7,22 +7,22 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html">
-<link rel="import" href="../mm-spinner/mm-spinner.html">
+<link rel="import" href="../strand-spinner/strand-spinner.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-loader">
+<dom-module id="strand-loader">
 
-	<link href="mm-loader.css" type="css" rel="import"/>
+	<link href="strand-loader.css" type="css" rel="import"/>
 
 	<template>
 		<div class="_mm_loader" style$="{{ _updateStyle(spinnerRadius,bgColor,bgOpacity,paddingTop,paddingLeft) }}">
-			<content id="userSpinner" select="mm-spinner"></content>
+			<content id="userSpinner" select="strand-spinner"></content>
 			<template is="dom-if" if="{{!hasUserSpinner}}">
-				<mm-spinner id="spinner"></mm-spinner>
+				<strand-spinner id="spinner"></strand-spinner>
 			</template>
 			<content select="label"></content>
 		</div>
 	</template>
 </dom-module>
 
-<script src="mm-loader.js"></script>
+<script src="strand-loader.js"></script>

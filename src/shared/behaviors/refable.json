@@ -1,6 +1,6 @@
 {
 	"name":"Refable",
-	"description":"Exposes a reference to the component, and method to find other components within it's scope. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).",
+	"description":"Exposes a reference to the component, and method to find other components within it's scope. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).",
 	"attributes": [
 		{
 			"name":"ref",
@@ -11,7 +11,7 @@
 	"methods": [
 		{
 			"name":"findById",
-			"description":"Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).",
+			"description":"Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).",
 			"arguments":[
 				{
 					"name":"id",

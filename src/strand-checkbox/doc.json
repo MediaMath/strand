@@ -1,5 +1,5 @@
 {
-	"name":"mm-checkbox",
+	"name":"strand-checkbox",
 	"description":"A fully-styled checkbox.",
 	"attributes": [
 		{
@@ -29,10 +29,10 @@
 		{
 			"name":"icon",
 			"type":"String",
-			"description":"If set, transforms the checkbox graphic into an icon (for icon options see: mm-icon).",
+			"description":"If set, transforms the checkbox graphic into an icon (for icon options see: strand-icon).",
 			"optional":true,
 			"default":"none",
-			"options":["*see mm-icon"]
+			"options":["*see strand-icon"]
 		}
 	],
 	"events": [

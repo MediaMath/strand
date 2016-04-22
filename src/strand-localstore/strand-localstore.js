@@ -9,7 +9,7 @@
 
 	scope.LocalStore = Polymer({
 		
-		is:"mm-localstore",
+		is:"strand-localstore",
 
 		behaviors: [
 			StrandTraits.Refable

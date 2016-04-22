@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Button = Polymer({
-		is: 'mm-button',
+		is: 'strand-button',
 
 		behaviors: [
 			StrandTraits.Resolvable,

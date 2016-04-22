@@ -1,5 +1,5 @@
 {
-	"name":"mm-tab",
+	"name":"strand-tab",
 	"description":"A single tab.",
 	"attributes": [
 		{
@@ -15,7 +15,7 @@
 			"type": "String",
 			"optional": true,
 			"default": "",
-			"description": "The name of an mm-icon displayed next to the tab label"
+			"description": "The name of an strand-icon displayed next to the tab label"
 		},
 		{
 			"name": "url",

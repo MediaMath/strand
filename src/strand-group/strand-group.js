@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Group = Polymer({
-		is: 'mm-group',
+		is: 'strand-group',
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -78,7 +78,7 @@
 		},
 
 		attached: function() {
-			if(this._type === 'mm-radio') {
+			if(this._type === 'strand-radio') {
 				this._radioSelected(); // Check for pre-selected values
 			}
 
@@ -118,7 +118,7 @@
 		},
 
 		_updateSelectedItem: function(e) {
-			if(this._type === 'mm-button') {
+			if(this._type === 'strand-button') {
 				var target = Polymer.dom(e).localTarget,
 					targetIndex = this.items.indexOf(target);
 				// console.log("_updateSelectedItem: ", e, target);
@@ -188,7 +188,7 @@
 		},
 
 		_radioSelected: function(e) {
-			if(this._type === 'mm-radio') {
+			if(this._type === 'strand-radio') {
 				var checked = this.items.filter(function(item) {
 					return item.hasAttribute("checked");
 				})[0];
@@ -210,7 +210,7 @@
 
 		_valueChanged: function(newVal, oldVal) {
 			this.async(function() {
-				if (this._type === 'mm-radio') {
+				if (this._type === 'strand-radio') {
 					this._selectRadioByValue(newVal);
 				}
 			});

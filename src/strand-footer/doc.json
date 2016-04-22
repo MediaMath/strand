@@ -1,5 +1,5 @@
 {
-	"name":"mm-footer",
+	"name":"strand-footer",
 	"description":"A fully-styled form footer - for use within a form footer or popover component. Capable of displaying variable button set and feedback messages.",
 	"attributes": [
 		{

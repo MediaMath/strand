@@ -1,5 +1,5 @@
 {
-	"name":"mm-modal",
+	"name":"strand-modal",
 	"description":"A modal container and semi-transparent blocker view to display developer defined content.",
 	"attributes": [
 		{

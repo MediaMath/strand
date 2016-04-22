@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.InlineBox = Polymer({
-		is: 'mm-inline-box',
+		is: 'strand-inline-box',
 
 		behaviors: [
 			StrandTraits.Resolvable,

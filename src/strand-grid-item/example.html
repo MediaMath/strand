@@ -1,14 +1,14 @@
-<mm-grid id="mmTestGrid" unresolved style="width: 100%; height: 400px;">
-	<mm-grid-column field="first_name" resize sort>First Name</mm-grid-column>
-	<mm-grid-column field="last_name" resize sort>Last Name</mm-grid-column>
-	<mm-grid-column field="actions" sort></mm-grid-column>
+<strand-grid id="mmTestGrid" unresolved style="width: 100%; height: 400px;">
+	<strand-grid-column field="first_name" resize sort>First Name</strand-grid-column>
+	<strand-grid-column field="last_name" resize sort>Last Name</strand-grid-column>
+	<strand-grid-column field="actions" sort></strand-grid-column>
 	<template preserve-content>
-	    <mm-grid-item model="{{model}}" scope="{{scope}}">
+	    <strand-grid-item model="{{model}}" scope="{{scope}}">
 	        <div field="first_name">Custom Text - <span>{{model.first_name}}</span></div>
-	        <div field="actions"><mm-icon width="15" height="15" type="actions"></mm-icon></div>
-	    </mm-grid-item>
+	        <div field="actions"><strand-icon width="15" height="15" type="actions"></strand-icon></div>
+	    </strand-grid-item>
 	</template>
-</mm-grid> 
+</strand-grid> 
 <script>
 	var grid = document.querySelector("#mmTestGrid"),
 		data = [];

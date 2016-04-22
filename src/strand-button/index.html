@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="mm-button.html">
-		<link rel="import" href="../mm-spinner/mm-spinner.html">
+		<link rel="import" href="strand-button.html">
+		<link rel="import" href="../strand-spinner/strand-spinner.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -75,7 +75,7 @@
 				float: left;
 			}
 
-			mm-button[unresolved] {
+			strand-button[unresolved] {
 				display:none;
 			}
 		</style>
@@ -83,91 +83,91 @@
 	<body>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Primary</p>
-			<mm-button unresolved>
+			<strand-button unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary disabled</p>
-			<mm-button disabled unresolved>
+			<strand-button disabled unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary selected</p>
-			<mm-button selected unresolved>
+			<strand-button selected unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary fit to parent</p>
-			<mm-button fitparent unresolved>
+			<strand-button fitparent unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			
 		</div>
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Secondary</p>
-			<mm-button type="secondary" unresolved>
+			<strand-button type="secondary" unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary disabled</p>
-			<mm-button type="secondary" disabled unresolved>
+			<strand-button type="secondary" disabled unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary fit to parent</p>
-			<mm-button type="secondary" fitparent unresolved>
+			<strand-button type="secondary" fitparent unresolved>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Primary with icon</p>
-			<mm-button unresolved>
-				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
+			<strand-button unresolved>
+				<strand-icon type="plus" width="12" height="12" unresolved></strand-icon>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with spinner</p>
-			<mm-button unresolved>
-				<mm-spinner fill-color="#003C71"></mm-spinner>
+			<strand-button unresolved>
+				<strand-spinner fill-color="#003C71"></strand-spinner>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with icon disabled</p>
-			<mm-button disabled="true" unresolved>
-				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
+			<strand-button disabled="true" unresolved>
+				<strand-icon type="plus" width="12" height="12" unresolved></strand-icon>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Primary with icon and fit to parent</p>
-			<mm-button fitparent="true" unresolved>
-				<mm-icon type="plus" width="12" height="12" unresolved></mm-icon>
+			<strand-button fitparent="true" unresolved>
+				<strand-icon type="plus" width="12" height="12" unresolved></strand-icon>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 		</div>
 		<div class="vr"></div>
 		<div class="col c1">
 			<p><span class="bold">Button:</span> Secondary with icon</p>
-			<mm-button type="secondary" unresolved>
-				<mm-icon type="delete" width="12" height="12"></mm-icon>
+			<strand-button type="secondary" unresolved>
+				<strand-icon type="delete" width="12" height="12"></strand-icon>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary with icon disabled</p>
-			<mm-button type="secondary" disabled>
-				<mm-icon type="delete" width="12" height="12" unresolved></mm-icon>
+			<strand-button type="secondary" disabled>
+				<strand-icon type="delete" width="12" height="12" unresolved></strand-icon>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 			<p><span class="bold">Button:</span> Secondary with icon fit to parent</p>
-			<mm-button type="secondary" fitparent unresolved>
-				<mm-icon type="delete" width="12" height="12" unresolved></mm-icon>
+			<strand-button type="secondary" fitparent unresolved>
+				<strand-icon type="delete" width="12" height="12" unresolved></strand-icon>
 				<label>button title here</label>
-			</mm-button>
+			</strand-button>
 			<hr/>
 		</div>
 		<!-- 

@@ -1,5 +1,5 @@
 {
-	"name":"mm-spinner",
+	"name":"strand-spinner",
 	"description":"An animated spinning graphic which can be dispalyed during indeterminite loading states.",
 	"attributes": [
 		{

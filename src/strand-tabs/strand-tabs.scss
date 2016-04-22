@@ -34,7 +34,7 @@
 		cursor: pointer;
 		list-style-type: none;
 
-		mm-icon {
+		strand-icon {
 			margin-right: 5px;
 		}
 	}
@@ -57,7 +57,7 @@
 		margin: 0 -1px 0 0;
 		padding: .5em 1em .25em;
 
-		mm-icon {
+		strand-icon {
 			margin-right: 5px;
 		}
 	}
@@ -67,7 +67,7 @@
 		margin-bottom: -1px;
 	}
 
-	mm-icon {
+	strand-icon {
 		margin-top: -2px;
 		margin-right: 2px;
 	}
@@ -78,7 +78,7 @@
 	float: left;
 	margin-left: 10px;
 
-	mm-icon {
+	strand-icon {
 		margin-top: -1px;
 		margin-right: 6px;
 	}
@@ -101,7 +101,7 @@
 	}
 }
 
-#tabBar.left > ::content > mm-tab {
+#tabBar.left > ::content > strand-tab {
 	border-left: 1px solid darken($color-A12, 10%);
 }
 
@@ -116,7 +116,7 @@
 		border-image: linear-gradient(to bottom, transparent, $color-A20) 1 100%;
 		padding: .75em 1em .5em;
 
-		mm-icon {
+		strand-icon {
 			margin-right: 5px;
 		}
 	}

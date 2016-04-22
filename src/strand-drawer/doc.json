@@ -1,5 +1,5 @@
 {
-	"name":"mm-drawer",
+	"name":"strand-drawer",
 	"description":"Re-usable drawer component for showing/hiding content.",
 	"attributes": [
 		{

@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Form = Polymer({
-		is: 'mm-form',
+		is: 'strand-form',
 
 		behaviors: [
 			StrandTraits.Stylable,
@@ -348,9 +348,9 @@
 
 				if (validation && !noValidate) {
 					valid = this._validateField(key, value);
-				} else if (tagName === 'mm-repeater') {
-					// special case for mm-repeater
-					// mm-repeater will handle it's own validation
+				} else if (tagName === 'strand-repeater') {
+					// special case for strand-repeater
+					// strand-repeater will handle it's own validation
 					valid = field.validate();
 				} else if (validation && noValidate) {
 					// clean up prior validations if they were there
@@ -358,7 +358,7 @@
 				}
 
 				// Store valid and invalid for this validation pass
-				if (validation && !noValidate || tagName === 'mm-repeater' && !noValidate) {
+				if (validation && !noValidate || tagName === 'strand-repeater' && !noValidate) {
 					if (valid) {
 						this._validFields.push(key);
 					} else {

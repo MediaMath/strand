@@ -3,8 +3,8 @@
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-		<link rel="import" href="../mm-group/mm-group.html">
-		<link rel="import" href="mm-radio.html">
+		<link rel="import" href="../strand-group/strand-group.html">
+		<link rel="import" href="strand-radio.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -84,11 +84,11 @@
 				float: left;
 			}
 
-			mm-radio:not(:last-child) {
+			strand-radio:not(:last-child) {
 				margin-right: 20px;
 			}
 
-			mm-radio[unresolved] {
+			strand-radio[unresolved] {
 				display: noen;
 			}
 		</style>
@@ -96,44 +96,44 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Radio:</span> group (default)</p>
-			<mm-radio group="aces" unresolved>
+			<strand-radio group="aces" unresolved>
 					<label>My Label 1</label>
-			</mm-radio>
-			<mm-radio group="aces" unresolved>
+			</strand-radio>
+			<strand-radio group="aces" unresolved>
 					<label>My Label 2</label>
-			</mm-radio>
-			<mm-radio group="aces" unresolved>
+			</strand-radio>
+			<strand-radio group="aces" unresolved>
 					<label>My Label 3</label>
-			</mm-radio>
-			<mm-radio group="aces" checked="true" disabled="true" >
+			</strand-radio>
+			<strand-radio group="aces" checked="true" disabled="true" >
 					<label>My Label 4</label>
-			</mm-radio>
+			</strand-radio>
 			<hr/>
-			<p><span class="bold">Radio:</span> mm-group for vanilla JS testing</p>
-			<mm-group id="rgv" group="radioGroupV">
-				<mm-radio checked="true" unresolved>
+			<p><span class="bold">Radio:</span> strand-group for vanilla JS testing</p>
+			<strand-group id="rgv" group="radioGroupV">
+				<strand-radio checked="true" unresolved>
 					<label>Rad Group Item 1</label>
-				</mm-radio>
-				<mm-radio unresolved>
+				</strand-radio>
+				<strand-radio unresolved>
 					<label>Rad Group Item 2</label>
-				</mm-radio>	
-				<mm-radio unresolved>
+				</strand-radio>	
+				<strand-radio unresolved>
 					<label>Rad Group Item 3</label>
-				</mm-radio>			
-			</mm-group>
+				</strand-radio>			
+			</strand-group>
 			<hr/>
-			<p><span class="bold">Radio:</span> mm-group for jQuery testing</p>
-			<mm-group id="rgjq" group="radioGroupJq">
-				<mm-radio checked="true" unresolved>
+			<p><span class="bold">Radio:</span> strand-group for jQuery testing</p>
+			<strand-group id="rgjq" group="radioGroupJq">
+				<strand-radio checked="true" unresolved>
 					<label>Rad Group Item 1</label>
-				</mm-radio>
-				<mm-radio unresolved>
+				</strand-radio>
+				<strand-radio unresolved>
 					<label>Rad Group Item 2</label>
-				</mm-radio>	
-				<mm-radio unresolved>
+				</strand-radio>	
+				<strand-radio unresolved>
 					<label>Rad Group Item 3</label>
-				</mm-radio>			
-			</mm-group>
+				</strand-radio>			
+			</strand-group>
 			<hr/>
 		</div>
 		<div class="vr">

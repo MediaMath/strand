@@ -1,5 +1,5 @@
 {
-	"name":"mm-sync",
+	"name":"strand-sync",
 	"description":"High level AJAX Component",
 	"articles":[
 		"data_comps_using_sync"

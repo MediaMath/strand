@@ -125,7 +125,7 @@
 }
 
 :host > ::content label,
-:host > ::content mm-header {
+:host > ::content strand-header {
 	margin-left: 7px;
 	display: inline-block;
 	vertical-align: middle;
@@ -142,7 +142,7 @@
 	font-weight: 400;
 }
 
-:host ::content mm-header {
+:host ::content strand-header {
 	margin-top: 0;
 	margin-bottom: 0; 
 }

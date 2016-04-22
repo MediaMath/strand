@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../mm-icon/mm-icon.html">
-		<link rel="import" href="../mm-button/mm-button.html">
-		<link rel="import" href="../mm-radio/mm-radio.html">
-		<link rel="import" href="../mm-dropdown/mm-dropdown.html">
-		<link rel="import" href="../mm-input/mm-input.html">
-		<link rel="import" href="../mm-autocomplete/mm-autocomplete.html">
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
-		<link rel="import" href="mm-group.html">
+		<link rel="import" href="../strand-icon/strand-icon.html">
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-radio/strand-radio.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-autocomplete/strand-autocomplete.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="strand-group.html">
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -89,7 +89,7 @@
 				float: left;
 			}
 
-			mm-group[unresolved] {
+			strand-group[unresolved] {
 				display: none;
 			}
 		</style>
@@ -97,189 +97,189 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary)</p>
-			<mm-group id="removeMe" unresolved>
-				<mm-button type="secondary"><label>S</label></mm-button>
-				<mm-button type="secondary"><label>M</label></mm-button>
-				<mm-button type="secondary"><label>T</label></mm-button>
-				<mm-button type="secondary"><label>W</label></mm-button>
-				<mm-button type="secondary"><label>T</label></mm-button>
-				<mm-button type="secondary"><label>F</label></mm-button>
-				<mm-button type="secondary"><label>S</label></mm-button>
-			</mm-group>
+			<strand-group id="removeMe" unresolved>
+				<strand-button type="secondary"><label>S</label></strand-button>
+				<strand-button type="secondary"><label>M</label></strand-button>
+				<strand-button type="secondary"><label>T</label></strand-button>
+				<strand-button type="secondary"><label>W</label></strand-button>
+				<strand-button type="secondary"><label>T</label></strand-button>
+				<strand-button type="secondary"><label>F</label></strand-button>
+				<strand-button type="secondary"><label>S</label></strand-button>
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Button Group:</span> Horizontal (Primary)</p>
-			<mm-group align="horizontal" unresolved>
-				<mm-button type="primary">
-					<mm-icon type="favorite" width="15" height="15" shapeRendering="auto" optimize="true"></mm-icon>
-				</mm-button>
-				<mm-button type="primary"><label>M</label></mm-button>
-				<mm-button type="primary"><label>T</label></mm-button>
-				<mm-button type="primary"><label>W</label></mm-button>
-				<mm-button type="primary"><label>T</label></mm-button>
-				<mm-button type="primary"><label>F</label></mm-button>
-				<mm-button type="primary" toggle="true">
-					<mm-icon type="campaigns" width="15" height="15" shapeRendering="auto" optimize="true"></mm-icon>
-				</mm-button>
-			</mm-group>
+			<strand-group align="horizontal" unresolved>
+				<strand-button type="primary">
+					<strand-icon type="favorite" width="15" height="15" shapeRendering="auto" optimize="true"></strand-icon>
+				</strand-button>
+				<strand-button type="primary"><label>M</label></strand-button>
+				<strand-button type="primary"><label>T</label></strand-button>
+				<strand-button type="primary"><label>W</label></strand-button>
+				<strand-button type="primary"><label>T</label></strand-button>
+				<strand-button type="primary"><label>F</label></strand-button>
+				<strand-button type="primary" toggle="true">
+					<strand-icon type="campaigns" width="15" height="15" shapeRendering="auto" optimize="true"></strand-icon>
+				</strand-button>
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Horizontal</p>
-			<mm-group align="" group="myRadGroup" unresolved>
-				<mm-radio checked="true" value="rad0">
+			<strand-group align="" group="myRadGroup" unresolved>
+				<strand-radio checked="true" value="rad0">
 					<label>Rad Group Item 1</label>
-				</mm-radio>
-				<mm-radio value="rad1">
+				</strand-radio>
+				<strand-radio value="rad1">
 					<label>Rad Group Item 2</label>
-				</mm-radio>	
-				<mm-radio value="rad2">
+				</strand-radio>	
+				<strand-radio value="rad2">
 					<label>Rad Group Item 3</label>
-				</mm-radio>			
-			</mm-group>
+				</strand-radio>			
+			</strand-group>
  			<hr/>
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary) with fit to parent</p>
-			<mm-group horizontal fitparent unresolved>
-				<mm-button type="secondary"><label>Sun</label></mm-button>
-				<mm-button type="secondary"><label>Mon</label></mm-button>
-				<mm-button type="secondary"><label>Tues</label></mm-button>
-				<mm-button type="secondary"><label>Weds</label></mm-button>
-				<mm-button type="secondary"><label>Thurs</label></mm-button>
-				<mm-button type="secondary"><label>Fri</label></mm-button>
-				<mm-button type="secondary"><label>Sat</label></mm-button>
-			</mm-group>
+			<strand-group horizontal fitparent unresolved>
+				<strand-button type="secondary"><label>Sun</label></strand-button>
+				<strand-button type="secondary"><label>Mon</label></strand-button>
+				<strand-button type="secondary"><label>Tues</label></strand-button>
+				<strand-button type="secondary"><label>Weds</label></strand-button>
+				<strand-button type="secondary"><label>Thurs</label></strand-button>
+				<strand-button type="secondary"><label>Fri</label></strand-button>
+				<strand-button type="secondary"><label>Sat</label></strand-button>
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Horizontal with fit to parent</p>
-			<mm-group align fitparent="true" unresolved>
-				<mm-radio checked="true">
+			<strand-group align fitparent="true" unresolved>
+				<strand-radio checked="true">
 					<label>Radio Group Item 1</label>
-				</mm-radio>
-				<mm-radio>
+				</strand-radio>
+				<strand-radio>
 					<label>Radio Group Item 2</label>
-				</mm-radio>	
-				<mm-radio>
+				</strand-radio>	
+				<strand-radio>
 					<label>Radio Group Item 3</label>
-				</mm-radio>			
-			</mm-group>
+				</strand-radio>			
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> Default</p>
-			<mm-group unresolved>
-				<mm-dropdown placeholder="select one">
-					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
-				</mm-dropdown>
-				<mm-input placeholder="search and clear" search="true" clear="true"></mm-input>	
-			</mm-group>
+			<strand-group unresolved>
+				<strand-dropdown placeholder="select one">
+					<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				</strand-dropdown>
+				<strand-input placeholder="search and clear" search="true" clear="true"></strand-input>	
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> CSS width set for Dropdown &amp; Input</p>
-			<mm-group align="horizontal" unresolved>
-				<mm-dropdown placeholder="select one" fitparent="true" style="width:150px;">
-					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
-				</mm-dropdown>
-				<mm-autocomplete id="si1" placeholder="search and clear" search="true" clear="true" width="300"></mm-autocomplete>	
-			</mm-group>
+			<strand-group align="horizontal" unresolved>
+				<strand-dropdown placeholder="select one" fitparent="true" style="width:150px;">
+					<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				</strand-dropdown>
+				<strand-autocomplete id="si1" placeholder="search and clear" search="true" clear="true" width="300"></strand-autocomplete>	
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span> Fit to parent default</p>
-			<mm-group align fitparent unresolved>
-				<mm-dropdown placeholder="select one" fitparent="true">
-					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
-				</mm-dropdown>
-				<mm-autocomplete id="si2" placeholder="search and clear" search="true" clear="true" fitparent="true"></mm-autocomplete>	
-			</mm-group>
+			<strand-group align fitparent unresolved>
+				<strand-dropdown placeholder="select one" fitparent="true">
+					<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				</strand-dropdown>
+				<strand-autocomplete id="si2" placeholder="search and clear" search="true" clear="true" fitparent="true"></strand-autocomplete>	
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Search Group:</span>  Reverse</p>
-			<mm-group align fitparent unresolved>
-				<mm-autocomplete id="si3" placeholder="search and clear" search="true" clear="true" fitparent="true"></mm-autocomplete>	
-				<mm-dropdown placeholder="select one" fitparent="true">
-					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
-				</mm-dropdown>
-			</mm-group>
+			<strand-group align fitparent unresolved>
+				<strand-autocomplete id="si3" placeholder="search and clear" search="true" clear="true" fitparent="true"></strand-autocomplete>	
+				<strand-dropdown placeholder="select one" fitparent="true">
+					<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				</strand-dropdown>
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Mixed Grouping:</span></p>
-		    <mm-group unresolved>
-				<mm-button type="secondary">
-					<mm-icon type="minus" width="10" height="10"></mm-icon>
-				</mm-button>
-				<mm-input width="40"></mm-input>
-				<mm-button type="secondary">
-					<mm-icon type="plus" width="10" height="10"></mm-icon>
-				</mm-button>
-			</mm-group>
+		    <strand-group unresolved>
+				<strand-button type="secondary">
+					<strand-icon type="minus" width="10" height="10"></strand-icon>
+				</strand-button>
+				<strand-input width="40"></strand-input>
+				<strand-button type="secondary">
+					<strand-icon type="plus" width="10" height="10"></strand-icon>
+				</strand-button>
+			</strand-group>
     		<hr/>
 		</div>
 		<div class="vr"></div>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Vertical (Secondary)</p>
-			<mm-group align="vertical" unresolved>
-				<mm-button type="secondary"><label>S</label></mm-button>
-				<mm-button type="secondary"><label>M</label></mm-button>
-				<mm-button type="secondary"><label>T</label></mm-button>
-				<mm-button type="secondary"><label>W</label></mm-button>
-				<mm-button type="secondary"><label>T</label></mm-button>
-				<mm-button type="secondary"><label>F</label></mm-button>
-				<mm-button type="secondary"><label>S</label></mm-button>
-			</mm-group>
+			<strand-group align="vertical" unresolved>
+				<strand-button type="secondary"><label>S</label></strand-button>
+				<strand-button type="secondary"><label>M</label></strand-button>
+				<strand-button type="secondary"><label>T</label></strand-button>
+				<strand-button type="secondary"><label>W</label></strand-button>
+				<strand-button type="secondary"><label>T</label></strand-button>
+				<strand-button type="secondary"><label>F</label></strand-button>
+				<strand-button type="secondary"><label>S</label></strand-button>
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Vertical</p>
-			<mm-group align="vertical" unresolved>
-				<mm-radio checked="true">
+			<strand-group align="vertical" unresolved>
+				<strand-radio checked="true">
 					<label>Rad Group Item 1</label>
-				</mm-radio>
-				<mm-radio>
+				</strand-radio>
+				<strand-radio>
 					<label>Rad Group Item 2</label>
-				</mm-radio>	
-				<mm-radio>
+				</strand-radio>	
+				<strand-radio>
 					<label>Rad Group Item 3</label>
-				</mm-radio>			
-			</mm-group>
+				</strand-radio>			
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Button Group:</span> Vertical (Secondary) with fit to parent</p>
-			<mm-group align="vertical" fitparent unresolved>
-				<mm-button type="secondary"><label>Sunday</label></mm-button>
-				<mm-button type="secondary"><label>Monday</label></mm-button>
-				<mm-button type="secondary"><label>Tuesday</label></mm-button>
-				<mm-button type="secondary"><label>Wednesday</label></mm-button>
-				<mm-button type="secondary"><label>Thursday</label></mm-button>
-				<mm-button type="secondary"><label>Friday</label></mm-button>
-				<mm-button type="secondary"><label>Saturday</label></mm-button>
-			</mm-group>
+			<strand-group align="vertical" fitparent unresolved>
+				<strand-button type="secondary"><label>Sunday</label></strand-button>
+				<strand-button type="secondary"><label>Monday</label></strand-button>
+				<strand-button type="secondary"><label>Tuesday</label></strand-button>
+				<strand-button type="secondary"><label>Wednesday</label></strand-button>
+				<strand-button type="secondary"><label>Thursday</label></strand-button>
+				<strand-button type="secondary"><label>Friday</label></strand-button>
+				<strand-button type="secondary"><label>Saturday</label></strand-button>
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Radio Group:</span> Vertical with fit to parent</p>
-			<mm-group align="vertical" fitparent unresolved>
-				<mm-radio checked="true">
+			<strand-group align="vertical" fitparent unresolved>
+				<strand-radio checked="true">
 					<label>Radio Group Item 1</label>
-				</mm-radio>
-				<mm-radio>
+				</strand-radio>
+				<strand-radio>
 					<label>Radio Group Item 2</label>
-				</mm-radio>	
-				<mm-radio>
+				</strand-radio>	
+				<strand-radio>
 					<label>Radio Group Item 3</label>
-				</mm-radio>			
-			</mm-group>
+				</strand-radio>			
+			</strand-group>
 			<hr/>
 			<p><span class="bold">Mixed Grouping:</span></p>
-		    <mm-group unresolved>
-				<mm-button type="secondary">
-					<mm-icon type="minus" width="10" height="10"></mm-icon>
-				</mm-button>
-				<mm-dropdown placeholder="select one">
-					<mm-list-item>mm-list-item with an exremely long label or name in here 01</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 02</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 03</mm-list-item>
-					<mm-list-item>mm-list-item with an exremely long label or name in here 04</mm-list-item>
-				</mm-dropdown>
-				<mm-button type="secondary">
-					<mm-icon type="plus" width="11" height="11"></mm-icon>
-				</mm-button>
-			</mm-group>
+		    <strand-group unresolved>
+				<strand-button type="secondary">
+					<strand-icon type="minus" width="10" height="10"></strand-icon>
+				</strand-button>
+				<strand-dropdown placeholder="select one">
+					<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				</strand-dropdown>
+				<strand-button type="secondary">
+					<strand-icon type="plus" width="11" height="11"></strand-icon>
+				</strand-button>
+			</strand-group>
     		<hr/>
 
 		</div>

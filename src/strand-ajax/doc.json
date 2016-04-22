@@ -1,5 +1,5 @@
 {
-	"name":"mm-ajax",
+	"name":"strand-ajax",
 	"description":"A simple non rendered XMLHttpRequest wrapper api.",
 	"attributes": [
 		{
@@ -239,7 +239,7 @@
 				{
 					"name":"instance",
 					"type":"Object",
-					"description":"A reference to the mm-ajax instance that failed"
+					"description":"A reference to the strand-ajax instance that failed"
 				},
 				{
 					"name":"response",
@@ -260,7 +260,7 @@
 				{
 					"name":"instance",
 					"type":"Object",
-					"description":"A reference to the mm-ajax component that requested the response"
+					"description":"A reference to the strand-ajax component that requested the response"
 				}
 			]
 		}

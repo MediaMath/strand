@@ -1,6 +1,6 @@
 {
-	"name":"mm-dialog",
-	"description":"A wrapper around mm-modal used to quickly create fully styled dialog boxes.",
+	"name":"strand-dialog",
+	"description":"A wrapper around strand-modal used to quickly create fully styled dialog boxes.",
 	"attributes": [
 		{
 			"name":"type",
@@ -48,7 +48,7 @@
 		{
 			"name":"actions",
 			"type":"Array",
-			"description":"An array of objects representing the actions to be displayed in the footer of the dialog. Each object provided should follow the format { label: String, type: String, callback: Function }. The property 'label' sets the name of the action. The property 'type' ('primary', 'secondary', or 'action') sets the button type. The property 'callback' may take optional arguments for the event object and the mm-dialog node.",
+			"description":"An array of objects representing the actions to be displayed in the footer of the dialog. Each object provided should follow the format { label: String, type: String, callback: Function }. The property 'label' sets the name of the action. The property 'type' ('primary', 'secondary', or 'action') sets the button type. The property 'callback' may take optional arguments for the event object and the strand-dialog node.",
 			"optional":true,
 			"default":"label: 'OK', type: 'secondary', callback: function(e,host) { host.hide(); }",
 			"options":"*for property 'type': primary, secondary, action",

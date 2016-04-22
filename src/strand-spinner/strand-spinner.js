@@ -28,7 +28,7 @@
 	}
 
 	scope.Spinner = Polymer({
-		is: 'mm-spinner',
+		is: 'strand-spinner',
 
 		behaviors: [
 			StrandTraits.Resolvable,

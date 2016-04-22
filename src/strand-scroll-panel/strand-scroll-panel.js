@@ -23,7 +23,7 @@
 	};
 
 	scope.ScrollPanel = Polymer({
-		is: 'mm-scroll-panel',
+		is: 'strand-scroll-panel',
 
 		behaviors: [
 			StrandTraits.Resolvable,

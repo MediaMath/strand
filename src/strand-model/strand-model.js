@@ -7,7 +7,7 @@
 (function (scope) {
 	scope.Model = Polymer({
 
-		is:"mm-model",
+		is:"strand-model",
 
 		properties: {
 			collection:{

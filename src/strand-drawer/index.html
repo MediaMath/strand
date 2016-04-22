@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="mm-drawer.html">
-		<link rel="import" href="../mm-button/mm-button.html">
-		<link rel="import" href="../mm-checkbox/mm-checkbox.html">
+		<link rel="import" href="strand-drawer.html">
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-checkbox/strand-checkbox.html">
 		<style type="text/css">
 			body {
 				margin: 0;
@@ -21,32 +21,32 @@
 				padding: 10px;
 			}
 
-			mm-drawer[unresolved],
-			mm-button[unresolved],
-			mm-checkbox[unresolved] {
+			strand-drawer[unresolved],
+			strand-button[unresolved],
+			strand-checkbox[unresolved] {
 				display: none;
 			}
 		</style>
 	</head>
 	<body>
 		<template is="dom-bind">
-			<mm-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer" unresolved>
+			<strand-drawer id="drawer1" expanded="{{expanded}}" opened-label="Hide Drawer" closed-label="Show Drawer" unresolved>
 				<div class="container">
 					<h1>Nothing to see here...</h1>
 				</div>
-			</mm-drawer>
+			</strand-drawer>
 		</template>
 
 		<template is="dom-bind">
-			<mm-drawer id="drawer2" expanded="{{checked}}" closedheight="44" unresolved>
+			<strand-drawer id="drawer2" expanded="{{checked}}" closedheight="44" unresolved>
 				<div class="container">
-					<mm-checkbox checked="{{checked}}" id="checkbox" unresolved><label>Toggle Inset Drawer</label></mm-checkbox>
+					<strand-checkbox checked="{{checked}}" id="checkbox" unresolved><label>Toggle Inset Drawer</label></strand-checkbox>
 					<h1>Well Hello.</h1>
 				</div>
-			</mm-drawer>
+			</strand-drawer>
 			
-			<mm-button id="toggleBtn" unresolved><label>Toggle Inset Drawer</label></mm-button>
-			<mm-button id="hideBtn" unresolved><label>Hide Inset Drawer</label></mm-button>
+			<strand-button id="toggleBtn" unresolved><label>Toggle Inset Drawer</label></strand-button>
+			<strand-button id="hideBtn" unresolved><label>Hide Inset Drawer</label></strand-button>
 			<script type="text/javascript">
 				var drawer2 = document.querySelector("#drawer2");
 				var toggleBtn = document.querySelector("#toggleBtn");

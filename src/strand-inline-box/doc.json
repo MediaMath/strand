@@ -1,5 +1,5 @@
 {
-	"name":"mm-inline-box",
+	"name":"strand-inline-box",
 	"description":"Several fully-styled inline messages. Ideal for displaying validation success and failure states, or extra information.",
 	"attributes": [
 		{

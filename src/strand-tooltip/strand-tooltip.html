@@ -6,7 +6,7 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../shared/fonts/fonts.html"/>
-<link rel="import" href="../mm-icon/mm-icon.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stackable.html">
 <link rel="import" href="../shared/behaviors/stylable.html">
@@ -14,15 +14,15 @@
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
 <link rel="import" href="../shared/behaviors/positionable-panel.html"/>
-<dom-module id="mm-tooltip">
-	<link rel="import" type="css" href="mm-tooltip.css"/>
+<dom-module id="strand-tooltip">
+	<link rel="import" type="css" href="strand-tooltip.css"/>
 	<template>
 		<div id="container" class$="{{_updateClass(auto)}}" style$="{{_containerStyle}}">
 			<content select="label"></content>
 			<template is="dom-if" if="{{!auto}}">
-				<mm-icon type="delete" class="close-icon" width="8" height="8"></mm-icon>
+				<strand-icon type="delete" class="close-icon" width="8" height="8"></strand-icon>
 			</template>
 		</div>
 	</template>
 </dom-module>
-<script src="mm-tooltip.js"></script>
+<script src="strand-tooltip.js"></script>

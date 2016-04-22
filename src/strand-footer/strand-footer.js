@@ -7,7 +7,7 @@
 (function(scope) {
 
 	scope.Footer = Polymer({
-		is: 'mm-footer',
+		is: 'strand-footer',
 
 		properties: {
 			message: {

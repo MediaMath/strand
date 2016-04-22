@@ -28,13 +28,13 @@
 		white-space: nowrap;
 	}
 
-	& > ::content mm-icon {
+	& > ::content strand-icon {
 		display: block;
 		pointer-events: none;
 	}
 
-	& > ::content mm-icon + label,
-	& > ::content mm-spinner + label {
+	& > ::content strand-icon + label,
+	& > ::content strand-spinner + label {
 		padding-left: 7px;
 	}
 

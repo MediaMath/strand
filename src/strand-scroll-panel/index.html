@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../mm-list-item/mm-list-item.html">
-		<link rel="import" href="../mm-button/mm-button.html">
-		<link rel="import" href="mm-scroll-panel.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="strand-scroll-panel.html">
 		<style type="text/css">
 			body {
 				background: #eee;
@@ -14,19 +14,19 @@
 				margin: 25px;
 			}
 
-			mm-list-item {
+			strand-list-item {
 				-webkit-transform: translate3d(0, 0, 0);
 				transform: translate3d(0, 0, 0);
 			}
 
-			mm-scroll-panel {
+			strand-scroll-panel {
 				background: #fff;
 				width: 300px;
 				height: 150px;
 			}
 
-			mm-scroll-panel[unresolved],
-			mm-button[unresolved] {
+			strand-scroll-panel[unresolved],
+			strand-button[unresolved] {
 				display: none;
 			}
 		</style>
@@ -34,112 +34,112 @@
 	<body>
 		<dom-module id="x-test">
 			<template>
-				<mm-scroll-panel id="isp">
+				<strand-scroll-panel id="isp">
 					<content></content>
-				</mm-scroll-panel>
+				</strand-scroll-panel>
 			</template>
 		</dom-module>
 		<div class="holder">
 			
-			<mm-scroll-panel id="sp" unresolved>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-			</mm-scroll-panel>
+			<strand-scroll-panel id="sp" unresolved>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+			</strand-scroll-panel>
 			
 			<!-- test inside another component with light dom passed thru -->
 			<!--
 			<x-test id="sp">
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
-				<mm-list-item>Item Name Here, Etc.</mm-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
+				<strand-list-item>Item Name Here, Etc.</strand-list-item>
 			</x-test>
 			-->
 		</div>
 		<div class="holder">
-			<mm-button id="addBtn">
+			<strand-button id="addBtn">
 				<label>Add Item</label>
-			</mm-button>
-			<mm-button id="removeBtn">
+			</strand-button>
+			<strand-button id="removeBtn">
 				<label>Remove Item</label>
-			</mm-button>
-			<mm-button id="resetBtn">
+			</strand-button>
+			<strand-button id="resetBtn">
 				<label>Reset Scroll</label>
-			</mm-button>
+			</strand-button>
 		</div>
 		<script>
 			var sp,
@@ -160,7 +160,7 @@
 			}); 
 
 			function addItem(e) {
-				var newItem = document.createElement("mm-list-item");
+				var newItem = document.createElement("strand-list-item");
 
 				newItem.textContent = "new item";
 				Polymer.dom(sp).appendChild(newItem);

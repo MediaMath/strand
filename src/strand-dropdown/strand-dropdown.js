@@ -11,7 +11,7 @@
 		BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.Dropdown = Polymer({
-		is: 'mm-dropdown',
+		is: 'strand-dropdown',
 
 		properties: {
 			_scope: {
@@ -114,7 +114,7 @@
 
 			this.async(function() {
 				// set input layout default - is there an input?
-				var search = this.querySelector('mm-input');
+				var search = this.querySelector('strand-input');
 				if (search) {
 					search.layout = this.LAYOUT_TYPE;
 				}

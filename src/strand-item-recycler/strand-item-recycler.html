@@ -13,15 +13,15 @@
 <link rel="import" href="../shared/behaviors/templatecomponentizable.html"/>
 <link rel="import" href="../shared/behaviors/sizeresponsible.html"/>
 <link rel="import" href="../shared/behaviors/windownotifier.html"/>
-<link rel="import" href="../mm-template-finder/mm-template-finder.html"/>
+<link rel="import" href="../strand-template-finder/strand-template-finder.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-item-recycler">
-	<link rel="import" type="css" href="mm-item-recycler.css"/>
+<dom-module id="strand-item-recycler">
+	<link rel="import" type="css" href="strand-item-recycler.css"/>
 	<template>
-		<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+		<strand-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 			<content select="template:not([is])"></content>
-		</mm-template-finder>
+		</strand-template-finder>
 
 		<div id="pane">
 			<div id="quad"></div>
@@ -39,6 +39,6 @@
 	</template>
 </dom-module>
 
-<script src="mm-item-recycler.js"></script>
+<script src="strand-item-recycler.js"></script>
 
 

@@ -8,39 +8,39 @@
 <link rel="import" href="../shared/behaviors/resolvable.html">
 <link rel="import" href="../shared/behaviors/mixinfindable.html"/>
 <link rel="import" href="../shared/behaviors/templatefindable.html"/>
-<link rel="import" href="../mm-item-recycler/mm-item-recycler.html">
-<link rel="import" href="../mm-grid-column/mm-grid-column.html">
-<link rel="import" href="../mm-grid-item/mm-grid-item.html">
-<link rel="import" href="../mm-checkbox/mm-checkbox.html">
-<link rel="import" href="../mm-icon/mm-icon.html">
-<link rel="import" href="../mm-loader/mm-loader.html">
+<link rel="import" href="../strand-item-recycler/strand-item-recycler.html">
+<link rel="import" href="../strand-grid-column/strand-grid-column.html">
+<link rel="import" href="../strand-grid-item/strand-grid-item.html">
+<link rel="import" href="../strand-checkbox/strand-checkbox.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
+<link rel="import" href="../strand-loader/strand-loader.html">
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-grid">
-	<link rel="import" type="css" href="mm-grid.css"/>
+<dom-module id="strand-grid">
+	<link rel="import" type="css" href="strand-grid.css"/>
 	<template>
-		<mm-item-recycler id="viewport" gpu="{{gpu}}" data="{{data}}" scope="{{scope}}" index="{{index}}" template-finder="{{templateFinder}}" template-findable="{{templateFindable}}" mixin-findable="{{mixinFindable}}">
+		<strand-item-recycler id="viewport" gpu="{{gpu}}" data="{{data}}" scope="{{scope}}" index="{{index}}" template-finder="{{templateFinder}}" template-findable="{{templateFindable}}" mixin-findable="{{mixinFindable}}">
 			<div id="header">
 				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
-					<mm-checkbox id="selectAll" on-tap="_toggleAllSelections" state="{{_selectAllState}}"></mm-checkbox>
+					<strand-checkbox id="selectAll" on-tap="_toggleAllSelections" state="{{_selectAllState}}"></strand-checkbox>
 				</div>
 				<div id="carat" class="_mm_column toggle" hidden$="{{!expandable}}">
-					<mm-icon width="10" height="10" type="expand-all" on-tap="_toggleAllExpansions"></mm-icon>
+					<strand-icon width="10" height="10" type="expand-all" on-tap="_toggleAllExpansions"></strand-icon>
 				</div>
 				<div id="columnContainer">
-					<content id="columns" select="mm-grid-column"></content>
+					<content id="columns" select="strand-grid-column"></content>
 				</div>
 			</div>
 			<content select="template:not([is])"></content>
 			<template preserve-content>
-				<mm-grid-item model="{{model}}" scope="{{scope}}"></mm-grid-item>
+				<strand-grid-item model="{{model}}" scope="{{scope}}"></strand-grid-item>
 			</template>
-		</mm-item-recycler>
+		</strand-item-recycler>
  		<template is="dom-if" if="{{isLoading}}">
-			<mm-loader id="loader"><label>Loading...</label></mm-loader>
+			<strand-loader id="loader"><label>Loading...</label></strand-loader>
 		</template>
 		<div id="separator"></div>
 	</template>
 </dom-module>
 
-<script src="mm-grid.js"></script>
+<script src="strand-grid.js"></script>

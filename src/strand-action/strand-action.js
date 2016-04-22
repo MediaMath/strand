@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Action = Polymer({
-		is: "mm-action",
+		is: "strand-action",
 
 		behaviors: [
 			StrandTraits.Resolvable,

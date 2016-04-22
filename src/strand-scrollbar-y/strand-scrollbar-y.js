@@ -7,7 +7,7 @@
 (function(scope) {
 
 	Polymer({
-		is: 'mm-scrollbar-y',
+		is: 'strand-scrollbar-y',
 
 		behaviors: [
 			StrandTraits.Stylable,

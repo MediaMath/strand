@@ -7,15 +7,15 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
-<link rel="import" href="../mm-icon/mm-icon.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
 <link rel="import" href="../shared/js/measure.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="import" href="../shared/behaviors/validatable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
-<dom-module id="mm-input">
-	<link rel="import" type="css" href="mm-input.css"/>
+<dom-module id="strand-input">
+	<link rel="import" type="css" href="strand-input.css"/>
 	<template>
 		<input 
 			id="input"
@@ -28,12 +28,12 @@
 			readonly$="{{readonly}}" 
 			style$="{{ _updateStyle(width, fitparent) }}" />
 		<div id="icon" class="icon-holder" style$="{{ _updateIcon(icon, _clearVisible) }}">
-			<mm-icon type="{{icon}}" width="{{_iconSize(size)}}" height="{{_iconSize(size)}}"></mm-icon>
+			<strand-icon type="{{icon}}" width="{{_iconSize(size)}}" height="{{_iconSize(size)}}"></strand-icon>
 		</div>
 		<div id="clearBtn" class="clear-btn" on-tap="clearInput" style$="{{ _updateClear(_clearVisible) }}">
-			<mm-icon type="fail" width="{{_iconSize(size)}}" height="{{_iconSize(size)}}"></mm-icon>
+			<strand-icon type="fail" width="{{_iconSize(size)}}" height="{{_iconSize(size)}}"></strand-icon>
 		</div>
 	</template>
 </dom-module>
 
-<script src="mm-input.js"></script>
+<script src="strand-input.js"></script>

@@ -3,7 +3,7 @@
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<!-- <link rel="import" href="../../build/strand.html" /> -->
-	<link rel="import" href="mm-form-message.html" />
+	<link rel="import" href="strand-form-message.html" />
 	<style type="text/css">
 		body, html {
 			height: 100%;
@@ -21,14 +21,14 @@
 			padding: 10px 0 0 10px; 
  		}
 
-		mm-form-message[unresolved] {
+		strand-form-message[unresolved] {
 			display: none;
 		}
 	</style>
   </head>
   <body>
 
-	<mm-form-message id="testFormMessage" type="success" unresolved></mm-form-message>
+	<strand-form-message id="testFormMessage" type="success" unresolved></strand-form-message>
 
 	<script>
 		window.addEventListener('WebComponentsReady', function(e) {
