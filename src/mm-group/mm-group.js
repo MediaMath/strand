@@ -171,11 +171,11 @@
 
 			// set layout on all items
 			if (index === 0) {
-				item.setAttribute("_layout", alignFirst);
+				item.setAttribute("layout", alignFirst);
 			} else if (index === this.items.length-1) {
-				item.setAttribute("_layout", alignLast);
+				item.setAttribute("layout", alignLast);
 			} else {
-				item.setAttribute("_layout", alignCenter);
+				item.setAttribute("layout", alignCenter);
 			}
 		},
 

@@ -44,7 +44,10 @@
 				type: Number,
 				value: null
 			},
-			_layout: String
+			layout: { 
+				type: String,
+				reflectToAttribute: true 
+			}
 		},
 
 		behaviors: [

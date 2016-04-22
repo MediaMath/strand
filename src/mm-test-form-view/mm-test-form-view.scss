@@ -10,7 +10,7 @@
 :host {
 	position: relative;
 	display: block;
-	@include bodyFont();
+	@include defaultFont();
 }
 
 // custom form items

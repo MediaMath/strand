@@ -55,8 +55,8 @@
 }
 
 // horizontal
-:host-context([_layout=hgroup-left]),
-:host([_layout=hgroup-left]) {
+:host-context([layout=hgroup-left]),
+:host([layout=hgroup-left]) {
 	.text-input {
 		border-radius: 4px 0px 0px 4px;
 	}
@@ -70,8 +70,8 @@
 	}
 }
 
-:host-context([_layout=hgroup-center]),
-:host([_layout=hgroup-center]) {
+:host-context([layout=hgroup-center]),
+:host([layout=hgroup-center]) {
 	.text-input {
 		border-radius: 0 0 0 0;
 		border-left: none;
@@ -79,8 +79,8 @@
 	}
 }
 
-:host-context([_layout=hgroup-right]),
-:host([_layout=hgroup-right]) {
+:host-context([layout=hgroup-right]),
+:host([layout=hgroup-right]) {
 	.text-input {
 		border-radius: 0px 4px 4px 0px;
 		border-left: none;
@@ -96,7 +96,8 @@
 }
 
 // dropdown - mm-input nested in a dropdown
-:host([_layout=dropdown]) {
+:host([layout=dropdown]),
+:host([layout=editor]) {
 	display: block;
 	border-bottom: 1px solid $color-A8;
 
@@ -109,6 +110,10 @@
 	.text-input:focus {
 		box-shadow: none;
 	}
+}
+
+:host([layout=editor]) {
+	border: 1px solid $color-A8;
 }
 
 // support multiple size configurations

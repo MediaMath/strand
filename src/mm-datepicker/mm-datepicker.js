@@ -393,8 +393,8 @@
 			}
 		},
 
-		ready: function() {
-			if(this.useCommit) this.classList.add('hasFooter');
+		attached: function() {
+			if (this.useCommit) this.classList.add('has-footer');
 		},
 
 		_closeLinkHandler: function(e) {

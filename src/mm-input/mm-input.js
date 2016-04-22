@@ -84,7 +84,7 @@
 				value: false, 
 				reflectToAttribute: true
 			},
-			_layout: { 
+			layout: { 
 				type: String,
 				value: false, 
 				reflectToAttribute: true 
@@ -133,6 +133,14 @@
 				this._clearVisible = false;
 			}
 			this.fire("changed", { value: newVal });	
+		},
+
+		focus: function() {
+			this.$.input.focus();
+		},
+
+		blur: function() {
+			this.$.input.blur();
 		},
 
 		clearInput: function(e) {
