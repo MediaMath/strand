@@ -127,7 +127,7 @@
 					// Inject metadata
 					moduleDoc.revision = pkg.version;
 					moduleDoc.modules = moduleMap;
-					moduleDoc.articleList = articleList;
+					moduleDoc.articleMap = articleMap;
 					if(moduleDoc.articles) {
 						moduleDoc.articles = moduleDoc.articles.map(function(articleName) {
 							return lookupArticle(articleList, articleName);
