@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="mm-rating.html">
+    <style type="text/css">
+
+        body, html {
+            height: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #eee;
+            font-family: sans-serif;
+            color: #333;
+        }
+
+        .col {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            float: left;
+            padding: 0 20px;
+            font-size: 0;
+        }
+
+        .col.c0 {
+            width:400px;
+        }
+
+        .col.c1 {
+            width:33%;
+        }
+
+        p, span {
+            font-family: sans-serif;
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .vr {
+            width:0px;
+            height: 100%;
+            border-right: 1px solid #fff;
+            border-left: 1px solid #ccc;
+            display: block;
+            float: left;
+        }
+
+        hr {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="col c1">
+        <p><span class="bold">Rating:</span> Default</p>
+        <mm-rating display-totals></mm-rating>
+        <hr/>
+        <p><span class="bold">Rating:</span> with custom icon</p>
+        <mm-rating display-totals custom-icon="abc.jpg"></mm-rating>
+        <hr/>
+        <p><span class="bold">Rating:</span> with setting width & height of the icons</p>
+        <mm-rating display-totals icon-width="30" icon-height="30"></mm-rating>
+        <hr/>
+    </div>
+    <div class="vr"></div>
+    <div class="col c1">
+        <p><span class="bold">Rating:</span>  with default 2 Rating</p>
+        <mm-rating display-totals rating="2"></mm-rating>
+        <hr/>
+        <p><span class="bold">Rating:</span>  with showing greetings for each rating</p>
+        <mm-rating display-greetings></mm-rating>
+        <hr/>
+        <p><span class="bold">Rating:</span>  with showing custom values for each rating</p>
+        <mm-rating display-greetings
+                   data='[{"name": "One Star"}, {"name": "Two Star"}, {"name": "Three Star"}, {"name": "Four Star"}, {"name": "Five Star"}]'></mm-rating>
+        <hr/>
+        <p><span class="bold">Rating:</span>  with showing multiple custom icons for each rating</p>
+        <mm-rating display-greetings
+                   data='[{"name": "One Star", "icon": "one.jpg"}, {"name": "Two Star", "icon": "two.jpg"}, {"name": "Three Star", "icon": "three.jpg"}, {"name": "Four Star", "icon": "four.jpg"}, {"name": "Five Star", "icon": "five.jpg"}]'></mm-rating>
+
+        <hr/>
+    </div>
+</body>
+</html>
