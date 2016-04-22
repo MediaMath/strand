@@ -137,7 +137,6 @@
 
 		focus: function() {
 			this.$.input.focus();
-			// this.$.input.select();
 		},
 
 		blur: function() {

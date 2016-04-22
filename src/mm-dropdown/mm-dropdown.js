@@ -72,7 +72,10 @@
 				type: Boolean,
 				reflectToAttribute: true
 			},
-			layout: String,
+			layout: { 
+				type: String,
+				reflectToAttribute: true 
+			},
 			data: {
 				type: Array,
 				notify: true,
@@ -341,7 +344,6 @@
 		},
 
 		_maxItemsChanged: function(newVal, oldVal) {
-			// if(newVal && this.state === this.STATE_OPENED) this._setMaxHeight(newVal);
 			this._setMaxHeight(newVal);
 	 	},
 
