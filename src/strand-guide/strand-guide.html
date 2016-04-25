@@ -11,17 +11,21 @@
 <link rel="import" href="../shared/behaviors/falsifiable.html"/>
 <link rel="import" href="../shared/behaviors/domgettable.html"/>
 <link rel="import" href="../shared/behaviors/stackable.html"/>
+<!-- <link rel="import" href="../strand-box/strand-box.html"/> -->
+<link rel="import" href="../strand-action/strand-action.html"/>
 
 <dom-module id="strand-guide">
 	<link rel="import" type="css" href="strand-guide.css"/>
 	<template>
-		
+	
 		<content select="guide"></content>
 
-		<div id="blocker" on-tap="hide">
-			<canvas id="mask"></canvas>
+		<div id="blocker">
+			
+			<canvas id="focus"></canvas>
 
-			<strand-guide-tooltip>
+			<div id="tooltip">
+
 				<p class="header">{{_header}}</p>
 				<p class="message">{{_message}}</p>
 
@@ -32,22 +36,26 @@
 				</template>
 
 				<template is="dom-if" if="{{_next}}">
-					<strand-action on-tap="_nextHandler">
+					<strand-action on-tap="_nextHandler" underline>
 						<label>{{_nextLabel}}</label>
 					</strand-action>
 				</template>
 
 				<template is="dom-if" if="{{_back}}">
-					<strand-action on-tap="_backHandler">
+					<strand-action on-tap="_backHandler" underline>
 						<label>{{_backLabel}}</label>
 					</strand-action>
 				</template>
 
 				<template is="dom-if" if="{{_progressIndicator}}">
-					
+					<div id="dots">
+						<template id="progressIndicator" is="dom-repeat" items="{{data}}">
+							<div class="dot" data-index$="{{index}}" active$="{{_computeActive(index, _currentStep)}}"></div>
+						</template>
+					</div>
 				</template>
 
-			</strand-guide-tooltip>
+			</div>
 
 		</div>
 		

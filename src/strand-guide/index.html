@@ -12,7 +12,7 @@
 			body {  
 				margin:0;
 				padding:0;
-				background: #eee;
+				background: #ccc;
 			}
 
 			.col {
@@ -85,7 +85,11 @@
   </head>
   <body>
 
-	<strand-guide>
+  	<button id="button1">button 1</button>
+  	<button id="button2">button 2</button>
+  	<button id="button3">button 3</button>
+
+	<strand-guide id="guide">
 		<guide 
 			step="1" 
 			target="button1" 
@@ -105,6 +109,12 @@
 
 	<script>
 		window.addEventListener("WebComponentsReady", function() {
+			
+			var guide = document.querySelector('#guide');
+			
+			// TODO: Temp
+			guide.show();
+			
 			// Data format:
 			/*
 				data = [
