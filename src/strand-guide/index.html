@@ -85,11 +85,39 @@
   </head>
   <body>
 
-	<strand-guide></strand-guide>
+	<strand-guide>
+		<guide 
+			step="1" 
+			target="button1" 
+			header="Some Header 1"
+			message="Some Message Here 1"
+			dismiss-action="Thanks, I've got it."></guide>
+		<guide 
+			step="2" 
+			target="button2"
+			header="Some Header 2"
+			message="Some Message Here 2"></guide>
+		<guide 
+			step="3" 
+			target="button3"
+			message="Some Message Here 3"></guide>
+	</strand-guide>
 
 	<script>
 		window.addEventListener("WebComponentsReady", function() {
-			//
+			// Data format:
+			/*
+				data = [
+					{
+						step: Number,
+						target: Object (ref to the target via Polymer.dom),
+						header: String,
+						message: String,
+						dismissAction: String
+					},
+					{ ... }
+				];
+			*/
 		});
 	</script>
 

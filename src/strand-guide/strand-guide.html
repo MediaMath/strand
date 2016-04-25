@@ -8,10 +8,48 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/behaviors/falsifiable.html"/>
+<link rel="import" href="../shared/behaviors/domgettable.html"/>
+<link rel="import" href="../shared/behaviors/stackable.html"/>
 
 <dom-module id="strand-guide">
 	<link rel="import" type="css" href="strand-guide.css"/>
 	<template>
+		
+		<content select="guide"></content>
+
+		<div id="blocker" on-tap="hide">
+			<canvas id="mask"></canvas>
+
+			<strand-guide-tooltip>
+				<p class="header">{{_header}}</p>
+				<p class="message">{{_message}}</p>
+
+				<template is="dom-if" if="{{_dismissAction}}">
+					<strand-action on-tap="_dismissHandler">
+						<label>{{dismissAction}}</label>
+					</strand-action>
+				</template>
+
+				<template is="dom-if" if="{{_next}}">
+					<strand-action on-tap="_nextHandler">
+						<label>{{_nextLabel}}</label>
+					</strand-action>
+				</template>
+
+				<template is="dom-if" if="{{_back}}">
+					<strand-action on-tap="_backHandler">
+						<label>{{_backLabel}}</label>
+					</strand-action>
+				</template>
+
+				<template is="dom-if" if="{{_progressIndicator}}">
+					
+				</template>
+
+			</strand-guide-tooltip>
+
+		</div>
 		
 	</template>
 </dom-module>
