@@ -8,12 +8,42 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../strand-action/strand-action.html"/>
 
 <dom-module id="strand-guide-tooltip">
 	<link rel="import" type="css" href="strand-guide-tooltip.css"/>
 	<template>
-
+		
 		<content></content>
+
+		<p class="header">{{_header}}</p>
+		<p class="message">{{_message}}</p>
+
+		<template is="dom-if" if="{{_dismissAction}}">
+			<strand-action on-tap="_dismissHandler">
+				<label>{{dismissAction}}</label>
+			</strand-action>
+		</template>
+
+		<template is="dom-if" if="{{_next}}">
+			<strand-action on-tap="_nextHandler" underline>
+				<label>{{_nextLabel}}</label>
+			</strand-action>
+		</template>
+
+		<template is="dom-if" if="{{_back}}">
+			<strand-action on-tap="_backHandler" underline>
+				<label>{{_backLabel}}</label>
+			</strand-action>
+		</template>
+
+		<template is="dom-if" if="{{_progressIndicator}}">
+			<div id="dots">
+				<template id="progressIndicator" is="dom-repeat" items="{{data}}">
+					<div class="dot" data-index$="{{index}}" active$="{{_computeActive(index, currentStep)}}"></div>
+				</template>
+			</div>
+		</template>
 		
 	</template>
 </dom-module>

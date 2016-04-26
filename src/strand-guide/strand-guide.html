@@ -12,20 +12,29 @@
 <link rel="import" href="../shared/behaviors/domgettable.html"/>
 <link rel="import" href="../shared/behaviors/stackable.html"/>
 <!-- <link rel="import" href="../strand-box/strand-box.html"/> -->
-<link rel="import" href="../strand-action/strand-action.html"/>
+<link rel="import" href="../strand-guide-tooltip/strand-guide-tooltip.html"/>
+<!-- <link rel="import" href="../strand-guide-/strand-action.html"/> -->
 
 <dom-module id="strand-guide">
 	<link rel="import" type="css" href="strand-guide.css"/>
 	<template>
-	
+
 		<content select="guide"></content>
 
 		<div id="blocker">
 			
 			<canvas id="focus"></canvas>
 
-			<div id="tooltip">
+			<!-- <div id="tooltip"> -->
 
+			<strand-guide-tooltip 
+				id="tooltip"
+				data="{{_tooltipData}}" 
+				current-step="{{_currentStep}}"
+				on-guide-next="_nextHandler"
+				on-guide-back="_backHandler"></strand-guide-tooltip>
+
+				<!--
 				<p class="header">{{_header}}</p>
 				<p class="message">{{_message}}</p>
 
@@ -54,8 +63,9 @@
 						</template>
 					</div>
 				</template>
+				-->
 
-			</div>
+			<!-- </div> -->
 
 		</div>
 		

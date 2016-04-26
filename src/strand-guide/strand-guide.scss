@@ -30,29 +30,3 @@
 	top: 100px;
 	left: 100px;
 }
-
-#dots {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: flex-start;
-}
-
-.dot {
-	box-sizing: border-box;
-	padding: 4px;
-	opacity: 0.5;
-}
-
-.dot[active] {
-	opacity: 1;
-}
-
-.dot:before {
- 	content: "";
- 	display: block;
- 	background: #ffffff;
-	width: 5px;
-	height: 5px;
-	border-radius: 2.5px;
-}

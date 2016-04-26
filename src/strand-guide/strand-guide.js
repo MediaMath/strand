@@ -29,112 +29,52 @@
 			hidden: {
 				type:Boolean,
 				value:true,
-				// notify:true,
-				reflectToAttribute:true,
-				// observer: "_hiddenChanged"
-			},
-			_dismissAction: {
-				type: String,
-				// notify:true
-			},
-			_progressIndicator: {
-				type: Boolean,
-				// value: false,
-				computed: '_showProgressIndicator(data)',
-				// observer: '_progIndicatorChanged'
+				reflectToAttribute:true
 			},
 			_currentStep: {
 				type: Number,
-				value: 0,
 				notify: true
-				// observer: '_currentStepChanged'
 			},
-			_next: {
-				type: Boolean,
-				value: false
+			_tooltipData: {
+				type: Array,
+				notify: true
 			},
-			_nextLabel: {
-				type: String,
-				value: 'Next'
-			},
-			_back: {
-				type: Boolean,
-				value: false
-			},
-			_backLabel: {
-				type: String,
-				value: 'Back'
-			},
-			_header: {
-				type: String
-			},
-			_message: {
-				type: String
-			},
-			
 			data: {
 				type: Array,
 				notify: true,
 				observer: '_dataChanged'
-			}
-			// noscroll: {
-			// 	type:Boolean,
-			// 	value:false
-			// },
+			},
 		},
 
 		_previousBodyOverflow: null,
 
 		attached: function() {
-			// TODO: handle the progress indicator
-			// this._handleDots();
 			this._setupCanvas();
 		},
 
-		// detached: function() {
-			
-		// },
-
-		// setup
+		// TODO: this may be more than what is needed here
+		// some combo of lightDomGettable and DataUtils may be
+		// sufficient...
 		domObjectChanged: function(domObject) {
-			console.log('domObjectChanged: ', domObject);
-			if (!this.data) this.data = domObject['guide']; 
+			console.log('strand-guide :: domObjectChanged: ', domObject);
+			if (!this.data) {
+				this.data = domObject['guide'];
+
+				// find all of the target elements, and add them
+				this.data.forEach(function(item) {
+					var target = Polymer.dom(this.scope).querySelector('#' + item.target);
+					item.targetRef = target;
+					console.log(item, item.targetRef); 
+				});
+
+				// set the tooltip data
+				this._tooltipData = this.data;
+				this._currentStep = 0;
+			}
 		},
 		
 		_dataChanged: function(newVal, oldVal) {
-			console.log('_dataChanged: ', newVal);
-			// TODO: Start setting up with this data
-			this._setupTip();
-
-			// TODO: find all targets and get bounding - store em
-			newVal.forEach(function(item) {
-				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
-				item.targetRef = target;
-				console.log(item, item.targetRef); 
-			});
-		},
-
-		_setupTip: function() {
-			var data = this.data;
-			var step = this._currentStep;
-
-			this._header = data[step].hasOwnProperty('header') ? data[step].header : null;
-			this._message = data[step].hasOwnProperty('message') ? data[step].message : null;
-
-			// next, back, and labeling
-			this._next = data.length > 1;
-			this._back = data.length > 1 && step > 0;
-
-			if (this._next && step < data.length-1) {
-				this._nextLabel = 'Next';
-			} else if (this._next && step === data.length-1) {
-				this._nextLabel = 'Done';
-			}
-
-			if (this._back && step > 0) {
-				this._backLabel = 'Back';
-			}
-			// this._handleDots();
+			console.log('strand-guide :: _dataChanged: ', newVal);
 		},
 
 		_setupCanvas: function() {
@@ -142,36 +82,8 @@
 			this.$.focus.height = window.innerHeight;
 		},
 
-		// _handleDots: function() {
-		// 	var dots = Polymer.dom(this.$$('#dots')).querySelectorAll('div.dot');
-
-		// 	for (var i = dots.length-1; i > -1 ; i--) {
-		// 		if (i === Number(dots[i].getAttribute('data-id'))) {
-		// 			dots[i].setAttribute('active', '');
-		// 		} else {
-		// 			dots[i].removeAttribute('active');
-		// 		}
-		// 	}
-		// },
-
-		_computeActive: function(index, _currentStep) {
-			// console.log(index);
-			return this._currentStep === index;
-		},
-
-		// _progIndicatorChanged: function(newVal, oldVal) {
-		// 	if (newVal) {
-		// 		this.$$('#progressIndicator').stamp(this.data);
-		// 	}
-		// },
-
-		_showProgressIndicator: function(data) {
-			return data.length > 1;
-		},
-
-		// public
 		show: function() {
-			console.log('strand-guide: show');
+			console.log('strand-guide :: show');
 			this.hidden = false; 
 			
 			if(this.noscroll) {
@@ -181,7 +93,7 @@
 		},
 
 		hide: function(e) {
-			console.log('strand-guide: hide');
+			console.log('strand-guide :: hide');
 			this.hidden = true;
 			
 			if (e) e = Polymer.dom(e);
@@ -191,36 +103,21 @@
 		},
 
 		_dismissHandler: function(e) {
-			console.log('_dismissHandler: ', e);
+			console.log('strand-guide :: _dismissHandler: ', e);
 		},
 
 		_nextHandler: function(e) {
 			this._currentStep++;
 			
-			if (this._currentStep <= this.data.length-1) {
-				this._setupTip();
-			}
-
-			// use this handler to trigger close and cleanup
-			// since the final step says 'Done'
+			// use this handler to trigger close and cleanup - the final step is 'Done'
 			if (this._currentStep === this.data.length) {
-				// TODO: Close and cleanup actions
 				console.log('DONE');
+				this._currentStep = 0;
 			}
-			// console.log('_nextHandler: ', this._currentStep);
 		},
 
 		_backHandler: function(e) {
 			this._currentStep--;
-			
-			if (this._currentStep > -1) {
-				this._setupTip();
-			}
-			// console.log('_backHandler: ', this._currentStep);
-		},
-
-		_widthStyle: function(width) {
-			return "width:"+width+"px";
 		},
 
 	});
