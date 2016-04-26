@@ -48,33 +48,33 @@
 
 		_previousBodyOverflow: null,
 
-		attached: function() {
-			this._setupCanvas();
-		},
-
 		// TODO: this may be more than what is needed here
 		// some combo of lightDomGettable and DataUtils may be
 		// sufficient...
 		domObjectChanged: function(domObject) {
-			console.log('strand-guide :: domObjectChanged: ', domObject);
+			// console.log('strand-guide :: domObjectChanged: ', domObject);
 			if (!this.data) {
 				this.data = domObject['guide'];
+			}
+		},
 
-				// find all of the target elements, and add them
-				this.data.forEach(function(item) {
-					var target = Polymer.dom(this.scope).querySelector('#' + item.target);
-					item.targetRef = target;
-					console.log(item, item.targetRef); 
-				});
+		_dataChanged: function(newVal, oldVal) {
+			// console.log('strand-guide :: _dataChanged: ', newVal);
+			newVal.forEach(function(item) {
+				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
+				item.targetRef = target;
+				console.log(item, item.targetRef);
+			});
+		},
+
+		attached: function() {
+			this.async(function() {
+				this._setupCanvas();
 
 				// set the tooltip data
 				this._tooltipData = this.data;
 				this._currentStep = 0;
-			}
-		},
-		
-		_dataChanged: function(newVal, oldVal) {
-			console.log('strand-guide :: _dataChanged: ', newVal);
+			});
 		},
 
 		_setupCanvas: function() {
@@ -83,23 +83,20 @@
 		},
 
 		show: function() {
-			console.log('strand-guide :: show');
+			// console.log('strand-guide :: show');
 			this.hidden = false; 
-			
-			if(this.noscroll) {
-				this._previousBodyOverflow = document.body.style.overflow;
-				document.body.style.overflow = "hidden";
-			}
+			this._previousBodyOverflow = document.body.style.overflow;
+			document.body.style.overflow = "hidden";
 		},
 
 		hide: function(e) {
-			console.log('strand-guide :: hide');
+			// console.log('strand-guide :: hide');
 			this.hidden = true;
-			
-			if (e) e = Polymer.dom(e);
-			if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
-				document.body.style.overflow = this._previousBodyOverflow;
-			}
+			// if (e) e = Polymer.dom(e);
+			// if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
+			// 	document.body.style.overflow = this._previousBodyOverflow;
+			// }
+			document.body.style.overflow = this._previousBodyOverflow;
 		},
 
 		_dismissHandler: function(e) {

@@ -8,42 +8,54 @@
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/behaviors/positionable-panel.html"/>
 <link rel="import" href="../strand-action/strand-action.html"/>
+<link rel="import" href="../strand-box/strand-box.html"/>
 
 <dom-module id="strand-guide-tooltip">
 	<link rel="import" type="css" href="strand-guide-tooltip.css"/>
 	<template>
 		
-		<content></content>
+		<!-- <content></content> -->
 
-		<p class="header">{{_header}}</p>
-		<p class="message">{{_message}}</p>
+		<div id="container" style$="{{_containerStyle}}">
 
-		<template is="dom-if" if="{{_dismissAction}}">
-			<strand-action on-tap="_dismissHandler">
-				<label>{{dismissAction}}</label>
-			</strand-action>
-		</template>
+			<span class="header">{{_header}}</span>
+			<span class="message">{{_message}}</span>
 
-		<template is="dom-if" if="{{_next}}">
-			<strand-action on-tap="_nextHandler" underline>
-				<label>{{_nextLabel}}</label>
-			</strand-action>
-		</template>
+			<template is="dom-if" if="{{_dismiss}}">
+				<strand-action class="dismiss-action" on-tap="_dismissHandler" underline>
+					<label>{{_dismiss}}</label>
+				</strand-action>
+			</template>
 
-		<template is="dom-if" if="{{_back}}">
-			<strand-action on-tap="_backHandler" underline>
-				<label>{{_backLabel}}</label>
-			</strand-action>
-		</template>
+			<strand-box id="footer" direction="horizontal" align="center" justify="space-between">
+				<div class="left">
+					<template is="dom-if" if="{{_back}}">
+						<strand-action on-tap="_backHandler" underline>
+							<label>{{_backLabel}}</label>
+						</strand-action>
+					</template>
+				</div>
+				<div class="center">
+					<template is="dom-if" if="{{_progressIndicator}}">
+						<div id="dots">
+							<template id="progressIndicator" is="dom-repeat" items="{{data}}">
+								<div class="dot" data-index$="{{index}}" active$="{{_computeActive(index, currentStep)}}"></div>
+							</template>
+						</div>
+					</template>
+				</div>
+				<div class="right">
+					<template is="dom-if" if="{{_next}}">
+						<strand-action on-tap="_nextHandler" underline>
+							<label>{{_nextLabel}}</label>
+						</strand-action>
+					</template>
+				</div>
+			</strand-box>
 
-		<template is="dom-if" if="{{_progressIndicator}}">
-			<div id="dots">
-				<template id="progressIndicator" is="dom-repeat" items="{{data}}">
-					<div class="dot" data-index$="{{index}}" active$="{{_computeActive(index, currentStep)}}"></div>
-				</template>
-			</div>
-		</template>
+		</div>
 		
 	</template>
 </dom-module>

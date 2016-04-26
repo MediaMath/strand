@@ -14,7 +14,9 @@
 }
 
 :host([hidden]) {
-	display:none;
+	#blocker {
+		display:none;
+	}
 }
 
 #blocker {
@@ -23,10 +25,4 @@
 	top: 0;
 	bottom: 0;
 	right: 0;
-}
-
-#tooltip {
-	position: absolute;
-	top: 100px;
-	left: 100px;
 }

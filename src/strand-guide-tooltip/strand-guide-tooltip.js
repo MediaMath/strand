@@ -11,11 +11,19 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Refable
+			StrandTraits.Refable,
+			StrandTraits.PositionablePanel,
 		],
 
 		properties: {
-			_dismissAction: {
+			auto: {
+				type: Boolean,
+				value: false
+			},
+			direction: {
+				value: 'n'
+			},
+			_dismiss: {
 				type: String
 			},
 			_progressIndicator: {
@@ -56,13 +64,23 @@
 			}
 		},
 
+		// _firstRun: true,
+
+		attached: function() {
+			// this.async(function() {
+			// 	this._firstRun = false;
+			// 	this.open();
+			// });
+		},
+
 		_dataChanged: function(newVal, oldVal) {
-			console.log('strand-guide-tooltip :: _dataChanged: ', newVal);
+			// console.log('strand-guide-tooltip :: _dataChanged: ', newVal);
 		},
 
 		_currentStepChanged: function(newVal, oldVal) {
-			console.log('strand-guide-tooltip :: _currentStepChanged: ', newVal);
+			// console.log('strand-guide-tooltip :: _currentStepChanged: ', newVal);
 			if (this.currentStep <= this.data.length-1) {
+				this.close();
 				this._setupTip();
 			}
 		},
@@ -71,8 +89,10 @@
 			var data = this.data;
 			var step = this.currentStep;
 
+			this._target = data[step].targetRef;
 			this._header = data[step].hasOwnProperty('header') ? data[step].header : null;
 			this._message = data[step].hasOwnProperty('message') ? data[step].message : null;
+			this._dismiss = data[step].hasOwnProperty('dismiss') ? data[step].dismiss : null;
 
 			// next, back, and labeling
 			this._next = data.length > 1;
@@ -87,6 +107,8 @@
 			if (this._back && step > 0) {
 				this._backLabel = 'Back';
 			}
+			
+			this.open();
 		},
 
 		_computeActive: function(index, currentStep) {
@@ -108,6 +130,11 @@
 		_backHandler: function(e) {
 			this.fire('guide-back');
 		},
+
+
+		// _widthChanged: function(newVal, oldVal) {
+		// 	this.style.width = newVal + 'px';
+		// },
 
 	});
 

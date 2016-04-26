@@ -11,64 +11,21 @@
 <link rel="import" href="../shared/behaviors/falsifiable.html"/>
 <link rel="import" href="../shared/behaviors/domgettable.html"/>
 <link rel="import" href="../shared/behaviors/stackable.html"/>
-<!-- <link rel="import" href="../strand-box/strand-box.html"/> -->
 <link rel="import" href="../strand-guide-tooltip/strand-guide-tooltip.html"/>
-<!-- <link rel="import" href="../strand-guide-/strand-action.html"/> -->
 
 <dom-module id="strand-guide">
 	<link rel="import" type="css" href="strand-guide.css"/>
 	<template>
-
 		<content select="guide"></content>
-
 		<div id="blocker">
-			
 			<canvas id="focus"></canvas>
-
-			<!-- <div id="tooltip"> -->
-
-			<strand-guide-tooltip 
-				id="tooltip"
-				data="{{_tooltipData}}" 
-				current-step="{{_currentStep}}"
-				on-guide-next="_nextHandler"
-				on-guide-back="_backHandler"></strand-guide-tooltip>
-
-				<!--
-				<p class="header">{{_header}}</p>
-				<p class="message">{{_message}}</p>
-
-				<template is="dom-if" if="{{_dismissAction}}">
-					<strand-action on-tap="_dismissHandler">
-						<label>{{dismissAction}}</label>
-					</strand-action>
-				</template>
-
-				<template is="dom-if" if="{{_next}}">
-					<strand-action on-tap="_nextHandler" underline>
-						<label>{{_nextLabel}}</label>
-					</strand-action>
-				</template>
-
-				<template is="dom-if" if="{{_back}}">
-					<strand-action on-tap="_backHandler" underline>
-						<label>{{_backLabel}}</label>
-					</strand-action>
-				</template>
-
-				<template is="dom-if" if="{{_progressIndicator}}">
-					<div id="dots">
-						<template id="progressIndicator" is="dom-repeat" items="{{data}}">
-							<div class="dot" data-index$="{{index}}" active$="{{_computeActive(index, _currentStep)}}"></div>
-						</template>
-					</div>
-				</template>
-				-->
-
-			<!-- </div> -->
-
 		</div>
-		
+		<strand-guide-tooltip 
+			id="tooltip"
+			data="{{_tooltipData}}" 
+			current-step="{{_currentStep}}"
+			on-guide-next="_nextHandler"
+			on-guide-back="_backHandler"></strand-guide-tooltip>
 	</template>
 </dom-module>
 <script src="strand-guide.js"></script>
