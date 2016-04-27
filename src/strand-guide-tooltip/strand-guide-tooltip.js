@@ -22,10 +22,6 @@
 			direction: {
 				value: 'n'
 			},
-			// width: {
-			// 	type: Number,
-			// 	observer: '_widthChanged'
-			// },
 			hidden: {
 				type: Boolean
 			},
@@ -59,9 +55,7 @@
 				type: String
 			},
 			data: {
-				type: Array,
-				notify: true,
-				observer: '_dataChanged'
+				type: Array
 			},
 			currentStep: {
 				type: Number,
@@ -70,23 +64,16 @@
 			}
 		},
 
-		attached: function() {
-			//
-		},
-
-		_dataChanged: function(newVal, oldVal) {
-			// console.log('strand-guide-tooltip :: _dataChanged: ', newVal);
-		},
-
 		_currentStepChanged: function(newVal, oldVal) {
-			// console.log('strand-guide-tooltip :: _currentStepChanged: ', newVal);
 			if (this.currentStep <= this.data.length-1) {
-				this.close();
-				this._setupTip();
+				if (this.state === this.STATE_OPENED) this.close();
+				this.updateTip();
 			}
 		},
 
-		_setupTip: function() {
+		updateTip: function() {
+			if (!this.data) return;
+
 			var data = this.data;
 			var step = this.currentStep;
 
@@ -95,7 +82,7 @@
 			this._message = data[step].hasOwnProperty('message') ? data[step].message : null;
 			this._dismiss = data[step].hasOwnProperty('dismiss') ? data[step].dismiss : null;
 
-			// next, back, and labeling
+			// Compute next, back, and do labeling
 			this._next = data.length > 1;
 			this._back = data.length > 1 && step > 0;
 
@@ -121,7 +108,6 @@
 		},
 
 		_dismissHandler: function(e) {
-			// console.log('_dismissHandler: ', e);
 			this.fire('guide-dismiss');
 		},
 
@@ -133,9 +119,6 @@
 			this.fire('guide-back');
 		},
 
-		// _widthChanged: function(newVal, oldVal) {
-		// 	this.style.width = newVal + 'px';
-		// },
 	});
 
 })(window.Strand = window.Strand || {});

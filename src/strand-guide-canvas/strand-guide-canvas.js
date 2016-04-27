@@ -14,9 +14,6 @@
 		],
 
 		properties: {
-			auto: {
-				type: Boolean
-			},
 			hidden: {
 				type: Boolean
 			},
@@ -25,9 +22,7 @@
 				value: 0.3
 			},
 			data: {
-				type: Array,
-				notify: true,
-				observer: '_dataChanged'
+				type: Array
 			},
 			currentStep: {
 				type: Number,
@@ -37,26 +32,22 @@
 		},
 
 		resize: function() {
-			this.debounce('setup', this._setupCanvas);
+			if (!this.hidden) this.debounce('update-canvas', this.updateCanvas);
 		},
 
 		scroll: function() {
-			this.debounce('setup', this._setupCanvas);
-		},
-
-		_dataChanged: function(newVal, oldVal) {
-			console.log('strand-guide-canvas :: _dataChanged: ', newVal);
+			if (!this.hidden) this.debounce('update-canvas', this.updateCanvas);
 		},
 
 		_currentStepChanged: function(newVal, oldVal) {
 			console.log('strand-guide-canvas :: _currentStepChanged: ', newVal);
 			if (this.currentStep <= this.data.length-1) {
-				this._setupCanvas();
+				this.updateCanvas();
 			}
 		},
 
-		_setupCanvas: function() {
-			console.log('strand-guide-canvas :: _setupCanvas: ');
+		updateCanvas: function() {
+			if (!this.data) return;
 			// this.clearRect(0, 0, this.$.canvas.width, this.$.canvas.height);
 			var target = this.data[this.currentStep].targetRef;
 			var rect = target.getBoundingClientRect();

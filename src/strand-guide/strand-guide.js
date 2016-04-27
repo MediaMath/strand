@@ -35,9 +35,6 @@
 				type: Boolean,
 				value: true
 			},
-			// tipWidth: {
-			// 	type: Number
-			// },
 			_auto: {
 				type: Boolean,
 				computed: '_computeAuto(showFocus)'
@@ -57,63 +54,59 @@
 			},
 		},
 
-		_previousBodyOverflow: null,
 		_isAttached: false,
 
-		// TODO: this may be more than what is needed here
-		// some combo of lightDomGettable and DataUtils may be
-		// sufficient...
+		// TODO: this may be more than what is needed here - some combo
+		// of lightDomGettable and DataUtils may be sufficient
 		domObjectChanged: function(domObject) {
-			// console.log('strand-guide :: domObjectChanged: ', domObject);
 			if (!this.data) {
 				this.data = domObject['guide'];
 			}
 		},
 
+		attached: function() {
+			// Attempt to ensure that the DOM has settled before doing any layout
+			this.async(function() {
+				if (this.data) this._init();
+				this._isAttached = true;
+			});
+		},
+
 		_dataChanged: function(newVal, oldVal) {
-			// console.log('strand-guide :: _dataChanged: ', newVal);
 			newVal.forEach(function(item) {
 				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
 				item.targetRef = target;
-				// console.log(item, item.targetRef);
 			});
 
 			if (this._isAttached) this._init();
 		},
 
-		attached: function() {
-			// Attempt to ensure that the DOM has settled before doing any layout
-			this.async(function() {
-				this._init();
-				this._isAttached = true;
-			});
-		},
-
 		_init: function() {
-			// trigger tooltip and canvas setup
+			// Trigger tooltip and canvas setup
 			this._tooltipData = this.data;
 			this._currentStep = 0;
 		},
 
 		show: function() {
-			// console.log('strand-guide :: show');
-			this._previousBodyOverflow = document.body.style.overflow;
-			document.body.style.overflow = "hidden";
+			var tooltip = this.$.tooltip;
 
 			this.hidden = false;
-			this.$.tooltip.open();
+			if (tooltip.state === tooltip.STATE_CLOSED) tooltip.open();
+			if (this.showFocus) this.$$('#focus').updateCanvas();
 		},
 
 		hide: function(e) {
-			// console.log('strand-guide :: hide');
-			document.body.style.overflow = this._previousBodyOverflow;
-			
+			var tooltip = this.$.tooltip;
+
 			this.hidden = true;
-			this.$.tooltip.close();
+			if (tooltip.state === tooltip.STATE_OPENED) tooltip.close();
 		},
 
+		// _tooltipCloseHandler: function(e) {
+		// 	if (!this.showFocus) this._dismissHandler(e);
+		// },
+
 		_dismissHandler: function(e) {
-			console.log('strand-guide :: _dismissHandler: ', e);
 			this.hide();
 
 			// TODO: Local storage(?)
