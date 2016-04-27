@@ -12,20 +12,29 @@
 <link rel="import" href="../shared/behaviors/domgettable.html"/>
 <link rel="import" href="../shared/behaviors/stackable.html"/>
 <link rel="import" href="../strand-guide-tooltip/strand-guide-tooltip.html"/>
+<link rel="import" href="../strand-guide-canvas/strand-guide-canvas.html"/>
 
 <dom-module id="strand-guide">
 	<link rel="import" type="css" href="strand-guide.css"/>
 	<template>
 		<content select="guide"></content>
 		<div id="blocker">
-			<canvas id="focus"></canvas>
+			<strand-guide-canvas
+				id="focus"
+				auto="{{_auto}}"
+				hidden="{{hidden}}"
+				data="{{_tooltipData}}"
+				current-step="{{_currentStep}}"></strand-guide-canvas>
 		</div>
 		<strand-guide-tooltip 
 			id="tooltip"
+			auto="{{_auto}}"
+			hidden="{{hidden}}"
 			data="{{_tooltipData}}" 
 			current-step="{{_currentStep}}"
 			on-guide-next="_nextHandler"
-			on-guide-back="_backHandler"></strand-guide-tooltip>
+			on-guide-back="_backHandler"
+			on-guide-dismiss="_dismissHandler"></strand-guide-tooltip>
 	</template>
 </dom-module>
 <script src="strand-guide.js"></script>

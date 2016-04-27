@@ -2,6 +2,8 @@
 <html>
   <head>
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../strand-footer/strand-footer.html" />
+	<link rel="import" href="../strand-button/strand-button.html" />
 	<link rel="import" href="strand-guide.html" />
 	<style type="text/css">
 			body, html {
@@ -12,7 +14,7 @@
 			body {  
 				margin:0;
 				padding:0;
-				background: #ccc;
+				/*background: #ccc;*/
 			}
 
 			.col {
@@ -81,6 +83,11 @@
 				display: block;
 				float: left;
 			}
+
+			#footer {
+				position: fixed;
+				bottom: 0;
+			}
 		</style>
   </head>
   <body>
@@ -94,32 +101,38 @@
 	<p>Donec tempor fringilla tellus, sit amet tincidunt dui tempor sed. Nullam a facilisis erat. Aenean molestie lacinia neque non molestie. In sagittis mi mi, vel ultrices arcu molestie in. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pulvinar lectus sed neque convallis mattis eget sed est. Fusce consectetur rhoncus dui. Vivamus ultrices lacus metus. Sed ac ligula libero.</p>
 
 	<p>Suspendisse volutpat lacinia turpis euismod ornare. Vivamus interdum quam a nisi lacinia, vel pulvinar ipsum varius. Integer rutrum mauris odio. Ut dapibus, purus at vulputate varius, dolor mauris pulvinar ante, sagittis interdum lectus arcu non diam. Phasellus nec sollicitudin lorem. In sit amet iaculis erat. Donec urna lorem, viverra vitae suscipit a, auctor id ante. Nunc non iaculis nibh. Aenean aliquet metus a pellentesque porttitor. Phasellus ac feugiat massa, a dapibus velit. Nunc massa nunc, imperdiet vitae porttitor ullamcorper, condimentum ut nisi. Nulla facilisi. Nulla eu <button id="button3">button 3</button> fermentum risus</p>
-
+	
 	<strand-guide id="guide">
 		<guide 
-			step="1" 
 			target="button1" 
 			header="Some Header 1"
 			message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra."
 			dismiss="Thanks, I've got it."></guide>
 		<guide 
-			step="2" 
 			target="button2"
 			header="Some Header 2"
 			message="Some Message Here 2"></guide>
 		<guide 
-			step="3" 
 			target="button3"
 			message="Some Message Here 3"></guide>
+		<guide
+			target="footerBtn"
+			message="Some Message Here 4"></guide>
 	</strand-guide>
+
+	<strand-footer id="footer" fitparent>
+		<strand-button id="footerBtn">
+			<label>Save</label>
+		</strand-button>
+	</strand-footer>
+
 
 	<script>
 		window.addEventListener("WebComponentsReady", function() {
 			
 			var guide = document.querySelector('#guide');
 			
-			// TODO: Temp
-			guide.show();
+			// guide.show();
 			
 			// Data format:
 			/*

@@ -17,11 +17,17 @@
 
 		properties: {
 			auto: {
-				type: Boolean,
-				value: false
+				type: Boolean
 			},
 			direction: {
 				value: 'n'
+			},
+			// width: {
+			// 	type: Number,
+			// 	observer: '_widthChanged'
+			// },
+			hidden: {
+				type: Boolean
 			},
 			_dismiss: {
 				type: String
@@ -29,11 +35,6 @@
 			_progressIndicator: {
 				type: Boolean,
 				computed: '_showProgressIndicator(data)'
-			},
-			currentStep: {
-				type: Number,
-				notify: true,
-				observer: '_currentStepChanged'
 			},
 			_next: {
 				type: Boolean,
@@ -61,16 +62,16 @@
 				type: Array,
 				notify: true,
 				observer: '_dataChanged'
+			},
+			currentStep: {
+				type: Number,
+				notify: true,
+				observer: '_currentStepChanged'
 			}
 		},
 
-		// _firstRun: true,
-
 		attached: function() {
-			// this.async(function() {
-			// 	this._firstRun = false;
-			// 	this.open();
-			// });
+			//
 		},
 
 		_dataChanged: function(newVal, oldVal) {
@@ -108,7 +109,7 @@
 				this._backLabel = 'Back';
 			}
 			
-			this.open();
+			if (!this.hidden) this.open();
 		},
 
 		_computeActive: function(index, currentStep) {
@@ -120,7 +121,8 @@
 		},
 
 		_dismissHandler: function(e) {
-			console.log('_dismissHandler: ', e);
+			// console.log('_dismissHandler: ', e);
+			this.fire('guide-dismiss');
 		},
 
 		_nextHandler: function(e) {
@@ -131,11 +133,9 @@
 			this.fire('guide-back');
 		},
 
-
 		// _widthChanged: function(newVal, oldVal) {
 		// 	this.style.width = newVal + 'px';
 		// },
-
 	});
 
 })(window.Strand = window.Strand || {});

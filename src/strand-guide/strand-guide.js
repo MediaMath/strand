@@ -31,6 +31,17 @@
 				value:true,
 				reflectToAttribute:true
 			},
+			showFocus: {
+				type: Boolean,
+				value: true
+			},
+			// tipWidth: {
+			// 	type: Number
+			// },
+			_auto: {
+				type: Boolean,
+				computed: '_computeAuto(showFocus)'
+			},
 			_currentStep: {
 				type: Number,
 				notify: true
@@ -47,6 +58,7 @@
 		},
 
 		_previousBodyOverflow: null,
+		_isAttached: false,
 
 		// TODO: this may be more than what is needed here
 		// some combo of lightDomGettable and DataUtils may be
@@ -63,44 +75,50 @@
 			newVal.forEach(function(item) {
 				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
 				item.targetRef = target;
-				console.log(item, item.targetRef);
+				// console.log(item, item.targetRef);
 			});
+
+			if (this._isAttached) this._init();
 		},
 
 		attached: function() {
+			// Attempt to ensure that the DOM has settled before doing any layout
 			this.async(function() {
-				this._setupCanvas();
-
-				// set the tooltip data
-				this._tooltipData = this.data;
-				this._currentStep = 0;
+				this._init();
+				this._isAttached = true;
 			});
 		},
 
-		_setupCanvas: function() {
-			this.$.focus.width = window.innerWidth;
-			this.$.focus.height = window.innerHeight;
+		_init: function() {
+			// trigger tooltip and canvas setup
+			this._tooltipData = this.data;
+			this._currentStep = 0;
 		},
 
 		show: function() {
 			// console.log('strand-guide :: show');
-			this.hidden = false; 
 			this._previousBodyOverflow = document.body.style.overflow;
 			document.body.style.overflow = "hidden";
+
+			this.hidden = false;
+			this.$.tooltip.open();
 		},
 
 		hide: function(e) {
 			// console.log('strand-guide :: hide');
-			this.hidden = true;
-			// if (e) e = Polymer.dom(e);
-			// if (!e || this.dismiss && e.rootTarget === this.$.blocker || e.path.indexOf(this.$$("#close")) !== -1)  {
-			// 	document.body.style.overflow = this._previousBodyOverflow;
-			// }
 			document.body.style.overflow = this._previousBodyOverflow;
+			
+			this.hidden = true;
+			this.$.tooltip.close();
 		},
 
 		_dismissHandler: function(e) {
 			console.log('strand-guide :: _dismissHandler: ', e);
+			this.hide();
+
+			// TODO: Local storage(?)
+			// Remember the user saw this and don't display again
+			// Based on id/name given to the strand-guide instance(?)
 		},
 
 		_nextHandler: function(e) {
@@ -108,13 +126,22 @@
 			
 			// use this handler to trigger close and cleanup - the final step is 'Done'
 			if (this._currentStep === this.data.length) {
-				console.log('DONE');
-				this._currentStep = 0;
+				this._dismissHandler();
 			}
+
+			// TODO: Scroll handling(?)
+			// Scroll to the location of the target if it is out of bounds
 		},
 
 		_backHandler: function(e) {
 			this._currentStep--;
+
+			// TODO: Scroll handling(?)
+			// Scroll to the location of the target if it is out of bounds
+		},
+
+		_computeAuto: function(showFocus) {
+			return !showFocus;
 		},
 
 	});

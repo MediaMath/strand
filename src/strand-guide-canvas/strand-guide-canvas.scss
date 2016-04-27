@@ -14,7 +14,9 @@
 }
 
 :host([hidden]) {
-	visibility: hidden;
+	#blocker {
+		display:none;
+	}
 }
 
 #blocker {
