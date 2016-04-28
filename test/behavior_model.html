@@ -7,15 +7,15 @@
 	<script>
 		var should = chai.should();
 	</script>
-	<link rel="import" href="../build/shared/js/model.html"/>
+	<link rel="import" href="../build/shared/behaviors/model.html"/>
 </head>
 <body>
 <script>
 describe("Model", function() {
 
 	it("should exist", function() {
-		StrandLib.should.be.an.object;
-		StrandLib.Model.should.be.an.object;
+		StrandTraits.should.be.an.object;
+		StrandTraits.Model.should.be.an.object;
 	});
 
 	it("should have data after XHR", function(done) {
