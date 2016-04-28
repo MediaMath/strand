@@ -1,0 +1,44 @@
+<script>
+    /**
+     * @license
+     * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+     * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+     */
+    (function (scope) {
+        "use strict";
+        var dependencies = [];
+        scope.Injector = {
+            properties: {
+            },
+            getInjector:function() {
+                var instantiate = function(obj){
+                    if(typeof obj === 'function'){
+                        return new obj();
+                    }else{
+                        return obj;
+                    }
+                };
+                return this._injector || {
+                    register: function (key, dependencyObj) {
+                        var obj = instantiate(dependencyObj);
+                        if(obj  && obj.$get) {
+                            dependencies[key] = obj.$get();
+                        }else{
+                            throw 'Object can not be registered to injector. It should have $get function.'
+                        }
+                        return dependencies[key];
+                    },
+                    registerBlank:function(key){
+                       return this.register(key, {$get:function(){return {}}});
+                    },
+                    resolve: function (key) {
+                        return dependencies[key];
+                    }
+                };
+
+            }
+        };
+
+    })(window.StrandTraits = window.StrandTraits || {});
+</script>
