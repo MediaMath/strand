@@ -33,7 +33,7 @@
 
 	<script>
 		describe("strand-tabs", function() {
-			
+
 			it("should have an element constructor", function() {
 				var a = new Strand.Tabs();
 				a.nodeName.should.equal("STRAND-TABS");
@@ -71,9 +71,8 @@
 
 			it("should load external content", function() {
 				var a = document.querySelector('#testTab1'),
-					tabContent = a.$.view,
-					nodes = Polymer.dom(a.$.view).children;
-				nodes[0].id.should.equal('aux');
+					nodes = a.getContentChildren('#view');
+				nodes[0].querySelector('#aux').should.exist;
 			});
 
 			it("should fire a `loaded` event", function(done) {
@@ -88,9 +87,8 @@
 				var a = document.querySelector('#testTab3');
 				a.loadExternal('imports/test-strand-tabs-aux.html', function() {
 					// flush(function() {
-						var tabContent = a.$.view,
-							nodes = Polymer.dom(a.$.view).children;
-						nodes[1].id.should.equal('aux2');
+						var nodes = a.getContentChildren('#view');
+						nodes[0].querySelector('#aux2').should.exist;
 						done();
 					// });
 				});
