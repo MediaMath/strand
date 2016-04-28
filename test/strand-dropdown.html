@@ -214,7 +214,7 @@
 					should.equal(s.calledOnce, true);
 					evt.should.have.keys('item','index','value','name','selected');
 
-					evt.item.should.be.an('object');
+					evt.item.should.be.an.instanceof(HTMLElement);
 					evt.index.should.be.a('number');
 					evt.name.should.be.an('string');
 					evt.value.should.be.a('string');
