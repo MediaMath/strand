@@ -1,0 +1,74 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/behaviors/injector.html">
+<link rel="import" href="../shared/behaviors/comparisonrulesprovider.html">
+<dom-module id="strand-filter">
+    <link rel="import" type="css" href="strand-filter.css"/>
+    <template>
+        <div hidden$="{{_isAdvance(searchMode)}}">
+            <strand-input id="simplemodeinput" placeholder="Search and Clear" value="{{_simpleSearchValue}}" search="true" clear="true"></strand-input>
+        </div>
+        <div hidden$="{{!_isAdvance(searchMode)}}" class="advanceWrapper">
+            <div class="filter-wrapper">
+                <div class="add_operation">
+                    <strand-icon class="button green" type="include" width="25" height="25" on-click="_addConfig"></strand-icon>
+                </div>
+                <template id="repeater" is="dom-repeat" items="{{searchConfig}}">
+                        <div style="margin-left:{{_getLeftMarginPerLevel(item)}}" class="filter-wrapper-conatainer">
+                            <!-- conditionConnector -->
+                            <div>{{ _showError(item, index, errorText)}}</div>
+                            <div class="conditionConnector condition">
+                                <div hidden$="{{!_toSelectLogicalOperation(index,item)}}">
+                                    <strand-dropdown id="condition" value="{{item.logicalOperator}}" on-changed="_conditionChanged">
+                                        <strand-list-item>AND</strand-list-item>
+                                        <strand-list-item>OR</strand-list-item>
+                                    </strand-dropdown>
+                                </div>
+                            </div>
+                            <div class="condition">
+                                <div class="conditionGroup">
+                                    <strand-icon class="button green" type="include-outline" width="15" height="15" on-click="_addConfig"></strand-icon>
+                                </div>
+                                <div class="conditionLine">
+                                    <strand-dropdown fitparent id="selectColumn" data="{{columns}}" data-index="{{index}}" value="{{item.column::select}}" on-changed="_selectColumnChanged">
+                                    </strand-dropdown>
+                                </div>
+                                <div class="conditionLine">
+                                    <strand-dropdown fitparent id="comparison" data="{{comparisons}}" value="{{item.comparison}}" on-changed="_comparisonChanged">
+                                    </strand-dropdown>
+
+                                </div>
+                                <div hidden$="{{!item.showInclusive}}">
+                                    <div class="inclusiveLine">
+                                        <strand-checkbox class="check-cbx"   checked="{{item.inclusive}}" icon="check">
+                                            <label>Inclusive</label>
+                                        </strand-checkbox>
+                                    </div>
+                                </div>
+                                <div class="conditionLine">
+                                    <strand-input placeholder="Search"  value="{{item.searchValue}}" search="true" clear="true"></strand-input>
+                                </div>
+
+                                <div class="conditionDelete">
+                                    <strand-icon class="button red" type="delete" width="15" height="15" on-click="_deleteConfig"></strand-icon>
+                                </div>
+                                <div class="clear-fix"></div>
+                            </div>
+                            <div class="clear-fix"></div>
+                            <!--condition-->
+                        </div>
+                </template>
+            </div>
+        </div>
+    </template>
+    <script src="strand-filter.js"></script>
+</dom-module>

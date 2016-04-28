@@ -1,0 +1,444 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>strand-filter</title>
+    <script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="strand-filter.html">
+    <link rel="import" href="../strand-injector/strand-injector.html">
+    <link rel="import" href="../strand.html" />
+    <link rel="import" href="../strand-pagination/strand-pagination.html">
+    <link rel="import" href="../strand-data-provider/strand-data-provider.html">
+    <style type="text/css">
+        body, html {
+            height: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #eee;
+        }
+        strand-grid {
+            border: 1px #E0E0E0 solid;
+        }
+        .strand-grid-wrapper {
+            padding: 0px 40px;
+        }
+        hr {
+            border: 0;
+            display: block;
+            border-bottom: 1px solid #fff;
+            border-top: 1px solid #ccc;
+            height: 0px;
+            margin-top: 20px;
+        }
+        .col {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            /*float: left;*/
+            padding: 0 20px;
+            /*font-size: 0;*/
+        }
+
+        .col.c0 {
+            width: 100%;
+        }
+        .col.c1 {
+            width: 75%;
+        }
+        .col.c2 {
+            width: 25%;
+        }
+        .border-right {
+            border-right: 1px solid #ccc;
+        }
+        .col:after {
+            visibility: hidden;
+            display: block;
+            font-size: 0;
+            content: " ";
+            clear: both;
+            height: 0;
+        }
+
+        p {
+            font-family: sans-serif;
+            color: #333;
+            font-size: 12px;
+        }
+        .clearfix {
+            clear:both;
+        }
+    </style>
+</head>
+<body>
+<div class="strand-grid-wrapper">
+    <div class="col c0">
+        <p><b>default</b> search-mode</p>
+        <h3>default search-mode</h3>
+        <strand-injector></strand-injector>
+        <strand-filter id="mmfilter_2" autoSearch="true"></strand-filter>
+        <strand-button onclick="searchRecords('mmfilter_2')">
+            <strand-icon class="button" type="search" width="13" height="13"></strand-icon>
+            <label for="">Search</label>
+        </strand-button>
+    </div>
+    <hr />
+    <div class="col c0">
+        <p>search-mode=<b>"advance"</b></p>
+        <strand-filter id="mmfilter_1" search-mode="advance">
+        </strand-filter>
+        <strand-button onclick="searchRecords('mmfilter_1')">
+            <strand-icon class="button" type="search" width="13" height="13"></strand-icon>
+            <label for="">Search</label>
+        </strand-button>
+    </div>
+    <hr />
+</div>
+<div class="strand-grid-wrapper">
+    <strand-grid   id="mmTestGrid1" selectable class="strand-grid" style="width: 100%; min-height: 215px; height: 215px; ">
+        <strand-grid-column field="id">Id</strand-grid-column>
+        <strand-grid-column field="first_name">First Name</strand-grid-column>
+        <strand-grid-column field="last_name">Last Name</strand-grid-column>
+        <strand-grid-column field="email">Email</strand-grid-column>
+        <strand-grid-column field="gender">Gender</strand-grid-column>
+        <strand-grid-column field="age">Age</strand-grid-column>
+        <strand-grid-column field="company_Name">Company Name</strand-grid-column>
+        <strand-grid-column field="salary">Salary</strand-grid-column>
+        <strand-grid-column field="city">City</strand-grid-column>
+        <strand-grid-column field="country">Country</strand-grid-column>
+        <strand-grid-column field="position">Position</strand-grid-column>
+        <strand-grid-column field="body_size">Body Size</strand-grid-column>
+    </strand-grid>
+
+    <strand-data-provider id="paginationDataProvider" on-pagedata="pagedataChanged()"></strand-data-provider>
+
+
+    <!--<strand-pagination id="paginationComponent" total-rows="{{grid1DataLength}}" page-size="5">-->
+        <!--<strand-data-provider id="paginationDataProvider" on-pagedata="pagedataChanged()"></strand-data-provider>-->
+    <!--</strand-pagination>-->
+</div>
+
+<script>
+    var grid1Data = [
+        {
+            "id": 1,
+            "gender": "Male",
+            "first_name": "Keith",
+            "last_name": "Foster",
+            "age": 57,
+            "email": "kfoster0@behance.net",
+            "company_Name": "Bubblemix",
+            "salary": "$5.73",
+            "city": "Hrastnik",
+            "country": "Slovenia",
+            "position": "VP Product Management",
+            "body_size": "XL"
+        },
+        {
+            "id": 2,
+            "gender": "Male",
+            "first_name": "Henry",
+            "last_name": "Morales",
+            "age": 25,
+            "email": "hmorales1@cloudflare.com",
+            "company_Name": "Voolia",
+            "salary": "$2.83",
+            "city": "Panguipulli",
+            "country": "Chile",
+            "position": "VP Sales",
+            "body_size": "XL"
+        },
+        {
+            "id": 3,
+            "gender": "Male",
+            "first_name": "Stephen",
+            "last_name": "Ramos",
+            "age": 46,
+            "email": "sramos2@japanpost.jp",
+            "company_Name": "Miboo",
+            "salary": "$4.13",
+            "city": "Brudzew",
+            "country": "Poland",
+            "position": "Health Coach II",
+            "body_size": "XL"
+        },
+        {
+            "id": 4,
+            "gender": "Female",
+            "first_name": "Laura",
+            "last_name": "Hernandez",
+            "age": 13,
+            "email": "lhernandez3@ocn.ne.jp",
+            "company_Name": "Jabbercube",
+            "salary": "$2.17",
+            "city": "Satsumasendai",
+            "country": "Japan",
+            "position": "Chief Design Engineer",
+            "body_size": "2XL"
+        },
+        {
+            "id": 5,
+            "gender": "Male",
+            "first_name": "Johnny",
+            "last_name": "Ross",
+            "age": 9,
+            "email": "jross4@slideshare.net",
+            "company_Name": "Shufflebeat",
+            "salary": "$2.96",
+            "city": "Dobrošte",
+            "country": "Macedonia",
+            "position": "Programmer Analyst II",
+            "body_size": "XS"
+        },
+        {
+            "id": 6,
+            "gender": "Male",
+            "first_name": "Clarence",
+            "last_name": "Watkins",
+            "age": 27,
+            "email": "cwatkins5@eepurl.com",
+            "company_Name": "Zoombox",
+            "salary": "$8.98",
+            "city": "Gancheng",
+            "country": "China",
+            "position": "Assistant Professor",
+            "body_size": "M"
+        },
+        {
+            "id": 7,
+            "gender": "Female",
+            "first_name": "Judy",
+            "last_name": "Spencer",
+            "age": 42,
+            "email": "jspencer6@hc360.com",
+            "company_Name": "Roomm",
+            "salary": "$8.50",
+            "city": "Spárti",
+            "country": "Greece",
+            "position": "Web Developer I",
+            "body_size": "M"
+        },
+        {
+            "id": 8,
+            "gender": "Female",
+            "first_name": "Joan",
+            "last_name": "Shaw",
+            "age": 30,
+            "email": "jshaw7@blinklist.com",
+            "company_Name": "Nlounge",
+            "salary": "$7.29",
+            "city": "San Nicolas",
+            "country": "Philippines",
+            "position": "Human Resources Assistant III",
+            "body_size": "3XL"
+        },
+        {
+            "id": 9,
+            "gender": "Female",
+            "first_name": "Bonnie",
+            "last_name": "Lopez",
+            "age": 19,
+            "email": "blopez8@globo.com",
+            "company_Name": "Livefish",
+            "salary": "$5.81",
+            "city": "Ust’-Kut",
+            "country": "Russia",
+            "position": "Analyst Programmer",
+            "body_size": "L"
+        },
+        {
+            "id": 10,
+            "gender": "Male",
+            "first_name": "Brian",
+            "last_name": "Robinson",
+            "age": 19,
+            "email": "brobinson9@telegraph.co.uk",
+            "company_Name": "Oyondu",
+            "salary": "$2.83",
+            "city": "Dolní Dunajovice",
+            "country": "Czech Republic",
+            "position": "Director of Sales",
+            "body_size": "XL"
+        },
+        {
+            "id": 11,
+            "gender": "Female",
+            "first_name": "Bonnie",
+            "last_name": "Lee",
+            "age": 23,
+            "email": "bleea@blogs.com",
+            "company_Name": "Livepath",
+            "salary": "$2.27",
+            "city": "Akune",
+            "country": "Japan",
+            "position": "Marketing Assistant",
+            "body_size": "3XL"
+        },
+        {
+            "id": 12,
+            "gender": "Male",
+            "first_name": "Billy",
+            "last_name": "Hanson",
+            "age": 48,
+            "email": "bhansonb@usda.gov",
+            "company_Name": "Skivee",
+            "salary": "$0.80",
+            "city": "Sidowayah Lor",
+            "country": "Indonesia",
+            "position": "Recruiting Manager",
+            "body_size": "S"
+        },
+        {
+            "id": 13,
+            "gender": "Male",
+            "first_name": "Chris",
+            "last_name": "Harper",
+            "age": 1,
+            "email": "charperc@example.com",
+            "company_Name": "Chatterbridge",
+            "salary": "$7.05",
+            "city": "Tržič",
+            "country": "Slovenia",
+            "position": "Environmental Specialist",
+            "body_size": "M"
+        },
+        {
+            "id": 14,
+            "gender": "Female",
+            "first_name": "Annie",
+            "last_name": "Banks",
+            "age": 48,
+            "email": "abanksd@ebay.com",
+            "company_Name": "Quatz",
+            "salary": "$3.24",
+            "city": "Awsīm",
+            "country": "Egypt",
+            "position": "Nuclear Power Engineer",
+            "body_size": "3XL"
+        },
+        {
+            "id": 15,
+            "gender": "Female",
+            "first_name": "Deborah",
+            "last_name": "Gilbert",
+            "age": 36,
+            "email": "dgilberte@sfgate.com",
+            "company_Name": "Eare",
+            "salary": "$3.25",
+            "city": "Thị Trấn Hùng Quốc",
+            "country": "Vietnam",
+            "position": "Administrative Officer",
+            "body_size": "L"
+        }];
+
+           /*
+
+            [
+        {
+            "id": 1,
+            "gender": "Male",
+            "first_name": "Keith",
+            "last_name": "Foster",
+            "age": 57,
+            "email": "kfoster0@behance.net",
+            "company_Name": "Bubblemix",
+            "salary": "$5.73",
+            "city": "Hrastnik",
+            "country": "Slovenia",
+            "position": "VP Product Management",
+            "body_size": "XL"
+        },
+        { "id": 2, "gender": "Male", "first_name": "Henry", "last_name": "Morales", "age": 25, "email": "hmorales1@cloudflare.com", "company_Name": "Voolia", "salary": "$2.83", "city": "Panguipulli", "country": "Chile", "position": "VP Sales", "body_size": "XL" }, { "id": 3, "gender": "Male", "first_name": "Stephen", "last_name": "Ramos", "age": 46, "email": "sramos2@japanpost.jp", "company_Name": "Miboo", "salary": "$4.13", "city": "Brudzew", "country": "Poland", "position": "Health Coach II", "body_size": "XL" }, { "id": 4, "gender": "Female", "first_name": "Laura", "last_name": "Hernandez", "age": 13, "email": "lhernandez3@ocn.ne.jp", "company_Name": "Jabbercube", "salary": "$2.17", "city": "Satsumasendai", "country": "Japan", "position": "Chief Design Engineer", "body_size": "2XL" }, { "id": 5, "gender": "Male", "first_name": "Johnny", "last_name": "Ross", "age": 9, "email": "jross4@slideshare.net", "company_Name": "Shufflebeat", "salary": "$2.96", "city": "Dobrošte", "country": "Macedonia", "position": "Programmer Analyst II", "body_size": "XS" }, { "id": 6, "gender": "Male", "first_name": "Clarence", "last_name": "Watkins", "age": 27, "email": "cwatkins5@eepurl.com", "company_Name": "Zoombox", "salary": "$8.98", "city": "Gancheng", "country": "China", "position": "Assistant Professor", "body_size": "M" }, { "id": 7, "gender": "Female", "first_name": "Judy", "last_name": "Spencer", "age": 42, "email": "jspencer6@hc360.com", "company_Name": "Roomm", "salary": "$8.50", "city": "Spárti", "country": "Greece", "position": "Web Developer I", "body_size": "M" }, { "id": 8, "gender": "Female", "first_name": "Joan", "last_name": "Shaw", "age": 30, "email": "jshaw7@blinklist.com", "company_Name": "Nlounge", "salary": "$7.29", "city": "San Nicolas", "country": "Philippines", "position": "Human Resources Assistant III", "body_size": "3XL" }, { "id": 9, "gender": "Female", "first_name": "Bonnie", "last_name": "Lopez", "age": 19, "email": "blopez8@globo.com", "company_Name": "Livefish", "salary": "$5.81", "city": "Ust’-Kut", "country": "Russia", "position": "Analyst Programmer", "body_size": "L" }, { "id": 10, "gender": "Male", "first_name": "Brian", "last_name": "Robinson", "age": 19, "email": "brobinson9@telegraph.co.uk", "company_Name": "Oyondu", "salary": "$2.83", "city": "Dolní Dunajovice", "country": "Czech Republic", "position": "Director of Sales", "body_size": "XL" }, { "id": 11, "gender": "Female", "first_name": "Bonnie", "last_name": "Lee", "age": 23, "email": "bleea@blogs.com", "company_Name": "Livepath", "salary": "$2.27", "city": "Akune", "country": "Japan", "position": "Marketing Assistant", "body_size": "3XL" }, { "id": 12, "gender": "Male", "first_name": "Billy", "last_name": "Hanson", "age": 48, "email": "bhansonb@usda.gov", "company_Name": "Skivee", "salary": "$0.80", "city": "Sidowayah Lor", "country": "Indonesia", "position": "Recruiting Manager", "body_size": "S" }, { "id": 13, "gender": "Male", "first_name": "Chris", "last_name": "Harper", "age": 1, "email": "charperc@example.com", "company_Name": "Chatterbridge", "salary": "$7.05", "city": "Tržič", "country": "Slovenia", "position": "Environmental Specialist", "body_size": "M" }, { "id": 14, "gender": "Female", "first_name": "Annie", "last_name": "Banks", "age": 48, "email": "abanksd@ebay.com", "company_Name": "Quatz", "salary": "$3.24", "city": "Awsīm", "country": "Egypt", "position": "Nuclear Power Engineer", "body_size": "3XL" }, { "id": 15, "gender": "Female", "first_name": "Deborah", "last_name": "Gilbert", "age": 36, "email": "dgilberte@sfgate.com", "company_Name": "Eare", "salary": "$3.25", "city": "Thị Trấn Hùng Quốc", "country": "Vietnam", "position": "Administrative Officer", "body_size": "L" }, { "id": 16, "gender": "Male", "first_name": "Arthur", "last_name": "Butler", "age": 28, "email": "abutlerf@miitbeian.gov.cn", "company_Name": "Jaxnation", "salary": "$2.13", "city": "Bradag", "country": "Indonesia", "position": "Junior Executive", "body_size": "XL" }, { "id": 17, "gender": "Male", "first_name": "Douglas", "last_name": "Carroll", "age": 7, "email": "dcarrollg@time.com", "company_Name": "Yakidoo", "salary": "$0.52", "city": "Xuji", "country": "China", "position": "Electrical Engineer", "body_size": "L" }, { "id": 18, "gender": "Male", "first_name": "Harry", "last_name": "Torres", "age": 40, "email": "htorresh@friendfeed.com", "company_Name": "InnoZ", "salary": "$4.22", "city": "Kruhlaye", "country": "Belarus", "position": "Financial Analyst", "body_size": "L" }, { "id": 19, "gender": "Female", "first_name": "Christine", "last_name": "Morris", "age": 15, "email": "cmorrisi@creativecommons.org", "company_Name": "Fliptune", "salary": "$6.55", "city": "Gowarczów", "country": "Poland", "position": "Marketing Assistant", "body_size": "3XL" }, { "id": 20, "gender": "Female", "first_name": "Janice", "last_name": "Mitchell", "age": 11, "email": "jmitchellj@wikipedia.org", "company_Name": "Meetz", "salary": "$8.20", "city": "Tamaulipas", "country": "Mexico", "position": "Sales Associate", "body_size": "XL" }, { "id": 21, "gender": "Female", "first_name": "Beverly", "last_name": "Tucker", "age": 14, "email": "btuckerk@free.fr", "company_Name": "Skipstorm", "salary": "$9.34", "city": "Cabeço", "country": "Portugal", "position": "Senior Editor", "body_size": "M" }, { "id": 22, "gender": "Male", "first_name": "Anthony", "last_name": "Frazier", "age": 39, "email": "afrazierl@theatlantic.com", "company_Name": "Realbridge", "salary": "$4.17", "city": "Balangpule", "country": "Indonesia", "position": "General Manager", "body_size": "L" }, { "id": 23, "gender": "Female", "first_name": "Julie", "last_name": "Parker", "age": 17, "email": "jparkerm@51.la", "company_Name": "Mymm", "salary": "$8.88", "city": "Bryansk", "country": "Russia", "position": "Civil Engineer", "body_size": "2XL" }, { "id": 24, "gender": "Male", "first_name": "Todd", "last_name": "Woods", "age": 29, "email": "twoodsn@sourceforge.net", "company_Name": "Rhybox", "salary": "$0.69", "city": "Hongmei", "country": "China", "position": "General Manager", "body_size": "M" }, { "id": 25, "gender": "Female", "first_name": "Brenda", "last_name": "Perry", "age": 11, "email": "bperryo@free.fr", "company_Name": "Shuffletag", "salary": "$4.82", "city": "Dongmaku", "country": "China", "position": "Developer III", "body_size": "S" }, { "id": 26, "gender": "Male", "first_name": "Daniel", "last_name": "Mccoy", "age": 34, "email": "dmccoyp@miitbeian.gov.cn", "company_Name": "Centimia", "salary": "$8.24", "city": "Almaguer North", "country": "Philippines", "position": "Business Systems Development Analyst", "body_size": "M" }, { "id": 27, "gender": "Female", "first_name": "Rose", "last_name": "Peters", "age": 1, "email": "rpetersq@independent.co.uk", "company_Name": "Brightdog", "salary": "$6.37", "city": "Stockholm", "country": "Sweden", "position": "VP Sales", "body_size": "M" }, { "id": 28, "gender": "Male", "first_name": "Clarence", "last_name": "Perez", "age": 42, "email": "cperezr@marketwatch.com", "company_Name": "Kanoodle", "salary": "$7.25", "city": "Vitali", "country": "Philippines", "position": "Budget/Accounting Analyst III", "body_size": "2XL" }, { "id": 29, "gender": "Male", "first_name": "Charles", "last_name": "Gray", "age": 17, "email": "cgrays@sciencedirect.com", "company_Name": "Youbridge", "salary": "$8.84", "city": "Purut", "country": "Indonesia", "position": "Environmental Specialist", "body_size": "XL" }, { "id": 30, "gender": "Female", "first_name": "Frances", "last_name": "Robinson", "age": 38, "email": "frobinsont@shareasale.com", "company_Name": "Avaveo", "salary": "$0.50", "city": "Mandal", "country": "Mongolia", "position": "Pharmacist", "body_size": "2XL" }, { "id": 31, "gender": "Female", "first_name": "Janice", "last_name": "Gilbert", "age": 54, "email": "jgilbertu@dyndns.org", "company_Name": "Vinte", "salary": "$9.22", "city": "Moneghetti", "country": "Monaco", "position": "Community Outreach Specialist", "body_size": "S" }, { "id": 32, "gender": "Female", "first_name": "Jessica", "last_name": "Perkins", "age": 31, "email": "jperkinsv@vkontakte.ru", "company_Name": "Thoughtstorm", "salary": "$9.13", "city": "Dębnica Kaszubska", "country": "Poland", "position": "Operator", "body_size": "XS" }, { "id": 33, "gender": "Male", "first_name": "Albert", "last_name": "Sims", "age": 35, "email": "asimsw@cnbc.com", "company_Name": "Eayo", "salary": "$3.93", "city": "Bull Savanna", "country": "Jamaica", "position": "VP Accounting", "body_size": "3XL" }, { "id": 34, "gender": "Male", "first_name": "Ronald", "last_name": "Adams", "age": 9, "email": "radamsx@ucoz.com", "company_Name": "Feedfish", "salary": "$7.83", "city": "Muting", "country": "Indonesia", "position": "VP Marketing", "body_size": "L" }, { "id": 35, "gender": "Male", "first_name": "Timothy", "last_name": "Welch", "age": 22, "email": "twelchy@tiny.cc", "company_Name": "Eamia", "salary": "$5.18", "city": "Jēkabpils", "country": "Latvia", "position": "Payment Adjustment Coordinator", "body_size": "L" }, { "id": 36, "gender": "Male", "first_name": "Kenneth", "last_name": "Harrison", "age": 19, "email": "kharrisonz@theatlantic.com", "company_Name": "Photospace", "salary": "$2.68", "city": "Bacalan", "country": "Philippines", "position": "Financial Analyst", "body_size": "XL" }, { "id": 37, "gender": "Male", "first_name": "George", "last_name": "Ross", "age": 34, "email": "gross10@4shared.com", "company_Name": "Vipe", "salary": "$1.22", "city": "Tianzhen", "country": "China", "position": "Systems Administrator III", "body_size": "XL" }, { "id": 38, "gender": "Female", "first_name": "Catherine", "last_name": "Anderson", "age": 38, "email": "canderson11@w3.org", "company_Name": "Topiclounge", "salary": "$8.86", "city": "Lokolande", "country": "Indonesia", "position": "Mechanical Systems Engineer", "body_size": "M" }, { "id": 39, "gender": "Male", "first_name": "Brandon", "last_name": "Gutierrez", "age": 4, "email": "bgutierrez12@qq.com", "company_Name": "Fivechat", "salary": "$4.70", "city": "Uychi", "country": "Uzbekistan", "position": "Dental Hygienist", "body_size": "XS" }, { "id": 40, "gender": "Male", "first_name": "Samuel", "last_name": "Ramirez", "age": 2, "email": "sramirez13@house.gov", "company_Name": "Edgeclub", "salary": "$8.02", "city": "Karpokhórion", "country": "Greece", "position": "Tax Accountant", "body_size": "XL" }, { "id": 41, "gender": "Male", "first_name": "Timothy", "last_name": "Hayes", "age": 55, "email": "thayes14@purevolume.com", "company_Name": "Quire", "salary": "$6.33", "city": "Talalayivka", "country": "Ukraine", "position": "Programmer I", "body_size": "3XL" }, { "id": 42, "gender": "Male", "first_name": "Arthur", "last_name": "Russell", "age": 9, "email": "arussell15@sohu.com", "company_Name": "Viva", "salary": "$0.95", "city": "Kiaranonggeng", "country": "Indonesia", "position": "Human Resources Manager", "body_size": "3XL" }, { "id": 43, "gender": "Male", "first_name": "Sean", "last_name": "Anderson", "age": 58, "email": "sanderson16@squarespace.com", "company_Name": "Quire", "salary": "$4.62", "city": "Velasco Ibarra", "country": "Ecuador", "position": "VP Product Management", "body_size": "S" }, { "id": 44, "gender": "Male", "first_name": "Anthony", "last_name": "Ford", "age": 3, "email": "aford17@google.ca", "company_Name": "Wikivu", "salary": "$6.04", "city": "Lubrza", "country": "Poland", "position": "Clinical Specialist", "body_size": "3XL" }, { "id": 45, "gender": "Male", "first_name": "Richard", "last_name": "Gonzales", "age": 17, "email": "rgonzales18@lulu.com", "company_Name": "Chatterpoint", "salary": "$3.02", "city": "Johor Bahru", "country": "Malaysia", "position": "Analog Circuit Design manager", "body_size": "XL" }, { "id": 46, "gender": "Female", "first_name": "Sandra", "last_name": "Harris", "age": 44, "email": "sharris19@google.it", "company_Name": "Kimia", "salary": "$9.07", "city": "Engure", "country": "Latvia", "position": "Speech Pathologist", "body_size": "XL" }, { "id": 47, "gender": "Female", "first_name": "Christine", "last_name": "Mccoy", "age": 44, "email": "cmccoy1a@freewebs.com", "company_Name": "Yodoo", "salary": "$8.14", "city": "Partikan", "country": "Indonesia", "position": "Accounting Assistant III", "body_size": "2XL" }, { "id": 48, "gender": "Female", "first_name": "Anna", "last_name": "Ray", "age": 23, "email": "aray1b@typepad.com", "company_Name": "Twitterbeat", "salary": "$9.97", "city": "Banatski Despotovac", "country": "Serbia", "position": "Biostatistician III", "body_size": "3XL" }, { "id": 49, "gender": "Male", "first_name": "Anthony", "last_name": "Rose", "age": 22, "email": "arose1c@census.gov", "company_Name": "Thoughtmix", "salary": "$4.03", "city": "Oxbow", "country": "Canada", "position": "Health Coach IV", "body_size": "XL" }, { "id": 50, "gender": "Male", "first_name": "Steven", "last_name": "Burke", "age": 25, "email": "sburke1d@epa.gov", "company_Name": "Fanoodle", "salary": "$9.90", "city": "Olo", "country": "Indonesia", "position": "Technical Writer", "body_size": "3XL" }, { "id": 51, "gender": "Male", "first_name": "Richard", "last_name": "Allen", "age": 47, "email": "rallen1e@washingtonpost.com", "company_Name": "Flipopia", "salary": "$1.89", "city": "Mirsíni", "country": "Greece", "position": "Physical Therapy Assistant", "body_size": "XS" }, { "id": 52, "gender": "Female", "first_name": "Beverly", "last_name": "Harris", "age": 32, "email": "bharris1f@mediafire.com", "company_Name": "Gigabox", "salary": "$1.75", "city": "Liuhe", "country": "China", "position": "Account Executive", "body_size": "2XL" }, { "id": 53, "gender": "Female", "first_name": "Marie", "last_name": "Lewis", "age": 30, "email": "mlewis1g@lulu.com", "company_Name": "Linkbuzz", "salary": "$2.97", "city": "Arcachon", "country": "France", "position": "Nurse", "body_size": "XL" }, { "id": 54, "gender": "Male", "first_name": "Henry", "last_name": "Oliver", "age": 9, "email": "holiver1h@smugmug.com", "company_Name": "Agivu", "salary": "$6.35", "city": "Chenggang", "country": "China", "position": "Sales Associate", "body_size": "XS" }, { "id": 55, "gender": "Female", "first_name": "Rachel", "last_name": "Mills", "age": 9, "email": "rmills1i@pagesperso-orange.fr", "company_Name": "Fanoodle", "salary": "$9.21", "city": "Imari", "country": "Japan", "position": "Developer II", "body_size": "L" }, { "id": 56, "gender": "Female", "first_name": "Amy", "last_name": "Simpson", "age": 20, "email": "asimpson1j@cpanel.net", "company_Name": "Rhybox", "salary": "$5.88", "city": "Clonskeagh", "country": "Ireland", "position": "General Manager", "body_size": "L" }, { "id": 57, "gender": "Male", "first_name": "Raymond", "last_name": "Gordon", "age": 17, "email": "rgordon1k@istockphoto.com", "company_Name": "Realpoint", "salary": "$6.52", "city": "Foundiougne", "country": "Senegal", "position": "Structural Analysis Engineer", "body_size": "XL" }, { "id": 58, "gender": "Male", "first_name": "Alan", "last_name": "Wood", "age": 53, "email": "awood1l@smugmug.com", "company_Name": "Zoomdog", "salary": "$2.58", "city": "Patique", "country": "Philippines", "position": "Payment Adjustment Coordinator", "body_size": "XL" }, { "id": 59, "gender": "Female", "first_name": "Louise", "last_name": "Ruiz", "age": 32, "email": "lruiz1m@google.co.uk", "company_Name": "Jabberbean", "salary": "$1.87", "city": "Dve Mogili", "country": "Bulgaria", "position": "Chemical Engineer", "body_size": "XL" }, { "id": 60, "gender": "Male", "first_name": "Gary", "last_name": "Wells", "age": 22, "email": "gwells1n@360.cn", "company_Name": "Einti", "salary": "$5.54", "city": "Zagórów", "country": "Poland", "position": "Budget/Accounting Analyst IV", "body_size": "2XL" }, { "id": 61, "gender": "Male", "first_name": "Walter", "last_name": "Mcdonald", "age": 44, "email": "wmcdonald1o@hubpages.com", "company_Name": "Tagcat", "salary": "$7.82", "city": "Sorang", "country": "Kazakhstan", "position": "Help Desk Technician", "body_size": "2XL" }, { "id": 62, "gender": "Female", "first_name": "Denise", "last_name": "Larson", "age": 1, "email": "dlarson1p@zdnet.com", "company_Name": "Babbleopia", "salary": "$5.77", "city": "Longshan", "country": "China", "position": "Business Systems Development Analyst", "body_size": "L" }, { "id": 63, "gender": "Male", "first_name": "Bobby", "last_name": "Cox", "age": 46, "email": "bcox1q@time.com", "company_Name": "Npath", "salary": "$4.37", "city": "Reutlingen", "country": "Germany", "position": "Analyst Programmer", "body_size": "S" }, { "id": 64, "gender": "Female", "first_name": "Patricia", "last_name": "Robertson", "age": 46, "email": "probertson1r@businesswire.com", "company_Name": "Vidoo", "salary": "$1.09", "city": "Pantaihambawang", "country": "Indonesia", "position": "Database Administrator IV", "body_size": "S" }, { "id": 65, "gender": "Female", "first_name": "Anna", "last_name": "Mills", "age": 34, "email": "amills1s@tmall.com", "company_Name": "Myworks", "salary": "$7.81", "city": "Rudnya", "country": "Russia", "position": "Graphic Designer", "body_size": "M" }, { "id": 66, "gender": "Female", "first_name": "Kathryn", "last_name": "Wright", "age": 32, "email": "kwright1t@over-blog.com", "company_Name": "Kwideo", "salary": "$6.56", "city": "Santa Maria Oliveira", "country": "Portugal", "position": "Financial Advisor", "body_size": "XS" }, { "id": 67, "gender": "Male", "first_name": "Johnny", "last_name": "Ray", "age": 21, "email": "jray1u@bandcamp.com", "company_Name": "Eire", "salary": "$9.83", "city": "Sępólno Krajeńskie", "country": "Poland", "position": "Civil Engineer", "body_size": "S" }, { "id": 68, "gender": "Male", "first_name": "Kenneth", "last_name": "Snyder", "age": 13, "email": "ksnyder1v@blinklist.com", "company_Name": "Mita", "salary": "$9.53", "city": "Sardasht", "country": "Iran", "position": "Recruiter", "body_size": "3XL" }, { "id": 69, "gender": "Female", "first_name": "Diana", "last_name": "Duncan", "age": 57, "email": "dduncan1w@simplemachines.org", "company_Name": "Dabfeed", "salary": "$2.71", "city": "Daireaux", "country": "Argentina", "position": "Environmental Tech", "body_size": "3XL" }, { "id": 70, "gender": "Male", "first_name": "Robert", "last_name": "Riley", "age": 57, "email": "rriley1x@nasa.gov", "company_Name": "Demimbu", "salary": "$3.01", "city": "Ol’gino", "country": "Russia", "position": "Account Executive", "body_size": "2XL" }, { "id": 71, "gender": "Male", "first_name": "Albert", "last_name": "Frazier", "age": 50, "email": "afrazier1y@ask.com", "company_Name": "Realbuzz", "salary": "$2.32", "city": "Elói Mendes", "country": "Brazil", "position": "Physical Therapy Assistant", "body_size": "XL" }, { "id": 72, "gender": "Male", "first_name": "Carl", "last_name": "King", "age": 38, "email": "cking1z@constantcontact.com", "company_Name": "Camido", "salary": "$7.64", "city": "Ţahţā", "country": "Egypt", "position": "Mechanical Systems Engineer", "body_size": "XL" }, { "id": 73, "gender": "Male", "first_name": "Walter", "last_name": "Stephens", "age": 5, "email": "wstephens20@merriam-webster.com", "company_Name": "Digitube", "salary": "$6.56", "city": "Jiuxian", "country": "China", "position": "Administrative Officer", "body_size": "M" }, { "id": 74, "gender": "Female", "first_name": "Janet", "last_name": "Holmes", "age": 14, "email": "jholmes21@webeden.co.uk", "company_Name": "Thoughtmix", "salary": "$3.24", "city": "Shamanka", "country": "Russia", "position": "Environmental Specialist", "body_size": "L" }, { "id": 75, "gender": "Female", "first_name": "Beverly", "last_name": "Taylor", "age": 17, "email": "btaylor22@addthis.com", "company_Name": "Zoozzy", "salary": "$1.69", "city": "Rābigh", "country": "Saudi Arabia", "position": "Quality Engineer", "body_size": "L" }, { "id": 76, "gender": "Male", "first_name": "Walter", "last_name": "Woods", "age": 52, "email": "wwoods23@arstechnica.com", "company_Name": "Feedfire", "salary": "$0.94", "city": "Krzeszów", "country": "Poland", "position": "Senior Quality Engineer", "body_size": "S" }, { "id": 77, "gender": "Female", "first_name": "Janet", "last_name": "Willis", "age": 34, "email": "jwillis24@cisco.com", "company_Name": "Jaxbean", "salary": "$4.56", "city": "Kampunglistrik", "country": "Indonesia", "position": "Pharmacist", "body_size": "2XL" }, { "id": 78, "gender": "Female", "first_name": "Andrea", "last_name": "Parker", "age": 40, "email": "aparker25@mysql.com", "company_Name": "Innotype", "salary": "$4.25", "city": "Wiset Chaichan", "country": "Thailand", "position": "Analyst Programmer", "body_size": "S" }, { "id": 79, "gender": "Female", "first_name": "Sarah", "last_name": "Mendoza", "age": 54, "email": "smendoza26@tmall.com", "company_Name": "Flashspan", "salary": "$4.08", "city": "San Marcos", "country": "El Salvador", "position": "Speech Pathologist", "body_size": "L" }, { "id": 80, "gender": "Female", "first_name": "Laura", "last_name": "White", "age": 21, "email": "lwhite27@moonfruit.com", "company_Name": "Topicblab", "salary": "$9.16", "city": "Dudchany", "country": "Ukraine", "position": "Biostatistician IV", "body_size": "XL" }, { "id": 81, "gender": "Female", "first_name": "Laura", "last_name": "Woods", "age": 32, "email": "lwoods28@slate.com", "company_Name": "Wikido", "salary": "$0.77", "city": "Mi’ersi", "country": "China", "position": "Civil Engineer", "body_size": "M" }, { "id": 82, "gender": "Male", "first_name": "Eric", "last_name": "Edwards", "age": 38, "email": "eedwards29@howstuffworks.com", "company_Name": "Rhynyx", "salary": "$8.51", "city": "Jinggongqiao", "country": "China", "position": "Financial Analyst", "body_size": "2XL" }, { "id": 83, "gender": "Male", "first_name": "Brandon", "last_name": "Warren", "age": 42, "email": "bwarren2a@army.mil", "company_Name": "Demizz", "salary": "$7.71", "city": "Xin’an", "country": "China", "position": "Quality Control Specialist", "body_size": "XL" }, { "id": 84, "gender": "Female", "first_name": "Maria", "last_name": "Fields", "age": 56, "email": "mfields2b@zimbio.com", "company_Name": "Wikibox", "salary": "$5.42", "city": "Kadubadak", "country": "Indonesia", "position": "Media Manager II", "body_size": "L" }, { "id": 85, "gender": "Male", "first_name": "Stephen", "last_name": "Fisher", "age": 19, "email": "sfisher2c@xinhuanet.com", "company_Name": "Yakitri", "salary": "$3.18", "city": "Cikijing", "country": "Indonesia", "position": "Environmental Specialist", "body_size": "S" }, { "id": 86, "gender": "Female", "first_name": "Anne", "last_name": "Romero", "age": 56, "email": "aromero2d@jiathis.com", "company_Name": "Cogidoo", "salary": "$4.11", "city": "Sunja", "country": "Croatia", "position": "Computer Systems Analyst IV", "body_size": "S" }, { "id": 87, "gender": "Male", "first_name": "Frank", "last_name": "Mitchell", "age": 18, "email": "fmitchell2e@wordpress.com", "company_Name": "Fadeo", "salary": "$3.06", "city": "Sambong", "country": "Indonesia", "position": "Quality Control Specialist", "body_size": "S" }, { "id": 88, "gender": "Female", "first_name": "Laura", "last_name": "Foster", "age": 39, "email": "lfoster2f@miibeian.gov.cn", "company_Name": "Kwimbee", "salary": "$6.01", "city": "Qianguo", "country": "China", "position": "Cost Accountant", "body_size": "XL" }, { "id": 89, "gender": "Female", "first_name": "Marilyn", "last_name": "Coleman", "age": 31, "email": "mcoleman2g@indiegogo.com", "company_Name": "Omba", "salary": "$5.70", "city": "Chitagá", "country": "Colombia", "position": "Technical Writer", "body_size": "S" }, { "id": 90, "gender": "Male", "first_name": "Donald", "last_name": "Cruz", "age": 12, "email": "dcruz2h@google.co.jp", "company_Name": "Skyba", "salary": "$2.27", "city": "Orita Eruwa", "country": "Nigeria", "position": "VP Quality Control", "body_size": "M" }, { "id": 91, "gender": "Female", "first_name": "Angela", "last_name": "Owens", "age": 6, "email": "aowens2i@sourceforge.net", "company_Name": "Agivu", "salary": "$6.52", "city": "Malakwal City", "country": "Pakistan", "position": "Electrical Engineer", "body_size": "M" }, { "id": 92, "gender": "Male", "first_name": "Douglas", "last_name": "Hunt", "age": 48, "email": "dhunt2j@un.org", "company_Name": "Kwideo", "salary": "$1.36", "city": "Mataloko", "country": "Indonesia", "position": "Professor", "body_size": "M" }, { "id": 93, "gender": "Female", "first_name": "Christine", "last_name": "Sanchez", "age": 25, "email": "csanchez2k@amazon.co.jp", "company_Name": "Gabspot", "salary": "$0.87", "city": "Sumberbakti", "country": "Indonesia", "position": "Structural Analysis Engineer", "body_size": "3XL" }, { "id": 94, "gender": "Female", "first_name": "Alice", "last_name": "Chapman", "age": 9, "email": "achapman2l@sourceforge.net", "company_Name": "Aibox", "salary": "$5.12", "city": "Dukay", "country": "Philippines", "position": "Health Coach I", "body_size": "M" }, { "id": 95, "gender": "Male", "first_name": "Earl", "last_name": "Cook", "age": 36, "email": "ecook2m@a8.net", "company_Name": "Innojam", "salary": "$2.13", "city": "Dërmënas", "country": "Albania", "position": "Administrative Officer", "body_size": "3XL" }, { "id": 96, "gender": "Male", "first_name": "Shawn", "last_name": "Brooks", "age": 42, "email": "sbrooks2n@discuz.net", "company_Name": "Lazz", "salary": "$6.95", "city": "Kabacan", "country": "Philippines", "position": "Automation Specialist IV", "body_size": "2XL" }, { "id": 97, "gender": "Female", "first_name": "Julie", "last_name": "Little", "age": 58, "email": "jlittle2o@over-blog.com", "company_Name": "Tagchat", "salary": "$4.72", "city": "Nong Kung Si", "country": "Thailand", "position": "Marketing Assistant", "body_size": "2XL" }, { "id": 98, "gender": "Female", "first_name": "Marilyn", "last_name": "Reid", "age": 37, "email": "mreid2p@opera.com", "company_Name": "Zooveo", "salary": "$2.01", "city": "Bagakay", "country": "Philippines", "position": "VP Quality Control", "body_size": "M" }, { "id": 99, "gender": "Male", "first_name": "Johnny", "last_name": "Washington", "age": 6, "email": "jwashington2q@oracle.com", "company_Name": "Skilith", "salary": "$0.36", "city": "Nizhniye Achaluki", "country": "Russia", "position": "Financial Analyst", "body_size": "M" }, { "id": 100, "gender": "Male", "first_name": "David", "last_name": "Gonzalez", "age": 45, "email": "dgonzalez2r@sbwire.com", "company_Name": "Brainbox", "salary": "$0.68", "city": "Chikwawa", "country": "Malawi", "position": "Structural Analysis Engineer", "body_size": "XS" }] */;
+    var paginationDataProvider = document.querySelector('#paginationDataProvider');
+    var grid1DataLength;
+    //for (var i = 0; i < 33; i++) {
+    //    grid1Data.push({
+    //        first_name: "First_" + i,
+    //        last_name: "Last_" + i,
+    //        email: "text@example.com " + (33 - i),
+    //        selected: false
+    //    });
+    //}
+    function searchRecords(key) {
+        var mmfilter = document.querySelector('#' + key);
+        paginationDataProvider.searchConfig = mmfilter.searchConfig;
+        if (mmfilter.validate()) {
+            paginationDataProvider.advanceSearch();
+        }
+    }
+
+
+    paginationDataProvider.addEventListener('pagedata', function pagedataChanged(e) {
+        var grid1 = document.querySelector("#mmTestGrid1");
+        grid1.data = e.detail.pageData;
+    });
+    paginationDataProvider.addEventListener('datachanged', function pagedataChanged(e) {
+        var grid1 = document.querySelector("#mmTestGrid1");
+        grid1.data = e.detail.data;
+    });
+    window.addEventListener("WebComponentsReady", function () {
+        var mmfilter_1 = document.querySelector('#mmfilter_1');
+//        var mmfilter_2 = document.querySelector('#mmfilter_2');
+        paginationDataProvider.data = grid1Data;
+        grid1DataLength = grid1Data.length;
+        mmfilter_1.data = grid1Data;
+//        mmfilter_2.data = grid1Data;
+
+        mmfilter_1.addEventListener('search', function(e){
+            console.log(e);
+
+            paginationDataProvider.searchConfig = e.target.searchConfig;
+            paginationDataProvider.advanceSearch();
+        });
+        mmfilter_2.addEventListener('search', function(e){
+            paginationDataProvider.searchConfig = e.target.searchConfig;
+            paginationDataProvider.advanceSearch();
+        })
+
+
+    });
+    var injectorElement = document.querySelector('strand-injector');
+    injectorElement.attached = function() {
+        var injector = injectorElement.getInjector();
+        console.log('injector', injector);
+        var comparisonFunctions = injector.resolve('comparisonFunctions');
+        console.log(comparisonFunctions);
+        comparisonFunctions.isBetween = {
+            key: 'isBetween',
+            displayName: 'Is Between',
+            func: function (item, config) {
+                var itemValue;
+                if (config.column && config.column == 'ALL') {
+                    itemValue = '';
+                } else {
+                    itemValue = config.column ? item[config.column] : '';
+
+                }
+                if(!isNaN(itemValue)){
+                    if(config.inclusive){
+                        return itemValue >= parseFloat(config.searchValue);
+                    }else{
+                        return itemValue > parseFloat(config.searchValue);
+                    }
+                }else{
+                    return false;
+                }
+            },
+            validate:function(item){
+                debugger;
+                if(item.searchValue && (isNaN(item.searchValue) || !isFinite(item.searchValue)) ){
+                    return 'Search Value should be numeric.';
+                }
+
+            },
+            isBetween:true
+        }
+    }
+</script>
+</body>
+</html>
