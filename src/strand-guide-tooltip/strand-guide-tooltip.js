@@ -16,13 +16,21 @@
 		],
 
 		properties: {
+			disableScroll: {
+				type: Boolean,
+				value: false
+			},
 			auto: {
-				type: Boolean
+				type: Boolean,
+				value: false
 			},
 			direction: {
 				value: 'n'
 			},
 			hidden: {
+				type: Boolean
+			},
+			closeBtn: {
 				type: Boolean
 			},
 			_dismiss: {

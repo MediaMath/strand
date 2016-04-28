@@ -24,7 +24,9 @@
 					<label>{{_dismiss}}</label>
 				</strand-action>
 			</template>
-			<!-- TODO: Close icon! -->
+			<template is="dom-if" if="{{closeBtn}}">
+				<strand-icon type="delete" width="8" height="8" class="close-icon" on-tap="_dismissHandler"></strand-icon>
+			</template>
 			<strand-box class="guide-tooltip-footer" direction="horizontal" align="center" justify="space-between">
 				<div class="left">
 					<template is="dom-if" if="{{_back}}">

@@ -40,7 +40,6 @@
 		},
 
 		_currentStepChanged: function(newVal, oldVal) {
-			console.log('strand-guide-canvas :: _currentStepChanged: ', newVal);
 			if (this.currentStep <= this.data.length-1) {
 				this.updateCanvas();
 			}
@@ -48,6 +47,7 @@
 
 		updateCanvas: function() {
 			if (!this.data) return;
+			
 			// this.clearRect(0, 0, this.$.canvas.width, this.$.canvas.height);
 			var target = this.data[this.currentStep].targetRef;
 			var rect = target.getBoundingClientRect();

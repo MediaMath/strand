@@ -13,26 +13,35 @@
 <link rel="import" href="../shared/behaviors/stackable.html"/>
 <link rel="import" href="../strand-guide-tooltip/strand-guide-tooltip.html"/>
 <link rel="import" href="../strand-guide-canvas/strand-guide-canvas.html"/>
+<link rel="import" href="../strand-localstore/strand-localstore.html"/>
 
 <dom-module id="strand-guide">
 	<link rel="import" type="css" href="strand-guide.css"/>
 	<template>
-		<content select="guide"></content>
+		<div id="guideContent">
+			<content></content>
+		</div>
+		<template is="dom-if" if="{{useLocalStorage}}">
+			<strand-localstore 
+				id="storage"
+				key="{{name}}"
+				value="{{suppressGuide}}"></strand-localstore>
+		</template>
+		<div id="blocker" on-tap="_blockerHandler">
 			<template is="dom-if" if="{{showFocus}}">
-				<div id="blocker">
-					<strand-guide-canvas
-						id="focus"
-						hidden="{{hidden}}"
-						data="{{_tooltipData}}"
-						current-step="{{_currentStep}}"></strand-guide-canvas>
-				</div>
+				<strand-guide-canvas
+					id="focus"
+					hidden="{{hidden}}"
+					data="{{_tooltipData}}"
+					current-step="{{_currentStep}}"></strand-guide-canvas>
 			</template>
+		</div>
 		<strand-guide-tooltip 
 			id="tooltip"
-			auto="{{_auto}}"
 			hidden="{{hidden}}"
 			data="{{_tooltipData}}" 
 			current-step="{{_currentStep}}"
+			close-btn="{{closeBtn}}"
 			on-guide-next="_nextHandler"
 			on-guide-back="_backHandler"
 			on-guide-dismiss="_dismissHandler"></strand-guide-tooltip>

@@ -18,10 +18,24 @@
 		],
 
 		properties: {
+			contentTarget: {
+				type: Object,
+				value: function() { return this.$.guideContent; }
+			},
+			useLocalStorage: {
+				type: Boolean,
+				value: false
+			},
+			name: {
+				type: String
+			},
+			suppressGuide: {
+				type: Boolean
+			},
 			scope: {
 				type: Object,
 				notify: true,
-				value: function() { return document }
+				value: function() { return document; }
 			},
 			stackType:{
 				value: "modal"
@@ -35,9 +49,17 @@
 				type: Boolean,
 				value: true
 			},
-			_auto: {
+			autoDismiss: {
 				type: Boolean,
-				computed: '_computeAuto(showFocus)'
+				value: false
+			},
+			noscroll: {
+				type:Boolean,
+				value:false
+			},
+			closeBtn: {
+				type: Boolean,
+				value: true
 			},
 			_currentStep: {
 				type: Number,
@@ -54,12 +76,11 @@
 			},
 		},
 
+		_previousBodyOverflow: null,
 		_isAttached: false,
 
-		// TODO: this may be more than what is needed here - some combo
-		// of lightDomGettable and DataUtils may be sufficient
 		domObjectChanged: function(domObject) {
-			if (!this.data) {
+			if (!this.data && !this.suppressGuide) {
 				this.data = domObject['guide'];
 			}
 		},
@@ -73,12 +94,15 @@
 		},
 
 		_dataChanged: function(newVal, oldVal) {
-			newVal.forEach(function(item) {
-				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
-				item.targetRef = target;
-			});
+			if (!this.suppressGuide) {
+				// Collect object references for all of the targets
+				newVal.forEach(function(item) {
+					var target = Polymer.dom(this.scope).querySelector('#' + item.target);
+					item.targetRef = target;
+				});
 
-			if (this._isAttached) this._init();
+				if (this._isAttached) this._init();
+			}
 		},
 
 		_init: function() {
@@ -88,30 +112,39 @@
 		},
 
 		show: function() {
-			var tooltip = this.$.tooltip;
+			if (!this.suppressGuide) {
+				this.hidden = false;
+				this.$.tooltip.open();
+				if (this.showFocus) this.$$('#focus').updateCanvas();
 
-			this.hidden = false;
-			if (tooltip.state === tooltip.STATE_CLOSED) tooltip.open();
-			if (this.showFocus) this.$$('#focus').updateCanvas();
+				// strand-modal scroll suppression
+				if(this.noscroll) {
+					this._previousBodyOverflow =  document.body.style.overflow;
+					document.body.style.overflow = "hidden";
+				}
+			}
 		},
 
 		hide: function(e) {
-			var tooltip = this.$.tooltip;
+			if (!this.suppressGuide) {
+				this.hidden = true;
+				this.$.tooltip.close();
 
-			this.hidden = true;
-			if (tooltip.state === tooltip.STATE_OPENED) tooltip.close();
+				if (this.noscroll) {
+					document.body.style.overflow = this._previousBodyOverflow;
+				}
+
+				// If the user has dismissed - suppress via local storage
+				if (this.useLocalStorage) this.suppressGuide = true;
+			}
 		},
 
-		// _tooltipCloseHandler: function(e) {
-		// 	if (!this.showFocus) this._dismissHandler(e);
-		// },
+		_blockerHandler: function(e) {
+			if (this.autoDismiss) this.hide(); 
+		},
 
 		_dismissHandler: function(e) {
 			this.hide();
-
-			// TODO: Local storage(?)
-			// Remember the user saw this and don't display again
-			// Based on id/name given to the strand-guide instance(?)
 		},
 
 		_nextHandler: function(e) {
@@ -131,10 +164,6 @@
 
 			// TODO: Scroll handling(?)
 			// Scroll to the location of the target if it is out of bounds
-		},
-
-		_computeAuto: function(showFocus) {
-			return !showFocus;
 		},
 
 	});

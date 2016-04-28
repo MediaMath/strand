@@ -67,10 +67,10 @@ $bg-color: $color-D12;
 	cursor: pointer;
 	top: 8px;
 	right: 8px;
-	color: $color-A4;
+	color: $color-F0;
 
 	&:hover {
-		color: $color-F0;
+		opacity: 0.5;
 	}
 }
 
