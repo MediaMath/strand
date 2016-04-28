@@ -1,0 +1,76 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+
+<!--<script src="../../bower_components/eventdispatcherjs/src/EventDispatcher.js"> </script>-->
+
+
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/js/eventdispatcher.html"/>
+<link rel="import" href="../shared/behaviors/selectable.html"/>
+<link rel="import" href="../shared/behaviors/searchable.html" />
+<link rel="import" href="../shared/behaviors/pageable-extended.html" />
+
+<!--<link rel="import" href="../shared/behaviors/sortable.html" />-->
+
+<dom-module id="strand-data-provider" >
+	<script>
+		(function (scope) {
+			scope.stranddataprovider = Polymer({
+				is: 'strand-data-provider',
+				ready: function () {
+				    this.parent = this.parentNode;
+				},
+				observers : [
+					'_pageChangedExtended(page)'
+				],
+				_dataChangedExtended: function () {
+					this.fire('datachanged', {data:this.data});
+				},
+				 
+				searchComplete:function (d) {
+					this.data =d;
+				},
+				_getPageData: function () {
+					if (!this.data) {
+						return [];
+					}
+					var start = (this.page) * this.pageSize;
+
+					return this.data.slice(start, start + this.pageSize);
+				},
+				properties: {
+					page:{
+						type:Number,
+						value:0,
+						notify:true,
+						reflectToAttribute: true
+					},
+					pageSize:{
+						type:Number,
+						value:10,
+						notify:true,
+						reflectToAttribute: true
+					},
+					data:{
+						type:Array,
+						value:[],
+						notify: true,
+						observer: '_dataChangedExtended'
+					}
+				},
+				behaviors: [
+					StrandTraits.Searchable,
+                    StrandTraits.PageableExtended
+				]
+			});
+		})(window.Strand = window.Strand || {})
+	</script>
+</dom-module>
