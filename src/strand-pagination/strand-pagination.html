@@ -1,0 +1,48 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../shared/behaviors/resolvable.html" />
+<link rel="import" href="../shared/behaviors/stylable.html" />
+<link rel="import" href="../shared/behaviors/lightdomgettable.html" />
+<link rel="import" href="../shared/behaviors/refable.html" />
+<link rel="import" href="../shared/behaviors/pageable-extended.html" />
+<link rel="import" href="../shared/js/eventdispatcher.html" />
+<link rel="import" href="../strand-button/strand-button.html">
+<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+<link rel="import" href="../shared/behaviors/selectable.html" />
+
+<dom-module id="strand-pagination">
+    <link rel="import" type="css" href="strand-pagination.css"/>
+    <template>
+        <div class="page-btn-ul-wrap">
+            <ul class="strand-pagination">
+                <div class="page-btn-li-wrap">
+                    <li><a on-tap="gotoFirst" class="prvIcon"><<</a></li>
+                    <li><a on-tap="prevPage" class="prvIcon"><</a></li>
+                    <template is="dom-repeat" items="{{pages}}">
+                        <li>
+                            <a href="#" on-tap="pageNumberTap" class$="{{echo_class(item,page,'active')}}">{{item}}</a>
+                        </li>
+                    </template>
+                    <li><a on-tap="nextPage" class="nxtIcon">></a></li>
+                    <li><a on-tap="gotoLast" class="nxtIcon">>></a></li>
+                </div>
+            </ul>
+            <div style="display:none;">
+                <label>Jump To :</label>
+                <!--<strand-dropdown id="jumpTo" placeholder="1" on-changed="pageNumberChange" value="{{pageDisplayValue(page)}}"   >-->
+                    <!--<template is="dom-repeat" items="{{allPages}}">-->
+                        <!--<strand-list-item>{{item}}</strand-list-item>-->
+                    <!--</template>-->
+                <!--</strand-dropdown>-->
+            </div>
+            <div class="clearFix"></div>
+        </div>
+        <content></content>
+    </template>
+    <script src="strand-pagination.js"></script>
+</dom-module>

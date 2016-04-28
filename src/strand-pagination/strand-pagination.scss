@@ -1,0 +1,82 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+:host {
+  position: relative;
+  display: flex;
+
+  .clearFix {
+    clear: both;
+  }
+
+  .prvIcon, .nxtIcon {
+    font-family: cursive;
+  }
+
+  ul {
+    list-style: none;
+    display: inline-block;
+  }
+
+  .page-btn-ul-wrap {
+    text-align: center;
+  }
+
+  .page-btn-li-wrap {
+    margin: 0 10px;
+  }
+
+  .page-btn-li-wrap li {
+    display: inline;
+  }
+
+  .page-btn-li-wrap li a {
+    cursor: pointer;
+    text-decoration: none;
+    float: left;
+    color: #337ab7;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+  }
+
+  .page-btn-li-wrap li a.active,
+  .page-btn-li-wrap li a.active:hover {
+    cursor: default;
+    /*#00bcd4*/
+    background-color: #428bca;
+    border-color: #428bca;
+    color: #fff;
+  }
+
+  .page-btn-li-wrap li a:hover {
+    color: #23527c;
+    background-color: #eee;
+    border-color: #ddd;
+  }
+
+  .page-btn-li-wrap li a.disabled {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+  }
+
+  .page-btn-li-wrap li:first-child > a {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  .page-btn-li-wrap li:last-of-type > a {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+}
