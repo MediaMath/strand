@@ -1,0 +1,148 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+	margin-right: 7px;
+	cursor: pointer;
+	white-space: nowrap;
+	user-select: none;
+
+	.icon {
+		color: inherit;
+	}
+}
+
+:host([disabled]){
+	opacity: 0.5;
+	pointer-events:none;
+}
+
+:host[checked] {
+	.icon {
+		color: inherit;
+	}
+}
+
+@include fit();
+
+:host(:active) .checkbox {
+	border-color: $color-A17;
+	box-shadow: inset 1px 1px 0 $color-A18; 
+	background-image: linear-gradient(to top, $color-A15 0%, $color-A16 100%);
+
+	&.partial,
+	&.selected {
+		border-color: $color-D18;
+		box-shadow: inset 1px 1px 0 $color-D19;
+		background-image: linear-gradient(to top, $color-D16 0%, $color-D17 100%);
+	}
+}
+
+:host(:active) .checkbox-icon {
+	&.selected {
+		.icon {
+			opacity: 0.8;
+		}
+	}
+}
+
+.checkbox {
+	border: 1px solid $color-A13;
+	border-radius: 3px;
+	background-color: $color-A14;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.27);
+	background-image: linear-gradient(to top, $color-A9 0%, $color-F0 100%);
+	width:16px;
+	height: 16px;
+	position: relative;
+	pointer-events: none;
+	display: inline-block;
+	vertical-align: middle;
+
+	.dash,
+	.check {
+		margin: auto;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		color: $color-D0;
+	}
+
+	.dash {
+		width: 8px;
+		height: 8px;
+	}
+
+	.check {
+		width: 10px;
+		height: 10px;
+	}
+
+	&.partial,
+	&.selected {
+		border-color: $color-D13;
+		box-shadow: inset 1px 1px 0 rgba(255,255,255,.2);
+		background-image: linear-gradient(to top, $color-D14 0%, $color-D15 100%);
+	}
+}
+
+.checkbox-icon {
+	overflow: hidden;
+	width:16px;
+	height: 16px;
+	position: relative;
+	pointer-events: none;
+	display: inline-block;
+	vertical-align: middle;
+
+	.icon {
+		opacity: 0.3;
+	}
+
+	&.selected {
+		.icon {
+			opacity: 1.0;
+		}
+	}
+}
+
+.label-holder {
+	background: #00FF00;
+}
+
+:host > ::content label,
+:host > ::content strand-header {
+	margin-left: 7px;
+	display: inline-block;
+	vertical-align: middle;
+	white-space: normal;
+	pointer-events: none;
+}
+
+:host > ::content label {
+	font-family: 'Arimo', sans-serif;
+	@include fontSmoothing();
+	color: $color-A2;
+	font-size: 13px;
+	line-height: 15px;
+	font-weight: 400;
+}
+
+:host ::content strand-header {
+	margin-top: 0;
+	margin-bottom: 0; 
+}

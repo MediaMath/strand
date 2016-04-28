@@ -1,0 +1,105 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* strand-radio.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+	margin-right: 7px;
+
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+:host([disabled]) {
+	opacity: .5;
+	pointer-events:none;
+}
+
+@include fit();
+
+:host([checked]) #radio .active {
+	display: block;
+}
+
+#radio {
+	display: inline-block;
+	vertical-align: middle;
+	box-sizing: border-box;
+	border: 1px solid $color-A6;
+	border-radius:50%;
+	background: $color-F0;
+	box-shadow: inset 1px 1px 2px rgba(0,0,0,0.125);
+	background-image: linear-gradient(to top, $color-F0 0%, $color-A9 100%);
+	width: 16px;
+	height: 16px;
+	position: relative;
+	pointer-events: none;
+
+	.active {
+		box-sizing: border-box;
+		border: 1px solid #7ea5cd;
+		border-radius:50%;
+		background-color: #97caf2;
+		box-shadow: inset 0 0 0 1px rgba(255,255,255,.33);
+		background-image: linear-gradient(to top, $color-D24 0%, $color-D25 100%);
+		width:12px;
+		height:12px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		display: none;
+	}
+}
+
+:host(:active) #radio {
+	box-shadow: inset 1px 1px 2px rgba(0,0,0,.18);
+	background-image: linear-gradient(to bottom, #bfbfbf 0%, #f2f2f2 100%);
+}
+
+:host ::content label {
+	font-family: 'Arimo', sans-serif;
+	@include fontSmoothing();
+	color: $color-A2;
+	font-size: 13px;
+	line-height: 16px;
+	font-weight: 400;
+	margin-left: 7px;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	white-space: normal;
+	pointer-events: none;
+}
+
+// layout modes for radio
+// horizontal
+:host([layout=hgroup-left]),
+:host([layout=hgroup-center]) {
+	margin-right: 20px;
+}
+
+:host([layout=hgroup-right]) {
+	margin-right: 0;
+}
+
+// vertical
+:host([layout=vgroup-top]),
+:host([layout=vgroup-center]) {
+	margin-bottom: 10px;
+}
+
+:host([layout=vgroup-bottom]) {
+	margin-bottom: 0;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="strand-calendar.html">
+		<style type="text/css">
+
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin: 0;
+				padding: 0;
+				background: #eee;
+				font-family: sans-serif;
+				color: #333;
+			}
+
+			strand-calendar[unresolved] {
+				display: none;
+			}
+
+			strand-calendar {
+				margin: 25px;
+			}
+
+			.pair {
+				display: inline-block;
+				margin: none;
+			}
+
+		</style>
+	</head>
+	<body>
+		<strand-calendar id="cal1" unresolved></strand-calendar>
+		<strand-calendar id="cal2" disable-future="true" unresolved></strand-calendar>
+		<strand-calendar id="cal3" disabled unresolved></strand-calendar>
+		<template id="calPair" is="dom-bind">
+			<div>
+				<strand-calendar id="cal4" date="{{leftDate}}" pair-date="{{rightDate}}" class="pair" disable-past="true" unresolved></strand-calendar>
+				<strand-calendar id="cal5" date="{{rightDate}}" pair-date="{{leftDate}}" class="pair" disable-past="true" unresolved></strand-calendar>
+			</div>
+		</template>
+
+		<script>
+			var cal1, cal2, cal3;
+
+			window.addEventListener("WebComponentsReady", function() { 
+				cal1 = document.getElementById("cal1");
+				cal2 = document.getElementById("cal2");
+				cal3 = document.getElementById("cal3");
+
+				cal1.addEventListener('calendar-select', function(e) {
+					console.log('Date selected:');
+					console.log(e);
+				});
+
+				cal2.addEventListener('calendar-select', function(e) {
+					console.log('Date selected:');
+					console.log(e);
+				});
+
+				cal3.addEventListener('calendar-select', function(e) {
+					console.log('Date selected:');
+					console.log(e);
+				});
+
+			});
+		</script>
+	</body>
+</html>

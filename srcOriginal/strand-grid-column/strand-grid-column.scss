@@ -1,0 +1,105 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* strand-grid-column.sass */
+@import "_color";
+@import "_mixins";
+
+:host {
+	display: flex;
+	vertical-align: middle;
+	position: relative;
+	padding: 6px 10px;
+	cursor: default;
+	box-sizing: border-box;
+	background: $color-A16;
+}
+
+:host([sort]) {
+	cursor: pointer;
+}
+
+._mm_container {
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: auto 0;
+	width: 100%;
+
+	&.right {
+		justify-content: flex-end;
+	}
+
+	.left-items {
+		display: flex;
+		align-items: center;
+	}
+}
+
+#label {
+	// TODO: switch this block to the mixin for default font
+	font-family: "Arimo", sans-serif;
+	font-weight: bold;
+	font-size: 11px;
+	line-height: 11px;
+	color: $color-A2;
+	
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#info, #sort {
+	margin-left: 5px;
+	flex-shrink: 0;
+}
+
+#sort {
+	color: $color-A2;
+
+	&.asc {
+		transform: scaleY(1);
+	}
+
+	&.des{
+		transform: scaleY(-1);
+	}
+}
+
+#info {
+	color: $color-A4,
+}
+
+#info[hidden],
+#infoTip[hidden] {
+	display: none;
+}
+
+#grabber {
+	padding: 0px 5px 0px 6px;
+	margin-right: -5px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	cursor: col-resize;
+	z-index: 1;
+
+	&:after {
+		content: "";
+		background: #FFF;
+		width: 1px;
+		border-right: solid 1px #c2c2c2;
+		display: block;
+		height: 100%;
+	}
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+}

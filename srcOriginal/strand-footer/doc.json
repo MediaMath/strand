@@ -1,0 +1,51 @@
+{
+	"name":"strand-footer",
+	"description":"A fully-styled form footer - for use within a form footer or popover component. Capable of displaying variable button set and feedback messages.",
+	"attributes": [
+		{
+			"name":"message",
+			"type":"String",
+			"description":"Sets the feedback message to display, for example - feedback for validation success or failure.",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"type",
+			"type":"String",
+			"description":"The type of inline message styling to be applied.",
+			"optional":true,
+			"default":"info",
+			"options":["error", "warning", "info", "success"]
+		},
+		{
+			"name":"messageVisible",
+			"type":"Boolean",
+			"description":"Sets or returns the visible state of the feedback message.",
+			"optional":true,
+			"default":"false",
+			"attribute": "message-visible"
+		},
+		{
+			"name":"semiTransparent",
+			"type":"Boolean",
+			"description":"Sets the background of the footer to be semi-transparent, for scenarios where the footer overlays scrollable content.",
+			"optional":true,
+			"default":"false",
+			"attribute": "semi-transparent"
+		}
+	],
+	"methods": [
+		{
+			"name":"showMessage",
+			"description":"Shows the feedback message."
+		},
+		{
+			"name":"hideMessage",
+			"description":"Hides the feedback message."
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
+	]
+}

@@ -1,0 +1,61 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* strand-dropdown sass */
+@import "_bourbon";
+@import "_color";
+@import "_button";
+@import "_dropdown";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+:host([disabled]) {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+@include fit();
+
+:host([disabled]) {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+.hidden {
+	display: none;
+}
+
+#itemRecycler {
+	height: 0px;
+}
+
+#itemRecycler[hidden] {
+	display: none;
+}
+
+#container {
+	width: 100%;
+}
+
+#caratIcon {
+	color: $color-A2;
+}
+
+#spinner {
+	position: absolute;
+	padding-right: 6px;
+	overflow: visible;
+	right: 0px;
+	top: 4px;
+	display: block;
+}

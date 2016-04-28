@@ -1,0 +1,82 @@
+{
+	"name":"strand-drawer",
+	"description":"Re-usable drawer component for showing/hiding content.",
+	"attributes": [
+		{
+			"name":"label",
+			"type":"String",
+			"description":"Sets the label text which appears on the drawer's tab button. Setting this value will show the 'tab' style drawer. If not set, and 'inset' style drawer will be displayed.",
+			"default":"none",
+			"optional":true
+		},
+		{
+			"name":"openedLabel",
+			"type":"String",
+			"description":"Sets the label text which appears on the drawer's tab button when drawer is opened. Setting this value will show the 'tab' style drawer. If not set, and 'inset' style drawer will be displayed.",
+			"default":"none",
+			"optional":true,
+			"attribute":"opened-label"
+		},
+		{
+			"name":"closedLabel",
+			"type":"String",
+			"description":"Sets the label text which appears on the drawer's tab button when the drawer is closed. Setting this value will show the 'tab' style drawer. If not set, and 'inset' style drawer will be displayed.",
+			"default":"none",
+			"optional":true,
+			"attribute":"closed-label"
+		},
+		{
+			"name":"openedHeight",
+			"type":"Number",
+			"description":"Sets the pixel height of the drawer, when opened. If not set, the opened height of the drawer will he the measured height of the content contained within.",
+			"default":"*height of contents",
+			"optional":true,
+			"attribute":"opened-height"
+		},
+		{
+			"name":"closedHeight",
+			"type":"Number",
+			"description":"Sets the pixel height of the drawer, when closed. If not set, the closed drawer will be zero pixels tall.",
+			"default":"0",
+			"optional":true,
+			"attribute":"closed-height"
+		},
+		{
+			"name":"forceMeasure",
+			"type":"Boolean",
+			"description":"If set, forces the drawer to measure it's contents every time it is opened. By default, the drawer's initial height is cached (see: openedHeight).",
+			"default":"false",
+			"optional":true,
+			"attribute":"force-measure"
+		},
+		{
+			"name":"expanded",
+			"type":"Boolean",
+			"description":"Sets or returns the expanded state of the drawer. Changing the value will open or close the drawer.",
+			"default":"false",
+			"optional":true
+		}
+	],
+	"methods": [
+		{
+			"name":"open",
+			"description":"Opens the drawer.",
+			"arguments":[]
+		},
+		{
+			"name":"close",
+			"description":"Closes the drawer.",
+			"arguments":[]
+		},
+		{
+			"name":"toggle",
+			"description":"Toggles the state of the drawer.",
+			"arguments":[]
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
+	]
+}

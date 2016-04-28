@@ -1,0 +1,72 @@
+{
+	"name":"strand-dialog",
+	"description":"A wrapper around strand-modal used to quickly create fully styled dialog boxes.",
+	"attributes": [
+		{
+			"name":"type",
+			"type":"String",
+			"description":"Instructs the component to display a specific icon to denote the message type i.e. - 'error' or 'warning'.",
+			"default":"info",
+			"options":["error", "info", "success","warning"],
+			"reflect": true
+		},
+		{
+			"name":"header",
+			"type":"String",
+			"description":"The header text to be displayed in the header of dialog window.",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"width",
+			"type":"int",
+			"description":"Sets the width, in pixels, of the dialog window.",
+			"optional":true,
+			"default":"600"
+		},
+		{
+			"name":"hidden",
+			"type":"string",
+			"description":"Returns the visible state of the dialog window. Can be used in binding scenarios as an alternative to show or hide the dialog.",
+			"optional":true,
+			"default":"true"
+		},
+		{
+			"name":"dismiss",
+			"type":"Boolean",
+			"description":"If set, determines whether or not the dialog can be dismissed without user action (see: actions).",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"noscroll",
+			"type":"Boolean",
+			"description":"If set, will disable page scrolling while the dialog is displayed.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"actions",
+			"type":"Array",
+			"description":"An array of objects representing the actions to be displayed in the footer of the dialog. Each object provided should follow the format { label: String, type: String, callback: Function }. The property 'label' sets the name of the action. The property 'type' ('primary', 'secondary', or 'action') sets the button type. The property 'callback' may take optional arguments for the event object and the strand-dialog node.",
+			"optional":true,
+			"default":"label: 'OK', type: 'secondary', callback: function(e,host) { host.hide(); }",
+			"options":"*for property 'type': primary, secondary, action",
+			"attribute":"N/A"
+		}
+	],
+	"methods": [
+		{
+			"name":"show",
+			"description":"Shows the dialog."
+		},
+		{
+			"name":"hide",
+			"description":"Hides the dialog."
+		}
+	],
+	"behaviors": [ 
+		"resolvable",
+		"refable"
+	]
+}

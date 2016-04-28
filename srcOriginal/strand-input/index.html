@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<link rel="import" href="strand-input.html">
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:33%;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			.col.c4 {
+				width:900px;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+					border-bottom: 1px solid #fff;
+					border-top: 1px solid #ccc;
+					height: 0px;
+					margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			strand-input[unresolved] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="col c1">
+			<p><span class="bold">Input:</span> Default</p>
+			<strand-input id="test" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> with clear</p>
+			<strand-input id="ci" placeholder="Clear" clear="true" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> with search and small</p>
+			<strand-input placeholder="Search" search="true" size="small" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span>  with clear and search and fit to parent</p>
+			<strand-input id="ic" placeholder="Icon and Clear" icon="calendar" clear="true" fitparent unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span>  with clear, search and width</p>
+			<strand-input placeholder="Search and Clear" search="true" clear="true" overflow="visible" width="250"unresolved></strand-input>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		<div class="col c1">
+			<p><span class="bold">Input:</span> value attr set</p>
+			<strand-input value="value" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> validate not empty</p>
+			<strand-input placeholder="empty" validation="empty" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> validate int</p>
+			<strand-input placeholder="int" validation="int|empty|whitespace" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> validate decimal and fit to parent</p>
+			<strand-input placeholder="decimal" validation="decimal" fitparent="true" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> validate not empty spaces</p>
+			<strand-input placeholder="decimal" validation="blank" fitparent="true" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span>  with clear, search, fit to parent, large</p>
+			<strand-input id="searchInput" placeholder="Search, Clear &amp; Fit" search="true" clear="true" size="large" fitparent unresolved></strand-input>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		<div class="col c1">
+			<p><span class="bold">Input:</span> validate email</p>
+			<strand-input placeholder="Email" validation="email" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> validate alpha</p>
+			<strand-input placeholder="Alpha" validation="alpha" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> validate attr empty</p>
+			<strand-input placeholder="" validation="" unresolved></strand-input>
+			<hr/>
+			<p><span class="bold">Input:</span> disabled and fit to parent</p>
+			<strand-input placeholder="" disabled="true" fitparent="" unresolved></strand-input>	
+			<hr/>
+			<p><span class="bold">Input:</span> password and fit to parent</p>
+			<strand-input placeholder="" type="password" fitparent="" unresolved></strand-input>	
+			<hr/>
+		</div>
+		<script>
+			var ci;
+			document.addEventListener("WebComponentsReady", function(e) {
+				ci = document.querySelector("#ci");
+				ci.addEventListener("changed", function(e) {
+					console.log("changed :: e.detail.value: ", e.detail.value);
+				});
+			});
+		</script>
+	</body>
+</html>

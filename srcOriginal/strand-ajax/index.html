@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<style is="custom-style">
+	div {
+		width: 600px;
+		height: 400px;
+		overflow: scroll;
+		display: block;
+		background-color: #ECECEC;
+		border-bottom: 1px dashed #CCC;
+		padding: 15px;
+		margin-bottom: 10px;
+	}
+	</style>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="strand-ajax.html"/>
+		<link rel="import" href="../strand-textarea/strand-textarea.html"/>
+		<link rel="import" href="../strand-input/strand-input.html"/>
+		<link rel="import" href="../strand-button/strand-button.html"/>
+	</head>
+	<body>
+
+	<dom-module id="test-result">
+			<style>
+			:host {
+				display: block;
+			}
+			#log {
+				background-color: #CCC;
+				border-radius: 4px 4px;
+				width: 300px;
+				height: 100px;
+				display: block;
+				overflow-y: scroll;
+			}
+			</style>
+		<template>
+			<strand-ajax id="ajax" url="{{url}}" method="GET" query="{{query}}" auto response="{{response}}" on-data-error="log" on-data-ready="log" on-data-result="log" on-data-progress="log" on-data-abort="log" debug></strand-ajax>
+			<strand-input id="url" value="{{url}}"></strand-input>
+			<strand-input id="query" value="{{query}}"></strand-input>
+			<strand-button id="btn" on-click="update">
+				<label>
+					Go!
+				</label>
+			</strand-button>
+			<span>{{response}}</span>
+			<strand-textarea value="{{result}}"></strand-textarea>
+			<div id="log"></div>
+
+		</template>
+	</dom-module>
+
+	<div><test-result></test-result></div>
+
+	<div>
+		<strand-ajax id="a1" url="http://localhost:8000/ajax" method="GET">
+		</strand-ajax>
+		<strand-button id="b1">
+			<label>GET!</label>
+		</strand-button>
+	</div>
+	<div>
+		<strand-ajax id="a2" url="http://localhost:8000/ajax" method="POST"></strand-ajax>
+		<strand-button id="b2">
+			<label>POST!</label>
+		</strand-button>
+	</div>
+	<div>
+		<strand-ajax id="a3" url="http://localhost:8000/ajax" method="POST"></strand-ajax>
+		<strand-button id="b3">
+			<label>POST JSON!</label>
+		</strand-button>
+	</div>
+	<script>
+	/*jshint esversion: 6 */
+	HTMLImports.whenReady(function(){
+		Polymer({
+			is: 'test-result',
+			properties: {
+				url: {
+					type: String,
+					value: "http://localhost:8000/ajax"
+				},
+				query: {
+					type: String,
+					value: '[{"name":"cake","value":100}]'
+				},
+				response: {
+					type: Object,
+					notify: true,
+					observer:"responseChanged"
+				}
+			},
+
+			log: function(e) {
+				console.log("log",e);
+				this.$.log.innerHTML += "[event] " + e.type + "<br/>";
+			},
+
+			update: function() {
+				this.$.ajax.exec().then(
+					(e) => console.log(e),
+					(e) => console.log(e)
+				);
+			},
+			responseChanged: function(_old, _new) {
+				if (typeof this.resp !== "string") {
+					this.result = JSON.stringify(this.resp);
+				} else {
+					this.result = this.response;
+				}
+			}
+		});
+	});
+
+	window.addEventListener("WebComponentsReady", function(e) {
+		var a1 = document.querySelector("#a1"),
+			b1 = document.querySelector("#b1"),
+			a2 = document.querySelector("#a2"),
+			b2 = document.querySelector("#b2"),
+			a3 = document.querySelector("#a3"),
+			b3 = document.querySelector("#b3");
+
+		b1.addEventListener("click", function(){
+			a1.exec();
+		});
+
+		b2.addEventListener("click", function() {
+			a2.body = {
+				test:"help computer",
+				num:1234,
+				zappo:"kerpow"
+			};
+			a2.exec();
+		});
+
+		b3.addEventListener("click", function() {
+			a3.body = JSON.stringify({
+				test:"help computer",
+				num:1234,
+				zappo:"kerpow"
+			});
+			console.log(a3.body);
+			a3.exec();
+		});
+	});
+	</script>
+	</body>
+</html>

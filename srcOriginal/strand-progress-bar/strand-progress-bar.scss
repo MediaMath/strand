@@ -1,0 +1,50 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	display: block;
+	font-size: inherit;
+	height: auto;
+	width: 100%;
+}
+
+.bar {
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 9999px;
+	box-sizing: border-box;
+	display: block;
+	overflow: hidden;
+	position: relative;
+}
+
+.fill {
+	border-radius: 9999px;
+	display: block;
+	height: 100%;
+	transition: none;
+	transition: width 1500ms ease;
+}
+
+:host([indeterminate]) .fill {
+	animation: candyStripe 2s linear infinite;
+	background-size: 20px 20px;
+	background-repeat: repeat;
+	border-radius: 0;
+}
+
+@keyframes candyStripe {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 20px 0;
+	}
+}

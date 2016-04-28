@@ -1,0 +1,359 @@
+<link rel="import" href="refable.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var _reservations = Object.create(null);
+	var _components = [];
+	var _htmls = [];
+	var _templates = [];
+	var _templateIndexToComponentIndex = [];
+	var uuid = function b(a){return a?
+		(a^Math.random()*16>>a/4).toString(16):
+		([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,b)}; // https://gist.github.com/jed/982883/b64ba1ce6e0d5793473766f55f5422e620e4430e
+
+	function componentFromTemplate (template, mixinFindable) {
+		var templateIndex = -1;
+		var componentIndex = -1;
+		var html = "";
+
+		if (template) {
+			templateIndex = _templates.indexOf(template);
+
+			if (templateIndex < 0) {
+				templateIndex = -1 + _templates.push(template);
+				html = template.innerHTML;
+				componentIndex = _htmls.indexOf(html);
+
+				if (componentIndex < 0) {
+					componentIndex = -1 + _htmls.push(html);
+					_components.push(componentFromHTML(html, componentIndex, mixinFindable, template));
+				}
+
+				_templateIndexToComponentIndex.push(componentIndex);
+			} else {
+				componentIndex = _templateIndexToComponentIndex[templateIndex];
+			}
+		}
+
+		return componentIndex < 0 ? null : _components[componentIndex];
+	}
+
+	function reservedUUID () {
+		var id = "";
+
+		do {
+			id = uuid();
+		} while (_reservations[id]);
+
+		_reservations[id] = 0|true;
+
+		return id;
+	}
+
+	function asArray (value) {
+		return Array.isArray(value) ? value : [ value ];
+	}
+
+	function assignFromObjects () {
+		var target = this;
+		var source = this;
+		var count = arguments.length;
+		var index = 0;
+		var descriptor = null;
+
+		for (index; index < count; index++) {
+			source = arguments[index];
+
+			for (var key in source) {
+				descriptor = retrieveDescriptor.call(target, key);
+				if (descriptor) {
+					Object.defineProperty(target, key, descriptor);
+				} else {
+					target[key] = source[key];
+				}
+			}
+		}
+
+		return target;
+	}
+
+	function retrieveDescriptor (key) {
+		var value = this;
+		var descriptor = null;
+
+		do {
+			descriptor = Object.getOwnPropertyDescriptor(value, key) || null;
+		} while (!descriptor && (value = Object.getPrototypeOf(value)))
+
+		return descriptor;
+	}
+
+	function componentFromHTML (html, index, mixinFindable, lookupValue) {
+		var instanceAmount = 1;
+		var guid = reservedUUID();
+		var is = "strand-gen-comp-n"+index+"-x"+guid.split("-").join("");
+		var field = "__mmgencompn"+index+"x"+guid.slice(0,8);
+		var module = document.createElement("dom-module");
+		var template = document.createElement("template");
+		template.innerHTML = html+'<content id="'+is+'"></content>';
+
+		contentHostifyStylesfromRoot(template.content);
+
+		var fix = 0|false; // for Safari 8
+
+		var originals = !fix ?
+			null : Array.apply(null, template.content.querySelectorAll("template:not([is])"));
+
+		function patch (copy, index) {
+			var orig = this[index];
+
+			if (orig &&
+				orig.innerHTML !== copy.innerHTML) {
+				copy.innerHTML = orig.innerHTML;
+			}
+		}
+
+		module.appendChild(template);
+
+		module.register(is);
+
+
+
+		function contentHostifyStylesfromRoot (root) {
+			var styles = root.querySelectorAll("style:not([is])");
+			var count = styles.length;
+			var index = 0;
+
+			for (index; index < count; index++) {
+				contentHostifyStyleRules(styles[index]);
+			}
+		}
+
+		function contentHostifyStyleRules (style) {
+			var css = Polymer.StyleUtil.rulesForStyle(style);
+			var preserveProperties = 0|true;
+
+			css.rules = css.rules.reduce(function (all, r) {
+				var selector = r.selector;
+				var hostIndex = selector.indexOf(":host");
+				var contentIndex = selector.indexOf("::content");
+
+				if (hostIndex < 0) {
+					r.selector = ":host ::content "+r.selector;
+					all.push(r);
+				} else if (contentIndex > hostIndex) {
+					r.selector = selector.slice(contentIndex + "::content".length);
+					all.push(r);
+				}
+
+				return all;
+			}, []);
+
+			style.textContent += "\n\n"+Polymer.StyleUtil.toCssText(css, null, 0|preserveProperties);
+		}
+
+		function lightDomify () {
+
+			if (this[field]._childNodes) {
+				return;
+			}
+
+			// take all the elements in the shadow dom, and add them to the light dom
+			// (except the terminating <content></content> element)
+			var ele = Polymer.dom(this);
+			var root = Polymer.dom(this.root);
+
+			var content = root.querySelector("content#"+is);
+			var styles = root.querySelectorAll("style:not([is])");
+			var count = styles.length;
+			var index = 0;
+
+			root.appendChild(content);
+
+			for (index; index < count; index++) {
+				root.appendChild(styles[index]);
+			}
+
+			var _childNodes = Array.apply(null, root.childNodes);
+
+			count = _childNodes.length;
+			index = 0;
+
+			for (index; index < count; index++) {
+				if (_childNodes[index] === content) {
+					break;
+				}
+			}
+
+			_childNodes = _childNodes.slice(0, index);
+
+			count = _childNodes.length;
+			index = 0;
+
+			for (index; index < count; index++) {
+				ele.appendChild(_childNodes[index]);
+			}
+
+			this[field]._childNodes = _childNodes;
+		}
+
+
+
+		function correctStyleScoping () {
+			if (Polymer.Settings.useNativeShadow) {
+				return 0|true;
+			}
+
+			if (this[field]._correctedStyleScopes) {
+				return 0|true;
+			}
+
+			// fix for dom-repeat styling in shady-dom
+			var ele = Polymer.dom(this);
+			var root = ele.getOwnerRoot();
+			var host = root && root.host || null;
+
+			if (!host) {
+				host = ele.parentNode;
+
+				if (!host) {
+					return 0|false;
+				}
+
+				Polymer.StyleTransformer.dom(this, host.is);
+			}
+
+			var nodes = ele.querySelectorAll("*");
+			var count = nodes.length;
+			var index = 0;
+
+			for (index; index < count; index++) {
+				Polymer.StyleTransformer.dom(nodes[index], this.is, void 0, true);
+				Polymer.StyleTransformer.dom(nodes[index], host.is);
+			}
+
+			return this[field]._correctedStyleScopes = 0|true;
+		}
+
+
+
+		var archetype = {};
+
+		(function (primaryMixins) {
+			if (primaryMixins) {
+				assignFromObjects.apply(archetype, asArray(primaryMixins));
+			}
+		}(mixinFindable ?
+			mixinFindable.mixinsForValue(lookupValue) ||
+			mixinFindable.mixinsForValuePath(lookupValue, []) : null));
+
+		archetype.is = is;
+		archetype.extends = "div";
+
+		archetype.behaviors = [];
+
+		(function (behaviorMixins) {
+			if (behaviorMixins) {
+				archetype.behaviors.push.apply(archetype.behaviors, asArray(behaviorMixins));
+			}
+		}(mixinFindable && mixinFindable.mixinsForValuePath(lookupValue, ["behaviors"])));
+
+		archetype.behaviors.push(StrandTraits.Refable);
+
+		archetype.properties = {};
+
+		(function (propertyMixins) {
+			if (propertyMixins) {
+				assignFromObjects.apply(archetype.properties, asArray(propertyMixins));
+			}
+		}(mixinFindable && mixinFindable.mixinsForValuePath(lookupValue, ["properties"])));
+
+
+
+		archetype.properties.model = {
+			type: Object,
+			notify: true,
+		};
+		archetype.properties.scope = {
+			type: Object,
+			notify: true,
+		};
+		archetype.properties[field] = {
+			type: Object,
+			readOnly: true,
+			value: function () {
+				var value = {};
+				value._childNodes = null;
+				value._correctedStyleScopes = 0|false;
+				return value;
+			},
+		};
+
+		archetype.instanceTemplate = function (template) {
+			var dom = CustomElements.useNative ?
+				document.importNode(template.content, true) :
+				document.adoptNode(template.content.cloneNode(true));
+
+			// the above does not work in Safari 8 without the following fix applied
+			if (originals) {
+				Array.apply(null, dom.querySelectorAll("template:not([is])")).forEach(patch, originals);
+			}
+
+			return dom;
+		};
+
+		archetype.attached = function () {
+			if (this.preferLightDom) {
+				lightDomify.call(this);
+			}
+
+			if (this[field]._childNodes) {
+				this.async(correctStyleScoping, 0);
+			}
+		};
+
+		archetype.ready = function () {
+			if (this.preferLightDom) {
+				lightDomify.call(this);
+			}
+		};
+
+		archetype.useLightDom = function () {
+			this.preferLightDom = true;
+			lightDomify.call(this);
+			this.async(correctStyleScoping, 0);
+		};
+
+
+
+		return Polymer(archetype);
+	}
+
+
+
+	scope.TemplateComponentizable = {
+
+		instantiateTemplate: function (template, useLightDom, mixinFindable) {
+			var findable = mixinFindable ? mixinFindable.mixinFindable : null;
+			var Type = template && componentFromTemplate(template, findable) || null;
+			var instance = Type ? new Type : null;
+
+			if (useLightDom) {
+				if (instance) {
+					instance.useLightDom();
+				}
+			}
+
+			return instance;
+		},
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

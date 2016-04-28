@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand.html">
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			body /deep/ .col,
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				/*font-size: 0;*/
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:300px;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			body /deep/ .col.c4,
+			.col.c4 {
+				width:50%;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			body /deep/ p,
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+					border-bottom: 1px solid #fff;
+					border-top: 1px solid #ccc;
+					height: 0px;
+					margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			strand-tabs[unresolved] {
+				display: none;
+			}
+		</style>
+  </head>
+  <body>
+  	<div style="padding-right: 20px;">
+		<strand-tabs tab-bar-offset="4" id="tabSection" tab-bar-position="left" unresolved>
+			<strand-tab id="ext" tab-label="External URL with tabs" icon="apps" template-uri="tab-content.html"></strand-tab>
+			<strand-tab tab-label="Content in Light DOM" icon="pixels">
+				<div class="col c4">
+					<p>The ostensible reason why Ahab did not go on board of the whaler we had spoken was this: the wind and sea betokened storms. But even had this not been the case, he would not after all, perhaps, have boarded her&mdash;judging by his subsequent conduct on similar occasions&mdash;if so it had been that, by the process of hailing, he had obtained a negative answer to the question he put. For, as it eventually turned out, he cared not to consort, even for five minutes, with any stranger captain, except he could contribute some of that information he so absorbingly sought. But all this might remain inadequately estimated, were not something said here of the peculiar usages of whaling-vessels when meeting each other in foreign seas, and especially on a common cruising-ground.</p>
+				</div>
+			</strand-tab>
+			<strand-tab id="loadedTemplate" tab-label="Loaded template" template-uri="tab-content-alt.html"></strand-tab>
+			<strand-tab id="jsLoadedTemplate" tab-label="Loaded template via JS" active></strand-tab>
+			<strand-tab id="gridTest" tab-label="LightDOM grid">
+				<strand-grid id="mmTestGrid1" selectable expandable style="width: 100%; height: 300px;" data="{{data}}">
+					<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
+					<strand-grid-column width="20%" field="id" sort resize>Id</strand-grid-column>
+					<strand-grid-column width="20%" field="advertiser" sort resize>Advertiser</strand-grid-column>
+					<strand-grid-column width="20%" field="concept" sort resize>Concept</strand-grid-column>
+					<strand-grid-column width="10%" field="type" resize>Type</strand-grid-column>
+					<strand-grid-column width="10%" field="actions"></strand-grid-column>
+					<template preserve-content>
+						<strand-grid-item model="{{model}}" scope="{{scope}}">
+							<div field="actions">
+								<strand-icon width="15" height="15" type="actions" ref="{{iconRef}}"></strand-icon>
+								<strand-tooltip model="{{model}}" target="{{iconRef}}">
+									<label>I'm a tooltip for Creative - <span>{{model.name}}</span></label>
+								</strand-tooltip>
+							</div>
+							<div field="name">
+								Creative - <span>{{model.name}}</span>
+							</div>
+							<div class="expansion">
+								<div class="expansion-row">
+									<div class="expansion-col">
+										<h4>Expanded Content</h4>
+										<span>{{model.name}}</span>
+									</div>
+									<div class="expansion-col">
+										<h4>Expanded Advertiser</h4>
+										<span>{{model.advertiser}}</span>
+									</div>
+									<div class="expansion-col">
+										<h4>Expanded Concept</h4>
+										<span>{{model.concept}}</span>
+									</div>
+								</div>
+								<div class="expansion-row">
+									<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
+								</div>
+							</div>
+						</strand-grid-item>
+					</template>
+				</strand-grid>
+			</strand-tab>
+		</strand-tabs>
+	</div>
+
+	<script>
+
+		document.addEventListener('WebComponentsReady', function() {
+			var grid1 = document.querySelector("#mmTestGrid1"),
+				grid1Data = [];
+
+			for(var i=0; i<33; i++) {
+				grid1Data.push({
+					id: i,
+					name: Math.random().toString(36).substring(7),
+					content: "Content",
+					advertiser: "Advertiser No. " + i,
+					concept: "Concept No. " + i,
+					type: "swf",
+					file: "Creative_File_" + i + ".swf",
+					selected: false,
+					expanded: false,
+					subdata: [{
+						id: 0,
+						name: Math.random().toString(36).substring(7),
+						advertiser: "Advertiser No. " + 0,
+						concept: "Concept No. " + 0,
+					}, {
+						id: 1,
+						name: Math.random().toString(36).substring(7),
+						advertiser: "Advertiser No. " + 1,
+						concept: "Concept No. " + 1,
+					}],
+				});
+			}
+
+			grid1.data = grid1Data;
+
+			document.querySelector("#ext").promise.then(function (instance) {
+				Polymer.dom(instance).querySelector("#loadedTemplate").promise.then(function (dataHost) {
+					dataHost.set("data", grid1Data);
+				})
+			});
+
+			document.querySelector("#loadedTemplate").promise.then(function (instance) {
+				instance.data = grid1Data;
+			});
+
+			document.querySelector('#jsLoadedTemplate').loadExternal('tab-content-alt.html', function(dataHost) {
+				var grid2Data = [];
+
+				for(var i=0; i<33; i++) {
+					grid2Data.push({
+						id: i,
+						name: Math.random().toString(36).substring(7),
+						content: "Content",
+						advertiser: "Advertiser No. " + i,
+						concept: "Concept No. " + i,
+						type: "swf",
+						file: "Creative_File_" + i + ".swf",
+						selected: false,
+						expanded: false,
+						subdata: [{
+							id: 0,
+							name: Math.random().toString(36).substring(7),
+							advertiser: "Advertiser No. " + 0,
+							concept: "Concept No. " + 0,
+						}, {
+							id: 1,
+							name: Math.random().toString(36).substring(7),
+							advertiser: "Advertiser No. " + 1,
+							concept: "Concept No. " + 1,
+						}],
+					});
+				}
+
+				dataHost.set("data",grid2Data);
+			});
+		});
+
+	</script>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+{
+	"name":"strand-dropdown",
+	"description":"A fully-styled dropdown list containing multiple options.",
+	"attributes": [
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		},
+		{
+			"name":"error",
+			"type":"Boolean",
+			"description":"When set, will display an invalid visual state - a red line around the dropdown button. This property can be used to provide user feedback for validation.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"fitparent",
+			"type":"Boolean",
+			"description":"When set, instructs the component to fill the width of its parent container.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"placeholder",
+			"type":"String",
+			"description":"Sets the default text which appears on the dropdown button.",
+			"optional":true,
+			"default":"Select"
+		},
+		{
+			"name":"maxItems",
+			"type":"Number",
+			"description":"Limits the number of list items displayed in the dropdown panel, allowing the list to scroll vertically if necessary.",
+			"optional":true,
+			"default":"*if data driven: 10, otherwise: none",
+			"attribute":"max-items"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"description":"Sets or returns the value of the currently selected item.",
+			"default":"none"
+		},
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The data which populates the dropdown panel list, expressed as an array of objects with key value pairs i.e. - [ { name: 'name', value: 'value' }, {...} ]. If a data array is provided to strand-dropdown, it will ONLY be populated by the provided data, as it does not support mixing dom and data configuration.",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"itemHeight",
+			"type":"Number",
+			"description":"Returns the height of a single item in the dropdown panel list.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly":true
+		},
+		{
+			"name":"buttonWidth",
+			"type":"Number",
+			"description":"Returns the width of the dropdown button.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly": true
+		},
+		{
+			"name":"paddingWidth",
+			"type":"Number",
+			"description":"Returns the cumulative width of the padding of the dropdown button i.e. - paddingLeft + paddingRight.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly": true
+		},
+		{
+			"name":"borderWidth",
+			"type":"Number",
+			"description":"Returns the cumulative width of the border of the dropdown button i.e. - borderLeft + borderRight.",
+			"default":"none",
+			"attribute": "N/A",
+			"readOnly": true
+		},
+		{
+			"name":"size",
+			"type":"String",
+			"description":"Instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large').",
+			"optional":true,
+			"default":"none",
+			"options":["normal","large", "small"],
+			"reflect":true
+		},
+		{
+			"name":"skinless",
+			"type":"String",
+			"description":"Instructs the component to be displayed without a background or border.",
+			"optional":true,
+			"default":"none",
+			"reflect":true
+		}
+	],
+	"methods": [
+		{
+			"name":"reset",
+			"description":"Resets the dropdown to it's default state."
+		},
+		{
+			"name":"requestInitialization",
+			"description":"Under especially unusual circumstances, the dropdown may not initialize (nor render) properly.  This method can be invoked to correct any such issue.  Generally, developers should never need to call this method - however, it should be idempotent (and thus safe to call multiple times successively).",
+			"arguments":[]
+		}
+	],
+	"events": [
+		{
+			"type": "changed",
+			"detail": [
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value of the selected strand-list-item. If no value was supplied, it will return the text content of the list item."
+				}
+			]
+		},
+		{
+			"type": "selected",
+			"detail": [
+				{
+					"name":"item",
+					"type":"Object",
+					"description":"The data object which was selected."
+				},
+				{
+					"name":"index",
+					"type":"Number",
+					"description":"The index of data object which was selected."
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value property of data object which was selected."
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"description":"The name property of data object which was selected."
+				},
+				{
+					"name":"selected",
+					"type":"Boolean",
+					"description":"The selected state of the item."
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"stylable",
+		"keyselectable",
+		"stackable",
+		"jqueryable",
+		"closable",
+		"autoclosable",
+		"autotogglable",
+		"windownotifier",
+		"positionable",
+		"positionable-panel",
+		"positionable-dropdown",
+		"refable"
+	],
+	"articles": ["grid_custom_grid_item"]
+}

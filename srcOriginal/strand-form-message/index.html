@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<!-- <link rel="import" href="../../build/strand.html" /> -->
+	<link rel="import" href="strand-form-message.html" />
+	<style type="text/css">
+		body, html {
+			height: 100%;
+			min-height: 100%;
+		}
+
+		body {  
+			margin:0;
+			padding:0;
+			background: #eee;
+		}
+
+		.col {
+			box-sizing: border-box;
+			padding: 10px 0 0 10px; 
+ 		}
+
+		strand-form-message[unresolved] {
+			display: none;
+		}
+	</style>
+  </head>
+  <body>
+
+	<strand-form-message id="testFormMessage" type="success" unresolved></strand-form-message>
+
+	<script>
+		window.addEventListener('WebComponentsReady', function(e) {
+			var testFormMessage = document.querySelector('#testFormMessage');
+			testFormMessage.message = "Boy do I love cool stuff like this!";
+		});
+	</script>
+
+  </body>
+</html>

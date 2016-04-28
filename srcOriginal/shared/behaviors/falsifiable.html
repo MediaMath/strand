@@ -1,0 +1,27 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+	scope.Falsifiable = {
+		deserialize: function(value, type) {
+			switch(type) {
+				case Boolean:
+					if (value === "") return true;
+					try {
+						return JSON.parse(value);
+					} catch(e) {
+						console.warn('falsifiable: couldn`t decode Boolean');
+						return value;
+					}
+					break;
+				default:
+					return Polymer.Base.deserialize(value,type);
+			}
+		}
+	};
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

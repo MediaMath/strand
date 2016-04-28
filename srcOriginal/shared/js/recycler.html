@@ -1,0 +1,1268 @@
+<!--
+@license
+Copyright (c) 2015 MediaMath Inc. All rights reserved.
+This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+-->
+<link rel="import" href="snake.html"/>
+<link rel="import" href="continuum.html"/>
+<script language="javascript">
+(function (scope) {
+
+	function Fence (position, size, above, below) {
+		this._placement = 0;
+		this._dimension = 0;
+
+		this._paddingAbove = 0;
+		this._paddingBelow = 0;
+
+		this._orientation = 0;
+
+		this.reposition(+position || 0);
+		this.resize(+size || 0);
+		this.repad(+above || 0, +below || 0);
+	}
+
+	Fence.prototype.isReversed = function () {
+		return 0|!!this._orientation;
+	};
+
+	Fence.prototype.flipOrientation = function () {
+		var size = this._paddingAbove;
+		this._paddingAbove = this._paddingBelow;
+		this._paddingBelow = size;
+
+		return this._orientation = 0|!this._orientation;
+	};
+
+	Fence.prototype.getAbove = function () {
+		return this._paddingAbove;
+	};
+
+	Fence.prototype.getBelow = function () {
+		return this._paddingBelow;
+	};
+
+	Fence.prototype.getPlacement = function () {
+		return this._placement;
+	};
+
+	Fence.prototype.getDimension = function () {
+		return this._dimension;
+	};
+
+	Fence.prototype.getLower = function () {
+		return this._placement - this._paddingBelow;
+	};
+
+	Fence.prototype.getUpper = function () {
+		return this._placement + this._dimension + this._paddingAbove;
+	};
+
+	Fence.prototype.reposition = function (position) {
+		return this.translate((+position || 0) - (+this._placement || 0));
+	};
+
+	Fence.prototype.translate = function (change) {
+		var delta = +change || 0;
+
+		if (delta) {
+			this._placement = (+this._placement || 0) + delta;
+			if (delta < 0 ^ this._orientation) {
+				this.flipOrientation();
+			}
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+	Fence.prototype.resize = function (size) {
+		var value = +size || 0;
+		if (this._dimension !== value) {
+			this._dimension = value;
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+	Fence.prototype.adjust = function (grow) {
+		return this.resize((+this._dimension || 0) + (+grow || 0));
+	};
+
+	Fence.prototype.repad = function (ahead, behind) {
+		return 0|this._orientation ? this._insolate(behind, ahead) : this._insolate(ahead, behind);
+	};
+
+	Fence.prototype._insolate = function (above, below) {
+
+		var header = (+above || 0);
+		var footer = (+below || 0);
+		var delta = 0;
+
+		switch (arguments.length) {
+			default:
+			case 2: 
+				delta = delta || this._paddingBelow !== footer;
+				this._paddingBelow = footer;
+			case 1:
+				delta = delta || this._paddingAbove !== header;
+				this._paddingAbove = header;
+			case 0:
+		}
+
+		return 0|!!delta;
+	};
+
+
+
+	function Placeholder (inner, outer) {
+		this._innerIndex = 0|inner;
+		this._outerIndex = 0|outer;
+	}
+
+	Placeholder.prototype.getInnerIndex = function () {
+		return this._innerIndex;
+	};
+
+	Placeholder.prototype.getOuterIndex = function () {
+		return this._outerIndex;
+	};
+
+	Placeholder.prototype.setOuterIndex = function (index) {
+		var old = this._outerIndex;
+		this._outerIndex = 0|index;
+		return old;
+	};
+
+	Placeholder.prototype.deltaOuterIndex = function (amount) {
+		return this.setOuterIndex(this._outerIndex + (0|amount)); // spliceIn
+	};
+
+
+
+	function ContinuumInterface (continuum, firstUnavailableIndexGetter, indexChangeListener) {
+		var listenerIsFunction = typeof indexChangeListener === "function";
+		var getterIsFunction = typeof firstUnavailableIndexGetter === "function";
+
+		this._continuum = continuum || null;
+
+		this._getFirstUnavailableIndex = null;
+		this._getFirstUnavailableIndex = getterIsFunction ? firstUnavailableIndexGetter : function (ideal) {
+			return -1;
+		};
+
+		this._notifyIndex = null;
+		this._notifyIndex = listenerIsFunction ? indexChangeListener : function (inner, young, old, recycler) {
+
+		};
+	}
+
+	ContinuumInterface.prototype.notify = function (inner, young, old, recycler) {
+		this._notifyIndex.call(recycler, inner, young, old, recycler);
+	};
+
+	ContinuumInterface.prototype.getContinuum = function () {
+		return this._continuum;
+	};
+
+	ContinuumInterface.prototype.trim = function (index) {
+		return this._continuum.terminate(index);
+	};
+
+	ContinuumInterface.prototype.getIndexAtElevation = function (elevation, recycler, ceiling) {
+		var continuum = this._continuum;
+		var count = 0|continuum.getDiscreteCount();
+		var position = +continuum.getElevation(count) || 0;
+
+		if (elevation > position) {
+			return this._getUnknownIndexAtElevation(elevation, continuum, count, recycler, ceiling);
+		} else {
+			return this._getKnownIndexAtElevation(elevation, continuum, count, 0, ceiling);
+		}
+	};
+
+	ContinuumInterface.prototype._getKnownIndexAtElevation = function (elevation, continuum, count, start, ceiling) {
+		var position = 0;
+		var index = 0;
+		var lower = start;
+		var upper = count;
+		var limit = count;
+
+		for (limit; limit; limit--) {
+			index = (lower + upper) >> 1;
+			position = +continuum.getElevation(index) || 0;
+			if (elevation < position) {
+				upper = index;
+			} else if (index > lower) {
+				lower = index;
+			} else if (ceiling && elevation === position) {
+				return index - 1;
+			} else {
+				return index;
+			}
+		}
+
+		return -1;
+	};
+
+	ContinuumInterface.prototype._getUnknownIndexAtElevation = function (elevation, continuum, count, recycler, ceiling) {
+		var position = 0;
+		var delta = 1;
+		var limit = count;
+		var lower = limit;
+		var upper = lower;
+
+		do {
+			lower = upper;
+			upper += delta;
+			limit = 0|this._getFirstUnavailableIndex.call(null, upper, lower + 1, recycler);
+
+			if (limit > -1 &&
+				upper > limit) {
+				upper = limit;
+				if (upper > lower) {
+					delta = 1;
+				} else {
+					upper = lower;
+					delta = 0;
+					break;
+				}
+			} else {
+				delta = (delta << 1) >>> 0;
+			}
+
+			position = +continuum.getElevation(upper) || 0;
+
+			if (elevation > position) {
+				continue;
+			}
+
+			break;
+		} while (delta)
+
+		if (delta) {
+			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, ceiling);
+		} else {
+			return -1;
+		}
+	};
+
+	ContinuumInterface.prototype.getDiscreteCount = function () {
+		var continuum = this.getContinuum();
+		return continuum.getDiscreteCount.apply(continuum, arguments);
+	};
+
+	ContinuumInterface.prototype.adjustHeight = function (index, delta) {
+		var continuum = this.getContinuum();
+		return continuum.adjustHeight.apply(continuum, arguments);
+	};
+
+	ContinuumInterface.prototype.setHeight = function (index, height) {
+		var continuum = this.getContinuum();
+		return continuum.setHeight.apply(continuum, arguments);
+	};
+
+	ContinuumInterface.prototype.getHeight = function (index) {
+		var continuum = this.getContinuum();
+		return continuum.getHeight.apply(continuum, arguments);
+
+	};
+
+	ContinuumInterface.prototype.getElevation = function (index) {
+		var continuum = this.getContinuum();
+		return continuum.getElevation.apply(continuum, arguments);
+
+	};
+
+	ContinuumInterface.prototype.isElevationKnown = function (index) {
+		var continuum = this.getContinuum();
+		return continuum.isElevationKnown.apply(continuum, arguments);
+
+	};
+
+	ContinuumInterface.prototype.isHeightKnown = function (index) {
+		var continuum = this.getContinuum();
+		return continuum.isHeightKnown.apply(continuum, arguments);
+	};
+
+	ContinuumInterface.prototype.addHeights = function (index, amount, initializations) {
+		var continuum = this.getContinuum();
+		return continuum.addHeights.apply(continuum, arguments);
+	};
+
+	ContinuumInterface.prototype.removeHeights = function (index, amount) {
+		var continuum = this.getContinuum();
+		return continuum.removeHeights.apply(continuum, arguments);
+	};
+
+	ContinuumInterface.prototype.calculateOverflow = function (index, amount) {
+		var continuum = this.getContinuum();
+		return continuum.calculateOverflow.apply(continuum, arguments);
+	};
+
+
+
+	var NumberList = Snake.prototype.implementationFactory();
+
+	var IndexRangeList = Snake.prototype.implementationFactory();
+
+	function IndexRange (index, range) {
+		this._index = 0|index;
+		this._range = 0|range;
+	}
+
+	IndexRange.prototype.getIndex = function () {
+		return this._index;
+	};
+
+	IndexRange.prototype.getRange = function () {
+		return this._range;
+	};
+
+	IndexRange.prototype.setRange = function (range) {
+		this._range = 0|range;
+	};
+
+	IndexRange.prototype.contains = function (index) {
+		var value = 0|index;
+		return 0|(value < this._index + this._range && value > this._index - 1);
+	};
+
+	IndexRange.prototype.begin = function (index) {
+		var value = 0|index;
+
+		if (this.contains(value)) {
+			return 0|true;
+		} else if (value === this._index - 1) {
+			this._index--;
+			this._range++;
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+	IndexRange.prototype.end = function (index) {
+		var value = 0|index;
+
+		if (this.contains(value)) {
+			return 0|true;
+		} else if (value === this._index + this._range) {
+			this._range++;
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+
+
+	function makeIndexRange(index, range) {
+		return new IndexRange(index, range);
+	}
+
+	function Ledger () {
+		this._handled = IndexRangeList.prototype.provide();
+		this._handled.addHead().body = makeIndexRange(0, 0);
+	}
+
+	Ledger.prototype.untrackAll = function () {
+		this._handled = IndexRangeList.prototype.provide();
+		this._handled.addHead().body = makeIndexRange(0, 0);
+	};
+
+	Ledger.prototype.track = function (young) {
+		var handled = this._handled,
+			before = this._greatestNotOverHandled(young, handled),
+			after = before ? before.getTail(0) : handled.getHead(0);
+
+		if (before && before.body.end(young)) {
+			if (after && after.body.begin(young)) {
+				before.body.setRange(after.body.getRange() + after.body.getIndex() - before.body.getIndex());
+				after.dropAnyway(1);
+			}
+		} else if (!after || !after.body.begin(young)) {
+			if (before) {
+				before.addTail().body = makeIndexRange(young, 1);
+			} else {
+				handled.addHead().body = makeIndexRange(young, 1);
+			}
+		}
+	};
+
+	Ledger.prototype._greatestNotOverHandled = function (young, handled) {
+		var iterator = handled.getHead(0),
+			indexRange = iterator.body,
+			start = indexRange.getIndex(),
+			limit = indexRange.getRange() + start,
+			result = null;
+
+		while (limit < young) {
+			result = iterator;
+			iterator = iterator.getTail(0);
+			if (!iterator) {
+				break;
+			}
+			indexRange = iterator.body;
+			start = indexRange.getIndex();
+			limit = indexRange.getRange() + start;
+		}
+
+		return result;
+	};
+
+	Ledger.prototype.wasTracked = function (index) {
+		var value = 0|index,
+			iterator = this._greatestNotOverHandled(value, this._handled);
+		return 0|(iterator && iterator.body.contains(value));
+	};
+
+
+
+	function makePlaceholder(inner, outer) {
+		return new Placeholder(inner, outer);
+	}
+
+	function Solver () {
+		var placeholder = makePlaceholder(0, -1);
+
+		this._placeholders = null;
+		this._placeholders = new Snake(null, null);
+		this._placeholders.addHead().body = placeholder;
+
+		this._available = NumberList.prototype.provide();
+	}
+
+	Solver.prototype.solve = function (destructive, iface, lower, upper, alpha, omega, recycler) {
+		var placeholders = this._placeholders;
+		var available = this._available;
+		var currentCount = 1 + omega - alpha;
+
+		var deltaLower = lower - alpha;
+		var deltaUpper = upper - omega;
+		var deltaCount = deltaUpper - deltaLower;
+		var deltaShift = 0;
+
+		if (!destructive &&
+			deltaCount < 0) {
+			deltaShift = deltaCount;
+			deltaCount = 0;
+		}
+
+		if (deltaLower > 0) {
+			if (deltaUpper > 0) {
+				if (deltaCount > 0) {
+					if (currentCount > deltaLower) {
+						this._windUp(iface, placeholders, deltaLower, recycler);
+					} else if (currentCount) {
+						this._jump(iface, placeholders, lower, currentCount, recycler);
+					}
+
+					this._pushUp(iface, placeholders, deltaCount, available, recycler);
+				} else {
+					if (deltaCount < 0) {
+						this._cutUp(iface, placeholders, -deltaCount, available, recycler);
+
+						currentCount += deltaCount;
+					}
+
+					if (currentCount > deltaUpper) {
+						this._windUp(iface, placeholders, deltaUpper, recycler);
+					} else if (currentCount) {
+						this._jump(iface, placeholders, lower + deltaShift, currentCount, recycler);
+					}
+				}
+			} else if (deltaCount < 0) {
+				this._cutUp(iface, placeholders, deltaUpper, available, recycler);
+				this._cutDown(iface, placeholders, -deltaLower, available, recycler);
+			}
+		} else {
+			if (deltaUpper < 0) {
+				if (deltaCount > 0) {
+					if (currentCount > -deltaUpper) {
+						this._windDown(iface, placeholders, -deltaUpper, recycler);
+					} else if (currentCount) {
+						this._jump(iface, placeholders, lower, currentCount, recycler);
+					}
+
+					this._pushDown(iface, placeholders, deltaCount, available, recycler);
+				} else {
+					if (deltaCount < 0) {
+						this._cutDown(iface, placeholders, -deltaCount, available, recycler);
+
+						currentCount += deltaCount;
+					}
+
+					if (currentCount > -deltaLower) {
+						this._windDown(iface, placeholders, -deltaLower, recycler);
+					} else if (currentCount) {
+						this._jump(iface, placeholders, lower, currentCount, recycler);
+					}
+				}
+			} else if (deltaCount > 0) {
+				this._pushUp(iface, placeholders, deltaUpper, available, recycler);
+				this._pushDown(iface, placeholders, -deltaLower, available, recycler);
+			}
+		}
+	};
+
+	Solver.prototype._claimAvailable = function (placeholders, available) {
+		var any = available.getTail();
+
+		if (any) {
+			any.dropAnyway(1);
+			return any.body;
+		} else {
+			return placeholders.getCount();
+		}
+	};
+
+	Solver.prototype._abandonAvailable = function (index, available) {
+		available.addTail().body = index;
+	};
+
+	Solver.prototype._cutUp = function (iface, placeholders, amount, available, recycler) {
+		var count = 0|amount;
+		var index = 0;
+		var snake = placeholders.getHead(0);
+		var p = snake.body;
+
+		while (count-- > 0) {
+			p = snake.body;
+			index = p.getInnerIndex();
+			snake = snake.dropTailwise(1);
+			this._abandonAvailable(index, available);
+			iface.notify(index, -1, p.getOuterIndex(), recycler);
+		}
+	};
+
+	Solver.prototype._cutDown = function (iface, placeholders, amount, available, recycler) {
+		var count = 0|amount;
+		var index = 0;
+		var snake = placeholders.getTail();
+		var p = snake.body;
+
+		while (count-- > 0) {
+			p = snake.body;
+			index = p.getInnerIndex();
+			snake = snake.dropHeadwise(1);
+			this._abandonAvailable(index, available);
+			iface.notify(index, -1, p.getOuterIndex(), recycler);
+		}
+	};
+
+	Solver.prototype._pushUp = function (iface, placeholders, amount, available, recycler) {
+		var snake = placeholders.getTail();
+		var young = snake ? snake.body.getOuterIndex() : -1;
+		var index = 0;
+		var count = 0|amount;
+
+		while (count-- > 0) {
+			index = this._claimAvailable(placeholders, available);
+			placeholders.addTail().body = makePlaceholder(index, ++young);
+			iface.notify(index, young, -1, recycler);
+		}
+	};
+
+	Solver.prototype._pushDown = function (iface, placeholders, amount, available, recycler) {
+		var snake = placeholders.getHead(0);
+		var young = snake ? snake.body.getOuterIndex() : -1;
+		var index = 0;
+		var count = 0|amount;
+
+		while (count-- > 0) {
+			index = this._claimAvailable(placeholders, available);
+			placeholders.addHead().body = makePlaceholder(index, --young);
+			iface.notify(index, young, -1, recycler);
+		}
+	};
+
+	Solver.prototype._windUp = function (iface, placeholders, moves, recycler) {
+		var p = null;
+		var snake = placeholders.getHead(0);
+		var temp = placeholders.getTail();
+		var old = 0;
+		var young = temp.body.getOuterIndex();
+		var count = 0|moves;
+
+		while (count-- > 0) {
+			p = snake.body;
+			old = p.getOuterIndex();
+			p.setOuterIndex(++young);
+			temp = snake.dropTailwise(1);
+			placeholders.addTail(snake);
+			snake = temp;
+			iface.notify(p.getInnerIndex(), young, old, recycler);
+		}
+	};
+
+	Solver.prototype._windDown = function (iface, placeholders, moves, recycler) {
+		var p = null;
+		var snake = placeholders.getTail();
+		var temp = placeholders.getHead(0);
+		var old = 0;
+		var young = temp.body.getOuterIndex();
+		var count = 0|moves;
+
+		while (count-- > 0) {
+			p = snake.body;
+			old = p.getOuterIndex();
+			p.setOuterIndex(--young);
+			temp = snake.dropHeadwise(1);
+			placeholders.addHead(snake);
+			snake = temp;
+			iface.notify(p.getInnerIndex(), young, old, recycler);
+		}
+	};
+
+	Solver.prototype._jump = function (iface, placeholders, index, moves, recycler) {
+		var snake = placeholders.getHead(0);
+		var p = snake.body;
+		var old = p.getOuterIndex();
+		var young = 0|index;
+		var count = 0|moves;
+
+		p.setOuterIndex(index);
+		snake.dropTailwise(1);
+		placeholders.addTail(snake);
+		iface.notify(p.getInnerIndex(), young, old, recycler);
+
+		this._windUp(iface, placeholders, count - 1, recycler);
+	};
+
+	Solver.prototype.getLowestIndex = function () {
+		var snake = this._placeholders.getHead(0);
+		return snake ? snake.body.getOuterIndex() : -1;
+	};
+
+	Solver.prototype.getHighestIndex = function () {
+		var snake = this._placeholders.getTail();
+		return snake ? snake.body.getOuterIndex() : -2;
+	};
+
+	Solver.prototype._snakeWithOuterGreaterThanOrEqualToIndex = function (outer) {
+		var at = 0|outer,
+			snake = this._placeholders.getHead(0);
+
+		while (snake && at > snake.body.getOuterIndex()) {
+			snake = snake.getTail();
+		}
+
+		return snake;
+	};
+
+	Solver.prototype.propagateHeightChangeAtIndex = function (outer, iface, recycler) {
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(0|outer);
+			unchanged = 0;
+
+		while (snake) {
+			unchanged = snake.body.getOuterIndex();
+			iface.notify(snake.body.getInnerIndex(), unchanged, unchanged, recycler);
+			snake = snake.getTail();
+		}
+	};
+
+	Solver.prototype.spliceOut = function (outer, iface, recycler) {
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
+			inner = 0,
+			index = (0|this._placeholders.getCount()) - 1;
+
+		if (snake &&
+			snake.body.getOuterIndex() === outer) {
+			inner = snake.body.getInnerIndex();
+			snake = snake.dropTailwise(1);
+			this._abandonAvailable(inner, this._available);
+
+			if (snake !== this._placeholders) {
+				while (snake) {
+					index--;
+					snake.body.deltaOuterIndex(-1);
+					snake = snake.getTail();
+				}
+			}
+
+			iface.notify(-1 - inner, -1 - index, outer, recycler);
+		} else {
+			// throw new Error("could not find spliced-out outer index === "+outer);
+		}
+	};
+
+	Solver.prototype.spliceIn = function (outer, iface, recycler) {
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
+			inner = 0,
+			index = 0|this._placeholders.getCount();
+
+		if (snake &&
+			snake.body.getOuterIndex() === outer) {
+			inner = this._claimAvailable(this._placeholders, this._available);
+			snake.addHead().body = makePlaceholder(inner, outer);
+
+			while (snake) {
+				index--;
+				snake.body.deltaOuterIndex(1);
+				snake = snake.getTail();
+			}
+
+			iface.notify(-1 - inner, outer, -1 - index, recycler);
+		} else {
+			// throw new Error("could not find spliced-in outer index === "+outer);
+		}
+	};
+
+
+
+	function Transactor (iface, fence, solver, recycler) {
+		this._index = -1;
+		this._height = 0;
+		this._delta = 0;
+		this._spliced = 0|false;
+		this._continuumInterface = null;
+		this._continuumInterface = iface;
+		this._fence = null;
+		this._fence = fence;
+		this._solver = null;
+		this._solver = solver;
+		this._recycler = null;
+		this._recycler = recycler;
+	}
+
+	Transactor.prototype.getHeight = function () {
+		return this._height;
+	};
+
+	Transactor.prototype.setHeight = function (height) {
+		this._height = height;
+	};
+
+	Transactor.prototype.getDelta = function () {
+		return this._delta;
+	};
+
+	Transactor.prototype.setDelta = function (delta) {
+		this._delta = delta;
+	};
+
+	Transactor.prototype.getCandidate = function () {
+		return this._index;
+	};
+
+	Transactor.prototype._resetCandidate = function () {
+		this._index = -1;
+	};
+
+	Transactor.prototype._considerCandidate = function (index, delta) {
+		if (delta) {
+			if (this._index < 0 ||
+				this._index > index) {
+				this._index = index;
+			}
+		}
+	};
+
+	Transactor.prototype._splicing = function (spliced) {
+		var wasSpliced = 0|this._spliced;
+		this._spliced = 0|spliced;
+		return wasSpliced;
+	};
+
+	Transactor.prototype.addHeightsAtIndex = function (index, amount, initializations) {
+		var iface = this._continuumInterface;
+		var count = (0|amount);
+		var delta = iface.addHeights.apply(iface, arguments);
+		var place = 0;
+		if (count) {
+			this._splicing(0|true);
+			for (place; place < amount; place++) {
+				this._solver.spliceIn(index + place, iface, this._recycler);
+			}
+		}
+		this._considerCandidate(0|index, delta);
+	};
+
+	Transactor.prototype.removeHeightsAtIndex = function (index, amount) {
+		var iface = this._continuumInterface;
+		var count = (0|amount) - iface.calculateOverflow(index, amount);
+		var delta = iface.removeHeights.apply(iface, arguments);
+		var place = amount;
+		if (count) {
+			this._splicing(0|true);
+			for (place; place-- > 0 ; ) {
+				this._solver.spliceOut(index + place, iface, this._recycler);
+			}
+		}
+		this._considerCandidate(0|index, delta);
+	};
+
+	Transactor.prototype.assignHeightAtIndex = function (index, height) {
+		var iface = this._continuumInterface;
+		var delta = iface.setHeight.apply(iface, arguments);
+		this.setHeight(+height || 0);
+		this.setDelta(+delta || 0);
+		this._considerCandidate(0|index, +delta || 0);
+	};
+
+	Transactor.prototype.adjustHeightAtIndex = function (index, delta) {
+		var iface = this._continuumInterface;
+		var height = iface.adjustHeight.apply(iface, arguments);
+		this.setHeight(+height || 0);
+		this.setDelta(+delta || 0);
+		this._considerCandidate(0|index, +delta || 0);
+	};
+
+	Transactor.prototype.repositionFrame = function (position) {
+		this._fence.reposition.apply(this._fence, arguments);
+	};
+
+	Transactor.prototype.translateFrame = function (change) {
+		this._fence.translate.apply(this._fence, arguments);
+	};
+
+	Transactor.prototype.resizeFrame = function (size) {
+		this._fence.resize.apply(this._fence, arguments);
+	};
+
+	Transactor.prototype.adjustFrame = function (grow) {
+		this._fence.adjust.apply(this._fence, arguments);
+	};
+
+	Transactor.prototype.repadFrame = function (ahead, behind) {
+		this._fence.repad.apply(this._fence, arguments);
+	};
+
+	Transactor.prototype.setFrame = function (position, size, above, below) {
+		this.repositionFrame(position);
+		this.resizeFrame(size);
+		this.repadFrame(above, below);
+	};
+
+
+
+
+
+	var NONDESTRUCTIVE = 0;
+	var DESTRUCTIVE = 1 << 0;
+
+	function provideContinuum (initialHeightGetter) {
+		return new Continuum(initialHeightGetter);
+	}
+
+	function Recycler (initialHeightGetter, firstUnavailableIndexGetter, indexChangeListener, continuumProvider) {
+		var providerIsFunction = typeof continuumProvider === "function";
+
+		var recycler = this;
+
+		var continuum = (providerIsFunction ? continuumProvider : provideContinuum)(function (index, contin) {
+				return initialHeightGetter.call(recycler, index, recycler);
+			});
+
+		this._fence = new Fence(0, 0, 0, 0);
+
+		this._continuumInterface = null;
+		this._continuumInterface = new ContinuumInterface(continuum, firstUnavailableIndexGetter, indexChangeListener);
+
+		this._solver = new Solver();
+
+		this._transactor = new Transactor(this._continuumInterface, this._fence, this._solver, this);
+
+		this._process();
+	}
+
+	Recycler.prototype.cull = function () {
+		this._process(DESTRUCTIVE);
+	};
+
+	Recycler.prototype.truncate = function (capacity) {
+		var iface = this._continuumInterface;
+		var amount = 0|iface.getDiscreteCount();
+		var limit = 0|capacity;
+		var index = 0;
+		var clamp = 0|(amount > limit);
+		var ceiling = true;
+
+		if (!arguments.length || limit < 0) {
+			limit = 1 + iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|ceiling);
+			clamp = 0|(amount > limit);
+		}
+
+		if (clamp) {
+			this._migrate(limit);
+			iface.trim(limit);
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	};
+
+	Recycler.prototype._migrate = function (limit) {
+		var fence = this._fence;
+		var iface = this._continuumInterface;
+		var alpha = this.getLowestIndex();
+		var omega = this.getHighestIndex();
+		var inUse = 1 + omega;
+		var count = inUse - alpha;
+		var lower = limit - count;
+		var upper = lower - 1;
+		var solver = this._solver;
+		var size = 0;
+		var above = 0;
+		var below = 0;
+		var space = 0;
+
+		if (lower < 0) {
+			lower = 0;
+			upper = limit - 1;
+			if (limit) {
+				space = iface.getElevation(limit);
+				above = fence.getAbove();
+				space -= above;
+				if (space < 0) {
+					above += space;
+					space = 0;
+				} else {
+					below = fence.getBelow();
+					space -= below;
+					if (space < 0) {
+						below += space;
+						space = 0;
+					} else {
+						size = space;
+					}
+				}
+			}
+			fence.reposition(0);
+			fence.resize(size);
+			fence.repad(above, below);
+		} else if (inUse > limit) {
+			upper = count - 1;
+			fence.reposition(iface.getElevation(lower) + fence.getBelow());
+		} else {
+			return 0|false;
+		}
+
+		solver.solve(DESTRUCTIVE, iface, lower, upper, alpha, omega, this);
+		return 0|true;
+	};
+
+	Recycler.prototype.getLowestIndex = function () {
+		return this._solver.getLowestIndex();
+	};
+
+	Recycler.prototype.getHighestIndex = function () {
+		return this._solver.getHighestIndex();
+	};
+
+	Recycler.prototype.transactHeightMutations = function (transaction, extra, context, params) {
+		var transactor = this._transactor;
+		var index = -1;
+		var spliced = 0|false;
+
+		transactor._resetCandidate();
+
+		transaction.apply(transactor, arguments);
+
+		index = transactor.getCandidate();
+
+		if (index > -1) {
+			spliced = 0|transactor._splicing(0|false);
+
+			this._solver.propagateHeightChangeAtIndex(index, this._continuumInterface, this);
+
+			this._process(spliced ? DESTRUCTIVE : NONDESTRUCTIVE);
+		}
+	};
+
+	function _recyclerAdjustHeightAtIndex (fn, index, delta) {
+		var transactor = this;
+		transactor.adjustHeightAtIndex(index, delta);
+	}
+
+	Recycler.prototype.adjustHeightAtIndex = function (index, delta) {
+		this.transactHeightMutations(_recyclerAdjustHeightAtIndex, index, delta);
+		return this._transactor.getHeight();
+	};
+
+	function _recyclerAssignHeightAtIndex (fn, index, height) {
+		var transactor = this;
+		transactor.assignHeightAtIndex(index, height);
+	}
+
+	Recycler.prototype.setHeightAtIndex = function (index, height) {
+		this.transactHeightMutations(_recyclerAssignHeightAtIndex, index, height);
+		return this._transactor.getDelta();
+	};
+
+	Recycler.prototype.getHeightAtIndex = function (index) {
+		return this._continuumInterface.getHeight.apply(this._continuumInterface, arguments);
+
+	};
+
+	Recycler.prototype.getElevationAtIndex = function (index) {
+		return this._continuumInterface.getElevation.apply(this._continuumInterface, arguments);
+
+	};
+
+	Recycler.prototype.isElevationKnownAtIndex = function (index) {
+		return this._continuumInterface.isElevationKnown.apply(this._continuumInterface, arguments);
+
+	};
+
+	Recycler.prototype.isHeightKnownAtIndex = function (index) {
+		return this._continuumInterface.isHeightKnown.apply(this._continuumInterface, arguments);
+	};
+
+	Recycler.prototype.getConcreteCount = function () {
+		return this._continuumInterface.getDiscreteCount();
+	};
+
+	Recycler.prototype.getFramePlacement = function () {
+		return this._fence.getPlacement()
+	};
+
+	Recycler.prototype.getFrameDimension = function () {
+		return this._fence.getDimension();
+	};
+
+	Recycler.prototype.getFrameLowerBound = function () {
+		return this._fence.getLower();
+	};
+
+	Recycler.prototype.getFrameUpperBound = function () {
+		return this._fence.getUpper();
+	};
+
+	Recycler.prototype.repositionFrame = function (position) {
+		if (this._fence.reposition.apply(this._fence, arguments)) {
+			this._process(NONDESTRUCTIVE);
+		}
+		return this;
+	};
+
+	Recycler.prototype.translateFrame = function (change) {
+		if (this._fence.translate.apply(this._fence, arguments)) {
+			this._process(NONDESTRUCTIVE);
+		}
+		return this;
+	};
+
+	Recycler.prototype.resizeFrame = function (size) {
+		if (this._fence.resize.apply(this._fence, arguments)) {
+			this._process(NONDESTRUCTIVE);
+		}
+		return this;
+	};
+
+	Recycler.prototype.adjustFrame = function (grow) {
+		if (this._fence.adjust.apply(this._fence, arguments)) {
+			this._process(NONDESTRUCTIVE);
+		}
+		return this;
+	};
+
+	Recycler.prototype.repadFrame = function (ahead, behind) {
+		if (this._fence.repad.apply(this._fence, arguments)) {
+			this._process(NONDESTRUCTIVE);
+		}
+		return this;
+	};
+
+	Recycler.prototype.setFrame = function (position, size, above, below) {
+		var fence = this._fence;
+		var process = 0;
+
+		process = fence.reposition(position) || process;
+		process = fence.resize(size) || process;
+		process = fence.repad(above, below) || process;
+
+		if (process) {
+			this._process(NONDESTRUCTIVE);
+		}
+
+		return this;
+	};
+
+	Recycler.prototype._process = function (destructive) {
+		var fence = this._fence;
+		var iface = this._continuumInterface;
+		var less = +fence.getLower() || 0;
+		var more = +fence.getUpper() || 0;
+		var ceiling = true;
+		var lower = 0|iface.getIndexAtElevation(less, this, 0|!ceiling);
+		var upper = 0|iface.getIndexAtElevation(more, this, 0|ceiling);
+		var alpha = this.getLowestIndex();
+		var omega = this.getHighestIndex();
+		var solver = this._solver;
+		var span = 0;
+
+
+		if (lower < 0 &&
+			upper < 0) {
+			span = iface.getElevation(iface.getDiscreteCount());
+
+			if (less > span) {
+				less -= (more - span);
+				more = span;
+				span = -1;
+			} else if (more < 0) {
+				more -= less;
+				less = 0;
+				span = -1;
+			}
+
+			if (span < 0) {
+				lower = 0|iface.getIndexAtElevation(less, this, 0|!ceiling);
+				upper = 0|iface.getIndexAtElevation(more, this, 0|ceiling);
+			}
+		}
+
+		if (lower < 0) {
+			lower = 0;
+		}
+
+		if (upper < 0) {
+			upper = -1 + (0|iface.getDiscreteCount());
+		}
+
+		return solver.solve(destructive, iface, lower, upper, alpha, omega, this);
+	};
+
+
+
+	function _clusterSwapOut (clustered2sparse, sparse2clustered, previous, clustered, active) {
+		var swap = 0;
+		var young = -1;
+
+		previous[clustered] = previous[active];
+		previous[active] = young;
+
+		swap = clustered2sparse[clustered];
+		clustered2sparse[clustered] = clustered2sparse[active];
+		clustered2sparse[active] = swap;
+
+		swap = sparse2clustered[clustered2sparse[clustered]];
+		sparse2clustered[clustered2sparse[clustered]] = sparse2clustered[clustered2sparse[active]];
+		sparse2clustered[clustered2sparse[active]] = swap;
+	}
+
+	function _clusterSpliceIn (clustered2sparse, sparse2clustered, previous, active, id, young) {
+		var sparse = -1 - id;
+		var clustered = -1;
+		var limit = young - 1;
+
+		for (clustered = 0; clustered < active; clustered++) {
+			if (previous[clustered] > limit) {
+				previous[clustered]++;
+			}
+		}
+
+		clustered = active;
+		clustered2sparse[clustered] = sparse;
+		sparse2clustered[sparse] = clustered;
+		previous[clustered] = young;
+
+		return clustered;
+	}
+
+	function _clusterSpliceOut (clustered2sparse, sparse2clustered, previous, active, id, old) {
+		var clustered = -1;
+		var index = 0;
+		var limit = old - 1;
+
+		for (index; index < active; index++) {
+			if (previous[index] > limit) {
+				if (old === previous[index]--) {
+					clustered = index;
+				}
+			}
+		}
+
+		_clusterSwapOut(clustered2sparse, sparse2clustered, previous, clustered, active - 1);
+
+		return clustered;
+	}
+
+	function _clusterHandler (clustered2sparse, sparse2clustered, previous, active, id, young, old) {
+		var sparse = 0|id;
+		var clustered = active;
+		var count = sparse2clustered.length;
+
+		if (old < 0) {
+			while (count < sparse) {
+				sparse2clustered[count++] = -1;
+			}
+			sparse2clustered[sparse] = clustered;
+			clustered2sparse[clustered] = sparse;
+		} else {
+			clustered = sparse2clustered[sparse];
+			if (young < 0) {
+				if (clustered !== active - 1) {
+					_clusterSwapOut(clustered2sparse, sparse2clustered, previous, clustered, active - 1);
+					return clustered;
+					return -1 - clustered;
+				}
+			}
+		}
+
+		previous[clustered] = young;
+		return clustered;
+	}
+
+	function ClusteredRecycler (heightGetter, unavailableIndexGetter, changeListener, continuumProvider) {
+		var clustered2sparse = []; // sparse values indexed by clustered values
+		var sparse2clustered = []; // clustered values indexed by sparse values
+		var previous = []; // stores the contiguous "old" position that should be passed to the handler
+		var active = 0; // the number of contiguous indices in use
+
+		Recycler.call(this, heightGetter, unavailableIndexGetter, function (id, young, old, recycler) {
+			var spliced = 0|(0|id < 0);
+			var clustered = -1;
+
+			if (spliced) {
+				if (old < 0) {
+					clustered = _clusterSpliceIn(clustered2sparse, sparse2clustered, previous, active, id, young);
+					active++;
+					changeListener.call(this, -1 - clustered, young, old, recycler);
+				} else if (young < 0) {
+					clustered = _clusterSpliceOut(clustered2sparse, sparse2clustered, previous, active, id, old);
+					active--;
+					changeListener.call(this, -1 - clustered, young, old, recycler);
+				} else {
+					// "in-place echanged" not (yet) supported (use previous.indexOf(young && old))
+				}
+			} else {
+				clustered = _clusterHandler(clustered2sparse, sparse2clustered, previous, active, id, young, old);
+
+				if (old < 0) {
+					active++;
+				} else if (young < 0) {
+					active--;
+				}
+
+				if (clustered < 0) {
+					clustered = -1 - clustered;
+					changeListener.call(this, active, young, previous[clustered], recycler);
+					changeListener.call(this, clustered, previous[clustered], old, recycler);
+				} else {
+					changeListener.call(this, clustered, young, old, recycler);
+				}
+			}
+		}, continuumProvider);
+	}
+
+
+
+	ClusteredRecycler.prototype = new Recycler(function (index) {
+		return 44;
+	}, function (request) {
+		return -1;
+	}, function (inner, young, old, recycler) {
+	}, null);
+
+	ClusteredRecycler.prototype.SparseRecycler = Recycler;
+
+	scope.Recycler = ClusteredRecycler;
+
+} (window));
+</script>
+
+

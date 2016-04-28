@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="strand-dialog.html">
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				/*font-size: 0;*/
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:300px;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			.col.c4 {
+				width:50%;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				/*font-size: 0;*/
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+					border-bottom: 1px solid #fff;
+					border-top: 1px solid #ccc;
+					height: 0px;
+					margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			.cbc {
+				margin-top: 10px;
+			}
+
+			strand-dialog[unresolved],
+			strand-button[unresolved],
+			strand-dropdown[unresolved] {
+				display:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="col c4">
+			<template is="dom-bind">
+
+				<strand-dialog id="testDialog"
+					type="{{dialogType}}"
+					header="Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world." unresolved>
+					<p>It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people's hats off—then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.</p>
+				</strand-dialog>
+			
+				<strand-dropdown value="{{dialogType}}" placeholder="Choose Dialog Type" unresolved>
+					<strand-list-item value="info" unresolved>Info</strand-list-item>
+					<strand-list-item value="success" unresolved>Success</strand-list-item>
+					<strand-list-item value="warning" unresolved>Warning</strand-list-item>
+					<strand-list-item value="error" unresolved>Error</strand-list-item>
+				</strand-dropdown>
+
+				<strand-button id="showBtn" disabled="{{!dialogType}}" unresolved>
+					<label>Show Dialog</label>
+				</strand-button>
+			
+			</template>
+
+
+			<strand-dialog id="td2"
+				header="Call me Ishmael" unresolved>
+				<p>Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.</p>
+			</strand-dialog>
+
+		</div>
+
+		<script>
+			window.addEventListener("WebComponentsReady", function() { 
+				var sb = document.getElementById("showBtn"),
+					td = document.getElementById("testDialog"),
+					td2 = document.getElementById("td2");
+
+				var actions = [
+					{
+						label: "Cancel",
+						type: "action",
+						callback: function(e,host) {
+							host.hide();
+						}
+					},
+					{
+						label: "OK",
+						type: "primary",
+						callback: function(e,host) {
+							host.fire('confirm');
+							host.hide();
+						}
+					}
+				];
+
+				td.actions = td2.actions = actions;
+
+				sb.addEventListener('click', showDialog);
+				td.addEventListener('confirm', function() {
+					console.log('Confirmed.');
+				});
+
+				function showDialog(e) {
+					td.show();
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,71 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	background-color: #fff;
+	box-sizing: border-box;
+	color: $color-A2;
+	font-family: 'Arimo', Arial, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+ol {
+	align-items: center;
+	background-color: inherit;
+	border-bottom: 1px solid $color-A9;
+	border-top: 1px solid $color-A9;
+	box-sizing: border-box;
+	counter-reset: step;
+	display: flex;
+	height: 44px;
+	justify-content: space-between;
+	margin: 0;
+	padding: 10px 0;
+}
+
+li {
+	align-items: center;
+	box-sizing: border-box;
+	counter-increment: step;
+	display: flex;
+	flex: 1;
+	list-style-type: none;
+	max-height: 22px;
+	padding: 0 20px;
+
+	&:not(:last-of-type) {
+		border-right: 1px solid $color-A13;
+	}
+
+	&:before {
+		background-color: $color-A9;
+		border-radius: 20px;
+		color: $color-F0;
+		content: counter(step);
+		flex-shrink: 0;
+		font-size: 11px;
+		line-height: 20px;
+		height: 20px;
+		margin-right: 10px;
+		width: 20px;
+		text-align: center;
+		vertical-align: middle;
+	}
+}
+
+li.complete:before {
+	background-color: rgba($color-D5, .5);
+}
+
+li.active:before {
+	background-color: $color-D5;
+}

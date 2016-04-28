@@ -1,0 +1,58 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+	
+	scope.Columnable = {
+
+		properties: {
+			columns: {
+				type: Number,
+				value: 4,
+				reflectToAttribute: true
+			},
+			vSpace: {
+				type: Number,
+				value: 10,
+				reflectToAttribute: true
+			},
+			hSpace: {
+				type: Number,
+				value: 10,
+				reflectToAttribute: true
+			}
+		},
+
+		observers: [
+			"_applyStyles(columns, hSpace, vSpace)"
+		],
+
+		_applyStyles: function(columns, hSpace, vSpace) {
+			var items = this.getLightDOM();
+
+			if (items.length > 0) {
+				var spanItems = items.filter(function(item){
+						return item.hasAttribute('span');
+					}),
+					columnWidth = 100/columns;
+
+				spanItems.forEach(function(item, index){
+					var span = parseInt(item.getAttribute('span')),
+						colWidth = columnWidth * span,
+						calc = 'calc(' + colWidth + '% - ' + hSpace + 'px)';
+
+					item.style.width = calc;
+					item.style.marginRight = hSpace + 'px';
+					item.style.marginBottom = vSpace + 'px';
+				});
+			}
+		}
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

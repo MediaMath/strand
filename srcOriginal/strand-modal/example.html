@@ -1,0 +1,53 @@
+<!-- modal markup -->
+<strand-modal id="testModal">
+	<div class="content-top">
+		<strand-header size="medium">Header Content Here</strand-header>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
+	</div>
+	<!-- strand-footer added for demo only -->
+	<strand-footer fitparent>
+		<strand-action underline>
+			<label>Close</label>
+		</strand-action>
+		<strand-button type="secondary">
+			<label>Save &amp; Close</label>
+		</strand-button>
+		<strand-button>
+			<label>Save &amp; Add Another</label>
+		</strand-button>
+	</strand-footer>
+</strand-modal>
+<!-- button to trigger the modal -->
+<strand-button id="showBtn" unresolved>
+	<label>Show Modal</label>
+</strand-button>
+<!-- styles for developer defined modal content 
+(Note: this is not perscriptive, it can be ANY html content) -->
+<style>
+	strand-modal p {
+		font-size: 12px;
+		line-height: 18px;
+		margin: 0;
+	}
+
+	strand-modal strand-header {
+		margin-bottom: 20px; 
+	}
+
+	strand-modal .content-top {
+		padding: 15px;
+	}
+</style>
+<!-- script to trigger the modal -->
+<script language="javascript">
+	window.addEventListener("WebComponentsReady", function() { 
+		var sb = document.getElementById("showBtn"),
+			tm = document.getElementById("testModal");
+
+		sb.addEventListener("click", showModal);
+
+		function showModal(e) {
+			tm.show();
+		}
+	});
+</script>

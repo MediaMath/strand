@@ -1,0 +1,50 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/js/behaviorutils.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/keyselectable.html"/>
+<link rel="import" href="../shared/behaviors/autoclosable.html"/>
+<link rel="import" href="../shared/behaviors/positionable-dropdown.html"/>
+<link rel="import" href="../shared/behaviors/jqueryable.html"/>
+<link rel="import" href="../shared/behaviors/stackable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/windownotifier.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../strand-input/strand-input.html"/>
+<link rel="import" href="../strand-list-item/strand-list-item.html"/>
+
+<dom-module id="strand-autocomplete">
+	<link href="strand-autocomplete.css" rel="import" type="css"/>
+	<template>
+		<content></content>
+		<strand-input 
+			id="target" 
+			search$="{{search}}" 
+			clear$="{{clear}}" 
+			placeholder="{{placeholder}}" 
+			direction$="{{_updateInputDirection(state, direction)}}"
+			fitparent="{{fitparent}}"
+			width="{{width}}"
+			value="{{_name}}"></strand-input>
+		<div id="panel" on-tap="_updateSelectedItem">
+			<div id="container" class$="{{_containerClass(state, direction)}}">
+				<div id="list">
+					<template id="domRepeat" is="dom-repeat" items="{{_searchData}}">
+						<strand-list-item 
+							value$="{{item.value}}" 
+							selected$={{item.selected}}
+							highlighted$="{{item.highlighted}}">{{item.name}}</strand-list-item>
+					</template>
+				</div>
+			</div>
+		</div>
+	</template>
+</dom-module>
+<script src="strand-autocomplete.js"></script>

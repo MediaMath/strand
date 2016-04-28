@@ -1,0 +1,54 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: block;
+}
+
+:host([hidden]) {
+	display:none;
+}
+
+#blocker {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background-image: radial-gradient(rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.75) 100%);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#close {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	cursor: pointer;
+	color: #aaa;
+
+	&:hover {
+		color: $color-A2;
+	}
+}
+
+#container {
+	position: relative;
+	border-radius: 4px;
+	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
+	background: $color-F0;
+	border: 1px solid $color-A8;
+	overflow: hidden;
+	min-height: 100px;
+}

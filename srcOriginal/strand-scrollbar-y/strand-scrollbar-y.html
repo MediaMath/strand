@@ -1,0 +1,23 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/behaviors/stylable.html">
+<link rel="import" href="../shared/behaviors/mousewheelable.html">
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-scrollbar-y">
+	<link rel="import" type="css" href="strand-scrollbar-y.css" />
+	<template>
+		<div id="containerY"
+			 class="container-y" 
+			 style$="{{ _updateScrollbarStyle(scrollBarSize, interface) }}">
+			<div class="bar"></div>
+		</div>
+	</template>
+</dom-module>
+
+<script src="strand-scrollbar-y.js"></script>

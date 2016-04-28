@@ -1,0 +1,86 @@
+{
+	"name": "strand-file-upload",
+	"description": "A fully-styled file input field",
+	"attributes": [
+		{
+			"name": "accept",
+			"type": "String",
+			"optional": "true",
+			"description": "The types of files that this field will accept. Multiple acceptable types can be provided as a comma-delimited list. If this attribute does not exist/is falsy, the field will accept all files.",
+			"options": ["A file extension beginning with the '.' character (e.g. .jpg, .go)", "A MIME-type (e.g. text/css)", "A MIME-type with a wildcard selector (e.g. audio/*)"]
+		},
+		{
+			"name": "useDataUrls",
+			"type": "Boolean",
+			"optional": "true",
+			"default": "false",
+			"description": "If this flag is set, the component will encode uploaded files into a base64 data: url, stored in the dataUrls property."
+		},
+		{
+			"name": "dataUrls",
+			"type": "Array<String>",
+			"readOnly": "true",
+			"description": "A read-only array of the files the user has input into this component encoded as base64 data: urls."
+		},
+		{
+			"name": "multiple",
+			"type": "Boolean",
+			"description": "Allow the user to input multiple files into this component"
+		},
+		{
+			"name": "dragDropEnabled",
+			"type": "Boolean",
+			"description": "Allow the user to drag and drop files from the desktop into this component in addition to using the native file picker."
+		},
+		{
+			"name": "disabled",
+			"type": "Boolean",
+			"description": "Whether or not this component is in the disabled state, which fades the element and prevents it from taking input."
+		},
+		{
+			"name": "error",
+			"type": "Boolean",
+			"default": "false",
+			"description": "Indicates that there was an error with the last input. This property is set to true if the user attempts to input a file that does not pass the validation specified in the `accept` attribute."
+		},
+		{
+			"name": "files",
+			"type": "Array<File>",
+			"description": "The files that the user has input into this component, represented as an Array of File objects (an not a FileList)"
+		},
+		{
+			"name": "fileNames",
+			"type": "Array<String>",
+			"readOnly": "true",
+			"description": "An array of the file names of the files the user has input into the component."
+		},
+		{
+			"name": "placeholder",
+			"type": "String",
+			"default": "No file chosen",
+			"description": "The placeholder text to display when no files have been input into the component."
+		},
+		{
+			"name": "browseLabel",
+			"type": "String",
+			"default": "Browse",
+			"description": "The text label for the button that opens the native file picker."
+		}
+	],
+	"methods": [
+		{
+			"name": "clear",
+			"description": "Reset this component to its empty state."
+		}
+	],
+	"events": [
+		{
+			"name": "files-changed",
+			"type": "files-changed"
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
+	]
+}

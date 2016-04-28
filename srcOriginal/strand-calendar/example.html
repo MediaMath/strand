@@ -1,0 +1,16 @@
+<!-- Single Calendar example -->
+<template is="dom-bind">
+	<div>
+		<p>Selected Date: <span>{{selectedDate}}</span></p>
+		<strand-calendar date="{{selectedDate}}"></strand-calendar>
+	</div>
+</template>
+
+<!-- Dual Calendar example -->
+<template is="dom-bind">
+	<div>
+		<p>Dual Calendar Example</p>
+		<strand-calendar date="{{leftDate}}" pair-date="{{rightDate}}" disable-past="true"></strand-calendar>
+		<strand-calendar date="{{rightDate}}" pair-date="{{leftDate}}" disable-past="true"></strand-calendar>
+	</div>
+</template>

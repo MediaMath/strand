@@ -1,0 +1,46 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+ 
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../strand-header/strand-header.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/stylable.html">
+<link rel="import" href="../shared/js/colors.html">
+<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/moment.html">
+<link rel="import" href="../shared/js/momentrange.html">
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-calendar">
+  <link rel="import" type="css" href="strand-calendar.css">
+  <template>
+		<div class="month-year">
+			<strand-icon class="left-arrow" type="cycle-arrow" on-tap="_decrMonth" width="13" height="13"></strand-icon>
+			<strand-header class="header" size="small"><span>{{_month}}</span> <span>{{_year}}</span></strand-header>
+			<strand-icon class="right-arrow" type="cycle-arrow" on-tap="_incrMonth" width="13" height="13"></strand-icon>
+		</div>
+		<div class="calendar">
+			<div class="headings">
+				<template is="dom-repeat" items="{{_headers}}" as="header">
+					<div class$="{{header.class}}">
+						<span>{{header.label}}</span>
+					</div>
+				</template>
+			</div>
+			<div id="days" class="days" on-tap="_handleTap">
+				<div style="min-height: 16px;">
+				<template is="dom-repeat" items="{{_days}}" as="day">
+					<div id$="{{_dayId(day)}}" class$="{{_dayClass(day)}}">
+						<span value$="{{day.value}}">{{day.label}}</span>
+					</div>
+				</template>
+				</div>
+			</div>
+		</div>
+	</template>
+  <script src="strand-calendar.js"></script>
+</dom-module>

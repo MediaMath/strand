@@ -1,0 +1,193 @@
+{
+	"name":"strand-collection",
+	"description":"A simple collection wrapper component useful for 2 way binding to lists of data",
+	"attributes": [
+		{
+			"name":"adapter",
+			"type":"string",
+			"description":"Futureproofing for API marshalling",
+			"optional":true,
+			"default":"''",
+			"options":[]
+		},
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The array that this collection stores its data in",
+			"optional":true,
+			"default":"[]",
+			"options":[]
+		}
+	],
+	"methods": [
+		{
+			"name":"create",
+			"description":"Creates a new MM-Model instance and appends it to the collection data",
+			"arguments":[
+				{
+					"name":"init",
+					"type":"Object",
+					"optional":false,
+					"default":"null",
+					"description":"The data to insert into the model"
+				},
+				{
+					"name":"silent",
+					"type":"Boolean",
+					"optional":true,
+					"default":"false",
+					"description":"If true the collection will not fire an event when the new model is added."
+				}
+			]
+		},
+		{
+			"name":"add",
+			"description":"Adds an existing MM-Model instance to the collection.",
+			"arguments":[
+				{
+					"name":"model",
+					"type":"Object",
+					"optional":false,
+					"default":"",
+					"description":"MM-Model reference to add to collection."
+				},
+				{
+					"name":"silent",
+					"type":"",
+					"optional":true,
+					"default":"null",
+					"description":"If true the collection will not fire an event when the new model is added."
+				},
+				{
+					"name":"force",
+					"type":"",
+					"optional":true,
+					"default":"null",
+					"description":"If true the collection will skip model verification and append to the data array without checking for duplicates."
+				}
+			]
+		},
+		{
+			"name":"getModelAt",
+			"description":"Retreieves a model by niave index",
+			"arguments":[
+				{
+					"name":"index",
+					"type":"Number",
+					"optional":false,
+					"default":"null",
+					"description":"The index of the model to retreive"
+				}
+			]
+		},
+		{
+			"name":"getDataAt",
+			"description":"Retrieves the data for a model at a niave index",
+			"arguments":[
+				{
+					"name":"index",
+					"type":"Number",
+					"optional":false,
+					"default":"null",
+					"description":"The index of the model from which to obtain data"
+				}
+			]
+		},
+		{
+			"name":"delete",
+			"description":"Deletes a model from the collection",
+			"arguments":[
+				{
+					"name":"model",
+					"type":"Object/Index",
+					"optional":false,
+					"default":"null",
+					"description":"May be either an MM-Model object or a niave index to a model in the collection that you wish to delete. Client side deletion only."
+				}
+			]
+		},
+		{
+			"name":"clear",
+			"description":"Empties the collection. Client side.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"Boolean",
+					"optional":false,
+					"default":"null",
+					"description":"If true a changed event is not dispatched from the collection when it is emptied"
+				}
+			]
+		},
+		{
+			"name":"empty",
+			"description":"Empties the collection. Client side.",
+			"arguments":[
+				{
+					"name":"silent",
+					"type":"Boolean",
+					"optional":false,
+					"default":"null",
+					"description":"If true a changed event is not dispatched from the collection when it is emptied"
+				}
+			]
+		},
+		{
+			"name":"save",
+			"description":"An alias method to post() in the adapter",
+			"arguments":[]
+		},
+		{
+			"name":"update",
+			"description":"An alias method to put() in the adapter",
+			"arguments":[]
+		},
+		{
+			"name":"fetch",
+			"description":"An alias method to get() in the adapter",
+			"arguments":[]
+		},
+		{
+			"name":"destroy",
+			"description":"An alias method to delete() in the adapter",
+			"arguments":[]
+		},
+		{
+			"name":"each",
+			"description":"ala forEach in an array, calls the callback for each model in the array and passes it the model",
+			"arguments":[
+				{
+					"name":"callback",
+					"type":"Function",
+					"optional":false,
+					"default":"null",
+					"description":"The callback to call for each model. This behaves identically to instance.data.forEach"
+				}
+			]
+		},
+		{
+			"name":"where",
+			"description":"Return a filtered set of collections based on a matching object. If the 2nd param is true the values in this object must also match.",
+			"arguments":[
+				{
+					"name":"obj",
+					"type":"Object",
+					"optional":false,
+					"default":"null",
+					"description":"The matching Object to filter the collection by"
+				},
+				{
+					"name":"matchValues",
+					"type":"Boolean",
+					"optional":false,
+					"default":"null",
+					"description":"When matchValues is false, the filter will return any models that have the same keys as the matching object. When true the values will be considered as well when filtering."
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"pageable",
+		"refable"
+	]
+}

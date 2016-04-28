@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="strand-localstore.html">
+    <!-- <link rel="import" href="../strand-input/strand-input.html"> -->
+  </head>
+  <body>
+  <template is="dom-bind">
+    <strand-localstore key="test" auto="false" value="{{test}}"></strand-localstore><span>{{test}}</span>
+    <strand-localstore key="test" value="{{test2}}" auto></strand-localstore><span>{{test2}}</span>
+    <strand-localstore key="testSession" mode="session"></strand-localstore>
+    </template>
+  </body>
+</html>

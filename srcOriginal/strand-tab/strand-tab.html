@@ -1,0 +1,27 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/js/zousan.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
+<link rel="import" href="../shared/behaviors/templatecomponentizable.html"/>
+<link rel="import" href="../strand-template-finder/strand-template-finder.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-tab">
+	<link rel="import" type="css" href="strand-tab.css"/>
+	<template>
+		<strand-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+			<content select="template:not([is])"></content>
+		</strand-template-finder>
+		<content id="view"></content>
+	</template>
+</dom-module>
+
+<script src="strand-tab.js"></script>

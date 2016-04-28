@@ -1,0 +1,127 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var _w = 10000, 
+		_instances = {
+		modal:{
+			base:1*_w,
+			max:2*_w,
+			items: new Set(),
+			topIndex:1*_w
+		},
+		ui:{
+			base:2*_w,
+			max:3*_w,
+			items: new Set(),
+			topIndex:2*_w
+		},
+		tooltip:{
+			base:3*_w,
+			max:4*_w,
+			items: new Set(),
+			topIndex:3*_w
+		}
+	};
+
+	function _addInstance(host, instance, type) {
+		var cat = _instances[type],
+			inst = !instance ? host : instance;
+
+		if (cat && cat.items.size < cat.max) {
+			cat.items.add(inst);
+			host._setDepth(cat.topIndex);
+			cat.topIndex++;
+		} else {
+			throw(new Error("Could not add item at " + cat.max));
+		}
+	}
+
+	function _removeInstance(host, instance, newType, oldType) {
+		var cat = !oldType ? _instances[newType] : _instances[oldType],
+			inst = !instance ? host : instance;
+
+		if (cat) {
+			cat.items.delete(inst);
+		}
+	}
+
+	scope.Stackable = {
+
+		properties: {
+			_stackHost: {
+				type: Object,
+				value: function() { return this; }
+			},
+			_stackTarget: {
+				type: Object,
+				value: null,
+				observer: "_stackTargetChanged"
+			},
+			depth: {
+				readOnly: true,
+				notify: true,
+				type: Number,
+				value: 0,
+				observer: "_updateDepth"
+			},
+			stackType:{
+				type: String,
+				value: "ui",
+				observer:"_updateType"
+			}
+		},
+
+		_initialized: false,
+
+		attached: function() {
+			_addInstance(this._stackHost, this._stackTarget, this.stackType);
+			// We don't want to trigger a stack update when properties
+			// are processed - initialized flag:
+			this._initialized = true;
+		},
+
+		detached: function() {
+			_removeInstance(this._stackHost, this._stackTarget, this.stackType);
+		},
+
+		_stackTargetChanged: function(newVal, oldVal) {
+			if (newVal) this._updateStack();
+		},
+
+		_updateDepth: function() {
+			if (this._stackTarget) {
+				this._stackTarget.style.setProperty("z-index", this.depth);
+			} else {
+				this._stackHost.style.setProperty("z-index", this.depth);
+			}
+			// console.log("this.depth: ", this.depth);
+		},
+
+		_updateType: function(newVal, oldVal) {
+			if (newVal) this._updateStack(newVal, oldVal);
+		},
+
+		moveToTop: function() {
+			this._updateStack();
+			return this.depth;
+		},
+
+		_updateStack: function(newType, oldType) {
+			if (this._initialized) {
+				var newStackType = !newType ? this.stackType : newType,
+					oldStackType = !oldType ? null : oldType;
+
+				_removeInstance(this._stackHost, this._stackTarget, newStackType, oldStackType);
+				_addInstance(this._stackHost, this._stackTarget, newStackType);
+			}
+		},
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

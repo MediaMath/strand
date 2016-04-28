@@ -1,0 +1,39 @@
+<strand-button id="cpb" unresolved>
+	<label>open popover</label>
+</strand-button>
+<strand-popover id="popover" target="#cpb" unresolved>
+	<div class="body">
+		<strand-input></strand-input>
+	</div>
+	<strand-footer>
+		<strand-action id="closeLink" underline>
+			<label>Close</label>
+		</strand-action>
+		<strand-button id="applyBtn">
+			<label>Apply</label>
+		</strand-button>
+	</strand-footer>
+</strand-popover>
+<!-- script to trigger the popover -->
+<script>
+	var cpb,
+		popover,
+		closeLink;
+
+	window.addEventListener("polymer-ready", function() {
+		cpb = document.getElementById("cpb");
+		popover = document.getElementById("popover");
+		closeLink = document.getElementById("closeLink");
+		cpb.addEventListener("click", cpbClickHandler);
+		closeLink.addEventListener("click", closeLinkClickHandler);
+	});
+
+	function cpbClickHandler(e) {
+		popover.toggle();
+	}
+
+	function closeLinkClickHandler(e){
+		e.preventDefault();
+		popover.toggle();
+	}
+</script>

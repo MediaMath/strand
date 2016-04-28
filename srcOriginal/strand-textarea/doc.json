@@ -1,0 +1,96 @@
+{
+	"name":"strand-textarea",
+	"description":"A fully-styled textarea.",
+	"attributes": [
+		{
+			"name":"placeholder",
+			"type":"String",
+			"description":"Default text which appears in the textarea.",
+			"optional":true,
+			"default":"none",
+			"reflect":true
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"description":"The current textarea contents as a string.",
+			"default":"none"
+		},
+		{
+			"name":"mono",
+			"type":"Boolean",
+			"description":"Use a monospaced font - good for code.",
+			"optional":true,
+			"default":"none",
+			"reflect":true
+		},
+		{
+			"name":"rows",
+			"type":"Int",
+			"description":"Native - Number of vertical rows of text.",
+			"optional":true,
+			"default":"10"
+		},
+		{
+			"name":"width",
+			"type":"Int",
+			"description":"Native - width of the textarea in pixels.",
+			"optional":true,
+			"default":"native default",
+			"reflect":true
+		},
+		{
+			"name":"height",
+			"type":"Int",
+			"description":"Native - height of the textarea in pixels.",
+			"optional":true,
+			"default":"default to rows",
+			"reflect":true
+		},
+		{
+			"name":"maxlength",
+			"type":"Int",
+			"description":"Native - maximum number of characters.",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"fitparent",
+			"type":"Boolean",
+			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Disable the item",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"error",
+			"type":"Boolean",
+			"optional":true,
+			"description":"Triggers the display of invalid visual state.",
+			"default":"false"
+		}
+	],
+	"events": [
+		{
+			"type":"changed",
+			"detail": [
+				{
+					"name":"value",
+					"type":"The new value of the textarea."
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"validatable",
+		"refable"
+	]
+}

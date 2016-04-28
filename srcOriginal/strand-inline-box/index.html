@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="strand-inline-box.html">
+	<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:33%;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+			    border-bottom: 1px solid #fff;
+			    border-top: 1px solid #ccc;
+			    height: 0px;
+			    margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			strand-inline-box[unresolved] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="col c1">
+			<p><span class="bold">Inline Box:</span> Message Layout</p>
+			<strand-inline-box id="ddd" type="error" layout="message">
+				Error some text is here.
+			</strand-inline-box>
+			<hr/>
+			<p><span class="bold">Inline Box:</span> Error</p>
+			<strand-inline-box type="error">
+				Error some text is here.
+			</strand-inline-box>
+			<hr/>
+			<p><p><span class="bold">Inline Box:</span> Warning</p>
+			<strand-inline-box type="warning">
+				Warning some text is here.
+			</strand-inline-box>
+			<hr/>
+			<p><span class="bold">Inline Box:</span> Success</p>
+			<strand-inline-box type="success">
+				Success some text is here.
+			</strand-inline-box>
+			<hr/>
+			<p><span class="bold">Inline Box:</span> Info</p>
+			<strand-inline-box type="info">
+				Info some text is here.
+			</strand-inline-box>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		<div class="col c1">
+			<p><span class="bold">Inline Box:</span> Error fit to parent</p>
+			<strand-inline-box type="error" fitparent="true">
+				Warning some text is here.
+			</strand-inline-box>
+			<hr/>
+			<p><span class="bold">Inline Box:</span> Warning with verbose content and max lines (wrap to longest text)</p>
+			<strand-inline-box type="warning" maxlines="10">
+				Error some text is here Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+				<br/><br/>
+				It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+			</strand-inline-box>
+			<hr/>
+			<p><span class="bold">Inline Box:</span> Success with verbose content, max lines and line breaks (wrap to longest text)</p>
+			<strand-inline-box type="success" maxlines="5">
+				Error some text is here<br/>Lorem Ipsum is simply dummy text
+				<br/><br/>
+				of the printing and typesetting industry.
+				<br/>
+				Lorem Ipsum has been the industry's
+				<br/>
+				standard dummy text ever since the 1500s
+				<br/><br/>
+				When an unknown printer took a galley
+				<br/>
+				of type and scrambled it to make a type.
+				<br/>specimen book.
+			</strand-inline-box>
+			<hr/>
+			<p><span class="bold">Inline Box:</span> Info with verbose content, max lines, line breaks and fit to parent</p>
+			<strand-inline-box type="info" maxlines="5" fitparent>
+				Error some text is here<br/>Lorem Ipsum is simply dummy text
+				<br/><br/>
+				of the printing and typesetting industry.
+				<br/>
+				Lorem Ipsum has been the industry's
+				<br/>
+				standard dummy text ever since the 1500s
+				<br/><br/>
+				When an unknown printer took a galley
+				<br/>
+				of type and scrambled it to make a type.
+				<br/>specimen book.
+			</strand-inline-box>
+			<hr/>
+		</div>
+	<div class="vr"></div>
+  </body>
+</html>

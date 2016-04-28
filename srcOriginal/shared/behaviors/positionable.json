@@ -1,0 +1,60 @@
+{
+	"name":"Positionable",
+	"description":"",
+	"attributes": [
+		{
+			"name":"panelOffset",
+			"type":"Number",
+			"description":"The amount of space, in px, between the panel and associated target.",
+			"optional":true,
+			"attribute":"panel-offset",
+			"default": "0"
+		},
+		{
+			"name":"boundaryOffset",
+			"type":"Number",
+			"description":"The minimum about of space between the panel and the viewport boundary.",
+			"optional":true,
+			"attribute":"boundary-offset",
+			"default": "10"
+		},
+		{
+			"name":"metrics",
+			"type":"Object",
+			"description":"Returns a object containing the metrics of the positionable panel.",
+			"attribute":"N/A",
+			"default": "none",
+			"readOnly":true
+		},
+		{
+			"name":"targetMetrics",
+			"type":"Object",
+			"description":"Returns a object containing the metrics of the target element.",
+			"attribute":"N/A",
+			"default": "none",
+			"readOnly":true
+		},
+		{
+			"name":"windowMetrics",
+			"type":"Object",
+			"description":"Returns a object containing the metrics of the window.",
+			"attribute":"N/A",
+			"default": "none",
+			"readOnly":true
+		}
+	],
+	"methods": [
+		{
+			"name":"resize",
+			"description":"Called when the widow resizes, triggering the a display update (see: update)."
+		},
+		{
+			"name":"scroll",
+			"description":"Called when the widow scrolls, triggering the a display update (see: update)."
+		},
+		{
+			"name":"update",
+			"description":"Triggers a display update."
+		}
+	]
+}

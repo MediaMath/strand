@@ -1,0 +1,19 @@
+<!-- Example Style -->
+<style>
+	.box {
+		min-width: 65px;
+		min-height: 65px;
+		background: #ff0000;
+	}
+	.box:not(:last-of-type) { 
+		margin-right: 5px;
+	}
+</style>
+
+<strand-box direction="horizontal" align="stretch" unresolved>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+</strand-box>

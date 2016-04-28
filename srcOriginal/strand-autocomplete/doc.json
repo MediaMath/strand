@@ -1,0 +1,148 @@
+{
+	"name":"strand-autocomplete",
+	"description":"A fully-styled dropdown list containing multiple options.",
+	"attributes": [
+		{
+			"name":"search",
+			"type":"Boolean",
+			"description":"Sets the visual state of the input, adding a search icon. strand-autocomplete is searchable by default.",
+			"optional":true,
+			"default":"true"
+		},
+		{
+			"name":"clear",
+			"type":"Boolean",
+			"description":"Sets the visual state of the input when content has been entered, adding a clear icon. strand-autocomplete is clear enabled by default.",
+			"optional":true,
+			"default":"true"
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		},
+		{
+			"name":"error",
+			"type":"Boolen",
+			"description":"Sets the visual state of the input field to have a red outline, denoting an error state.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"fitparent",
+			"type":"Boolen",
+			"description":"Sets the width of the component to fill the width of it's parent element.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"placeholder",
+			"type":"String",
+			"description":"The placeholder text displayed in the input prior to user interaction.",
+			"optional":true,
+			"default":"Search"
+		},
+		{
+			"name":"maxItems",
+			"type":"Number",
+			"description":"Limits the number of list items displayed in the dropdown panel, allowing the list to scroll vertically if necessary.",
+			"optional":true,
+			"default":"null",
+			"attribute":"max-items"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"description":"The value of the input, or the value of the selected item from the dropdown panel. Items which appear in the dropdown panel list can be configured as desired (see 'data' for more information).",
+			"optional":false,
+			"default":"null"
+		},
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The data which populates the dropdown panel list, expressed as an array of objects with key value pairs i.e. - [ { name: 'name', value: 'value' }, {...} ].",
+			"optional":false,
+			"default":"null"
+		},
+		{
+			"name":"itemHeight",
+			"type":"Number",
+			"description":"Returns the offsetHeight of a single strand-list-item used to populate the dropdown panel.",
+			"optional":false,
+			"default":"[]",
+			"attribute":"N/A"
+		},
+		{
+			"name":"domItems",
+			"type":"Array",
+			"description":"Returns an array of strand-list-items which populate the dropdown panel. Only available after a value has been applied.",
+			"optional":false,
+			"default":"[]",
+			"attribute":"N/A"
+		}
+	],
+	"methods": [
+		{
+			"name":"reset",
+			"description":"Resets the component to it's default display state, and clears any value."
+		}
+	],
+	"events": [
+		{
+			"type": "changed",
+			"detail": [
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value of the selected strand-list-item. If no value was supplied, it will return the text content of the list item."
+				}
+			]
+		},
+		{
+			"type": "selected",
+			"detail": [
+				{
+					"name":"item",
+					"type":"Object",
+					"description":"The data object which was selected."
+				},
+				{
+					"name":"index",
+					"type":"Number",
+					"description":"The index of data object which was selected."
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value property of data object which was selected."
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"description":"The name property of data object which was selected."
+				},
+				{
+					"name":"selected",
+					"type":"Boolean",
+					"description":"The selected state of the item."
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"stylable",
+		"keyselectable",
+		"stackable",
+		"jqueryable",
+		"closable",
+		"autoclosable",
+		"windownotifier",
+		"positionable",
+		"positionable-panel",
+		"positionable-dropdown",
+		"refable"
+	]
+}

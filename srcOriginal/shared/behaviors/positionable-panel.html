@@ -1,0 +1,163 @@
+<link rel="import" href="../js/measure.html">
+<link rel="import" href="../js/rectangle.html">
+<link rel="import" href="../js/behaviorutils.html"/>
+<link rel="import" href="positionable.html">
+<script type="text/javascript">
+(function(scope) {
+
+	var Measure = StrandLib.Measure,
+		Rectangle = StrandLib.Rectangle,
+		BehaviorUtils = StrandLib.BehaviorUtils;
+	
+	var PositionablePanel = {
+
+		properties: {
+			direction: {
+				type: String,
+				value: 's',
+				reflectToAttribute: true,
+				observer: "_directionChanged"
+			},
+			target: {
+				type: Object,
+				observer: '_positionableTargetChanged'
+			},
+			_containerOffset: {
+				type: Number,
+				value: 0
+			},
+			_containerStyle: {
+				type: String,
+				computed: ''
+			},
+			_tipSize: {
+				type: Number,
+				value: 15
+			}
+		},
+
+		_originalDirection: null,
+
+		_directionChanged: function(newVal, oldVal) {
+			if (newVal !== 'c') this._originalDirection = newVal;
+		},
+
+		_positionableTargetChanged: function(newVal, oldVal) {
+			this._target = newVal;
+		},
+
+		_updatePosition: function() {
+			var winRect 			= this.windowMetrics,
+				panelRect 			= this.metrics,
+				targetRect 			= this.targetMetrics,
+				offset 				= 0;
+
+			this.direction = this._originalDirection;
+			this._updateDirection(this.direction, panelRect, targetRect);
+
+			if (this.direction === 'n' || this.direction === 's') {
+				offset = this._getOffset(
+					panelRect.left,
+					panelRect.right,
+					winRect.left, 
+					winRect.right, 
+					panelRect.width, 
+					targetRect.width
+				);
+				this._containerStyle = 'left: ' + offset + 'px';
+
+				// center over target
+				if (targetRect.top - (panelRect.height + this.panelOffset) < winRect.top && 
+					targetRect.bottom + (panelRect.height  + this.panelOffset) > winRect.bottom) {
+					this.direction = 'c';
+					this._updateDirection(this.direction, panelRect, targetRect);
+				}
+				// window boundary flip:
+				else if (panelRect.top < winRect.top || panelRect.bottom > winRect.bottom) {
+					this.direction = this._flipDirection(this.direction);
+					this._updateDirection(this.direction, panelRect, targetRect);
+				}
+			} else {
+				offset = this._getOffset(
+					panelRect.top,
+					panelRect.bottom,
+					winRect.top, 
+					winRect.bottom, 
+					panelRect.height, 
+					targetRect.height
+				);
+				this._containerStyle = 'top: ' + offset + 'px';
+				
+				// center over target
+				if (targetRect.left - (panelRect.width + this.panelOffset) < winRect.left && 
+					targetRect.right + (panelRect.width + this.panelOffset) > winRect.right) {
+					this.direction = 'c';
+					this._updateDirection(this.direction, panelRect, targetRect);
+				}
+				// window boundary flip:
+				else if (panelRect.left < winRect.left || panelRect.right > winRect.right) {
+					this.direction = this._flipDirection(this.direction);
+					this._updateDirection(this.direction, panelRect, targetRect);
+				}
+			}
+
+			panelRect.toCSS(this._panel);
+		},
+
+		_flipDirection: function(direction) {
+			var index = this.DIRECTIONS.indexOf(direction);
+			index = (index + 2) % this.DIRECTIONS.length;
+			return this.DIRECTIONS[index];
+		},
+
+		_getOffset: function(panelA, panelB, boundaryA, boundaryB, panelSize, targetSize) {
+			var offset = this._containerOffset;
+			var maxOffset = (panelSize - this.boundaryOffset * 2) / 2 - this._tipSize;
+
+			if (panelA + offset < boundaryA) {
+				offset = boundaryA - panelA;
+			} else if (panelB + offset > boundaryB) {
+				offset = boundaryB - panelB;
+			}
+
+			return Math.min(Math.max(offset, -maxOffset), maxOffset);
+		},
+
+		_updateDirection: function(direction, panelRect, targetRect) {
+			var hCenter = targetRect.width / 2 - panelRect.width / 2;
+			var vCenter = targetRect.height / 2 - panelRect.height / 2;
+
+			switch(direction) {
+				case 'n':
+					panelRect.top = (targetRect.top - panelRect.height) - this.panelOffset;
+					panelRect.left = targetRect.left + hCenter;
+					break;
+				case 's':
+					panelRect.top = targetRect.bottom + this.panelOffset;
+					panelRect.left = targetRect.left + hCenter;
+					break;
+				case 'e':
+					panelRect.top = targetRect.top + vCenter;
+					panelRect.left = targetRect.right + this.panelOffset;
+					break;
+				case 'w':
+					panelRect.top = targetRect.top + vCenter;
+					panelRect.right = targetRect.left - this.panelOffset;
+					break;
+				case 'c':
+					panelRect.top = targetRect.top + vCenter;
+					panelRect.left = targetRect.left + hCenter;
+					break;
+			}
+		},
+
+		DIRECTIONS: ['n', 'e', 's', 'w']
+	};
+
+	scope.PositionablePanel = [
+		scope.Positionable,
+		PositionablePanel
+	];
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

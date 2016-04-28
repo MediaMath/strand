@@ -1,0 +1,16 @@
+<template>
+	<div class="_mm_item" data-id="{{model.id}}" style$="{{model.style}}">
+		<strand-input value="{{model.name}}"></strand-input><span>{{model.num}}</span>
+
+		<strand-dropdown placeholder="Some Very Long Name" data="{{model.dd.dropdownData}}" value="{{model.dd.dropDownValue}}"></strand-dropdown>
+
+		<!--
+		<strand-dropdown placeholder="{{model.name}}" value="{{model.value}}">
+			<strand-list-item value="0">JPEG</strand-list-item>
+			<strand-list-item value="1">GIF</strand-list-item>
+			<strand-list-item value="2">SWF</strand-list-item>
+			<strand-list-item value="3">PNG</strand-list-item>
+		</strand-dropdown>
+		-->
+	</div>
+</template>

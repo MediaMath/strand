@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="strand-spinner.html">
+		<style type="text/css" is="custom-style">
+			
+			html, body {
+				margin: 0;
+				padding:0;
+				background: #ccc;
+			}
+
+
+			strand-spinner[unresolved] {
+				display: none;
+			}
+
+			strand-spinner {
+				margin:20px;
+			}
+
+		</style>
+  	</head>
+	<body>
+		<strand-spinner radius="32" id="sp1" unresolved fill-color="#00ff00" bg-color="#ff0000"></strand-spinner>
+		<strand-spinner radius="16" id="sp2" unresolved fill-color="#333333"></strand-spinner>
+		<strand-spinner radius="12" id="sp3" unresolved fill-color="#333333"></strand-spinner>
+		<strand-spinner radius="9"  id="sp4" unresolved fill-color="#333333"></strand-spinner>
+		<script>
+			var spinner1,
+				spinner2,
+				spinner3,
+				spinner4;
+
+			window.addEventListener("WebComponentsReady", function() {
+				spinner1 = document.getElementById("sp1");
+				spinner2 = document.getElementById("sp2");
+				spinner3 = document.getElementById("sp3");
+				spinner4 = document.getElementById("sp4");
+			});
+		</script>
+	</body>
+</html>

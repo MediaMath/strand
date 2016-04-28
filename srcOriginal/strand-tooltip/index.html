@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../strand-icon/strand-icon.html" />
+	<link rel="import" href="../strand-action/strand-action.html" />
+	<link rel="import" href="strand-tooltip.html" />
+	<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:300px;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			.col.c4 {
+				width:49%;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+				border-bottom: 1px solid #fff;
+				border-top: 1px solid #ccc;
+				height: 0px;
+				margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			#cpb {
+				position: relative;
+			}
+
+			.tip-msg {
+				color: #ff0000;
+			}
+
+			.div-targ {
+				width: 14px;
+				height: 14px;
+				background: #ff0000;
+			}
+
+			strand-icon[type=info] {
+				color: #666;
+			}
+
+			strand-icon[type=warning] {
+				color: #FED01A;
+			}
+
+			strand-tooltip[unresolved],
+			strand-icon[unresolved],
+			strand-action[unresolved] {
+				display: none;
+			}
+
+		</style>
+  </head>
+  <body>
+
+  	<div class="col c1">
+  		<p>
+			<span class="bold">Tooltip:</span> Message Layout Default <strand-icon id="defaultTarg" type="info" width="14" height="14"></strand-icon>
+			<strand-tooltip target="#defaultTarg" unresolved>
+				<label>I Love to eat chicken! It's so damn delicious.</label>
+			</strand-tooltip>
+		</p>
+		<hr/>
+		<p>
+			<span class="bold">Tooltip:</span> Layout with Custom Text Style <strand-icon class="custom-targ" type="info" width="14" height="14" unresolved></strand-icon>
+			<strand-tooltip target=".custom-targ" unresolved>
+				<label class="tip-msg">I Love to eat chicken! It's so damn delicious.</label>
+			</strand-tooltip>
+		</p>
+		<hr/>
+		<p>
+			<span class="bold">Tooltip:</span> Layout with Custom Width <strand-icon id="widthTarg" type="warning" width="14" height="14" unresolved></strand-icon>
+			<strand-tooltip tip-width="150" target="#widthTarg" unresolved>
+				<label>I Love to eat chicken! It's so damn delicious.</label>
+			</strand-tooltip>
+		</p>
+		<hr/>
+		<p id="dynamicExample">
+			<span class="bold">Tooltip:</span> Dynamically generated
+		</p>
+		<hr/>
+	</div>
+	<div class="vr"></div>
+	<div class="col c1">
+		<p>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a strand-link, auto is false <strand-action id="actionTarg"underline="true" unresolved><label>Awesome</label></strand-action>
+			<strand-tooltip tip-width="200" auto="false" target="#actionTarg" unresolved>
+				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
+			</strand-tooltip>
+		</p>
+		<hr/>
+		<p>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, auto is false, href in tip <strand-icon id="custom2Targ" type="info" width="14" height="14" unresolved></strand-icon>
+			<strand-tooltip tip-width="200" auto="false" target="#custom2Targ" unresolved>
+				<label class="special-msg"><span class="bold">Lorem Ipsum: </span>is simply dummy text of the <a href="http://www.example.com" target="_blank">this and stuff</a> printing and typesetting industry.</label>
+			</strand-tooltip>
+		</p>
+		<hr/>
+		<p>
+			<span class="bold">Tooltip:</span> Custom Width, Bold, target is a strand-action <strand-action id="custom3Targ" underline="true" unresolved><label>Best Thing Ever!</label></strand-action>
+			<strand-tooltip tip-width="200" target="#custom3Targ" unresolved>
+				<label><span class="bold">Lorem Ipsum: </span>is simply dummy text of the printing and typesetting industry.</label>
+			</strand-tooltip>
+		</p>
+		<hr/>
+	</div>
+	<script>
+		window.addEventListener("WebComponentsReady", function() {
+			var t = new Strand.Tooltip(),
+				d = document.createElement('div'),
+				l = document.createElement('label'),
+				de = document.querySelector('#dynamicExample');
+
+			d.classList.add('div-targ');
+			l.innerHTML = "dynamic tooltip, oh yeah!";
+			t.target = d;
+			
+			de.appendChild(d);
+			Polymer.dom(de).appendChild(t);
+			Polymer.dom(t).appendChild(l);
+		});
+	</script>
+  </body>
+</html>

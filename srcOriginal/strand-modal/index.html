@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="../strand-action/strand-action.html">
+		<link rel="import" href="../strand-footer/strand-footer.html">
+		<link rel="import" href="../strand-header/strand-header.html">
+		<link rel="import" href="strand-modal.html">
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:33%;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+			    border-bottom: 1px solid #fff;
+			    border-top: 1px solid #ccc;
+			    height: 0px;
+			    margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			strand-modal[unresolved],
+			strand-button[unresolved] {
+				display: none;
+			}
+
+			strand-modal {}
+
+			strand-modal p {
+				margin: 0;
+			}
+
+			strand-header {
+				margin-bottom: 20px; 
+			}
+
+			strand-modal .content-top {
+				padding: 15px;
+			}
+
+			#showBtn {
+				margin-top: 20px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div class="col c1">
+			<p><span class="bold">Fake Content:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus. Curabitur mattis dictum elit non sagittis. Sed lobortis velit nisl, sed varius leo semper ut. Quisque dapibus leo at leo consequat rutrum.<br/><br/>
+Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non diam fermentum tempus eget et eros. Ut hendrerit risus ac tortor dapibus, sed laoreet metus tempor. Cras egestas neque ac dictum feugiat. Mauris ac venenatis odio, sit amet vulputate diam. Pellentesque est urna, convallis eu rhoncus eu, porta sed augue. Nulla ornare nibh malesuada est scelerisque, nec tristique mauris ornare. Integer et tristique augue. Quisque dapibus tempor dapibus. Mauris pellentesque ullamcorper nibh, nec ornare massa. Aenean placerat condimentum dolor ut consectetur. Praesent faucibus purus vitae posuere consectetur.</p>
+			<hr/>
+			<p><span class="bold">Fake Content:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus. Curabitur mattis dictum elit non sagittis. Sed lobortis velit nisl, sed varius leo semper ut. Quisque dapibus leo at leo consequat rutrum.<br/><br/>
+Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non diam fermentum tempus eget et eros. Ut hendrerit risus ac tortor dapibus, sed laoreet metus tempor. Cras egestas neque ac dictum feugiat. Mauris ac venenatis odio, sit amet vulputate diam. Pellentesque est urna, convallis eu rhoncus eu, porta sed augue. Nulla ornare nibh malesuada est scelerisque, nec tristique mauris ornare. Integer et tristique augue. Quisque dapibus tempor dapibus. Mauris pellentesque ullamcorper nibh, nec ornare massa. Aenean placerat condimentum dolor ut consectetur. Praesent faucibus purus vitae posuere consectetur.</p>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		<div class="col c1">
+			<p><span class="bold">Fake Content:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus. Curabitur mattis dictum elit non sagittis. Sed lobortis velit nisl, sed varius leo semper ut. Quisque dapibus leo at leo consequat rutrum.<br/><br/>
+Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non diam fermentum tempus eget et eros. Ut hendrerit risus ac tortor dapibus, sed laoreet metus tempor. Cras egestas neque ac dictum feugiat. Mauris ac venenatis odio, sit amet vulputate diam. Pellentesque est urna, convallis eu rhoncus eu, porta sed augue. Nulla ornare nibh malesuada est scelerisque, nec tristique mauris ornare. Integer et tristique augue. Quisque dapibus tempor dapibus. Mauris pellentesque ullamcorper nibh, nec ornare massa. Aenean placerat condimentum dolor ut consectetur. Praesent faucibus purus vitae posuere consectetur.</p>
+			<hr/>
+			<p><span class="bold">Fake Content:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus. Curabitur mattis dictum elit non sagittis. Sed lobortis velit nisl, sed varius leo semper ut. Quisque dapibus leo at leo consequat rutrum.<br/><br/>
+Mauris justo est, tempor non cursus ut, sagittis eget felis. Cras at nunc non diam fermentum tempus eget et eros. Ut hendrerit risus ac tortor dapibus, sed laoreet metus tempor. Cras egestas neque ac dictum feugiat. Mauris ac venenatis odio, sit amet vulputate diam. Pellentesque est urna, convallis eu rhoncus eu, porta sed augue. Nulla ornare nibh malesuada est scelerisque, nec tristique mauris ornare. Integer et tristique augue. Quisque dapibus tempor dapibus. Mauris pellentesque ullamcorper nibh, nec ornare massa. Aenean placerat condimentum dolor ut consectetur. Praesent faucibus purus vitae posuere consectetur.</p>
+			<hr/>
+			<strand-button id="showBtn">
+				<label>Show</label>
+			</strand-button>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		
+		<strand-modal id="testModal" unresolved>
+			<div class="content-top">
+				<strand-header size="medium">Header Content Here</strand-header>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis viverra sem a ullamcorper. Proin et felis lobortis, vulputate orci eu, posuere ante. Vestibulum interdum augue nec tortor venenatis condimentum. Proin eu erat risus.</p>
+				<strand-dropdown placeholder="Placeholder" max-items="5">
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+					<strand-list-item>Item 1</strand-list-item>
+				</strand-dropdown>
+			</div>
+			<strand-footer fitparent="true">
+				<strand-action underline="true">
+					<label>Close</label>
+				</strand-action>
+				<strand-button type="secondary">
+					<label>Save &amp; Close</label>
+				</strand-button>
+				<strand-button>
+					<label>Save &amp; Add Another</label>
+				</strand-button>
+			</strand-footer>
+		</strand-modal>
+		
+		<script language="javascript">
+			window.addEventListener("WebComponentsReady", function() { 
+				var sb = document.getElementById("showBtn"),
+					tm = document.getElementById("testModal");
+
+				sb.addEventListener("click", showModal);
+
+				function showModal(e) {
+					tm.show();
+				}
+			});
+		</script>
+
+	</body>
+</html>

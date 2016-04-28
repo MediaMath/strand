@@ -1,0 +1,46 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/mixinfindable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
+<link rel="import" href="../strand-item-recycler/strand-item-recycler.html">
+<link rel="import" href="../strand-grid-column/strand-grid-column.html">
+<link rel="import" href="../strand-grid-item/strand-grid-item.html">
+<link rel="import" href="../strand-checkbox/strand-checkbox.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
+<link rel="import" href="../strand-loader/strand-loader.html">
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-grid">
+	<link rel="import" type="css" href="strand-grid.css"/>
+	<template>
+		<strand-item-recycler id="viewport" gpu="{{gpu}}" data="{{data}}" scope="{{scope}}" index="{{index}}" template-finder="{{templateFinder}}" template-findable="{{templateFindable}}" mixin-findable="{{mixinFindable}}">
+			<div id="header">
+				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
+					<strand-checkbox id="selectAll" on-tap="_toggleAllSelections" state="{{_selectAllState}}"></strand-checkbox>
+				</div>
+				<div id="carat" class="_mm_column toggle" hidden$="{{!expandable}}">
+					<strand-icon width="10" height="10" type="expand-all" on-tap="_toggleAllExpansions"></strand-icon>
+				</div>
+				<div id="columnContainer">
+					<content id="columns" select="strand-grid-column"></content>
+				</div>
+			</div>
+			<content select="template:not([is])"></content>
+			<template preserve-content>
+				<strand-grid-item model="{{model}}" scope="{{scope}}"></strand-grid-item>
+			</template>
+		</strand-item-recycler>
+ 		<template is="dom-if" if="{{isLoading}}">
+			<strand-loader id="loader"><label>Loading...</label></strand-loader>
+		</template>
+		<div id="separator"></div>
+	</template>
+</dom-module>
+
+<script src="strand-grid.js"></script>

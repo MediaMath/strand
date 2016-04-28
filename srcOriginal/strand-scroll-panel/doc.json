@@ -1,0 +1,17 @@
+{
+	"name":"strand-scroll-panel",
+	"description":"A scrollable content container with custom scrollbars - for use in instances where native scrollbars interfere with layout",
+	"methods": [
+		{
+			"name":"resetScroll",
+			"description":"A method which can be called to reset the scroll position to the top.",
+			"arguments":[]
+		}
+	],
+	"behaviors":[ 
+		"dommutable", 
+		"mousewheelable",
+		"resolvable",
+		"refable"
+	]
+}

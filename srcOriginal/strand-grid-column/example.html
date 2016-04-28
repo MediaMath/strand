@@ -1,0 +1,21 @@
+<strand-grid id="mmTestGrid" unresolved style="width: 100%; height: 400px;">
+	<strand-grid-column field="first_name" width="20%" resize sort>First Name</strand-grid-column>
+	<strand-grid-column field="last_name" width="20%" resize sort align="right">Last Name</strand-grid-column>
+	<strand-grid-column field="email" width="60%" sort>Email</strand-grid-column>
+</strand-grid>
+<script>
+	var grid = document.querySelector("#mmTestGrid"),
+		data = [];
+
+	for(var i=0; i<50; i++){
+		data.push({
+			first_name: "First",
+			last_name: "Last",
+			email: "text@example.com"
+		});
+	}
+
+	window.addEventListener("WebComponentsReady", function() {
+		grid.data = data;
+	});
+</script>

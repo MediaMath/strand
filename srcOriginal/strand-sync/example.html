@@ -1,0 +1,7 @@
+ <template is="dom-bind">
+	<strand-sync id="search" endpoint="https://api.github.com/search/code?q=polymer+in:file+language:js+repo:polymer/polymer" data="{{data}}" auto>
+	</strand-sync>
+	<template is="dom-repeat" items="{{data.items}}">
+		<span>{{item.name}}</span>
+	</template>
+</template>

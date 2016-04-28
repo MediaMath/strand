@@ -1,0 +1,48 @@
+<strand-input-mask placeholder="(123) 123-1234">
+  <sep chars="("></sep>
+  <group rule="range" restrict="numeric" size="3">100-999</group>
+  <sep chars=") "></sep>
+  <group rule="range" restrict="numeric" size="3">100-999</group>
+  <sep chars="-"></sep>
+  <group rule="range" restrict="numeric" size="4">1000-9999</group>
+</strand-input-mask>
+
+<strand-input-mask placeholder="(ABC) DEF-GHIJ">
+  <sep chars="("></sep>
+  <group rule="all" restrict="alphaNumeric" size="3"></group>
+  <sep chars=") "></sep>
+  <group rule="all" restrict="alphaNumeric" size="3"></group>
+  <sep chars="-"></sep>
+  <group rule="all" restrict="alphaNumeric" size="4"></group>
+</strand-input-mask>
+
+<strand-input-mask value="(123) 123-1234">
+  <sep chars="("></sep>
+  <group rule="range" restrict="numeric" size="3">100-999</group>
+  <sep chars=") "></sep>
+  <group rule="range" restrict="numeric" size="3">100-999</group>
+  <sep chars="-"></sep>
+  <group rule="range" restrict="numeric" size="4">1000-9999</group>
+</strand-input-mask>
+
+<strand-input-mask value="12:12">
+  <group rule="hour12" size="2" autofill="0" restrict="numeric"></group>
+  <sep chars=":"></sep>
+  <group rule="minutes" size="2" autofill="0" restrict="numeric"></group>
+</strand-input-mask>
+
+<strand-input-mask value="03/12/1992">
+  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
+  <sep chars="/"></sep>
+  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
+  <sep chars="/"></sep>
+  <group rule="range" size="4" autofill="20" restrict="numeric"></group>
+</strand-input-mask>
+
+<strand-input-mask placeholder="MM/DD/YYYY">
+  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
+  <sep chars="/"></sep>
+  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
+  <sep chars="/"></sep>
+  <group rule="range" size="4" autofill="20" restrict="numeric"></group>
+</strand-input-mask>

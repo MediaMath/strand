@@ -1,0 +1,32 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+	 var Stylable = {
+
+	 	styleBlock: function(styles) {
+			var out = [];
+			for (var style in styles) {
+				var n = String(style).replace(/[A-Z]/g, function(c) {
+					return '-' + c.toLowerCase();
+				});
+			out.push(n + ': ' + styles[style]);
+			}
+			return out.join('; ');
+	 	},
+
+	 	classBlock: function(classes) {
+			var out = [];
+			for (var cl in classes) {
+				if (classes[cl]) out.push(cl);
+			}
+			return out.join(' ');
+		},
+	 };
+	 scope.Stylable = Stylable;
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

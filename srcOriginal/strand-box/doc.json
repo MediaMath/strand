@@ -1,0 +1,37 @@
+{
+	"name":"strand-box",
+	"description":"A simple flexbox wrapper for attribute based styling.",
+	"attributes": [
+		{
+			"name":"direction",
+			"type":"String",
+			"description":"Instructs the strand-box to arrange it's lightDOM children in a horizontal or vertical orientation (see: flexbox flex-direction).",
+			"optional":true,
+			"options": ["horizontal", "vertical"],
+			"default":"horizontal",
+			"reflect": false
+		},
+		{
+			"name":"align",
+			"type":"String",
+			"description":"Instructs the strand-box to align it's lightDOM children (see: flexbox align-items).",
+			"optional":true,
+			"options": ["flex-start", "flex-end", "center", "baseline", "stretch"],
+			"default":"flex-start",
+			"reflect": false
+		},
+		{
+			"name":"justify",
+			"type":"String",
+			"description":"Instructs the strand-box to justify it's lightDOM children (see: flexbox justify-content).",
+			"optional":true,
+			"options": ["flex-start", "flex-end", "center", "space-between", "space-around"],
+			"default":"flex-start",
+			"reflect": false
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"refable"
+	]
+}

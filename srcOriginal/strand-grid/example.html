@@ -1,0 +1,94 @@
+<!-- A default grid item example -->
+<strand-grid id="mmTestGrid1" selectable style="width: 100%; height: 300px;">
+	<strand-grid-column field="first_name">First Name</strand-grid-column>
+	<strand-grid-column field="last_name">Last Name</strand-grid-column>
+	<strand-grid-column field="email">Email</strand-grid-column>
+</strand-grid>
+
+<!-- A custom grid item example -->
+<strand-grid id="mmTestGrid2" selectable expandable style="width: 100%; height: 300px;">
+	<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
+	<strand-grid-column width="20%" field="id" sort resize>Id</strand-grid-column>
+	<strand-grid-column width="20%" field="advertiser" sort resize>Advertiser</strand-grid-column>
+	<strand-grid-column width="20%" field="concept" sort resize>Concept</strand-grid-column>
+	<strand-grid-column width="10%" field="type" resize>Type</strand-grid-column>
+	<strand-grid-column width="10%" field="info"></strand-grid-column>
+	<template preserve-content>
+		<strand-grid-item model="{{model}}" scope="{{scope}}">
+			<div field="name">
+				Creative - <span>{{model.name}}</span>
+			</div>
+			<div field="info">
+				<strand-icon type="info" id="infoIcon" width="12" height="12"></strand-icon>
+				<strand-tooltip 
+					id="infoTip"
+					model="{{model}}" 
+					target="{{findById('infoIcon')}}">
+						<label>{{model.tip}}</label>
+					</strand-tooltip>
+			</div>
+			<div class="expansion">
+				<div class="expansion-row">
+					<div class="expansion-col">
+						<h4>Expanded Content</h4>
+						<span>{{model.name}}</span>
+					</div>
+					<div class="expansion-col">
+						<h4>Expanded Advertiser</h4>
+						<span>{{model.advertiser}}</span>
+					</div>
+					<div class="expansion-col">
+						<h4>Expanded Concept</h4>
+						<span>{{model.concept}}</span>
+					</div>
+				</div>
+				<div class="expansion-row">
+					<div class="expansion-col">Expanded Content - <span>{{model.concept}}</span></div>
+				</div>
+			</div>
+		</strand-grid-item>
+	</template>
+</strand-grid>
+
+<script>
+	// Default grid example
+	var grid1 = document.querySelector("#mmTestGrid1"),
+		grid1Data = [];
+
+	for(var i=0; i<33; i++){
+		grid1Data.push({
+			first_name: "First",
+			last_name: "Last",
+			email: "text@example.com",
+			selected: false
+		});
+	}
+
+	// Custom item example
+	var grid2 = document.querySelector("#mmTestGrid2"),
+		grid2Data = [];
+
+	for(var i=0; i<33; i++) {
+		generateItem();
+	}
+
+	function generateItem() {
+		grid2Data.push({
+			id: i,
+			name: "Name",
+			content: "Content",
+			advertiser: "Advertiser No. " + i,
+			concept: "Concept No. " + i,
+			type: "swf",
+			file: "Creative_File_" + i + ".swf",
+			selected: false,
+			expanded: false,
+			tip: "Some special info here " + i
+		});
+	}
+
+	window.addEventListener("WebComponentsReady", function() {
+		grid1.data = grid1Data;
+		grid2.data = grid2Data;
+	});
+</script>

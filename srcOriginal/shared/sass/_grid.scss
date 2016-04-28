@@ -1,0 +1,49 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+:host ._mm_column {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 0px 10px;
+	vertical-align: middle;
+	box-sizing: border-box;
+	float: left;
+
+	&.right {
+		text-align: right;
+	}
+	
+	&.checkbox,
+	&.toggle {
+		box-sizing: content-box;
+		margin: auto 0;
+		padding: 0px 5px;
+
+		&:first-of-type {
+			padding-left: 15px;
+		}
+	}
+	
+	&.checkbox {
+		width: 18px;
+	}
+
+	&.toggle {
+		width: 10px;
+
+		strand-icon {
+			cursor: pointer;
+			transform: rotate(-90deg);
+		}
+
+		&.expanded {
+			strand-icon {
+				transform: rotate(0deg);
+			}
+		}
+	}
+}

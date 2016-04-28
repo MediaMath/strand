@@ -1,0 +1,5 @@
+{
+	"name":"Resolvable",
+	"description":"Removes the 'unresolved' attribute, if present, when the host component is ready.",
+	"attributes":[]
+}

@@ -1,0 +1,142 @@
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="../js/sync.html"/>
+<link rel="import" href="domsyncable.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+
+	var Pageable = {
+
+		ready: function() {
+			this.pageConfig.enabled = this.usePaging;
+		},
+
+		properties: {
+			usePaging:{
+				type:Boolean,
+				value:false,
+				observer:"_usePagingChanged"
+			},
+			page:{
+				type:Number,
+				value:0,
+				observer:"_pageChanged"
+			},
+			pageSize:{
+				type:Number,
+				value:10,
+				observer:"_pageSizeChanged"
+			},
+			index:{
+				type:Number,
+				value:0,
+				observer:"_indexChanged"
+			},
+			pageOptions:{
+				type:Object,
+				value:function() {
+					return {
+						pageName:"page_offset",
+						sizeName:"page_limit",
+						url:false,
+						query:true,
+						body:false,
+						pageType:Pageable.PAGE_TYPE_OFFSET,
+					};
+				},
+				observer:"_pageOptionsChanged"
+			}
+		},
+
+		PAGE_TYPE_OFFSET:"offset",
+		PAGE_TYPE_INDEX:"index",
+
+		nextPage: function() {
+			this.page++;
+		},
+
+		prevPage: function() {
+			if (this.page > 0)
+				this.page--;
+		},
+
+		reset: function(silent) {
+			if(this.silent) {
+				this.page = 0;
+			} else {
+				this.set("page", 0);
+			}
+		},
+
+		_usePagingChanged: function() {
+			this.pageConfig.enabled = this.usePaging;
+		},
+
+		_pageChanged:function() {
+			var paging = {
+				page:this.page,
+				pageSize:this.pageSize
+			};
+			this.pageConfig = DataUtils.copy(this.pageConfig, paging);
+
+
+			if (this.auto && this.auto !== "save" && this.page >= 0) {
+				if (this.autoDebounce !== -1) {
+					this.debounce("dom", this.get, this.autoDebounce);
+				} else {
+					this.get();
+				}
+			}
+		},
+
+		_pageSizeChanged: function() {
+			var paging = {
+				page:this.page,
+				pageSize:this.pageSize
+			};
+			this.pageConfig = DataUtils.copy(this.pageConfig, paging);
+
+			if (this.auto && this.auto !== "Save" && this.pageSize > 0) {
+				if (this.autoDebounce !== -1) {
+					this.debounce("dom", this.get, this.autoDebounce);
+				} else {
+					this.get();
+				}
+			}
+		},
+
+		_indexChanged: function(o, n) {
+
+			if (this.pageOptions && this.pageOptions.pageType === Pageable.PAGE_TYPE_OFFSET) {
+				this.set("page", this.index);
+			} else {
+				this.set("page", Math.floor(this.index/this.pageSize));
+			}
+		},
+
+		_pageOptionsChanged: function() {
+			if (this.pageConfig) {
+				var paging = {
+					page:this.page,
+					pageSize:this.pageSize
+				};
+				this.pageConfig = DataUtils.copy(this.pageConfig, paging, this.pageOptions);
+			}
+		}
+
+	};
+
+	scope.Pageable = [
+		StrandLib.Sync.getBehavior(),
+		scope.DomSyncable,
+		Pageable,
+	];
+}(window.StrandTraits = window.StrandTraits || {}));
+</script>

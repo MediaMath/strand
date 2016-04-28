@@ -1,0 +1,19 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	align-items: stretch;
+	flex-direction: column;
+	display: flex;
+	font-family: 'Arimo', sans-serif;
+	font-size: 14px;
+	position: relative;
+}

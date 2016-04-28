@@ -1,0 +1,28 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/validatable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-textarea">
+	<link rel="import" type="css" href="strand-textarea.css"/>
+	<template>
+		<textarea 
+			rows="{{rows}}" 
+			class$="{{ _updateClass(error, mono) }}" 
+			placeholder="{{placeholder}}" 
+			value="{{value::input}}" 
+			maxlength$="{{maxlength}}" 
+			disabled="{{disabled}}"
+			style$="{{ _updateStyle(width, height, fitparent) }}"></textarea>
+	</template>
+</dom-module>
+
+<script src="strand-textarea.js"></script>

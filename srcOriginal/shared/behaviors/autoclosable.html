@@ -1,0 +1,65 @@
+<link rel="import" href="closable.html">
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var _instances = new Set();
+
+	function _addInstance(instance) {
+		_instances.add(instance);
+	}
+
+	function _removeInstance(instance) {
+		_instances.delete(instance);
+	}
+
+	document.addEventListener("mouseup", function(e) {
+		var normalized = Polymer.dom(e);
+		var instance;
+		var scope;
+		var filter;
+		for (var instance of _instances) {
+			filter = instance._closeFilter;
+			scope = typeof instance.scope === "object" ? instance.scope : instance;
+			filter.apply(scope, [instance, normalized, e]);
+		}
+	});
+
+	var AutoClosable = {
+
+		properties: {
+			auto: {
+				type: Boolean,
+				value: true
+			}
+		},
+
+		attached: function() {
+			_addInstance(this);
+		},
+
+		detached: function() {
+			_removeInstance(this);
+		},
+
+		_closeFilter: function(instance, e, original) {
+			if(!instance.auto) return;
+			if(e.path.indexOf(instance) > -1 || e.path.indexOf(instance._target) > -1){
+				original.stopImmediatePropagation();
+			} else {
+				instance.close();
+			}
+		}
+	 };
+
+	scope.AutoClosable = [
+		scope.Closable, 
+		AutoClosable
+	];
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>

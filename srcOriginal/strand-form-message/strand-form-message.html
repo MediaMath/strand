@@ -1,0 +1,19 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html" />
+<link rel="import" href="../strand-inline-box/strand-inline-box.html" />
+
+<dom-module id="strand-form-message">
+	<link rel="import" type="css" href="strand-form-message.css"/>
+	<template>
+		<strand-inline-box id="inputError" type="{{type}}" visible$="{{visible}}" fitparent>{{message}}</strand-inline-box>
+	</template>
+</dom-module>
+
+<script src="strand-form-message.js"></script>
+

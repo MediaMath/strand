@@ -1,0 +1,206 @@
+<link rel="import" href="../js/datautils.html"/>
+<link rel="import" href="../js/behaviorutils.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var DataUtils = StrandLib.DataUtils;
+	var BehaviorUtils = StrandLib.BehaviorUtils;
+
+	function _generateCid(collection, model) {
+		model.cId = collection._cidIndex++;
+	}
+
+	var _eventPrefix = "data-";
+
+	scope.Collection = {
+
+		properties:{
+			_cidIndex:{
+				type:Number,
+				value:0
+			},
+			added:{
+				type:Array,
+				value: function() {
+					return [];
+				},
+				notify:true
+			},
+			removed:{
+				type:Array,
+				value: function() {
+					return [];
+				},
+				notify:true
+			},
+			modified:{
+				type:Array,
+				value: function() {
+					return [];
+				},
+				notify:true
+			}
+		},
+
+		observers:[
+			'_dataArrayChanged(data.splices)',
+			'_deepChanged(data.*)'
+		],
+
+		add: function(model, silent, force) {
+			this._silent = silent;
+
+			if (!model.cId || model.cId === -1) {
+				_generateCid(this, model);
+			}
+			var check = this.data.filter(function(m) {
+				if (m.cId && model.cId) { return m.cId === model.cId; }
+				if (m.mId && model.mId) { return m.mId === model.mId; }
+				return false;
+			});
+			if (check.length === 0 || force) {
+				this.push('data',model);
+				// if (!silent) this.fire("changed", {instance:this, data:this.data});
+				return model;
+			} else {
+				throw(new Error("Model Conflict - matching id's, use force flag to add manually"));
+			}
+
+		},
+
+		getDataAt: function(index) {
+			var m = this.getModelAt(index);
+			return DataUtils.getPathValue("data", m) || m;
+		},
+
+		getModelAt: function(index) {
+			return this.data[index];
+		},
+
+		getIndexOf: function(model) {
+			return this.data.indexOf(model);
+		},
+
+		getIndexOfCid: function(cId, source) {
+			source = source || 'data';
+			return this[source].reduce(function(prev, model, idx) {
+				if (model.cId === cId) return idx;
+				return prev;
+			},-1);
+		},
+
+		remove: function(input) {
+			if (DataUtils.isType(input, "object")) {
+				this.splice('data', this.data.indexOf(input), 1);
+			} else {
+				var d = this.splice('data', input, 1);
+			}
+		},
+
+		empty: function(silent) {
+			this._silent = silent;
+			this._cidIndex = 0;
+			var o = this.data.slice();
+			this.set("data",[]);
+			return o;
+		},
+
+		each: function(callback) {
+			if(this.data && this.data.length) {
+				this.data.forEach(callback, this);
+			}
+		},
+
+		where: function(obj, matchValues) {
+			if (this.data && this.data.length) {
+				var objKeys = Object.keys(obj);
+				return this.data.filter(function match(model) {
+					var data = model.data || model;
+					return objKeys.reduce(function(prev, key) {
+						return prev && (matchValues ? data[key] === obj[key] : data.hasOwnProperty(key));
+					}, true);
+				});
+			}
+		},
+
+		_dataArrayChanged: function(changeRecord) {
+
+			if (!changeRecord) return;
+			changeRecord.indexSplices.forEach(function(splice) {
+				splice.removed.forEach(function(a) {
+					if (this.getIndexOfCid(a.cId, 'added') === -1) {
+						this.push('removed', a);
+					}
+					this._cleanHelperArrays('added',a);
+					this._cleanHelperArrays('modified',a);
+				}, this);
+				for(var i=splice.index; i<splice.index + splice.addedCount; i++) {
+					this.push('added', this.data[i]);
+					//new so we dont need to worry about the helpers
+				}
+			}, this);
+
+		},
+
+		_cleanHelperArrays: function(helper, obj) {
+			var arr = this[helper];
+			var idx = this.getIndexOfCid(obj.cId, helper);
+			if (idx !== -1)
+				this.splice(helper, idx, 1);
+		},
+
+		_resetHelperArrays: function() {
+			this.set('added',[]);
+			this.set('modified',[]);
+			this.set('removed',[]);
+		},
+
+		_deepChanged:function(change) {
+			if (change && change.path) {
+				var path = change.path.split(".");
+				if (path.length > 1) {
+					var idx = parseInt(path[1].substr(1));
+					var model = this.data[idx];
+					this.fire('added-changed');
+					this.fire('removed-changed');
+					this.fire('modified-changed');
+					//dont move to modified list if its a 'new' model
+					if (model && this.getIndexOfCid(model.cId,'added') === -1
+						&& this.getIndexOfCid(model.cId, 'modified') === -1) {
+
+						this.push('modified', this.data[idx]);
+						this._cleanHelperArrays('added',this.data[idx]);
+						this._cleanHelperArrays('removed',this.data[idx]);
+					}
+				} else if (change.path === 'data' && this.data) {
+					this._resetHelperArrays();
+					this.data.forEach(function(model) {
+						if (!model.cId) {
+							_generateCid(this, model);
+						}
+					}, this);
+				}
+			}
+		},
+
+		get length() {
+			return this.data.length;
+		},
+
+		get count() {
+			return this._count || this.length;
+		},
+
+		toJSON: function() {
+			this.data.toJSON();
+		}
+	};
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

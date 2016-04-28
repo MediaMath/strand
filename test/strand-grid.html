@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+	<script>
+		describe("strand-grid", function() {
+
+			it("should have a default template", function() {
+				var grid = document.querySelector("#testgrid");
+				should.exist(grid.$.defaultTemplate);
+			});
+
+			it("should have a custom template", function() {
+				var grid = document.querySelector("#testgrid2");
+				grid.templateFinder.template.id.should.equal("customTemplate");
+			});
+			
+			it("should have columns", function() {
+				var grid = document.querySelector("#testgrid");
+				should.exist(grid._columns);
+				grid._columns.length.should.equal(2);
+			});
+
+			it("should have columns with initial width", function() {
+				var grid = document.querySelector("#testgrid");
+				grid._columns.forEach(function(column){
+					column.width.should.equal("50%");
+				});
+			});
+
+			it("should render items when data is set", function(done) {
+				var grid = document.querySelector("#testgrid");
+				var data = [];
+				for(var i=0; i < 10; i++){
+					data.push({id: i, foo: "foo", bar: "bar"});
+				}
+				grid.data = data;
+				flush(function(){
+					var recycler = Polymer.dom(grid.root).querySelector('strand-item-recycler');
+					var items = Polymer.dom(recycler.root).querySelectorAll("strand-grid-item");
+					items.length.should.be.greaterThan(0);
+					done();
+				});
+			});
+
+			it("should select all items", function() {
+				var grid = document.querySelector("#testgrid");
+				grid.setAllSelections(true);
+				grid.data.every(function(item){ return item.selected === true; }).should.equal(true);
+			});
+
+		});
+	</script>
+	<strand-grid id="testgrid" selectable>
+		<strand-grid-column field="foo">Foo</strand-grid-column>
+		<strand-grid-column field="bar">Bar</strand-grid-column>
+	</strand-grid>
+	<strand-grid id="testgrid2">
+		<strand-grid-column field="foo">Foo</strand-grid-column>
+		<strand-grid-column field="bar">Bar</strand-grid-column>
+		<template id="customTemplate">
+			<strand-grid-item></strand-grid-item>
+		</template>
+	</strand-grid>
+</body>
+</html>

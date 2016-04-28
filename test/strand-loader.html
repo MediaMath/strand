@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-loader id="loader"></strand-loader>
+
+	<script type="text/javascript">
+
+		describe("strand-loader", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Loader();
+				a.nodeName.should.equal("STRAND-LOADER");
+			});
+
+			it("should hide", function(done) {
+				var a = document.querySelector("#loader");
+				a.hide();
+				a.async(function() {
+					a.style.display.should.equal("none");
+					done();
+				});
+			});
+
+			it("should show", function(done) {
+				var a = document.querySelector("#loader");
+				a.show();
+				a.async(function() {
+					a.style.display.should.equal("block");
+					done();
+				});
+			});
+
+			it("should convert hex", function() {
+				var a = document.querySelector("#loader");
+				a._convertHex("#ff0000").should.equal("rgba(255,0,0,"+a.bgOpacity+")");
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

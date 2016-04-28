@@ -1,0 +1,45 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_mixins";
+
+:host {
+	display: block;
+	position: relative;
+	box-sizing: border-box;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+
+:host(:not(:last-of-type)) {
+	border-bottom: none;
+}
+
+#labelArea {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	padding: 10px 20px;
+
+	& > ::content strand-header, strand-icon {
+		pointer-events: none;
+		user-select: none;
+	}
+
+	strand-icon.opened {
+		transform: scaleY(-1);
+	}
+}
+
+#expandArea {
+	position: relative;
+	display: block;
+	height: 0px;
+	overflow: hidden;
+	transition: height 1s;
+}

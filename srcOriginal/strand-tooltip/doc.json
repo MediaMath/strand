@@ -1,0 +1,34 @@
+{
+	"name":"strand-tooltip",
+	"description":"A custom styled tooltip which accepts variable and partially styleable content.",
+	"attributes": [
+		{
+			"name":"tipWidth",
+			"type":"Number",
+			"description":"The desired width of the tooltip.",
+			"optional":true,
+			"attribute": "tip-width",
+			"default":"Defaults to content width",
+			"reflect":true
+		},
+		{
+			"name":"auto",
+			"type":"Boolean",
+			"description":"Instructs the tooltip to stay visible even after the user has rolled out of the target area.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		}
+	],
+	"articles": ["grid_custom_grid_item"],
+	"behaviors":[
+		"resolvable",
+		"closable",
+		"autoclosable",
+		"stackable",
+		"stylable",
+		"positionable",
+		"positionable-panel",
+		"refable"
+	]
+}

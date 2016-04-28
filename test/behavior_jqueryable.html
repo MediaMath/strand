@@ -114,17 +114,17 @@
 
 			it("should add/remove items from DDL", function() {
 				var $test = $("#test");
-				$("<mm-list-item>Testing 123</mm-list-item>").appendTo($test);
-				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(1);
-				$test.find("mm-list-item").remove();
-				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(1); //fails (not ideal)
-				$test.html(""); 
-				Polymer.dom($test[0]).querySelectorAll("mm-list-item").should.have.length(0); //succeeds
+				$("<strand-list-item>Testing 123</strand-list-item>").appendTo($test);
+				Polymer.dom($test[0]).querySelectorAll("strand-list-item").should.have.length(1);
+				$test.find("strand-list-item").remove();
+				Polymer.dom($test[0]).querySelectorAll("strand-list-item").should.have.length(1); //fails (not ideal)
+				$test.html("");
+				Polymer.dom($test[0]).querySelectorAll("strand-list-item").should.have.length(0); //succeeds
 			});
 
 		});
 	</script>
 
-	<mm-dropdown id="test"></mm-dropdown>
+	<strand-dropdown id="test"></strand-dropdown>
 </body>
 </html>

@@ -52,12 +52,12 @@
 
 	<dom-module id="test-templatizing">
 		<template>
-			<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+			<strand-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 				<content select="template"></content>
 				<template preserve-content id="internal">
 					<test-stamping datum="{{obj}}"></test-stamping>
 				</template>
-			</mm-template-finder>
+			</strand-template-finder>
 			<div id="contents">
 				<content></content>
 			</div>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-list-item id="default">Magic</strand-list-item>
+
+	<div id="resize" style="width:500px;">
+		<strand-list-item id="resizee">Some longer text string should appear here.</strand-list-item>
+	</div>
+
+	<script type="text/javascript">
+
+		describe("strand-list-item", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.ListItem();
+				a.nodeName.should.equal("STRAND-LIST-ITEM");
+			});
+
+			it("should set title attribute when it's container's width is changed", function(done) {
+				var a = document.querySelector("#resizee"),
+					r = document.querySelector("#resize"),
+					title = null;
+
+				r.style.width = "150px";
+
+				setTimeout(function(){
+					title = a.getAttribute("title");
+					done();
+				}, 150);
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

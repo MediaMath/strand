@@ -1,0 +1,43 @@
+{
+	"name":"strand-action",
+	"description":"A fully-styled inline text link with optional icon.",
+	"attributes": [
+		{
+			"name":"href",
+			"type":"String",
+			"description":"Used for defining a hypertext source link, just like an <a> element. By default, assumes that the developer will want to control click interaction via js, unless an href is provided.",
+			"optional":true,
+			"default":"javascript:void(0)",
+			"reflect": true
+		},
+		{
+			"name":"underline",
+			"type":"Boolean",
+			"description":"Instructs the component to underline the link text.",
+			"optional":true,
+			"default":"none",
+			"reflect": true
+		},
+		{
+			"name":"target",
+			"type":"String",
+			"description":"Used to specifies where to display the linked resource, just like an <a> element.",
+			"optional":true,
+			"default":"_self",
+			"reflect": true
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		}
+	],
+	"behaviors" : [
+		"resolvable",
+		"stylable",
+		"refable"
+	]
+}

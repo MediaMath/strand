@@ -1,0 +1,64 @@
+<link rel="import" href="../js/validator.html"/>
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var Validator = StrandLib.Validator;
+
+	scope.Validatable = {
+
+		listeners: {
+			"value-changed" : "_validateOnUpdate"
+		},
+
+		properties: {
+			error: {
+				type: Boolean,
+				value: false
+			},
+			validation: {
+				type: String,
+				observer: "_validationChanged"
+			}
+		},
+
+		// items to validate against
+		testSet: null,
+
+		_validationChanged: function(newVal, oldVal) {
+			if (newVal) {
+				this.testSet = newVal.replace(/\s/g, '').split("|");
+			}
+		},
+
+		_validateOnUpdate: function(e) {
+			var value = e.detail.value;
+
+			// don't automatically display error if no value:
+			if (this.validation && value !== null) {
+				this.error = !this.validate(value);
+			}
+		},
+
+		validate: function(value) {
+			if(this.validation) {
+				var result = this.testSet.map(function(item) {
+					return Validator.rules[item](value);
+				}, this).filter(function(item) {
+					return item === true;
+				});
+				return result.length === this.testSet.length;
+			} else {
+				return false;
+			}
+		}
+
+	};
+
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

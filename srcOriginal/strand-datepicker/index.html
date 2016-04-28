@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-input-mask/strand-input-mask.html">
+		<link rel="import" href="../strand-popover/strand-popover.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../shared/js/moment.html">
+		<link rel="import" href="strand-datepicker.html">
+		<style type="text/css">
+
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin: 0;
+				padding: 0;
+				background: #eee;
+				font-family: sans-serif;
+				color: #333;
+			}
+
+			#dpb {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -65px;
+				margin-top: -15px;
+			}
+
+			strand-datepicker[unresolved],
+			strand-button[unresolved],
+			strand-dropdown[unresolved] {
+				display: none;
+			}
+
+			strand-datepicker {}
+
+			.controller {
+				width: 500px;
+				border: 1px dashed #999;
+				margin:10px 10px;
+				padding: 10px 10px;
+			}
+
+			.controller span {
+				padding: 5px 5px;
+				margin-bottom: 10px;
+			}
+
+			.controller strand-dropdown {
+				margin-top: 10px;
+			}
+
+			#show {
+				border: 1px solid #CCC;
+			}
+
+		</style>
+	</head>
+	<body>
+		<template is="dom-bind">
+			<strand-dropdown id="ddl" value="{{direction}}" unresolved>
+				<strand-list-item>n</strand-list-item>
+				<strand-list-item>e</strand-list-item>
+				<strand-list-item>s</strand-list-item>
+				<strand-list-item>w</strand-list-item>
+				<strand-list-item>c</strand-list-item>
+			</strand-dropdown>
+
+			<strand-button id="dpb" unresolved>
+				<label>datepicker target</label>
+			</strand-button>
+			<strand-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb" unresolved></strand-datepicker>
+		</template>
+
+		<!-- <template id="tmp" is="auto-binding">
+			<div vertical layout class="controller">
+				<span id="show" on-tap="{{op}}"><b>Start:</b>{{$.dp2.start}} <b>End:</b>{{$.dp2.end}}</span>
+				<div layout horizontal>
+					<div>
+						<strand-header>Start Allowed</strand-header>
+						<strand-calendar id="allowedStart" date="{{ast}}"></strand-calendar>
+					</div>
+					<div>
+						<strand-header>End Allowed</strand-header>
+						<strand-calendar id="allowedEnd" date="{{aet}}"></strand-calendar>
+					</div>
+				</div>
+				<strand-dropdown placeholder="Click behavior" value="{{clickType}}">
+					<strand-list-item value="constrainTap">T1 Limited</strand-list-item>
+					<strand-list-item value="lazyTap">Lazy Selection</strand-list-item>
+					<strand-list-item value="selectTap">DoubleTap (alpha)</strand-list-item>
+				</strand-dropdown>
+				<strand-checkbox checked="{{userStartEnabled}}">
+					<label>User Enableable Start</label>
+				</strand-checkbox>
+				<strand-checkbox checked="{{userEndEnabled}}">
+					<label>User Enableable End</label>
+				</strand-checkbox>
+				<strand-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></strand-datepicker>
+			</div>
+		</template> -->
+		<!-- <strand-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></strand-datepicker> -->
+
+		<!-- <template is="dom-bind" id="t">
+			<strand-button id="btn">
+				<label>Select a Date</label>
+			</strand-button>
+			<strand-datepicker id="dp" target="#btn" start-enabled end-enabled use-timezone="false" use-range="false">
+			</strand-datepicker>
+		</template> -->
+
+		<script>
+			var dp,
+				dpb,
+				tmp,
+				rangePresets,
+				drag = false;
+
+			window.addEventListener("WebComponentsReady", function() {
+				rangePresets = [
+					{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+					{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+					{name:"Last 30 Days", value:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+					{name:"Month to Date", value:"Month to Date", start:moment().startOf('month'), end:moment()}
+				];
+				dp = document.querySelector("#dp");
+				dp.rangePresets = rangePresets;
+				dp.timezones = [
+					{name:"(GMT-05:00) Eastern Time (US & Canada)", value:"America/New_York"},
+					{name:"(GMT-06:00) Central Time (US & Canada)", value:"America/Chicago"}
+				]; 
+				dpb = document.querySelector("#dpb");
+				// dp.useCommit = false;
+				dp.target = dpb;
+				// dp.dual = false;
+
+				dp.allowedStart = moment().subtract(14, 'days');
+				dp.allowedEnd = moment().add(14, 'days');
+
+
+				// tmp = document.querySelector("#tmp");
+				// tmp.op = function() {
+				// 	this.$.dp2.open();
+				// };
+
+				// var dp3 = document.querySelector("#dp3");
+				// dp3.start = moment("Fri Jun 12 2015 00:00:00");
+				// dp3.end = moment("Thu Sep 10 2015 00:00:00");
+				// dp3.allowedStart = dp3.start;
+				// dp3.allowedEnd = dp3.end;
+				// dp3.async(function() {
+
+				// dp3.open();
+
+				dp.addEventListener('saved', function(e) {
+					console.info('start');
+					console.log(e.detail.start);
+					console.info('end');
+					console.log(e.detail.end);
+				})
+			});
+
+			// 	init();
+			// });
+
+			function init() {
+				dpb.addEventListener("mouseup", handleDpb);
+				dpb.addEventListener("mousedown", handleDpbMouseDown);
+			}
+
+			function handleDpb(e) {
+				dp.open();
+			}
+
+			function handleDpbMouseDown(e) {
+				drag = true;
+				document.addEventListener("mouseup", handleMouseUp);
+				document.addEventListener("mousemove", handleDrag);
+			}
+
+			function handleMouseUp(e) {
+				drag = false;
+				document.removeEventListener("mouseup", handleMouseUp);
+				document.removeEventListener("mousemove", handleDrag);
+			}
+
+			function handleDrag(e) {
+				if (drag === true) {
+					dpb.style.left = e.pageX + "px";
+					dpb.style.top = e.pageY + "px";
+				}
+			}
+		</script>
+	</body>
+</html>

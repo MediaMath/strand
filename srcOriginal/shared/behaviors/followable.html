@@ -1,0 +1,21 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+*/
+(function (scope) {
+scope.Followable = {
+	bindFrom:function(prop, target, updatePath) {
+		target.addEventListener(prop+'-changed', function() {
+			this.set(updatePath || prop, target[prop]);
+		}.bind(this));
+	},
+	bindTo: function(prop, target, targetPath) {
+		this.addEventListener(prop + '-changed', function() {
+			target.set(targetPath || prop, this[prop]);
+		}.bind(this));
+	}
+};
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

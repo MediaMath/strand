@@ -1,0 +1,7 @@
+<template is="dom-bind">
+	<strand-collection id="searchResults" data="{{dataList}}" auto="false">
+	</strand-collection>
+	<template is="dom-repeat" items="{{datalist}}">
+		<div>{{item.name}}</div>
+	</template>
+</template>

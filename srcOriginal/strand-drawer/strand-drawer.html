@@ -1,0 +1,29 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/stylable.html">
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-drawer">
+  <link rel="import" type="css" href="strand-drawer.css">
+  <template>
+		<div id="container" class$="{{ _computeClass(expanded) }}" style$="{{ _computeStyle(_height) }}">
+			<div id="content">
+				<content select="*"></content>
+			</div>
+		</div>
+		<template is="dom-if" if="{{_showLabel}}">
+			<div id="toggle" on-tap="toggle" class$="{{ _computeClass(expanded) }}">
+				<strand-icon type="upload" width="11" height="11" primary-color="#525252"></strand-icon>
+				<span>{{_computeLabel(label,openedLabel,closedLabel,expanded)}}</span>
+			</div>
+		</template>
+	</template>
+  <script src="strand-drawer.js"></script>
+</dom-module>

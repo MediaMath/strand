@@ -1,0 +1,49 @@
+{
+	"name":"strand-tabs",
+	"description":"A fully-styled component for presenting tabbed content",
+	"attributes": [
+		{
+			"name": "tabBarPosition",
+			"type": "String",
+			"description": "The side of the content container to display the tabs",
+			"attribute":"tab-bar-position",
+			"optional": true,
+			"default": "top",
+			"options": ["top","left"]
+		},
+		{
+			"name": "tabBarOffset",
+			"type": "Number",
+			"description": "The amount of space, in px, between the first tab and the edge of the container",
+			"attribute":"tab-bar-offset",
+			"optional": true,
+			"default": "20"
+		},
+		{
+			"name": "inner",
+			"type": "Boolean",
+			"description": "Use the alternate style tabs, for a set of tabs inside another tab",
+			"optional": true,
+			"default:": false
+		},
+		{
+			"name": "selectedIndex",
+			"type": "Number",
+			"attribute": "N/A",
+			"description": "The index of the current selected tab. This can be changed to selected a different tab."
+		},
+		{
+			"name": "items",
+			"type": "Array",
+			"attribute": "N/A",
+			"readOnly": "true",
+			"description": "Returns an array of this component's tabs, in order"
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"selectable",
+		"stylable",
+		"refable"
+	]
+}

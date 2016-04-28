@@ -1,0 +1,51 @@
+{
+	"name":"strand-repeater",
+	"description":"A component for duplicating a set of form fields from a template",
+	"experimental" : [
+		{
+			"message" : "This component contains experimental features. The configuration and API are subject to change. Please use at your own risk."
+		}
+	],
+	"attributes": [
+		{
+			"name":"value",
+			"type":"Array",
+			"description":"An array containing key:value maps of the strand-repeater data, one per row"
+		},
+		{
+			"name":"config",
+			"type":"Object",
+			"description":"An configuration object used to provide validation rules and error messaging"
+		},
+		{
+			"name":"addRowLabel",
+			"type":"String",
+			"description":"Custom text for adding a row",
+			"default":"Add Row"
+		},
+		{
+			"name":"added",
+			"type":"Array",
+			"readOnly":"true",
+			"description":"A read-only array of key:value maps of rows that have been added by the user"
+		},
+		{
+			"name":"changed",
+			"type":"Array",
+			"readOnly":"true",
+			"description":"A read-only array of key:value maps of rows that have been modified by the user"
+		},
+		{
+			"name":"removed",
+			"type":"Array",
+			"readOnly":"true",
+			"description":"A read-only array of key:value maps of rows that have been removed by the user"
+		}
+	],
+	"methods": [
+		{
+			"name":"validate",
+			"description":"Validate the data in the repeater according to the rules provided in config. Returns a Boolean indicating whether all of the data is valid"
+		}
+	]
+}

@@ -31,9 +31,9 @@
 	</script>
 
 	<test-selectable id="lightItems1">
-		<mm-list-item>A</mm-list-item>
-		<mm-list-item>A</mm-list-item>
-		<mm-list-item>A</mm-list-item>
+		<strand-list-item>A</strand-list-item>
+		<strand-list-item>A</strand-list-item>
+		<strand-list-item>A</strand-list-item>
 	</test-selectable>
 
 	<test-selectable id="lightItems2">
@@ -50,7 +50,7 @@
 			it('should get items from light DOM', function() {
 				var light = document.querySelector('#lightItems1');
 				for(var i=0; i<light.items.length; i++) {
-					light.items[i].localName.should.equal('mm-list-item');
+					light.items[i].localName.should.equal('strand-list-item');
 				}
 				light.items.length.should.equal(3);
 			});

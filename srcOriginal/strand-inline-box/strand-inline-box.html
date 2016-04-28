@@ -1,0 +1,26 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-inline-box">
+	<link rel="import" type="css" href="strand-inline-box.css"/>
+	<template>
+		<div class="container">
+			<strand-icon id="icon" type="{{_icon.type}}" width="16" height="16"></strand-icon>
+			<div id="content" style$="{{_getContentStyle(maxlines)}}">
+				<content></content>
+			</div>
+		</div>
+	</template>
+</dom-module>
+<script src="strand-inline-box.js"></script>

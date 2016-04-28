@@ -1,0 +1,38 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_mixins";
+@import "_color";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0em;
+	line-height: 0em;
+}
+
+:host([disabled]) {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+@include fit();
+
+:host([align=horizontal]),
+:host([align=vertical]) {
+	display: inline-flex;
+}
+
+:host([align=vertical]) {
+	flex-direction: column;
+}
+
+:host([align=horizontal][fitparent]) {
+	justify-content: space-between;
+}

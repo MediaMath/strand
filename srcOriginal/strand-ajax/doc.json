@@ -1,0 +1,274 @@
+{
+	"name":"strand-ajax",
+	"description":"A simple non rendered XMLHttpRequest wrapper api.",
+	"attributes": [
+		{
+			"name":"contentType",
+			"type":"String",
+			"description":"Content type header to send to server",
+			"optional":true,
+			"default":"application/x-www-form-urlencoded",
+			"options":[]
+		},
+		{
+			"name":"method",
+			"type":"String",
+			"description":"http request method to use for XHR call. Note that the component exposes constants for dev usage.",
+			"optional":true,
+			"default":"GET",
+			"options":["GET", "POST", "PUT", "DELETE"]
+		},
+		{
+			"name":"auto",
+			"type":"Boolean",
+			"description":"when auto is true exec() is called whenever the body changes",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"body",
+			"type":"Object",
+			"description":"The request body to pass to the server for POST or PUT calls",
+			"optional":true
+		},
+		{
+			"name":"response",
+			"type":"Object (or any primitive)",
+			"description":"The response from the server"
+		},
+		{
+			"name":"withCredentials",
+			"type":"Boolean",
+			"description":"Passes the withCredentials param to the XHR needed for some secure CORS scenarios.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"]
+		},
+		{
+			"name":"timeout",
+			"type":"Boolean",
+			"description":"XHR timeout in milliseconds",
+			"optional":true,
+			"default":"10000",
+			"options":[]
+		},
+		{
+			"name":"concurrency",
+			"type":"Number",
+			"description":"The request concurrency for the execQueue methods",
+			"default":"4"
+		},
+		{
+			"name":"status",
+			"type":"String",
+			"description":"Readonly XHR object status string",
+			"readOnly": true,
+			"options":["true", "false"]
+		},
+		{
+			"name":"state",
+			"type":"Boolean",
+			"description":"",
+			"readOnly":true,
+			"options":["true", "false"]
+		},
+		{
+			"name":"xhr",
+			"type":"Object",
+			"description":"A reference to the XHR object created for this call if needed",
+			"readOnly":true,
+			"optional":true
+		}
+	],
+	"methods": [
+		{
+			"name":"exec",
+			"description":"Triggers the XHR call.",
+			"arguments":[
+				{
+					"name":"data",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional body data to be passed with the call if this.body is or when it is desired to override"
+				},
+								{
+					"name":"options",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional ajax config object that is mixed into the default config to override any default config as desired"
+				}
+			]
+		},
+		{
+			"name":"queue",
+			"description":"Enqueus the XHR call to be triggered by execQueue. Returns the promise for the call being queued.",
+			"arguments":[
+				{
+					"name":"data",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional body data to be passed with the call if this.body is or when it is desired to override"
+				},
+								{
+					"name":"options",
+					"type":"Object",
+					"optional":true,
+					"default":"undefined",
+					"description":"Optional ajax config object that is mixed into the default config to override any default config as desired"
+				},
+				{
+					"name":"name",
+					"type":"String",
+					"optional":true,
+					"default":"undefined",
+					"description":"Name to use for the queue. if not is provided the default queue is used."
+				}
+			]
+		},
+		{
+			"name":"execQueue",
+			"description":"Executes a given queue of requests. Returns a queue promise which resolves when all calls have completed.",
+			"arguments":[
+				{
+					"name":"name",
+					"type":"String",
+					"optional":true,
+					"default":"undefined",
+					"description":"Name of the queue to execute. if not is provided the default queue is executed."
+				}
+			]
+
+		},
+		{
+			"name":"abort",
+			"description":"Cancels an in progres XHR call.",
+			"arguments":[]
+		},
+		{
+			"name":"addHeader",
+			"description":"Adds a header name/value pair to the headers array.",
+			"arguments":[
+				{
+					"name":"name",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the header eg: X-Requested-By"
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The value of the header"
+				}
+				]
+		},
+		{
+			"name":"addParam",
+			"description":"Adds a queryString name/value pair to the query array.",
+			"arguments":[
+				{
+					"name":"name",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the query param"
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The value of the query param"
+				}
+			]
+		},
+		{
+			"name":"addUrlParam",
+			"description":"Adds a url chunk to the urlParams array. Useful for ids or other dynamic url parts. / is added automatically.",
+			"arguments":[
+				{
+					"name":"name",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the url chunk to add."
+				}
+			]
+		}
+	],
+	"events": [
+		{
+			"type": "data-abort",
+			"detail": [
+			]
+		},
+		{
+			"type": "data-progress",
+			"detail": [
+				{
+					"name":"percent",
+					"type":"Number",
+					"description":"Decimal percentage of the progress. From 0 to 1."
+				},
+				{
+					"name":"total",
+					"type":"Number",
+					"description":"The total size in bytes of the request."
+				},
+				{
+					"name":"current",
+					"type":"Number",
+					"description":"The current number of bytes loaded."
+				}
+			]
+		},
+		{
+			"type": "data-error",
+			"detail": [
+				{
+					"name":"error",
+					"type":"String",
+					"description":"A message about what has failed"
+				},
+				{
+					"name":"instance",
+					"type":"Object",
+					"description":"A reference to the strand-ajax instance that failed"
+				},
+				{
+					"name":"response",
+					"type":"Object (optional)",
+					"description":"In cases where the response has actually been recieved before the error this will contain the API response if any."
+				}
+			]
+		},
+		{
+			"type":"data-ready",
+			"disclaimer":"This is fired when the data is parsed and available on the response property",
+			"detail":[
+				{
+					"name":"response",
+					"type":"Object",
+					"description":"The parsed response from the server"
+				},
+				{
+					"name":"instance",
+					"type":"Object",
+					"description":"A reference to the strand-ajax component that requested the response"
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"refable"
+	],
+	"articles":[
+		"data_comps_using_ajax"
+	]
+}

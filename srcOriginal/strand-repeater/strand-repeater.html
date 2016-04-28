@@ -1,0 +1,35 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/validatable.html"/>
+<link rel="import" href="../shared/js/validator.html"/>
+<link rel="import" href="../shared/js/datautils.html"/>
+<link rel="import" href="../strand-action/strand-action.html"/>
+<link rel="import" href="../strand-box/strand-box.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
+<link rel="import" href="../strand-form-message/strand-form-message.html"/>
+
+<dom-module id="strand-repeater">
+	<link rel="import" type="css" href="strand-repeater.css"/>
+	<template>
+		<template is="dom-repeat" items="{{data}}" id="repeater">
+			<strand-box ref="{{item._ref}}" align="stretch" justify="space-between" on-selected="_updateModel" on-changed="_updateModel">
+				<div class="fields" align="center" inner-h-t-m-l="{{template}}"></div>
+				<strand-box class="control" align="center">
+					<strand-action on-tap="_addRow"><label>{{addRowLabel}}</label></strand-action>
+					<strand-icon type="delete" on-tap="_removeRow" height="12" width="12"></strand-icon>
+				</strand-box>
+			</strand-box>
+			<strand-form-message type="error" visible="{{item.error}}" message="{{item.errorMessage}}"></strand-form-message>
+		</template>
+	</template>
+</dom-module>
+
+<script src="strand-repeater.js"></script>

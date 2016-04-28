@@ -1,0 +1,104 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+:host([disabled]) {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+@include fit();
+
+.container {
+	box-sizing: border-box;
+	border: 1px solid;
+	border-radius: 4px;
+	padding: 6px 10px;
+}
+
+:host([type="info"]) {
+	.container {
+		border-color: $color-D20;
+		background-color: $color-D10;
+	}
+
+	strand-icon {
+		color: $color-D3;
+	}
+}
+
+:host([type="success"]) {
+	.container {
+		border-color: $color-B12;
+		background-color: $color-B13;
+	}
+
+	strand-icon {
+		color: $color-B6;
+	}
+}
+
+:host([type="warning"]) {
+	.container {
+		border-color: $color-E12;
+		background-color: $color-E13;
+	}
+
+	strand-icon {
+		color: $color-E5;
+	}
+}
+
+:host([type="error"]) {
+	.container {
+		border-color: $color-C13;
+		background-color: $color-C14;
+	}
+
+	strand-icon {
+		color: $color-C3;
+	}
+}
+
+#icon {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 6px 0 0 10px;
+}
+
+#content {
+	color: $color-A2;
+	font-family: 'Arimo', sans-serif;
+	@include fontSmoothing();
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 18px;
+	overflow: auto;
+	margin-left: 25px;
+}
+
+:host([layout=message]) {
+	.container {
+		border: none;
+		background: none;
+		padding: 0;
+	}
+
+	#icon {
+		margin: 0;
+	}
+}

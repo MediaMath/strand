@@ -1,0 +1,204 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_mixins";
+
+.button {
+	box-sizing: border-box;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	@include buttonFont();
+	text-transform: capitalize;
+	border: 1px solid;
+	border-radius: 4px 4px 4px 4px;
+	padding: 0 10px;
+	cursor: pointer;
+	margin: 0;
+	height: 29px !important;
+	width: auto;
+
+	& > ::content label {
+		@include buttonFont();
+		pointer-events: none;
+		white-space: nowrap;
+	}
+
+	& > ::content strand-icon {
+		display: block;
+		pointer-events: none;
+	}
+
+	& > ::content strand-icon + label,
+	& > ::content strand-spinner + label {
+		padding-left: 7px;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&.fit {
+		@include fitContent();
+	}
+
+	&.primary {
+		color: $color-D0;
+		border-color: $color-D4;
+		background: $color-D6;	
+	}
+
+	&.invalid,
+	&.primary.invalid,
+	&.secondary.invalid {
+		border-color: $color-C12;
+	}
+
+	&.primary:hover {
+		color: $color-D0;
+		background-color: $color-D5;
+	}
+
+	&.primary:active {
+		@include buttonSelected($color-D22, $color-D5, $color-D22);
+	}
+
+	&.secondary {
+		color: $color-A2;
+		border-color: $color-A8;
+		background: $color-F0;
+		background-image: linear-gradient($color-F0, $color-A19);		
+	}
+
+	&.secondary:hover {
+		color: $color-A2;
+		background-color: $color-A9;
+		background-image: none;
+	}
+
+	&.secondary:active {
+		@include buttonSelected($color-A20, $color-A9, $color-A20);
+	}
+
+	/* layout modes for button */
+	&.opened.bottom {
+		border-radius: 4px 4px 0px 0px;
+	}
+
+	&.opened.top {
+		border-radius: 0px 0px 4px 4px;
+	}
+}
+
+/* layout modes for button */
+/* horizontal */
+:host([layout=hgroup-left]) {
+	.button  {
+		border-radius: 4px 0px 0px 4px;
+	}
+
+	.button.opened.bottom {
+		border-radius: 4px 0px 0px 0px;
+	}
+
+	.button.opened.top {
+		border-radius: 0px 0px 0px 4px;
+	}
+}
+
+:host([layout=hgroup-center]) {
+	margin-left: -1px;
+
+	.button,
+	.button.opened.bottom,
+	.button.opened.top {
+		border-radius: 0px 0px 0px 0px;
+	}
+}
+
+:host([layout=hgroup-right]) {
+	margin-left:-1px;
+
+	.button {
+		border-radius: 0px 4px 4px 0px;
+	}
+
+	.button.opened.bottom {
+		border-radius: 0px 4px 0px 0px;
+	}
+
+	.button.opened.top {
+		border-radius: 0px 0px 4px 0px;
+	}
+}
+
+/* vertical */
+:host([layout=vgroup-top]),
+:host([layout=vgroup-center]),
+:host([layout=vgroup-left]) {
+	.button {
+		justify-content: center;
+	}
+}
+
+:host([layout=vgroup-top]) {
+	.button {
+		border-radius: 4px 4px 0px 0px;
+	}
+}
+
+:host([layout=vgroup-center]) {
+	margin-top: -1px;
+
+	.button{
+		border-radius: 0px 0px 0px 0px;
+	}
+}
+
+:host([layout=vgroup-bottom]) {
+	margin-top: -1px;
+	
+	.button {
+		border-radius: 0px 0px 4px 4px;
+	}
+}
+
+// support multiple size configurations
+:host([size='large']){
+	.button {
+		height: 46px !important;
+		padding: 0 15px;
+
+		& > ::content label {
+			font-size: 15px !important;
+			line-height: 46px !important;
+		}
+	}
+}
+
+:host([size='normal']){
+	.button {
+		height: 29px !important;
+		padding: 0 10px;
+
+		& > ::content label {
+			@include buttonFont();
+		}
+	}
+}
+
+:host([size='small']){
+	.button {
+		height: 26px !important;
+		padding: 0 8px !important;
+
+		& > ::content label {
+			font-size: 11px!important;
+			line-height: 26px !important;
+		}
+	}
+}

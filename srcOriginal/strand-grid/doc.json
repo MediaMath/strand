@@ -1,0 +1,183 @@
+{
+	"name":"strand-grid",
+	"description":"A fully styled, configurable data grid with item recycling.",
+	"attributes": [
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The array of data or strand-collection to render into the grid.",
+			"optional":false,
+			"default":"null"
+		},
+		{
+			"name":"itemTemplate",
+			"type":"String",
+			"description":"A string pointing to a custom item template by ID.  Should be explicitly assigned if 'itemTemplateElement' is not.",
+			"attribute":"item-template",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"itemTemplateElement",
+			"type":"Object",
+			"description":"The custom item template DOM fragment.  Should be explicitly assigned if 'itemTemplate' is not.",
+			"attribute":"item-template-element",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"selectable",
+			"type":"Boolean",
+			"description":"Enable selectable grid items.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"expandable",
+			"type":"Boolean",
+			"description":"Enable expandable grid items.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"sortField",
+			"type":"String",
+			"attribute": "sort-field",
+			"description":"Set/Get the current sort data field.",
+			"optional":true,
+			"default":""
+		},
+		{
+			"name":"sortOrder",
+			"type":"Integer",
+			"attribute": "sort-order",
+			"description":"Set/Get the current sort order",
+			"optional":true,
+			"default":"",
+			"options":[-1,0,1]
+		},
+		{
+			"name":"selected",
+			"type":"Array",
+			"readOnly":true,
+			"attribute":"N/A",
+			"description":"Returns array of selected items.",
+			"default":"[]"
+		},
+		{
+			"name":"expanded",
+			"type":"Boolean",
+			"description":"Whether or not the grid has expanded all of its items.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"isLoading",
+			"type":"Boolean",
+			"description":"Whether or not the grid should indicate that it is globally waiting for data to load.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"scope",
+			"type":"Object",
+			"description":"The content scope that is passed to the grid's items - typically the grid itself.",
+			"optional":false,
+			"default":"the grid itself"
+		},
+		{
+			"name":"gpu",
+			"type":"String",
+			"description":"Indication of which rendering method is preferred - note that '3d' rendering can have unintended clipping effects on content in the grid.",
+			"optional":true,
+			"default":"2d",
+			"options":["2d", "3d"]
+		},
+		{
+			"name":"index",
+			"type":"Integer",
+			"description":"The current first visible item's index at the top of the grid.",
+			"default":""
+		}
+	],
+	"methods": [
+		{
+			"name":"createId",
+			"description":"Creates a unique identification string for positionable elements nested within an strand-grid. This will be necessary when using strand-menu, strand-popover, or strand-tooltip within a custom strand-grid-item (see: strand-popover, strand-tooltip, strand-menu).",
+			"arguments":[
+				{
+					"name":"string",
+					"type":"String",
+					"optional":false,
+					"default":"none",
+					"description":"The unique string to be used to identify the element."
+				},
+				{				
+					"name":"id",
+					"type":"Number",
+					"optional":false,
+					"default":"none",
+					"description":"The model.id for the strand-grid-item."
+				}
+			]
+		},
+		{
+			"name":"setAllSelections",
+			"description":"Sets all of the grid's items to be selected or deselected according to the provided parameter.",
+			"arguments":[
+				{
+					"name":"checked",
+					"type":"Boolean",
+					"optional":false,
+					"default":"undefined",
+					"description":"true selects all items and false deselects all items."
+				}
+			]
+		},
+		{
+			"name":"setAllExpansions",
+			"description":"Sets all of the grid's items to be expanded or collapsed according to the provided parameter.",
+			"arguments":[
+				{
+					"name":"expanded",
+					"type":"Boolean",
+					"optional":false,
+					"default":"undefined",
+					"description":"true expands all items and false collapses all items."
+				}
+			]
+		},
+		{
+			"name":"sortBy",
+			"description":"Indicates which field/column should be sorted, and in which direction.  Invoking this method does not actually perform any sorting operations on the data, it does however fire events so that listeners may do so.",
+			"arguments":[
+				{
+					"name":"field",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The name of the field on the column chosen for sorting."
+				},
+				{				
+					"name":"order",
+					"type":"String",
+					"optional":false,
+					"default":"undefined",
+					"description":"The direction in which the data should be sorted.",
+					"options": ["1 (ascending)", "-1 (descending)", "0 (no sorting)"]
+				}
+			]
+		},
+		{
+			"name":"requestInitialization",
+			"description":"Under especially unusual circumstances, the grid may not initialize (nor render) properly.  This method can be invoked to correct any such issue.  Generally, developers should never need to call this method - however, it should be idempotent (and thus safe to call multiple times successively).",
+			"arguments":[]
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"templatefindable",
+		"refable"
+	],
+	"articles": ["grid_intro", "grid_config", "grid_data_integration", "grid_custom_grid_item"]
+}

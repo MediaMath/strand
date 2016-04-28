@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/selectable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../strand-box/strand-box.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-wizard-ribbon">
+	<link rel="import" type="css" href="strand-wizard-ribbon.css"/>
+	<template>
+		<ol>
+		<template is="dom-repeat" id="repeat" items="{{steps}}">
+			<li on-tap="_selectByIndex" class$="{{_computeItemState(index, selectedIndex)}}">{{item}}</li>
+		</template>
+		</ol>
+	</template>
+</dom-module>
+
+<script src="strand-wizard-ribbon.js"></script>

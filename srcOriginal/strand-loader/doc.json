@@ -1,0 +1,59 @@
+{
+	"name":"strand-loader",
+	"description":"A fully styled loading graphic with the option for variable messaging. You can override the default spinner graphic by providing your own strand-spinner element.",
+	"attributes": [
+		{
+			"name":"bgColor",
+			"attribute": "bg-color",
+			"type":"String",
+			"description":"The color of the loader graphic background.",
+			"optional":true,
+			"default":"#000000",
+			"options":[]
+		},
+		{
+			"name":"bgOpacity",
+			"attribute": "bg-opacity",
+			"type":"String",
+			"description":"The opacity of the loader graphic background.",
+			"optional":true,
+			"default":"0.5",
+			"options":[]
+		},
+		{
+			"name":"paddingTop",
+			"attribute": "padding-top",
+			"type":"String",
+			"description":"The paddng, in pixels, applied to both top and bottom of the loader graphic.",
+			"optional":true,
+			"default":"5",
+			"options":[]
+		},
+		{
+			"name":"paddingLeft",
+			"attribute": "padding-left",
+			"type":"String",
+			"description":"The paddng, in pixels, applied to both left and right of the loader graphic.",
+			"optional":true,
+			"default":"20",
+			"options":[]
+		}
+	],
+	"methods": [
+		{
+			"name":"show",
+			"description":"Instructs the component to show itself and begin animating.",
+			"arguments":[]
+		},
+		{
+			"name":"hide",
+			"description":"Instructs the component to hide itself and stop animating.",
+			"arguments":[]
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
+	]
+}

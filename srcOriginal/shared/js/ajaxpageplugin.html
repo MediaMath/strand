@@ -1,0 +1,104 @@
+<link rel="import" href="ajaxplugin.html"/>
+<link rel="import" href="datautils.html"/>
+<script>
+(function (scope) {
+
+	function _getParamBase(obj) {
+		return DataUtils.copy({
+			query:[],
+			urlParams:[],
+			headers:[]
+		},obj);
+	}
+
+	var DataUtils = StrandLib.DataUtils;
+
+	scope.AjaxPagePlugin = function(config, name) {
+		this.config = DataUtils.copy({
+			enabled:false,
+			page:0,
+			pageSize:10,
+			pageName:"page_offset",
+			sizeName:"page_limit",
+			url:false,
+			query:true,
+			body:false,
+			pageType:"offset",
+			countPath:"",
+			stampPage:true,
+		},config);
+		this.name = name;
+	};
+
+	scope.AjaxPagePlugin.prototype = {
+
+		nextPage: function() {
+			this.page++;
+		},
+
+		prevPage: function() {
+			if(this.page > 0)
+				this.page--;
+		},
+
+		requestHandler:function(ajaxOpts) {
+
+			var pg = DataUtils.getPathValue('page', ajaxOpts);
+			var opts = DataUtils.copy({}, this.config, pg);
+
+			if (opts.enabled) {
+				ajaxOpts = _getParamBase(ajaxOpts);
+				var page = opts.pageType === "offset" ? opts.page * opts.pageSize : opts.page;
+				if (opts.stampPage) {
+					ajaxOpts._page = opts.page
+					ajaxOpts._pageSize = opts.pageSize;
+				}
+
+				if (opts.url) {
+					if (opts.pageName) {
+						ajaxOpts.urlParams.push(opts.pageName);
+						ajaxOpts.urlParams.push(page);
+					}
+					if (opts.sizeName) {
+						ajaxOpts.urlParams.push(opts.sizeName);
+						ajaxOpts.urlParams.push(opts.pageSize);
+					}
+				}
+				if (opts.query) {
+					if (opts.pageName) ajaxOpts.query.push(DataUtils.param(opts.pageName, page));
+					if (opts.sizeName) ajaxOpts.query.push(DataUtils.param(opts.sizeName, opts.pageSize));
+				}
+				if (opts.body && DataUtils.isType(ajaxOpts.body, "object")) {
+					if (opts.pageName) ajaxOpts.body[opts.pageName] = page;
+					if (opts.sizeName) ajaxOpts.body[opts.sizeName] = opts.pageSize;
+
+				}
+			}
+			return ajaxOpts;
+		},
+
+		responseHandler:function(response) {
+
+			if (this.config.enabled && this.config.countPath) {
+				response.count = DataUtils.getPathValue("response." + this.config.countPath, response);
+			}
+
+			if (this.config.enabled && this.config.stampPage) {
+				var _page = DataUtils.getPathValue('instance.options._page', response);
+				var _pageSize = DataUtils.getPathValue('instance.options._pageSize', response);
+				var meta = DataUtils.getPathValue('marshalled.meta', response);
+				if (meta) {
+					meta._page = _page;
+					meta._pageSize = _pageSize;
+				} else {
+					response._page = _page;
+					response._pageSize = _pageSize;
+				}
+			}
+
+			return response;
+		}
+	};
+
+})(window.StrandLib = window.StrandLib || {});
+</script>

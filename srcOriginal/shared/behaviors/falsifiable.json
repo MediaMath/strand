@@ -1,0 +1,22 @@
+{
+	"name": "Falsifiable",
+	"description": "Makes the element set Boolean properties to false if the corresponding attribute is set to 'false'.",
+	"methods":[
+		{
+			"name":"deserialize",
+			"description":"Overrides Polymer.Base.deserialize method to convert string values of 'true' or 'false' to Boolean values.",
+			"arguements":[
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value of the property being changed."
+				},
+				{
+					"name":"type",
+					"type":"String",
+					"description":"The type of the property being changed."
+				}
+			]
+		}
+	]
+}

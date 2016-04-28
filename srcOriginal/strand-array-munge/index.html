@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="strand-array-munge.html">
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+
+		</style>
+  </head>
+  <body>
+      <dom-module id="munge-test">
+          <template>
+              <strand-array-munge input="{{input}}" output="{{output}}" rules="a->name,a->value"></strand-array-munge>
+          </template>
+      </dom-module>
+      <script>
+      HTMLImports.whenReady(function() {
+          Polymer({
+              is:'munge-test',
+              properties:{
+                  input:{
+                      type:Array,
+                      value: function() {
+                          return [
+                              {a:1},
+                              {a:2},
+                              {a:3}
+                          ];
+                      }
+                  },
+                  output:{
+                      type:Array,
+                  }
+              },
+              _mash: function(o) {
+                  return o.map(JSON.stringify);
+              }
+          });
+      });
+      </script>
+      <munge-test></munge-test>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-progress-bar id="default"></strand-progress-bar>
+	<strand-progress-bar id="setDimensions" height="12" width="100"></strand-progress-bar>
+	<strand-progress-bar id="clamp" percent-complete="1000"></strand-progress-bar>
+	<strand-progress-bar id="indet" indeterminate></strand-progress-bar>
+
+	<script type="text/javascript">
+
+		describe("strand-progress-bar", function() {
+
+			it("should set height and width", function() {
+				var a = document.querySelector('#setDimensions'),
+					innerBar = Polymer.dom(a.root).querySelector('.bar'),
+					barWidth = TestHelper.widthIntRounded(innerBar, 'width'),
+					barHeight = TestHelper.heightIntRounded(innerBar, 'height');
+
+				barWidth.should.equal(100);
+				barHeight.should.equal(12);
+			});
+			
+			it("should have an indeterminate state", function() {
+				var normal = document.querySelector('#default');
+				var indet = document.querySelector('#indet');
+				normal.indeterminate.should.equal(false);
+				indet.indeterminate.should.equal(true);
+			});
+
+			it("should have a filled bar when indeterminate", function() {
+				var a = document.querySelector('#indet'),
+					fill = Polymer.dom(a.root).querySelector('.fill'),
+					bar = Polymer.dom(a.root).querySelector('.bar'),
+					fillWidth = TestHelper.widthIntRounded(fill, 'width'),
+					barWidth = TestHelper.widthIntRounded(bar, 'width'),
+					borderLeftWidth = TestHelper.getPropIntRounded(bar, 'border-left-width'),
+					borderRightWidth = TestHelper.getPropIntRounded(bar, 'border-right-width');
+
+				should.equal(barWidth - (borderLeftWidth + borderRightWidth), fillWidth);
+			});
+
+			it("should clamp percentComplete to be between 0 and 100", function() {
+				var pb = document.querySelector('#clamp');
+				pb.percentComplete.should.be.a('number').and.be.at.least(0).and.be.at.most(100);
+			});
+		});
+
+	</script>
+
+</body>
+</html>

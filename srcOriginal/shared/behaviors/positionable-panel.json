@@ -1,0 +1,22 @@
+{
+	"name":"PositionablePanel",
+	"description":"Positions the popover panel for popover-like elements (strand-popover, strand-tooltip, strand-datepicker)",
+	"attributes": [
+		{
+			"name":"direction",
+			"type":"String",
+			"description":"The position of the popover panel relative to its target, expressed as a cardinal direction. If the panel is positioned outside the viewport because of this property, the element will attempt to reverse the direction.",
+			"optional":false,
+			"default":"s",
+			"options":["n","e","s","w"],
+			"reflect":true
+		},
+		{
+			"name":"target",
+			"type":"Object or String",
+			"description": "An HTMLElement that toggles the element's visual state when clicked. A valid selector may be passed to this attribute as a String.",
+			"optional":false,
+			"default": "none"
+		}
+	]
+}

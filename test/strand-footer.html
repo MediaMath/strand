@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-footer id="footerMsg" message="Hi there!">
+		<strand-action id="closeLink" underline="true">
+			<label>Close</label>
+		</strand-action>
+		<strand-button id="saveAndClose">
+			<label>Save &amp; Close</label>
+		</strand-button>
+		<strand-button id="saveAndAdd">
+			<label>Save &amp; Add Another</label>
+		</strand-button>
+	</strand-footer>
+
+	<script type="text/javascript">
+
+		describe("strand-footer", function() {
+			
+			it("should have an element constructor", function() {
+				var a = new Strand.Footer();
+				a.nodeName.should.equal("STRAND-FOOTER");
+			});
+
+			it("should ", function(done) {
+				var a = document.querySelector("#footerMsg"),
+					msg = Polymer.dom(a.root).querySelector("#messageBox");
+
+				a.showMessage();
+				
+				flush(function() {
+					msg = Polymer.dom(a.root).querySelector("#messageBox");
+					msg.should.exist;
+					done();
+				});
+			});
+
+			it("footer padding should be 15px", function(done) {
+				var a = document.querySelector("#footerMsg"),
+					aInner = Polymer.dom(a.root).querySelector("._mm_footer"),
+					paddingTop = null,
+					paddingRight = null,
+					paddingBottom = null,
+					paddingLeft = null,
+					allSame = false;
+
+				flush(function() {
+					paddingTop = TestHelper.getPropertyValue(aInner, "padding-top");
+					paddingRight = TestHelper.getPropertyValue(aInner, "padding-Right");
+					paddingBottom = TestHelper.getPropertyValue(aInner, "padding-bottom");
+					paddingLeft = TestHelper.getPropertyValue(aInner, "padding-left");
+					allSame = (paddingTop = paddingRight = paddingBottom = paddingLeft) ? true : false;
+					allSame.should.equal(true);
+					paddingTop.should.equal("15px");
+					done();
+				});
+			});
+
+			it("light dom strand-button should have margin-left: 10px", function(done) {
+				var a = document.querySelector("#footerMsg"),
+					saveAndClose = document.querySelector("#saveAndClose"),
+					marginRight = null;
+
+				flush(function() {
+					marginRight = TestHelper.getPropertyValue(saveAndClose, "margin-left");
+					marginRight.should.equal("10px");
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="strand-pulldown-button.html">
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:33%;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 14px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+			    background: #ccc;
+			    border-bottom: 1px solid #fff;
+			    height: 1px;
+			    margin-top: 20px;
+			}
+
+			.vr {
+				background: #fff;
+				width:1px;
+				height: 100%;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			strand-pulldown-button[unresolved] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="col c1">
+
+			<template is="dom-bind">
+				<strand-input value="{{value}}"></strand-input>
+				<p><span class="bold">Primary:</span> Default</p>
+				<strand-pulldown-button type="primary" unresolved>
+					<strand-list-item id="test">{{value}}</strand-list-item>
+					<strand-list-item>bulk 3PAS</strand-list-item>
+					<strand-list-item>Upload Assets</strand-list-item>
+					<strand-icon type="plus" width="12" height="12"></strand-icon>
+					<label>Add Creative</label>
+				</strand-pulldown-button>
+			</template>
+
+			<p><span class="bold">Primary:</span> Disabled</p>
+			<strand-pulldown-button type="primary" disabled unresolved>
+				<strand-list-item id="test">{{value}}</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<strand-icon type="plus" width="12" height="12"></strand-icon>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+
+			<p><span class="bold">Primary:</span> error</p>
+			<strand-pulldown-button type="primary" error unresolved>
+				<strand-list-item id="test">{{value}}</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<strand-icon type="plus" width="12" height="12"></strand-icon>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+			<hr/>
+
+			<p><span class="bold">Secondary:</span> Default</p>
+			<strand-pulldown-button type="secondary" unresolved>
+				<strand-list-item>single 3PAS</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Primary:</span> Default fit to parent</p>
+			<strand-pulldown-button type="primary" fitparent unresolved>
+				<strand-list-item>single 3PAS</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<strand-icon type="plus" width="12" height="12"></strand-icon>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Secondary:</span> Default fit to parent</p>
+			<strand-pulldown-button type="secondary" fitparent unresolved>
+				<strand-list-item>single 3PAS</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		<div class="col c1">
+			<p><span class="bold">Primary:</span> Truncated List Items</p>
+			<strand-pulldown-button type="primary" unresolved>
+				<strand-icon type="plus" width="12" height="12"></strand-icon>
+				<label>Choose Action</label>
+				<strand-list-item>strand-list-item 01 long name</strand-list-item>
+				<strand-list-item>strand-list-item 02 long name</strand-list-item>
+				<strand-list-item>strand-list-item 03 long name</strand-list-item>
+				<strand-list-item>strand-list-item 04 long name</strand-list-item>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Secondary:</span> Truncated List Items</p>
+			<strand-pulldown-button type="secondary" unresolved>
+				<label>Choose Action</label>
+				<strand-list-item>strand-list-item 01 long name</strand-list-item>
+				<strand-list-item>strand-list-item 02 long name</strand-list-item>
+				<strand-list-item>strand-list-item 03 long name</strand-list-item>
+				<strand-list-item>strand-list-item 04 long name</strand-list-item>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Primary:</span> Default fit to parent</p>
+			<strand-pulldown-button type="primary" fitparent unresolved>
+				<strand-list-item>single 3PAS</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<strand-icon type="plus" width="12" height="12"></strand-icon>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Secondary:</span> Default fit to parent</p>
+			<strand-pulldown-button type="secondary" fitparent unresolved>
+				<strand-list-item>single 3PAS</strand-list-item>
+				<strand-list-item>bulk 3PAS</strand-list-item>
+				<strand-list-item>Upload Assets</strand-list-item>
+				<label>Add Creative</label>
+			</strand-pulldown-button>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+		<div class="col c1">
+			<p><span class="bold">Primary:</span> With overflow: visible</p>
+			<strand-pulldown-button type="primary" overflow="visible" unresolved>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				<strand-icon type="geo-map" width="14" height="14"></strand-icon>
+				<label>arbitrary label here</label>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Secondary:</span> With overflow: visible</p>
+			<strand-pulldown-button type="secondary" overflow="visible" unresolved>
+				<strand-input layout="dropdown"></strand-input>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				<label>arbitrary label here</label>
+			</strand-pulldown-button>
+			<hr/>
+			<p><span class="bold">Inside overflow:auto</span></p>
+			<div style="background:#fefefe; height:1000px; overflow:auto;">
+				<strand-pulldown-button type="primary" overflow="visible" max-items="7" unresolved>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+					<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+					<strand-icon type="geo-map" width="14" height="14"></strand-icon>
+					<label>arbitrary label here</label>
+				</strand-pulldown-button>
+				<div style="height: 5000px;">
+					<p>As if long habituated to such profane talk from his old shipmate, Bildad, without noticing his present irreverence, quietly looked up, and seeing me, glanced again inquiringly towards Peleg.</p>
+					<p>"He says he's our man, Bildad," said Peleg, "he wants to ship."</p>
+					<p>"Dost thee?" said Bildad, in a hollow tone, and turning round to me.</p></div>
+				</div>
+	
+			</div>
+			<hr/>
+			<script>
+				document.addEventListener('WebComponentsReady', function() {
+					var tst = document.getElementById('test');
+					tst.addEventListener('click', function() {
+						alert('you clicked me');
+					});
+
+					// log selected:
+					document.addEventListener("selected", function (e) {
+						console.log(e.detail);
+					});
+
+					document.addEventListener("changed", function (e) {
+						console.log(e.detail);
+					});
+				});
+			</script>
+		</div>
+	</body>
+</html>

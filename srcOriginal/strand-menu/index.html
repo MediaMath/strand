@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script language="javascript" src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="../shared/js/colors.html"/>
+	<link rel="import" href="../strand-button/strand-button.html">
+	<link rel="import" href="../strand-list-item/strand-list-item.html">
+	<link rel="import" href="../strand-icon/strand-icon.html">
+	<link rel="import" href="strand-menu.html">
+	<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:300px;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			.col.c4 {
+				width:49%;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+				border-bottom: 1px solid #fff;
+				border-top: 1px solid #ccc;
+				height: 0px;
+				margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			strand-menu[unresolved],
+			strand-button[unresolved] {
+				display: none;
+			}
+
+		</style>
+</head>
+  </head>
+	<body>
+	  <div class="col c1">
+			<p>
+				<span class="bold">Menu:</span> Button Target
+				<strand-button id="cpb" unresolved><label>Open Menu</label></strand-button>
+				<strand-menu id="testMenu" direction="s" offset="5" target="#cpb" unresolved>
+					<strand-list-item value="m1"><strand-icon width="15" height="15" type="info"></strand-icon> menu item 1</strand-list-item>
+					<strand-list-item value="m2">menu item 2</strand-list-item>
+					<strand-list-item value="m3">menu item 3</strand-list-item>
+					<strand-list-item value="m4">menu item 4</strand-list-item>
+					<strand-list-item value="m5">menu item 5</strand-list-item>
+				</strand-menu>
+			</p>
+			<hr/>
+			<p>
+				<span class="bold">Menu:</span> Icon Target
+				<strand-icon type="actions" id="cpb2" unresolved></strand-icon>
+				<strand-menu id="testMenu" direction="e" offset="15" target="#cpb2" unresolved>
+					<strand-list-item value="m1">menu item 1</strand-list-item>
+					<strand-list-item value="m2">menu item 2</strand-list-item>
+					<strand-list-item value="m3">menu item 3</strand-list-item>
+					<strand-list-item value="m4">menu item 4</strand-list-item>
+					<strand-list-item value="m5">menu item 5</strand-list-item>
+				</strand-menu>
+			</p>
+		</div>
+		<div class="vr"></div>
+	</body>
+</html>

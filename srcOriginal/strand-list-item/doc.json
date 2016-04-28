@@ -1,0 +1,78 @@
+{
+	"name":"strand-list-item",
+	"description":"A list item component used in other components that require lists of items, such as strand-dropdown and strand-menu.",
+	"attributes": [
+		{
+			"name":"selected",
+			"type":"String",
+			"reflect":"true",
+			"default":"false",
+			"optional":"true",
+			"description":"Whether or not this item is currently selected. This can be set as an attribute to provide a default value.",
+			"attribute":"N/A"
+		},
+		{
+			"name":"highlighted",
+			"type":"Boolean",
+			"reflect":"true",
+			"default":"false",
+			"optional":"true",
+			"description":"Whether or not this item is highlighted. The user can highlight an item by mousing over it or navigating using the keyboard arrow keys.",
+			"attribute":"N/A"
+		},
+		{
+			"name":"highlight",
+			"type":"String",
+			"reflect":"false",
+			"default":"''",
+			"optional":"true",
+			"description":"A string used for highlighting search text within the list-item. If the value is found (case insensitive) it will be wrapped in a yellow span.",
+			"attribute":"N/A"
+		},
+		{
+			"name":"observeSubtree",
+			"type":"Boolean",
+			"description":"Passed through to the internal mutation observer - set to true if mutations to not just target, but also target's descendants are to be observed.",
+			"default":"true",
+			"attribute":"N/A"
+		},
+		{
+			"name":"observeCharacterData",
+			"type":"Boolean",
+			"description":"Passed through to the internal mutation observer - Set to true if mutations to target's data are to be observed.",
+			"default":"true",
+			"attribute":"N/A"
+		},
+		{
+			"name":"title",
+			"type":"String",
+			"default":"",
+			"optional":"true",
+			"description":"Native HTML attribute, will display the full text content of the list item as a hover tip. Added dynamically when the text content of the list item has been truncated (see: elementResize and updateTitle methods).",
+			"attribute":"N/A"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"default":"",
+			"optional":"true",
+			"description":"The actual value associated with this list item. Useful in situations where displaying a human-readable name is preferred to the actual value."
+		}
+	],
+	"methods":[
+		{
+			"name":"elementResize",
+			"description":"Called when the list item is resized. In turn, calls the updateTitle method (see: updateTitle)."
+		},
+		{
+			"name":"updateTitle",
+			"description":"Updates the list item to include or remove a title attribute, depending upon whether or not the text content of the list item has been truncated."
+		}
+	],
+	"behaviors":[
+		"resolvable",
+		"dommutable",
+		"resizable",
+		"refable"
+	]
+}

@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-drawer id="d1">
+		<div class="container">
+			<h1>Nothing to see here...</h1>
+		</div>
+	</strand-drawer>
+
+	<strand-drawer id="d4">
+		<div class="container" id="c4">
+			<h1>Nothing to see here...</h1>
+		</div>
+	</strand-drawer>
+
+	<strand-drawer id="d5" force-measure>
+		<div class="container" id="c5">
+			<h1>Nothing to see here...</h1>
+		</div>
+	</strand-drawer>
+	
+	<hr />
+
+	<strand-drawer id="d2" label="Toggle Drawer">
+		<div class="container">
+			<h1>Nothing to see here...</h1>
+		</div>
+	</strand-drawer>		
+
+	<hr />
+
+	<strand-drawer id="d3" opened-label="Close Drawer" closed-label="Open Drawer">
+		<div class="container">
+			<h1>Nothing to see here...</h1>
+		</div>
+	</strand-drawer>		
+
+
+	<script type="text/javascript">
+
+	describe("strand-drawer", function(){
+	
+		it("should have an element constructor", function() {
+
+			var a = new Strand.Drawer();
+			a.nodeName.should.equal("STRAND-DRAWER");
+
+		});
+
+		it("should open and close", function() {
+
+			var d1 = document.getElementById('d1');
+			d1.open();
+			d1._height.should.equal(d1.openedHeight);
+			d1.close();
+			d1._height.should.equal(d1.closedHeight);			
+
+		});
+
+		it("should cache height...", function() {
+
+			var d4 = document.getElementById('d4'),
+				c4 = document.getElementById('c4'),
+				added = document.createElement('div');
+			added.style.height = "400px";
+
+			d4.open();
+			d4.close();
+			var cached = d4.openedHeight;
+
+			c4.appendChild(added);
+			d4.open();
+
+			d4._height.should.equal(d4.openedHeight);
+			d4.openedHeight.should.equal(cached);
+
+		});
+
+		it("...unless forceMeasure is set", function() {
+
+			var d5 = document.getElementById('d5'),
+				c5 = document.getElementById('c5'),
+				added = document.createElement('div');
+			added.style.height = "400px";
+			
+			d5.open();
+			d5.close();
+			var cached = d5.openedHeight;
+			
+			c5.appendChild(added);
+			d5.open();
+
+			d5._height.should.equal(d5.openedHeight);
+			d5.openedHeight.should.equal(cached+400);
+
+		});
+
+		it("should use tab style if a label is given", function() {
+
+			var d2 = document.getElementById('d2');
+			d2.open();
+			Polymer.dom(d2.root).querySelector('span').should.exist;
+
+		});
+
+		it("should toggle labels if opened-label and closed-label are given", function() {
+
+			var d3 = document.getElementById('d3');
+			Polymer.dom(d3.root).querySelector('span').textContent.should.equal(d3.closedLabel);
+			d3.open();
+			Polymer.dom(d3.root).querySelector('span').textContent.should.equal(d3.openedLabel);
+
+		});
+	
+	});
+
+	</script>
+
+</body>
+</html>

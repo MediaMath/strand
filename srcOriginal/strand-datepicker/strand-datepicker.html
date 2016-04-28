@@ -1,0 +1,138 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../strand-calendar/strand-calendar.html">
+<link rel="import" href="../strand-header/strand-header.html">
+<link rel="import" href="../strand-input/strand-input.html">
+<link rel="import" href="../strand-input-mask/strand-input-mask.html">
+<link rel="import" href="../strand-checkbox/strand-checkbox.html">
+<link rel="import" href="../strand-footer/strand-footer.html">
+<link rel="import" href="../strand-button/strand-button.html">
+<link rel="import" href="../strand-action/strand-action.html">
+<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+<link rel="import" href="../strand-list-item/strand-list-item.html">
+<link rel="import" href="../strand-footer/strand-footer.html">
+<link rel="import" href="../strand-group/strand-group.html">
+<link rel="import" href="../strand-popover/strand-popover.html">
+<link rel="import" href="../strand-footer/strand-footer.html">
+<link rel="import" href="../shared/js/measure.html">
+<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/moment.html">
+<link rel="import" href="../shared/js/momentrange.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/stackable.html"/>
+<link rel="import" href="../shared/behaviors/autotogglable.html"/>
+<link rel="import" href="../shared/behaviors/positionable-panel.html"/>
+<link rel="import" href="../shared/behaviors/debouncable.html"/>
+<link rel="import" href="../shared/behaviors/falsifiable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-datepicker">
+  <link rel="import" type="css" href="strand-datepicker.css">
+  <template>
+  		<div id="container" style$="{{_containerStyle}}">
+  			<div class="body">
+				<template is="dom-if" if="{{ _shouldUseRange(dual,useRange) }}">
+					<div class="range-presets">
+						<strand-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" max-items="{{rangePresets.length}}" fitparent overflow="hidden" value="{{rangeValue}}" data="{{rangePresets}}"></strand-dropdown>
+					</div>
+				</template>
+
+				<div class="_strand-start">
+					<div class="input-top">
+						<strand-header class="header" size="normal">{{startLabel}}</strand-header>
+						<template is="dom-if" if="{{startEnabledLabel}}">
+							<strand-checkbox id="startCheckbox" checked="{{startEnabled}}" disabled$="{{!startUserEnabled}}">
+								<label>{{startEnabledLabel}}</label>
+							</strand-checkbox>
+						</template>
+						<strand-input-mask id="startDate" icon="calendar" fitparent value="{{startDate}}" placeholder="MM/DD/YYYY" disabled$="{{!startEnabled}}">
+							<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+							<sep chars="/"></sep>
+							<group rule="range" restrict="numeric" size="4"></group>
+						</strand-input-mask>
+					</div>
+					<strand-calendar id="startCalendar" date="{{startDate}}" pair-date="{{endDate}}" disable-past="{{allowedStart}}" disable-future="{{_disableFuture(dual,endDate,allowedEnd)}}" on-calendar-select="_handleTap" disabled$="{{!startEnabled}}" date-format="{{dateFormat}}"></strand-calendar>
+					<template is="dom-if" if="{{useTime}}">
+						<div class="input-bottom">
+							<strand-group>
+								<strand-input-mask id="startTime" icon="clock" value="{{startTime}}" style="width:119px;" on-keydown="_keyHandler" disabled$="{{!startEnabled}}">
+									<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
+									<sep chars=":"></sep>
+									<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+								</strand-input-mask>
+								<strand-dropdown id="startPeriod" value="{{startTimePeriod}}" fitparent style="width:64px;" disabled$="{{!startEnabled}}">
+									<strand-list-item value="am">AM</strand-list-item>
+									<strand-list-item value="pm">PM</strand-list-item>
+								</strand-dropdown>
+							</strand-group>
+						</div>
+					</template>
+				</div>
+
+				<template is="dom-if" if="{{dual}}">
+					<div class="_strand-end">
+						<div class="vert-stroke"></div>
+						<div class="input-top">
+							<strand-header class="header" size="normal">{{endLabel}}</strand-header>
+							<template is="dom-if" if="{{endEnabledLabel}}">
+								<strand-checkbox id="endCheckbox" checked="{{endEnabled}}" disabled$="{{!endUserEnabled}}">
+									<label>{{endEnabledLabel}}</label>
+								</strand-checkbox>
+							</template>
+							<strand-input-mask id="endDate" icon="calendar" fitparent value="{{endDate}}" placeholder="MM/DD/YYYY" disabled$="{{!endEnabled}}">
+								<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+								<sep chars="/"></sep>
+								<group rule="range" size="2" restrict="numeric" autofill="0"></group>
+								<sep chars="/"></sep>
+								<group rule="range" restrict="numeric" size="4"></group>
+							</strand-input-mask>
+						</div>
+						<strand-calendar id="endCalendar" date="{{endDate}}" pair-date="{{startDate}}" disable-past="{{startDate}}" disable-future="{{allowedEnd}}" on-calendar-select="_handleTap" disabled$="{{!endEnabled}}" date-format="{{dateFormat}}"></strand-calendar>
+						<template is="dom-if" if="{{useTime}}">
+							<div class="input-bottom">
+								<strand-group>
+									<strand-input-mask id="endTime" icon="clock" value="{{endTime}}" style="width:119px;" on-keydown="_keyHandler" disabled$="{{!endEnabled}}">
+										<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
+										<sep chars=":"></sep>
+										<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+									</strand-input-mask>
+									<strand-dropdown id="endPeriod" value="{{endTimePeriod}}" fitparent style="width:64px;" disabled$="{{!endEnabled}}">
+										<strand-list-item value="am">AM</strand-list-item>
+										<strand-list-item value="pm">PM</strand-list-item>
+									</strand-dropdown>
+								</strand-group>
+							</div>
+						</template>
+					</div>
+				</template>
+
+				<template is="dom-if" if="{{useTimezone}}">
+					<div class="range-presets">
+						<strand-dropdown id="timezoneDropdown" placeholder="{{timezoneDescription}}" max-items="10" fitparent overflow="hidden" value="{{timezone}}" data="{{timezones}}">
+							<strand-input id="timezoneSearch" search="" clear="" value="{{timezoneSearch}}"></strand-input>
+						</strand-dropdown>
+					</div>
+				</template>
+
+				<template is="dom-if" if="{{useCommit}}">
+					<strand-footer id="footer" fitparent="true" message="{{_duration}}">
+						<strand-action underline="true" on-click="_closeLinkHandler">
+							<label>{{closeLabel}}</label>
+						</strand-action>
+						<strand-button on-click="_save" disabled$="{{!_datesValid}}">
+							<label>{{saveLabel}}</label>
+						</strand-button>
+					</strand-footer>
+				</template>
+  			</div>
+  		</div>
+	</template>
+  <script src="strand-datepicker.js"></script>
+</dom-module>

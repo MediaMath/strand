@@ -1,0 +1,22 @@
+{
+	"name": "DomSyncable",
+	"description": "A behavior applied over any sync or syncable containers which will attempt to call get or post when the dom configuration changes.",
+	"attributes":[
+		{
+			"name":"auto",
+			"type":"Boolean",
+			"description":"When true, changes to dom configuration will result in AJAX calls being made on the parent object.",
+			"default":"true",
+			"options":["true", "false"]
+		},
+		{
+			"name":"autoDebounce",
+			"type":"Number",
+			"description":"The time in milliseconds to debounce dom changes against. This prevents racing calls from keyboard manipulation or other user input binding scenarios.",
+			"attribute":"auto-debounce",
+			"default":"200"
+		}
+	],
+	"methods":[
+	]
+}

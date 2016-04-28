@@ -1,0 +1,53 @@
+<template is="dom-bind">
+
+	<strand-dialog id="testDialog"
+		type="{{dialogType}}"
+		header="Call me Ishmael.">
+		<p>Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.</p>
+	</strand-dialog>
+	
+	<div>
+		<strand-dropdown value="{{dialogType}}" placeholder="Choose Dialog Type">
+			<strand-list-item value="info">Info</strand-list-item>
+			<strand-list-item value="success">Success</strand-list-item>
+			<strand-list-item value="warning">Warning</strand-list-item>
+			<strand-list-item value="error">Error</strand-list-item>
+		</strand-dropdown>
+		<strand-button id="showBtn" disabled$="{{!dialogType}}">
+			<label>Show Dialog</label>
+		</strand-button>
+	</div>
+	
+</template>
+
+<script>
+	window.addEventListener("WebComponentsReady", function() { 
+		var sb = document.getElementById("showBtn"),
+			td = document.getElementById("testDialog");
+
+		td.actions = [
+			{
+				label: "Cancel",
+				callback: function(e,host) {
+					host.hide();
+				}
+			},
+			{
+				label: "OK",
+				type: "primary",
+				callback: function(e,host) {
+					host.fire('confirm');
+					host.hide();
+				}
+			}
+		];
+
+		sb.addEventListener('click', function showDialog(e) {
+			td.show();
+		});
+
+		td.addEventListener('confirm', function() {
+			console.log('Confirmed.');
+		});
+	});
+</script>

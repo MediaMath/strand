@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script>
+			// window.Polymer = window.Polymer || {};
+		    // window.Polymer.dom = 'shadow';
+	    </script>
+		<link rel="import" href="../strand-list-item/strand-list-item.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-spinner/strand-spinner.html">
+		<link rel="import" href="strand-dropdown.html">
+		<script language="javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.container {
+				width:904px;
+				margin: 0 auto;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:33%;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+			    border-bottom: 1px solid #fff;
+			    border-top: 1px solid #ccc;
+			    height: 0px;
+			    margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			#ddlHide {
+				display:none;
+			}
+
+			strand-dropdown[unresolved],
+			strand-list-item[unresolved] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="col c1">
+
+			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+			<strand-dropdown id="dataTest" overflow="visible" max-items="10" overflow-width="200" placeholder="Some Longer Label" unresolved>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+			<strand-dropdown id="dataTestShort" placeholder="Some Label" unresolved></strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> Label wider than list options with search added</p>
+			<strand-dropdown placeholder="Some Longer Label" value="0" max-items="7" unresolved>
+				<strand-input search="true" clear="true" placeholder="Search" unresolved></strand-input>
+				<strand-list-item value="0" unresolved>strand-list-item 01</strand-list-item>
+				<strand-list-item value="1" unresolved>strand-list-item 02</strand-list-item>
+				<strand-list-item value="2" unresolved>strand-list-item 03</strand-list-item>
+				<strand-list-item value="3" unresolved>strand-list-item 04</strand-list-item>
+				<strand-list-item value="4" unresolved>strand-list-item 05</strand-list-item>
+				<strand-list-item value="5" unresolved>strand-list-item 06</strand-list-item>
+				<strand-list-item value="6" unresolved>strand-list-item 07</strand-list-item>
+				<strand-list-item value="7" unresolved>strand-list-item 08</strand-list-item>
+				<strand-list-item value="8" unresolved>strand-list-item 09</strand-list-item>
+				<strand-list-item value="9" unresolved>strand-list-item 10</strand-list-item>
+				<strand-list-item value="10" unresolved>strand-list-item 11</strand-list-item>
+				<strand-list-item value="11" unresolved>strand-list-item 12</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> error</p>
+			<strand-dropdown placeholder="Some Longer Label" error unresolved>
+				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
+				<strand-list-item unresolved>strand-list-item 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> Label wider than list options with fit to parent</p>
+			<strand-dropdown placeholder="Some Longer Label" value="2" fitparent unresolved>
+				<strand-list-item value="1" unresolved>strand-list-item 01</strand-list-item>
+				<strand-list-item value="2" unresolved>strand-list-item 02</strand-list-item>
+				<strand-list-item value="3" unresolved>strand-list-item 03</strand-list-item>
+				<strand-list-item value="4" unresolved>strand-list-item 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<div id="ddlHide" unresolved>
+				<p><span class="bold">Dropdown:</span> Dropdown hidden at first (bug)</p>
+				<strand-dropdown>
+					<strand-list-item unresolved>strand-list-item 01</strand-list-item>
+					<strand-list-item unresolved>strand-list-item 02</strand-list-item>
+					<strand-list-item unresolved>strand-list-item 03</strand-list-item>
+					<strand-list-item unresolved>strand-list-item 04</strand-list-item>
+				</strand-dropdown>
+				<hr/>
+
+				<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+				<strand-dropdown id="dataTestHidden" placeholder="Some Longer Label" unresolved></strand-dropdown>
+				<hr/>
+			</div>
+
+		</div>
+
+		<div class="vr"></div>
+
+		<div class="col c1">
+			<p><span class="bold">Dropdown:</span> List options wider than label</p>
+			<strand-dropdown unresolved>
+				<strand-list-item unresolved>strand-list-item 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> List options wider than label with search added</p>
+			<strand-dropdown unresolved>
+				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
+				<strand-list-item unresolved>strand-list-item 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> List options wider than label with search added</p>
+			<strand-dropdown fitparent="true" unresolved>
+				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+		</div>
+
+		<div class="vr"></div>
+
+		<div class="col c1">
+
+			<p><span class="bold">Dropdown:</span> List with overflow: visible</p>
+			<strand-dropdown placeholder="Select One" overflow="visible">
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> List with overflow-width set</p>
+			<strand-dropdown overflow-width="300" max-items="4" placeholder="Select One" overflow="visible">
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> List with overflow: visible with search added</p>
+			<strand-dropdown placeholder="Select One" overflow="visible">
+				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+
+			<p><span class="bold">Dropdown:</span> List with overflow: overflowWidth set</p>
+			<strand-dropdown placeholder="Select One Please" overflow="visible" overflow-width="250" size="small">
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 00</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 05</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 06</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 07</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 08</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 09</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 10</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 11</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 12</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 13</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 14</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 15</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 16</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 17</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 18</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 19</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 20</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 21</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 22</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 23</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 24</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 25</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 26</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 27</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 28</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 29</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 30</strand-list-item>
+				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 31</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+			<p><span class="bold">Dropdown:</span> Dropdown small and skinless</p>
+			<strand-dropdown placeholder="Select" size="small" skinless overflow="visible" maxItems="7" unresolved>
+				<strand-input search="true" clear="true" size="small" placeholder="Search"></strand-input>
+				<strand-list-item>Clicks</strand-list-item>
+				<strand-list-item>CTC</strand-list-item>
+				<strand-list-item>CTR</strand-list-item>
+				<strand-list-item>Impressions</strand-list-item>
+				<strand-list-item>Post-Click Conversions</strand-list-item>
+				<strand-list-item>Post-View Conversions</strand-list-item>
+				<strand-list-item>Revenue</strand-list-item>
+				<strand-list-item>Response Rate/1K Imps</strand-list-item>
+				<strand-list-item>Total Conversions</strand-list-item>
+				<strand-list-item>Total Spend</strand-list-item>
+				<strand-list-item>eCPA</strand-list-item>
+				<strand-list-item>eCPC</strand-list-item>
+				<strand-list-item>eCPM</strand-list-item>
+				<strand-list-item>PC CPA</strand-list-item>
+				<strand-list-item>PV CPA</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+			<p><span class="bold">Dropdown:</span> Dynamic jQuery test</p>
+			<strand-dropdown placeholder="select one" overflow="visible" fitparent="true" id="dynamic" max-items="10"></strand-dropdown>
+			<hr/>
+			<p><span class="bold">Dropdown:</span> With spinner</p>
+			<strand-dropdown is-loading="true">
+				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
+			</strand-dropdown>
+			<hr/>
+		</div>
+
+		<script>
+			var ddlHide,
+				$d,
+				dataTest,
+				dataTestHidden,
+				dataTestShort,
+				dynamicItems = [],
+				dataItems = [];
+
+			for (var i=0; i < 100; i++) {
+				dataItems.push({ value: String(i), name: "No." + i + " Readable Very Long Name Here" });
+			}
+
+			// *******************************
+			// jQuery and data dropdown:
+			// requires preselected value to be set after data is set
+			// *******************************
+
+			document.addEventListener("WebComponentsReady", function(e) {
+				// init dynamic data test:
+				dataTest = document.querySelector("#dataTest");
+				dataTestHidden = document.querySelector("#dataTestHidden");
+				dataTestShort = document.querySelector("#dataTestShort");
+				dataTest.data = dataTestHidden.data = dataTestShort.data = dataItems;
+				dataTest.value = dataTestHidden.value = 1;
+
+				// init jQuery test:
+				$d = $("#dynamic");
+				addListItems(50);
+				$d[0].value = 3;
+
+				// hidden at first test:
+				ddlHide = document.querySelector("#ddlHide");
+				setTimeout(function() {
+					ddlHide.style.display = 'block';
+				}, 3000);
+
+				// log selected:
+				document.addEventListener("selected", function (e) {
+					console.log(e.detail);
+				});
+
+				document.addEventListener("changed", function (e) {
+					console.log(e.detail);
+				});
+			});
+
+			// jQuery test (add & remove - jqueryable behavior):
+			function addListItems(n) {
+				for (var i = 0; i < n; i++) {
+					var item = $('<strand-list-item id="item' + i + '" value="' + i + '">List Item Here' + i + '</strand-list-item>');
+					dynamicItems.push(item);
+					$d.append(item);
+				}
+			}
+
+			function removeItems(from, to) {
+				var range = to - from,
+					length = dynamicItems.length - 1;
+				for (var i = range; i > -1; i--) {
+					dynamicItems[i].remove();
+				}
+				dynamicItems = dynamicItems.splice(0, length-range);
+			}
+		</script>
+	</body>
+</html>

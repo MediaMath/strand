@@ -1,0 +1,88 @@
+{
+	"name":"strand-calendar",
+	"description":"A simple calendar rendering component. Intended for use in strand-datepicker but can be used for standalone date selection. Note: strand-calendar makes heavy use of moment.js",
+	"attributes": [
+		{
+			"name":"date",
+			"type":"Date",
+			"description":"The date object for the selected calendar date.",
+			"default":"none",
+			"attribute":"N/A"
+		},
+		{
+			"name":"pairDate",
+			"type":"Date",
+			"description":"A secondary date object used to denote selection range. For use in a dual strand-datepicker scenario (see: strand-datepicker).",
+			"default":"none",
+			"attribute":"N/A"
+		},
+		{
+			"name":"viewDate",
+			"type":"Date",
+			"description":"Sets the cleandar month, if not specified will default the current month. When cycling through months, the viewDate will represent the month currently displayed.",
+			"default":"today's date",
+			"attribute":"N/A"
+		},
+		{
+			"name":"useTapSelect",
+			"type":"Boolean",
+			"description":"Sets a default tap handler that selects the current date. Generally only set to false for cases where a custom selection behavior is desired",
+			"optional":true,
+			"default":"true",
+			"attribute":"use-tap-select",
+			"reflect":true,
+			"options":["true", "false"]
+		},
+		{
+			"name":"disableFuture",
+			"type":"Date or Boolean",
+			"description":"If true, sets the visual display and interaction state of all dates following the current date to inactive. If a date object is passed, it will set all dates following the specified date to inactive.",
+			"default":"false",
+			"attribute":"disable-future"
+		},
+		{
+			"name":"disablePast",
+			"type":"Date or Boolean",
+			"description":"If true, sets the visual display and interaction state of all dates preceeding the current date to inactive. If a date object is passed, it will set all dates preceeding the specified date to inactive.",
+			"default":"false",
+			"attribute":"disable-past"
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"options":["true", "false"],
+			"reflect":true
+		}
+	],
+
+	"events": [
+		{
+			"type": "calendar-select",
+			"detail": [
+				{
+					"name":"date",
+					"type":"Date",
+					"description":"The date object for the selected date."
+				},
+				{
+					"name":"target",
+					"type":"HTMLElement",
+					"description":"The dom node which triggered the calendar selection."
+				},
+				{
+					"name":"unix",
+					"type":"Number",
+					"description":"The unix timestamp (in seconds, not milliseconds) for the selected date."
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
+	]
+}

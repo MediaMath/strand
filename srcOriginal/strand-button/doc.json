@@ -1,0 +1,62 @@
+{
+	"name":"strand-button",
+	"description":"A fully-styled primary and secondary button.",
+	"attributes": [
+		{
+			"name":"type",
+			"type":"String",
+			"description":"Sets the type of styling which is applied to the button.",
+			"optional":true,
+			"default":"primary",
+			"options":["primary", "secondary"],
+			"reflect":true
+		},
+		{
+			"name":"selected",
+			"type":"Boolean",
+			"description":"Sets the visual state to 'selected'. Ideal for use in scenario where it may be necessary to toggle the button's visual state (see: strand-group).",
+			"optional":true,
+			"default":"none",
+			"reflect":true
+		},
+		{
+			"name":"fitparent",
+			"type":"Boolen",
+			"description":"Sets the width of the component to fill the width of it's parent element.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		},
+		{
+			"name":"layout",
+			"type":"Boolen",
+			"description":"Sets the layout of the button, used to style strand-buttons which appears in a grouping scenario (see: strand-group).",
+			"optional":true,
+			"default":"none",
+			"options":["hgroup-left", "hgroup-center", "hgroup-right"],
+			"reflect":true
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Sets the visual and interaction state to be disabled.",
+			"optional":true,
+			"default":"false",
+			"reflect":true
+		},
+		{
+			"name":"size",
+			"type":"String",
+			"description":"instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large')",
+			"optional":true,
+			"default":"none",
+			"options":["normal","large","small"],
+			"reflect":true
+		}
+	],
+	"behaviors": [
+		"resolvable",
+		"stylable",
+		"refable"
+	]
+}

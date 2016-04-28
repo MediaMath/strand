@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="strand-loader.html">
+		<link rel="import" href="../strand-button/strand-button.html">
+		<style is="custom-style" type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 0 20px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:300px;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			.col.c4 {
+				width:49%;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+				border-bottom: 1px solid #fff;
+				border-top: 1px solid #ccc;
+				height: 0px;
+				margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			.loader-holder {
+				width: 100%;
+				height: 100px;
+				position: relative;
+			}
+
+			strand-loader[unresolved],
+			strand-button[unresolved] {
+				display: none;
+			}
+
+			strand-button {
+				margin-right: 20px;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<div class="col c4">
+			<p><span class="bold">Show &amp; Hide:</span> Show and hide all loaders</p>=
+			<strand-button id="showBtn" unresolved>
+				<label>Show All Loaders</label>
+			</strand-button>
+			<strand-button id="hideBtn" unresolved>
+				<label>Hide All Loaders</label>
+			</strand-button>
+			
+			<hr/>
+			<p><span class="bold">Loader:</span> Default</p>
+			<div class="loader-holder">
+				<strand-loader id="l1" unresolved>
+					<label>Loading...</label>
+				</strand-loader>
+			</div>
+			<hr/>
+			<p><span class="bold">Loader:</span> Customized Variant</p>
+			<div class="loader-holder">
+				<strand-loader id="l2" unresolved bg-color="#003C71" bg-opacity="1">
+					<strand-spinner radius="12" line-length="0.6" line-weight="0.6"></strand-spinner>
+					<label>Waiting...</label>
+				</strand-loader>
+			</div>
+			<hr/>
+			<p><span class="bold">Loader:</span> Customized Variant</p>
+			<div class="loader-holder">
+				<strand-loader id="l3" unresolved padding-top="10" padding-left="10" bg-color="#cccccc" bg-opacity="0.75">
+					<strand-spinner radius="32" line-length="0.6" line-weight="0.9" fill-color="#003C71"></strand-spinner>
+				</strand-loader>
+			</div>
+			<hr/>
+		</div>
+		<div class="vr"></div>
+
+		<script>
+
+			var loader1,
+				loader2,
+				loader3,
+				loader4,
+				hideAllBtn,
+				showAllBtn;
+
+			window.addEventListener("WebComponentsReady", function() {
+				loader1 = document.getElementById("l1");
+				loader2 = document.getElementById("l2");
+				loader3 = document.getElementById("l3");
+				hideAllBtn = document.getElementById("hideBtn");
+				showAllBtn = document.getElementById("showBtn");
+
+				hideAllBtn.addEventListener("click", function(e){
+					loader1.hide();
+					loader2.hide();
+					loader3.hide();
+				});
+
+				showAllBtn.addEventListener("click", function(e){
+					loader1.show();
+					loader2.show();
+					loader3.show();
+				});
+			});
+
+		</script>
+
+	</body>
+</html>

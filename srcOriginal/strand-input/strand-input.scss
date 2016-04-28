@@ -1,0 +1,208 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* strand-input sass */
+@import "_bourbon";
+@import "_color";
+@import "_dropdown";
+@import "_textinput";
+@import "_mixins";
+
+:host {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	font-size: 0em;
+}
+
+:host([disabled]) {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
+@include fit();
+
+.icon-holder,
+.clear-btn {
+	position: absolute;
+	right: 0;
+	
+	strand-icon {
+		color: $color-A18 !important;
+	}
+}
+
+.clear-btn {
+	display: none;
+	cursor: pointer;	
+}
+
+.text-input {
+	box-sizing: border-box;
+	height: 29px !important;
+}
+
+// layout modes for input
+.text-input.top {
+	border-radius: 0px 0px 4px 4px;
+}
+
+.text-input.bottom {
+	border-radius: 4px 4px 0px 0px;
+}
+
+// horizontal
+:host-context([layout=hgroup-left]),
+:host([layout=hgroup-left]) {
+	.text-input {
+		border-radius: 4px 0px 0px 4px;
+	}
+
+	.text-input.bottom {
+		border-radius: 4px 0px 0px 0px;
+	}
+
+	.text-input.top {
+		border-radius: 0px 0px 0px 4px;
+	}
+}
+
+:host-context([layout=hgroup-center]),
+:host([layout=hgroup-center]) {
+	.text-input {
+		border-radius: 0 0 0 0;
+		border-left: none;
+		border-right: none;
+	}
+}
+
+:host-context([layout=hgroup-right]),
+:host([layout=hgroup-right]) {
+	.text-input {
+		border-radius: 0px 4px 4px 0px;
+		border-left: none;
+	}
+
+	.text-input.bottom {
+		border-radius: 0px 4px 0px 0px;
+	}
+
+	.text-input.top {
+		border-radius: 0px 0px 4px 0px;
+	}
+}
+
+// dropdown - strand-input nested in a dropdown
+:host([layout=dropdown]),
+:host([layout=editor]) {
+	display: block;
+	border-bottom: 1px solid $color-A8;
+
+	.text-input {
+		border:none;
+		box-shadow: none;
+		border-radius: 0 0 0 0;
+	}
+
+	.text-input:focus {
+		box-shadow: none;
+	}
+}
+
+:host([layout=editor]) {
+	border: 1px solid $color-A8;
+}
+
+// support multiple size configurations
+:host([size='large']){
+	.text-input {
+		height: 46px !important;
+		font-size: 15px !important;
+		line-height: 46px !important;
+		padding: 0 15px !important;
+
+		&::placeholder {
+			font-size: 15px !important;
+			line-height: 46px !important;
+		}
+	}
+}
+
+:host([size='large'][search]),
+:host([size='large'][clear]),
+:host([size='normal'][icon]){
+	.text-input {
+		padding: 0 30px 0 15px !important;
+	}
+
+	.icon-holder,
+	.clear-btn {
+		width: 16px;
+		height: 16px;
+		top: 15px;
+		right: 10px;
+	}
+}
+
+:host([size='normal']){
+	.text-input {
+		height: 29px !important;
+		font-size: 13px !important;
+		line-height: 29px !important;
+		padding: 0 10px !important;
+
+		&::placeholder {
+			font-size: 13px !important;
+			line-height: 29px !important;
+		}
+	}
+}
+
+:host([size='normal'][search]),
+:host([size='normal'][clear]),
+:host([size='normal'][icon]){
+	.text-input {
+		padding: 0 25px 0 10px !important;
+	}
+
+	.icon-holder,
+	.clear-btn {
+		width: 14px;
+		height: 14px;
+		top: 7.5px;
+		right: 8px;
+	}
+}
+
+:host([size='small']){
+	.text-input {
+		height: 26px !important;
+		font-size: 11px !important;
+		line-height: 26px !important;
+		padding: 0 8px !important;
+
+		&::placeholder {
+			font-size: 11px !important;
+			line-height: 26px !important;
+		}
+	}
+}
+
+:host([size='small'][search]),
+:host([size='small'][clear]),
+:host([size='normal'][icon]){
+	.text-input {
+		padding: 0 22px 0 8px !important;
+	}
+
+	.icon-holder,
+	.clear-btn {
+		width: 11px;
+		height: 11px;
+		top: 7.5px;
+		right: 8px;
+	}
+}

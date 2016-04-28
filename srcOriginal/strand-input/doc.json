@@ -1,0 +1,126 @@
+{
+	"name":"strand-input",
+	"description":"A fully-styled text input.",
+	"attributes": [
+		{
+			"name":"placeholder",
+			"type":"String",
+			"description":"Default text which appears in the textarea",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"type",
+			"type":"String",
+			"description":"The type of the input field, as per native input",
+			"optional":true,
+			"default":"text",
+			"options":["text","password","email","number","tel","search","url"]
+		},
+		{
+			"name":"icon",
+			"type":"String",
+			"description":"Adds a custom icon glyph to the input field, using icons found in strand-icon.",
+			"optional":true,
+			"default":"search",
+			"options":["*see strand-icon for options"]
+		},
+		{
+			"name":"search",
+			"type":"Boolean",
+			"description":"Display a search icon.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"clear",
+			"type":"Boolean",
+			"description":"Display a clear button when text is input.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"width",
+			"type":"Int",
+			"description":"Native - width of the textarea in pixels.",
+			"optional":true,
+			"default":"native default"
+		},
+		{
+			"name":"maxlength",
+			"type":"Int",
+			"description":"Native - Maximum number of characters allowed in the field.",
+			"optional":true,
+			"default":"native default"
+		},
+		{
+			"name":"value",
+			"type":"String",
+			"description":"the value of the input",
+			"optional":false,
+			"default":"null"
+		},
+		{
+			"name":"disabled",
+			"type":"Boolean",
+			"description":"Disable the input",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"readonly",
+			"type":"Boolean",
+			"description":"Make the input read-only, keeping it active but preventing the user from changing its value",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"fitparent",
+			"type":"Boolean",
+			"description":"Instructs the component to fit to its parent container's width (percent or pixel width).",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"error",
+			"type":"Boolean",
+			"description":"Used to display a visual error state, can be set via validation or directly.",
+			"optional":true,
+			"default":"false"
+		},
+		{
+			"name":"size",
+			"type":"String",
+			"description":"instructs the component to be displayed at a predetermined size (i.e. - 'normal' or 'large')",
+			"optional":true,
+			"default":"none",
+			"options":["normal","large", "small"],
+			"reflect":true
+		}
+	],
+	"methods": [
+		{
+			"name":"clearInput",
+			"description":"Clear the input's value.",
+			"arguments":[]
+		}
+	],
+	"events": [
+		{
+			"type": "changed",
+			"detail": [
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The updated value of the text input."
+				}
+			]
+		}
+	],
+	"behaviors": [
+		"validatable",
+		"stylable",
+		"resolvable",
+		"refable"
+	]
+}

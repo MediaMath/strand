@@ -1,0 +1,72 @@
+<script>
+(function (scope) {
+
+	function _checkKeys(cache, keys) {
+		return keys.reduce(function(prev, current) {
+			return Boolean(cache[current]) && prev;
+		},true);
+	}
+
+	function _clearKeys(cache, keys) {
+		keys.forEach(function(key) {
+			cache[key] = false;
+		});
+	}
+
+	scope.Debouncable = {
+
+		properties:{
+			debouncers:{
+				type:Array,
+				value:function() { return []; }
+			},
+			resetDebouncer:{
+				type:Boolean,
+				value:false,
+			},
+			_debouncersCache:{
+				type:Object,
+				value:function() { return {}; }
+			}
+		},
+
+		ALL:'all',
+		SOME:'some',
+
+		created:function() {
+			this.observers = this.observers || [];
+			var keys = Object.keys(this.debouncers);
+
+			keys.forEach(function(debouncer) {
+
+				var sem = this.debouncers[debouncer];
+				sem.keys.forEach(function(key) {
+
+					this.addEventListener(key+"-changed", function() {
+
+						this._debouncersCache[key] = true;
+						if (sem.type === 'some' || _checkKeys(this._debouncersCache, sem.keys)) {
+							if (this.resetDebouncer) {
+								requestAnimationFrame(function() {
+									_clearKeys(this._debouncersCache, sem.keys);
+								}.bind(this));
+							}
+
+							this.debounce(debouncer,function() {
+								_clearKeys(this._debouncersCache, sem.keys);
+								this.fire(debouncer+"-changed");
+								if (sem.callback) {
+									sem.callback.apply(this, [key, debouncer]);
+								}
+							}, 0);
+						}
+
+					});
+
+				},this);
+
+			},this);
+		}
+	};
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

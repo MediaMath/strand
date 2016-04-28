@@ -1,0 +1,83 @@
+<!-- multi- button group example horizontal -->
+<strand-group align="horizontal">
+	<strand-button type="secondary">
+		<label>1</label>
+	</strand-button>
+	<strand-button type="secondary">
+		<label>2</label>
+	</strand-button>
+	<strand-button type="secondary">
+		<label>3</label>
+	</strand-button>
+</strand-group>
+<!-- multi- button group example vertical -->
+<strand-group align="vertical">
+	<strand-button type="secondary">
+		<label>1</label>
+	</strand-button>
+	<strand-button type="secondary">
+		<label>2</label>
+	</strand-button>
+	<strand-button type="secondary">
+		<label>3</label>
+	</strand-button>
+</strand-group>
+<!-- radio group example vertical -->
+<strand-group align="vertical">
+	<strand-radio checked="true">
+		<label>Rad Group Item 1</label>
+	</strand-radio>
+	<strand-radio>
+		<label>Rad Group Item 2</label>
+	</strand-radio>
+	<strand-radio>
+		<label>Rad Group Item 3</label>
+	</strand-radio>
+</strand-group>
+<!-- radio group example horizontal -->
+<strand-group align="horizontal">
+	<strand-radio checked="true">
+		<label>Rad Group Item 1</label>
+	</strand-radio>
+	<strand-radio>
+		<label>Rad Group Item 2</label>
+	</strand-radio>
+	<strand-radio>
+		<label>Rad Group Item 3</label>
+	</strand-radio>
+</strand-group>
+<!-- search group example -->
+<strand-group align="horizontal">
+	<strand-dropdown placeholder="Select One" fitparent="true" style="width:150px;">
+		<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+		<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+		<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+		<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+	</strand-dropdown>
+	<strand-input placeholder="Search and Clear" search="true" clear="true" autocomplete="true" fitparent="true" style="width:300px;"></strand-input>	
+</strand-group>
+<!-- mixed grouping scenario 1: buttons + input -->
+<strand-group>
+	<strand-button type="secondary">
+		<strand-icon type="minus" width="10" height="10"></strand-icon>
+	</strand-button>
+	<strand-input width="40"></strand-input>
+	<strand-button type="secondary">
+		<strand-icon type="plus" width="10" height="10"></strand-icon>
+	</strand-button>
+</strand-group>
+<!-- mixed grouping scenario 2: dropdown + buttons -->
+<strand-group>
+	<strand-button type="secondary">
+		<strand-icon type="minus" width="10" height="10"></strand-icon>
+	</strand-button>
+	<strand-dropdown placeholder="select one">
+		<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
+		<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
+		<strand-list-item>strand-list-item with an exremely long label or name in here 03</strand-list-item>
+		<strand-list-item>strand-list-item with an exremely long label or name in here 04</strand-list-item>
+	</strand-dropdown>
+	<strand-button type="secondary">
+		<strand-icon type="plus" width="11" height="11"></strand-icon>
+	</strand-button>
+</strand-group>

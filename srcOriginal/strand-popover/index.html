@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="strand-popover.html">
+	<link rel="import" href="../strand-action/strand-action.html"/>
+	<link rel="import" href="../strand-button/strand-button.html"/>
+	<link rel="import" href="../strand-input/strand-input.html"/>
+	<link rel="import" href="../strand-footer/strand-footer.html"/>
+	<link rel="import" href="../strand-checkbox/strand-checkbox.html"/>
+	<style type="text/css">
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {  
+				margin:0;
+				padding:0;
+				background: #eee;
+			}
+
+			.col {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				float: left;
+				padding: 40px;
+				font-size: 0;
+			}
+
+			.col.c0 {
+				width:400px;
+			}
+
+			.col.c1 {
+				width:300px;
+			}
+
+			.col.c2 {
+				width:200px;
+			}
+
+			.col.c3 {
+				width:500px;
+			}
+
+			.col.c4 {
+				width:49%;
+			}
+
+			.col:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			p {
+				font-family: sans-serif;
+				color: #333;
+				font-size: 12px;
+				line-height: 18px;
+				margin: 20px 0;
+			}
+
+			.bold { font-weight: bold; }
+
+			hr {
+				border: 0;
+				display: block;
+				border-bottom: 1px solid #fff;
+				border-top: 1px solid #ccc;
+				height: 0px;
+				margin-top: 20px;
+			}
+
+			.vr {
+				width:0px;
+				height: 100%;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #ccc;
+				display: block;
+				float: left;
+			}
+
+			#cpb {
+				position: absolute;
+			}
+
+			strand-popover[unresolved],
+			strand-button[unresolved] {
+				display: none;
+			}
+		</style>
+</head>
+
+<body style="height: 5000px;">
+	
+	<div>
+		<div class="col c0">
+			<strand-button id="cpb1" unresolved>
+				<label>open popover</label>
+			</strand-button>
+		</div>
+	</div>
+
+	<div>
+		<strand-popover target="#cpb1" id="popover1" direction="s" unresolved>
+			<div class="body">
+				<strand-input></strand-input>
+			</div>
+			<strand-footer>
+				<strand-action id="closeLink1" underline>
+					<label>Close</label>
+				</strand-action>
+				<strand-button id="applyBtn1">
+					<label>Apply</label>
+				</strand-button>
+			</strand-footer>
+		</strand-popover>
+	</div>
+
+	<strand-button id="cpb" unresolved>
+		<label>open popover multiselect (draggable)</label>
+	</strand-button> 
+
+	<div>
+		<strand-popover id="popover" target="#cpb" direction="s" unresolved>
+			<strand-input search="true" layout="dropdown"></strand-input> 
+			<div class="body">
+				<strand-checkbox>
+					<label>Item One</label>
+				</strand-checkbox>
+				<strand-checkbox>
+					<label>Item Two</label>
+				</strand-checkbox>
+				<strand-checkbox>
+					<label>Item Three</label>
+				</strand-checkbox>
+			</div>
+			<strand-footer>
+				<strand-action id="closeLink" underline>
+					<label>Close</label>
+				</strand-action>
+				<strand-button id="applyBtn">
+					<label>Apply</label>
+				</strand-button>
+			</strand-footer>
+		</strand-popover>
+	</div>
+ 
+	<script>
+		var popover,
+			closeLink,
+			applyBtn,
+			cpb,
+			offsetTop,
+			offsetLeft,
+			drag = false;
+
+		window.addEventListener("WebComponentsReady", function() {
+			popover 	= document.querySelector("#popover");
+			closeLink 	= document.querySelector("#closeLink");
+			applyBtn 	= document.querySelector("#applyBtn");
+			cpb 		= document.querySelector("#cpb");
+
+			document.addEventListener("mousemove", dragHandler);
+			cpb.addEventListener("mousedown", dragStart);
+			cpb.addEventListener("mouseup", dragStop);
+
+			closeLink.addEventListener("click", closeHandler);
+			applyBtn.addEventListener("click", applyHandler);
+		});
+
+		function dragStart(e) {
+			drag = true;
+			offsetLeft = e.pageX - cpb.offsetLeft;
+			offsetTop = e.pageY - cpb.offsetTop;
+		}
+
+		function dragStop(e) {
+			drag = false;
+		}
+
+		function dragHandler(e) {
+			if (drag) {
+				e.preventDefault();
+
+				var left = e.pageX - offsetLeft,
+					top = e.pageY - offsetTop;
+
+				cpb.style.setProperty("left", left +"px");
+				cpb.style.setProperty("top", top +"px");
+				popover.update();
+			}
+		}
+
+		function closeHandler(e) {
+			e.preventDefault();
+			popover.close();
+			console.log("closeHandler");
+			console.log(e);
+		}
+
+		function applyHandler(e) {
+			popover.close();
+			console.log("applyHandler");
+			console.log(e);
+		}
+	</script>
+</body>
+</html>
