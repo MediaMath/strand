@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+ <script src="../bower_components/web-component-tester/browser.js"></script>
+ <script src="TestHelper.js"></script>
+ <script>
+  var should = chai.should();
+ </script>
+ <link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+<strand-data-provider id="dataprovider" search-mode="simple">
+</strand-data-provider>
+
+ <script type="text/javascript">
+  describe("strand-data-provider", function() {
+
+   it("should have an element constructor", function() {
+    var a = new Strand.StrandDataProvider();
+    a.nodeName.should.equal("STRAND-DATA-PROVIDER");
+   });
+
+   it("should fire page changed event", function(done){
+      var a = new Strand.StrandDataProvider();
+
+    flush(function() {
+     a.addEventListener('datachanged', function (e) {
+        e.detail.data[0].name.should.equal('ganesh');
+        done();
+     });
+     a.set('data', [{name: 'ganesh'}]);
+
+
+
+    })
+
+
+   })
+  });
+
+ </script>
+
+</body>
+</html>

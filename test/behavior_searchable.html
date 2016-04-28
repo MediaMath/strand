@@ -1,0 +1,516 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script>
+        var should = chai.should();
+    </script>
+    <link rel="import" href="../build/strand.html"/>
+</head>
+<body>
+<dom-module id="test-searchable">
+    <template>
+        <content id="content"></content>
+    </template>
+</dom-module>
+<script>
+    /*jshint -W030 */
+
+    var SearchTest;
+    HTMLImports.whenReady(function() {
+        console.log('StrandTraits', StrandTraits);
+        SearchTest = Polymer({
+            is:"test-searchable",
+            behaviors:[ StrandTraits.ComparisonRulesProvider, StrandTraits.Searchable, StrandTraits.Injector],
+
+            ready:function() {
+               
+            }
+        });
+    });
+
+    /** begin tests **/
+
+    describe("Searchable", function() {
+        function initAndSetData(){
+            var control =  new SearchTest();
+            control.set('data',
+                    [
+                        {
+                            "id": 1,
+                            "gender": "Male",
+                            "first_name": "Keith",
+                            "last_name": "Foster",
+                            "age": 57,
+                            "email": "kfoster0@behance.net",
+                            "company_Name": "Bubblemix",
+                            "salary": "$5.73",
+                            "city": "Hrastnik",
+                            "country": "Slovenia",
+                            "position": "VP Product Management",
+                            "body_size": "XL"
+                        },
+                        {
+                            "id": 2,
+                            "gender": "Male",
+                            "first_name": "Henry",
+                            "last_name": "Morales",
+                            "age": 25,
+                            "email": "hmorales1@cloudflare.com",
+                            "company_Name": "Voolia",
+                            "salary": "$2.83",
+                            "city": "Panguipulli",
+                            "country": "Chile",
+                            "position": "VP Sales",
+                            "body_size": "XL"
+                        },
+                        {
+                            "id": 3,
+                            "gender": "Male",
+                            "first_name": "Stephen",
+                            "last_name": "Ramos",
+                            "age": 46,
+                            "email": "sramos2@japanpost.jp",
+                            "company_Name": "Miboo",
+                            "salary": "$4.13",
+                            "city": "Brudzew",
+                            "country": "Poland",
+                            "position": "Health Coach II",
+                            "body_size": "XL"
+                        },
+                        {
+                            "id": 4,
+                            "gender": "Female",
+                            "first_name": "Laura",
+                            "last_name": "Hernandez",
+                            "age": 13,
+                            "email": "lhernandez3@ocn.ne.jp",
+                            "company_Name": "Jabbercube",
+                            "salary": "$2.17",
+                            "city": "Satsumasendai",
+                            "country": "Japan",
+                            "position": "Chief Design Engineer",
+                            "body_size": "2XL"
+                        },
+                        {
+                            "id": 5,
+                            "gender": "Male",
+                            "first_name": "Johnny",
+                            "last_name": "Ross",
+                            "age": 9,
+                            "email": "jross4@slideshare.net",
+                            "company_Name": "Shufflebeat",
+                            "salary": "$2.96",
+                            "city": "Dobrošte",
+                            "country": "Macedonia",
+                            "position": "Programmer Analyst II",
+                            "body_size": "XS"
+                        },
+                        {
+                            "id": 6,
+                            "gender": "Male",
+                            "first_name": "Clarence",
+                            "last_name": "Watkins",
+                            "age": 27,
+                            "email": "cwatkins5@eepurl.com",
+                            "company_Name": "Zoombox",
+                            "salary": "$8.98",
+                            "city": "Gancheng",
+                            "country": "China",
+                            "position": "Assistant Professor",
+                            "body_size": "M"
+                        },
+                        {
+                            "id": 7,
+                            "gender": "Female",
+                            "first_name": "Judy",
+                            "last_name": "Spencer",
+                            "age": 42,
+                            "email": "jspencer6@hc360.com",
+                            "company_Name": "Roomm",
+                            "salary": "$8.50",
+                            "city": "Spárti",
+                            "country": "Greece",
+                            "position": "Web Developer I",
+                            "body_size": "M"
+                        },
+                        {
+                            "id": 8,
+                            "gender": "Female",
+                            "first_name": "Joan",
+                            "last_name": "Shaw",
+                            "age": 30,
+                            "email": "jshaw7@blinklist.com",
+                            "company_Name": "Nlounge",
+                            "salary": "$7.29",
+                            "city": "San Nicolas",
+                            "country": "Philippines",
+                            "position": "Human Resources Assistant III",
+                            "body_size": "3XL"
+                        },
+                        {
+                            "id": 9,
+                            "gender": "Female",
+                            "first_name": "Bonnie",
+                            "last_name": "Lopez",
+                            "age": 19,
+                            "email": "blopez8@globo.com",
+                            "company_Name": "Livefish",
+                            "salary": "$5.81",
+                            "city": "Ust’-Kut",
+                            "country": "Russia",
+                            "position": "Analyst Programmer",
+                            "body_size": "L"
+                        },
+                        {
+                            "id": 10,
+                            "gender": "Male",
+                            "first_name": "Brian",
+                            "last_name": "Robinson",
+                            "age": 19,
+                            "email": "brobinson9@telegraph.co.uk",
+                            "company_Name": "Oyondu",
+                            "salary": "$2.83",
+                            "city": "Dolní Dunajovice",
+                            "country": "Czech Republic",
+                            "position": "Director of Sales",
+                            "body_size": "XL"
+                        },
+                        {
+                            "id": 11,
+                            "gender": "Female",
+                            "first_name": "Bonnie",
+                            "last_name": "Lee",
+                            "age": 23,
+                            "email": "bleea@blogs.com",
+                            "company_Name": "Livepath",
+                            "salary": "$2.27",
+                            "city": "Akune",
+                            "country": "Japan",
+                            "position": "Marketing Assistant",
+                            "body_size": "3XL"
+                        },
+                        {
+                            "id": 12,
+                            "gender": "Male",
+                            "first_name": "Billy",
+                            "last_name": "Hanson",
+                            "age": 48,
+                            "email": "bhansonb@usda.gov",
+                            "company_Name": "Skivee",
+                            "salary": "$0.80",
+                            "city": "Sidowayah Lor",
+                            "country": "Indonesia",
+                            "position": "Recruiting Manager",
+                            "body_size": "S"
+                        },
+                        {
+                            "id": 13,
+                            "gender": "Male",
+                            "first_name": "Chris",
+                            "last_name": "Harper",
+                            "age": 1,
+                            "email": "charperc@example.com",
+                            "company_Name": "Chatterbridge",
+                            "salary": "$7.05",
+                            "city": "Tržič",
+                            "country": "Slovenia",
+                            "position": "Environmental Specialist",
+                            "body_size": "M"
+                        },
+                        {
+                            "id": 14,
+                            "gender": "Female",
+                            "first_name": "Annie",
+                            "last_name": "Banks",
+                            "age": 48,
+                            "email": "abanksd@ebay.com",
+                            "company_Name": "Quatz",
+                            "salary": "$3.24",
+                            "city": "Awsīm",
+                            "country": "Egypt",
+                            "position": "Nuclear Power Engineer",
+                            "body_size": "3XL"
+                        },
+                        {
+                            "id": 15,
+                            "gender": "Female",
+                            "first_name": "Deborah",
+                            "last_name": "Gilbert",
+                            "age": 36,
+                            "email": "dgilberte@sfgate.com",
+                            "company_Name": "Eare",
+                            "salary": "$3.25",
+                            "city": "Thị Trấn Hùng Quốc",
+                            "country": "Vietnam",
+                            "position": "Administrative Officer",
+                            "body_size": "L"
+                        }]);
+            return control;
+        }
+
+        function setAllFemalesSearch(control){
+            control.set('searchConfig', [{"searchValue":"Female","column":"gender","comparison":{"displayName":"Exact Match","key":"exactMatch"},"logicalOperator":"AND","index":0,"level":0,"parent":null,"id":0,"inclusive":false,"showInclusive":false}]
+            );
+            return control;
+        }
+        function addOrConditionNameIsKeith(control){
+            control.searchConfig.push({
+                "comparison": {
+                    "displayName": "Exact Match",
+                    "key": "exactMatch"
+                },
+                "logicalOperator": "OR",
+                "level": 0,
+                "parentLevel": null,
+                "id": 1,
+                "parent": null,
+                "inclusive": false,
+                "column": "first_name",
+                "showInclusive": false,
+                "searchValue": "Keith"
+            });
+
+            return control;
+        }
+        function addAndConditionWithNameAnnie(control){
+
+            control.searchConfig.push(
+                {
+                    "comparison": {
+                        "displayName": "Exact Match",
+                        "key": "exactMatch"
+                    },
+                    "logicalOperator": "AND",
+                    "level": 0,
+                    "parentLevel": null,
+                    "id": 0,
+                    "parent": null,
+                    "index": 0,
+                    "inclusive": false,
+                    "column": "first_name",
+                    "showInclusive": false,
+                    "searchValue": "Annie"
+                }
+             );
+            return control;
+        }
+        it("should exist", function() {
+            StrandTraits.should.be.an.object;
+            StrandTraits.Searchable.should.be.an.array;
+            StrandTraits.Injector.should.be.an.object;
+        });
+        it("should return 1 row with firstname Keith", function(done){
+            var searcher = initAndSetData();
+            searcher.searchConfig = [{"searchValue":"Keith","column":"first_name","comparison":{"displayName":"Exact Match","key":"exactMatch"},"logicalOperator":"AND","index":0,"level":0,"parent":null,"id":0,"inclusive":false,"showInclusive":false}];
+            flush(function() {
+                var d = searcher.advanceSearch();
+                d.length.should.equal(1);
+                d[0].first_name.should.equal('Keith');
+                flush(function(){
+                    searcher.searchConfig.push({"comparison":{"displayName":"Exact Match","key":"exactMatch"},"logicalOperator":"AND","level":0,"parentLevel":null,"id":1,"parent":null,"inclusive":false,"column":"gender","showInclusive":false,"searchValue":"Female"});
+                    var dt = searcher.advanceSearch();
+                    dt.length.should.equal(0);
+                    done();
+                })
+            });
+        });
+
+        it("should return 7 all females", function(done){
+            var searcher = initAndSetData();
+            setAllFemalesSearch(searcher);
+              var d = searcher.advanceSearch();
+            flush(function(){
+                d.length.should.equal(7);
+                var isMaleAvailable = d.some(function(item,index){
+                    return item.gender === 'Male';
+                });
+                isMaleAvailable.should.equal(false);
+                done();
+            });
+        });
+
+        it("should further include Keith (male)", function(done){
+            var searcher = initAndSetData();
+            setAllFemalesSearch(searcher);
+            addOrConditionNameIsKeith(searcher);
+            var d = searcher.advanceSearch();
+            flush(function(){
+                d.length.should.equal(8);
+                var keith ;
+                var isMaleAvailable = d.some(function(item,index){
+                    var isKeith = item.gender === 'Male';
+                    if(isKeith){keith = item}else{keith={first_name:'not Keith'}}
+                    return isKeith;
+                });
+                isMaleAvailable.should.equal(true);
+                keith.first_name.should.equal('Keith');
+                done();
+            });
+        });
+
+        it("should further respond on OR and AND conditions", function(done){
+            var searcher = initAndSetData();
+            setAllFemalesSearch(searcher);
+            addOrConditionNameIsKeith(searcher);
+            addAndConditionWithNameAnnie(searcher);
+            var d = searcher.advanceSearch();
+            flush(function(){
+                d.length.should.equal(7); // Annie condition has no effect due to the fact that all Females are already included in the result.
+
+               //Cchange all conditions to and to get no rows.
+                searcher.searchConfig.forEach(function(item, index){
+                    item.logicalOperator = 'AND';
+                });
+               d = searcher.advanceSearch();
+                d.length.should.equal(0);
+                done();
+            });
+        });
+
+        it("should return 1 row on nested hierarchy of conditions", function(done){
+            var searcher = initAndSetData();
+           searcher.set('searchConfig', [
+               {
+                   "searchValue": "Female",
+                   "column": "gender",
+                   "comparison": {
+                       "displayName": "Exact Match",
+                       "key": "exactMatch"
+                   },
+                   "logicalOperator": "AND",
+                   "index": 0,
+                   "level": 0,
+                   "parent": null,
+                   "id": 0,
+                   "inclusive": false,
+                   "showInclusive": false
+               },
+               {
+                   "comparison": {
+                       "displayName": "Contains",
+                       "key": "contains"
+                   },
+                   "logicalOperator": "OR",
+                   "level": 1,
+                   "parentLevel": 0,
+                   "id": 1,
+                   "parent": 0,
+                   "inclusive": false,
+                   "column": "first_name",
+                   "showInclusive": false,
+                   "searchValue": "Keith"
+               },
+               {
+                   "comparison": {
+                       "displayName": "Exact Match",
+                       "key": "exactMatch"
+                   },
+                   "logicalOperator": "AND",
+                   "level": 0,
+                   "parentLevel": null,
+                   "id": 1,
+                   "parent": null,
+                   "inclusive": false,
+                   "column": "gender",
+                   "showInclusive": false,
+                   "searchValue": "Male"
+               },
+               {
+                   "comparison": {
+                       "displayName": "Contains",
+                       "key": "contains"
+                   },
+                   "logicalOperator": "OR",
+                   "level": 1,
+                   "parentLevel": 0,
+                   "id": 3,
+                   "parent": 1,
+                   "inclusive": false,
+                   "column": "first_name",
+                   "showInclusive": false,
+                   "searchValue": "Annie"
+               }
+           ] );
+            var d = searcher.advanceSearch();
+            flush(function(){
+                d.length.should.equal(2);
+                //Cchange all conditions to and to get no rows.
+                searcher.searchConfig.forEach(function(item, index){
+                    item.logicalOperator = 'AND';
+
+                    /**
+                     * @abbr: sw
+                     * @desc: switch statement
+                     * @param: item.searchValue
+                     * @parm:
+                     **/
+                    switch (item.searchValue) {
+                        case 'Male':
+                            item.logicalOperator = 'OR';
+                            break;
+                        case 'Keith':
+                            item.searchValue = 'Annie';
+                            break;
+                        case 'Annie':
+                            item.searchValue = 'Keith';
+                            break;
+                    }
+                });
+
+                d = searcher.advanceSearch();
+                d.length.should.equal(2);
+                done();
+            });
+        });
+
+        it("should not call OR condition function if already true", function(done){
+            var searcher = initAndSetData();
+            setAllFemalesSearch(searcher);
+            var state = {called:false};
+            searcher.searchConfig.push(
+                    {
+                        "comparison": {
+                            "displayName": "Exact Match",
+                            "key": "exactMatch",
+                            func:function(item){
+                                if(item.gender === 'Female') {
+                                    state.called = true;
+                                }
+                            }
+                        },
+                        "logicalOperator": "OR",
+                        "level": 0,
+                        "parentLevel": null,
+                        "id": 0,
+                        "parent": null,
+                        "index": 0,
+                        "inclusive": false,
+                        "column": "first_name",
+                        "showInclusive": false,
+                        "searchValue": "Annie"
+                    }
+            );
+
+            var d = searcher.advanceSearch();
+            flush(function(){
+                d.length.should.equal(7); // Annie condition has no effect due to the fact that all Females are already included in the result.
+
+
+               //For females there is no use of calling OR condition function. Because for them, condition is already true and they are included in the finals.
+              state.called.should.equal(false);
+
+
+
+
+                done();
+            });
+        })
+
+    });
+</script>
+<!-- 	<test-pageable id="test" auto="true"></test-pageable> -->
+</body>
+</html>

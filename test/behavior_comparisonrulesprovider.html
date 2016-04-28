@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script>
+        var should = chai.should();
+    </script>
+    <link rel="import" href="../build/strand.html"/>
+</head>
+<body>
+<dom-module id="test-searchable">
+    <template>
+        <content id="content"></content>
+    </template>
+</dom-module>
+<script>
+    /*jshint -W030 */
+
+    var SearchTest;
+    HTMLImports.whenReady(function() {
+        console.log('StrandTraits', StrandTraits);
+        SearchTest = Polymer({
+            is:"test-searchable",
+            behaviors:[StrandTraits.ComparisonRulesProvider],
+
+            ready:function() {
+
+            }
+        });
+    });
+
+    /** begin tests **/
+
+    describe("ComparisonRulesProvider", function() {
+
+        it("should exist", function() {
+            StrandTraits.should.be.an.object;
+            StrandTraits.ComparisonRulesProvider.should.be.an.array;
+        });
+
+        it("should register comparison rule.", function(done){
+            var control = new SearchTest();
+            var injector = control.getInjector();
+            var comparisonFunctions = injector.resolve('comparisonFunctions');
+            var length = Object.keys(comparisonFunctions).length;
+            var betweenComparison = {
+                key:'between',
+                func:function(item, configuration){
+                    return   item === configuration.searchValue;
+
+                }
+            };
+
+            control.addComparison('between', betweenComparison);
+            flush(function () {
+ length.should.equal(Object.keys(comparisonFunctions).length -1);
+               comparisonFunctions.between.should.be.an.object;
+                done();
+            })
+        });
+
+
+    });
+</script>
+<!-- 	<test-pageable id="test" auto="true"></test-pageable> -->
+</body>
+</html>

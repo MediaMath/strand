@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script>
+        var should = chai.should();
+    </script>
+    <link rel="import" href="../build/strand.html"/>
+</head>
+<body>
+<dom-module id="test-Injectable">
+    <template>
+        <content  ></content>
+    </template>
+</dom-module>
+<script>
+    /*jshint -W030 */
+
+    var InjectTest;
+    HTMLImports.whenReady(function() {
+        console.log('StrandTraits', StrandTraits);
+        InjectTest1 = Polymer({
+            is:"test-Injectable1",
+            behaviors:[StrandTraits.Injector]
+
+        });
+
+        InjectTest2 = Polymer({
+            is:"test-Injectable2",
+            behaviors:[StrandTraits.Injector]
+
+        });
+    });
+
+    /** begin tests **/
+
+    describe("Injectable", function() {
+
+        it("should exist", function() {
+            StrandTraits.should.be.an.object;
+            StrandTraits.Injector.should.be.an.object;
+        });
+
+        it("should inject and retrieve config object", function(done){
+            var injector1 = new InjectTest1();
+            var injector = injector1.getInjector();
+            injector.register('config1', function(){
+                this.$get = function get(){
+                    return  {
+                        name:'ganesh'
+                    }
+                }
+            });
+
+            var injectorControl2 = new InjectTest2();
+            var injector2 = injectorControl2.getInjector();
+            var config1 = injector2.resolve('config1');
+            flush(function(){
+                config1.name.should.equal('ganesh');
+               done();
+            });
+        })
+
+
+    });
+</script>
+</body>
+</html>
