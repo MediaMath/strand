@@ -84,17 +84,15 @@ describe("strand-datepicker", function() {
 		var m = moment();
 		var m2 = moment().add(1, 'day');
 		t3.rangePresets = [
-			{name:"test 1", value:"test 1", start: m, end:m2},
-			{name:"test 2", value:"test 2", start: m, end:m2},
-			{name:"test 3", value:"test 3", start: m, end:m2},
-			{name:"test 4", value:"test 4", start: m, end:m2}
+			{name:"test 1", start: m, end:m2},
+			{name:"test 2", start: m, end:m2},
+			{name:"test 3", start: m, end:m2},
+			{name:"test 4", start: m, end:m2}
 		];
 
 		flush(function() {
-			// console.log(t3._rangePresets);
 			t3._rangePresets.forEach(function(preset, idx) {
 				preset.index.should.equal(idx);
-				preset.value.should.equal("range" + idx);
 				preset.label.should.equal("test "+ (idx+1));
 				moment.isMoment(preset.range.start).should.be.true;
 				moment.isMoment(preset.range.end).should.be.true;
