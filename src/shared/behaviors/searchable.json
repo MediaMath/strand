@@ -1,0 +1,27 @@
+{
+	"name":"Searchable",
+	"description":"Exposes a reference to the component, and method to find other components within it's scope. Intended for complex nested circumstances where the components scope could be changed (like custom mm-grid items).",
+	"attributes": [
+		{
+			"name":"searchconfig",
+			"type":"Object",
+			"description":"default settings"
+		},
+		{
+			"name":"value",
+			"type":"Object",
+			"description":"returns value Object"
+		}
+	],
+	"methods": [
+		{
+			"name":"advanceSearch",
+			"description":"logic for searching data as per the rules provided by ComparisonRulesProvider",
+			"arguments":[
+				{
+					"data":"Object"
+				}
+			]
+		}
+	]
+}
