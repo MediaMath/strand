@@ -22,7 +22,7 @@
 	<script type="text/javascript">
 
 		describe("strand-tooltip", function() {
-	
+
 			it("should have an element constructor", function() {
 				var a = new Strand.Tooltip();
 				a.nodeName.should.equal("STRAND-TOOLTIP");
@@ -39,6 +39,7 @@
 
 			it("should be closed on 'out'", function(done) {
 				var a = document.querySelector("#tt");
+				a.auto = true;
 				a._outHandler();
 				a.async(function() {
 					a.state.should.equal(a.STATE_CLOSED);
@@ -46,9 +47,9 @@
 				});
 			});
 
-			it("should NOT be closed on 'out' if auto = true", function(done) {
+			it("should NOT be closed on 'out' if auto = false", function(done) {
 				var a = document.querySelector("#tt");
-				a.auto = true;
+				a.auto = false;
 				a._overHandler();
 				a._outHandler();
 				a.async(function() {
