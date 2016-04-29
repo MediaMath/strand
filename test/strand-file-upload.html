@@ -59,7 +59,7 @@
 						new FakeFile('fake1.md','text/x-markdown'),
 						new FakeFile('fake2.md','text/x-markdown')
 					]);
-				fi._handleFiles(fake);
+				fi._handleChange(fake);
 				fi.files[0].name.should.equal('fake1.md');
 
 			});
@@ -82,7 +82,7 @@
 						new FakeFile('fake2.hs'),
 						new FakeFile('fake3.js')
 					]);
-				fi2._handleFiles(fake);
+				fi2._handleChange(fake);
 				fi2.error.should.be.true;
 
 			});
@@ -94,7 +94,7 @@
 						new FakeFile('fake1.md','text/x-markdown'),
 						new FakeFile('fake2.md','text/x-markdown')
 					]);
-				fi3._handleFiles(fake);
+				fi3._handleChange(fake);
 				fi3.files[0].name.should.equal('fake1.md');
 				fi3.files[1].name.should.equal('fake2.md');
 
