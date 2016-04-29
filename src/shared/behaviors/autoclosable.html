@@ -18,16 +18,20 @@
 		_instances.delete(instance);
 	}
 
+	function _eachInstance (instance) {
+		var params = this;
+		var filter = instance._closeFilter;
+		var scope = typeof instance.scope === "object" ? instance.scope : instance;
+
+		params[0] = instance;
+		filter.apply(scope, params);
+	}
+
 	document.addEventListener("mouseup", function(e) {
 		var normalized = Polymer.dom(e);
-		var instance;
-		var scope;
-		var filter;
-		for (var instance of _instances) {
-			filter = instance._closeFilter;
-			scope = typeof instance.scope === "object" ? instance.scope : instance;
-			filter.apply(scope, [instance, normalized, e]);
-		}
+		var params = [null, normalized, e];
+
+		_instances.forEach(_eachInstance, params);
 	});
 
 	var AutoClosable = {
