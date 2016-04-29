@@ -12,10 +12,10 @@ This philosophy is also carried through to the low level API components, which w
 
 The component set consists of:
 
-* [mm-ajax](mm-ajax.html): low level API to XHRequests
-* [mm-sync](mm-sync.html): high level API (get/post/put/delete) with support for common header and input/output scenarios
-* [mm-model](mm-model.html): 'bare' model component that largely serves to make server side data 2-way bindable
-* [mm-collection](mm-collection.html): 'bare' collection component that follows a similar pattern to model (with the ability to manipulate and retrieve contained models)
+* [strand-ajax](strand-ajax.html): low level API to XHRequests
+* [strand-sync](strand-sync.html): high level API (get/post/put/delete) with support for common header and input/output scenarios
+* [strand-model](strand-model.html): 'bare' model component that largely serves to make server side data 2-way bindable
+* [strand-collection](strand-collection.html): 'bare' collection component that follows a similar pattern to model (with the ability to manipulate and retrieve contained models)
 
 
 

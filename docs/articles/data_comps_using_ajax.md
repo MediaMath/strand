@@ -1,18 +1,18 @@
-# Using mm-ajax
+# Using strand-ajax
 
 ## Overview 
-MM-Ajax is an extremely low level wrapper for the base XMLHttpRequest object present in all modern browsers. It exposes this functionality and accounts for some of the more common serialization scenarios in a matter consistent with jQuery's serialize method, as well as having higher level abstractions for resetting the request and managing raw inputs such as headers. See the [component documentation page](mm-ajax.html) for more details.
+Strand-Ajax is an extremely low level wrapper for the base XMLHttpRequest object present in all modern browsers. It exposes this functionality and accounts for some of the more common serialization scenarios in a matter consistent with jQuery's serialize method, as well as having higher level abstractions for resetting the request and managing raw inputs such as headers. See the [component documentation page](strand-ajax.html) for more details.
 
-Generally end developers should use MM-Sync in nearly all cases.
+Generally end developers should use Strand-Sync in nearly all cases.
 
 ## Examples
 
-It is possible to use mm-ajax in a variety of possible scenarios. Let's walk through 2 of the more common.
+It is possible to use strand-ajax in a variety of possible scenarios. Let's walk through 2 of the more common.
 
-Using mm-ajax for a simple get request using markup for configuration.
+Using strand-ajax for a simple get request using markup for configuration.
 
 ```html
-<mm-ajax id="simpleGet" url="http://example.com/api" method="get"></mm-ajax>
+<strand-ajax id="simpleGet" url="http://example.com/api" method="get"></strand-ajax>
 <script>
 window.addEventListener("WebComponentsReady", function() {
 	document.querySelector("#simpleGet").exec();
@@ -26,7 +26,7 @@ Unfortunately in this example our data is going nowhere.  Let's do something wit
 
 ```html
 <template is="dom-bind">
-	<mm-ajax id="simpleGet" url="http://example.com/api" method="get" response="{{response}}"></mm-ajax>
+	<strand-ajax id="simpleGet" url="http://example.com/api" method="get" response="{{response}}"></strand-ajax>
 	<div>{{response}}</div>
 </template>
 ```

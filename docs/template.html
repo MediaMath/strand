@@ -15,22 +15,22 @@
 			{{> sidebar}}
 			<div class="main-content doc">
 				<div class="top-box">
-					<mm-header size="large">{{name}}</mm-header>
+					<strand-header size="large">{{name}}</strand-header>
 					<p class="header">{{description}} <a href="https://github.com/MediaMath/ui-design/tree/master/ui-framework-components/{{name}}" target="_blank">View Design Documentation</a></p>
 					<hr/>
 					<section>
-						<mm-header size="small">Example HTML Editor</mm-header>
+						<strand-header size="small">Example HTML Editor</strand-header>
 						<div class="editor-wrapper">
 							<div id="editor-{{name}}" class="editor">{{example}}</div>
 						</div>
 					</section>
 					<section>
-						<mm-header size="small">Example Output</mm-header>
+						<strand-header size="small">Example Output</strand-header>
 						<div class="content-box example" id="content-{{name}}">{{{example}}}</div>
 					</section>
 					<hr/>
 					<section>
-						<mm-header size="small">Attributes</mm-header>
+						<strand-header size="small">Attributes</strand-header>
 						<table>
 							<tr>
 								<th>Attribute</th>								
@@ -51,7 +51,7 @@
 					{{#methods.length}}
 					<hr/>
 					<section>
-						<mm-header size="small">Public Methods</mm-header>
+						<strand-header size="small">Public Methods</strand-header>
 						<table>
 							<tr>
 								<th>Method</th>
@@ -83,7 +83,7 @@
 					{{#properties.length}}
 					<hr/>
 					<section>
-						<mm-header size="small">Public Properties</mm-header>
+						<strand-header size="small">Public Properties</strand-header>
 						<table>
 							<tr>
 								<th>Properties</th>								
@@ -105,7 +105,7 @@
 					{{#events.length}}
 					<hr/>
 					<section>
-						<mm-header size="small">Events</mm-header>
+						<strand-header size="small">Events</strand-header>
 						<table>
 							<tr>
 								<th>Event</th>
@@ -133,7 +133,7 @@
 					{{#articles.length}}
 					<hr/>
 					<section>
-						<mm-header size="small">Related Articles</mm-header>
+						<strand-header size="small">Related Articles</strand-header>
 						<table>
 							{{#articles}}
 							<tr>

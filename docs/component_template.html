@@ -2,7 +2,7 @@
 <html>
 	{{> head}}
 	<body unresolved>
-		<mm-docs-shell id="docsShell" version="{{revision}}" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="{{revision}}" mobile-header="Strand Docs">
 			{{> sidebar}}
 			{{> footer}}
 			<article class="layout-article">
@@ -11,7 +11,7 @@
 					<p>{{description}}</p>
 					{{#experimental.length}}
 					{{#experimental}}
-					<mm-inline-box type="warning" fitparent>{{message}}</mm-inline-box>
+					<strand-inline-box type="warning" fitparent>{{message}}</strand-inline-box>
 					{{/experimental}}
 					{{/experimental.length}}
 					<hr/>
@@ -130,7 +130,7 @@
 				</div>
 				<div class="layout-push"></div>
 			</article>
-		</mm-docs-shell>
+		</strand-docs-shell>
 		<script>
 			var name = "{{name}}",
 				articlesNav,
@@ -151,7 +151,7 @@
 					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
 					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
 					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
-					navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
+					navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
 
 					// default expanded:
 					articlesNav.expanded = false;

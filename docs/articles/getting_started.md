@@ -17,12 +17,12 @@ Add the <a href="http://webcomponents.org/polyfills/" target= "_blank">webcompon
 <link rel="import" href="bower_components/strand/dist/strand.html"/>
 ```
 
-Start adding web component tags to your markup or template wherever you would like the component to render (see the specific details for each component). Here's how you would add a mm-button:
+Start adding web component tags to your markup or template wherever you would like the component to render (see the specific details for each component). Here's how you would add a strand-button:
 
 ```html
-<mm-button id="coolBtn">
+<strand-button id="coolBtn">
 	<label>Hi There</label>
-</mm-button>
+</strand-button>
 ```
 
 To add an event trigger for when all Polymer elements on the page have been upgraded and are ready to use, try the following:
