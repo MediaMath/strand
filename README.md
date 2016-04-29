@@ -1,5 +1,7 @@
 <img src="http://mediamath.github.io/strand/images/strand-logo.svg" height="100" alt="Strand" />
 
+[![Build Status](https://travis-ci.org/MediaMath/strand.svg?branch=dev%2Fstrand-guide)](https://travis-ci.org/MediaMath/strand)
+
 ### Overview
 Strand leverages the [Polymer Project](https://www.polymer-project.org) to provide a collection of modular, reusable [Web Components](http://webcomponents.org/).  By using Strand, developers can create and customize new and existing user interfaces with consistency and ease.
 
