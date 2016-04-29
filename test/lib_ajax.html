@@ -51,10 +51,10 @@ describe("Ajax", function() {
 	it("should serialize data", function() {
 
 		var a = new StrandLib.Ajax();
-		var result = a.serialize({a:1,b:"test",c:2});
+		var result = a.__serialize({a:1,b:"test",c:2});
 		result.should.deep.equal(["a=1", "b=test", "c=2"]);
 
-		result = a.serialize({
+		result = a.__serialize({
 			a:{b:{c:1}},
 			z:10
 		});
@@ -75,7 +75,7 @@ describe("Ajax", function() {
 		var a = new StrandLib.Ajax();
 		var fd = new FormDataT();
 		var data = {a:1,b:"test",c:2};
-		a.serialize(data, fd.append.bind(fd));
+		a.__serialize(data, fd.append.bind(fd));
 		fd.count.should.equal(3);
 		fd.hash.should.deep.equal(data);
 

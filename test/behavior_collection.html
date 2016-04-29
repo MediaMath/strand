@@ -7,33 +7,29 @@
 	<script>
 		var should = chai.should();
 	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
 	<link rel="import" href="../build/shared/behaviors/collection.html"/>
 </head>
 <body>
+	<dom-module id="test-collectable">
+		<template>
+		</template>
+	</dom-module>
+	<script>
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is: 'test-collectable',
+				behaviors: [StrandTraits.Collection]
+			});
+		});
+	</script>
+	<test-collectable id="c"></test-collectable>
 <script>
 describe("Collection", function() {
 
 	it("should exist", function() {
 		StrandTraits.should.be.an.object;
 		StrandTraits.Collection.should.be.an.object;
-	});
-
-	it("should have data after XHR", function(done) {
-		var xhr = sinon.useFakeXMLHttpRequest();
-		var request;
-		xhr.onCreate = function(req) {
-			request = req;
-		};
-
-		var m = new StrandLib.Collection();
-		m.addEventListener("data-changed", function() {
-			this.data[0].should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
-			xhr.restore();
-			done();
-		});
-		m.fetch();
-		request.respond(200, { "Content-Type": "application/json" }, '[{ "id": 1, "test":true, "zappo":"zap" }]');
-
 	});
 
 });

@@ -7,33 +7,31 @@
 	<script>
 		var should = chai.should();
 	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
 	<link rel="import" href="../build/shared/behaviors/model.html"/>
 </head>
 <body>
+
+	<dom-module id="test-modelable">
+		<template>
+		</template>
+	</dom-module>
+	<script>
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is: 'test-modelable',
+				behaviors: [StrandTraits.Model]
+			});
+		});
+	</script>
+	<test-modelable id="m"></test-modelable>
+
 <script>
 describe("Model", function() {
 
 	it("should exist", function() {
 		StrandTraits.should.be.an.object;
 		StrandTraits.Model.should.be.an.object;
-	});
-
-	it("should have data after XHR", function(done) {
-		var xhr = sinon.useFakeXMLHttpRequest();
-		var request;
-		xhr.onCreate = function(req) {
-			request = req;
-		};
-
-		var m = new StrandLib.Model();
-		m.addEventListener("data-changed", function() {
-			this.data.should.deep.equal({ "id": 1, "test":true, "zappo":"zap" });
-			xhr.restore();
-			done();
-		});
-		m.fetch();
-		request.respond(200, { "Content-Type": "application/json" }, '{ "id": 1, "test":true, "zappo":"zap" }');
-
 	});
 
 });
