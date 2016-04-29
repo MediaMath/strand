@@ -18,15 +18,19 @@
 	}
 
 	function _resizeHandler() {
-		for (var instance of _instances) {
-			if (instance.resize) instance.resize();
-		}
+		_instances.forEach(_eachResize);
+	}
+
+	function _eachResize (instance) {
+		if (instance.resize) instance.resize();
 	}
 
 	function _scrollHandler (argument) {
-		for (var instance of _instances) {
-			if (instance.scroll) instance.scroll(); 
-		}
+		_instances.forEach(_eachScroll);
+	}
+
+	function _eachScroll (instance) {
+		if (instance.scroll) instance.scroll();
 	}
 
 	window.addEventListener("resize", _resizeHandler);
