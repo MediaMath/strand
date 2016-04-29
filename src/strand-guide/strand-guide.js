@@ -43,6 +43,7 @@
 			hidden: {
 				type:Boolean,
 				value:true,
+				readOnly: true,
 				reflectToAttribute:true
 			},
 			showFocus: {
@@ -113,7 +114,7 @@
 
 		show: function() {
 			if (!this.suppressGuide) {
-				this.hidden = false;
+				this._setHidden(false);
 				this.$.tooltip.open();
 				if (this.showFocus) this.$$('#focus').updateCanvas();
 
@@ -127,7 +128,7 @@
 
 		hide: function(e) {
 			if (!this.suppressGuide) {
-				this.hidden = true;
+				this._setHidden(true);
 				this.$.tooltip.close();
 
 				if (this.noscroll) {

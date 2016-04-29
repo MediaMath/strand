@@ -162,6 +162,11 @@
 			// guide.autoDismiss = true;
 			// guide.data = data;
 			guide.show();
+
+			guide.addEventListener('guide-dismiss', function(){
+				console.log('guide-dismiss');
+			});
+
 		});
 	</script>
 
