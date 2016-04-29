@@ -7,6 +7,7 @@
 	<script src="TestHelper.js"></script>
 	<script>
 		var should = chai.should();
+		var expect = chai.expect;
 	</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 	<link rel="import" href="../build/strand.html">
@@ -24,10 +25,10 @@
 		</strand-radio>
 		<strand-radio value="2">
 			<label>Rad Group Item 2</label>
-		</strand-radio> 
+		</strand-radio>
 		<strand-radio value="3">
 			<label>Rad Group Item 3</label>
-		</strand-radio>     
+		</strand-radio>
 	</strand-group>
 	<br/>
 	<strand-group  id="preselect2" align="" group="myRadGroup2">
@@ -36,10 +37,10 @@
 		</strand-radio>
 		<strand-radio>
 			<label>Rad Group Item 2</label>
-		</strand-radio> 
+		</strand-radio>
 		<strand-radio>
 			<label>Rad Group Item 3</label>
-		</strand-radio>     
+		</strand-radio>
 	</strand-group>
 	<br/>
 	<strand-group id="editselect" group="radical" fitparent="true">
@@ -48,10 +49,10 @@
 		</strand-radio>
 		<strand-radio>
 			<label>Rad Group Item 2</label>
-		</strand-radio> 
+		</strand-radio>
 		<strand-radio>
 			<label>Rad Group Item 3</label>
-		</strand-radio>  
+		</strand-radio>
 	</strand-group>
 	<br/>
 	<strand-group id="vertical" align="vertical">
@@ -60,10 +61,10 @@
 		</strand-radio>
 		<strand-radio>
 			<label>Rad Group Item 2</label>
-		</strand-radio> 
+		</strand-radio>
 		<strand-radio>
 			<label>Rad Group Item 3</label>
-		</strand-radio>  
+		</strand-radio>
 	</strand-group>
 	<br/>
 	<div style="width:600px;">
@@ -89,7 +90,7 @@
 	</strand-group>
 	<br/>
 	<strand-group id="searchGroup" fitparent="true">
-		<strand-input id="si3" placeholder="search and clear" search="true" clear="true" autocomplete="true" fitparent="true"></strand-input>	
+		<strand-input id="si3" placeholder="search and clear" search="true" clear="true" autocomplete="true" fitparent="true"></strand-input>
 		<strand-dropdown placeholder="select one" fitparent="true">
 			<strand-list-item>strand-list-item with an exremely long label or name in here 01</strand-list-item>
 			<strand-list-item>strand-list-item with an exremely long label or name in here 02</strand-list-item>
@@ -101,7 +102,7 @@
 	<script type="text/javascript">
 
 		describe("strand-group", function() {
-	
+
 			it("should have an element constructor", function() {
 				var a = new Strand.Group();
 				a.nodeName.should.equal("STRAND-GROUP");
@@ -111,7 +112,7 @@
 			it("should create a group id if one is not specified", function() {
 				var exist = document.querySelector("#exist"),
 					id = exist.group;
-			
+
 				exist.should.have.property("group");
 				id.should.be.a("string");
 			});
@@ -119,7 +120,7 @@
 			it("should NOT create a group id if one is specified", function() {
 				var a = document.querySelector("#preselect2"),
 					id = a.group;
-			
+
 				a.should.have.property("group");
 				id.should.equal("myRadGroup2");
 			});
@@ -127,25 +128,25 @@
 			// Test type:
 			it("should have type: 'strand-button' if it's an all button group", function() {
 				var a = document.querySelector("#horizontalBtn"),
-					type = a.type;
+					type = a._type;
 
-				a.should.have.property("type");
+				a.should.have.property("_type");
 				type.should.equal("strand-button");
 			});
 
 			it("should have type: 'strand-radio' if it's an all radio group", function() {
 				var a = document.querySelector("#editselect"),
-					type = a.type;
+					type = a._type;
 
-				a.should.have.property("type");
+				a.should.have.property("_type");
 				type.should.equal("strand-radio");
 			});
 
 			it("should have type: 'mixed-type' if it's a mixed item group", function() {
 				var a = document.querySelector("#searchGroup"),
-					type = a.type;
+					type = a._type;
 
-				a.should.have.property("type");
+				a.should.have.property("_type");
 				type.should.equal("mixed-type")
 			});
 
@@ -157,10 +158,10 @@
 
 			it("should have a value of `false` when none are preselected", function() {
 				var exist = document.querySelector("#exist");
-				exist.value.should.equal(false);
+				expect(exist.value).to.not.be.ok;
 
 				var $exist = $("#exist");
-				$exist.val().should.equal(false);
+				expect($exist.val()).to.not.be.ok;
 			});
 
 			it("should have a value when one is preselected", function() {
@@ -184,10 +185,10 @@
 			it("should not have a value before we have clicked anything", function() {
 				var editselect = document.querySelector("#editselect");
 				editselect.should.have.property("value");
-				editselect.value.should.equal(false);
+				expect(editselect.value).to.not.be.ok;
 
 				var $editselect = $("#editselect");
-				$editselect.val().should.equal(false);
+				expect($editselect.val()).to.not.be.ok;
 			});
 
 			it("should have a value after select the first radio", function(done) {
@@ -274,12 +275,12 @@
 
 				flush(function() {
 					items = a.items;
-					alignFirst = items[0].getAttribute("_layout");
-					alignCenter = items[1].getAttribute("_layout");
-					alignLast = items[items.length-1].getAttribute("_layout");
-					alignFirst.should.equal("hgroup-left");
-					alignCenter.should.equal("hgroup-center");
-					alignLast.should.equal("hgroup-right");
+					alignFirst = items[0].getAttribute("layout");
+					alignCenter = items[1].getAttribute("layout");
+					alignLast = items[items.length-1].getAttribute("layout");
+					expect(alignFirst).to.equal("hgroup-left");
+					expect(alignCenter).to.equal("hgroup-center");
+					expect(alignLast).to.equal("hgroup-right");
 					done();
 				});
 			});
@@ -315,12 +316,12 @@
 
 				flush(function() {
 					items = a.items;
-					alignFirst = items[0].getAttribute("_layout");
-					alignCenter = items[1].getAttribute("_layout");
-					alignLast = items[items.length-1].getAttribute("_layout");
-					alignFirst.should.equal("vgroup-top");
-					alignCenter.should.equal("vgroup-center");
-					alignLast.should.equal("vgroup-bottom");
+					alignFirst = items[0].getAttribute("layout");
+					alignCenter = items[1].getAttribute("layout");
+					alignLast = items[items.length-1].getAttribute("layout");
+					expect(alignFirst).to.equal("vgroup-top");
+					expect(alignCenter).to.equal("vgroup-center");
+					expect(alignLast).to.equal("vgroup-bottom");
 					done();
 				});
 			});
@@ -335,10 +336,10 @@
 
 				flush(function() {
 					items = a.items;
-					alignFirst = items[0].getAttribute("_layout");
-					alignLast = items[items.length-1].getAttribute("_layout");
-					alignFirst.should.equal("hgroup-left");
-					alignLast.should.equal("hgroup-right");
+					alignFirst = items[0].getAttribute("layout");
+					alignLast = items[items.length-1].getAttribute("layout");
+					expect(alignFirst).to.equal("hgroup-left");
+					expect(alignLast).to.equal("hgroup-right");
 					done();
 				});
 			});
