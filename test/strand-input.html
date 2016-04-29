@@ -25,6 +25,8 @@
 	<strand-input id="decimal" validation="decimal"></strand-input>
 	<br/>
 	<strand-input id="alpha" validation="alpha"></strand-input>
+	<br />
+	<strand-input size="small" id="small"></strand-input>
 
 	<script type="text/javascript">
 
@@ -65,7 +67,7 @@
 					iconDisplay = TestHelper.getPropertyValue(icon, "display");
 					inputPaddingRight = TestHelper.getPropertyValue(input, "padding-right");
 					iconDisplay.should.equal("block");
-					inputPaddingRight.should.equal("25px");
+					inputPaddingRight.should.equal("22px");
 					done();
 				});
 
@@ -205,6 +207,13 @@
 					errorClass.should.equal(true);
 					done();
 				});
+			});
+
+			it("should have configurable size", function() {
+				var small = document.querySelector('#small'),
+					input = Polymer.dom(small.root).querySelector('.text-input'),
+					style = window.getComputedStyle(input);
+				expect(style.fontSize).to.equal('11px');
 			});
 
 		});
