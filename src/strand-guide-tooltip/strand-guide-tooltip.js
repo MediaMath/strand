@@ -94,10 +94,8 @@
 			this._next = data.length > 1;
 			this._back = data.length > 1 && step > 0;
 
-			if (this._next && step < data.length-1) {
-				this._nextLabel = 'Next';
-			} else if (this._next && step === data.length-1) {
-				this._nextLabel = 'Done';
+			if (this._next) {
+				this._nextLabel = (step < data.length-1) ? 'Next' : 'Done';
 			}
 
 			if (this._back && step > 0) {

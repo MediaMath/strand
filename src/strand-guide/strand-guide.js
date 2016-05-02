@@ -27,7 +27,12 @@
 				value: false
 			},
 			name: {
-				type: String
+				type: String,
+				notify: true
+			},
+			_storageName: {
+				type: String,
+				computed: '_computeStorageName(name)'
 			},
 			suppressGuide: {
 				type: Boolean
@@ -38,13 +43,14 @@
 				value: function() { return document; }
 			},
 			stackType:{
-				value: "modal"
+				value: 'modal'
 			},
 			hidden: {
 				type:Boolean,
 				value:true,
 				readOnly: true,
-				reflectToAttribute:true
+				reflectToAttribute:true,
+				observer: '_hiddenChanged'
 			},
 			showFocus: {
 				type: Boolean,
@@ -62,6 +68,14 @@
 				type: Boolean,
 				value: true
 			},
+			opacity: {
+				type: Number,
+				value: 0.3
+			},
+			spotlightOffset: {
+				type: Number,
+				value: 20
+			},
 			_currentStep: {
 				type: Number,
 				notify: true
@@ -77,7 +91,7 @@
 			},
 		},
 
-		_previousBodyOverflow: null,
+		_bodyOverflow: null,
 		_isAttached: false,
 
 		domObjectChanged: function(domObject) {
@@ -117,12 +131,6 @@
 				this._setHidden(false);
 				this.$.tooltip.open();
 				if (this.showFocus) this.$$('#focus').updateCanvas();
-
-				// strand-modal scroll suppression
-				if(this.noscroll) {
-					this._previousBodyOverflow =  document.body.style.overflow;
-					document.body.style.overflow = "hidden";
-				}
 			}
 		},
 
@@ -131,12 +139,19 @@
 				this._setHidden(true);
 				this.$.tooltip.close();
 
-				if (this.noscroll) {
-					document.body.style.overflow = this._previousBodyOverflow;
-				}
-
 				// If the user has dismissed - suppress via local storage
 				if (this.useLocalStorage) this.suppressGuide = true;
+			}
+		},
+
+		_hiddenChanged: function(newVal, oldVal) {
+			if (!newVal) {
+				if (this.noscroll) {
+					this._bodyOverflow = document.body.style.overflow;
+					document.body.style.overflow = "hidden";
+				} 
+			} else {
+				if (this.noscroll) document.body.style.overflow = this._bodyOverflow;
 			}
 		},
 
@@ -166,6 +181,10 @@
 			// TODO: Scroll handling(?)
 			// Scroll to the location of the target if it is out of bounds
 		},
+
+		_computeStorageName: function(name) {
+			return 'guide-' + name;
+		}
 
 	});
 

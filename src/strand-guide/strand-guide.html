@@ -24,7 +24,7 @@
 		<template is="dom-if" if="{{useLocalStorage}}">
 			<strand-localstore 
 				id="storage"
-				key="{{name}}"
+				key="{{_storageName}}"
 				value="{{suppressGuide}}"></strand-localstore>
 		</template>
 		<div id="blocker" on-tap="_blockerHandler">
@@ -32,6 +32,8 @@
 				<strand-guide-canvas
 					id="focus"
 					hidden="{{hidden}}"
+					spotlight-offset="{{spotlightOffset}}"
+					opacity="{{opacity}}"
 					data="{{_tooltipData}}"
 					current-step="{{_currentStep}}"></strand-guide-canvas>
 			</template>

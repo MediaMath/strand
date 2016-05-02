@@ -125,6 +125,29 @@
 			(r.VCENTER & mask) && (this.vcenter = other.vcenter);
 			
 			return this;
+		},
+
+		roundedRectCanvas : function(ctx, r, o) {
+			var x = this.left;
+			var y = this.top;
+			var w = this.width;
+			var h = this.height;
+
+			if (w < 2 * r) r = w / 2;
+			if (h < 2 * r) r = h / 2;
+
+			ctx.beginPath();
+			ctx.moveTo(x-o, y);
+			ctx.arcTo(x-o, y-o, x, y-o, r);
+			ctx.lineTo(x+w, y-o);
+			ctx.arcTo(x+w+o, y-o, x+w+o, y, r);
+			ctx.lineTo(x+w+o, y+h);
+			ctx.arcTo(x+w+o, y+h+o, x+w, y+h+o, r);
+			ctx.lineTo(x, y+h+o);
+			ctx.arcTo(x-o, y+h+o, x-o, y+h, r);
+			ctx.lineTo(x-o, y);
+			ctx.closePath();
+			return ctx;
 		}
 	};
 

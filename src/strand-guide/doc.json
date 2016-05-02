@@ -71,6 +71,21 @@
 			"attribute":"close-btn"
 		},
 		{
+			"name":"opacity",
+			"type":"Number",
+			"description":"The specified opacity for the semi-transparent focus background (only if 'showFocus' is true - see: 'showFocus').",
+			"optional":true,
+			"default":"0.3"
+		},
+		{
+			"name":"spotlightOffset",
+			"type":"Number",
+			"description":"Instructs the component to draw it's elliptical 'spotlight' mask around the desired target with padding of the specified number, in pixels (only if 'showFocus' is true - see: 'showFocus').",
+			"optional":true,
+			"default":"20",
+			"attribute":"spotlight-offset"
+		},
+		{
 			"name":"data",
 			"type":"Array",
 			"description":"The data array which drives the component. I configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String }]."

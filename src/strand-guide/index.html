@@ -4,6 +4,7 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<link rel="import" href="../strand-footer/strand-footer.html" />
 	<link rel="import" href="../strand-button/strand-button.html" />
+	<link rel="import" href="../strand-action/strand-action.html" />
 	<link rel="import" href="strand-guide.html" />
 	<style type="text/css">
 			body, html {
@@ -96,7 +97,7 @@
 
 	<p>Vestibulum magna turpis, consectetur aliquam velit ac, tristique tincidunt neque. Donec aliquam erat et urna posuere maximus. Mauris consequat massa sed enim porta vestibulum. Ut in tellus quam. Aliquam commodo hendrerit mauris, quis semper ligula sagittis et. In non ornare magna, vel lobortis augue. Donec at sapien sodales, aliquam arcu sed, volutpat magna. Aenean eget pretium magna, non volutpat ipsum. Proin quis neque porta, congue ligula nec, lobortis nisi. Nullam eu dui vitae risus blandit sollicitudin non vitae nulla. Ut suscipit vehicula eleifend. Sed turpis urna, malesuada et augue eu, scelerisque fermentum urna. Nullam a aliquam metus.</p>
 
-	<p>Sed non tellus gravida, feugiat felis sit amet, auctor odio. In eu erat quis libero sagittis sodales et sit amet metus. Sed quis consectetur turpis. Proin eget aliquet arcu. Donec ut tempor mauris, id feugiat elit. Morbi porta, leo eget tincidunt efficitur, sapien nunc consequat nisl, eget <button id="button2">button 2</button> fermentum sapien magna ut nunc. Curabitur sit amet elit eu nisl tempus aliquet. Vestibulum rhoncus nibh eros, ac scelerisque leo commodo sit amet. Aenean pulvinar velit ac est efficitur tempor. Nam cursus tincidunt leo in sollicitudin. Duis tristique tempus enim ut ullamcorper. Fusce auctor, eros ac auctor posuere, tortor sem dictum libero, id rhoncus nulla nibh ut mauris. Duis neque nibh, pretium vitae pharetra nec, imperdiet id quam.</p>
+	<p>Sed non tellus gravida, feugiat felis sit amet, auctor odio. In eu erat quis libero sagittis sodales et sit amet metus. Sed quis consectetur turpis. Proin eget aliquet arcu. Donec ut tempor mauris, id feugiat elit. Morbi porta, leo eget tincidunt efficitur, sapien nunc consequat nisl, eget <strand-action id="button2" underline><label>Some long title link here that takes a lot of horizontal space</label></strand-action> fermentum sapien magna ut nunc. Curabitur sit amet elit eu nisl tempus aliquet. Vestibulum rhoncus nibh eros, ac scelerisque leo commodo sit amet. Aenean pulvinar velit ac est efficitur tempor. Nam cursus tincidunt leo in sollicitudin. Duis tristique tempus enim ut ullamcorper. Fusce auctor, eros ac auctor posuere, tortor sem dictum libero, id rhoncus nulla nibh ut mauris. Duis neque nibh, pretium vitae pharetra nec, imperdiet id quam.</p>
 
 	<p>Donec tempor fringilla tellus, sit amet tincidunt dui tempor sed. Nullam a facilisis erat. Aenean molestie lacinia neque non molestie. In sagittis mi mi, vel ultrices arcu molestie in. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pulvinar lectus sed neque convallis mattis eget sed est. Fusce consectetur rhoncus dui. Vivamus ultrices lacus metus. Sed ac ligula libero.</p>
 
@@ -106,7 +107,7 @@
 		id="guide"
 		noscroll
 		use-local-storage
-		name="exampleGuide">
+		name="example">
 		 
 		<guide 
 			target="button1" 
@@ -128,7 +129,7 @@
 
 	<strand-footer id="footer" fitparent>
 		<strand-button id="footerBtn">
-			<label>Save</label>
+			<label>Save &amp; Add Another</label>
 		</strand-button>
 	</strand-footer>
 
