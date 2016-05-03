@@ -12,21 +12,24 @@
 </head>
 <body>
 <script>
-	var TestComp = Polymer({
-		is:'test-comp',
-		behaviors:[StrandTraits.Followable],
-		properties:{
-			a:{
-				type:Number,
-				value:10,
-				notify:true
-			},
-			b:{
-				type:Number,
-				value:10,
-				notify:true
+
+	HTMLImports.whenReady(function() {
+		window.TestComp = Polymer({
+			is:'test-comp',
+			behaviors:[StrandTraits.Followable],
+			properties:{
+				a:{
+					type:Number,
+					value:10,
+					notify:true
+				},
+				b:{
+					type:Number,
+					value:10,
+					notify:true
+				}
 			}
-		}
+		});
 	});
 
 	describe("behavior_followable", function() {

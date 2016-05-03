@@ -45,7 +45,7 @@
     "es6-promise": "~3.0.2"
   },
   "devDependencies": {
-    "web-component-tester": "~3.3.22",
+    "web-component-tester": "~4.2.2",
     "bourbon": "~4.2.4"
   },
   "resolutions": {
