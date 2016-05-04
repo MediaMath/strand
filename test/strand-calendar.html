@@ -36,10 +36,17 @@ describe("strand-calendar", function() {
 		var t1 = document.querySelector("#test1");
 		var month = moment().startOf('month');
 
-		// May, 2016 perfectly packs the calendar - so account fir this...
+		// May, 2016 perfectly packs the calendar - so account for this...
 		// Check if the first day of the month is the start of the calendar
-		// t1._days[0].moment.isBefore(month).should.be.true;	
-		// t1._days[t1._days.length-1].moment.isAfter(month).should.be.true;
+		var firstDay = t1._days[0].moment.day() === moment().date(1).day();
+
+		if (firstDay) {
+			t1._days[0].moment.isBefore(month).should.be.false;
+		} else {
+			t1._days[0].moment.isBefore(month).should.be.true;	
+		}
+
+		t1._days[t1._days.length-1].moment.isAfter(month).should.be.true;
 	});
 
 	it("should move the month view when the buttons are pressed", function(done) {

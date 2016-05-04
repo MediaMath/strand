@@ -193,11 +193,11 @@
 
 				ddl.open();
 
-				flush(function() { flush(function() { //firefox
+				ddl.async(function() {
 					listHeight = TestHelper.heightIntRounded(list);
 					listHeight.should.equal(ddl.maxItems * ddl.itemHeight);
 					done();
-				})});
+				});
 			});
 
 			it("should fire a selected event with the correct event detail if non-data dropdown", function(done) {

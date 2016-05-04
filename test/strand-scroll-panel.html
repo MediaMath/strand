@@ -58,7 +58,7 @@
 
 			it("should have scrollbar interface", function() {
 				var a = new Strand.ScrollPanel();
-				a.scrollbarInterface.should.exist;
+				a._scrollbarInterface.should.exist;
 			});
 
 			it("should expose layout metrics, metrics should be correct", function(done) {
