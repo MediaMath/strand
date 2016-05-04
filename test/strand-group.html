@@ -109,12 +109,16 @@
 			});
 
 			// Test Unique ID:
-			it("should create a group id if one is not specified", function() {
+			it("should create a group id if one is not specified", function(done) {
 				var exist = document.querySelector("#exist"),
-					id = exist.group;
+					id = null;
 
-				exist.should.have.property("group");
-				id.should.be.a("string");
+				exist.async(function() {
+					id = exist.group;
+					exist.should.have.property("group");
+					id.should.be.a.string;
+					done();
+				});
 			});
 
 			it("should NOT create a group id if one is specified", function() {
