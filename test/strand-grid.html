@@ -16,7 +16,8 @@
 
 			it("should have a default template", function() {
 				var grid = document.querySelector("#testgrid");
-				should.exist(grid.$.defaultTemplate);
+				var template = Polymer.dom(grid.root).querySelector("template[preserve-content]");
+				template.should.exist;
 			});
 
 			it("should have a custom template", function() {
@@ -44,9 +45,10 @@
 					data.push({id: i, foo: "foo", bar: "bar"});
 				}
 				grid.data = data;
+
 				flush(function(){
-					var recycler = Polymer.dom(grid.root).querySelector('strand-item-recycler');
-					var items = Polymer.dom(recycler.root).querySelectorAll("strand-grid-item");
+					var recycler = Polymer.dom(grid.root).querySelector('#viewport');
+					var items = Polymer.dom(recycler.root).querySelectorAll("div[is*='strand-gen-comp']");
 					items.length.should.be.greaterThan(0);
 					done();
 				});
