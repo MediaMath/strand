@@ -32,9 +32,9 @@ describe("strand-grid-column", function() {
   it("should toggle the sortOrder when clicked", function() {
     var column = document.querySelector("#testcolumn");
     column.sortOrder.should.equal(column.SORT_DEFAULT);
-    column.toggleSort();
+    column._toggleSort();
     column.sortOrder.should.equal(column.SORT_ASCENDING);
-    column.toggleSort();
+    column._toggleSort();
     column.sortOrder.should.equal(column.SORT_DESCENDING);
   });
 

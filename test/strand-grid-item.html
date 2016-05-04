@@ -61,7 +61,8 @@ describe("strand-grid-item", function() {
   it("should have columns", function(done) {
     var item = document.querySelector("#testitem");
     item.scope = item.scope || {};
-    item.set('scope.columns', [{field: "foo", width: "50%"}, {field: "bar", width: "50%"}]);
+    item.set('scope._columns', [{field: "foo", width: "50%"}, {field: "bar", width: "50%"}]);
+
     flush(function(){
       var columns = Polymer.dom(item.root).querySelectorAll("#columnContainer ._mm_column");
       columns.length.should.equal(2);
