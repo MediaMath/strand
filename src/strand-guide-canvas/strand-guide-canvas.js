@@ -30,6 +30,19 @@
 		ctx.restore();
 	}
 
+	function drawCircle(ctx, x, y, r, sa, ea, style) {
+		if (!sa) sa = 0;
+		if (!ea) ea = 2 * Math.PI;
+
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(x, y, r, sa, ea);
+		if(style)
+		  ctx.strokeStyle = style;
+		ctx.stroke();
+		ctx.restore();
+	}
+
 	scope.Guide = Polymer({
 		is: 'strand-guide-canvas',
 
@@ -53,24 +66,25 @@
 				notify: true,
 				observer: '_currentStepChanged'
 			},
+			spotlightType: String,
 			spotlightOffset: Number
 		},
 
 		resize: function() {
-			if (!this.hidden) this.debounce('update-canvas', this.updateCanvas);
+			if (!this.hidden) this.debounce('update-canvas', this._updateCanvas);
 		},
 
 		scroll: function() {
-			if (!this.hidden) this.debounce('update-canvas', this.updateCanvas);
+			if (!this.hidden) this.debounce('update-canvas', this._updateCanvas);
 		},
 
 		_currentStepChanged: function(newVal, oldVal) {
 			if (this.currentStep <= this.data.length-1) {
-				this.updateCanvas();
+				this._updateCanvas();
 			}
 		},
 
-		updateCanvas: function() {
+		_updateCanvas: function() {
 			if (!this.data) return;
 			
 			var target = this.data[this.currentStep].targetRef;
@@ -91,17 +105,26 @@
 			ctx.globalCompositeOperation = 'destination-out';
 			ctx.fillStyle = 'red';
 
-			drawEllipseWithQuatraticCurve(
-				ctx, 
-				rect.x - this.spotlightOffset,
-				rect.y - this.spotlightOffset, 
-				rect.width + this.spotlightOffset*2,
-				rect.height + this.spotlightOffset*2
-			);
+			if (this.spotlightType === this.TYPE_CIRCLE) {
+				var greater = (rect.width > rect.height) ? rect.width : rect.height;
+				drawCircle(
+					ctx,
+					rect.x + rect.width/2,
+					rect.y + rect.height/2, 
+					greater/2 + this.spotlightOffset
+				);
+			} else {
+				drawEllipseWithQuatraticCurve(
+					ctx, 
+					rect.x - this.spotlightOffset,
+					rect.y - this.spotlightOffset, 
+					rect.width + this.spotlightOffset*2,
+					rect.height + this.spotlightOffset*2
+				);
+			}
 
 			ctx.fill();
-		},
-
+		}
 	});
 
 })(window.Strand = window.Strand || {});

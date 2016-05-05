@@ -17,6 +17,9 @@
 			StrandTraits.DomGettable
 		],
 
+		TYPE_CIRCLE: 'circle',
+		TYPE_ELLIPSE: 'ellipse',
+
 		properties: {
 			contentTarget: {
 				type: Object,
@@ -72,9 +75,13 @@
 				type: Number,
 				value: 0.3
 			},
+			spotlightType: {
+				type: String,
+				value: function() { return this.TYPE_CIRCLE; }
+			},
 			spotlightOffset: {
 				type: Number,
-				value: 20
+				value: 10
 			},
 			_currentStep: {
 				type: Number,
@@ -130,7 +137,7 @@
 			if (!this.suppressGuide) {
 				this._setHidden(false);
 				this.$.tooltip.open();
-				if (this.showFocus) this.$$('#focus').updateCanvas();
+				if (this.showFocus) this.$$('#focus')._updateCanvas();
 			}
 		},
 

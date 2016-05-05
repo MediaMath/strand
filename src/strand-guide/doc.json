@@ -78,11 +78,20 @@
 			"default":"0.3"
 		},
 		{
+			"name":"spotlightType",
+			"type":"String",
+			"description":"Instructs the component to draw it's 'spotlight' mask as either a circle or ellipse around the desired target.",
+			"optional":true,
+			"options":["circle", "ellipse"],
+			"default":"circle",
+			"attribute":"spotlight-type"
+		},
+		{
 			"name":"spotlightOffset",
 			"type":"Number",
-			"description":"Instructs the component to draw it's elliptical 'spotlight' mask around the desired target with padding of the specified number, in pixels (only if 'showFocus' is true - see: 'showFocus').",
+			"description":"Instructs the component to draw it's 'spotlight' mask with a padding of the specified number, in pixels (only if 'showFocus' is true - see: 'showFocus').",
 			"optional":true,
-			"default":"20",
+			"default":"10",
 			"attribute":"spotlight-offset"
 		},
 		{
