@@ -39,7 +39,9 @@
 		_originalDirection: null,
 
 		_directionChanged: function(newVal, oldVal) {
-			if (newVal !== 'c') this._originalDirection = newVal;
+			if (newVal !== 'c' && !this._originalDirection) {
+				this._originalDirection = newVal;
+			}
 		},
 
 		_positionableTargetChanged: function(newVal, oldVal) {

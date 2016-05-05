@@ -1,0 +1,40 @@
+<p style="margin:20px;">Suspendisse volutpat lacinia turpis euismod ornare. <strand-action id="guideAction" underline><label>Vivamus interdum</label></strand-action> quam a nisi lacinia, vel pulvinar ipsum varius. Integer rutrum mauris odio. Ut dapibus, purus at vulputate varius, dolor mauris pulvinar ante, sagittis interdum lectus arcu non diam. Phasellus nec sollicitudin lorem. In sit amet iaculis erat. Donec urna lorem, viverra vitae suscipit a, auctor id ante. Nunc non iaculis nibh. Aenean aliquet metus a pellentesque porttitor. Phasellus ac feugiat massa, a dapibus velit. Nunc massa nunc, imperdiet vitae porttitor ullamcorper, condimentum ut nisi. Nulla facilisi. Nulla eu fermentum risus</p>
+	
+<strand-guide id="guide" name="exampleGuide">
+	<guide target="guideAction" 
+		header="First Guide Tip"
+		message="This is the standard guide format, it includes a header, message and optional dismiss action."
+		dismiss="Thanks, I've got it."></guide>
+	<guide target="footerBtn"
+		message="You can create a guide with no header or dismiss message!"></guide>
+</strand-guide>
+
+<strand-footer id="footer" fitparent>
+	<strand-button id="footerBtn">
+		<label>Save</label>
+	</strand-button>
+</strand-footer>
+
+<script>
+	 /* Optionally, you can add data to the guide as an Object using the format below */
+	 /*
+	 var data = [
+		{
+			target: 'guideAction',
+			header: 'First Guide Tip',
+			message: 'This is the standard guide format, it includes a header, message and optional dismiss action.',
+			dismiss: 'Thanks, I\'ve got it.'
+		},
+		{
+			target: 'footerBtn',
+			message: 'You can create a guide with no header or dismiss message!'
+		}
+	];
+	*/
+
+	window.addEventListener("WebComponentsReady", function() {
+		var guide = document.querySelector('#guide');
+		/* guide.data = data; */
+		guide.show();
+	});
+</script>
