@@ -20,16 +20,16 @@
 				var now = Date.now();
 
 				should.exist(finder.template);
-				should.exist(finder.instantiateTemplateInto(null));
+				should.exist(StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template));
 
-				instance = finder.instantiateTemplateInto(null);
+				instance = StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template);
 				instance.set("field", now);
 				document.body.appendChild(instance);
 
 				setTimeout(function () {
 					document.body.removeChild(instance);
 
-					instance.root.textContent.trim().should.equal("passed as light-dom "+now);
+					instance.textContent.trim().should.equal("passed as light-dom "+now);
 
 					done();
 				});
@@ -41,16 +41,16 @@
 				var now = Date.now();
 
 				should.exist(finder.template);
-				should.exist(finder.instantiateTemplateInto(null));
+				should.exist(StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template));
 
-				instance = finder.instantiateTemplateInto(null);
+				instance = StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template);
 				instance.set("field", now);
 				document.body.appendChild(instance);
 
 				setTimeout(function () {
 					document.body.removeChild(instance);
 
-					instance.root.textContent.trim().should.equal("passed as import "+now);
+					instance.textContent.trim().should.equal("passed as import "+now);
 
 					done();
 				});
@@ -64,12 +64,12 @@
 				finder.set("templateFindable.templateBind", document.querySelector("#bind"));
 
 				should.exist(finder.template);
-				should.exist(finder.instantiateTemplateInto(null));
+				should.exist(StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template));
 
-				instance = finder.instantiateTemplateInto(null);
+				instance = StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template);
 				instance.set("field", now);
 
-				instance.root.textContent.trim().should.equal("passed as binding "+now);
+				instance.textContent.trim().should.equal("passed as binding "+now);
 
 				done();
 			});

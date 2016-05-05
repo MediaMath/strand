@@ -67,7 +67,7 @@
 				Polymer.dom(recycler).appendChild(footerTemplate.stamp({}).root);
 
 				recycler.index = 10;
-				recycler.itemTemplateElement = itemTemplate;
+				recycler.set("templateFindable.templateBind", itemTemplate);
 				recycler.data = data;
 
 				recycler.style.height = "200px";
@@ -79,13 +79,13 @@
 						throw Error("no item height yet")
 					}
 				}, function () {
-					var recyclables = Polymer.dom(recycler.$.middle).querySelectorAll("._mm_item");
+					var recyclables = Polymer.dom(recycler.$.middle).querySelectorAll(".recycler-panel");
 
 					recyclables.length.should.be.greaterThan(0).and.be.lessThan(data.length);
 
 					recycler.scrollToIndex(data.length - 1);
 
-					recyclables = Polymer.dom(recycler.$.middle).querySelectorAll("._mm_item");
+					recyclables = Polymer.dom(recycler.$.middle).querySelectorAll(".recycler-panel");
 
 					recyclables.length.should.be.greaterThan(0).and.be.lessThan(data.length);
 
@@ -114,7 +114,7 @@
 				Polymer.dom(recycler).appendChild(footerTemplate.stamp({}).root);
 
 				recycler.index = 10;
-				recycler.itemTemplateElement = itemTemplate;
+				recycler.set("templateFindable.templateBind", itemTemplate);
 				recycler.data = data;
 
 				recycler.style.height = "200px";
@@ -156,7 +156,7 @@
 				Polymer.dom(recycler).appendChild(headerTemplate.stamp({}).root);
 				Polymer.dom(recycler).appendChild(footerTemplate.stamp({}).root);
 
-				recycler.itemTemplateElement = itemTemplate;
+				recycler.set("templateFindable.templateBind", itemTemplate);
 				recycler.data = data;
 
 				recycler.style.maxHeight = "200px";
@@ -166,23 +166,23 @@
 				recycler.addEventListener("presentation-settled", function listener () {
 					var materialized = recycler.getMaterializedIndices().sort(function (a, b) { return a - b; });
 					var rect = recycler.getBoundingClientRect();
-					var lower = 0|rect.top;
-					var upper = 0|rect.bottom;
+					var lower = +rect.top; // Firefox carries floating-point numbers
+					var upper = +rect.bottom; // Firefox carries floating-point numbers
 
 					(!!once).should.equal(false);
 					once = true;
 
 					rect = recycler.getBoundingClientRectOfHeader();
 
-					lower.should.equal(0|rect.top);
-					lower = 0|rect.bottom;
+					lower.should.equal(+rect.top); // Firefox carries floating-point numbers
+					lower = +rect.bottom; // Firefox carries floating-point numbers
 
 					lower = materialized.reduce(function (l, index) {
 						var r = recycler.getBoundingClientRectAtIndex(index);
 
 						r.top.should.not.be.greaterThan(l);
-						if (l < 0|r.bottom) {
-							return 0|r.bottom;
+						if (l < +r.bottom) { // Firefox carries floating-point numbers
+							return +r.bottom; // Firefox carries floating-point numbers
 						} else {
 							return l;
 						}
@@ -190,8 +190,8 @@
 
 					rect = recycler.getBoundingClientRectOfFooter();
 
-					lower.should.not.be.lessThan(0|rect.top);
-					upper.should.equal(0|rect.bottom);
+					lower.should.not.be.lessThan(+rect.top); // Firefox carries floating-point numbers
+					upper.should.equal(+rect.bottom); // Firefox carries floating-point numbers
 
 					setTimeout(function () {
 
@@ -220,7 +220,7 @@
 					});
 				}
 
-				recycler.itemTemplateElement = itemTemplate;
+				recycler.set("templateFindable.templateBind", itemTemplate);
 				recycler.data = data;
 
 				recycler.style.maxHeight = "300px";
@@ -230,23 +230,23 @@
 				recycler.addEventListener("presentation-settled", function listener () {
 					var materialized = recycler.getMaterializedIndices().sort(function (a, b) { return a - b; });
 					var rect = recycler.getBoundingClientRect();
-					var lower = 0|rect.top;
-					var upper = 0|rect.bottom;
+					var lower = +rect.top; // Firefox carries floating-point numbers
+					var upper = +rect.bottom; // Firefox carries floating-point numbers
 
 					(!!once).should.equal(false);
 					once = true;
 
 					rect = recycler.getBoundingClientRectOfHeader();
 
-					lower.should.equal(0|rect.top);
-					lower = 0|rect.bottom;
+					lower.should.equal(+rect.top); // Firefox carries floating-point numbers
+					lower = +rect.bottom; // Firefox carries floating-point numbers
 
 					lower = materialized.reduce(function (l, index) {
 						var r = recycler.getBoundingClientRectAtIndex(index);
 
 						r.top.should.not.be.greaterThan(l);
-						if (l < 0|r.bottom) {
-							return 0|r.bottom;
+						if (l < +r.bottom) { // Firefox carries floating-point numbers
+							return +r.bottom; // Firefox carries floating-point numbers
 						} else {
 							return l;
 						}
@@ -254,8 +254,8 @@
 
 					rect = recycler.getBoundingClientRectOfFooter();
 
-					lower.should.not.be.lessThan(0|rect.top);
-					upper.should.equal(0|rect.bottom);
+					lower.should.not.be.lessThan(+rect.top); // Firefox carries floating-point numbers
+					upper.should.equal(+rect.bottom); // Firefox carries floating-point numbers
 
 					setTimeout(function () {
 

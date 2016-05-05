@@ -20,7 +20,8 @@
     "release": "gulp release:patch",
     "mm2strand-files": "(cd srcOriginal || cp -r src srcOriginal) && npm install renamer && renamer --find 'mm-' --replace 'strand-' src/**/* src/** test/**/* test/*",
     "mm2strand-text": "(cd srcOriginal || cp -r src srcOriginal) && npm install replace && replace 'mm-' 'strand-' gulp test src -r --exclude=**/mm-** && replace 'MM-' 'STRAND-' gulp test src -r --exclude=**/mm-**",
-    "bower": "bower"
+    "bower": "bower",
+    "test": "wct"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
