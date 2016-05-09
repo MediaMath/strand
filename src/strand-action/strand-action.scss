@@ -40,10 +40,7 @@
 	}
 
 	& > ::content label {
-		@include fontSmoothing();
-		font-size: 13px;
-		line-height: 15px;
-		font-family: "ArimoRegular", sans-serif;
+		@include defaultFont(13px, 15px);
 		pointer-events: none;
 		color: inherit;
 	}
