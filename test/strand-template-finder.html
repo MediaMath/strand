@@ -18,6 +18,8 @@
 				var finder = document.querySelector("#distributed");
 				var instance = null;
 				var now = Date.now();
+				
+				setTimeout(function () { // periodically/inconsistently fails on Chrome without a timeout
 
 				should.exist(finder.template);
 				should.exist(StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template));
@@ -33,12 +35,16 @@
 
 					done();
 				});
+				
+				}, 250);
 			});
 
 			it("should handle imported templates", function(done) {
 				var finder = document.querySelector("#imported");
 				var instance = null;
 				var now = Date.now();
+				
+				setTimeout(function () { // periodically/inconsistently fails on Chrome without a timeout
 
 				should.exist(finder.template);
 				should.exist(StrandTraits.TemplateComponentizable.instantiateTemplate(finder.template));
@@ -54,12 +60,16 @@
 
 					done();
 				});
+				
+				}, 250);
 			});
 
 			it("should handle bound templates", function(done) {
 				var finder = document.querySelector("#bound");
 				var instance = null;
 				var now = Date.now();
+				
+				setTimeout(function () { // periodically/inconsistently fails on Chrome without a timeout
 
 				finder.set("templateFindable.templateBind", document.querySelector("#bind"));
 
@@ -72,6 +82,8 @@
 				instance.textContent.trim().should.equal("passed as binding "+now);
 
 				done();
+				
+				}, 250);
 			});
 
 		});
