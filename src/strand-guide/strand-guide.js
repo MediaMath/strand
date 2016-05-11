@@ -18,7 +18,7 @@
 		],
 
 		TYPE_CIRCLE: 'circle',
-		TYPE_ELLIPSE: 'ellipse',
+		TYPE_RECTANGLE: 'rectangle',
 
 		properties: {
 			contentTarget: {

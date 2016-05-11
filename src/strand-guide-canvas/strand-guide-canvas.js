@@ -8,28 +8,6 @@
 
 	var Rectangle = StrandLib.Rectangle;
 
-	function drawEllipseWithQuatraticCurve(ctx, x, y, w, h, style) {
-		var kappa = .5522848,
-			ox = (w / 2) * kappa, // control point offset horizontal
-			oy = (h / 2) * kappa, // control point offset vertical
-			xe = x + w,           // x-end
-			ye = y + h,           // y-end
-			xm = x + w / 2,       // x-middle
-			ym = y + h / 2;       // y-middle
-
-		ctx.save();
-		ctx.beginPath();
-		ctx.moveTo(x, ym);
-		ctx.quadraticCurveTo(x,y,xm,y);
-		ctx.quadraticCurveTo(xe,y,xe,ym);
-		ctx.quadraticCurveTo(xe,ye,xm,ye);
-		ctx.quadraticCurveTo(x,ye,x,ym);
-		if(style)
-		  ctx.strokeStyle = style;
-		ctx.stroke();
-		ctx.restore();
-	}
-
 	function drawCircle(ctx, x, y, r, sa, ea, style) {
 		if (!sa) sa = 0;
 		if (!ea) ea = 2 * Math.PI;
@@ -37,6 +15,15 @@
 		ctx.save();
 		ctx.beginPath();
 		ctx.arc(x, y, r, sa, ea);
+		if(style)
+		  ctx.strokeStyle = style;
+		ctx.stroke();
+		ctx.restore();
+	}
+
+	function drawRectangle(ctx, x, y, w, h, style) {
+		ctx.save();
+		ctx.fillRect(x, y, w, h);
 		if(style)
 		  ctx.strokeStyle = style;
 		ctx.stroke();
@@ -105,7 +92,7 @@
 			ctx.globalCompositeOperation = 'destination-out';
 			ctx.fillStyle = 'red';
 
-			if (this.spotlightType === this.TYPE_CIRCLE) {
+			if (this.spotlightType === 'circle') {
 				var greater = (rect.width > rect.height) ? rect.width : rect.height;
 				drawCircle(
 					ctx,
@@ -114,8 +101,8 @@
 					greater/2 + this.spotlightOffset
 				);
 			} else {
-				drawEllipseWithQuatraticCurve(
-					ctx, 
+				drawRectangle(
+					ctx,
 					rect.x - this.spotlightOffset,
 					rect.y - this.spotlightOffset, 
 					rect.width + this.spotlightOffset*2,
