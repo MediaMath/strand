@@ -21,12 +21,18 @@
 		ctx.restore();
 	}
 
-	function drawRectangle(ctx, x, y, w, h, style) {
+	function drawRectangle(ctx, x, y, w, h, r, style) {
+		if (w < 2 * r) r = w / 2;
+		if (h < 2 * r) r = h / 2;
+
 		ctx.save();
-		ctx.fillRect(x, y, w, h);
-		if(style)
-		  ctx.strokeStyle = style;
-		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(x+r, y);
+		ctx.arcTo(x+w, y,   x+w, y+h, r);
+		ctx.arcTo(x+w, y+h, x,   y+h, r);
+		ctx.arcTo(x,   y+h, x,   y,   r);
+		ctx.arcTo(x,   y,   x+w, y,   r);
+		ctx.closePath();
 		ctx.restore();
 	}
 
@@ -54,7 +60,8 @@
 				observer: '_currentStepChanged'
 			},
 			spotlightType: String,
-			spotlightOffset: Number
+			spotlightOffset: Number,
+			cornerRadius: Number
 		},
 
 		resize: function() {
@@ -106,7 +113,8 @@
 					rect.x - this.spotlightOffset,
 					rect.y - this.spotlightOffset, 
 					rect.width + this.spotlightOffset*2,
-					rect.height + this.spotlightOffset*2
+					rect.height + this.spotlightOffset*2,
+					this.cornerRadius
 				);
 			}
 

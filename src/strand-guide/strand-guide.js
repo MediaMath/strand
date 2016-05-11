@@ -83,6 +83,10 @@
 				type: Number,
 				value: 10
 			},
+			cornerRadius: {
+				type: Number,
+				value: 5
+			},
 			_currentStep: {
 				type: Number,
 				notify: true

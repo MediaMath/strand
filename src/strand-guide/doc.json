@@ -82,7 +82,7 @@
 			"type":"String",
 			"description":"Instructs the component to draw it's 'spotlight' mask as either a circle or ellipse around the desired target.",
 			"optional":true,
-			"options":["circle", "ellipse"],
+			"options":["circle", "rectangle"],
 			"default":"circle",
 			"attribute":"spotlight-type"
 		},
@@ -93,6 +93,14 @@
 			"optional":true,
 			"default":"10",
 			"attribute":"spotlight-offset"
+		},
+		{
+			"name":"cornerRadius",
+			"type":"Number",
+			"description":"If spotlightType is set to 'rectangle', instructs the component to draw it's 'spotlight' mask with a a corner radius of the specified number, in pixels (only if 'showFocus' is true - see: 'showFocus').",
+			"optional":true,
+			"default":"5",
+			"attribute":"corner-radius"
 		},
 		{
 			"name":"data",
