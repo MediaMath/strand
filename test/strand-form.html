@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+	
+	<strand-form>
+		<strand-form id="testForm1" unresolved>
+			<div class="col" span="1">
+				<strand-input fitparent name="input" placeholder="Type a Number"></strand-input>
+			</div>
+			<div class="col" span="1">
+				<strand-dropdown fitparent name="dropdown" placeholder="Select an Item">
+					<strand-list-item>List Item 1</strand-list-item>
+					<strand-list-item>List Item 2</strand-list-item>
+					<strand-list-item>List Item 3</strand-list-item>
+					<strand-list-item>List Item 4</strand-list-item>
+				</strand-dropdown>
+			</div>
+			<div class="col" span="2">
+				<strand-group fitparent unresolved name="radio">
+					<strand-radio>
+						<label>Red</label>
+					</strand-radio>
+					<strand-radio>
+						<label>Green</label>
+					</strand-radio>	
+					<strand-radio>
+						<label>Blue</label>
+					</strand-radio>
+				</strand-group>
+			</div>
+		</strand-form>
+	</strand-form>
+
+	<strand-form id="testForm2" unresolved>
+		<div class="col" span="1">
+			<strand-input 
+				fitparent 
+				name="input"
+				label="Input"
+				error-msg="Type a number"
+				validation="int|empty"
+				placeholder="Type a Number"></strand-input>
+		</div>
+		<div class="col" span="1">
+			<strand-dropdown 
+				fitparent 
+				name="dropdown" 
+				label="Dropdown"
+				error-msg="Select an item"
+				error-msg-ele="special"
+				validation="empty"
+				placeholder="Select an Item">
+				<strand-list-item>List Item 1</strand-list-item>
+				<strand-list-item>List Item 2</strand-list-item>
+				<strand-list-item>List Item 3</strand-list-item>
+				<strand-list-item>List Item 4</strand-list-item>
+			</strand-dropdown>
+			<!-- <strand-form-message id="special"></strand-form-message> -->
+		</div>
+		<div class="col" span="2">
+			<strand-group 
+				fitparent 
+				name="radio"
+				label="Radio"
+				error-msg="Choose a color"
+				validation="empty">
+				<strand-radio>
+					<label>Red</label>
+				</strand-radio>
+				<strand-radio>
+					<label>Green</label>
+				</strand-radio>	
+				<strand-radio>
+					<label>Blue</label>
+				</strand-radio>
+			</strand-group>
+		</div>
+	</strand-form>
+		
+	<script>
+
+		var config = {
+			'input' : {
+				validation: 'int|empty',
+				parentEle: null,
+				errorMsgEle: null,
+				errorMsg: 'You need to type a number',
+				label: 'Type a number'
+			},
+			'dropdown' : {
+				validation: 'empty',
+				parentEle: null,
+				errorMsg: 'You need to select an item',
+				label: 'Select an Item'
+			},
+			'radio' : {
+				validation: function(name, value, data) {
+					return data[name] === 'Red' && value === 'Red';
+				},
+				parentEle: null,
+				errorMsgEle: null,
+				errorMsg: 'You need to select \'Red\'',
+				label: 'Select a Color'
+			}
+		};
+
+		window.addEventListener('WebComponentsReady', function(e) {
+			var testForm1 = document.querySelector('#testForm1');
+			testForm1.config = config;
+		});
+
+		describe("strand-form", function() {
+	
+			it("should exist", function() {
+				var a = new Strand.Form();
+				a.nodeName.should.equal("STRAND-FORM");
+			});
+
+			it("should have updated config with DOM references to it's parent element and fields", function() {
+				var a = document.querySelector('#testForm1');
+				var config = a.config;
+				var fields = [];
+				var parents = [];
+				var objLength = Object.keys(config).length;
+
+				for (var item in config) {
+					fields.push(config[item].field);
+					parents.push(config[item].parentEleDOM);
+				}
+
+				fields[0].should.exist;
+				parents[0].should.exist;
+				fields[0].should.be.an.object;
+				parents[0].should.be.an.object;
+				fields.length.should.equal(objLength);
+				parents.length.should.equal(objLength);
+			});
+
+			it("should have created labels", function() {
+				var a = document.querySelector('#testForm1');
+				var config = a.config;
+				var labels = [];
+				var objLength = Object.keys(config).length;
+
+				for (var item in config) {
+					labels.push(config[item].formLabel);
+				}
+
+				labels[0].should.exist;
+				labels[0].should.be.an.object;
+				labels.length.should.equal(objLength);
+			});
+
+			it("should have created error messages", function() {
+				var a = document.querySelector('#testForm1');
+				var config = a.config;
+				var errors = [];
+				var objLength = Object.keys(config).length;
+
+				for (var item in config) {
+					errors.push(config[item].errorMsgEleDOM);
+				}
+
+				errors[0].should.exist;
+				errors[0].should.be.an.object;
+				errors.length.should.equal(objLength);
+			});
+
+			it("should have created a config from DOM", function() {
+				var a = document.querySelector('#testForm2');
+				var config = a.config;
+				var objLength = Object.keys(config).length;
+
+				a.config.should.exist;
+				objLength.should.equal(3);
+			});
+
+			it("should have updated the config from DOM with DOM references to it's parent element and fields", function() {
+				var a = document.querySelector('#testForm2');
+				var config = a.config;
+				var fields = [];
+				var parents = [];
+				var objLength = Object.keys(config).length;
+
+				for (var item in config) {
+					fields.push(config[item].field);
+					parents.push(config[item].parentEleDOM);
+				}
+
+				fields[0].should.exist;
+				parents[0].should.exist;
+				fields[0].should.be.an.object;
+				parents[0].should.be.an.object;
+				fields.length.should.equal(objLength);
+				parents.length.should.equal(objLength);
+			});
+
+			it("should dispatch a 'serialize-form' event with a detail containing flat data", function(done) {
+				var a = document.querySelector('#testForm1');
+				var s = sinon.spy();
+
+				a.addEventListener("serialize-form", s);
+				a.serializeForm();
+
+				flush(function() {
+					var evt = s.args[0][0];
+					var detail = evt.detail; // {input: null, dropdown: null, radio: null}
+
+					s.calledOnce.should.be.true;
+					s.returned(sinon.match.same(detail));
+					done();
+				});
+
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>
