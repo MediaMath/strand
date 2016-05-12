@@ -134,7 +134,7 @@
 			if (this.domHook)
 				configOpts = this.domHook(method, this, options);
 
-			options = _copyOptions({method:method, url:this.endpoint, body:data || this.data}, options, configOpts, this.options);
+			options = _copyOptions({method:method, url:this.endpoint, body:data || this.data}, this.options, configOpts, options);
 			options = this._plugin.processRequest(options);
 
 			if (options.mode === 'multi' && DataUtils.isType(data, 'array')) {
