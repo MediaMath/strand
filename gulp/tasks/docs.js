@@ -267,7 +267,8 @@
 			return gulp.src(C.BUILD_DOCS+'**/*')
 				.pipe(C.dbg('gh-pages'))
 				.pipe(plugins.ghPages({
-					message: 'docs updates v'+pkg.version
+					message: 'docs updates v'+pkg.version,
+					origin:'upstream'
 				}));
 		});
 
