@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<strand-docs-shell id="docsShell" version="4.0.0" mobile-header="Strand Docs">
+			<strand-docs-nav id="articlesNav">
+				<strand-header size="medium">Articles</strand-header>
+				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
+				<strand-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</strand-list-item>
+				<strand-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using strand-ajax</strand-list-item>
+				<strand-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using strand-sync</strand-list-item>
+				<strand-list-item id="grid_intro" value="article_grid_intro.html">Introduction to strand-grid</strand-list-item>
+				<strand-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring strand-grid</strand-list-item>
+				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
+				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
+				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+			</strand-docs-nav>
+			<strand-docs-nav id="componentsNav">
+				<strand-header size="medium">Components</strand-header>
+				<strand-list-item id="strand-action" value="strand-action.html">strand-action</strand-list-item>
+				<strand-list-item id="strand-ajax" value="strand-ajax.html">strand-ajax</strand-list-item>
+				<strand-list-item id="strand-autocomplete" value="strand-autocomplete.html">strand-autocomplete</strand-list-item>
+				<strand-list-item id="strand-box" value="strand-box.html">strand-box</strand-list-item>
+				<strand-list-item id="strand-button" value="strand-button.html">strand-button</strand-list-item>
+				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
+				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
+				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
+				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
+				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
+				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
+				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
+				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
+				<strand-list-item id="strand-grid-column" value="strand-grid-column.html">strand-grid-column</strand-list-item>
+				<strand-list-item id="strand-grid-item" value="strand-grid-item.html">strand-grid-item</strand-list-item>
+				<strand-list-item id="strand-grid" value="strand-grid.html">strand-grid</strand-list-item>
+				<strand-list-item id="strand-group" value="strand-group.html">strand-group</strand-list-item>
+				<strand-list-item id="strand-guide" value="strand-guide.html">strand-guide</strand-list-item>
+				<strand-list-item id="strand-header" value="strand-header.html">strand-header</strand-list-item>
+				<strand-list-item id="strand-icon" value="strand-icon.html">strand-icon</strand-list-item>
+				<strand-list-item id="strand-inline-box" value="strand-inline-box.html">strand-inline-box</strand-list-item>
+				<strand-list-item id="strand-input-mask" value="strand-input-mask.html">strand-input-mask</strand-list-item>
+				<strand-list-item id="strand-input" value="strand-input.html">strand-input</strand-list-item>
+				<strand-list-item id="strand-list-item" value="strand-list-item.html">strand-list-item</strand-list-item>
+				<strand-list-item id="strand-loader" value="strand-loader.html">strand-loader</strand-list-item>
+				<strand-list-item id="strand-localstore" value="strand-localstore.html">strand-localstore</strand-list-item>
+				<strand-list-item id="strand-menu" value="strand-menu.html">strand-menu</strand-list-item>
+				<strand-list-item id="strand-modal" value="strand-modal.html">strand-modal</strand-list-item>
+				<strand-list-item id="strand-model" value="strand-model.html">strand-model</strand-list-item>
+				<strand-list-item id="strand-popover" value="strand-popover.html">strand-popover</strand-list-item>
+				<strand-list-item id="strand-progress-bar" value="strand-progress-bar.html">strand-progress-bar</strand-list-item>
+				<strand-list-item id="strand-pulldown-button" value="strand-pulldown-button.html">strand-pulldown-button</strand-list-item>
+				<strand-list-item id="strand-radio" value="strand-radio.html">strand-radio</strand-list-item>
+				<strand-list-item id="strand-repeater" value="strand-repeater.html">strand-repeater</strand-list-item>
+				<strand-list-item id="strand-scroll-panel" value="strand-scroll-panel.html">strand-scroll-panel</strand-list-item>
+				<strand-list-item id="strand-spinner" value="strand-spinner.html">strand-spinner</strand-list-item>
+				<strand-list-item id="strand-sync" value="strand-sync.html">strand-sync</strand-list-item>
+				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
+				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
+				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
+			</strand-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v4.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>strand-guide</h1>
+					<p>A guide tour/walkthrough component for introducing new features to users via multiple step tooltips and focus on target ui areas.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;p style=&quot;margin:20px;&quot;&gt;Suspendisse volutpat lacinia turpis euismod ornare. &lt;strand-action id=&quot;guideAction&quot; underline&gt;&lt;label&gt;Vivamus interdum&lt;/label&gt;&lt;/strand-action&gt; quam a nisi lacinia, vel pulvinar ipsum varius. Integer rutrum mauris odio. Ut dapibus, purus at vulputate varius, dolor mauris pulvinar ante, sagittis interdum lectus arcu non diam. Phasellus nec sollicitudin lorem. In sit amet iaculis erat. Donec urna lorem, viverra vitae suscipit a, auctor id ante. Nunc non iaculis nibh. Aenean aliquet metus a pellentesque porttitor. Phasellus ac feugiat massa, a dapibus velit. Nunc massa nunc, imperdiet vitae porttitor ullamcorper, condimentum ut nisi. Nulla facilisi. Nulla eu fermentum risus&lt;/p&gt;
+	
+&lt;strand-guide id=&quot;guide&quot; name=&quot;exampleGuide&quot;&gt;
+	&lt;guide target=&quot;guideAction&quot; 
+		header=&quot;First Guide Tip&quot;
+		message=&quot;This is the standard guide format, it includes a header, message and optional dismiss action.&quot;
+		dismiss=&quot;Thanks, I&#39;ve got it.&quot;&gt;&lt;/guide&gt;
+	&lt;guide target=&quot;footerBtn&quot;
+		message=&quot;You can create a guide with no header or dismiss message!&quot;&gt;&lt;/guide&gt;
+&lt;/strand-guide&gt;
+
+&lt;strand-footer id=&quot;footer&quot; fitparent&gt;
+	&lt;strand-button id=&quot;footerBtn&quot;&gt;
+		&lt;label&gt;Save&lt;/label&gt;
+	&lt;/strand-button&gt;
+&lt;/strand-footer&gt;
+
+&lt;script&gt;
+	 /* Optionally, you can add data to the guide as an Object using the format below */
+	 /*
+	 var data = [
+		{
+			target: &#39;guideAction&#39;,
+			header: &#39;First Guide Tip&#39;,
+			message: &#39;This is the standard guide format, it includes a header, message and optional dismiss action.&#39;,
+			dismiss: &#39;Thanks, I\&#39;ve got it.&#39;
+		},
+		{
+			target: &#39;footerBtn&#39;,
+			message: &#39;You can create a guide with no header or dismiss message!&#39;
+		}
+	];
+	*/
+
+	window.addEventListener(&quot;WebComponentsReady&quot;, function() {
+		var guide = document.querySelector(&#39;#guide&#39;);
+		/* guide.data = data; */
+		guide.show();
+	});
+&lt;/script&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-strand-guide"><p style="margin:20px;">Suspendisse volutpat lacinia turpis euismod ornare. <strand-action id="guideAction" underline><label>Vivamus interdum</label></strand-action> quam a nisi lacinia, vel pulvinar ipsum varius. Integer rutrum mauris odio. Ut dapibus, purus at vulputate varius, dolor mauris pulvinar ante, sagittis interdum lectus arcu non diam. Phasellus nec sollicitudin lorem. In sit amet iaculis erat. Donec urna lorem, viverra vitae suscipit a, auctor id ante. Nunc non iaculis nibh. Aenean aliquet metus a pellentesque porttitor. Phasellus ac feugiat massa, a dapibus velit. Nunc massa nunc, imperdiet vitae porttitor ullamcorper, condimentum ut nisi. Nulla facilisi. Nulla eu fermentum risus</p>
+	
+<strand-guide id="guide" name="exampleGuide">
+	<guide target="guideAction" 
+		header="First Guide Tip"
+		message="This is the standard guide format, it includes a header, message and optional dismiss action."
+		dismiss="Thanks, I've got it."></guide>
+	<guide target="footerBtn"
+		message="You can create a guide with no header or dismiss message!"></guide>
+</strand-guide>
+
+<strand-footer id="footer" fitparent>
+	<strand-button id="footerBtn">
+		<label>Save</label>
+	</strand-button>
+</strand-footer>
+
+<script>
+	 /* Optionally, you can add data to the guide as an Object using the format below */
+	 /*
+	 var data = [
+		{
+			target: 'guideAction',
+			header: 'First Guide Tip',
+			message: 'This is the standard guide format, it includes a header, message and optional dismiss action.',
+			dismiss: 'Thanks, I\'ve got it.'
+		},
+		{
+			target: 'footerBtn',
+			message: 'You can create a guide with no header or dismiss message!'
+		}
+	];
+	*/
+
+	window.addEventListener("WebComponentsReady", function() {
+		var guide = document.querySelector('#guide');
+		/* guide.data = data; */
+		guide.show();
+	});
+</script></div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">depth : </span><span class="italic">Number&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">0</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns the z-index depth of the element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">stackType : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">ui</span><br/>
+									options : <span class="italic"><span class="option">ui</span><span class="option">modal</span><span class="option">tooltip</span></span><br/>
+									attribute : <span class="italic">stack-type</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets or returns the stacking type for the element. Stacking types are &#39;ui&#39; which starts at an index of 10000, &#39;modal&#39; which starts at index 20000, and &#39;tooltip&#39; which starts at index 30000.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">useLocalStorage : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">use-local-storage</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to store dismiss actions as a boolean flag with name as the key (see the &#39;name&#39; property) in the client&#39;s local storage, so they will not see the particular guide again.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">name : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">name</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The name key used when storing the users dismiss action to local storage (see the &#39;useLocalStorage&#39; property).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">suppressGuide : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">supress-guide</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component not to be shown, or do any of it&#39;s setup. Suppots the case wherein the user has dismissed this guide (see the &#39;useLocalStorage&#39; property), or developer would like to bind to the value of their own flag to dismiss the guide.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">scope : </span><span class="italic">Object&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">document</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">scope</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to use the provided scope when querying for it&#39;s target DOM objects. When nested inside of another component or view, the scope should be the parent component or view. By default, the component will query the document for it&#39;s targets.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">hidden : </span><span class="italic">Boolean&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">hidden</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">A read-only property which reports the display state of the component. When true, the component is hidden.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">showFocus : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">showFocus</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to display a semi-transparent overlay onto the window, with a spotlight on the desired target component being described. The focus overlay will block clicks until the guide tooltip is dismissed.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">autoDismiss : </span><span class="italic">Boolean&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">auto-dismiss</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to be dismissed when clicking anywhere on the document outside of the guide tooltip.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">noscroll : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">noscroll</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to suppress scrolling on the document body.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">closeBtn : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">close-btn</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to display a small &#39;x&#39; close button on the guide tooltip, in the upper right corner.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">opacity : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">0.3</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">opacity</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The specified opacity for the semi-transparent focus background (only if &#39;showFocus&#39; is true - see: &#39;showFocus&#39;).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">spotlightType : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">circle</span><br/>
+									options : <span class="italic"><span class="option">circle</span><span class="option">rectangle</span></span><br/>
+									attribute : <span class="italic">spotlight-type</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to draw it&#39;s &#39;spotlight&#39; mask as either a circle or ellipse around the desired target.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">spotlightOffset : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">10</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">spotlight-offset</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to draw it&#39;s &#39;spotlight&#39; mask with a padding of the specified number, in pixels (only if &#39;showFocus&#39; is true - see: &#39;showFocus&#39;).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">cornerRadius : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">5</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">corner-radius</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If spotlightType is set to &#39;rectangle&#39;, instructs the component to draw it&#39;s &#39;spotlight&#39; mask with a a corner radius of the specified number, in pixels (only if &#39;showFocus&#39; is true - see: &#39;showFocus&#39;).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">data : </span><span class="italic">Array&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">data</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The data array which drives the component. I configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String }].</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">moveToTop</span>(<span></span>)<br/>
+									<span class="desc">Instructs the element to move to the top index of it&#39;s stacking type.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">deserialize</span>(<span></span>)<br/>
+									<span class="desc">Overrides Polymer.Base.deserialize method to convert string values of &#39;true&#39; or &#39;false&#39; to Boolean values.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">show</span>(<span></span>)<br/>
+									<span class="desc">Instructs the component to be shown.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">hide</span>(<span></span>)<br/>
+									<span class="desc">Instructs the component to be hidden, and triggers the corresponding dismiss actions, such as setting the suppressGuide to true (see the &#39;suppressGuide&#39; property).</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Events</h3>
+						<table>
+							<tr>
+								<th>Event</th>
+								<th>Event Detail</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'guide-dismiss'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'guide-next'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'guide-back'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</strand-docs-shell>
+		<script>
+			var name = "strand-guide",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				// console.log("update was called!");
+				$example.empty().html(editor.session.getValue());
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
+			}
+
+			function navigateToPage(e) {
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
+			}	
+		</script>
+	</body>
+</html>

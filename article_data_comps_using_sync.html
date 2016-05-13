@@ -25,70 +25,71 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<mm-docs-shell id="docsShell" version="3.1.0" mobileHeader="Strand Docs">
-			<mm-docs-nav id="articlesNav">
-				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
-				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</mm-list-item>
-				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using mm-ajax</mm-list-item>
-				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using mm-sync</mm-list-item>
-				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
-				<mm-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring mm-grid</mm-list-item>
-				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with mm-grid</mm-list-item>
-				<mm-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</mm-list-item>
-				<mm-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</mm-list-item>
-				<mm-list-item id="repeater" value="article_repeater.html">Using mm-repeater</mm-list-item>
-			</mm-docs-nav>
-			<mm-docs-nav id="componentsNav">
-				<mm-header size="medium">Components</mm-header>
-				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
-				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
-				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
-				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
-				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
-				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
-				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
-				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
-				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
-				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
-				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
-				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
-				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
-				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
-				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
-				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
-				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
-				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
-				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
-				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
-				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
-				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
-				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
-				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
-				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
-				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
-				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
-				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
-				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
-				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
-				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
-				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
-				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
-				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
-				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
-				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
-				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
-				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
-				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
-				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
-				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
-				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
-			</mm-docs-nav>
+		<strand-docs-shell id="docsShell" version="4.0.0" mobileHeader="Strand Docs">
+			<strand-docs-nav id="articlesNav">
+				<strand-header size="medium">Articles</strand-header>
+				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
+				<strand-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</strand-list-item>
+				<strand-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using strand-ajax</strand-list-item>
+				<strand-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using strand-sync</strand-list-item>
+				<strand-list-item id="grid_intro" value="article_grid_intro.html">Introduction to strand-grid</strand-list-item>
+				<strand-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring strand-grid</strand-list-item>
+				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
+				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
+				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+			</strand-docs-nav>
+			<strand-docs-nav id="componentsNav">
+				<strand-header size="medium">Components</strand-header>
+				<strand-list-item id="strand-action" value="strand-action.html">strand-action</strand-list-item>
+				<strand-list-item id="strand-ajax" value="strand-ajax.html">strand-ajax</strand-list-item>
+				<strand-list-item id="strand-autocomplete" value="strand-autocomplete.html">strand-autocomplete</strand-list-item>
+				<strand-list-item id="strand-box" value="strand-box.html">strand-box</strand-list-item>
+				<strand-list-item id="strand-button" value="strand-button.html">strand-button</strand-list-item>
+				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
+				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
+				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
+				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
+				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
+				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
+				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
+				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
+				<strand-list-item id="strand-grid-column" value="strand-grid-column.html">strand-grid-column</strand-list-item>
+				<strand-list-item id="strand-grid-item" value="strand-grid-item.html">strand-grid-item</strand-list-item>
+				<strand-list-item id="strand-grid" value="strand-grid.html">strand-grid</strand-list-item>
+				<strand-list-item id="strand-group" value="strand-group.html">strand-group</strand-list-item>
+				<strand-list-item id="strand-guide" value="strand-guide.html">strand-guide</strand-list-item>
+				<strand-list-item id="strand-header" value="strand-header.html">strand-header</strand-list-item>
+				<strand-list-item id="strand-icon" value="strand-icon.html">strand-icon</strand-list-item>
+				<strand-list-item id="strand-inline-box" value="strand-inline-box.html">strand-inline-box</strand-list-item>
+				<strand-list-item id="strand-input-mask" value="strand-input-mask.html">strand-input-mask</strand-list-item>
+				<strand-list-item id="strand-input" value="strand-input.html">strand-input</strand-list-item>
+				<strand-list-item id="strand-list-item" value="strand-list-item.html">strand-list-item</strand-list-item>
+				<strand-list-item id="strand-loader" value="strand-loader.html">strand-loader</strand-list-item>
+				<strand-list-item id="strand-localstore" value="strand-localstore.html">strand-localstore</strand-list-item>
+				<strand-list-item id="strand-menu" value="strand-menu.html">strand-menu</strand-list-item>
+				<strand-list-item id="strand-modal" value="strand-modal.html">strand-modal</strand-list-item>
+				<strand-list-item id="strand-model" value="strand-model.html">strand-model</strand-list-item>
+				<strand-list-item id="strand-popover" value="strand-popover.html">strand-popover</strand-list-item>
+				<strand-list-item id="strand-progress-bar" value="strand-progress-bar.html">strand-progress-bar</strand-list-item>
+				<strand-list-item id="strand-pulldown-button" value="strand-pulldown-button.html">strand-pulldown-button</strand-list-item>
+				<strand-list-item id="strand-radio" value="strand-radio.html">strand-radio</strand-list-item>
+				<strand-list-item id="strand-repeater" value="strand-repeater.html">strand-repeater</strand-list-item>
+				<strand-list-item id="strand-scroll-panel" value="strand-scroll-panel.html">strand-scroll-panel</strand-list-item>
+				<strand-list-item id="strand-spinner" value="strand-spinner.html">strand-spinner</strand-list-item>
+				<strand-list-item id="strand-sync" value="strand-sync.html">strand-sync</strand-list-item>
+				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
+				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
+				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
+			</strand-docs-nav>
 			<div class="docs-logo">
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v3.1.0</p>
+				<p class="mini-subhead version">v4.0.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -104,13 +105,13 @@
 				</div>
 			</footer>			<article class="layout-article">
 				<div class="docs-content article">
-					<h1 id="using-mm-sync">Using mm-sync</h1>
+					<h1 id="using-strand-sync">Using strand-sync</h1>
 <h2 id="overview">Overview</h2>
-<p>mm-sync provides a higher level API similar to jQuery or Backbone in terms of having pre-configured XHR calls for the most common RESTful scenarios. Sync is designed heavily around 2-way binding so virtually all of the request params can be manipulated via the DOM (and thus via 2-way binding) as we will see in the examples.</p>
-<p>Sync is used as the base class for all &#39;adapters&#39; which provide API specific implementations of sync that are usable with mm-model and mm-collection.</p>
-<p>Unlike mm-ajax which is designed to handle a single call at a time, mm-sync can handle multiple concurrent calls. The default concurrency setting is 4 simultaneous calls, but if more are desired they can be set via the <code>requestConcurrency</code> param (either markup or JS).</p>
+<p>strand-sync provides a higher level API similar to jQuery or Backbone in terms of having pre-configured XHR calls for the most common RESTful scenarios. Sync is designed heavily around 2-way binding so virtually all of the request params can be manipulated via the DOM (and thus via 2-way binding) as we will see in the examples.</p>
+<p>Sync is used as the base class for all &#39;adapters&#39; which provide API specific implementations of sync that are usable with strand-model and strand-collection.</p>
+<p>Unlike strand-ajax which is designed to handle a single call at a time, strand-sync can handle multiple concurrent calls. The default concurrency setting is 4 simultaneous calls, but if more are desired they can be set via the <code>requestConcurrency</code> param (either markup or JS).</p>
 <h2 id="data-configuration">Data Configuration</h2>
-<p>MM-Sync exposes a <code>data</code> property which can be set via JS or bound to to set the request body. This is actually serialized in mm-ajax so if you need to see the serialization code, please check there.</p>
+<p>Strand-Sync exposes a <code>data</code> property which can be set via JS or bound to to set the request body. This is actually serialized in strand-ajax so if you need to see the serialization code, please check there.</p>
 <p>a <code>url</code> property is also exposed and can be used to set the base or non-changing part of the URL.  Note that the urlParams are then concatenated into that URL using &#39;/&#39;&#39;s per element.</p>
 <h3 id="param-configuration">Param configuration</h3>
 <p>Sync accepts configuration via tags corresponding to HTTP methods: <code>&lt;get&gt;</code>, <code>&lt;post&gt;</code>, <code>&lt;put&gt;</code>, and <code>&lt;delete&gt;</code>. Params can then be passed to Sync as DOM children of those nodes.</p>
@@ -121,61 +122,61 @@
 <li>headers&thinsp;&mdash;&thinsp;name value pairs used to send additional metadata (CSRF, etc) to the webserver</li>
 </ul>
 <h3 id="get-example">GET example</h3>
-<pre><code class="lang-html">&lt;mm-sync endpoint=&quot;http://example.com&quot;&gt;
+<pre><code class="lang-html">&lt;strand-sync endpoint=&quot;http://example.com&quot;&gt;
     &lt;get&gt;
         &lt;queryParam name=&quot;q&quot; value=&quot;123&quot;/&gt;
         &lt;urlParam&gt;123&lt;/urlParam&gt;
         &lt;header name=&quot;X-Some-Header&quot;&gt;HeaderValue&lt;/header&gt;
     &lt;/get&gt;
-&lt;/mm-sync&gt;
+&lt;/strand-sync&gt;
 </code></pre>
 <p>This will generate a URL for the request of <code>http://example.com/123/?q=123</code> and it will send an X-Some-Header: HeaderValue to the server with the request. Note that it is possible to either use a value attribute or to just place the value inside the textContent of a named node. These formats may be used interchangeably.</p>
 <h3 id="post-example">POST example</h3>
-<pre><code class="lang-html">&lt;mm-sync endpoint=&quot;http://test.com&quot;&gt;
+<pre><code class="lang-html">&lt;strand-sync endpoint=&quot;http://test.com&quot;&gt;
     &lt;post&gt;
         &lt;urlParam&gt;campaigns&lt;/urlParam&gt;
         &lt;urlParam&gt;52312&lt;/urlParam&gt;
         &lt;header name=&quot;X-CSRF-Header&quot;&gt;48ccbaffbb0675f2a&lt;/header&gt;
     &lt;/post&gt;
-&lt;/mm-sync&gt;
+&lt;/strand-sync&gt;
 </code></pre>
 <p>Note that we use the urlParam twice&thinsp;&mdash;&thinsp;this may be done for any set of params <em>N</em> number of times as appropriate. Params are parsed top down for API&#39;s where the order matters.</p>
 <p>It is also possible to pass multiple sets of params to the same element to configure it for general I/O by adding sections at the same level:</p>
-<pre><code class="lang-html">&lt;mm-sync&gt;
+<pre><code class="lang-html">&lt;strand-sync&gt;
     &lt;get&gt;&lt;/get&gt;
     &lt;post&gt;&lt;/post&gt;
     &lt;put&gt;&lt;/put&gt;
     &lt;delete&gt;&lt;/delete&gt;
-&lt;/mm-sync&gt;
+&lt;/strand-sync&gt;
 </code></pre>
 <h2 id="working-with-2-way-binding">Working with 2-way binding</h2>
-<p>To support 2-way binding in a scenario using mm-sync we have created the <code>auto</code> property. Auto tells mm-sync to respond automatically to data or param changes and make additional requests to sync the data back to the server. Auto may be set via JS or via HTML as an attribute.  Auto has 3 possible values:</p>
+<p>To support 2-way binding in a scenario using strand-sync we have created the <code>auto</code> property. Auto tells strand-sync to respond automatically to data or param changes and make additional requests to sync the data back to the server. Auto may be set via JS or via HTML as an attribute.  Auto has 3 possible values:</p>
 <ul>
 <li>true <code>boolean</code>&thinsp;&mdash;&thinsp;bidirectional sync input/output for any changes</li>
 <li>load <code>string</code>&thinsp;&mdash;&thinsp;only sync data in from server when input params change</li>
 <li>save <code>string</code>&thinsp;&mdash;&thinsp;only sync data in from the server when the data property detects a change&thinsp;&mdash;&thinsp;note that due to Polymer 1.0 data binding limitations you must manually tell Polymer that the data has changed using <code>set</code></li>
 </ul>
-<pre><code class="lang-javascript">var sync = document.querySelector(&quot;mm-sync&quot;);
+<pre><code class="lang-javascript">var sync = document.querySelector(&quot;strand-sync&quot;);
 sync.data.b = 2; //won&#39;t be picked up
 sync.set(&#39;data.b&#39;,2); //will be picked up by Polymer
 </code></pre>
 <h3 id="2-way-binding-on-the-input">2-way binding on the input</h3>
-<p>A fairly common scenario in modern web applications is a user entering search terms into an input and expecting a list of items as output. To accomplish this via mm-sync we would use 2-way binding between the input value and the API specific params.</p>
+<p>A fairly common scenario in modern web applications is a user entering search terms into an input and expecting a list of items as output. To accomplish this via strand-sync we would use 2-way binding between the input value and the API specific params.</p>
 <p>The following is an example of the simple input scenario using a self binding template.</p>
 <pre><code class="lang-html">    &lt;template is=&quot;dom-bind&quot;&gt;
-        &lt;mm-input value=&quot;{{search}}&quot;/&gt;
+        &lt;strand-input value=&quot;{{search}}&quot;/&gt;
     &lt;/template&gt;
 </code></pre>
 <p>Now bind this to a sync components params from our earlier example:</p>
 <pre><code class="lang-html">    &lt;template is=&quot;dom-bind&quot;&gt;
-        &lt;mm-input value=&quot;{{search}}&quot;/&gt;
-        &lt;mm-sync endpoint=&quot;http://example.com&quot; auto=&quot;true&quot;&gt;
+        &lt;strand-input value=&quot;{{search}}&quot;/&gt;
+        &lt;strand-sync endpoint=&quot;http://example.com&quot; auto=&quot;true&quot;&gt;
             &lt;get&gt;
                 &lt;queryParam name=&quot;q&quot; value=&quot;{{search}}&quot;/&gt;
                 &lt;urlParam&gt;123&lt;/urlParam&gt;
                 &lt;header name=&quot;X-Some-Header&quot;&gt;HeaderValue&lt;/header&gt;
             &lt;/get&gt;
-        &lt;/mm-sync&gt;
+        &lt;/strand-sync&gt;
     &lt;/template&gt;
 </code></pre>
 <p>When the light DOM queryParam values are changed via 2-way binding, the sync component will pick this up and trigger the requisite <code>GET</code> calls to retrieve this query from the server. Note that this input is automatically debounced against keyboard input. If necessary you may vary this timing via the <code>autoDebounce</code> property. The default is 200ms.</p>
@@ -183,13 +184,13 @@ sync.set(&#39;data.b&#39;,2); //will be picked up by Polymer
 <p>Unfortunately this example does not provide any feedback to the user, but it is possible to easily output this via 2-way binding as well. As mentioned earlier the sync component exposes a bindable <code>data</code> property which is used for both input and output of bindable data. By binding this to a repeated template we can show the user a list of items (we assume these objects have a name property) matching their search:</p>
 <pre><code class="lang-html">    &lt;template is=&quot;auto-binding&quot;&gt;
         &lt;input value=&quot;{{search}}&quot;&gt;
-        &lt;mm-sync url=&quot;http://example.com&quot; auto=&quot;true&quot; data=&quot;{{result}}&quot;&gt;
+        &lt;strand-sync url=&quot;http://example.com&quot; auto=&quot;true&quot; data=&quot;{{result}}&quot;&gt;
             &lt;get&gt;
                 &lt;queryParam name=&quot;q&quot; value=&quot;{{search}}&quot;/&gt;
                 &lt;urlParam&gt;123&lt;/urlParam&gt;
                 &lt;header name=&quot;X-Some-Header&quot;&gt;HeaderValue&lt;/header&gt;
             &lt;/get&gt;
-        &lt;/mm-sync&gt;
+        &lt;/strand-sync&gt;
         &lt;ul&gt;
             &lt;template is=&quot;dom-repeat&quot; items=&quot;{{result.list}}&quot;&gt;
                 &lt;li&gt;{{item.name}}&lt;/li&gt;
@@ -201,7 +202,7 @@ sync.set(&#39;data.b&#39;,2); //will be picked up by Polymer
 				</div>
 				<div class="layout-push"></div>
 			</article>
-		</mm-docs-shell>
+		</strand-docs-shell>
 		<script>
 			var name = "",
 				articlesNav,
@@ -217,7 +218,7 @@ sync.set(&#39;data.b&#39;,2); //will be picked up by Polymer
 				articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
 				componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
 				docsShell 		= Polymer.dom(document).querySelector("#docsShell");
-				navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
+				navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
 
 				// default expanded:
 				articlesNav.expanded = true;

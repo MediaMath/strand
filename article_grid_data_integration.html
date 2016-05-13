@@ -25,70 +25,71 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<mm-docs-shell id="docsShell" version="3.1.0" mobileHeader="Strand Docs">
-			<mm-docs-nav id="articlesNav">
-				<mm-header size="medium">Articles</mm-header>
-				<mm-list-item id="getting_started" value="article_getting_started.html">Getting Started</mm-list-item>
-				<mm-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</mm-list-item>
-				<mm-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using mm-ajax</mm-list-item>
-				<mm-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using mm-sync</mm-list-item>
-				<mm-list-item id="grid_intro" value="article_grid_intro.html">Introduction to mm-grid</mm-list-item>
-				<mm-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring mm-grid</mm-list-item>
-				<mm-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with mm-grid</mm-list-item>
-				<mm-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</mm-list-item>
-				<mm-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</mm-list-item>
-				<mm-list-item id="repeater" value="article_repeater.html">Using mm-repeater</mm-list-item>
-			</mm-docs-nav>
-			<mm-docs-nav id="componentsNav">
-				<mm-header size="medium">Components</mm-header>
-				<mm-list-item id="mm-action" value="mm-action.html">mm-action</mm-list-item>
-				<mm-list-item id="mm-ajax" value="mm-ajax.html">mm-ajax</mm-list-item>
-				<mm-list-item id="mm-autocomplete" value="mm-autocomplete.html">mm-autocomplete</mm-list-item>
-				<mm-list-item id="mm-box" value="mm-box.html">mm-box</mm-list-item>
-				<mm-list-item id="mm-button" value="mm-button.html">mm-button</mm-list-item>
-				<mm-list-item id="mm-calendar" value="mm-calendar.html">mm-calendar</mm-list-item>
-				<mm-list-item id="mm-checkbox" value="mm-checkbox.html">mm-checkbox</mm-list-item>
-				<mm-list-item id="mm-collection" value="mm-collection.html">mm-collection</mm-list-item>
-				<mm-list-item id="mm-datepicker" value="mm-datepicker.html">mm-datepicker</mm-list-item>
-				<mm-list-item id="mm-dialog" value="mm-dialog.html">mm-dialog</mm-list-item>
-				<mm-list-item id="mm-drawer" value="mm-drawer.html">mm-drawer</mm-list-item>
-				<mm-list-item id="mm-dropdown" value="mm-dropdown.html">mm-dropdown</mm-list-item>
-				<mm-list-item id="mm-file-upload" value="mm-file-upload.html">mm-file-upload</mm-list-item>
-				<mm-list-item id="mm-footer" value="mm-footer.html">mm-footer</mm-list-item>
-				<mm-list-item id="mm-form" value="mm-form.html">mm-form</mm-list-item>
-				<mm-list-item id="mm-grid-column" value="mm-grid-column.html">mm-grid-column</mm-list-item>
-				<mm-list-item id="mm-grid-item" value="mm-grid-item.html">mm-grid-item</mm-list-item>
-				<mm-list-item id="mm-grid" value="mm-grid.html">mm-grid</mm-list-item>
-				<mm-list-item id="mm-group" value="mm-group.html">mm-group</mm-list-item>
-				<mm-list-item id="mm-header" value="mm-header.html">mm-header</mm-list-item>
-				<mm-list-item id="mm-icon" value="mm-icon.html">mm-icon</mm-list-item>
-				<mm-list-item id="mm-inline-box" value="mm-inline-box.html">mm-inline-box</mm-list-item>
-				<mm-list-item id="mm-input-mask" value="mm-input-mask.html">mm-input-mask</mm-list-item>
-				<mm-list-item id="mm-input" value="mm-input.html">mm-input</mm-list-item>
-				<mm-list-item id="mm-list-item" value="mm-list-item.html">mm-list-item</mm-list-item>
-				<mm-list-item id="mm-loader" value="mm-loader.html">mm-loader</mm-list-item>
-				<mm-list-item id="mm-localstore" value="mm-localstore.html">mm-localstore</mm-list-item>
-				<mm-list-item id="mm-menu" value="mm-menu.html">mm-menu</mm-list-item>
-				<mm-list-item id="mm-modal" value="mm-modal.html">mm-modal</mm-list-item>
-				<mm-list-item id="mm-model" value="mm-model.html">mm-model</mm-list-item>
-				<mm-list-item id="mm-popover" value="mm-popover.html">mm-popover</mm-list-item>
-				<mm-list-item id="mm-progress-bar" value="mm-progress-bar.html">mm-progress-bar</mm-list-item>
-				<mm-list-item id="mm-pulldown-button" value="mm-pulldown-button.html">mm-pulldown-button</mm-list-item>
-				<mm-list-item id="mm-radio" value="mm-radio.html">mm-radio</mm-list-item>
-				<mm-list-item id="mm-repeater" value="mm-repeater.html">mm-repeater</mm-list-item>
-				<mm-list-item id="mm-scroll-panel" value="mm-scroll-panel.html">mm-scroll-panel</mm-list-item>
-				<mm-list-item id="mm-spinner" value="mm-spinner.html">mm-spinner</mm-list-item>
-				<mm-list-item id="mm-sync" value="mm-sync.html">mm-sync</mm-list-item>
-				<mm-list-item id="mm-tab" value="mm-tab.html">mm-tab</mm-list-item>
-				<mm-list-item id="mm-tabs" value="mm-tabs.html">mm-tabs</mm-list-item>
-				<mm-list-item id="mm-textarea" value="mm-textarea.html">mm-textarea</mm-list-item>
-				<mm-list-item id="mm-tooltip" value="mm-tooltip.html">mm-tooltip</mm-list-item>
-			</mm-docs-nav>
+		<strand-docs-shell id="docsShell" version="4.0.0" mobileHeader="Strand Docs">
+			<strand-docs-nav id="articlesNav">
+				<strand-header size="medium">Articles</strand-header>
+				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
+				<strand-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</strand-list-item>
+				<strand-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using strand-ajax</strand-list-item>
+				<strand-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using strand-sync</strand-list-item>
+				<strand-list-item id="grid_intro" value="article_grid_intro.html">Introduction to strand-grid</strand-list-item>
+				<strand-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring strand-grid</strand-list-item>
+				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
+				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
+				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+			</strand-docs-nav>
+			<strand-docs-nav id="componentsNav">
+				<strand-header size="medium">Components</strand-header>
+				<strand-list-item id="strand-action" value="strand-action.html">strand-action</strand-list-item>
+				<strand-list-item id="strand-ajax" value="strand-ajax.html">strand-ajax</strand-list-item>
+				<strand-list-item id="strand-autocomplete" value="strand-autocomplete.html">strand-autocomplete</strand-list-item>
+				<strand-list-item id="strand-box" value="strand-box.html">strand-box</strand-list-item>
+				<strand-list-item id="strand-button" value="strand-button.html">strand-button</strand-list-item>
+				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
+				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
+				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
+				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
+				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
+				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
+				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
+				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
+				<strand-list-item id="strand-grid-column" value="strand-grid-column.html">strand-grid-column</strand-list-item>
+				<strand-list-item id="strand-grid-item" value="strand-grid-item.html">strand-grid-item</strand-list-item>
+				<strand-list-item id="strand-grid" value="strand-grid.html">strand-grid</strand-list-item>
+				<strand-list-item id="strand-group" value="strand-group.html">strand-group</strand-list-item>
+				<strand-list-item id="strand-guide" value="strand-guide.html">strand-guide</strand-list-item>
+				<strand-list-item id="strand-header" value="strand-header.html">strand-header</strand-list-item>
+				<strand-list-item id="strand-icon" value="strand-icon.html">strand-icon</strand-list-item>
+				<strand-list-item id="strand-inline-box" value="strand-inline-box.html">strand-inline-box</strand-list-item>
+				<strand-list-item id="strand-input-mask" value="strand-input-mask.html">strand-input-mask</strand-list-item>
+				<strand-list-item id="strand-input" value="strand-input.html">strand-input</strand-list-item>
+				<strand-list-item id="strand-list-item" value="strand-list-item.html">strand-list-item</strand-list-item>
+				<strand-list-item id="strand-loader" value="strand-loader.html">strand-loader</strand-list-item>
+				<strand-list-item id="strand-localstore" value="strand-localstore.html">strand-localstore</strand-list-item>
+				<strand-list-item id="strand-menu" value="strand-menu.html">strand-menu</strand-list-item>
+				<strand-list-item id="strand-modal" value="strand-modal.html">strand-modal</strand-list-item>
+				<strand-list-item id="strand-model" value="strand-model.html">strand-model</strand-list-item>
+				<strand-list-item id="strand-popover" value="strand-popover.html">strand-popover</strand-list-item>
+				<strand-list-item id="strand-progress-bar" value="strand-progress-bar.html">strand-progress-bar</strand-list-item>
+				<strand-list-item id="strand-pulldown-button" value="strand-pulldown-button.html">strand-pulldown-button</strand-list-item>
+				<strand-list-item id="strand-radio" value="strand-radio.html">strand-radio</strand-list-item>
+				<strand-list-item id="strand-repeater" value="strand-repeater.html">strand-repeater</strand-list-item>
+				<strand-list-item id="strand-scroll-panel" value="strand-scroll-panel.html">strand-scroll-panel</strand-list-item>
+				<strand-list-item id="strand-spinner" value="strand-spinner.html">strand-spinner</strand-list-item>
+				<strand-list-item id="strand-sync" value="strand-sync.html">strand-sync</strand-list-item>
+				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
+				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
+				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
+			</strand-docs-nav>
 			<div class="docs-logo">
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v3.1.0</p>
+				<p class="mini-subhead version">v4.0.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -104,7 +105,7 @@
 				</div>
 			</footer>			<article class="layout-article">
 				<div class="docs-content article">
-					<h1 id="data-integration-with-mm-grid">Data Integration with mm-grid</h1>
+					<h1 id="data-integration-with-strand-grid">Data Integration with strand-grid</h1>
 <h2 id="basic-data-integration">Basic Data Integration</h2>
 <p>It is quite straightforward to get an array of data into the grid. And because of 2-way binding, there are no render or update methods to worry about. Any changes to your data will automatically be reflected in the grid.</p>
 <h3 id="example">Example</h3>
@@ -117,48 +118,48 @@
 </code></pre>
 <p>All we have to do is assign the &quot;userData&quot; array to the <code>data</code> property on the grid like so:</p>
 <pre><code class="lang-javascript">    window.addEventListener(&quot;WebComponentsReady&quot;, function() {
-        document.getElementById(&quot;mm-grid&quot;).data = userData;
+        document.getElementById(&quot;strand-grid&quot;).data = userData;
     });
 </code></pre>
 <p>This will kick off the grid lifecycle and generate our item-recycled grid-items!</p>
 <h2 id="data-components">Data Components</h2>
-<p><code>mm-grid</code> plays nicely with our set of <a href="article_data_comps_intro.html">data components</a>. With two-way binding we eliminate the boilerplate code that would be required to wire these components together. All that is required is a bit of up-front configuration. In order to get an understanding of how data components work, please read more about using them <a href="article_data_comps_intro.html">here</a>.</p>
+<p><code>strand-grid</code> plays nicely with our set of <a href="article_data_comps_intro.html">data components</a>. With two-way binding we eliminate the boilerplate code that would be required to wire these components together. All that is required is a bit of up-front configuration. In order to get an understanding of how data components work, please read more about using them <a href="article_data_comps_intro.html">here</a>.</p>
 <h3 id="searchable-grid-example">Searchable Grid Example</h3>
-<p>Let&#39;s imagine that we have a service that provides a collection of &quot;users&quot; that we can retrieve. We can easily set up a searchable grid. We will add an <code>mm-collection</code> — configured to retrieve what we need, our <code>mm-grid</code> — configured to display the data fields we need, and an <code>mm-input</code> with its value bound to our mm-collection&#39;s <code>&lt;queryParam&gt;</code> tags. Changes to the input value will automatically trigger a change in the collection, which will fetch the appropriate results and update the grid — all through two-way binding.</p>
+<p>Let&#39;s imagine that we have a service that provides a collection of &quot;users&quot; that we can retrieve. We can easily set up a searchable grid. We will add an <code>strand-collection</code> — configured to retrieve what we need, our <code>strand-grid</code> — configured to display the data fields we need, and an <code>strand-input</code> with its value bound to our strand-collection&#39;s <code>&lt;queryParam&gt;</code> tags. Changes to the input value will automatically trigger a change in the collection, which will fetch the appropriate results and update the grid — all through two-way binding.</p>
 <pre><code class="lang-html">    &lt;template is=&quot;dom-bind&quot;&gt;
-        &lt;mm-input value=&quot;{{terms}}&quot;&gt;&lt;/mm-input&gt;
+        &lt;strand-input value=&quot;{{terms}}&quot;&gt;&lt;/strand-input&gt;
 
-        &lt;mm-collection data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; auto&gt;
+        &lt;strand-collection data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; auto&gt;
             &lt;get&gt;
                 &lt;urlParam&gt;users&lt;/urlParam&gt;
                 &lt;queryParam name=&quot;first_name&quot; value=&quot;{{terms}}&quot;&gt;
                 &lt;queryParam name=&quot;last_name&quot; value=&quot;{{terms}}&quot;&gt;
             &lt;/get&gt;
-        &lt;/mm-collection&gt;
+        &lt;/strand-collection&gt;
 
-        &lt;mm-grid data=&quot;{{data}}&quot; index=&quot;{{page}}&quot;&gt;
-            &lt;mm-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/mm-grid-column&gt;
-            &lt;mm-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/mm-grid-column&gt;
-            &lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
-        &lt;/mm-grid&gt;
+        &lt;strand-grid data=&quot;{{data}}&quot; index=&quot;{{page}}&quot;&gt;
+            &lt;strand-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/strand-grid-column&gt;
+            &lt;strand-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/strand-grid-column&gt;
+            &lt;strand-grid-column field=&quot;email&quot;&gt;Email&lt;/strand-grid-column&gt;
+        &lt;/strand-grid&gt;
     &lt;/template&gt;
 </code></pre>
 <p>Data components also have the ability to take care of things like paging in the grid. As a user scrolls down the grid, the collection will automatically fetch the next set of results to display. This is handled by binding the <code>index</code> properties of the collection and grid together (as seen above).</p>
 <h3 id="sortable-grid-example">Sortable Grid Example</h3>
 <p>Another grid use case that ties in nicely with data components is sorting. Like searching, it can be achieved solely by two-way binding. Adding the appropriate binds to the <code>sort-order</code> and <code>sort-field</code> attributes on the grid, and enabling the <code>sort</code> flags on the desired grid-columns will get this running. Example below:</p>
 <pre><code class="lang-html">    &lt;template is=&quot;dom-bind&quot;&gt;
-        &lt;mm-collection data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; auto&gt;
+        &lt;strand-collection data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; auto&gt;
             &lt;get&gt;
                 &lt;queryParam name=&quot;sort&quot; value=&quot;{{sortField}}&quot;&gt;&lt;/queryParam&gt;
                 &lt;queryParam name=&quot;sort_order&quot; value=&quot;{{sortOrder}}&quot;&gt;&lt;/queryParam&gt;
             &lt;/get&gt;
-        &lt;/mm-collection&gt;
+        &lt;/strand-collection&gt;
 
-        &lt;mm-grid data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; sort-field=&quot;{{sortField}}&quot; sort-order=&quot;{{sortOrder}}&quot;&gt;
-            &lt;mm-grid-column field=&quot;first_name&quot; sort&gt;First Name&lt;/mm-grid-column&gt;
-            &lt;mm-grid-column field=&quot;last_name&quot; sort&gt;Last Name&lt;/mm-grid-column&gt;
-            &lt;mm-grid-column field=&quot;email&quot;&gt;Email&lt;/mm-grid-column&gt;
-        &lt;/mm-grid&gt;
+        &lt;strand-grid data=&quot;{{data}}&quot; index=&quot;{{page}}&quot; sort-field=&quot;{{sortField}}&quot; sort-order=&quot;{{sortOrder}}&quot;&gt;
+            &lt;strand-grid-column field=&quot;first_name&quot; sort&gt;First Name&lt;/strand-grid-column&gt;
+            &lt;strand-grid-column field=&quot;last_name&quot; sort&gt;Last Name&lt;/strand-grid-column&gt;
+            &lt;strand-grid-column field=&quot;email&quot;&gt;Email&lt;/strand-grid-column&gt;
+        &lt;/strand-grid&gt;
     &lt;/template&gt;
 </code></pre>
 <p>When a user clicks on a sort enabled column, the grid will update its <code>sort-field</code> attribute with that column&#39;s <code>sort-field</code> attribute if it exists, or default to the <code>field</code> attribute that was set on it. In the example above clicking on the &quot;First Name&quot; column set the grid&#39;s <code>sort-field</code> to &quot;first_name&quot;.</p>
@@ -167,7 +168,7 @@
 				</div>
 				<div class="layout-push"></div>
 			</article>
-		</mm-docs-shell>
+		</strand-docs-shell>
 		<script>
 			var name = "",
 				articlesNav,
@@ -183,7 +184,7 @@
 				articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
 				componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
 				docsShell 		= Polymer.dom(document).querySelector("#docsShell");
-				navItems 		= Polymer.dom(document).querySelectorAll("mm-list-item");
+				navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
 
 				// default expanded:
 				articlesNav.expanded = true;

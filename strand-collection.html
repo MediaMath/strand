@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<strand-docs-shell id="docsShell" version="4.0.0" mobile-header="Strand Docs">
+			<strand-docs-nav id="articlesNav">
+				<strand-header size="medium">Articles</strand-header>
+				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
+				<strand-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</strand-list-item>
+				<strand-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using strand-ajax</strand-list-item>
+				<strand-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using strand-sync</strand-list-item>
+				<strand-list-item id="grid_intro" value="article_grid_intro.html">Introduction to strand-grid</strand-list-item>
+				<strand-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring strand-grid</strand-list-item>
+				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
+				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
+				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+			</strand-docs-nav>
+			<strand-docs-nav id="componentsNav">
+				<strand-header size="medium">Components</strand-header>
+				<strand-list-item id="strand-action" value="strand-action.html">strand-action</strand-list-item>
+				<strand-list-item id="strand-ajax" value="strand-ajax.html">strand-ajax</strand-list-item>
+				<strand-list-item id="strand-autocomplete" value="strand-autocomplete.html">strand-autocomplete</strand-list-item>
+				<strand-list-item id="strand-box" value="strand-box.html">strand-box</strand-list-item>
+				<strand-list-item id="strand-button" value="strand-button.html">strand-button</strand-list-item>
+				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
+				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
+				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
+				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
+				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
+				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
+				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
+				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
+				<strand-list-item id="strand-grid-column" value="strand-grid-column.html">strand-grid-column</strand-list-item>
+				<strand-list-item id="strand-grid-item" value="strand-grid-item.html">strand-grid-item</strand-list-item>
+				<strand-list-item id="strand-grid" value="strand-grid.html">strand-grid</strand-list-item>
+				<strand-list-item id="strand-group" value="strand-group.html">strand-group</strand-list-item>
+				<strand-list-item id="strand-guide" value="strand-guide.html">strand-guide</strand-list-item>
+				<strand-list-item id="strand-header" value="strand-header.html">strand-header</strand-list-item>
+				<strand-list-item id="strand-icon" value="strand-icon.html">strand-icon</strand-list-item>
+				<strand-list-item id="strand-inline-box" value="strand-inline-box.html">strand-inline-box</strand-list-item>
+				<strand-list-item id="strand-input-mask" value="strand-input-mask.html">strand-input-mask</strand-list-item>
+				<strand-list-item id="strand-input" value="strand-input.html">strand-input</strand-list-item>
+				<strand-list-item id="strand-list-item" value="strand-list-item.html">strand-list-item</strand-list-item>
+				<strand-list-item id="strand-loader" value="strand-loader.html">strand-loader</strand-list-item>
+				<strand-list-item id="strand-localstore" value="strand-localstore.html">strand-localstore</strand-list-item>
+				<strand-list-item id="strand-menu" value="strand-menu.html">strand-menu</strand-list-item>
+				<strand-list-item id="strand-modal" value="strand-modal.html">strand-modal</strand-list-item>
+				<strand-list-item id="strand-model" value="strand-model.html">strand-model</strand-list-item>
+				<strand-list-item id="strand-popover" value="strand-popover.html">strand-popover</strand-list-item>
+				<strand-list-item id="strand-progress-bar" value="strand-progress-bar.html">strand-progress-bar</strand-list-item>
+				<strand-list-item id="strand-pulldown-button" value="strand-pulldown-button.html">strand-pulldown-button</strand-list-item>
+				<strand-list-item id="strand-radio" value="strand-radio.html">strand-radio</strand-list-item>
+				<strand-list-item id="strand-repeater" value="strand-repeater.html">strand-repeater</strand-list-item>
+				<strand-list-item id="strand-scroll-panel" value="strand-scroll-panel.html">strand-scroll-panel</strand-list-item>
+				<strand-list-item id="strand-spinner" value="strand-spinner.html">strand-spinner</strand-list-item>
+				<strand-list-item id="strand-sync" value="strand-sync.html">strand-sync</strand-list-item>
+				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
+				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
+				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
+			</strand-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v4.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>strand-collection</h1>
+					<p>A simple collection wrapper component useful for 2 way binding to lists of data</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;template is=&quot;dom-bind&quot;&gt;
+	&lt;strand-collection id=&quot;searchResults&quot; data=&quot;{{dataList}}&quot; auto=&quot;false&quot;&gt;
+	&lt;/strand-collection&gt;
+	&lt;template is=&quot;dom-repeat&quot; items=&quot;{{datalist}}&quot;&gt;
+		&lt;div&gt;{{item.name}}&lt;/div&gt;
+	&lt;/template&gt;
+&lt;/template&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-strand-collection"><template is="dom-bind">
+	<strand-collection id="searchResults" data="{{dataList}}" auto="false">
+	</strand-collection>
+	<template is="dom-repeat" items="{{datalist}}">
+		<div>{{item.name}}</div>
+	</template>
+</template></div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">page : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">page</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">the current page number</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">pageSize : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">10</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">pageSize</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">the current number of records requested per page</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">index : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">0</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">index</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">the current record offset. this is used for binding to item recycled UI components</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">pageOptions : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">pageOptions</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Configuration object used to configure paging behavior. pageName is used to denote the key used for the paging index, pageSize is used to denote the width or lenght of a page, url, query and body are all booleans used to determine how the paging data should be passed to the ajax call, and pageType is either &#39;index&#39; or &#39;offset&#39; depending on if the page is calculated from an index and count or is a single record offset value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">adapter : </span><span class="italic">string&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">&#39;&#39;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">adapter</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Futureproofing for API marshalling</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">data : </span><span class="italic">Array&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">[]</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">data</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The array that this collection stores its data in</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">nextPage</span>(<span></span>)<br/>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">prevPage</span>(<span></span>)<br/>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">create</span>(<span><span class="italic option">init</span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Creates a new STRAND-Model instance and appends it to the collection data</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">init : </span><span class="italic">Object</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The data to insert into the model</span>
+									</span>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">Boolean&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">If true the collection will not fire an event when the new model is added.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">add</span>(<span><span class="italic option">model</span><span class="italic option">silent</span><span class="italic option">force</span></span>)<br/>
+									<span class="desc">Adds an existing STRAND-Model instance to the collection.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">model : </span><span class="italic">Object</span><br/>
+										<br/>
+										<span class="desc">STRAND-Model reference to add to collection.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">&nbsp;(optional)</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true the collection will not fire an event when the new model is added.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">force : </span><span class="italic">&nbsp;(optional)</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true the collection will skip model verification and append to the data array without checking for duplicates.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">getModelAt</span>(<span><span class="italic option">index</span></span>)<br/>
+									<span class="desc">Retreieves a model by niave index</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">index : </span><span class="italic">Number</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The index of the model to retreive</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">getDataAt</span>(<span><span class="italic option">index</span></span>)<br/>
+									<span class="desc">Retrieves the data for a model at a niave index</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">index : </span><span class="italic">Number</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The index of the model from which to obtain data</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">delete</span>(<span><span class="italic option">model</span></span>)<br/>
+									<span class="desc">Deletes a model from the collection</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">model : </span><span class="italic">Object/Index</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">May be either an STRAND-Model object or a niave index to a model in the collection that you wish to delete. Client side deletion only.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">clear</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Empties the collection. Client side.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">Boolean</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true a changed event is not dispatched from the collection when it is emptied</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">empty</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Empties the collection. Client side.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">Boolean</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">If true a changed event is not dispatched from the collection when it is emptied</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">save</span>(<span></span>)<br/>
+									<span class="desc">An alias method to post() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">update</span>(<span></span>)<br/>
+									<span class="desc">An alias method to put() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">fetch</span>(<span></span>)<br/>
+									<span class="desc">An alias method to get() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">destroy</span>(<span></span>)<br/>
+									<span class="desc">An alias method to delete() in the adapter</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">each</span>(<span><span class="italic option">callback</span></span>)<br/>
+									<span class="desc">ala forEach in an array, calls the callback for each model in the array and passes it the model</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">callback : </span><span class="italic">Function</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The callback to call for each model. This behaves identically to instance.data.forEach</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">where</span>(<span><span class="italic option">obj</span><span class="italic option">matchValues</span></span>)<br/>
+									<span class="desc">Return a filtered set of collections based on a matching object. If the 2nd param is true the values in this object must also match.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">obj : </span><span class="italic">Object</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">The matching Object to filter the collection by</span>
+									</span>
+									<span class="arg">
+										<span class="bold">matchValues : </span><span class="italic">Boolean</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">When matchValues is false, the filter will return any models that have the same keys as the matching object. When true the values will be considered as well when filtering.</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</strand-docs-shell>
+		<script>
+			var name = "strand-collection",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				// console.log("update was called!");
+				$example.empty().html(editor.session.getValue());
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
+			}
+
+			function navigateToPage(e) {
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
+			}	
+		</script>
+	</body>
+</html>

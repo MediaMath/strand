@@ -7,14 +7,13 @@
  * Code distributed by Google as part of the polymer project is also
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
-// @version 0.7.21
-(function() {
-  window.WebComponents = window.WebComponents || {
-    flags: {}
-  };
+// @version 0.7.7
+window.WebComponents = window.WebComponents || {};
+
+(function(scope) {
+  var flags = scope.flags || {};
   var file = "webcomponents.js";
   var script = document.querySelector('script[src*="' + file + '"]');
-  var flags = {};
   if (!flags.noOpts) {
     location.search.slice(1).split("&").forEach(function(option) {
       var parts = option.split("=");
@@ -52,8 +51,8 @@
     };
     window.CustomElements.flags.register = flags.register;
   }
-  WebComponents.flags = flags;
-})();
+  scope.flags = flags;
+})(WebComponents);
 
 if (WebComponents.flags.shadow) {
   if (typeof WeakMap === "undefined") {
@@ -352,7 +351,6 @@ if (WebComponents.flags.shadow) {
         });
       });
     }
-    scope.addForwardingProperties = addForwardingProperties;
     scope.assert = assert;
     scope.constructorTable = constructorTable;
     scope.defineGetter = defineGetter;
@@ -1160,24 +1158,6 @@ if (WebComponents.flags.shadow) {
         stopImmediatePropagationTable.set(this, true);
       }
     };
-    var supportsDefaultPrevented = function() {
-      var e = document.createEvent("Event");
-      e.initEvent("test", true, true);
-      e.preventDefault();
-      return e.defaultPrevented;
-    }();
-    if (!supportsDefaultPrevented) {
-      Event.prototype.preventDefault = function() {
-        if (!this.cancelable) return;
-        unsafeUnwrap(this).preventDefault();
-        Object.defineProperty(this, "defaultPrevented", {
-          get: function() {
-            return true;
-          },
-          configurable: true
-        });
-      };
-    }
     registerWrapper(OriginalEvent, Event, document.createEvent("Event"));
     function unwrapOptions(options) {
       if (!options || !options.relatedTarget) return options;
@@ -1801,8 +1781,8 @@ if (WebComponents.flags.shadow) {
     var originalInsertBefore = OriginalNode.prototype.insertBefore;
     var originalRemoveChild = OriginalNode.prototype.removeChild;
     var originalReplaceChild = OriginalNode.prototype.replaceChild;
-    var isIEOrEdge = /Trident|Edge/.test(navigator.userAgent);
-    var removeChildOriginalHelper = isIEOrEdge ? function(parent, child) {
+    var isIe = /Trident|Edge/.test(navigator.userAgent);
+    var removeChildOriginalHelper = isIe ? function(parent, child) {
       try {
         originalRemoveChild.call(parent, child);
       } catch (ex) {
@@ -2772,7 +2752,7 @@ if (WebComponents.flags.shadow) {
         enumerable: true
       });
     }
-    [ "focus", "getBoundingClientRect", "getClientRects", "scrollIntoView" ].forEach(methodRequiresRendering);
+    [ "getBoundingClientRect", "getClientRects", "scrollIntoView" ].forEach(methodRequiresRendering);
     registerWrapper(OriginalHTMLElement, HTMLElement, document.createElement("b"));
     scope.wrappers.HTMLElement = HTMLElement;
     scope.getInnerHTML = getInnerHTML;
@@ -3179,29 +3159,18 @@ if (WebComponents.flags.shadow) {
     "use strict";
     var Element = scope.wrappers.Element;
     var HTMLElement = scope.wrappers.HTMLElement;
-    var registerWrapper = scope.registerWrapper;
+    var registerObject = scope.registerObject;
     var defineWrapGetter = scope.defineWrapGetter;
-    var unsafeUnwrap = scope.unsafeUnwrap;
-    var wrap = scope.wrap;
-    var mixin = scope.mixin;
     var SVG_NS = "http://www.w3.org/2000/svg";
-    var OriginalSVGElement = window.SVGElement;
     var svgTitleElement = document.createElementNS(SVG_NS, "title");
+    var SVGTitleElement = registerObject(svgTitleElement);
+    var SVGElement = Object.getPrototypeOf(SVGTitleElement.prototype).constructor;
     if (!("classList" in svgTitleElement)) {
       var descr = Object.getOwnPropertyDescriptor(Element.prototype, "classList");
       Object.defineProperty(HTMLElement.prototype, "classList", descr);
       delete Element.prototype.classList;
     }
-    function SVGElement(node) {
-      Element.call(this, node);
-    }
-    SVGElement.prototype = Object.create(Element.prototype);
-    mixin(SVGElement.prototype, {
-      get ownerSVGElement() {
-        return wrap(unsafeUnwrap(this).ownerSVGElement);
-      }
-    });
-    registerWrapper(OriginalSVGElement, SVGElement, document.createElementNS(SVG_NS, "title"));
+    defineWrapGetter(SVGElement, "ownerSVGElement");
     scope.wrappers.SVGElement = SVGElement;
   })(window.ShadowDOMPolyfill);
   (function(scope) {
@@ -3307,7 +3276,6 @@ if (WebComponents.flags.shadow) {
   })(window.ShadowDOMPolyfill);
   (function(scope) {
     "use strict";
-    var addForwardingProperties = scope.addForwardingProperties;
     var mixin = scope.mixin;
     var registerWrapper = scope.registerWrapper;
     var setWrapper = scope.setWrapper;
@@ -3332,10 +3300,6 @@ if (WebComponents.flags.shadow) {
         unsafeUnwrap(this).texSubImage2D.apply(unsafeUnwrap(this), arguments);
       }
     });
-    var OriginalWebGLRenderingContextBase = Object.getPrototypeOf(OriginalWebGLRenderingContext.prototype);
-    if (OriginalWebGLRenderingContextBase !== Object.prototype) {
-      addForwardingProperties(OriginalWebGLRenderingContextBase, WebGLRenderingContext.prototype);
-    }
     var instanceProperties = /WebKit/.test(navigator.userAgent) ? {
       drawingBufferHeight: null,
       drawingBufferWidth: null
@@ -3345,27 +3309,20 @@ if (WebComponents.flags.shadow) {
   })(window.ShadowDOMPolyfill);
   (function(scope) {
     "use strict";
-    var Node = scope.wrappers.Node;
     var GetElementsByInterface = scope.GetElementsByInterface;
     var NonElementParentNodeInterface = scope.NonElementParentNodeInterface;
     var ParentNodeInterface = scope.ParentNodeInterface;
     var SelectorsInterface = scope.SelectorsInterface;
     var mixin = scope.mixin;
     var registerObject = scope.registerObject;
-    var registerWrapper = scope.registerWrapper;
-    var OriginalDocumentFragment = window.DocumentFragment;
-    function DocumentFragment(node) {
-      Node.call(this, node);
-    }
-    DocumentFragment.prototype = Object.create(Node.prototype);
+    var DocumentFragment = registerObject(document.createDocumentFragment());
     mixin(DocumentFragment.prototype, ParentNodeInterface);
     mixin(DocumentFragment.prototype, SelectorsInterface);
     mixin(DocumentFragment.prototype, GetElementsByInterface);
     mixin(DocumentFragment.prototype, NonElementParentNodeInterface);
-    registerWrapper(OriginalDocumentFragment, DocumentFragment, document.createDocumentFragment());
-    scope.wrappers.DocumentFragment = DocumentFragment;
     var Comment = registerObject(document.createComment(""));
     scope.wrappers.Comment = Comment;
+    scope.wrappers.DocumentFragment = DocumentFragment;
   })(window.ShadowDOMPolyfill);
   (function(scope) {
     "use strict";
@@ -3379,7 +3336,6 @@ if (WebComponents.flags.shadow) {
     var setInnerHTML = scope.setInnerHTML;
     var unsafeUnwrap = scope.unsafeUnwrap;
     var unwrap = scope.unwrap;
-    var wrap = scope.wrap;
     var shadowHostTable = new WeakMap();
     var nextOlderShadowTreeTable = new WeakMap();
     function ShadowRoot(hostWrapper) {
@@ -3412,25 +3368,6 @@ if (WebComponents.flags.shadow) {
       },
       elementFromPoint: function(x, y) {
         return elementFromPoint(this, this.ownerDocument, x, y);
-      },
-      getSelection: function() {
-        return document.getSelection();
-      },
-      get activeElement() {
-        var unwrappedActiveElement = unwrap(this).ownerDocument.activeElement;
-        if (!unwrappedActiveElement || !unwrappedActiveElement.nodeType) return null;
-        var activeElement = wrap(unwrappedActiveElement);
-        while (!this.contains(activeElement)) {
-          while (activeElement.parentNode) {
-            activeElement = activeElement.parentNode;
-          }
-          if (activeElement.host) {
-            activeElement = activeElement.host;
-          } else {
-            return null;
-          }
-        }
-        return activeElement;
       }
     });
     scope.wrappers.ShadowRoot = ShadowRoot;
@@ -4018,7 +3955,7 @@ if (WebComponents.flags.shadow) {
         unsafeUnwrap(this).removeRange(unwrap(range));
       },
       selectAllChildren: function(node) {
-        unsafeUnwrap(this).selectAllChildren(node instanceof ShadowRoot ? unsafeUnwrap(node.host) : unwrapIfNeeded(node));
+        unsafeUnwrap(this).selectAllChildren(unwrapIfNeeded(node));
       },
       toString: function() {
         return unsafeUnwrap(this).toString();
@@ -4089,7 +4026,6 @@ if (WebComponents.flags.shadow) {
     var ShadowRoot = scope.wrappers.ShadowRoot;
     var TreeScope = scope.TreeScope;
     var cloneNode = scope.cloneNode;
-    var defineGetter = scope.defineGetter;
     var defineWrapGetter = scope.defineWrapGetter;
     var elementFromPoint = scope.elementFromPoint;
     var forwardMethodsToWrapper = scope.forwardMethodsToWrapper;
@@ -4113,22 +4049,6 @@ if (WebComponents.flags.shadow) {
     defineWrapGetter(Document, "documentElement");
     defineWrapGetter(Document, "body");
     defineWrapGetter(Document, "head");
-    defineGetter(Document, "activeElement", function() {
-      var unwrappedActiveElement = unwrap(this).activeElement;
-      if (!unwrappedActiveElement || !unwrappedActiveElement.nodeType) return null;
-      var activeElement = wrap(unwrappedActiveElement);
-      while (!this.contains(activeElement)) {
-        while (activeElement.parentNode) {
-          activeElement = activeElement.parentNode;
-        }
-        if (activeElement.host) {
-          activeElement = activeElement.host;
-        } else {
-          return null;
-        }
-      }
-      return activeElement;
-    });
     function wrapMethod(name) {
       var original = document[name];
       Document.prototype[name] = function() {
@@ -5459,12 +5379,9 @@ if (WebComponents.flags.shadow) {
     };
   }
   scope.URL = jURL;
-})(self);
+})(this);
 
 (function(global) {
-  if (global.JsMutationObserver) {
-    return;
-  }
   var registrationsTable = new WeakMap();
   var setImmediate;
   if (/Trident|Edge/.test(navigator.userAgent)) {
@@ -5760,83 +5677,8 @@ if (WebComponents.flags.shadow) {
     }
   };
   global.JsMutationObserver = JsMutationObserver;
-  if (!global.MutationObserver) {
-    global.MutationObserver = JsMutationObserver;
-    JsMutationObserver._isPolyfilled = true;
-  }
-})(self);
-
-(function(scope) {
-  "use strict";
-  if (!window.performance) {
-    var start = Date.now();
-    window.performance = {
-      now: function() {
-        return Date.now() - start;
-      }
-    };
-  }
-  if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function() {
-      var nativeRaf = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
-      return nativeRaf ? function(callback) {
-        return nativeRaf(function() {
-          callback(performance.now());
-        });
-      } : function(callback) {
-        return window.setTimeout(callback, 1e3 / 60);
-      };
-    }();
-  }
-  if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = function() {
-      return window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || function(id) {
-        clearTimeout(id);
-      };
-    }();
-  }
-  var workingDefaultPrevented = function() {
-    var e = document.createEvent("Event");
-    e.initEvent("foo", true, true);
-    e.preventDefault();
-    return e.defaultPrevented;
-  }();
-  if (!workingDefaultPrevented) {
-    var origPreventDefault = Event.prototype.preventDefault;
-    Event.prototype.preventDefault = function() {
-      if (!this.cancelable) {
-        return;
-      }
-      origPreventDefault.call(this);
-      Object.defineProperty(this, "defaultPrevented", {
-        get: function() {
-          return true;
-        },
-        configurable: true
-      });
-    };
-  }
-  var isIE = /Trident/.test(navigator.userAgent);
-  if (!window.CustomEvent || isIE && typeof window.CustomEvent !== "function") {
-    window.CustomEvent = function(inType, params) {
-      params = params || {};
-      var e = document.createEvent("CustomEvent");
-      e.initCustomEvent(inType, Boolean(params.bubbles), Boolean(params.cancelable), params.detail);
-      return e;
-    };
-    window.CustomEvent.prototype = window.Event.prototype;
-  }
-  if (!window.Event || isIE && typeof window.Event !== "function") {
-    var origEvent = window.Event;
-    window.Event = function(inType, params) {
-      params = params || {};
-      var e = document.createEvent("Event");
-      e.initEvent(inType, Boolean(params.bubbles), Boolean(params.cancelable));
-      return e;
-    };
-    window.Event.prototype = origEvent.prototype;
-  }
-})(window.WebComponents);
+  if (!global.MutationObserver) global.MutationObserver = JsMutationObserver;
+})(this);
 
 window.HTMLImports = window.HTMLImports || {
   flags: {}
@@ -5913,7 +5755,6 @@ window.HTMLImports = window.HTMLImports || {
     if (importCount) {
       for (var i = 0, imp; i < importCount && (imp = imports[i]); i++) {
         if (isImportLoaded(imp)) {
-          newImports.push(this);
           parsedCount++;
           checkDone();
         } else {
@@ -6040,14 +5881,10 @@ window.HTMLImports.addModule(function(scope) {
       request.open("GET", url, xhr.async);
       request.addEventListener("readystatechange", function(e) {
         if (request.readyState === 4) {
+          var locationHeader = request.getResponseHeader("Location");
           var redirectedUrl = null;
-          try {
-            var locationHeader = request.getResponseHeader("Location");
-            if (locationHeader) {
-              redirectedUrl = locationHeader.substr(0, 1) === "/" ? location.origin + locationHeader : locationHeader;
-            }
-          } catch (e) {
-            console.error(e.message);
+          if (locationHeader) {
+            var redirectedUrl = locationHeader.substr(0, 1) === "/" ? location.origin + locationHeader : locationHeader;
           }
           next.call(nextContext, !xhr.ok(request) && request, request.response || request.responseText, redirectedUrl);
         }
@@ -6197,7 +6034,7 @@ window.HTMLImports.addModule(function(scope) {
   var IMPORT_SELECTOR = "link[rel=" + IMPORT_LINK_TYPE + "]";
   var importParser = {
     documentSelectors: IMPORT_SELECTOR,
-    importsSelectors: [ IMPORT_SELECTOR, "link[rel=stylesheet]:not([type])", "style:not([type])", "script:not([type])", 'script[type="application/javascript"]', 'script[type="text/javascript"]' ].join(","),
+    importsSelectors: [ IMPORT_SELECTOR, "link[rel=stylesheet]", "style", "script:not([type])", 'script[type="application/javascript"]', 'script[type="text/javascript"]' ].join(","),
     map: {
       link: "parseLink",
       script: "parseScript",
@@ -6248,7 +6085,6 @@ window.HTMLImports.addModule(function(scope) {
       }
     },
     parseImport: function(elt) {
-      elt.import = elt.__doc;
       if (window.HTMLImports.__importsParsingHook) {
         window.HTMLImports.__importsParsingHook(elt);
       }
@@ -6311,8 +6147,6 @@ window.HTMLImports.addModule(function(scope) {
     trackElement: function(elt, callback) {
       var self = this;
       var done = function(e) {
-        elt.removeEventListener("load", done);
-        elt.removeEventListener("error", done);
         if (callback) {
           callback(e);
         }
@@ -6365,10 +6199,10 @@ window.HTMLImports.addModule(function(scope) {
       if (doc && this._mayParse.indexOf(doc) < 0) {
         this._mayParse.push(doc);
         var nodes = doc.querySelectorAll(this.parseSelectorsForNode(doc));
-        for (var i = 0, l = nodes.length, n; i < l && (n = nodes[i]); i++) {
+        for (var i = 0, l = nodes.length, p = 0, n; i < l && (n = nodes[i]); i++) {
           if (!this.isParsed(n)) {
             if (this.hasResource(n)) {
-              return nodeIsImport(n) ? this.nextToParseInDoc(n.__doc, n) : n;
+              return nodeIsImport(n) ? this.nextToParseInDoc(n.import, n) : n;
             } else {
               return;
             }
@@ -6391,7 +6225,7 @@ window.HTMLImports.addModule(function(scope) {
       return this.dynamicElements.indexOf(elt) >= 0;
     },
     hasResource: function(node) {
-      if (nodeIsImport(node) && node.__doc === undefined) {
+      if (nodeIsImport(node) && node.import === undefined) {
         return false;
       }
       return true;
@@ -6465,7 +6299,7 @@ window.HTMLImports.addModule(function(scope) {
           }
           this.documents[url] = doc;
         }
-        elt.__doc = doc;
+        elt.import = doc;
       }
       parser.parseNext();
     },
@@ -6561,6 +6395,22 @@ window.HTMLImports.addModule(function(scope) {
   if (scope.useNative) {
     return;
   }
+  if (isIE && typeof window.CustomEvent !== "function") {
+    window.CustomEvent = function(inType, params) {
+      params = params || {};
+      var e = document.createEvent("CustomEvent");
+      e.initCustomEvent(inType, Boolean(params.bubbles), Boolean(params.cancelable), params.detail);
+      e.preventDefault = function() {
+        Object.defineProperty(this, "defaultPrevented", {
+          get: function() {
+            return true;
+          }
+        });
+      };
+      return e;
+    };
+    window.CustomEvent.prototype = window.Event.prototype;
+  }
   initializeModules();
   var rootDocument = scope.rootDocument;
   function bootstrap() {
@@ -6591,7 +6441,6 @@ window.CustomElements = window.CustomElements || {
   scope.addModule = addModule;
   scope.initializeModules = initializeModules;
   scope.hasNative = Boolean(document.registerElement);
-  scope.isIE = /Trident/.test(navigator.userAgent);
   scope.useNative = !flags.register && scope.hasNative && !window.ShadowDOMPolyfill && (!window.HTMLImports || window.HTMLImports.useNative);
 })(window.CustomElements);
 
@@ -6672,9 +6521,8 @@ window.CustomElements.addModule(function(scope) {
       }
     });
   }
-  var hasThrottledAttached = window.MutationObserver._isPolyfilled && flags["throttle-attached"];
-  scope.hasPolyfillMutations = hasThrottledAttached;
-  scope.hasThrottledAttached = hasThrottledAttached;
+  var hasPolyfillMutations = !window.MutationObserver || window.MutationObserver === window.JsMutationObserver;
+  scope.hasPolyfillMutations = hasPolyfillMutations;
   var isPendingMutations = false;
   var pendingMutations = [];
   function deferMutation(fn) {
@@ -6693,7 +6541,7 @@ window.CustomElements.addModule(function(scope) {
     pendingMutations = [];
   }
   function attached(element) {
-    if (hasThrottledAttached) {
+    if (hasPolyfillMutations) {
       deferMutation(function() {
         _attached(element);
       });
@@ -6716,7 +6564,7 @@ window.CustomElements.addModule(function(scope) {
     });
   }
   function detached(element) {
-    if (hasThrottledAttached) {
+    if (hasPolyfillMutations) {
       deferMutation(function() {
         _detached(element);
       });
@@ -6833,7 +6681,6 @@ window.CustomElements.addModule(function(scope) {
   }
   scope.watchShadow = watchShadow;
   scope.upgradeDocumentTree = upgradeDocumentTree;
-  scope.upgradeDocument = upgradeDocument;
   scope.upgradeSubtree = addedSubtree;
   scope.upgradeAll = addedNode;
   scope.attached = attached;
@@ -6843,16 +6690,13 @@ window.CustomElements.addModule(function(scope) {
 window.CustomElements.addModule(function(scope) {
   var flags = scope.flags;
   function upgrade(node, isAttached) {
-    if (node.localName === "template") {
-      if (window.HTMLTemplateElement && HTMLTemplateElement.decorate) {
-        HTMLTemplateElement.decorate(node);
-      }
-    }
     if (!node.__upgraded__ && node.nodeType === Node.ELEMENT_NODE) {
       var is = node.getAttribute("is");
-      var definition = scope.getRegisteredDefinition(node.localName) || scope.getRegisteredDefinition(is);
+      var definition = scope.getRegisteredDefinition(is || node.localName);
       if (definition) {
-        if (is && definition.tag == node.localName || !is && !definition.extends) {
+        if (is && definition.tag == node.localName) {
+          return upgradeWithDefinition(node, definition, isAttached);
+        } else if (!is && !definition.extends) {
           return upgradeWithDefinition(node, definition, isAttached);
         }
       }
@@ -6906,7 +6750,7 @@ window.CustomElements.addModule(function(scope) {
 });
 
 window.CustomElements.addModule(function(scope) {
-  var isIE = scope.isIE;
+  var isIE11OrOlder = scope.isIE11OrOlder;
   var upgradeDocumentTree = scope.upgradeDocumentTree;
   var upgradeAll = scope.upgradeAll;
   var upgradeWithDefinition = scope.upgradeWithDefinition;
@@ -7102,7 +6946,7 @@ window.CustomElements.addModule(function(scope) {
   }
   wrapDomMethodToForceUpgrade(Node.prototype, "cloneNode");
   wrapDomMethodToForceUpgrade(document, "importNode");
-  if (isIE) {
+  if (isIE11OrOlder) {
     (function() {
       var importNode = document.importNode;
       document.importNode = function() {
@@ -7130,7 +6974,7 @@ window.CustomElements.addModule(function(scope) {
 (function(scope) {
   var useNative = scope.useNative;
   var initializeModules = scope.initializeModules;
-  var isIE = scope.isIE;
+  var isIE11OrOlder = /Trident/.test(navigator.userAgent);
   if (useNative) {
     var nop = function() {};
     scope.watchShadow = nop;
@@ -7146,7 +6990,6 @@ window.CustomElements.addModule(function(scope) {
     initializeModules();
   }
   var upgradeDocumentTree = scope.upgradeDocumentTree;
-  var upgradeDocument = scope.upgradeDocument;
   if (!window.wrap) {
     if (window.ShadowDOMPolyfill) {
       window.wrap = window.ShadowDOMPolyfill.wrapIfNeeded;
@@ -7157,30 +7000,39 @@ window.CustomElements.addModule(function(scope) {
       };
     }
   }
-  if (window.HTMLImports) {
-    window.HTMLImports.__importsParsingHook = function(elt) {
-      if (elt.import) {
-        upgradeDocument(wrap(elt.import));
-      }
-    };
-  }
   function bootstrap() {
     upgradeDocumentTree(window.wrap(document));
+    if (window.HTMLImports) {
+      window.HTMLImports.__importsParsingHook = function(elt) {
+        upgradeDocumentTree(window.wrap(elt.import));
+      };
+    }
     window.CustomElements.ready = true;
-    var requestAnimationFrame = window.requestAnimationFrame || function(f) {
-      setTimeout(f, 16);
-    };
-    requestAnimationFrame(function() {
-      setTimeout(function() {
-        window.CustomElements.readyTime = Date.now();
-        if (window.HTMLImports) {
-          window.CustomElements.elapsed = window.CustomElements.readyTime - window.HTMLImports.readyTime;
-        }
-        document.dispatchEvent(new CustomEvent("WebComponentsReady", {
-          bubbles: true
-        }));
-      });
+    setTimeout(function() {
+      window.CustomElements.readyTime = Date.now();
+      if (window.HTMLImports) {
+        window.CustomElements.elapsed = window.CustomElements.readyTime - window.HTMLImports.readyTime;
+      }
+      document.dispatchEvent(new CustomEvent("WebComponentsReady", {
+        bubbles: true
+      }));
     });
+  }
+  if (isIE11OrOlder && typeof window.CustomEvent !== "function") {
+    window.CustomEvent = function(inType, params) {
+      params = params || {};
+      var e = document.createEvent("CustomEvent");
+      e.initCustomEvent(inType, Boolean(params.bubbles), Boolean(params.cancelable), params.detail);
+      e.preventDefault = function() {
+        Object.defineProperty(this, "defaultPrevented", {
+          get: function() {
+            return true;
+          }
+        });
+      };
+      return e;
+    };
+    window.CustomEvent.prototype = window.Event.prototype;
   }
   if (document.readyState === "complete" || scope.flags.eager) {
     bootstrap();
@@ -7190,6 +7042,7 @@ window.CustomElements.addModule(function(scope) {
     var loadEvent = window.HTMLImports && !window.HTMLImports.ready ? "HTMLImportsLoaded" : "DOMContentLoaded";
     window.addEventListener(loadEvent, bootstrap);
   }
+  scope.isIE11OrOlder = isIE11OrOlder;
 })(window.CustomElements);
 
 (function(scope) {
@@ -7203,6 +7056,66 @@ window.CustomElements.addModule(function(scope) {
         return self.apply(scope, args2);
       };
     };
+  }
+})(window.WebComponents);
+
+(function(scope) {
+  "use strict";
+  if (!window.performance) {
+    var start = Date.now();
+    window.performance = {
+      now: function() {
+        return Date.now() - start;
+      }
+    };
+  }
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = function() {
+      var nativeRaf = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+      return nativeRaf ? function(callback) {
+        return nativeRaf(function() {
+          callback(performance.now());
+        });
+      } : function(callback) {
+        return window.setTimeout(callback, 1e3 / 60);
+      };
+    }();
+  }
+  if (!window.cancelAnimationFrame) {
+    window.cancelAnimationFrame = function() {
+      return window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || function(id) {
+        clearTimeout(id);
+      };
+    }();
+  }
+  var elementDeclarations = [];
+  var polymerStub = function(name, dictionary) {
+    if (typeof name !== "string" && arguments.length === 1) {
+      Array.prototype.push.call(arguments, document._currentScript);
+    }
+    elementDeclarations.push(arguments);
+  };
+  window.Polymer = polymerStub;
+  scope.consumeDeclarations = function(callback) {
+    scope.consumeDeclarations = function() {
+      throw "Possible attempt to load Polymer twice";
+    };
+    if (callback) {
+      callback(elementDeclarations);
+    }
+    elementDeclarations = null;
+  };
+  function installPolymerWarning() {
+    if (window.Polymer === polymerStub) {
+      window.Polymer = function() {
+        throw new Error("You tried to use polymer without loading it first. To " + 'load polymer, <link rel="import" href="' + 'components/polymer/polymer.html">');
+      };
+    }
+  }
+  if (HTMLImports.useNative) {
+    installPolymerWarning();
+  } else {
+    window.addEventListener("DOMContentLoaded", installPolymerWarning);
   }
 })(window.WebComponents);
 

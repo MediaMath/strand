@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<strand-docs-shell id="docsShell" version="4.0.0" mobile-header="Strand Docs">
+			<strand-docs-nav id="articlesNav">
+				<strand-header size="medium">Articles</strand-header>
+				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
+				<strand-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</strand-list-item>
+				<strand-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using strand-ajax</strand-list-item>
+				<strand-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using strand-sync</strand-list-item>
+				<strand-list-item id="grid_intro" value="article_grid_intro.html">Introduction to strand-grid</strand-list-item>
+				<strand-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring strand-grid</strand-list-item>
+				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
+				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
+				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+			</strand-docs-nav>
+			<strand-docs-nav id="componentsNav">
+				<strand-header size="medium">Components</strand-header>
+				<strand-list-item id="strand-action" value="strand-action.html">strand-action</strand-list-item>
+				<strand-list-item id="strand-ajax" value="strand-ajax.html">strand-ajax</strand-list-item>
+				<strand-list-item id="strand-autocomplete" value="strand-autocomplete.html">strand-autocomplete</strand-list-item>
+				<strand-list-item id="strand-box" value="strand-box.html">strand-box</strand-list-item>
+				<strand-list-item id="strand-button" value="strand-button.html">strand-button</strand-list-item>
+				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
+				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
+				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
+				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
+				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
+				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
+				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
+				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
+				<strand-list-item id="strand-grid-column" value="strand-grid-column.html">strand-grid-column</strand-list-item>
+				<strand-list-item id="strand-grid-item" value="strand-grid-item.html">strand-grid-item</strand-list-item>
+				<strand-list-item id="strand-grid" value="strand-grid.html">strand-grid</strand-list-item>
+				<strand-list-item id="strand-group" value="strand-group.html">strand-group</strand-list-item>
+				<strand-list-item id="strand-guide" value="strand-guide.html">strand-guide</strand-list-item>
+				<strand-list-item id="strand-header" value="strand-header.html">strand-header</strand-list-item>
+				<strand-list-item id="strand-icon" value="strand-icon.html">strand-icon</strand-list-item>
+				<strand-list-item id="strand-inline-box" value="strand-inline-box.html">strand-inline-box</strand-list-item>
+				<strand-list-item id="strand-input-mask" value="strand-input-mask.html">strand-input-mask</strand-list-item>
+				<strand-list-item id="strand-input" value="strand-input.html">strand-input</strand-list-item>
+				<strand-list-item id="strand-list-item" value="strand-list-item.html">strand-list-item</strand-list-item>
+				<strand-list-item id="strand-loader" value="strand-loader.html">strand-loader</strand-list-item>
+				<strand-list-item id="strand-localstore" value="strand-localstore.html">strand-localstore</strand-list-item>
+				<strand-list-item id="strand-menu" value="strand-menu.html">strand-menu</strand-list-item>
+				<strand-list-item id="strand-modal" value="strand-modal.html">strand-modal</strand-list-item>
+				<strand-list-item id="strand-model" value="strand-model.html">strand-model</strand-list-item>
+				<strand-list-item id="strand-popover" value="strand-popover.html">strand-popover</strand-list-item>
+				<strand-list-item id="strand-progress-bar" value="strand-progress-bar.html">strand-progress-bar</strand-list-item>
+				<strand-list-item id="strand-pulldown-button" value="strand-pulldown-button.html">strand-pulldown-button</strand-list-item>
+				<strand-list-item id="strand-radio" value="strand-radio.html">strand-radio</strand-list-item>
+				<strand-list-item id="strand-repeater" value="strand-repeater.html">strand-repeater</strand-list-item>
+				<strand-list-item id="strand-scroll-panel" value="strand-scroll-panel.html">strand-scroll-panel</strand-list-item>
+				<strand-list-item id="strand-spinner" value="strand-spinner.html">strand-spinner</strand-list-item>
+				<strand-list-item id="strand-sync" value="strand-sync.html">strand-sync</strand-list-item>
+				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
+				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
+				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
+			</strand-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v4.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>strand-datepicker</h1>
+					<p>A single and dual (range) date/time picker component including numeric and calendar based inputs</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;strand-button id=&quot;btn&quot;&gt;
+	&lt;label&gt;Select a Date&lt;/label&gt;
+&lt;/strand-button&gt;
+&lt;strand-datepicker id=&quot;dp&quot; target=&quot;#btn&quot; start-enabled end-enabled use-timezone=&quot;false&quot; use-range=&quot;false&quot;&gt;&lt;/strand-datepicker&gt;
+</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-strand-datepicker"><strand-button id="btn">
+	<label>Select a Date</label>
+</strand-button>
+<strand-datepicker id="dp" target="#btn" start-enabled end-enabled use-timezone="false" use-range="false"></strand-datepicker>
+</div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">debouncers : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">closed</span><br/>
+									options : <span class="italic"><span class="option">opened</span><span class="option">closed</span></span><br/>
+									attribute : <span class="italic">debouncers</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">An array of property-changed events in the format { keys: Array, type: String, callback: Function(key, debouncer) }.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">resetDebouncer : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">closed</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When true the semaphore state is reset on each &#39;tick&#39; of the debouncer, so it is only ever triggered when calls occur within the same tick.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">panelOffset : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">0</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">panel-offset</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The amount of space, in px, between the panel and associated target.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">boundaryOffset : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">10</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">boundary-offset</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The minimum about of space between the panel and the viewport boundary.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">metrics : </span><span class="italic">Object&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a object containing the metrics of the positionable panel.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">targetMetrics : </span><span class="italic">Object&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a object containing the metrics of the target element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">windowMetrics : </span><span class="italic">Object&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a object containing the metrics of the window.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">depth : </span><span class="italic">Number&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">0</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns the z-index depth of the element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">stackType : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">ui</span><br/>
+									options : <span class="italic"><span class="option">ui</span><span class="option">modal</span><span class="option">tooltip</span></span><br/>
+									attribute : <span class="italic">stack-type</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets or returns the stacking type for the element. Stacking types are &#39;ui&#39; which starts at an index of 10000, &#39;modal&#39; which starts at index 20000, and &#39;tooltip&#39; which starts at index 30000.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">toggleTrigger : </span><span class="italic">Object or String&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">toggle-trigger</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">An HTMLElement which, when clicked, toggles the component&#39;s visual state. A selector may also be passed as a String.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">auto : </span><span class="italic">Boolean&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If set to true, instructs the element to close if the user clicks outside of the component or it&#39;s target element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">state : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">closed</span><br/>
+									options : <span class="italic"><span class="option">opened</span><span class="option">closed</span></span><br/>
+									attribute : <span class="italic">state</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the visual state of the element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">isClosed : </span><span class="italic">Boolean&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a boolean corresponding to the visual state of the element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">STATE_CLOSED : </span><span class="italic">String&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">opened</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The value of the state property when the element is closed</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">STATE_OPENED : </span><span class="italic">String&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">opened</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The value of the state property when the element is opened</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">useTimezone : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">use-timezone</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When set to true, instructs the component to display a timezone dropdown. Requires configuration data for timezones (see: timezones).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">useRange : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">use-range</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When set to true, instructs the component to display a date range dropdown. Requires configuration data range presets (see: rangePresets).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">useTime : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">use-time</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When set to true, instructs the component to display inputs for time selection.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">useCommit : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">use-commit</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When set to true, instructs the component to display a footer bar which contains &#39;save&#39; and &#39;close&#39; buttons. Requires that the user click &#39;save&#39; to persist the selection for start and end dates (see: &#39;start&#39; and &#39;end&#39;).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">useDuration : </span><span class="italic">boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">use-duration</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Shows an estimated duration of time between selected start and end dates</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">resetOnClose : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">reset-on-close</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When set to true, instructs the component reset when closed. Dependant upon the setting for useCommit, requires that the user click &#39;save&#39; or the component will be reset to default values when closed.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">dual : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">dual</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">When set to true, instructs the component to display a start and end calendar panel.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">dateFormat : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">MM/DD/YYYY</span><br/>
+									options : <span class="italic"><span class="option">MM/DD/YYYY</span><span class="option">DD/MM/YYYY</span></span><br/>
+									attribute : <span class="italic">date-format</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The moment.js format string used for date formatting. Please note that support for additional formats would require the internal input mask configuration to be edited (see: strand-input-mask).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">timeFormat : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">hh:mm a</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">time-format</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The moment.js format string used for time formatting. Please note that strand-datepicker currently only supports 12 hour time.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">timeOnlyFormat : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns the moment.js 12 hour time format without meridian value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">rangeValue : </span><span class="italic">string&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns the currently selected range value, as defined in range presets (see: rangePresets).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">rangePresets : </span><span class="italic">Array&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Configuration data used to populate the range pressets dropdown. Requires an array of objects which should contain a name, start, and end property. The &#39;name&#39; property sets the dropdown item&#39;s label. The &#39;start&#39; and &#39;end&#39; properties require JS Date objects. The supplied &#39;start&#39; and &#39;end&#39; dates will set the strand-datepicker&#39;s date range.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">rangeDescription : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">Select a Predefined Date Range</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">range-description</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The placeholder string used to populate the range preset dropdown prior to selection.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">timezoneDescription : </span><span class="italic">string&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">Select a Timezone</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">timezone-description</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The placeholder string used to populate the timezone dropdown prior to selection.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">timezones : </span><span class="italic">Array&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Configuration data used to populate the timezone dropdown. Requires an array of objects which should contain a name and value property. The &#39;name&#39; property sets the dropdown item&#39;s label. The &#39;value&#39; property sets the strand-datepicker&#39;s timezone.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">start : </span><span class="italic">Date&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The selected start date. In a dual configuration, this is the selected start date. In single configuration, this will be the only date available.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startEnabled : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">start-enabled</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The default value for the start enabled checkbox which appears when startEnabledLabel is specified (see: startEnabledLabel).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startUserEnabled : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">start-user-enabled</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If true, will display a start enabled checkbox, allowing the user to control the start enabled checkbox state.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">allowedStart : </span><span class="italic">Date&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If set, does not allow selection of a date prior to the specified value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startLabel : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">Start</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">start-label</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The label text for the blue header which appears in the top left section of the strand-datepicker.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startEnabledLabel : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">start-enabled-label</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If set, instructs the component to display a start enabled checkbox. Typically used when the strand-datepicker needs to be constrained to a particular start date. This also the text which will be displayed next to the checkbox.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startDate : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">start-date</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A string in the specified dateFormat (see: dateFormat) used to set the strand-datepicker&#39;s default start date.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startTime : </span><span class="italic">Date&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">12:00</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A date object representing the desired default start time, used to set the time input field.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">startTimePeriod : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">am</span><br/>
+									options : <span class="italic"><span class="option">am</span><span class="option">pm</span></span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the value of the meridian dropdown located next to the start time input field.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">end : </span><span class="italic">Date&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The selected end date. In a dual configuration, this is the selected end date. In single configuration, this will be the only date available.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endEnabled : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">start-enabled</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The default value for the end enabled checkbox which appears when endEnabledLabel is specified (see: endEnabledLabel).</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endUserEnabled : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">end-user-enabled</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If true, will display a end enabled checkbox, allowing the user to control the end enabled checkbox state.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">allowedEnd : </span><span class="italic">Date&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If set, does not allow selection of a date after to the specified value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endLabel : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">End</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">end-label</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The label text for the blue header which appears in the top right section of the strand-datepicker.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endEnabledLabel : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">end-enabled-label</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">If set, instructs the component to display a end enabled checkbox. Typically used when the strand-datepicker needs to be constrained to a particular end date. This also the text which will be displayed next to the checkbox.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endDate : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">end-date</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A string in the specified dateFormat (see: dateFormat) used to set the strand-datepicker&#39;s default end date.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endTime : </span><span class="italic">Date&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">11:59</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A date object representing the desired default end time, used to set the time input field.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">endTimePeriod : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">am</span><br/>
+									options : <span class="italic"><span class="option">am</span><span class="option">pm</span></span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the value of the meridian dropdown located next to the end time input field.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">timezone : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a string representing the selected timezone, as specified in data configuration for timezones (see: timezones)</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">closeLabel : </span><span class="italic">string&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">Close</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">closeLabel</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A string used for text of &#39;close&#39; link in footer</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">saveLabel : </span><span class="italic">string&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">Save</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">saveLabel</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">A string used for text of &#39;save&#39; button in footer</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">deserialize</span>(<span></span>)<br/>
+									<span class="desc">Overrides Polymer.Base.deserialize method to convert string values of &#39;true&#39; or &#39;false&#39; to Boolean values.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">resize</span>(<span></span>)<br/>
+									<span class="desc">Abstract method, called when the widow resizes.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">scroll</span>(<span></span>)<br/>
+									<span class="desc">Abstract method, called when the widow scrolls.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">update</span>(<span></span>)<br/>
+									<span class="desc">Triggers a display update.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">moveToTop</span>(<span></span>)<br/>
+									<span class="desc">Instructs the element to move to the top index of it&#39;s stacking type.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">open</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Instructs the component to open.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">String&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">Used to allow or suppress the firing of an &#39;open&#39; event (see &#39;events&#39; for more information).</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">close</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Instructs the component to close.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">String&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">Used to allow or suppress the firing of a &#39;close&#39; event (see &#39;events&#39; for more information).</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">toggle</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Toggles the visual state of the component between &#39;opened&#39; and &#39;closed&#39;.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">String&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">Used to allow or suppress the firing of an &#39;open&#39; or &#39;close&#39; event, depending on the component&#39;s current state (see &#39;events&#39; for more information).</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">reset</span>(<span><span class="italic option">start</span><span class="italic option">end</span></span>)<br/>
+									<span class="desc">Resets the selected &#39;start&#39; and &#39;end&#39; dates either to their default values, or to the values specified in arguments.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">start : </span><span class="italic">Date&nbsp;(optional)</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">A date object representing the start date (and time) to reset the picker instance to.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">end : </span><span class="italic">Date&nbsp;(optional)</span><br/>
+										default : <span class="italic">null</span><br/>
+										<span class="desc">A date object representing the end date (and time) to reset the picker instance to.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">save</span>(<span></span>)<br/>
+									<span class="desc">Commits any pending date or date range values selected, and closes the strand-datepicker.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Events</h3>
+						<table>
+							<tr>
+								<th>Event</th>
+								<th>Event Detail</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'open'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'close'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'saved'</span>
+									
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">start</span> : <span class="italic">Date</span><br/>
+										<span class="desc">The start date the user has chosen.</span>
+									</span>
+									<span class="arg">
+										<span class="bold">end</span> : <span class="italic">Date</span><br/>
+										<span class="desc">The end date the user has chosen.</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</strand-docs-shell>
+		<script>
+			var name = "strand-datepicker",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				// console.log("update was called!");
+				$example.empty().html(editor.session.getValue());
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
+			}
+
+			function navigateToPage(e) {
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
+			}	
+		</script>
+	</body>
+</html>

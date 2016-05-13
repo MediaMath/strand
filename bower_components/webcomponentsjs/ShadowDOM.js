@@ -7,7 +7,7 @@
  * Code distributed by Google as part of the polymer project is also
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
-// @version 0.7.21
+// @version 0.7.7
 if (typeof WeakMap === "undefined") {
   (function() {
     var defineProperty = Object.defineProperty;
@@ -306,7 +306,6 @@ window.ShadowDOMPolyfill = {};
       });
     });
   }
-  scope.addForwardingProperties = addForwardingProperties;
   scope.assert = assert;
   scope.constructorTable = constructorTable;
   scope.defineGetter = defineGetter;
@@ -1119,24 +1118,6 @@ window.ShadowDOMPolyfill = {};
       stopImmediatePropagationTable.set(this, true);
     }
   };
-  var supportsDefaultPrevented = function() {
-    var e = document.createEvent("Event");
-    e.initEvent("test", true, true);
-    e.preventDefault();
-    return e.defaultPrevented;
-  }();
-  if (!supportsDefaultPrevented) {
-    Event.prototype.preventDefault = function() {
-      if (!this.cancelable) return;
-      unsafeUnwrap(this).preventDefault();
-      Object.defineProperty(this, "defaultPrevented", {
-        get: function() {
-          return true;
-        },
-        configurable: true
-      });
-    };
-  }
   registerWrapper(OriginalEvent, Event, document.createEvent("Event"));
   function unwrapOptions(options) {
     if (!options || !options.relatedTarget) return options;
@@ -1764,8 +1745,8 @@ window.ShadowDOMPolyfill = {};
   var originalInsertBefore = OriginalNode.prototype.insertBefore;
   var originalRemoveChild = OriginalNode.prototype.removeChild;
   var originalReplaceChild = OriginalNode.prototype.replaceChild;
-  var isIEOrEdge = /Trident|Edge/.test(navigator.userAgent);
-  var removeChildOriginalHelper = isIEOrEdge ? function(parent, child) {
+  var isIe = /Trident|Edge/.test(navigator.userAgent);
+  var removeChildOriginalHelper = isIe ? function(parent, child) {
     try {
       originalRemoveChild.call(parent, child);
     } catch (ex) {
@@ -2742,7 +2723,7 @@ window.ShadowDOMPolyfill = {};
       enumerable: true
     });
   }
-  [ "focus", "getBoundingClientRect", "getClientRects", "scrollIntoView" ].forEach(methodRequiresRendering);
+  [ "getBoundingClientRect", "getClientRects", "scrollIntoView" ].forEach(methodRequiresRendering);
   registerWrapper(OriginalHTMLElement, HTMLElement, document.createElement("b"));
   scope.wrappers.HTMLElement = HTMLElement;
   scope.getInnerHTML = getInnerHTML;
@@ -3164,29 +3145,18 @@ window.ShadowDOMPolyfill = {};
   "use strict";
   var Element = scope.wrappers.Element;
   var HTMLElement = scope.wrappers.HTMLElement;
-  var registerWrapper = scope.registerWrapper;
+  var registerObject = scope.registerObject;
   var defineWrapGetter = scope.defineWrapGetter;
-  var unsafeUnwrap = scope.unsafeUnwrap;
-  var wrap = scope.wrap;
-  var mixin = scope.mixin;
   var SVG_NS = "http://www.w3.org/2000/svg";
-  var OriginalSVGElement = window.SVGElement;
   var svgTitleElement = document.createElementNS(SVG_NS, "title");
+  var SVGTitleElement = registerObject(svgTitleElement);
+  var SVGElement = Object.getPrototypeOf(SVGTitleElement.prototype).constructor;
   if (!("classList" in svgTitleElement)) {
     var descr = Object.getOwnPropertyDescriptor(Element.prototype, "classList");
     Object.defineProperty(HTMLElement.prototype, "classList", descr);
     delete Element.prototype.classList;
   }
-  function SVGElement(node) {
-    Element.call(this, node);
-  }
-  SVGElement.prototype = Object.create(Element.prototype);
-  mixin(SVGElement.prototype, {
-    get ownerSVGElement() {
-      return wrap(unsafeUnwrap(this).ownerSVGElement);
-    }
-  });
-  registerWrapper(OriginalSVGElement, SVGElement, document.createElementNS(SVG_NS, "title"));
+  defineWrapGetter(SVGElement, "ownerSVGElement");
   scope.wrappers.SVGElement = SVGElement;
 })(window.ShadowDOMPolyfill);
 
@@ -3296,7 +3266,6 @@ window.ShadowDOMPolyfill = {};
 
 (function(scope) {
   "use strict";
-  var addForwardingProperties = scope.addForwardingProperties;
   var mixin = scope.mixin;
   var registerWrapper = scope.registerWrapper;
   var setWrapper = scope.setWrapper;
@@ -3321,10 +3290,6 @@ window.ShadowDOMPolyfill = {};
       unsafeUnwrap(this).texSubImage2D.apply(unsafeUnwrap(this), arguments);
     }
   });
-  var OriginalWebGLRenderingContextBase = Object.getPrototypeOf(OriginalWebGLRenderingContext.prototype);
-  if (OriginalWebGLRenderingContextBase !== Object.prototype) {
-    addForwardingProperties(OriginalWebGLRenderingContextBase, WebGLRenderingContext.prototype);
-  }
   var instanceProperties = /WebKit/.test(navigator.userAgent) ? {
     drawingBufferHeight: null,
     drawingBufferWidth: null
@@ -3335,27 +3300,20 @@ window.ShadowDOMPolyfill = {};
 
 (function(scope) {
   "use strict";
-  var Node = scope.wrappers.Node;
   var GetElementsByInterface = scope.GetElementsByInterface;
   var NonElementParentNodeInterface = scope.NonElementParentNodeInterface;
   var ParentNodeInterface = scope.ParentNodeInterface;
   var SelectorsInterface = scope.SelectorsInterface;
   var mixin = scope.mixin;
   var registerObject = scope.registerObject;
-  var registerWrapper = scope.registerWrapper;
-  var OriginalDocumentFragment = window.DocumentFragment;
-  function DocumentFragment(node) {
-    Node.call(this, node);
-  }
-  DocumentFragment.prototype = Object.create(Node.prototype);
+  var DocumentFragment = registerObject(document.createDocumentFragment());
   mixin(DocumentFragment.prototype, ParentNodeInterface);
   mixin(DocumentFragment.prototype, SelectorsInterface);
   mixin(DocumentFragment.prototype, GetElementsByInterface);
   mixin(DocumentFragment.prototype, NonElementParentNodeInterface);
-  registerWrapper(OriginalDocumentFragment, DocumentFragment, document.createDocumentFragment());
-  scope.wrappers.DocumentFragment = DocumentFragment;
   var Comment = registerObject(document.createComment(""));
   scope.wrappers.Comment = Comment;
+  scope.wrappers.DocumentFragment = DocumentFragment;
 })(window.ShadowDOMPolyfill);
 
 (function(scope) {
@@ -3370,7 +3328,6 @@ window.ShadowDOMPolyfill = {};
   var setInnerHTML = scope.setInnerHTML;
   var unsafeUnwrap = scope.unsafeUnwrap;
   var unwrap = scope.unwrap;
-  var wrap = scope.wrap;
   var shadowHostTable = new WeakMap();
   var nextOlderShadowTreeTable = new WeakMap();
   function ShadowRoot(hostWrapper) {
@@ -3403,25 +3360,6 @@ window.ShadowDOMPolyfill = {};
     },
     elementFromPoint: function(x, y) {
       return elementFromPoint(this, this.ownerDocument, x, y);
-    },
-    getSelection: function() {
-      return document.getSelection();
-    },
-    get activeElement() {
-      var unwrappedActiveElement = unwrap(this).ownerDocument.activeElement;
-      if (!unwrappedActiveElement || !unwrappedActiveElement.nodeType) return null;
-      var activeElement = wrap(unwrappedActiveElement);
-      while (!this.contains(activeElement)) {
-        while (activeElement.parentNode) {
-          activeElement = activeElement.parentNode;
-        }
-        if (activeElement.host) {
-          activeElement = activeElement.host;
-        } else {
-          return null;
-        }
-      }
-      return activeElement;
     }
   });
   scope.wrappers.ShadowRoot = ShadowRoot;
@@ -4013,7 +3951,7 @@ window.ShadowDOMPolyfill = {};
       unsafeUnwrap(this).removeRange(unwrap(range));
     },
     selectAllChildren: function(node) {
-      unsafeUnwrap(this).selectAllChildren(node instanceof ShadowRoot ? unsafeUnwrap(node.host) : unwrapIfNeeded(node));
+      unsafeUnwrap(this).selectAllChildren(unwrapIfNeeded(node));
     },
     toString: function() {
       return unsafeUnwrap(this).toString();
@@ -4086,7 +4024,6 @@ window.ShadowDOMPolyfill = {};
   var ShadowRoot = scope.wrappers.ShadowRoot;
   var TreeScope = scope.TreeScope;
   var cloneNode = scope.cloneNode;
-  var defineGetter = scope.defineGetter;
   var defineWrapGetter = scope.defineWrapGetter;
   var elementFromPoint = scope.elementFromPoint;
   var forwardMethodsToWrapper = scope.forwardMethodsToWrapper;
@@ -4110,22 +4047,6 @@ window.ShadowDOMPolyfill = {};
   defineWrapGetter(Document, "documentElement");
   defineWrapGetter(Document, "body");
   defineWrapGetter(Document, "head");
-  defineGetter(Document, "activeElement", function() {
-    var unwrappedActiveElement = unwrap(this).activeElement;
-    if (!unwrappedActiveElement || !unwrappedActiveElement.nodeType) return null;
-    var activeElement = wrap(unwrappedActiveElement);
-    while (!this.contains(activeElement)) {
-      while (activeElement.parentNode) {
-        activeElement = activeElement.parentNode;
-      }
-      if (activeElement.host) {
-        activeElement = activeElement.host;
-      } else {
-        return null;
-      }
-    }
-    return activeElement;
-  });
   function wrapMethod(name) {
     var original = document[name];
     Document.prototype[name] = function() {

@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="HandheldFriendly" content="True"/>
+		<meta name="MobileOptimized" content="320"/>
+		<meta name="theme-color" content="#000000"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1"/>
+		<title>Strand Web Components</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="apple-iphone-icon@2x.png" sizes="120x120" type="image/png" />
+		<link rel="apple-touch-icon" href="apple-ipad-icon@2x.png" sizes="152x152" type="image/png" />
+		<script language="javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="stylesheet" type="text/css" href="docs.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css">
+		<link rel="import" href="bower_components/strand/dist/strand.html"/>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/mode-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/theme-chrome.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/worker-html.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+	</head>
+	<body unresolved>
+		<strand-docs-shell id="docsShell" version="4.0.0" mobile-header="Strand Docs">
+			<strand-docs-nav id="articlesNav">
+				<strand-header size="medium">Articles</strand-header>
+				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
+				<strand-list-item id="data_comps_intro" value="article_data_comps_intro.html">Introduction to Data Components</strand-list-item>
+				<strand-list-item id="data_comps_using_ajax" value="article_data_comps_using_ajax.html" class="child"> Using strand-ajax</strand-list-item>
+				<strand-list-item id="data_comps_using_sync" value="article_data_comps_using_sync.html" class="child"> Using strand-sync</strand-list-item>
+				<strand-list-item id="grid_intro" value="article_grid_intro.html">Introduction to strand-grid</strand-list-item>
+				<strand-list-item id="grid_config" value="article_grid_config.html" class="child"> Configuring strand-grid</strand-list-item>
+				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
+				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
+				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+			</strand-docs-nav>
+			<strand-docs-nav id="componentsNav">
+				<strand-header size="medium">Components</strand-header>
+				<strand-list-item id="strand-action" value="strand-action.html">strand-action</strand-list-item>
+				<strand-list-item id="strand-ajax" value="strand-ajax.html">strand-ajax</strand-list-item>
+				<strand-list-item id="strand-autocomplete" value="strand-autocomplete.html">strand-autocomplete</strand-list-item>
+				<strand-list-item id="strand-box" value="strand-box.html">strand-box</strand-list-item>
+				<strand-list-item id="strand-button" value="strand-button.html">strand-button</strand-list-item>
+				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
+				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
+				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
+				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
+				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
+				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
+				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
+				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
+				<strand-list-item id="strand-grid-column" value="strand-grid-column.html">strand-grid-column</strand-list-item>
+				<strand-list-item id="strand-grid-item" value="strand-grid-item.html">strand-grid-item</strand-list-item>
+				<strand-list-item id="strand-grid" value="strand-grid.html">strand-grid</strand-list-item>
+				<strand-list-item id="strand-group" value="strand-group.html">strand-group</strand-list-item>
+				<strand-list-item id="strand-guide" value="strand-guide.html">strand-guide</strand-list-item>
+				<strand-list-item id="strand-header" value="strand-header.html">strand-header</strand-list-item>
+				<strand-list-item id="strand-icon" value="strand-icon.html">strand-icon</strand-list-item>
+				<strand-list-item id="strand-inline-box" value="strand-inline-box.html">strand-inline-box</strand-list-item>
+				<strand-list-item id="strand-input-mask" value="strand-input-mask.html">strand-input-mask</strand-list-item>
+				<strand-list-item id="strand-input" value="strand-input.html">strand-input</strand-list-item>
+				<strand-list-item id="strand-list-item" value="strand-list-item.html">strand-list-item</strand-list-item>
+				<strand-list-item id="strand-loader" value="strand-loader.html">strand-loader</strand-list-item>
+				<strand-list-item id="strand-localstore" value="strand-localstore.html">strand-localstore</strand-list-item>
+				<strand-list-item id="strand-menu" value="strand-menu.html">strand-menu</strand-list-item>
+				<strand-list-item id="strand-modal" value="strand-modal.html">strand-modal</strand-list-item>
+				<strand-list-item id="strand-model" value="strand-model.html">strand-model</strand-list-item>
+				<strand-list-item id="strand-popover" value="strand-popover.html">strand-popover</strand-list-item>
+				<strand-list-item id="strand-progress-bar" value="strand-progress-bar.html">strand-progress-bar</strand-list-item>
+				<strand-list-item id="strand-pulldown-button" value="strand-pulldown-button.html">strand-pulldown-button</strand-list-item>
+				<strand-list-item id="strand-radio" value="strand-radio.html">strand-radio</strand-list-item>
+				<strand-list-item id="strand-repeater" value="strand-repeater.html">strand-repeater</strand-list-item>
+				<strand-list-item id="strand-scroll-panel" value="strand-scroll-panel.html">strand-scroll-panel</strand-list-item>
+				<strand-list-item id="strand-spinner" value="strand-spinner.html">strand-spinner</strand-list-item>
+				<strand-list-item id="strand-sync" value="strand-sync.html">strand-sync</strand-list-item>
+				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
+				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
+				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
+			</strand-docs-nav>
+			<div class="docs-logo">
+				<a class="strand-logo">
+					<img src="images/strand-logo.svg" />
+				</a>
+				<p class="mini-subhead version">v4.0.0</p>
+			</div>			<footer class="layout-footer">
+				<div class="docs-footer">
+					<div class="footer-logo-box">
+						<div class="powered-by">
+							<p class="mini-subhead">Powered By</p>
+							<a href="https://developer.mediamath.com/" target="_blank" class="powered-logo"></a>
+						</div>
+						<div class="mediamath">
+							<a href="http://mediamath.com/" target="_blank" class="mediamath-logo"></a>
+						</div>
+					</div>
+					<p class="license">&copy;2015 Strand Authors. Code licensed under the <a href="LICENSE.txt" target="_blank">BSD License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+				</div>
+			</footer>			<article class="layout-article">
+				<div class="docs-content">
+					<h1>strand-icon</h1>
+					<p>A set of MediaMath&#39;s commonly used icons.</p>
+					<hr/>
+					<section>
+						<h3>Example HTML Editor</h3>
+						<div class="editor-wrapper">
+							<div id="editor">&lt;ul&gt;
+	&lt;li&gt;
+		&lt;strand-icon class=&quot;actions&quot; type=&quot;actions&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;actions&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;action&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;action&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;alerts&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;alerts&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;all-channels&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;all channels&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;apps&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;apps&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;audience&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;audience&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;bar-chart&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;bar-chart&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;block-arrow&quot; width=&quot;32&quot; height=&quot;32&quot; unresolved&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;block-arrow&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;budget-flight&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;budget-flight&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;calendar&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;calendar&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;campaigns&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;campaigns&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;carat-line&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;carat-line&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;carat&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;carat&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;card&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;card&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;certificate&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;certificate&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;changelog&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;changelog&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;chart-dashed-2&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;chart-dashed-2&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;chart-dashed&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;chart-dashed&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;chart&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;chart&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;check-alt&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;check-alt&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;check&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;check&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;circle-arrow&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;circle-arrow&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;clock&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;clock&lt;/p&gt;
+	&lt;/li&gt;
+
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;companion&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;companion&lt;/p&gt;
+	&lt;/li&gt;
+
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;contextual&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;contextual&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;creatives&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;creatives&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;cycle-arrow&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;cycle-arrow&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;day-part&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;day-part&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;deals&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;deals&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;delete&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;delete&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;details&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;details&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;display&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;display&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;dmp&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;dmp&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;document&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;document&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;dots&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;dots&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;download&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;download&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;drag-drop&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;drag-drop&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;duplicate&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;duplicate&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;edit&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;edit&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;event-marker&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;event-marker&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;exclude&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;exclude&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;expand-all&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;expand-all&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;fail&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;fail&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;favorite&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;favorite&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;filter&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;filter&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;geo-map&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;geo-map&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;geo-tag&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;geo-tag&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;grid-table&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;grid-table&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;group&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;group&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;health&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;health&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;include-outline&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;include-outline&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;include&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;include&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;info&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;info&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;jump-to&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;jump-to&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;left-right-arrow&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;left-right-arrow&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;lego&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;lego&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;line-chart-2nd&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;line-chart-2nd&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;line-chart&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;line-chart&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;lock&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;lock&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;mail&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;mail&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;minus&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;minus&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;my-data&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;my-data&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;partial-include&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;partial-include&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;partial&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;partial&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;pause&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;pause&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;pie-chart&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;pie-chart&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;pixel-user&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;pixel-user&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;pixels&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;pixels&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;play&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;play&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;player&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;player&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;plus&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;plus&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;preview&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;preview&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;question&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;question&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;refresh&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;refresh&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;reporting&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;reporting&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;scatter-plot&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;scatter-plot&lt;/p&gt;	
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;search&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;search&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;site-list&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;site-list&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;sort&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;sort&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;success&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;success&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;supply-node&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;supply-node&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;supply&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;supply&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;three-pas-adserver&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;three-pas-adserver&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;tools&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;tools&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;tracker&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;tracker&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;unlock&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;unlock&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;up-arrow&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;up-arrow&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;upload&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;upload&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;user&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;user&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;video&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;video&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;warning&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;warning&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;wireless&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;wireless&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;strand-icon type=&quot;xml&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;&lt;/strand-icon&gt;
+		&lt;p&gt;xml&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;</div>
+						</div>
+					</section>
+					<section>
+						<h3>Example Output</h3>
+						<div class="content-box example" id="example-strand-icon"><ul>
+	<li>
+		<strand-icon class="actions" type="actions" width="32" height="32"></strand-icon>
+		<p>actions</p>
+	</li>
+	<li>
+		<strand-icon type="action" width="32" height="32"></strand-icon>
+		<p>action</p>
+	</li>
+	<li>
+		<strand-icon type="alerts" width="32" height="32"></strand-icon>
+		<p>alerts</p>
+	</li>
+	<li>
+		<strand-icon type="all-channels" width="32" height="32"></strand-icon>
+		<p>all channels</p>
+	</li>
+	<li>
+		<strand-icon type="apps" width="32" height="32"></strand-icon>
+		<p>apps</p>
+	</li>
+	<li>
+		<strand-icon type="audience" width="32" height="32"></strand-icon>
+		<p>audience</p>
+	</li>
+	<li>
+		<strand-icon type="bar-chart" width="32" height="32"></strand-icon>
+		<p>bar-chart</p>
+	</li>
+	<li>
+		<strand-icon type="block-arrow" width="32" height="32" unresolved></strand-icon>
+		<p>block-arrow</p>
+	</li>
+	<li>
+		<strand-icon type="budget-flight" width="32" height="32"></strand-icon>
+		<p>budget-flight</p>
+	</li>
+	<li>
+		<strand-icon type="calendar" width="32" height="32"></strand-icon>
+		<p>calendar</p>
+	</li>
+	<li>
+		<strand-icon type="campaigns" width="32" height="32"></strand-icon>
+		<p>campaigns</p>
+	</li>
+	<li>
+		<strand-icon type="carat-line" width="32" height="32"></strand-icon>
+		<p>carat-line</p>
+	</li>
+	<li>
+		<strand-icon type="carat" width="32" height="32"></strand-icon>
+		<p>carat</p>
+	</li>
+	<li>
+		<strand-icon type="card" width="32" height="32"></strand-icon>
+		<p>card</p>
+	</li>
+	<li>
+		<strand-icon type="certificate" width="32" height="32"></strand-icon>
+		<p>certificate</p>
+	</li>
+	<li>
+		<strand-icon type="changelog" width="32" height="32"></strand-icon>
+		<p>changelog</p>
+	</li>
+	<li>
+		<strand-icon type="chart-dashed-2" width="32" height="32"></strand-icon>
+		<p>chart-dashed-2</p>
+	</li>
+	<li>
+		<strand-icon type="chart-dashed" width="32" height="32"></strand-icon>
+		<p>chart-dashed</p>
+	</li>
+	<li>
+		<strand-icon type="chart" width="32" height="32"></strand-icon>
+		<p>chart</p>
+	</li>
+	<li>
+		<strand-icon type="check-alt" width="32" height="32"></strand-icon>
+		<p>check-alt</p>
+	</li>
+	<li>
+		<strand-icon type="check" width="32" height="32"></strand-icon>
+		<p>check</p>
+	</li>
+	<li>
+		<strand-icon type="circle-arrow" width="32" height="32"></strand-icon>
+		<p>circle-arrow</p>
+	</li>
+	<li>
+		<strand-icon type="clock" width="32" height="32"></strand-icon>
+		<p>clock</p>
+	</li>
+
+	<li>
+		<strand-icon type="companion" width="32" height="32"></strand-icon>
+		<p>companion</p>
+	</li>
+
+	<li>
+		<strand-icon type="contextual" width="32" height="32"></strand-icon>
+		<p>contextual</p>
+	</li>
+	<li>
+		<strand-icon type="creatives" width="32" height="32"></strand-icon>
+		<p>creatives</p>
+	</li>
+	<li>
+		<strand-icon type="cycle-arrow" width="32" height="32"></strand-icon>
+		<p>cycle-arrow</p>
+	</li>
+	<li>
+		<strand-icon type="day-part" width="32" height="32"></strand-icon>
+		<p>day-part</p>
+	</li>
+	<li>
+		<strand-icon type="deals" width="32" height="32"></strand-icon>
+		<p>deals</p>
+	</li>
+	<li>
+		<strand-icon type="delete" width="32" height="32"></strand-icon>
+		<p>delete</p>
+	</li>
+	<li>
+		<strand-icon type="details" width="32" height="32"></strand-icon>
+		<p>details</p>
+	</li>
+	<li>
+		<strand-icon type="display" width="32" height="32"></strand-icon>
+		<p>display</p>
+	</li>
+	<li>
+		<strand-icon type="dmp" width="32" height="32"></strand-icon>
+		<p>dmp</p>
+	</li>
+	<li>
+		<strand-icon type="document" width="32" height="32"></strand-icon>
+		<p>document</p>
+	</li>
+	<li>
+		<strand-icon type="dots" width="32" height="32"></strand-icon>
+		<p>dots</p>
+	</li>
+	<li>
+		<strand-icon type="download" width="32" height="32"></strand-icon>
+		<p>download</p>
+	</li>
+	<li>
+		<strand-icon type="drag-drop" width="32" height="32"></strand-icon>
+		<p>drag-drop</p>
+	</li>
+	<li>
+		<strand-icon type="duplicate" width="32" height="32"></strand-icon>
+		<p>duplicate</p>
+	</li>
+	<li>
+		<strand-icon type="edit" width="32" height="32"></strand-icon>
+		<p>edit</p>
+	</li>
+	<li>
+		<strand-icon type="event-marker" width="32" height="32"></strand-icon>
+		<p>event-marker</p>
+	</li>
+	<li>
+		<strand-icon type="exclude" width="32" height="32"></strand-icon>
+		<p>exclude</p>
+	</li>
+	<li>
+		<strand-icon type="expand-all" width="32" height="32"></strand-icon>
+		<p>expand-all</p>
+	</li>
+	<li>
+		<strand-icon type="fail" width="32" height="32"></strand-icon>
+		<p>fail</p>
+	</li>
+	<li>
+		<strand-icon type="favorite" width="32" height="32"></strand-icon>
+		<p>favorite</p>
+	</li>
+	<li>
+		<strand-icon type="filter" width="32" height="32"></strand-icon>
+		<p>filter</p>
+	</li>
+	<li>
+		<strand-icon type="geo-map" width="32" height="32"></strand-icon>
+		<p>geo-map</p>
+	</li>
+	<li>
+		<strand-icon type="geo-tag" width="32" height="32"></strand-icon>
+		<p>geo-tag</p>
+	</li>
+	<li>
+		<strand-icon type="grid-table" width="32" height="32"></strand-icon>
+		<p>grid-table</p>
+	</li>
+	<li>
+		<strand-icon type="group" width="32" height="32"></strand-icon>
+		<p>group</p>
+	</li>
+	<li>
+		<strand-icon type="health" width="32" height="32"></strand-icon>
+		<p>health</p>
+	</li>
+	<li>
+		<strand-icon type="include-outline" width="32" height="32"></strand-icon>
+		<p>include-outline</p>
+	</li>
+	<li>
+		<strand-icon type="include" width="32" height="32"></strand-icon>
+		<p>include</p>
+	</li>
+	<li>
+		<strand-icon type="info" width="32" height="32"></strand-icon>
+		<p>info</p>
+	</li>
+	<li>
+		<strand-icon type="jump-to" width="32" height="32"></strand-icon>
+		<p>jump-to</p>
+	</li>
+	<li>
+		<strand-icon type="left-right-arrow" width="32" height="32"></strand-icon>
+		<p>left-right-arrow</p>
+	</li>
+	<li>
+		<strand-icon type="lego" width="32" height="32"></strand-icon>
+		<p>lego</p>
+	</li>
+	<li>
+		<strand-icon type="line-chart-2nd" width="32" height="32"></strand-icon>
+		<p>line-chart-2nd</p>
+	</li>
+	<li>
+		<strand-icon type="line-chart" width="32" height="32"></strand-icon>
+		<p>line-chart</p>
+	</li>
+	<li>
+		<strand-icon type="lock" width="32" height="32"></strand-icon>
+		<p>lock</p>
+	</li>
+	<li>
+		<strand-icon type="mail" width="32" height="32"></strand-icon>
+		<p>mail</p>
+	</li>
+	<li>
+		<strand-icon type="minus" width="32" height="32"></strand-icon>
+		<p>minus</p>
+	</li>
+	<li>
+		<strand-icon type="my-data" width="32" height="32"></strand-icon>
+		<p>my-data</p>
+	</li>
+	<li>
+		<strand-icon type="partial-include" width="32" height="32"></strand-icon>
+		<p>partial-include</p>
+	</li>
+	<li>
+		<strand-icon type="partial" width="32" height="32"></strand-icon>
+		<p>partial</p>
+	</li>
+	<li>
+		<strand-icon type="pause" width="32" height="32"></strand-icon>
+		<p>pause</p>
+	</li>
+	<li>
+		<strand-icon type="pie-chart" width="32" height="32"></strand-icon>
+		<p>pie-chart</p>
+	</li>
+	<li>
+		<strand-icon type="pixel-user" width="32" height="32"></strand-icon>
+		<p>pixel-user</p>
+	</li>
+	<li>
+		<strand-icon type="pixels" width="32" height="32"></strand-icon>
+		<p>pixels</p>
+	</li>
+	<li>
+		<strand-icon type="play" width="32" height="32"></strand-icon>
+		<p>play</p>
+	</li>
+	<li>
+		<strand-icon type="player" width="32" height="32"></strand-icon>
+		<p>player</p>
+	</li>
+	<li>
+		<strand-icon type="plus" width="32" height="32"></strand-icon>
+		<p>plus</p>
+	</li>
+	<li>
+		<strand-icon type="preview" width="32" height="32"></strand-icon>
+		<p>preview</p>
+	</li>
+	<li>
+		<strand-icon type="question" width="32" height="32"></strand-icon>
+		<p>question</p>
+	</li>
+	<li>
+		<strand-icon type="refresh" width="32" height="32"></strand-icon>
+		<p>refresh</p>
+	</li>
+	<li>
+		<strand-icon type="reporting" width="32" height="32"></strand-icon>
+		<p>reporting</p>
+	</li>
+	<li>
+		<strand-icon type="scatter-plot" width="32" height="32"></strand-icon>
+		<p>scatter-plot</p>	
+	</li>
+	<li>
+		<strand-icon type="search" width="32" height="32"></strand-icon>
+		<p>search</p>
+	</li>
+	<li>
+		<strand-icon type="site-list" width="32" height="32"></strand-icon>
+		<p>site-list</p>
+	</li>
+	<li>
+		<strand-icon type="sort" width="32" height="32"></strand-icon>
+		<p>sort</p>
+	</li>
+	<li>
+		<strand-icon type="success" width="32" height="32"></strand-icon>
+		<p>success</p>
+	</li>
+	<li>
+		<strand-icon type="supply-node" width="32" height="32"></strand-icon>
+		<p>supply-node</p>
+	</li>
+	<li>
+		<strand-icon type="supply" width="32" height="32"></strand-icon>
+		<p>supply</p>
+	</li>
+	<li>
+		<strand-icon type="three-pas-adserver" width="32" height="32"></strand-icon>
+		<p>three-pas-adserver</p>
+	</li>
+	<li>
+		<strand-icon type="tools" width="32" height="32"></strand-icon>
+		<p>tools</p>
+	</li>
+	<li>
+		<strand-icon type="tracker" width="32" height="32"></strand-icon>
+		<p>tracker</p>
+	</li>
+	<li>
+		<strand-icon type="unlock" width="32" height="32"></strand-icon>
+		<p>unlock</p>
+	</li>
+	<li>
+		<strand-icon type="up-arrow" width="32" height="32"></strand-icon>
+		<p>up-arrow</p>
+	</li>
+	<li>
+		<strand-icon type="upload" width="32" height="32"></strand-icon>
+		<p>upload</p>
+	</li>
+	<li>
+		<strand-icon type="user" width="32" height="32"></strand-icon>
+		<p>user</p>
+	</li>
+	<li>
+		<strand-icon type="video" width="32" height="32"></strand-icon>
+		<p>video</p>
+	</li>
+	<li>
+		<strand-icon type="warning" width="32" height="32"></strand-icon>
+		<p>warning</p>
+	</li>
+	<li>
+		<strand-icon type="wireless" width="32" height="32"></strand-icon>
+		<p>wireless</p>
+	</li>
+	<li>
+		<strand-icon type="xml" width="32" height="32"></strand-icon>
+		<p>xml</p>
+	</li>
+</ul></div>
+					</section>
+
+					<section>
+						<h3>Public Properties</h3>
+						<table>
+							<tr>
+								<th>Property</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">ref</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">type : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">plus</span><br/>
+									options : <span class="italic"><span class="option">actions</span><span class="option">action</span><span class="option">alerts</span><span class="option">all channels</span><span class="option">apps</span><span class="option">audience</span><span class="option">bar-chart</span><span class="option">block-arrow</span><span class="option">budget-flight</span><span class="option">calendar</span><span class="option">campaigns</span><span class="option">carat-line</span><span class="option">carat</span><span class="option">card</span><span class="option">certificate</span><span class="option">changelog</span><span class="option">chart-dashed-2</span><span class="option">chart-dashed</span><span class="option">chart</span><span class="option">check-alt</span><span class="option">check</span><span class="option">circle-arrow</span><span class="option">clock</span><span class="option">companion</span><span class="option">contextual</span><span class="option">creatives</span><span class="option">cycle-arrow</span><span class="option">day-part</span><span class="option">deals</span><span class="option">delete</span><span class="option">details</span><span class="option">display</span><span class="option">document</span><span class="option">dots</span><span class="option">download</span><span class="option">drag-drop</span><span class="option">duplicate</span><span class="option">edit</span><span class="option">event-marker</span><span class="option">exclude</span><span class="option">expand-all</span><span class="option">fail</span><span class="option">favorite</span><span class="option">filter</span><span class="option">geo-map</span><span class="option">geo-tag</span><span class="option">grid-table</span><span class="option">group</span><span class="option">health</span><span class="option">include-outline</span><span class="option">include</span><span class="option">info</span><span class="option">jump-to</span><span class="option">left-right-arrow</span><span class="option">lego</span><span class="option">line-chart-2nd</span><span class="option">line-chart</span><span class="option">lock</span><span class="option">mail</span><span class="option">minus</span><span class="option">my-data</span><span class="option">partial-include</span><span class="option">partial</span><span class="option">pause</span><span class="option">pie-chart</span><span class="option">pixels</span><span class="option">play</span><span class="option">player</span><span class="option">plus</span><span class="option">preview</span><span class="option">question</span><span class="option">refresh</span><span class="option">reporting</span><span class="option">scatter-plot</span><span class="option">search</span><span class="option">site-list</span><span class="option">sort</span><span class="option">success</span><span class="option">supply-node</span><span class="option">supply</span><span class="option">three-pas-adserver</span><span class="option">tools</span><span class="option">tracker</span><span class="option">unlock</span><span class="option">up-arrow</span><span class="option">upload</span><span class="option">user</span><span class="option">video</span><span class="option">warning</span><span class="option">wireless</span><span class="option">xml</span></span><br/>
+									attribute : <span class="italic">type</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
+								</td>
+								<td>
+									<span class="desc">A string value for the name of the desired icon. Sets the type of icon to be displayed. See the options for naming and example for visual reference.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">width : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">28</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">width</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the width of the icon in pixels.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">height : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">28</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">height</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the height of the icon in pixels.</span>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Public Methods</h3>
+						<table>
+							<tr>
+								<th>Method</th>
+								<th>Arguements</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
+									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">id : </span><span class="italic">String</span><br/>
+										default : <span class="italic">none</span><br/>
+										<span class="desc">The id of the component to find.</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">styleBlock</span>(<span></span>)<br/>
+									<span class="desc">Returns an array of styles to be used in attribute binding.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">classBlock</span>(<span></span>)<br/>
+									<span class="desc">Returns an array of classes to be used in attribute binding.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+						</table>
+					</section>
+
+				</div>
+				<div class="layout-push"></div>
+			</article>
+		</strand-docs-shell>
+		<script>
+			var name = "strand-icon",
+				articlesNav,
+				componentsNav,
+				docsShell,
+				navItems,
+				editor,
+				$example,
+				firstRun = true; 
+
+			window.addEventListener("WebComponentsReady", function(e) {
+				// console.log("document - WebComponentsReady");
+				initDoc();
+			});
+
+			function initDoc() {
+				if (firstRun) {
+					articlesNav 	= Polymer.dom(document).querySelector("#articlesNav");
+					componentsNav 	= Polymer.dom(document).querySelector("#componentsNav");
+					docsShell 		= Polymer.dom(document).querySelector("#docsShell");
+					navItems 		= Polymer.dom(document).querySelectorAll("strand-list-item");
+
+					// default expanded:
+					articlesNav.expanded = false;
+					componentsNav.expanded = true;
+
+					Array.prototype.slice.call(navItems).forEach(function(item) {
+						if (item.id === name) {
+							item.selected = true;
+							return;
+						}
+					});
+
+					docsShell.addEventListener("docs-nav-selected", navigateToPage);
+
+					editor = ace.edit("editor");
+					editor.setTheme("ace/theme/chrome");
+					editor.session.setMode("ace/mode/html");
+					editor.getSession().on('change', _.debounce(update, 500));
+
+					$example = $("#example-" + name);
+					firstRun = false;
+				}
+			}
+
+			function update(e) {
+				// console.log("update was called!");
+				$example.empty().html(editor.session.getValue());
+				// hack to retrigger the scripts in example:
+				window.dispatchEvent(new Event('WebComponentsReady'));
+			}
+
+			function navigateToPage(e) {
+				// console.log("navigateToPage: ", e.detail.value);
+				if(e.detail.value) {
+					window.location = e.detail.value;
+				} 
+			}	
+		</script>
+	</body>
+</html>

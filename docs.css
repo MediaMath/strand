@@ -100,7 +100,7 @@ section:last-child {
 
 /* END global styling */
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
-/* mm-docs-shell specific styling */
+/* strand-docs-shell specific styling */
 .layout-article {
   height: auto !important;
   min-height: 100%; }
@@ -134,15 +134,12 @@ section:last-child {
   margin: 0 auto 40px auto; }
 
 .docs-logo {
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
   position: relative;
   box-sizing: border-box;
   height: 100%; }
@@ -160,27 +157,24 @@ section:last-child {
   padding: 2.5em;
   height: 100%; }
   .docs-footer .footer-logo-box {
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-justify-content: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-pack: center;
+        justify-content: center; }
   .docs-footer .powered-by,
   .docs-footer .mediamath {
     margin: 0 1.25em; }
   .docs-footer .powered-by .powered-logo {
     display: block;
-    background: url(images/mm-technology-logo.svg) no-repeat;
+    background: url(images/mediamath-technology-logo.svg) no-repeat;
     background-size: 220px 25px;
     width: 220px;
     height: 25px; }
   .docs-footer .mediamath .mediamath-logo {
     display: block;
-    background: url(images/mm-logo.svg) no-repeat;
+    background: url(images/mediamath-logo.svg) no-repeat;
     background-size: 99px 60px;
     width: 99px;
     height: 60px; }
@@ -190,15 +184,15 @@ section:last-child {
     line-height: 1.25em;
     margin-bottom: 0; }
 
-#articlesNav mm-list-item,
-#componentsNav mm-list-item {
+#articlesNav strand-list-item,
+#componentsNav strand-list-item {
   padding: 10px 20px;
   border-top: 1px solid rgba(51, 51, 51, 0.07);
   font-size: 14px !important;
   line-height: 1.5 !important; }
 
-#articlesNav mm-list-item.child,
-#componentsNav mm-list-item.child {
+#articlesNav strand-list-item.child,
+#componentsNav strand-list-item.child {
   padding-left: 40px; }
 
 /* END shell specific styling */
@@ -258,14 +252,11 @@ table {
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* example styling */
 .example {
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+      flex-direction: column;
   box-pack: start;
-  -webkit-justify-content: flex-start;
   -moz-justify-content: flex-start;
   -ms-justify-content: flex-start;
   -o-justify-content: flex-start;
@@ -275,8 +266,7 @@ table {
   padding: 1.25em;
   background: #f8f8f8; }
   .example > * {
-    -webkit-align-self: flex-start;
-            align-self: flex-start;
+    align-self: flex-start;
     -ms-flex-item-align: start;
     margin-bottom: 20px; }
     .example > *:last-of-type {
@@ -304,27 +294,23 @@ table {
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* intro specific styling */
 .hp-header {
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-direction: row;
+      flex-direction: row;
   width: 100%;
   background: #e4e1ef; }
   .hp-header .docs-logo .strand-logo {
     margin: 1.25em; }
   .hp-header .docs-btns {
     margin: 1.25em; }
-    .hp-header .docs-btns mm-action:not(:last-of-type) {
+    .hp-header .docs-btns strand-action:not(:last-of-type) {
       margin-right: 20px; }
-    .hp-header .docs-btns mm-action label {
+    .hp-header .docs-btns strand-action label {
       font-size: 15px !important; }
 
 .docs-content.intro {
@@ -338,15 +324,12 @@ table {
   .intro-block.top {
     background: #f8f8f8; }
   .intro-block .intro-content.top {
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-direction: row;
+        flex-direction: row;
     box-sizing: border-box; }
     .intro-block .intro-content.top .hero-image {
       width: 45%;
@@ -360,12 +343,10 @@ table {
         line-height: 1.5;
         border: none; }
   .intro-block .intro-content.bottom {
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+        flex-direction: row;
     box-sizing: border-box; }
     .intro-block .intro-content.bottom .hero-block {
       width: 33%;
@@ -410,13 +391,11 @@ table {
   .layout-article {
     margin-bottom: -200px; }
   .intro-block .intro-content.top {
-    -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-                -ms-grid-row-align: flex-start;
-            align-items: flex-start;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column; }
+    -ms-flex-align: start;
+        -ms-grid-row-align: flex-start;
+        align-items: flex-start;
+    -ms-flex-direction: column;
+        flex-direction: column; }
     .intro-block .intro-content.top .hero-image {
       width: 50%;
       margin: 40px auto; }
@@ -432,9 +411,8 @@ table {
       .intro-block .intro-content.top .hero-text p {
         margin: 20px 0 0 0; }
   .intro-block .intro-content.bottom {
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column; }
+    -ms-flex-direction: column;
+        flex-direction: column; }
     .intro-block .intro-content.bottom .hero-block {
       width: 100%;
       margin: 0 0 40px 0; }
@@ -444,9 +422,8 @@ table {
   .layout-push {
     height: 200px; }
   .docs-footer .footer-logo-box {
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row; } }
+    -ms-flex-direction: row;
+        flex-direction: row; } }
 
 @media (min-width: 0px) and (max-width: 549px) {
   .layout-article {
@@ -455,22 +432,18 @@ table {
   .layout-push {
     height: 360px; }
   .hp-header {
-    -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-                -ms-grid-row-align: flex-start;
-            align-items: flex-start;
-    -webkit-justify-content: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column; }
+    -ms-flex-align: start;
+        -ms-grid-row-align: flex-start;
+        align-items: flex-start;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-direction: column;
+        flex-direction: column; }
     .hp-header .docs-logo {
       display: none; }
   .docs-footer .footer-logo-box {
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column; }
+    -ms-flex-direction: column;
+        flex-direction: column; }
   .docs-footer .powered-by,
   .docs-footer .mediamath {
     margin: 1.25em 0; } }
