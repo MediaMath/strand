@@ -26,11 +26,26 @@
 		
 		{
 			"name":"minWidth",
-			"type":"Integer",
+			"type":"Number",
 			"description":"The minimum width of the column in pixels when resizing.",
 			"attribute":"min-width",
 			"optional":true,
 			"default":"75"
+		},
+		{
+			"name":"tipWidth",
+			"type":"Number",
+			"description":"The desired width of the tooltip for the column, in pixels (see: the 'info' property). For longer multiline tooltips, provide a tip-width for best results.",
+			"attribute":"min-width",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"info",
+			"type":"String",
+			"description":"",
+			"optional":true,
+			"default":"false"
 		},
 		{
 			"name":"resize",
