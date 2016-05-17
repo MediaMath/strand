@@ -41,13 +41,8 @@
 }
 
 #label {
-	// TODO: switch this block to the mixin for default font
-	font-family: "Arimo", sans-serif;
-	font-weight: bold;
-	font-size: 11px;
-	line-height: 11px;
+	@include defaultFont(11px, 11px, 700);
 	color: $color-A2;
-	
 	text-transform: uppercase;
 	white-space: nowrap;
 	overflow: hidden;

@@ -6,6 +6,8 @@
 */
 (function(scope) {
 
+	var BehaviorUtils = StrandLib.BehaviorUtils;
+
 	scope.GuideTooltip = Polymer({
 		is: 'strand-guide-tooltip',
 
@@ -70,6 +72,12 @@
 				notify: true,
 				observer: '_currentStepChanged'
 			}
+		},
+
+		open: function(silent) {
+			var inherited = BehaviorUtils.findSuper(StrandTraits.Closable, "open");
+			inherited.apply(this, [silent]);
+			this._updatePosition();
 		},
 
 		_currentStepChanged: function(newVal, oldVal) {

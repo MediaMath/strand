@@ -125,7 +125,7 @@
 				newVal.forEach(function(item) {
 					var target = Polymer.dom(this.scope).querySelector('#' + item.target);
 					item.targetRef = target;
-				});
+				}, this);
 
 				if (this._isAttached) this._init();
 			}

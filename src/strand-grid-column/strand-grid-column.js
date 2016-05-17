@@ -64,6 +64,9 @@
 				type: Number,
 				value: 75
 			},
+			tipWidth: {
+				type: Number
+			}
 		},
 
 		listeners: {
