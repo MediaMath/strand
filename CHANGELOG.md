@@ -1,3 +1,15 @@
+<a name="v4.0.1"></a>
+## v4.0.1 (2016-05-19)
+
+* Don't wreck strand-drawer by changing the 'upload' icon ([3c69794](https://github.com/MediaMath/strand/commit/3c69794))
+* Fix bower conflict for non DS versions ([7984c64](https://github.com/MediaMath/strand/commit/7984c64))
+* fix patch ([7b76002](https://github.com/MediaMath/strand/commit/7b76002))
+* making docs push work for standard config ([409bda6](https://github.com/MediaMath/strand/commit/409bda6))
+* Tooltip and guide fine tuning ([2632ad1](https://github.com/MediaMath/strand/commit/2632ad1))
+* Update README.md ([f979dda](https://github.com/MediaMath/strand/commit/f979dda))
+
+
+
 <a name="v4.0.0"></a>
 # v4.0.0 (2016-05-13)
 
