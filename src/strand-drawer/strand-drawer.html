@@ -20,7 +20,7 @@
 		</div>
 		<template is="dom-if" if="{{_showLabel}}">
 			<div id="toggle" on-tap="toggle" class$="{{ _computeClass(expanded) }}">
-				<strand-icon type="upload" width="11" height="11" primary-color="#525252"></strand-icon>
+				<strand-icon type="arrow-up" class="drawer-arrow-up" width="11" height="11"></strand-icon>
 				<span>{{_computeLabel(label,openedLabel,closedLabel,expanded)}}</span>
 			</div>
 		</template>
