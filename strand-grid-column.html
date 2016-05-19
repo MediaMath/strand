@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.0.0" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.0.1" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -89,7 +89,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.0.0</p>
+				<p class="mini-subhead version">v4.0.1</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -212,7 +212,7 @@
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">minWidth : </span><span class="italic">Integer&nbsp;(optional)&nbsp;</span><br/>
+									<span class="bold">minWidth : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
 									default : <span class="italic">75</span><br/>
 									options : <span class="italic">none</span><br/>
 									attribute : <span class="italic">min-width</span><br/>
@@ -220,6 +220,29 @@
 								</td>
 								<td>
 									<span class="desc">The minimum width of the column in pixels when resizing.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">tipWidth : </span><span class="italic">Number&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">none</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">min-width</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The desired width of the tooltip for the column, in pixels (see: the &#39;info&#39; property). For longer multiline tooltips, provide a tip-width for best results.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">info : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">info</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
 								</td>
 							</tr>
 							<tr>
