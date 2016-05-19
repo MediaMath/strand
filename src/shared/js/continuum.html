@@ -238,17 +238,20 @@ This code may only be used under the BSD style license found at http://mediamath
 	Continuum.prototype._elevate = function (index, previous) {
 		var current = _reference;
 
-		if (previous.knowsExtent() &&
-			this._segment(index)) {
-			current = this._items.get(index);
+		if (previous.knowsExtent()) {
+			if (this._segment(index)) {
+				current = this._items.get(index);
 
-			if (index === this._indexWithLazyExtent) {
-				if (current.knowsHeight()) {
-					this._boundEagerRange(index + 1);
+				if (index === this._indexWithLazyExtent) {
+					if (current.knowsHeight()) {
+						this._boundEagerRange(index + 1);
+					}
+					current.reset(previous.getExtent()).rebit(KNOWN_ELEVATION);
+				} else if (!current.knowsElevation()) {
+					current.reset(previous.getExtent()).rebit(KNOWN_ELEVATION);
 				}
-				current.reset(previous.getExtent()).rebit(KNOWN_ELEVATION);
-			} else if (!current.knowsElevation()) {
-				current.reset(previous.getExtent()).rebit(KNOWN_ELEVATION);
+			} else if (index === 1 + this._indexWithLazyExtent) {
+				this._boundEagerRange(index);
 			}
 		}
 	};

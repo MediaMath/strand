@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<div id="target"></div>	
+	<strand-popover id="popover" target="#target">
+		<strand-footer></strand-footer>
+	</strand-popover>
+
+	<script type="text/javascript">
+
+		describe("strand-popover", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Popover();
+				a.nodeName.should.equal("STRAND-POPOVER");
+			});
+
+			it("should add 'hasFooter' class", function() {
+				var a = document.querySelector("#popover"),
+					classes = Array.prototype.slice.call(a.classList);
+				classes.indexOf("hasFooter").should.equal(0);
+		 	});
+
+		}); 
+
+	</script>
+
+</body>
+</html>

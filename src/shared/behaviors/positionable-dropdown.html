@@ -42,7 +42,7 @@
 	 		inherited.apply(this, [silent]);
 		},
 
-		_containerClass: function(state,direction) {
+		_containerClass: function(state, direction) {
 			var o = {};
 			o[direction] = true;
 			o[state] = true;
@@ -55,16 +55,16 @@
 				targetRect = this.targetMetrics,
 				panelWidth = null;
 
-			this.direction = this._originalDirection;
-			this._updateDirection(this.direction, winRect, panelRect, targetRect);
+			this._placement = this.direction;
+			this._updateDirection(this._placement, winRect, panelRect, targetRect);
 
-			if(this.direction === 'n' || this.direction === 's') {
+			if(this._placement === 'n' || this._placement === 's') {
 				// window boundary flip:
 				var bottom = panelRect.bottom,
 					top = panelRect.top;
 				if(top < winRect.top || bottom > winRect.bottom) {
-					this.direction = this._flipDirection(this.direction);
-					this._updateDirection(this.direction, winRect, panelRect, targetRect);
+					this._placement = this._flipDirection(this._placement);
+					this._updateDirection(this._placement, winRect, panelRect, targetRect);
 				}
 			}
 

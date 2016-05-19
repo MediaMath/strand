@@ -36,15 +36,15 @@
 				type: Boolean,
 				value: true
 			},
-			useRange: { 
+			useRange: {
 				type: Boolean,
 				value: true
 			},
-			useTime: { 
+			useTime: {
 				type: Boolean,
 				value: true
 			},
-			useCommit: { 
+			useCommit: {
 				type: Boolean,
 				value: true
 			},
@@ -52,11 +52,11 @@
 				type: Boolean,
 				value: true,
 			},
-			resetOnClose: { 
+			resetOnClose: {
 				type: Boolean,
 				value: true
 			},
-			dual: { 
+			dual: {
 				type: Boolean,
 				value: true,
 				reflectToAttribute: true
@@ -95,7 +95,7 @@
 				type: Array,
 				value: null
 			},
-			
+
 			start: {
 				type: Object,
 				value: function() { return null; },
@@ -240,15 +240,14 @@
 
 		_rangePresetsChanged: function(newRangePresets, oldRangePresets) {
 			if(newRangePresets) this._rangePresets = newRangePresets.map(function(range, i) {
-				var start = moment(range.start); 
+				var start = moment(range.start);
 				var end = moment(range.end);
 				return {
 					index: i,
 					range: moment.range(start, end),
-					label: range.name,
-					value: i
+					label: range.name
 				};
-			});		
+			});
 		},
 
 		_calendarFilter: function(value) {
@@ -343,7 +342,7 @@
 				this.startTime = s.format(this.timeOnlyFormat);
 				this.startTimePeriod = s.format('a');
 			}
-			
+
 			if (e.isValid()) {
 				this.endDate = e.format(this.dateFormat);
 				this.endTime = e.format(this.timeOnlyFormat);
@@ -429,4 +428,4 @@
 
 	});
 
-})(window.Strand = window.Strand || {});  
+})(window.Strand = window.Strand || {});

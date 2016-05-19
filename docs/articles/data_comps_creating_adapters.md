@@ -2,13 +2,13 @@
 
 ## Overview
 
-Adapters in general should extend mm-sync, or implement an API consistent with sync's to work with models/collections (notably post, get, etc).  Sync should provide most of the functionality needed to handle a standard RESTful API, but for more complicated use cases there are internal methods designed to be overwritten for marshaling data to and from nonstandard formats. In general adapter design should favor DOM configuration over JavaScript, but both should be accessible.
+Adapters in general should extend strand-sync, or implement an API consistent with sync's to work with models/collections (notably post, get, etc).  Sync should provide most of the functionality needed to handle a standard RESTful API, but for more complicated use cases there are internal methods designed to be overwritten for marshaling data to and from nonstandard formats. In general adapter design should favor DOM configuration over JavaScript, but both should be accessible.
 
-When `auto` is true on MM-Sync DOM changes are watched via the `mm-item-notifier` component which dispatches change events for child modification (including due to 2-way binds). Your adapter should de designed with this in mind. We will get into this a little bit later as we look at `getDomParams`
+When `auto` is true on Strand-Sync DOM changes are watched via the `strand-item-notifier` component which dispatches change events for child modification (including due to 2-way binds). Your adapter should de designed with this in mind. We will get into this a little bit later as we look at `getDomParams`
 
 ## Publish Block (Defaults)
 
-MM-Sync exposes a large number of properties that can affect how it consumes and uses data.  In general most of these need to be explicitly set in your adapter to define the behavior you want.
+Strand-Sync exposes a large number of properties that can affect how it consumes and uses data.  In general most of these need to be explicitly set in your adapter to define the behavior you want.
 
 Some common params that you will want to tweak:
 
@@ -25,18 +25,18 @@ autoIgnoreNodes:["sort","search"], //tells sync which DOM nodes to ignore for au
 Commonly you will want to address any query configuration for your API via DOM so that it is 2-way bindable from other components:
 
 ```html
-<mm-model>
+<strand-model>
 	<someConfig conf>things</someConfig>
-</mm-model>
+</strand-model>
 ```
 
 this means that someone can easily bind into your data config from user driven components
 
 ```html
-<mm-input value="{{stuff}}"
-<mm-model>
+<strand-input value="{{stuff}}"
+<strand-model>
 	<someConfig conf>{{stuff}}</someConfig>
-</mm-model>
+</strand-model>
 ```
 
 ### DomReady
@@ -55,7 +55,7 @@ Now that we have listeners in place, let's look at how to actually work with the
 
 Configuring the adapter via DOM is useful even for JS driven calls to `get` or `post`
 
-MM-Sync provides a bare method called `handleIgnoredNode` which is called whenever the node name of the changed node matches one of the strings found in the `autoIgnoreNodes` array in the publish block.
+Strand-Sync provides a bare method called `handleIgnoredNode` which is called whenever the node name of the changed node matches one of the strings found in the `autoIgnoreNodes` array in the publish block.
 
 The method is passed a reference to the node itself (or its parent if its a text node) as well as a boolean which is true when the node in question is a text node (useful for filtering out value only changes, but still knowing which param should be updated).
 
@@ -71,9 +71,9 @@ handleIgnoredNode:function(node, isTextNode) {
 
 For ordinary DOM param manipulation cases we handle updating our internal params in a single method called `getDomParams`.  This method is called when the lightDOM params are updated by either binds or modifications via JS DOM manipulation to any of the config nodes. By default this method will parse `<input-params>` and `<output-params>` tags as well as associated header, query and URL children.  In general your API wrapper should provide tags that are consistent with the API's design to ease the overall usage of your adapter.
 
-As you can see by looking at the mm-sync source, the parent method returns a domProps object that has already been parsed from the lightDOM so the only task required in this method is to map the nodes (by name) into their respective input and output arrays of params.  The call method is also provided as a `mode` string which can be used to ignore some params that are bound to a specific mode of operation.
+As you can see by looking at the strand-sync source, the parent method returns a domProps object that has already been parsed from the lightDOM so the only task required in this method is to map the nodes (by name) into their respective input and output arrays of params.  The call method is also provided as a `mode` string which can be used to ignore some params that are bound to a specific mode of operation.
 
-A note about the input and output params.  As we saw in [mm-sync](article_data_comps_using_sync.html) there are 2 arrays for managing URL, query and header params in each 'direction' of data traffic.
+A note about the input and output params.  As we saw in [strand-sync](article_data_comps_using_sync.html) there are 2 arrays for managing URL, query and header params in each 'direction' of data traffic.
 
 We reserve `this.inputParams` and `this.outputParams` for direct JavaScript usage by the developer. This means that we must use an internal property to actually set our combined params.  By convention we define this as `this._inputParams` and `this._outputParams`.
 
@@ -119,7 +119,7 @@ getModelData: function(model) {
 
 ### Collections
 
-Similarly for collections it may be necessary to transform the API format into a nested set of mm-model objects or similar depending on your use case. By default mm-sync will attempt to marshall any objects it finds in an array formatted response into mm-model objects, but additional or more specific work may be required in certain cases. Additionally when paging is enabled the setter method gets an additional paging object that tells this method where to place the data in the collection.
+Similarly for collections it may be necessary to transform the API format into a nested set of strand-model objects or similar depending on your use case. By default strand-sync will attempt to marshall any objects it finds in an array formatted response into strand-model objects, but additional or more specific work may be required in certain cases. Additionally when paging is enabled the setter method gets an additional paging object that tells this method where to place the data in the collection.
 
 ```javascript
 setCollectionData: function(collection, response, paging) {
@@ -131,7 +131,7 @@ When marshaling back to server format it is also necessary to unstack any model.
 
 ```javascript
 getCollectionData: function(collection) {
-	//unstack any mm-models into normal objects
+	//unstack any strand-models into normal objects
 	//return collection.data.map(function(model) {
 		model.toJSON();
 	})

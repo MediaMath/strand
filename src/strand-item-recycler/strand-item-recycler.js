@@ -46,9 +46,10 @@ found here: https://github.com/Polymer/core-list
 
 	BoundReference.prototype = Object.create(null);
 
-	function BoundValue () {
-		this.model = null;
-		this.scope = null;
+	function BoundValue (model, scope) {
+		var count = arguments.length;
+		this.model = count > 0 ? model : null;
+		this.scope = count > 1 ? scope : null;
 	}
 
 	BoundValue.prototype = Object.create(null);
@@ -313,6 +314,7 @@ found here: https://github.com/Polymer/core-list
 			var index = 0;
 			var bound = null;
 			var convert = 0|false;
+			var model = null;
 
 			if (modelChanged) {
 				if (path.charCodeAt(offset) === "#".charCodeAt(0)) {
@@ -330,19 +332,24 @@ found here: https://github.com/Polymer/core-list
 
 				if (!isNaN(num)) {
 					if (convert) {
-						num = this.data.indexOf(Polymer.Collection.get(this.data).getItem("#"+num));
-						if (num < 0 ||
-							num > this.data.length - 1) {
-							throw new Error("Polymer.Collection splicing likely caused a fatal inconsistency");
+						model = Polymer.Collection.get(this.data).getItem("#"+num);
+						for (index; index < count; index++) {
+							bound = binds[index];
+
+							if (bound &&
+								bound.value &&
+								bound.value.model === model) {
+								bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
+							}
 						}
-					}
+					} else {
+						for (index; index < count; index++) {
+							bound = binds[index];
 
-					for (index; index < count; index++) {
-						bound = binds[index];
-
-						if (bound &&
-							bound.young === num) {
-							bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
+							if (bound &&
+								bound.young === num) {
+								bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
+							}
 						}
 					}
 				}
@@ -780,13 +787,13 @@ found here: https://github.com/Polymer/core-list
 				}
 				count = binds.push(bound = new BoundReference(this, count));
 				bound.nthDOM = count - 1;
-				bound.value = new BoundValue(null, this.scope);
+				bound.value = new BoundValue(this.data[young], this.scope);
 				bound.element = document.createElement("DIV");
 				this.toggleClass("recycler-panel", true, bound.element);
 				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom, this);
 
 				bound.instance.set("scope", this.scope);
-				bound.instance.set("model", this.data[young]);
+				bound.instance.set("model", bound.value.model);
 
 				Polymer.dom(bound.element).appendChild(bound.instance);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
@@ -804,7 +811,8 @@ found here: https://github.com/Polymer/core-list
 
 			if (bound) {
 				if (old !== young || spliced) {
-					bound.instance.set("model", this.data[young]);
+					bound.value.model = this.data[young];
+					bound.instance.set("model", bound.value.model);
 				}
 
 				if (this._measurements.isHeightKnown(young)) {
@@ -915,13 +923,13 @@ found here: https://github.com/Polymer/core-list
 			map[index] = null;
 
 			bound.nthDOM = limit + 1;
-			bound.value = new BoundValue(null, this.scope);
+			bound.value = new BoundValue(this.data[young], this.scope);
 			bound.element = document.createElement("DIV");
 			this.toggleClass("recycler-panel", true, bound.element);
 			bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom);
 
 			bound.instance.set("scope", this.scope);
-			bound.instance.set("model", this.data[young]);
+			bound.instance.set("model", bound.value.model);
 
 			Polymer.dom(bound.element).appendChild(bound.instance);
 			if (replaced) {

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-tooltip id="tt">
+		<strand-icon type="info" width="14" height="14"></strand-icon>
+		<template>
+			<label>Hi there, I'm a tooltip</label>
+		</template>
+	</strand-tooltip>
+
+	<script type="text/javascript">
+
+		describe("strand-tooltip", function() {
+
+			it("should have an element constructor", function() {
+				var a = new Strand.Tooltip();
+				a.nodeName.should.equal("STRAND-TOOLTIP");
+			});
+
+			it("should be open on 'over'", function(done) {
+				var a = document.querySelector("#tt");
+				a._overHandler();
+				a.async(function() {
+					a.state.should.equal(a.STATE_OPENED);
+					done();
+				});
+			});
+
+			it("should be closed on 'out'", function(done) {
+				var a = document.querySelector("#tt");
+				a.auto = true;
+				a._outHandler();
+				a.async(function() {
+					a.state.should.equal(a.STATE_CLOSED);
+					done();
+				});
+			});
+
+			it("should NOT be closed on 'out' if auto = false", function(done) {
+				var a = document.querySelector("#tt");
+				a.auto = false;
+				a._overHandler();
+				a._outHandler();
+				a.async(function() {
+					a.state.should.equal(a.STATE_OPENED);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

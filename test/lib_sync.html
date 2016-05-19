@@ -62,15 +62,14 @@
 
 		});
 
-		it("should have an ajax instance", function() {
+		it("should have an ajax instance", function(done) {
 
 			var sync = new SyncTest();
 			sync.auto=false;
 			sync.testReady.then(function() {
-				sync.should.have.property("_sync");
-				sync._sync.should.have.property("_ajax");
-				sync._sync.should.be.an.instanceof(StrandLib.Sync);
-				sync._sync._ajax.should.be.an.instanceof(StrandLib.Ajax);
+				sync.should.have.property("_ajax");
+				sync._ajax.should.be.an.instanceof(StrandLib.Ajax);
+				done();
 			});
 
 		});
@@ -209,7 +208,7 @@
 				requests.should.have.length(3);
 				xhr.restore();
 				done();
-			})
+			});
 
 		});
 
@@ -253,6 +252,31 @@
 			);
 
 		});
+
+		it("should support in call options overriding default options", function(done) {
+			var xhr = sinon.useFakeXMLHttpRequest();
+			var request;
+			xhr.onCreate = function(req) {
+				request = req;
+			};
+
+			var sync = new SyncTest();
+			sync.options.withCredentials = true;
+			var o = {withCredentials:false};
+			sync.get({},o).then(function() {
+				o.withCredentials.should.equal(false);
+				xhr.restore();
+				done();
+			});
+			request.respond(200,
+				{
+					"Content-Type": "application/json"
+				},
+				'[{ "id": 101, "comment": "Stuff" }]'
+			);
+		});
+
+		//TODO: (dlasky) add a dom override test as well
 
 
 	});

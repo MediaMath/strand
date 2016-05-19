@@ -1,0 +1,125 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+$arrow-size: 5px;
+$bg-color: $color-D12;
+
+:host {
+	position: fixed;
+	display: block;
+}
+
+#dots {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.dot {
+	box-sizing: border-box;
+	padding: 4px;
+	opacity: 0.32;
+}
+
+.dot[active] {
+	opacity: 1;
+}
+
+.dot:before {
+ 	content: "";
+ 	display: block;
+ 	background: #ffffff;
+	width: 5px;
+	height: 5px;
+	border-radius: 2.5px;
+}
+
+#container {
+	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
+	background: $bg-color;
+	padding: 16px;
+	width: 300px;
+	max-width: 300px;
+
+	/* default _mm_tooltip font styling */ 
+	@include fontSmoothing();
+	font-family: "Arimo", sans-serif;
+	font-size: 12px;
+	line-height: 15px;
+	color: $color-F0;
+
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
+}
+
+.close-icon {
+	position: absolute;
+	cursor: pointer;
+	top: 8px;
+	right: 8px;
+	color: $color-F0;
+
+	&:hover {
+		opacity: 0.5;
+	}
+}
+
+.left,
+.right,
+.center {
+	min-width: 30px;
+}
+
+.guide-tooltip-footer {
+	margin-top: 15px;
+}
+
+.header, .message {
+	display: block;
+	color: $color-F0;
+}
+
+.message {
+	display: block;
+	color: $color-F0;
+	margin: 15px 0 !important;
+}
+
+.header {
+	font-weight: bold;
+}
+
+strand-action {
+	color: $color-F0;
+}
+
+:host([_placement="n"]) {
+	padding-bottom: $arrow-size !important;
+	
+	@include arrow(bottom, $arrow-size, $bg-color, $bg-color);
+}
+
+:host([_placement="s"]) {
+	padding-top: $arrow-size !important;
+	@include arrow(top, $arrow-size, $bg-color, $bg-color);
+}
+
+:host([_placement="e"]) {
+	padding-left: $arrow-size !important;
+	@include arrow(left, $arrow-size, $bg-color, $bg-color);
+}
+
+:host([_placement="w"]) {
+	padding-right: $arrow-size !important;
+	@include arrow(right, $arrow-size, $bg-color, $bg-color);
+}

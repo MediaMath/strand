@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../bower_components/polymer/polymer.html"/>
+	<link rel="import" href="../build/shared/behaviors/model.html"/>
+</head>
+<body>
+
+	<dom-module id="test-modelable">
+		<template>
+		</template>
+	</dom-module>
+	<script>
+		HTMLImports.whenReady(function() {
+			Polymer({
+				is: 'test-modelable',
+				behaviors: [StrandTraits.Model]
+			});
+		});
+	</script>
+	<test-modelable id="m"></test-modelable>
+
+<script>
+describe("Model", function() {
+
+	it("should exist", function() {
+		StrandTraits.should.be.an.object;
+		StrandTraits.Model.should.be.an.object;
+	});
+
+});
+</script>
+</body>
+</html>

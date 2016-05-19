@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-textarea id="testArea"></strand-textarea>
+
+	<script type="text/javascript">
+
+		describe("strand-textarea", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Textarea();
+				a.nodeName.should.equal("STRAND-TEXTAREA");
+			});
+
+			it("should fire a changed event when the value changes", function(done) {
+				var a = document.querySelector("#testArea"),
+					s = sinon.spy();
+
+				a.addEventListener("changed", s);
+				a.value = "qwerty";
+
+				flush(function(){
+					should.equal(s.calledOnce, true);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

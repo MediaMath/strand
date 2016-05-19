@@ -53,14 +53,14 @@
 	cursor: pointer;
 	white-space: nowrap;
 
-	strand-icon {
-		color: #525252;
+	.drawer-arrow-up {
+		color: $color-A4;
 		vertical-align: inherit;
 		transform: scaleY(-1);
 	}
 
 	&.expanded {
-		strand-icon {
+		.drawer-arrow-up {
 			transform: scaleY(1);
 		}
 	}

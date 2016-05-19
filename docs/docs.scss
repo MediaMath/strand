@@ -109,7 +109,7 @@ section:last-child {
 
 /* END global styling */
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
-/* mm-docs-shell specific styling */
+/* strand-docs-shell specific styling */
 .layout-article {
 	height: auto !important;
 	min-height: 100%;
@@ -191,7 +191,7 @@ section:last-child {
 	.powered-by {
 		.powered-logo {
 			display: block;
-			background: url(images/mm-technology-logo.svg) no-repeat;
+			background: url(images/mediamath-technology-logo.svg) no-repeat;
 			background-size: 220px 25px;
 			width: 220px;
 			height: 25px;
@@ -201,7 +201,7 @@ section:last-child {
 	.mediamath {
 		.mediamath-logo {
 			display: block;
-			background: url(images/mm-logo.svg) no-repeat;
+			background: url(images/mediamath-logo.svg) no-repeat;
 			background-size: 99px 60px;
 			width: 99px;
 			height: 60px;
@@ -216,16 +216,16 @@ section:last-child {
 	}
 }
 
-#articlesNav mm-list-item,
-#componentsNav mm-list-item {
+#articlesNav strand-list-item,
+#componentsNav strand-list-item {
 	padding: 10px 20px;
 	border-top: 1px solid $borderColorLight;
 	font-size: 14px !important;
 	line-height: 1.5 !important;
 }
 
-#articlesNav mm-list-item.child,
-#componentsNav mm-list-item.child {
+#articlesNav strand-list-item.child,
+#componentsNav strand-list-item.child {
 	padding-left: 40px;
 }
 
@@ -367,7 +367,7 @@ table {
 	.docs-btns {
 		margin: 1.25em;
 
-		mm-action {
+		strand-action {
 			&:not(:last-of-type) {
 				margin-right: 20px;
 			}

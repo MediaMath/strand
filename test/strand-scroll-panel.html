@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-scroll-panel id="sp" style="width:300px; height:150px;" unresolved>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+		<strand-list-item>Item here 01</strand-list-item>
+		<strand-list-item>Item here 02</strand-list-item>
+		<strand-list-item>Item here 03</strand-list-item>
+		<strand-list-item>Item here 04</strand-list-item>
+	</strand-scroll-panel>
+
+	<script type="text/javascript">
+
+		describe("strand-scroll-panel", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.ScrollPanel();
+				a.nodeName.should.equal("STRAND-SCROLL-PANEL");
+			});
+
+			it("should have scrollbar interface", function() {
+				var a = new Strand.ScrollPanel();
+				a._scrollbarInterface.should.exist;
+			});
+
+			it("should expose layout metrics, metrics should be correct", function(done) {
+				var a = document.querySelector("#sp"),
+					b = Polymer.dom(a.root).querySelector("#scrollbar");
+
+				// ensure we can get metrics for the scrollbar size
+				a._updateScrollbarUI(0);
+
+				should.exist(a.contentHeight);
+				should.exist(a.viewportHeight);
+
+				should.exist(b._scrollRange);
+				should.exist(b._contentRange);
+				should.exist(b._scrollPosition);
+				should.exist(b._contentPosition);
+				should.exist(b._referencePosition);
+				should.exist(b.scrollBarSize);
+				should.exist(b.initContentHeight);
+
+				flush(function() {
+					b.scrollBarSize.should.equal(50);
+					b.initContentHeight.should.equal(864);
+					b._scrollRange.should.equal(100);
+					b._contentRange.should.equal(714);
+					a.viewportHeight.should.equal(150);
+					a.contentHeight.should.equal(864);
+					done();
+				});
+			});
+
+			it("should update the viewport and scroll bar", function(done) {
+				var a = document.querySelector("#sp"),
+					b = Polymer.dom(a.root).querySelector("#scrollbar"),
+					barTop = null;
+
+				b.updateViewport(100);
+
+				flush(function() {
+					barTop = TestHelper.getPropIntRounded(a.$.scrollbar, "top");
+
+					a.$.viewport.scrollTop.should.equal(100);
+					barTop.should.equal(14);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

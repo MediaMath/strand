@@ -142,7 +142,13 @@
 					error = error || e;
 				}
 
-				should.not.exist(error);
+
+				flush(function() {
+					// toggle.toggleTrigger.should.equal(trigger);
+					// testAutoClosable.state.should.equal(testAutoClosable.STATE_OPENED);
+					should.not.exist(error);
+					done();
+				});
 			});
 
 			it("should fail to propagate changes with default behavior", function() {

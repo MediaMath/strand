@@ -15,8 +15,11 @@
 			direction: {
 				type: String,
 				value: 's',
-				reflectToAttribute: true,
 				observer: "_directionChanged"
+			},
+			_placement: {
+				type: String,
+				reflectToAttribute: true
 			},
 			target: {
 				type: Object,
@@ -36,10 +39,13 @@
 			}
 		},
 
-		_originalDirection: null,
-
 		_directionChanged: function(newVal, oldVal) {
-			if (newVal !== 'c') this._originalDirection = newVal;
+			// the property 'direction' should only be updated by
+			// the developer, while the property '_placement' will
+			// change frequently based on window boundries
+			if (newVal !== 'c') {
+				this._placement = newVal;
+			}
 		},
 
 		_positionableTargetChanged: function(newVal, oldVal) {
@@ -52,10 +58,10 @@
 				targetRect 			= this.targetMetrics,
 				offset 				= 0;
 
-			this.direction = this._originalDirection;
-			this._updateDirection(this.direction, panelRect, targetRect);
+			this._placement = this.direction;
+			this._updateDirection(this._placement, panelRect, targetRect);
 
-			if (this.direction === 'n' || this.direction === 's') {
+			if (this._placement === 'n' || this._placement === 's') {
 				offset = this._getOffset(
 					panelRect.left,
 					panelRect.right,
@@ -69,13 +75,13 @@
 				// center over target
 				if (targetRect.top - (panelRect.height + this.panelOffset) < winRect.top && 
 					targetRect.bottom + (panelRect.height  + this.panelOffset) > winRect.bottom) {
-					this.direction = 'c';
-					this._updateDirection(this.direction, panelRect, targetRect);
+					this._placement = 'c';
+					this._updateDirection(this._placement, panelRect, targetRect);
 				}
 				// window boundary flip:
 				else if (panelRect.top < winRect.top || panelRect.bottom > winRect.bottom) {
-					this.direction = this._flipDirection(this.direction);
-					this._updateDirection(this.direction, panelRect, targetRect);
+					this._placement = this._flipDirection(this._placement);
+					this._updateDirection(this._placement, panelRect, targetRect);
 				}
 			} else {
 				offset = this._getOffset(
@@ -91,13 +97,13 @@
 				// center over target
 				if (targetRect.left - (panelRect.width + this.panelOffset) < winRect.left && 
 					targetRect.right + (panelRect.width + this.panelOffset) > winRect.right) {
-					this.direction = 'c';
-					this._updateDirection(this.direction, panelRect, targetRect);
+					this._placement = 'c';
+					this._updateDirection(this._placement, panelRect, targetRect);
 				}
 				// window boundary flip:
 				else if (panelRect.left < winRect.left || panelRect.right > winRect.right) {
-					this.direction = this._flipDirection(this.direction);
-					this._updateDirection(this.direction, panelRect, targetRect);
+					this._placement = this._flipDirection(this._placement);
+					this._updateDirection(this._placement, panelRect, targetRect);
 				}
 			}
 

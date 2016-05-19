@@ -14,7 +14,7 @@
 <dom-module id="strand-action">
 	<link rel="import" type="css" href="strand-action.css"/>
 	<template>
-		<a href="{{href}}" target="{{target}}" class$="{{ updateClass(underline) }}">
+		<a href="{{href}}" target="{{target}}" rel="noopener noreferrer" class$="{{ updateClass(underline) }}">
 			<content select="strand-icon" id="icon"></content>
 			<content select="label"></content>
 		</a>

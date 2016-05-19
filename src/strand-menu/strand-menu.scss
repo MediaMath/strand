@@ -28,23 +28,23 @@ $border-color: $color-A18 !default;
 	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
 }
 
-:host([direction="n"]) {
+:host([_placement="n"]) {
 	padding-bottom: $arrow-size !important;
 	
 	@include arrow(bottom, $arrow-size, $bg-color, $border-color);
 }
 
-:host([direction="s"]) {
+:host([_placement="s"]) {
 	padding-top: $arrow-size !important;
 	@include arrow(top, $arrow-size, $bg-color, $border-color);
 }
 
-:host([direction="e"]) {
+:host([_placement="e"]) {
 	padding-left: $arrow-size !important;
 	@include arrow(left, $arrow-size, $bg-color, $border-color);
 }
 
-:host([direction="w"]) {
+:host([_placement="w"]) {
 	padding-right: $arrow-size !important;
 	@include arrow(right, $arrow-size, $bg-color, $border-color);
 }

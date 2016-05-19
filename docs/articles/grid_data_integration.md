@@ -1,4 +1,4 @@
-# Data Integration with mm-grid
+# Data Integration with strand-grid
 
 ## Basic Data Integration
 It is quite straightforward to get an array of data into the grid. And because of 2-way binding, there are no render or update methods to worry about. Any changes to your data will automatically be reflected in the grid.
@@ -17,7 +17,7 @@ All we have to do is assign the "userData" array to the `data` property on the g
 
 ```javascript
 	window.addEventListener("WebComponentsReady", function() {
-		document.getElementById("mm-grid").data = userData;
+		document.getElementById("strand-grid").data = userData;
 	});
 ```
 
@@ -25,28 +25,28 @@ This will kick off the grid lifecycle and generate our item-recycled grid-items!
 
 
 ## Data Components
-`mm-grid` plays nicely with our set of [data components](article_data_comps_intro.html). With two-way binding we eliminate the boilerplate code that would be required to wire these components together. All that is required is a bit of up-front configuration. In order to get an understanding of how data components work, please read more about using them [here](article_data_comps_intro.html).
+`strand-grid` plays nicely with our set of [data components](article_data_comps_intro.html). With two-way binding we eliminate the boilerplate code that would be required to wire these components together. All that is required is a bit of up-front configuration. In order to get an understanding of how data components work, please read more about using them [here](article_data_comps_intro.html).
 
 ### Searchable Grid Example
-Let's imagine that we have a service that provides a collection of "users" that we can retrieve. We can easily set up a searchable grid. We will add an `mm-collection` — configured to retrieve what we need, our `mm-grid` — configured to display the data fields we need, and an `mm-input` with its value bound to our mm-collection's `<queryParam>` tags. Changes to the input value will automatically trigger a change in the collection, which will fetch the appropriate results and update the grid — all through two-way binding.
+Let's imagine that we have a service that provides a collection of "users" that we can retrieve. We can easily set up a searchable grid. We will add an `strand-collection` — configured to retrieve what we need, our `strand-grid` — configured to display the data fields we need, and an `strand-input` with its value bound to our strand-collection's `<queryParam>` tags. Changes to the input value will automatically trigger a change in the collection, which will fetch the appropriate results and update the grid — all through two-way binding.
 
 ```html
 	<template is="dom-bind">
-		<mm-input value="{{terms}}"></mm-input>
+		<strand-input value="{{terms}}"></strand-input>
 
-		<mm-collection data="{{data}}" index="{{page}}" auto>
+		<strand-collection data="{{data}}" index="{{page}}" auto>
 			<get>
 				<urlParam>users</urlParam>
 				<queryParam name="first_name" value="{{terms}}">
 				<queryParam name="last_name" value="{{terms}}">
 			</get>
-		</mm-collection>
+		</strand-collection>
 
-		<mm-grid data="{{data}}" index="{{page}}">
-			<mm-grid-column field="first_name">First Name</mm-grid-column>
-			<mm-grid-column field="last_name">Last Name</mm-grid-column>
-			<mm-grid-column field="email">Email</mm-grid-column>
-		</mm-grid>
+		<strand-grid data="{{data}}" index="{{page}}">
+			<strand-grid-column field="first_name">First Name</strand-grid-column>
+			<strand-grid-column field="last_name">Last Name</strand-grid-column>
+			<strand-grid-column field="email">Email</strand-grid-column>
+		</strand-grid>
 	</template>
 ```
 
@@ -57,18 +57,18 @@ Another grid use case that ties in nicely with data components is sorting. Like 
 
 ```html
 	<template is="dom-bind">
-		<mm-collection data="{{data}}" index="{{page}}" auto>
+		<strand-collection data="{{data}}" index="{{page}}" auto>
 			<get>
 				<queryParam name="sort" value="{{sortField}}"></queryParam>
 				<queryParam name="sort_order" value="{{sortOrder}}"></queryParam>
 			</get>
-		</mm-collection>
+		</strand-collection>
 
-		<mm-grid data="{{data}}" index="{{page}}" sort-field="{{sortField}}" sort-order="{{sortOrder}}">
-			<mm-grid-column field="first_name" sort>First Name</mm-grid-column>
-			<mm-grid-column field="last_name" sort>Last Name</mm-grid-column>
-			<mm-grid-column field="email">Email</mm-grid-column>
-		</mm-grid>
+		<strand-grid data="{{data}}" index="{{page}}" sort-field="{{sortField}}" sort-order="{{sortOrder}}">
+			<strand-grid-column field="first_name" sort>First Name</strand-grid-column>
+			<strand-grid-column field="last_name" sort>Last Name</strand-grid-column>
+			<strand-grid-column field="email">Email</strand-grid-column>
+		</strand-grid>
 	</template>
 ```
 

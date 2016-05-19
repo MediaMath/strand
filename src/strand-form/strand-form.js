@@ -156,7 +156,7 @@
 		_initConfig: function() {
 			var namedFields = Polymer.dom(this).querySelectorAll('[name]');
 			var domConfig 	= {};
-			var config 		= this._isEmpty(this.config) ? domConfig : this.config;
+			var config = this.config;
 
 			if (namedFields.length <= 0) throw 'No DOM elements with a [name] attribute were found';
 
@@ -178,6 +178,10 @@
 					exclude: 		attrs.exclude || null
 				};
 			}, this);
+			
+			// If there was an intent to configure the form via DOM, this.config
+			// must be set, as it is used heavily for DOM manipulations later
+			if (this._isEmpty(this.config)) this.config = domConfig;
 
 			// Update config and mux the domConfig with the developer supplied
 			// config - values from config override domConfig
@@ -187,12 +191,12 @@
 
 				if (!field) throw 'There must be a corresponding DOM element for config[\''+key+'\']';
 
+				cfg[key] = StrandLib.DataUtils.copy(domConfig[key], cfg[key]);
 				cfg[key].errorMsgEleDOM = this._select('#'+cfg[key].errorMsgEle) || null;
 				cfg[key].parentEleDOM = this._select('#'+cfg[key].parentEle) || Polymer.dom(field).parentNode;
-				cfg[key] = StrandLib.DataUtils.copy(domConfig[key], cfg[key]);
 
-				// Create error message element
-				if (cfg[key].errorMsg && !cfg[key].errorMsgEle) {
+				// Create error message element (if one was not specified already)
+				if (cfg[key].errorMsg && !cfg[key].errorMsgEleDOM) {
 					this._createErrorMsg(key, cfg[key].errorMsg, cfg[key].parentEleDOM);
 				}
 

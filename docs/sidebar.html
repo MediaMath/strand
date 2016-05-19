@@ -1,20 +1,20 @@
-<mm-docs-nav id="articlesNav">
-	<mm-header size="medium">Articles</mm-header>
+<strand-docs-nav id="articlesNav">
+	<strand-header size="medium">Articles</strand-header>
 	{{#articleMap}}
-	<mm-list-item id="{{key}}" value="{{link}}">{{name}}</mm-list-item>
+	<strand-list-item id="{{key}}" value="{{link}}">{{name}}</strand-list-item>
 	{{#children.length}}
 	{{#children}}
-	<mm-list-item id="{{key}}" value="{{link}}" class="child">{{name}}</mm-list-item>
+	<strand-list-item id="{{key}}" value="{{link}}" class="child">{{name}}</strand-list-item>
 	{{/children}}
 	{{/children.length}}
 	{{/articleMap}}
-</mm-docs-nav>
-<mm-docs-nav id="componentsNav">
-	<mm-header size="medium">Components</mm-header>
+</strand-docs-nav>
+<strand-docs-nav id="componentsNav">
+	<strand-header size="medium">Components</strand-header>
 	{{#modules}}
-	<mm-list-item id="{{name}}" value="{{name}}.html">{{name}}</mm-list-item>
+	<strand-list-item id="{{name}}" value="{{name}}.html">{{name}}</strand-list-item>
 	{{/modules}}
-</mm-docs-nav>
+</strand-docs-nav>
 <div class="docs-logo">
 	<a class="strand-logo">
 		<img src="images/strand-logo.svg" />

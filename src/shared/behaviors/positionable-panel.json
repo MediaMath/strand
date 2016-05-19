@@ -8,8 +8,7 @@
 			"description":"The position of the popover panel relative to its target, expressed as a cardinal direction. If the panel is positioned outside the viewport because of this property, the element will attempt to reverse the direction.",
 			"optional":false,
 			"default":"s",
-			"options":["n","e","s","w"],
-			"reflect":true
+			"options":["n","e","s","w"]
 		},
 		{
 			"name":"target",

@@ -43,10 +43,17 @@ submitting an [issue](https://github.com/MediaMath/strand/issues).
 
 If you have a solution, you can submit a [Pull Request](#pr) with the fix, but please log the issue anyway for tracking purposes.
 
+## Consideration of Submissions
+If you are submitting a new component, or making significant architectural changes in your PR, please consider opening a spec-bug first for discussion purposes prior to comitting to the work.  Generally our components are designed with the following philosophy:
+* Heavily leverage existing strand behaviors/patterns where applicable
+* Be data/API agnostic. All data sources should work for simple JS object/array patterns as well as when hooked up to sync or other pageable api adapters by exposing an `index`
+* Favor UI components. Generally speaking data considerations should be local to your application as they can vary wildly in use case and the library should remain as agnostic as possible.
+
 ## <a name="pr"></a>Submitting a Pull Request
 Before you submit your pull request consider the following guidelines:
 
 * Search [GitHub](https://github.com/MediaMath/strand/pulls) for an open or closed Pull Request that relates to your submission.
+* When submitting a component, please limit your submission to _1 component or behavior per PR_ unless there is a parent -> child relationship between the components.
 * Make sure your fork is [synched](https://help.github.com/articles/syncing-a-fork/)
 * Create a new branch from `develop`
 * Make your changes in a new git branch:
@@ -93,4 +100,5 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
     * Strand does not subscribe to a specific javascript code guideline, but readability and organization are paramount
     * Methods and properties should be named in a meaningful way
     * Please refer to any of the Strand components or shared javascript files for reference
-
+    * Use of `eval` or `innerHTML` in components is strongly discouraged
+    * Please use `_name` for variables and methods that should not be publicly accessible. This follows the general Polymer convention.

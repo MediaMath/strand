@@ -1,26 +1,26 @@
-# Using mm-repeater
+# Using strand-repeater
 
 ## Overview
 
-`mm-repeater` allows the duplication of a set of fields contained within a template tag.
+`strand-repeater` allows the duplication of a set of fields contained within a template tag.
 
 ```html
-<mm-repeater id="myRepeater">
+<strand-repeater id="myRepeater">
 	<template preserve-content>
-		<mm-input name="first_name" placeholder="First Name"></mm-input>
-		<mm-input name="last_name" placeholder="Last Name"></mm-input>
-		<mm-input name="address" placeholder="Address"></mm-input>
-		<mm-input name="city" placeholder="City"></mm-input>
-		<mm-dropdown name="state" placeholder="State/Province">
+		<strand-input name="first_name" placeholder="First Name"></strand-input>
+		<strand-input name="last_name" placeholder="Last Name"></strand-input>
+		<strand-input name="address" placeholder="Address"></strand-input>
+		<strand-input name="city" placeholder="City"></strand-input>
+		<strand-dropdown name="state" placeholder="State/Province">
 			...
-		</mm-dropdown>
-		<mm-input name="zip_code" placeholder="ZIP/Postal Code"></mm-input>
+		</strand-dropdown>
+		<strand-input name="zip_code" placeholder="ZIP/Postal Code"></strand-input>
 	</template>
-</mm-repeater>
+</strand-repeater>
 ```
 
 ## Validation
-Like `mm-form`, `mm-repeater` takes a `config` object, which can take `validation` as a `string` or a custom validation method taking the arguments `value, row:Object, domref:HTMLElement`, and an `errorMessage`. If a custom validation method is used, `this.errorMessage` can be set dynamically.
+Like `strand-form`, `strand-repeater` takes a `config` object, which can take `validation` as a `string` or a custom validation method taking the arguments `value, row:Object, domref:HTMLElement`, and an `errorMessage`. If a custom validation method is used, `this.errorMessage` can be set dynamically.
 
 ```javascript
 var myRepeater = document.getElementById('myRepeater'),
@@ -53,10 +53,10 @@ myRepeater.config = {
 }
 ```
 
-## Getting data from `mm-repeater`
-User data from repeated form fields are accessible through the `value` property on the `mm-repeater` element. `value` is a getter/setter interface for the `data` property—this ensures Polymer's data binding updates properly. Each object in the `value` array corresponds to a single repeater row, with key-value pairs corresponding to the name-value pairs of the form elements.
+## Getting data from `strand-repeater`
+User data from repeated form fields are accessible through the `value` property on the `strand-repeater` element. `value` is a getter/setter interface for the `data` property—this ensures Polymer's data binding updates properly. Each object in the `value` array corresponds to a single repeater row, with key-value pairs corresponding to the name-value pairs of the form elements.
 
-## Getting data into `mm-repeater`
+## Getting data into `strand-repeater`
 
 Data can be preloaded into the repeater by setting the `value`. This is useful in views where the end user wishes to edit some pre-existing data.
 ```javascript
@@ -80,4 +80,4 @@ myRepeater.value = [
 	}
 ];
 ```
-By default, `mm-repeater` initializes the `value` property with an array containing a single, empty `Object`. This results in a single, blank instance of the template being rendered when the form loads.
+By default, `strand-repeater` initializes the `value` property with an array containing a single, empty `Object`. This results in a single, blank instance of the template being rendered when the form loads.

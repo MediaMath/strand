@@ -33,18 +33,26 @@
 	<script>
 		describe('AutoClosable', function() {
 
-			it('should not close on mouseup inside element', function() {
+			it('should not close on mouseup inside element', function(done) {
 				var testAutoClosable = document.querySelector('#testAutoClosable');
 				testAutoClosable.open();
 				testAutoClosable.fire('mouseup');
-				testAutoClosable.state.should.equal(testAutoClosable.STATE_OPENED);
+
+				testAutoClosable.async(function() {
+					testAutoClosable.state.should.equal(testAutoClosable.STATE_OPENED);
+					done();
+				});
 			});
 
-			it('should close on mouseup outside element', function() {
+			it('should close on mouseup outside element', function(done) {
 				var testAutoClosable = document.querySelector('#testAutoClosable');
 				testAutoClosable.open();
 				testAutoClosable.fire('mouseup', null, {node: document});
-				testAutoClosable.state.should.equal(testAutoClosable.STATE_CLOSED);
+
+				testAutoClosable.async(function() {
+					testAutoClosable.state.should.equal(testAutoClosable.STATE_CLOSED);
+					done();
+				});
 			});
 
 		});

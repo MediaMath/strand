@@ -1,0 +1,139 @@
+{
+	"name":"strand-guide",
+	"description":"A guide tour/walkthrough component for introducing new features to users via multiple step tooltips and focus on target ui areas.",
+	"attributes": [
+		{
+			"name":"useLocalStorage",
+			"type":"Boolean",
+			"description":"Instructs the component to store dismiss actions as a boolean flag with name as the key (see the 'name' property) in the client's local storage, so they will not see the particular guide again.",
+			"optional":true,
+			"default":"false",
+			"attribute":"use-local-storage"
+		},
+		{
+			"name":"name",
+			"type":"String",
+			"description":"The name key used when storing the users dismiss action to local storage (see the 'useLocalStorage' property).",
+			"optional":true,
+			"default":"none"
+		},
+		{
+			"name":"suppressGuide",
+			"type":"Boolean",
+			"description":"Instructs the component not to be shown, or do any of it's setup. Suppots the case wherein the user has dismissed this guide (see the 'useLocalStorage' property), or developer would like to bind to the value of their own flag to dismiss the guide.",
+			"optional":true,
+			"default":"none",
+			"attribute":"supress-guide"
+		},
+		{
+			"name":"scope",
+			"type":"Object",
+			"description":"Instructs the component to use the provided scope when querying for it's target DOM objects. When nested inside of another component or view, the scope should be the parent component or view. By default, the component will query the document for it's targets.",
+			"optional":true,
+			"default":"document"
+		},
+		{
+			"name":"hidden",
+			"type":"Boolean",
+			"description":"A read-only property which reports the display state of the component. When true, the component is hidden.",
+			"default":"true",
+			"reflect":true,
+			"readOnly":true
+		},
+		{
+			"name":"showFocus",
+			"type":"Boolean",
+			"description":"Instructs the component to display a semi-transparent overlay onto the window, with a spotlight on the desired target component being described. The focus overlay will block clicks until the guide tooltip is dismissed.",
+			"optional":true,
+			"default":"true"
+		},
+		{
+			"name":"autoDismiss",
+			"type":"Boolean",
+			"description":"Instructs the component to be dismissed when clicking anywhere on the document outside of the guide tooltip.",
+			"optional":false,
+			"default":"false",
+			"attribute":"auto-dismiss"
+		},
+		{
+			"name":"noscroll",
+			"type":"Boolean",
+			"description":"Instructs the component to suppress scrolling on the document body.",
+			"optional":true,
+			"default":"true"
+		},
+		{
+			"name":"closeBtn",
+			"type":"Boolean",
+			"description":"Instructs the component to display a small 'x' close button on the guide tooltip, in the upper right corner.",
+			"optional":true,
+			"default":"true",
+			"attribute":"close-btn"
+		},
+		{
+			"name":"opacity",
+			"type":"Number",
+			"description":"The specified opacity for the semi-transparent focus background (only if 'showFocus' is true - see: 'showFocus').",
+			"optional":true,
+			"default":"0.3"
+		},
+		{
+			"name":"spotlightType",
+			"type":"String",
+			"description":"Instructs the component to draw it's 'spotlight' mask as either a circle or ellipse around the desired target.",
+			"optional":true,
+			"options":["circle", "rectangle"],
+			"default":"circle",
+			"attribute":"spotlight-type"
+		},
+		{
+			"name":"spotlightOffset",
+			"type":"Number",
+			"description":"Instructs the component to draw it's 'spotlight' mask with a padding of the specified number, in pixels (only if 'showFocus' is true - see: 'showFocus').",
+			"optional":true,
+			"default":"10",
+			"attribute":"spotlight-offset"
+		},
+		{
+			"name":"cornerRadius",
+			"type":"Number",
+			"description":"If spotlightType is set to 'rectangle', instructs the component to draw it's 'spotlight' mask with a a corner radius of the specified number, in pixels (only if 'showFocus' is true - see: 'showFocus').",
+			"optional":true,
+			"default":"5",
+			"attribute":"corner-radius"
+		},
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"The data array which drives the component. I configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String }]."
+		}
+	],
+	"methods": [
+		{
+			"name":"show",
+			"description":"Instructs the component to be shown."
+		},
+		{
+			"name":"hide",
+			"description":"Instructs the component to be hidden, and triggers the corresponding dismiss actions, such as setting the suppressGuide to true (see the 'suppressGuide' property)."
+		}
+	],
+	"events": [
+		{
+			"type": "guide-dismiss"
+		},
+		{
+			"type": "guide-next"
+		},
+		{
+			"type": "guide-back"
+		}
+	],
+	"behaviors": [
+		"falsifiable",
+		"resolvable",
+		"stackable",
+		"refable",
+		"domGettable"
+	]
+}

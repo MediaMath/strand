@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-icon id="plus" type="plus"></strand-icon>
+
+	<strand-icon id="alerts" type="alerts"></strand-icon>
+
+	<strand-icon id="geoHover" type="geo-tag"></strand-icon>
+
+	<script type="text/javascript">
+
+		describe("strand-icon", function() {
+	
+			it("should have an element constructor", function() {
+				var a = new Strand.Icon();
+				a.nodeName.should.equal("STRAND-ICON");
+			});
+
+			it("should have a default width and height of 28px by 28px", function(done) {
+				var a = document.querySelector("#plus"),
+					aInner = Polymer.dom(a.root).querySelector("#iconGlyph"),
+					fontSize = "",
+					width = 0,
+					height = 0;
+
+				should.exist(a.width);
+				should.exist(a.height);
+				a.width.should.equal(28);
+				a.height.should.equal(28);
+
+				flush(function() {
+					fontSize = TestHelper.getPropertyValue(aInner, "font-size");
+					width = TestHelper.widthIntRounded(aInner);
+					height = TestHelper.heightIntRounded(aInner);
+					fontSize.should.equal("28px");
+					height.should.equal(28);
+					width.should.equal(28);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

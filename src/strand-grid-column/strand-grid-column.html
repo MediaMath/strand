@@ -19,7 +19,7 @@
 				<div id="label"></div>
 				<!-- <template is="dom-if" if="{{info}}"> -->
 				<strand-icon id="info" hidden$="{{_hasInfoTip(info)}}" width="14" height="14" type="info"></strand-icon>
-				<strand-tooltip id="infoTip" hidden$="{{_hasInfoTip(info)}}" target="{{findById('info')}}" _scope="{{ref}}">
+				<strand-tooltip id="infoTip" tip-width="{{tipWidth}}" hidden$="{{_hasInfoTip(info)}}" target="{{findById('info')}}" _scope="{{ref}}">
 					<label>{{info}}</label>
 				</strand-tooltip>
 				<!-- </template> -->

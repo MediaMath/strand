@@ -14,9 +14,9 @@ Before:
 
 After:
 ```html
-<mm-dropdown placeholder="Select One" max-items="5">
+<strand-dropdown placeholder="Select One" max-items="5">
 	...
-</mm-dropdown>
+</strand-dropdown>
 ```
 
 ---
@@ -27,7 +27,7 @@ Some examples found in the Strand documentation demonstrate setting data or prop
 ---
 
 ## Removal of the bindModel method
-Previously, a `bindModel` method was provided as a convenience to bind a property on the given model to the input's value. The `bindModel` method has been deprecated. The components affected are: <a href="/mm-dropdown.html">mm-dropdown</a>, <a href="/mm-checkbox.html">mm-checkbox</a>, <a href="/mm-input.html">mm-input</a>, <a href="/mm-textarea.html">mm-textarea</a>, and <a href="/mm-group.html">mm-group</a>.
+Previously, a `bindModel` method was provided as a convenience to bind a property on the given model to the input's value. The `bindModel` method has been deprecated. The components affected are: <a href="/strand-dropdown.html">strand-dropdown</a>, <a href="/strand-checkbox.html">strand-checkbox</a>, <a href="/strand-input.html">strand-input</a>, <a href="/strand-textarea.html">strand-textarea</a>, and <a href="/strand-group.html">strand-group</a>.
 
 ---
 
@@ -37,20 +37,20 @@ Although Polymer no longer supports the `unresolved` attribute per component (th
 Before & After:
 ```html
 <style>
-	mm-dropdown[unresolved] {
+	strand-dropdown[unresolved] {
 		display: none;
 	}
 </style>
 
-<mm-dropdown placeholder="Select One" unresolved>
+<strand-dropdown placeholder="Select One" unresolved>
 	...
-</mm-dropdown>
+</strand-dropdown>
 
 ```
 
 ---
 
-## mm-icon
+## strand-icon
 `primaryColor` and `hoverColor` properties have been deprecated. Color should instead be configured in stylesheets.
 
 Before:
@@ -68,13 +68,13 @@ After:
 		color: #333333;
 	}
 </style>
-<mm-icon type="actions" width="32" height="32"></mm-icon>
+<strand-icon type="actions" width="32" height="32"></strand-icon>
 ```
 
 ---
 
-## mm-input
-Autocompleting `mm-input` is now a separate component, `mm-autocomplete`
+## strand-input
+Autocompleting `strand-input` is now a separate component, `strand-autocomplete`
 
 Before:
 ```html
@@ -97,9 +97,9 @@ Before:
 
 After:
 ```html
-<mm-autocomplete data="[{"name":"apples"},{"name":"bears"},{"name":"candy"},{"name":"ducks"},{"name":"everything"}]"></mm-autocomplete>
+<strand-autocomplete data="[{"name":"apples"},{"name":"bears"},{"name":"candy"},{"name":"ducks"},{"name":"everything"}]"></strand-autocomplete>
 <!-- OR -->
-<mm-input autocomplete id="autoComplete"></mm-input>
+<strand-input autocomplete id="autoComplete"></strand-input>
 <script>
 	window.addEventListener("WebComponentsReady", function() { 
 		var autoComplete = document.querySelector("#autoComplete");
@@ -116,7 +116,7 @@ After:
 
 ---
 
-## mm-popover
+## strand-popover
 Previously, to set the direction of a popover, the attribute (or Property) `valign` was used to specify vertical alignment, and `align` was used to specify horizontal alignment. Currently, these properties have been deprecated in favor of a Cardinal direction positioning system using the property `direction` with arguements `'n', 'e', 's', 'w'`.
 
 Before:
@@ -130,16 +130,16 @@ Before:
 
 After:
 ```html
-<mm-popover id="popover" direction="s">
+<strand-popover id="popover" direction="s">
 	<div class="body">
 		...
 	</div>
-</mm-popover>
+</strand-popover>
 ```
 
 ---
 
-## mm-scroll-panel
+## strand-scroll-panel
 The `scope` property has been deprecated. Previously, all dom mutations were handled by a separate internal Polymer component, which needed to be passed the appropriate scope in order to capture dom mutations. Currently, all dom mutation are handled at the component level, so the scope of the light dom will be accurate.
 
 Before:
@@ -155,17 +155,17 @@ After:
 ```html
 <dom-module id="x-test">
 	<template>
-		<mm-scroll-panel>
+		<strand-scroll-panel>
 			<content></content>
-		</mm-scroll-panel>
+		</strand-scroll-panel>
 	</template>
 </dom-module>
 ```
 
 ---
 
-## mm-tooltip
-`mm-tooltip` no longer requires a template tag. The tooltip's target should be moved outside of the component, and a selector should be passed to tooltip using the `target` attribute.
+## strand-tooltip
+`strand-tooltip` no longer requires a template tag. The tooltip's target should be moved outside of the component, and a selector should be passed to tooltip using the `target` attribute.
 
 Before:
 ```html
@@ -178,8 +178,8 @@ Before:
 ```
 After:
 ```html
-<mm-icon id="defaultTarg" type="info" width="14" height="14"></mm-icon>
-<mm-tooltip target="#defaultTarg">
+<strand-icon id="defaultTarg" type="info" width="14" height="14"></strand-icon>
+<strand-tooltip target="#defaultTarg">
 	<label>Hi there, I'm a tooltip.</label>
-</mm-tooltip>
+</strand-tooltip>
 ```

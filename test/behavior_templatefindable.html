@@ -52,12 +52,12 @@
 
 	<dom-module id="test-templatizing">
 		<template>
-			<mm-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+			<strand-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
 				<content select="template"></content>
 				<template preserve-content id="internal">
 					<test-stamping datum="{{obj}}"></test-stamping>
 				</template>
-			</mm-template-finder>
+			</strand-template-finder>
 			<div id="contents">
 				<content></content>
 			</div>
@@ -68,6 +68,7 @@
 					is:"test-templatizing",
 					behaviors:[
 						StrandTraits.TemplateFindable,
+						StrandTraits.TemplateComponentizable,
 					],
 				});
 			});
@@ -118,7 +119,7 @@
 				var model = null;
 				var error = null;
 
-				instance = element.instantiateTemplateInto(null);
+				instance = element.instantiateTemplate(element.templateFinder.template);
 				instance.set("obj", { input: "text", });
 
 				try {
@@ -134,7 +135,7 @@
 				element.set("templateFindable.templateSelector", "");
 				element.set("templateFindable.templateBind", external);
 
-				instance = element.instantiateTemplateInto(null);
+				instance = element.instantiateTemplate(element.templateFinder.template);
 				instance.set("obj", { input: "text", });
 
 				try {

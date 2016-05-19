@@ -27,13 +27,14 @@
 						678,
 						789,
 					];
-				var aliases = {};
+				var aliases = [];
 				var heights = [];
 				var elevations = [];
 				var visibles = [];
 				var getter = function (idx) { return TALLNESS; };
 				var limiter = function (request) { return data.length; };
 				var handler = function (inner, young, old, recycler) {
+
 						if (young > -1) {
 							heights[young] = recycler.getHeightAtIndex(young);
 							elevations[young] = recycler.getElevationAtIndex(young);
@@ -49,7 +50,9 @@
 
 							if (young < 0) {
 								old.should.not.be.lessThan(0);
-								aliases[inner] = null;
+								//aliases[inner] = null;
+								aliases[inner] = aliases[aliases.length - 1];
+								aliases.pop();
 							}
 						}
 					};
@@ -86,9 +89,7 @@
 				recyc.getFrameLowerBound().should.equal(95);
 				recyc.getFrameUpperBound().should.equal(175 + TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 
@@ -107,7 +108,7 @@
 			it("should respond appropriately to height changes", function() {
 
 				var TALLNESS = 33;
-				var aliases = {};
+				var aliases = [];
 				var heights = [];
 				var elevations = [];
 				var visibles = [];
@@ -129,7 +130,9 @@
 
 							if (young < 0) {
 								old.should.not.be.lessThan(0);
-								aliases[inner] = null;
+								//aliases[inner] = null;
+								aliases[inner] = aliases[aliases.length - 1];
+								aliases.pop();
 							}
 						}
 					};
@@ -151,9 +154,7 @@
 				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
 				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 
@@ -174,9 +175,7 @@
 				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
 				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 
@@ -197,9 +196,7 @@
 				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
 				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 
@@ -218,13 +215,15 @@
 			it("should handle resource relinquishment", function() {
 
 				var TALLNESS = 33;
-				var aliases = {};
+				var aliases = [];
 				var heights = [];
 				var elevations = [];
 				var visibles = [];
 				var getter = function (idx) { return TALLNESS; };
 				var limiter = function (request) { return -1; };
 				var handler = function (inner, young, old, recycler) {
+						var limit = 0;
+
 						if (young > -1) {
 							heights[young] = recycler.getHeightAtIndex(young);
 							elevations[young] = recycler.getElevationAtIndex(young);
@@ -240,7 +239,9 @@
 
 							if (young < 0) {
 								old.should.not.be.lessThan(0);
-								aliases[inner] = null;
+								//aliases[inner] = null;
+								aliases[inner] = aliases[aliases.length - 1];
+								aliases.pop();
 							}
 						}
 					};
@@ -262,9 +263,7 @@
 				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
 				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 
@@ -285,9 +284,7 @@
 				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
 				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 
@@ -308,9 +305,7 @@
 				recyc.getFrameLowerBound().should.equal(12 * TALLNESS);
 				recyc.getFrameUpperBound().should.equal(17 * TALLNESS);
 
-				visibles = Object.keys(aliases).map(function (inner) {
-					return this[inner];
-				}, aliases).filter(function (v) {
+				visibles = aliases.filter(function (v) {
 					return v !== null;
 				});
 

@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra. Duis ultrices, ex in bibendum tempor, lectus mauris aliquet nunc, et consectetur nibh ligula vel dui. Maecenas <button id="button1">button 1</button> tempus tincidunt diam eu dignissim. Praesent varius felis ornare erat semper tincidunt. Phasellus auctor rutrum lectus eu imperdiet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer ac tortor nunc. Ut volutpat dui eu risus bibendum blandit.</p>
+
+	<p>Vestibulum magna turpis, consectetur aliquam velit ac, tristique tincidunt neque. Donec aliquam erat et urna posuere maximus. Mauris consequat massa sed enim porta vestibulum. Ut in tellus quam. Aliquam commodo hendrerit mauris, quis semper ligula sagittis et. In non ornare magna, vel lobortis augue. Donec at sapien sodales, aliquam arcu sed, volutpat magna. Aenean eget pretium magna, non volutpat ipsum. Proin quis neque porta, congue ligula nec, lobortis nisi. Nullam eu dui vitae risus blandit sollicitudin non vitae nulla. Ut suscipit vehicula eleifend. Sed turpis urna, malesuada et augue eu, scelerisque fermentum urna. Nullam a aliquam metus.</p>
+
+	<p>Sed non tellus gravida, feugiat felis sit amet, auctor odio. In eu erat quis libero sagittis sodales et sit amet metus. Sed quis consectetur turpis. Proin eget aliquet arcu. Donec ut tempor mauris, id feugiat elit. Morbi porta, leo eget tincidunt efficitur, sapien nunc consequat nisl, eget <strand-action id="button2" underline><label>Some long title link here that takes a lot of horizontal space</label></strand-action> fermentum sapien magna ut nunc. Curabitur sit amet elit eu nisl tempus aliquet. Vestibulum rhoncus nibh eros, ac scelerisque leo commodo sit amet. Aenean pulvinar velit ac est efficitur tempor. Nam cursus tincidunt leo in sollicitudin. Duis tristique tempus enim ut ullamcorper. Fusce auctor, eros ac auctor posuere, tortor sem dictum libero, id rhoncus nulla nibh ut mauris. Duis neque nibh, pretium vitae pharetra nec, imperdiet id quam.</p>
+
+	<p>Donec tempor fringilla tellus, sit amet tincidunt dui tempor sed. Nullam a facilisis erat. Aenean molestie lacinia neque non molestie. In sagittis mi mi, vel ultrices arcu molestie in. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pulvinar lectus sed neque convallis mattis eget sed est. Fusce consectetur rhoncus dui. Vivamus ultrices lacus metus. Sed ac ligula libero.</p>
+
+	<p>Suspendisse volutpat lacinia turpis euismod ornare. Vivamus interdum quam a nisi lacinia, vel pulvinar ipsum varius. Integer rutrum mauris odio. Ut dapibus, purus at vulputate varius, dolor mauris pulvinar ante, sagittis interdum lectus arcu non diam. Phasellus nec sollicitudin lorem. In sit amet iaculis erat. Donec urna lorem, viverra vitae suscipit a, auctor id ante. Nunc non iaculis nibh. Aenean aliquet metus a pellentesque porttitor. Phasellus ac feugiat massa, a dapibus velit. Nunc massa nunc, imperdiet vitae porttitor ullamcorper, condimentum ut nisi. Nulla facilisi. Nulla eu <button id="button3">button 3</button> fermentum risus</p>
+	
+	<strand-guide 
+		id="guide"
+		name="example">
+		 
+		<guide 
+			target="button1" 
+			header="Some Header 1"
+			message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra."
+			dismiss="Thanks, I've got it."></guide>
+		<guide 
+			target="button2"
+			header="Some Header 2"
+			message="Some Message Here 2"></guide>
+		<guide 
+			target="button3"
+			message="Some Message Here 3"></guide>
+		<guide
+			target="footerBtn"
+			message="Some Message Here 4"></guide>
+
+	</strand-guide>
+
+	<strand-footer id="footer" fitparent>
+		<strand-button id="footerBtn">
+			<label>Save &amp; Add Another</label>
+		</strand-button>
+	</strand-footer>
+
+	<script>
+
+		describe("strand-guide", function() {
+
+			it("should exist", function() {
+				var a = new Strand.Guide();
+				a.should.exist;
+				a.nodeName.should.equal("STRAND-GUIDE");
+			});
+
+			it("should have data from DOM", function() {
+				var a = document.querySelector('#guide');
+				a.should.exist;
+				a.data.should.be.an.array;
+				a.data.length.should.equal(4);
+			});
+
+			it("should initalize when a data array is provided", function(done) {
+				var a = new Strand.Guide();
+				var data = [{
+					target: 'button1',
+					header: 'Some Header 1',
+					message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
+					dismiss: 'Thanks, I\'ve got it.'
+				}];
+				var s = sinon.spy(a, "_init");
+				a.should.exist;
+				Polymer.dom(document.body).appendChild(a);
+				a.data = data;
+
+				flush(function() {
+					s.calledOnce.should.be.true;
+					done();
+				});
+			});
+
+			it("should not show if guide is supressed", function(done) {
+				var a = document.querySelector('#guide');
+				a.suppressGuide = true;
+				a.show();
+
+				flush(function() {
+					var tooltip = a.$.tooltip;
+					var focus = a.$$('#focus');
+					tooltip._checkClosed().should.be.true;
+					focus.hasAttribute('hidden').should.be.true;
+					done();
+				}); 
+			});
+
+			it("should properly increment current step", function(done) {
+				var a = document.querySelector('#guide');
+				a.suppressGuide = false;
+				a._nextHandler();
+
+				flush(function() {
+					a._currentStep.should.equal(1);
+					done();
+				}); 
+			});
+
+			it("should properly decrement current step", function(done) {
+				var a = document.querySelector('#guide');
+				a.suppressGuide = false;
+				a._backHandler();
+				flush(function() {
+					a._currentStep.should.equal(0);
+					done();
+				}); 
+			});
+
+			it("should have references to it's target DOM stored", function() {
+				var a = document.querySelector('#guide');
+				var targets = a.data.filter(function(item) {
+					return item.targetRef;
+				});
+				
+				targets[0].targetRef.should.be.an.object;
+				targets.length.should.equal(a.data.length);
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

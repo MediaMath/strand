@@ -1,0 +1,10 @@
+{
+	"verbose": false,
+	"suites": ["test/*.html"],
+	"root": ".",
+	"plugins": {
+		"local": {
+			"browsers": ["chrome", "firefox"]
+		}
+	}
+}

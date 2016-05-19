@@ -40,27 +40,27 @@
 }
 
 $arrow-size: 10px;
-:host([direction="n"]) {
+:host([_placement="n"]) {
 	padding-bottom: $arrow-size !important;
 	@include arrow(bottom, $arrow-size, $color-F0, $color-A8);
 }
 
 // Account for footer arrow color:
-:host([direction="n"][class="hasFooter"]) {
+:host([_placement="n"][class="hasFooter"]) {
 	@include arrow(bottom, $arrow-size, $color-A12, $color-A8);
 }
 
-:host([direction="s"]) {
+:host([_placement="s"]) {
 	padding-top: $arrow-size !important;
 	@include arrow(top, $arrow-size, $color-F0, $color-A8);
 }
 
-:host([direction="e"]) {
+:host([_placement="e"]) {
 	padding-left: $arrow-size !important;
 	@include arrow(left, $arrow-size, $color-F0, $color-A8);
 }
 
-:host([direction="w"]) {
+:host([_placement="w"]) {
 	padding-right: $arrow-size !important;
 	@include arrow(right, $arrow-size, $color-F0, $color-A8);
 }

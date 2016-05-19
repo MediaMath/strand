@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand-tab/strand-tab.html">
+	<link rel="import" href="../build/strand-tabs/strand-tabs.html">
+</head>
+<body>
+
+	<strand-tabs id="default">
+		<strand-tab><span>Test</span></strand-tab>
+		<strand-tab><span>Test</span></strand-tab>
+		<strand-tab><span>Test</span></strand-tab>
+	</strand-tabs>
+
+	<strand-tabs id="allActive">
+		<strand-tab active><span>Test</span></strand-tab>
+		<strand-tab active><span>Test</span></strand-tab>
+		<strand-tab active><span>Test</span></strand-tab>
+	</strand-tabs>
+
+	<strand-tabs id="testTabs">
+		<strand-tab tab-label="First" id="testTab1" template-uri="imports/test-strand-tabs-aux.html"></strand-tab>
+		<strand-tab tab-label="Second" id="testTab2" template-uri="imports/test-strand-tabs-aux.html"></strand-tab>
+		<strand-tab tab-label="Third" id="testTab3"></strand-tab>
+	</strand-tabs>
+
+	<script>
+		describe("strand-tabs", function() {
+
+			it("should have an element constructor", function() {
+				var a = new Strand.Tabs();
+				a.nodeName.should.equal("STRAND-TABS");
+			});
+
+			it("should know about its tabs", function(done) {
+				var a = document.querySelector('#default');
+
+				flush(function() {
+					a._tabs.should.not.be.empty;
+					done();
+				});
+			});
+
+			it("should set the active tab", function(done) {
+				var a = document.querySelector('#default');
+				var b = document.querySelector('#allActive');
+				var c = document.querySelector('#testTabs');
+
+				flush(function() {
+					a.selectedIndex.should.equal(a._tabs.indexOf(a.querySelector('strand-tab[active]')));
+					b.selectedIndex.should.equal(b._tabs.indexOf(b.querySelector('strand-tab[active]')));
+					c.selectedIndex.should.equal(c._tabs.indexOf(c.querySelector('strand-tab[active]')));
+					done();
+				});
+			});
+
+		});
+
+		describe("strand-tab", function() {
+			it("should have an element constructor", function() {
+				var a = new Strand.Tab();
+				a.nodeName.should.equal("STRAND-TAB");
+			});
+
+			it("should load external content", function() {
+				var a = document.querySelector('#testTab1'),
+					nodes = a.getContentChildren('#view');
+				nodes[0].querySelector('#aux').should.exist;
+			});
+
+			it("should fire a `loaded` event", function(done) {
+				var a = document.querySelector('#testTab2');
+				a.addEventListener('loaded', function(detail) {
+					done();
+				});
+				a.active = true;
+			});
+
+			it("should load external content imperatively and have a callback", function(done) {
+				var a = document.querySelector('#testTab3');
+				a.loadExternal('imports/test-strand-tabs-aux.html', function() {
+					// flush(function() {
+						var nodes = a.getContentChildren('#view');
+						nodes[0].querySelector('#aux2').should.exist;
+						done();
+					// });
+				});
+				a.active = true;
+			});
+		})
+	</script>
+
+</body>
+</html>

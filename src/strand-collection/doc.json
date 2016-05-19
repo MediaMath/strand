@@ -22,7 +22,7 @@
 	"methods": [
 		{
 			"name":"create",
-			"description":"Creates a new MM-Model instance and appends it to the collection data",
+			"description":"Creates a new STRAND-Model instance and appends it to the collection data",
 			"arguments":[
 				{
 					"name":"init",
@@ -42,14 +42,14 @@
 		},
 		{
 			"name":"add",
-			"description":"Adds an existing MM-Model instance to the collection.",
+			"description":"Adds an existing STRAND-Model instance to the collection.",
 			"arguments":[
 				{
 					"name":"model",
 					"type":"Object",
 					"optional":false,
 					"default":"",
-					"description":"MM-Model reference to add to collection."
+					"description":"STRAND-Model reference to add to collection."
 				},
 				{
 					"name":"silent",
@@ -102,7 +102,7 @@
 					"type":"Object/Index",
 					"optional":false,
 					"default":"null",
-					"description":"May be either an MM-Model object or a niave index to a model in the collection that you wish to delete. Client side deletion only."
+					"description":"May be either an STRAND-Model object or a niave index to a model in the collection that you wish to delete. Client side deletion only."
 				}
 			]
 		},

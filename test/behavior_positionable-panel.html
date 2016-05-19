@@ -144,7 +144,7 @@
 				a.open();
 
 				flush(function() {
-					a.direction.should.equal("s");
+					a._placement.should.equal("s");
 					done();
 				});
 			});
@@ -172,7 +172,7 @@
 				a.open();
 
 				flush(function() {
-					a.direction.should.equal("w");
+					a._placement.should.equal("w");
 					done();
 				});
 			});
@@ -199,7 +199,7 @@
 				a.open();
 
 				flush(function() {
-					a.direction.should.equal("e");
+					a._placement.should.equal("e");
 					done();
 				});
 			});

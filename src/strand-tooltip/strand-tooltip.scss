@@ -14,6 +14,8 @@ $bg-color: $color-A1;
 :host {
 	position: fixed;
 	display: block;
+	left: 0;
+	top: 0;
 }
 
 #container {
@@ -54,23 +56,23 @@ $bg-color: $color-A1;
 	}
 }
 
-:host([direction="n"]) {
+:host([_placement="n"]) {
 	padding-bottom: $arrow-size !important;
 	
 	@include arrow(bottom, $arrow-size, $bg-color, $bg-color);
 }
 
-:host([direction="s"]) {
+:host([_placement="s"]) {
 	padding-top: $arrow-size !important;
 	@include arrow(top, $arrow-size, $bg-color, $bg-color);
 }
 
-:host([direction="e"]) {
+:host([_placement="e"]) {
 	padding-left: $arrow-size !important;
 	@include arrow(left, $arrow-size, $bg-color, $bg-color);
 }
 
-:host([direction="w"]) {
+:host([_placement="w"]) {
 	padding-right: $arrow-size !important;
 	@include arrow(right, $arrow-size, $bg-color, $bg-color);
 }
