@@ -268,7 +268,7 @@
 				.pipe(C.dbg('gh-pages'))
 				.pipe(plugins.ghPages({
 					message: 'docs updates v'+pkg.version,
-					origin:'upstream'
+					remoteUrl:'git@github.com:MediaMath/strand.git'
 				}));
 		});
 
