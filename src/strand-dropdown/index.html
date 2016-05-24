@@ -100,12 +100,12 @@
 	<body>
 		<div class="col c1">
 
-			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected", overflow visible, overflow width set</p>
 			<strand-dropdown id="dataTest" overflow="visible" max-items="10" overflow-width="200" placeholder="Some Longer Label" unresolved>
 			</strand-dropdown>
 			<hr/>
 
-			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+			<p><span class="bold">Dropdown:</span> Dynamic data dropdown</p>
 			<strand-dropdown id="dataTestShort" placeholder="Some Label" unresolved></strand-dropdown>
 			<hr/>
 
@@ -156,7 +156,7 @@
 				</strand-dropdown>
 				<hr/>
 
-				<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected"</p>
+				<p><span class="bold">Dropdown:</span> Dynamic data dropdown hidden at first - first value "pre-selected"</p>
 				<strand-dropdown id="dataTestHidden" placeholder="Some Longer Label" unresolved></strand-dropdown>
 				<hr/>
 			</div>
@@ -166,6 +166,7 @@
 		<div class="vr"></div>
 
 		<div class="col c1">
+
 			<p><span class="bold">Dropdown:</span> List options wider than label</p>
 			<strand-dropdown unresolved>
 				<strand-list-item unresolved>strand-list-item 01</strand-list-item>
@@ -185,7 +186,7 @@
 			</strand-dropdown>
 			<hr/>
 
-			<p><span class="bold">Dropdown:</span> List options wider than label with search added</p>
+			<p><span class="bold">Dropdown:</span> List options wider than label with search added, fitparent</p>
 			<strand-dropdown fitparent="true" unresolved>
 				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
 				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
@@ -194,13 +195,6 @@
 				<strand-list-item unresolved>strand-list-item 04</strand-list-item>
 			</strand-dropdown>
 			<hr/>
-
-		</div>
-
-		<div class="vr"></div>
-
-		<div class="col c1">
-
 			<p><span class="bold">Dropdown:</span> List with overflow: visible</p>
 			<strand-dropdown placeholder="Select One" overflow="visible">
 				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
@@ -227,6 +221,12 @@
 			</strand-dropdown>
 			<hr/>
 
+		</div>
+
+		<div class="vr"></div>
+
+		<div class="col c1">
+
 			<p><span class="bold">Dropdown:</span> List with overflow: visible with search added</p>
 			<strand-dropdown placeholder="Select One" overflow="visible">
 				<strand-input search="true" clear="true" placeholder="Search"></strand-input>
@@ -237,7 +237,7 @@
 			</strand-dropdown>
 			<hr/>
 
-			<p><span class="bold">Dropdown:</span> List with overflow: overflowWidth set</p>
+			<p><span class="bold">Dropdown:</span> Size small, overflow: visible, overflow-width set</p>
 			<strand-dropdown placeholder="Select One Please" overflow="visible" overflow-width="250" size="small">
 				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 00</strand-list-item>
 				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 01</strand-list-item>
@@ -273,8 +273,8 @@
 				<strand-list-item unresolved>strand-list-item with an exremely long label or name in here 31</strand-list-item>
 			</strand-dropdown>
 			<hr/>
-			<p><span class="bold">Dropdown:</span> Dropdown small and skinless</p>
-			<strand-dropdown placeholder="Select" size="small" skinless overflow="visible" maxItems="7" unresolved>
+			<p><span class="bold">Dropdown:</span> Size small and skinless</p>
+			<strand-dropdown placeholder="Select" size="small" skinless overflow="visible" max-items="7" unresolved>
 				<strand-input search="true" clear="true" size="small" placeholder="Search"></strand-input>
 				<strand-list-item>Clicks</strand-list-item>
 				<strand-list-item>CTC</strand-list-item>
@@ -291,6 +291,10 @@
 				<strand-list-item>eCPM</strand-list-item>
 				<strand-list-item>PC CPA</strand-list-item>
 				<strand-list-item>PV CPA</strand-list-item>
+			</strand-dropdown>
+			<hr/>
+			<p><span class="bold">Dropdown:</span> Dynamic data, size small, skinless</p>
+			<strand-dropdown id="smallDataTest" placeholder="Select" size="small" skinless overflow="visible" max-items="5" unresolved>
 			</strand-dropdown>
 			<hr/>
 			<p><span class="bold">Dropdown:</span> Dynamic jQuery test</p>
@@ -326,7 +330,8 @@
 				dataTest = document.querySelector("#dataTest");
 				dataTestHidden = document.querySelector("#dataTestHidden");
 				dataTestShort = document.querySelector("#dataTestShort");
-				dataTest.data = dataTestHidden.data = dataTestShort.data = dataItems;
+				smallDataTest = document.querySelector("#smallDataTest");
+				dataTest.data = dataTestHidden.data = dataTestShort.data = smallDataTest.data = dataItems;
 				dataTest.value = dataTestHidden.value = 1;
 
 				// init jQuery test:

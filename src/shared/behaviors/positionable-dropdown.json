@@ -14,7 +14,8 @@
 			"name":"overflowWidth",
 			"type":"Number",
 			"description":"The maximum width of the dropdown panel, after which it will truncate its content. If overflowWidth is set, the element will ignore its overflow property.",
-			"optional":true
+			"optional":true,
+			"attribute":"overflow-width"
 		}
 	]
 }
