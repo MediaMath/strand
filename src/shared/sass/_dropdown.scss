@@ -130,12 +130,6 @@ $border-color: $color-A18 !default;
 			padding: 0 8px 0 10px;
 		}
 	}
-
-	#container > ::content strand-list-item,
-	strand-list-item {
-		font-size: 11px !important;
-		line-height: 13px !important;
-	}
 }
 
 :host([skinless]) {
