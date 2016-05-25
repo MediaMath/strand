@@ -33,8 +33,7 @@
 
 		_updateClass: function(type) {
 			var o = {};
-			o["icon-"+type] = true;
-			o["_mm_icon"] = true;
+			o["str-icn-"+type] = true;
 			return this.classBlock(o);
 		},
 
