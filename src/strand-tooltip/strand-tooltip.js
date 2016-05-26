@@ -48,7 +48,7 @@
 			this._boundOutHandler = this._outHandler.bind(this);
 
 			this.async(function() {
-				if (this._target) {
+				if (this._target && typeof this._target === "object") {
 					this._target.addEventListener('mouseover', this._boundOverHandler);
 					this._target.addEventListener('mouseout', this._boundOutHandler);
 					this._prevTargetCursor = this._target.style.cursor;
@@ -58,7 +58,7 @@
 		},
 
 		detached: function() {
-			if (this._target) {
+			if (this._target && typeof this._target === "object") {
 				this._target.removeEventListener('mouseover', this._boundOverHandler);
 				this._target.removeEventListener('mouseout', this._boundOutHandler);
 				this._target.style.cursor = this._prevTargetCursor;
