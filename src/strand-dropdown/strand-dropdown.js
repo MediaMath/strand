@@ -203,6 +203,7 @@
 				}
 				// reset selectedIndex for recycler scenarios
 				this.selectedIndex = null;
+				this._setMaxHeight(this.maxItems);
 			} else {
 				this.reset();
 			}
@@ -214,10 +215,10 @@
 			var items = this.items;
 
 			if (this.items.length > 0) {
-				if (this.data) {
-					itemHeight = 0|this._itemRecycler.getHeightAtIndex(0);
-				} else {
+				if (!this.data) {
 					itemHeight = this.items[0].offsetHeight;
+				} else if (this._itemRecycler) {
+					itemHeight = 0|this._itemRecycler.getHeightAtIndex(0);
 				}
 			}
 	 		return itemHeight;
@@ -349,11 +350,12 @@
 
 	 	_setMaxHeight: function(maxItems) {
 			var actualMax = Math.min(this.items.length, maxItems);
+			var itemHeight = this.itemHeight || 0;
 
-			this.$.list.style.height = this.itemHeight * actualMax + 'px';
+			this.$.list.style.height = itemHeight * actualMax + 'px';
 
 			if (this.data) {
-				this._itemRecycler.style.height = this.itemHeight * actualMax + 'px';
+				this._itemRecycler.style.height = itemHeight * actualMax + 'px';
 				this.$.list.style.overflowY = "hidden";
 			}
 	 	},
