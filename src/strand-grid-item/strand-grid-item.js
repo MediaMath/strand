@@ -65,8 +65,8 @@
 			return model ? model[field] : "";
 		},
 
-		_computeColumnClass: function (align) {
-			return "_mm_column " + (align || "");
+		_computeColumnClass: function (alignColumn) {
+			return "_mm_column " + (alignColumn || "");
 		},
 
 		_computeColumnStyle: function(value) {
