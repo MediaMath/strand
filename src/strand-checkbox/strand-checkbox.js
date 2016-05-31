@@ -27,19 +27,19 @@
 				value: "unchecked",
 				observer: "_stateChanged"
 			},
-			checked: { 
+			checked: {
 				type: Boolean,
 				reflectToAttribute: true,
 				value: null,
 				notify: true,
 				observer: "_checkedChanged",
 			},
-			disabled: { 
+			disabled: {
 				type: Boolean,
-				value: false, 
-				reflectToAttribute: true 
+				value: false,
+				reflectToAttribute: true
 			},
-			_partial: { 
+			_partial: {
 				type: Boolean,
 				computed: "_partialState(state)"
 			}
@@ -101,8 +101,7 @@
 			var o = {};
 			o.checkbox = !icon ? true : false;
 			o["checkbox-icon"] = icon ? true : false;
-			o.selected = (state === this.CHECKED_STATE) ? true : false;
-			o.partial = (state === this.PARTIAL_STATE) ? true : false;
+			o["_strand_"+state] = true;
 			return this.classBlock(o);
 		}
 
