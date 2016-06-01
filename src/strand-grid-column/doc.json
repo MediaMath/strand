@@ -35,10 +35,9 @@
 		{
 			"name":"tipWidth",
 			"type":"Number",
-			"description":"The desired width of the tooltip for the column, in pixels (see: the 'info' property). For longer multiline tooltips, provide a tip-width for best results.",
-			"attribute":"min-width",
-			"optional":true,
-			"default":"none"
+			"description":"The desired width of the tooltip for the column, in pixels (see: the 'info' property). The default tooltip width will be 150px, and can be adjusted as needed based upon the verbosity of the messaging.",
+			"attribute":"tip-width",
+			"default":"150"
 		},
 		{
 			"name":"info",
@@ -79,11 +78,12 @@
 			"options":["1", "0", "-1"]
 		},
 		{
-			"name":"align",
+			"name":"alignColumn",
 			"type":"String",
 			"description":"Align column content to left of right.",
 			"optional":true,
 			"default":"left",
+			"attribute":"align-column",
 			"options":["left", "right"]
 		}
 	],

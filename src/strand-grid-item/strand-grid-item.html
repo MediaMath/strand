@@ -22,7 +22,7 @@
 			</div>
 			<div id="columnContainer">
 				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
-					<div class$="{{_computeColumnClass(column.align)}}" style$="{{_computeColumnStyle(column.width)}}">
+					<div class$="{{_computeColumnClass(column.alignColumn)}}" style$="{{_computeColumnStyle(column.width)}}">
 						<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
 						<span hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
 					</div>
