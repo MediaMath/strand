@@ -10,7 +10,7 @@
 		is: "strand-wizard-ribbon",
 
 		behaviors: [
-			StrandTraits.LightDomGettable,
+			StrandTraits.DomGettable,
 			StrandTraits.Selectable
 		],
 
@@ -52,9 +52,8 @@
 			}
 		},
 
-		ready: function() {
-			this.selectedIndex = 0;
-			this.set('steps', this.getLightDOM().map(function(node) { return node.textContent; }));
+		domObjectChanged: function(domObject) {
+			this.set('steps', domObject['step'].map(function(node) { return node.inner; }));
 		}
 	});
 

@@ -18,6 +18,10 @@
 	font-weight: bold;
 }
 
+::content step {
+	display: none;
+}
+
 ol {
 	align-items: center;
 	background-color: inherit;
