@@ -134,12 +134,15 @@ section:last-child {
   margin: 0 auto 40px auto; }
 
 .docs-logo {
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: center;
-      justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: relative;
   box-sizing: border-box;
   height: 100%; }
@@ -157,12 +160,15 @@ section:last-child {
   padding: 2.5em;
   height: 100%; }
   .docs-footer .footer-logo-box {
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
-        align-items: center;
-    -ms-flex-pack: center;
-        justify-content: center; }
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
   .docs-footer .powered-by,
   .docs-footer .mediamath {
     margin: 0 1.25em; }
@@ -252,11 +258,14 @@ table {
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* example styling */
 .example {
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   box-pack: start;
+  -webkit-justify-content: flex-start;
   -moz-justify-content: flex-start;
   -ms-justify-content: flex-start;
   -o-justify-content: flex-start;
@@ -266,7 +275,8 @@ table {
   padding: 1.25em;
   background: #f8f8f8; }
   .example > * {
-    align-self: flex-start;
+    -webkit-align-self: flex-start;
+            align-self: flex-start;
     -ms-flex-item-align: start;
     margin-bottom: 20px; }
     .example > *:last-of-type {
@@ -294,14 +304,18 @@ table {
 /* -- -- -- -- -- -- -- -- -- -- -- -- -- */
 /* intro specific styling */
 .hp-header {
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
-  -ms-flex-direction: row;
-      flex-direction: row;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
   width: 100%;
   background: #e4e1ef; }
   .hp-header .docs-logo .strand-logo {
@@ -324,12 +338,15 @@ table {
   .intro-block.top {
     background: #f8f8f8; }
   .intro-block .intro-content.top {
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
-        align-items: center;
-    -ms-flex-direction: row;
-        flex-direction: row;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
     box-sizing: border-box; }
     .intro-block .intro-content.top .hero-image {
       width: 45%;
@@ -343,10 +360,12 @@ table {
         line-height: 1.5;
         border: none; }
   .intro-block .intro-content.bottom {
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: row;
-        flex-direction: row;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
     box-sizing: border-box; }
     .intro-block .intro-content.bottom .hero-block {
       width: 33%;
@@ -391,11 +410,13 @@ table {
   .layout-article {
     margin-bottom: -200px; }
   .intro-block .intro-content.top {
-    -ms-flex-align: start;
-        -ms-grid-row-align: flex-start;
-        align-items: flex-start;
-    -ms-flex-direction: column;
-        flex-direction: column; }
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+                -ms-grid-row-align: flex-start;
+            align-items: flex-start;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
     .intro-block .intro-content.top .hero-image {
       width: 50%;
       margin: 40px auto; }
@@ -411,8 +432,9 @@ table {
       .intro-block .intro-content.top .hero-text p {
         margin: 20px 0 0 0; }
   .intro-block .intro-content.bottom {
-    -ms-flex-direction: column;
-        flex-direction: column; }
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
     .intro-block .intro-content.bottom .hero-block {
       width: 100%;
       margin: 0 0 40px 0; }
@@ -422,8 +444,9 @@ table {
   .layout-push {
     height: 200px; }
   .docs-footer .footer-logo-box {
-    -ms-flex-direction: row;
-        flex-direction: row; } }
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row; } }
 
 @media (min-width: 0px) and (max-width: 549px) {
   .layout-article {
@@ -432,18 +455,22 @@ table {
   .layout-push {
     height: 360px; }
   .hp-header {
-    -ms-flex-align: start;
-        -ms-grid-row-align: flex-start;
-        align-items: flex-start;
-    -ms-flex-pack: center;
-        justify-content: center;
-    -ms-flex-direction: column;
-        flex-direction: column; }
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+                -ms-grid-row-align: flex-start;
+            align-items: flex-start;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
     .hp-header .docs-logo {
       display: none; }
   .docs-footer .footer-logo-box {
-    -ms-flex-direction: column;
-        flex-direction: column; }
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
   .docs-footer .powered-by,
   .docs-footer .mediamath {
     margin: 1.25em 0; } }
