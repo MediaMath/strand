@@ -1,3 +1,18 @@
+<a name="v4.0.2"></a>
+## v4.0.2 (2016-06-06)
+
+* Address grid header truncation and alignment issues ([18fd5e7](https://github.com/MediaMath/strand/commit/18fd5e7))
+* don't hold onto selectedIndex in pulldown button ([473d2f2](https://github.com/MediaMath/strand/commit/473d2f2))
+* fix an issue where the target is a string and the actual target doesn't exist on the page, then the  ([a1d6b4d](https://github.com/MediaMath/strand/commit/a1d6b4d))
+* fix gh-pages for realzies ([9c4c5cb](https://github.com/MediaMath/strand/commit/9c4c5cb))
+* Fixes FWRK-311 -- address dropdown size issue ([9361082](https://github.com/MediaMath/strand/commit/9361082))
+* Namespace strand-checkbox internal classes ([f7a9925](https://github.com/MediaMath/strand/commit/f7a9925))
+* strand-wizard-ribbon fix for bound content ([a6490ab](https://github.com/MediaMath/strand/commit/a6490ab))
+* Streamline icon naming to avoid style leakage ([dc54e81](https://github.com/MediaMath/strand/commit/dc54e81))
+* Various corrections to dropdown list items ([7dd10b6](https://github.com/MediaMath/strand/commit/7dd10b6))
+
+
+
 <a name="v4.0.1"></a>
 ## v4.0.1 (2016-05-19)
 
