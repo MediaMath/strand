@@ -460,7 +460,7 @@ found here: https://github.com/Polymer/core-list
 			bound.height += delta;
 			itemRecycler._measurements.setHeight(bound.young, bound.height);
 
-			if (delta) {
+			if (delta || itemRecycler._itemHeight <= 0) {
 				if (bound.height) {
 					if (!itemRecycler._itemHeight) {
 						change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
