@@ -38,15 +38,9 @@
 	display: inline-block;
 }
 
-#header, #footer, #middle, #extent, #constrainer {
+#header, #footer, #middle, #constrainer {
 	min-width: 100%;
 	position: relative;
-}
-
-#extent {
-	height: 1px;
-	margin-top: -1px;
-	z-index: -1;
 }
 
 

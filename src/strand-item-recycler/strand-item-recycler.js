@@ -120,10 +120,6 @@ found here: https://github.com/Polymer/core-list
 					return [];
 				},
 			},
-			_waiting: {
-				type: Boolean,
-				value: false,
-			},
 			_initialized: {
 				type: Boolean,
 				value: false,
@@ -152,10 +148,6 @@ found here: https://github.com/Polymer/core-list
 				type: Number,
 				value: 0,
 			},
-			_extentHeight: {
-				type: Number,
-				value: 0,
-			},
 			_viewportHeight: {
 				type: Number,
 				value: 0,
@@ -176,7 +168,6 @@ found here: https://github.com/Polymer/core-list
 					responders.pane = this._paneResponse.bind(this);
 					responders.header = this._headerResponse.bind(this);
 					responders.footer = this._footerResponse.bind(this);
-					responders.extent = this._extentResponse.bind(this);
 					return responders;
 				},
 			},
@@ -376,7 +367,6 @@ found here: https://github.com/Polymer/core-list
 			this.addResizeListener(this._responders.pane, this.$.pane);
 			this.addResizeListener(this._responders.header, this.$.header);
 			this.addResizeListener(this._responders.footer, this.$.footer);
-			this.addResizeListener(this._responders.extent, this.$.extent);
 		},
 
 		detached: function () {
@@ -384,19 +374,10 @@ found here: https://github.com/Polymer/core-list
 			this.removeResizeListener(this._responders.pane, this.$.pane);
 			this.removeResizeListener(this._responders.header, this.$.header);
 			this.removeResizeListener(this._responders.footer, this.$.footer);
-			this.removeResizeListener(this._responders.extent, this.$.extent);
 		},
 
 		_settleDown: function () {
 			this.fire("presentation-settled");
-		},
-
-		_extentResponse: function (e) {
-			if (this._waiting &&
-				elementHeight(this.$.extent) > 0) {
-				this._waiting = false;
-				this.initialize();
-			}
 		},
 
 		_paneResponse: function (e) {
@@ -457,10 +438,12 @@ found here: https://github.com/Polymer/core-list
 			var change = 0;
 			var initialization = true;
 
-			bound.height += delta;
-			itemRecycler._measurements.setHeight(bound.young, bound.height);
+			if (delta > 0 ||
+				itemRecycler._itemHeight <= 0 ||
+				itemRecycler._itemHeight && delta < 0) {
+				bound.height += delta;
+				itemRecycler._measurements.setHeight(bound.young, bound.height);
 
-			if (delta || itemRecycler._itemHeight <= 0) {
 				if (bound.height) {
 					if (!itemRecycler._itemHeight) {
 						change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
@@ -575,11 +558,7 @@ found here: https://github.com/Polymer/core-list
 				return 0|false;
 			} else if (!this.hasTemplate()) {
 				return 0|false;
-			} else if (elementHeight(this.$.extent) < 1) {
-				this._waiting = true;
-				return 0|false;
 			} else {
-				this._waiting = false;
 				this.debounce("initializeRecycler", this.initializeRecycler);
 				return 0|true;
 			}
@@ -601,7 +580,6 @@ found here: https://github.com/Polymer/core-list
 
 				this._initializable = true;
 				this._initialized = true;
-				this._waiting = false;
 				return 0|true;
 			} else {
 				return 0|false;
@@ -613,7 +591,6 @@ found here: https://github.com/Polymer/core-list
 
 			this._headerHeight = elementHeight(this.$.header);
 			this._footerHeight = elementHeight(this.$.footer);
-			this._extentHeight = elementHeight(this.$.extent);
 
 			viewportHeight -= (this._headerHeight + this._footerHeight);
 			this._viewportHeight = viewportHeight;
@@ -622,7 +599,6 @@ found here: https://github.com/Polymer/core-list
 			this._repositionHeader();
 			this._repositionFooter();
 			this._repositionMiddle();
-			this._repositionExtent();
 
 			var padding = roundMaybe(this._itemHeight);
 
@@ -1075,7 +1051,6 @@ found here: https://github.com/Polymer/core-list
 			this._repositionHeader();
 			this._repositionFooter();
 			this._repositionMiddle();
-			this._repositionExtent();
 		},
 
 		_restyleMiddleHeight: function () {
@@ -1091,11 +1066,6 @@ found here: https://github.com/Polymer/core-list
 		_deltaMiddleHeight: function (delta) {
 			var height = (+delta || 0) + this._middleHeight;
 			this._assignMiddleHeight(height);
-		},
-
-		_repositionExtent: function () {
-			var position = -this._extentHeight + this._transformBaseline;
-			this._setTranslation(position, this.$.extent);
 		},
 
 		_repositionMiddle: function () {
