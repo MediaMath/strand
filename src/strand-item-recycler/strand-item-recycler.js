@@ -193,6 +193,8 @@ found here: https://github.com/Polymer/core-list
 			},
 		},
 
+		_isAttached: false,
+
 		observers: [
 			"_needsInitialization(data, _templateFound)",
 			"_scopeChanged(scope.*)",
@@ -367,6 +369,8 @@ found here: https://github.com/Polymer/core-list
 			this.addResizeListener(this._responders.pane, this.$.pane);
 			this.addResizeListener(this._responders.header, this.$.header);
 			this.addResizeListener(this._responders.footer, this.$.footer);
+			this._isAttached = true;
+			this._needsInitialization(this.data, this._templateFound);
 		},
 
 		detached: function () {
@@ -374,6 +378,7 @@ found here: https://github.com/Polymer/core-list
 			this.removeResizeListener(this._responders.pane, this.$.pane);
 			this.removeResizeListener(this._responders.header, this.$.header);
 			this.removeResizeListener(this._responders.footer, this.$.footer);
+			this._isAttached = false;
 		},
 
 		_settleDown: function () {
@@ -548,9 +553,11 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_needsInitialization: function (data, _templateFound) {
-			this._initializable = false;
-			this._initialized = false;
-			this.initialize();
+			if (this._isAttached) {
+				this._initializable = false;
+				this._initialized = false;
+				this.initialize();
+			}
 		},
 
 		initialize: function () {
