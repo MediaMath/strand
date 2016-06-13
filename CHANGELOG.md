@@ -1,3 +1,11 @@
+<a name="v4.0.3"></a>
+## v4.0.3 (2016-06-08)
+
+* Don't check for a target unless attached to the dom ([58e0605](https://github.com/MediaMath/strand/commit/58e0605))
+* Fix post single-item grid rendering issue ([a3883ce](https://github.com/MediaMath/strand/commit/a3883ce))
+
+
+
 <a name="v4.0.2"></a>
 ## v4.0.2 (2016-06-06)
 
