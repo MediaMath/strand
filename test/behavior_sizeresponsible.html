@@ -15,18 +15,56 @@
 	<body>
 		<dom-module id="test-sizeresponsible">
 			<template>
-				<content id="content"></content>
+				<div id="listItem"></div>
 			</template>
 			<style>
-				#unused {
-					display: none;
+				:host {
+					display: block;
+					position: relative;
+				}
+				#listItem {
+					background: #ff0000;
+					width: 100%;
+					height: 29px;
 				}
 			</style>
 			<script>
 				HTMLImports.whenReady(function() {
 					Polymer({
 						is:"test-sizeresponsible",
-						behaviors:[StrandTraits.SizeResponsible]
+
+						behaviors:[StrandTraits.SizeResponsible],
+
+						properties: {
+							_responders: {
+								type: Object,
+								value: function () {
+									var responders = {};
+									responders.resizeCallback = this.resizeCallback.bind(this);
+									return responders;
+								}
+							}
+						},
+
+						attached: function() {
+							this.addResizeListener(this._responders.resizeCallback, this.$.listItem);
+						},
+
+						detached: function() {
+							this.removeResizeListener(this._responders.resizeCallback, this.$.listItem);
+						},
+
+						resizeCallback: function() {
+							this.resizeCallbackCalled();
+						},
+
+						resizeCallbackCalled: function() {
+							console.log('resizeCallbackCalled');
+						},
+
+						resize: function(int) {
+							this.$.listItem.style.height = int + 'px';
+						}
 					});
 				});
 			</script>
@@ -42,67 +80,44 @@
 					StrandTraits.SizeResponsible.should.be.an.object;
 				});
 
-				it("should have .resize-triggers div with a class matching the tag name", function() {
+				it("should contain a div with an iframe size responder", function() {
 					var t = document.querySelector("#test1");
+					var d = Polymer.dom(t.$.listItem).querySelector("div");
+					var iframe = Polymer.dom(d).querySelector("iframe");
 
-					// make sure it adds the 'resize-triggers' div:
-					t.addResizeListener(function() {}, t);
-					var resizeTriggers = Polymer.dom(t).querySelector(".resize-triggers"),
-						classList = StrandLib.DataUtils.clone(resizeTriggers.classList);
-
-					resizeTriggers.should.exist;
-					resizeTriggers.should.be.an.object;
-
-					// test to make sure Polymer's name spacing matches:
-					classList.should.exist;
-					classList.should.be.an.array;
-					classList.indexOf(t.tagName.toLowerCase()).should.equal(1);
+					d.should.exist;
+					iframe.should.exist;
 				});
 
-				it("should create a style selector with element-tag-based class namespacing", function () {
+				it("should respond to resizing", function(done) {
 					var t = document.querySelector("#test1");
-					var name = "test-sizeresponsible";
-					var selector = "#unused";
-					var cssRule = findCSSRuleContaining(selector);
+					var iframe = Polymer.dom(t).querySelector("iframe");
+					// sinon can't actually 'spy' on the caller of the callback
+					var s = sinon.spy(t, "resizeCallbackCalled");
 
-					t.tagName.toLowerCase().should.equal(name);
+					t.resize(100);
 
-					cssRule.should.exist;
+					t.async(function(){
+						should.equal(s.calledOnce, true);
+						done();
+					}, 150);
+				});
 
-					// make sure the only selector expectations are a class with the tag and the original selector
-					[cssRule.selectorText].reduce(function (reduction, str) {
-						reduction.push.apply(reduction, str.split(selector));
-						return reduction;
-					}, []).reduce(function (reduction, str) {
-						reduction.push.apply(reduction, str.split("."+name));
-						return reduction;
-					}, []).some(function (str) {
-						return str !== "";
-					}).should.equal(false);
+				it("should remove the listener when removed", function(done) {
+					var t = document.querySelector("#test1");
+					var l = t._listeners;
 
+					Polymer.dom(document.body).removeChild(t);
 
-
-					function findCSSRuleContaining (text) {
-						var result = null;
-						var some = [].some;
-
-						some.call(document.styleSheets, function (sheet) {
-							return some.call(sheet.cssRules, this);
-						}, function (rule) {
-							if (rule.selectorText.indexOf(text) > -1) {
-								result = rule;
-								return true;
-							}
-						});
-
-						return result;
-					}
+					flush(function(){
+						should.equal(l.length, 0);
+						done();
+					});
 				});
 
 			});
 
 		</script>
-
 
 	</body>
 </html>
