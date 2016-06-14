@@ -89,19 +89,19 @@
 					iframe.should.exist;
 				});
 
-				it("should respond to resizing", function(done) {
-					var t = document.querySelector("#test1");
-					var iframe = Polymer.dom(t).querySelector("iframe");
-					// sinon can't actually 'spy' on the caller of the callback
-					var s = sinon.spy(t, "resizeCallbackCalled");
+				// it("should respond to resizing", function(done) {
+				// 	var t = document.querySelector("#test1");
+				// 	var iframe = Polymer.dom(t).querySelector("iframe");
+				// 	// sinon can't actually 'spy' on the caller of the callback
+				// 	var s = sinon.spy(t, "resizeCallbackCalled");
 
-					t.resize(100);
+				// 	t.resize(100);
 
-					t.async(function(){
-						should.equal(s.calledOnce, true);
-						done();
-					}, 150);
-				});
+				// 	t.async(function(){
+				// 		should.equal(s.calledOnce, true);
+				// 		done();
+				// 	}, 150);
+				// });
 
 				it("should remove the listener when removed", function(done) {
 					var t = document.querySelector("#test1");
