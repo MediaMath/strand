@@ -52,7 +52,9 @@ found here: https://github.com/Polymer/core-list
 						//Initialize scrollTop to supplied index
 						itemRecycler.async(itemRecycler.scrollToIndex);
 					}
-					itemRecycler.toggleAttribute("measuring", false, itemRecycler.$.middle);
+					if (itemRecycler._initialized) {
+						itemRecycler._setMeasuring(false);
+					}
 				} else if (itemRecycler._itemHeight < 0) {
 					change = itemRecycler._accommodateGlobalHeightAdjustment(0|!initialization, bound, delta);
 					itemRecycler.async(itemRecycler._modifyPadding, 1);
@@ -235,6 +237,13 @@ found here: https://github.com/Polymer/core-list
 				value: function () {
 					return new Continuum(this._getItemHeight.bind(this));
 				},
+			},
+			measuring: {
+				type: Boolean,
+				value: false,
+				notify: true,
+				readOnly: true,
+				reflectToAttribute: true,
 			},
 			data: {
 				type: Array,
@@ -552,7 +561,7 @@ found here: https://github.com/Polymer/core-list
 		},
 
 		_needsInitialization: function (data, _templateFound) {
-			this._initializable = false;
+			this._initializable = true;
 			this._initialized = false;
 			this.initialize();
 		},
@@ -563,13 +572,14 @@ found here: https://github.com/Polymer/core-list
 			} else if (!this.hasTemplate()) {
 				return 0|false;
 			} else {
-				this.debounce("initializeRecycler", this.initializeRecycler);
+				this._setMeasuring(true);
+				this.debounce("initializeRecycler", this.initializeRecycler, 1);
 				return 0|true;
 			}
 		},
 
 		initializeRecycler: function() {
-			if (!this._initializable) {
+			if (this._initializable) {
 				if (this._recycler.truncate(0)) {
 					this._scrollTop = 0;
 					this.$.pane.scrollTop = 0;
@@ -580,12 +590,16 @@ found here: https://github.com/Polymer/core-list
 
 				this._measurements.terminate(0);
 
-				this.toggleAttribute("measuring", true, this.$.middle);
-
 				this._initializeViewport();
 
-				this._initializable = true;
+				this._initializable = false;
 				this._initialized = true;
+
+				if (!this.data ||
+					!this.data.length) {
+					this._setMeasuring(false);
+				}
+
 				return 0|true;
 			} else {
 				return 0|false;
@@ -812,7 +826,7 @@ found here: https://github.com/Polymer/core-list
 
 				if (place < this._maxPixels) {
 					this._repositionBound(bound);
-					this.debounce("rebase-transform", this._rebaseTransform, 250000);
+					this.debounce("rebase-transform", this._rebaseTransform, 250);
 				} else {
 					this._rebaseTransform();
 				}

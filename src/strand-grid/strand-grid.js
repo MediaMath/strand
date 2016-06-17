@@ -44,6 +44,9 @@
 				type: Boolean,
 				value: false
 			},
+			_measuring: {
+				type: Boolean,
+			},
 			expanded: {
 				type: Boolean,
 				value: false,
@@ -267,6 +270,10 @@
 					this.set("data." + index + ".expanded", this.expanded);
 				}, this);
 			}
+		},
+
+		_showLoader: function (isLoading, _measuring) {
+			return isLoading;
 		},
 
 		requestInitialization: function () {

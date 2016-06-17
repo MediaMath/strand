@@ -43,12 +43,12 @@
 	position: relative;
 }
 
-#middle[measuring] {
-	visibility: hidden;
-}
-
 .recycler-panel {
 	position: relative;
+}
+
+:host([measuring]) #middle {
+	visibility: hidden;
 }
 
 
