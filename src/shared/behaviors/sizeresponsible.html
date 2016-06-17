@@ -35,7 +35,15 @@ This code may only be used under the BSD style license found at http://mediamath
 			element.appendChild(div);
 
 			iframe.cb = fn;
-			iframe.contentWindow.addEventListener("resize", fn);
+			if (iframe.contentWindow) {
+				iframe.contentWindow.stop();
+				iframe.contentWindow.addEventListener("resize", fn);
+			} else {
+				iframe.addEventListener("load", function handler () {
+					iframe.removeEventListener("load", handler);
+					iframe.contentWindow.addEventListener("resize", fn);
+				});
+			}
 
 			this._listeners.push({
 				div:div,
@@ -50,11 +58,13 @@ This code may only be used under the BSD style license found at http://mediamath
 				return t.fn === fn || t.target === target;
 			}).map(function(listen) {
 				listen.target.removeChild(listen.div);
-				listen.iframe.contentWindow.removeEventListener("resize",listen.fn);
+				if (listen.iframe.contentWindow) {
+					listen.iframe.contentWindow.removeEventListener("resize",listen.fn);
+				}
 				return this._listeners.indexOf(listen);
-			}).forEach(function(idx) {
+			}, this).forEach(function(idx) {
 				this._listeners.splice(idx,1);
-			});
+			}, this);
 		}
 
 	};

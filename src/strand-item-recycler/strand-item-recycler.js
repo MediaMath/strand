@@ -30,6 +30,53 @@ found here: https://github.com/Polymer/core-list
 		return less.nthDOM - more.nthDOM;
 	}
 
+	function _boundResponse (ev) {
+		var bound = this;
+		var height = bound.height;
+		var delta = +(elementHeight(bound.element) - height) || 0;
+		var itemRecycler = bound.itemRecycler;
+		var change = 0;
+		var initialization = true;
+
+		if (delta > 0 ||
+			itemRecycler._itemHeight <= 0 ||
+			itemRecycler._itemHeight && delta < 0) {
+			bound.height += delta;
+			itemRecycler._measurements.setHeight(bound.young, bound.height);
+
+			if (bound.height) {
+				if (!itemRecycler._itemHeight) {
+					change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
+					itemRecycler.async(itemRecycler._modifyPadding, 1);
+					if (itemRecycler._desiredIndex > -1) {
+						//Initialize scrollTop to supplied index
+						itemRecycler.async(itemRecycler.scrollToIndex);
+					}
+					itemRecycler.toggleAttribute("measuring", false, itemRecycler.$.middle);
+				} else if (itemRecycler._itemHeight < 0) {
+					change = itemRecycler._accommodateGlobalHeightAdjustment(0|!initialization, bound, delta);
+					itemRecycler.async(itemRecycler._modifyPadding, 1);
+				}
+			}
+			itemRecycler._changeOffsetsAfter(bound.nthDOM, delta);
+			itemRecycler._deltaMiddleHeight(itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height));
+			itemRecycler._repositionHeader();
+			itemRecycler._repositionFooter();
+			if (delta + change) {
+				itemRecycler._paneResponse(null);
+			}
+			itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+		} else if (bound.pendingResponse) {
+			itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
+		}
+
+		if (itemRecycler._itemHeight < 0) {
+			itemRecycler._itemHeight = -itemRecycler._itemHeight;
+		}
+
+		bound.pendingResponse = 0|false;
+	};
+
 	function BoundReference (itemRecycler, nthBind) {
 		this.itemRecycler = itemRecycler;
 		this.nthBind = nthBind;
@@ -42,6 +89,7 @@ found here: https://github.com/Polymer/core-list
 		this.element = null;
 		this.value = null;
 		this.pendingResponse = 0|false;
+		this.responder = _boundResponse.bind(this);
 	}
 
 	BoundReference.prototype = Object.create(null);
@@ -59,7 +107,6 @@ found here: https://github.com/Polymer/core-list
 		this.pane = null;
 		this.header = null;
 		this.footer = null;
-		this.boundMap = []; // {};
 	}
 
 
@@ -87,6 +134,7 @@ found here: https://github.com/Polymer/core-list
 			StrandTraits.TemplateComponentizable,
 			StrandTraits.SizeResponsible,
 			StrandTraits.Refable,
+			StrandTraits.PoolUsable,
 		],
 
 		properties: {
@@ -102,7 +150,9 @@ found here: https://github.com/Polymer/core-list
 			},
 			scope: {
 				type: Object,
-				value: null,
+				value: function () {
+					return this;
+				},
 				notify: true,
 			},
 			index: {
@@ -430,52 +480,6 @@ found here: https://github.com/Polymer/core-list
 			}
 		},
 
-		_boundResponse: function (ev) {
-			var bound = this;
-			var height = bound.height;
-			var delta = +(elementHeight(bound.element) - height) || 0;
-			var itemRecycler = bound.itemRecycler;
-			var change = 0;
-			var initialization = true;
-
-			if (delta > 0 ||
-				itemRecycler._itemHeight <= 0 ||
-				itemRecycler._itemHeight && delta < 0) {
-				bound.height += delta;
-				itemRecycler._measurements.setHeight(bound.young, bound.height);
-
-				if (bound.height) {
-					if (!itemRecycler._itemHeight) {
-						change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
-						itemRecycler.async(itemRecycler._modifyPadding, 1);
-						if (itemRecycler._desiredIndex > -1) {
-							//Initialize scrollTop to supplied index
-							itemRecycler.async(itemRecycler.scrollToIndex);
-						}
-					} else if (itemRecycler._itemHeight < 0) {
-						change = itemRecycler._accommodateGlobalHeightAdjustment(0|!initialization, bound, delta);
-						itemRecycler.async(itemRecycler._modifyPadding, 1);
-					}
-				}
-				itemRecycler._changeOffsetsAfter(bound.nthDOM, delta);
-				itemRecycler._deltaMiddleHeight(itemRecycler._recycler.setHeightAtIndex(bound.young, bound.height));
-				itemRecycler._repositionHeader();
-				itemRecycler._repositionFooter();
-				if (delta + change) {
-					itemRecycler._paneResponse(null);
-				}
-				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
-			} else if (bound.pendingResponse) {
-				itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
-			}
-
-			if (itemRecycler._itemHeight < 0) {
-				itemRecycler._itemHeight = -itemRecycler._itemHeight;
-			}
-
-			bound.pendingResponse = 0|false;
-		},
-
 		_accommodateGlobalHeightAdjustment: function (initialization, bound, delta) {
 			var adjustment = roundMaybe(bound.height + this._itemHeight);
 			var change = 0;
@@ -575,6 +579,8 @@ found here: https://github.com/Polymer/core-list
 				this._recycler.setFrame(0, 0, 0, 0);
 
 				this._measurements.terminate(0);
+
+				this.toggleAttribute("measuring", true, this.$.middle);
 
 				this._initializeViewport();
 
@@ -745,7 +751,7 @@ found here: https://github.com/Polymer/core-list
 
 			if (spliced) {
 				if (old < 0) {
-					bound = this._includeBoundAtIndex(-1 - index, young, spliced,  useLightDom);
+					bound = this._includeBoundAtIndex(-1 - index, young, spliced, useLightDom);
 					count++;
 				} else if (young < 0) {
 					bound = this._excludeBoundAtIndex(-1 - index, old, spliced);
@@ -761,19 +767,12 @@ found here: https://github.com/Polymer/core-list
 				if (count !== index) {
 					throw new Error("Recycler constraints broken -- count !== index: "+ count + " / " + index);
 				}
-				count = binds.push(bound = new BoundReference(this, count));
-				bound.nthDOM = count - 1;
-				bound.value = new BoundValue(this.data[young], this.scope);
-				bound.element = document.createElement("DIV");
-				this.toggleClass("recycler-panel", true, bound.element);
-				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom, this);
-
-				bound.instance.set("scope", this.scope);
-				bound.instance.set("model", bound.value.model);
+				bound = this._demandBound();
+				count = binds.push(bound);
+				this._retrofitBound(bound, count - 1, young, useLightDom);
 
 				Polymer.dom(bound.element).appendChild(bound.instance);
 				Polymer.dom(this.$.middle).appendChild(bound.element);
-				this._addBoundResponse(bound);
 			} else if (young < 0) {
 				bound = this._excludeBoundAtIndex(index, old, spliced);
 				bound = null;
@@ -797,7 +796,7 @@ found here: https://github.com/Polymer/core-list
 					height = recycler.getHeightAtIndex(young);
 					bound.pendingResponse = 0|true;
 					// defer validation of the height
-					this.debounce(young, this._getBoundResponse(bound));
+					this.debounce(young, this._getBoundResponse(bound), 0|!(this._itemHeight > 0));
 				}
 
 				if (this._measurements.isElevationKnown(young)) {
@@ -813,13 +812,48 @@ found here: https://github.com/Polymer/core-list
 
 				if (place < this._maxPixels) {
 					this._repositionBound(bound);
-					this.debounce("rebase-transform", this._rebaseTransform, 250);
+					this.debounce("rebase-transform", this._rebaseTransform, 250000);
 				} else {
 					this._rebaseTransform();
 				}
 			}
 
 			this.debounce("settle-down", this._settleDown, 1);
+		},
+
+		_retrofitBound: function (bound, nthDOM, young, useLightDom) {
+				bound.nthDOM = nthDOM;
+				bound.value = new BoundValue(this.data[young], this.scope);
+
+				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom, this);
+				bound.instance.set("scope", this.scope);
+				bound.instance.set("model", bound.value.model);
+		},
+
+		_demandBound: function () {
+			var bound = this.poolDemand(null) || new BoundReference(this, -1);
+
+			if (!bound.element) {
+				bound.element = document.createElement("DIV");
+				this.toggleClass("recycler-panel", true, bound.element);
+				this._addBoundResponse(bound);
+			}
+
+			return bound;
+		},
+
+		_supplyBound: function (bound) {
+			var parent = bound.element;
+			var child = parent.lastChild;
+			if (child) do {
+				if (child.localName === "div" &&
+					/^strand-gen-comp-/.test(child.is)) {
+					parent.removeChild(child);
+				}
+			} while (child = child.previousElementSibling)
+
+			this.value = null;
+			this.poolSupply(bound);
 		},
 
 		_adjustNthDOM: function (limit, delta) {
@@ -859,10 +893,9 @@ found here: https://github.com/Polymer/core-list
 
 		_includeBoundAtIndex: function (nthBind, young, spliced, useLightDom) {
 			var index = 0|nthBind;
-			var map = this._responders.boundMap;
 			var binds = this._bindingList;
 			var count = binds.length;
-			var bound = new BoundReference(this, index);
+			var bound = this._demandBound();
 			var included = bound;
 			var replaced = included;
 			var limit = young - 1;
@@ -896,16 +929,8 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			binds[index] = bound;
-			map[index] = null;
 
-			bound.nthDOM = limit + 1;
-			bound.value = new BoundValue(this.data[young], this.scope);
-			bound.element = document.createElement("DIV");
-			this.toggleClass("recycler-panel", true, bound.element);
-			bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom);
-
-			bound.instance.set("scope", this.scope);
-			bound.instance.set("model", bound.value.model);
+			this._retrofitBound(bound, limit + 1, young, useLightDom);
 
 			Polymer.dom(bound.element).appendChild(bound.instance);
 			if (replaced) {
@@ -913,15 +938,12 @@ found here: https://github.com/Polymer/core-list
 			} else {
 				Polymer.dom(this.$.middle).appendChild(bound.element);
 			}
-			this._addBoundResponse(bound);
 
 			return bound;
 		},
 
 		_excludeBoundAtIndex: function (nthBind, old, spliced) {
 			var index = 0|nthBind;
-			var map = this._responders.boundMap;
-			var responder = map[index];
 			var binds = this._bindingList;
 			var count = binds.length;
 			var bound = binds[index];
@@ -934,10 +956,6 @@ found here: https://github.com/Polymer/core-list
 
 			binds[index].nthBind = index;
 			binds[limit].nthBind = limit;
-
-			responder = map[index];
-			map[index] = map[limit];
-			map[limit] = responder;
 
 			if (spliced) {
 				limit = old - 1;
@@ -957,10 +975,10 @@ found here: https://github.com/Polymer/core-list
 			index = 0|--count;
 
 			bound.nthDOM = -1;
-			this._removeBoundResponse(bound);
+			//this._removeBoundResponse(bound);
 			Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
+			this._supplyBound(bound);
 
-			map[count] = null;
 			binds[count] = null;
 
 			return bound;
@@ -968,22 +986,19 @@ found here: https://github.com/Polymer/core-list
 
 		_addBoundResponse: function (bound) {
 			var nthBind = bound.nthBind;
-			var responder = this._boundResponse.bind(bound);
-			this._responders.boundMap[nthBind] = null;
-			this._responders.boundMap[nthBind] = responder;
+			var responder = bound.responder;
 			this.addResizeListener(responder, bound.element);
 			return responder;
 		},
 
 		_getBoundResponse: function (bound) {
-			return this._responders.boundMap[bound.nthBind];
+			return bound.responder;
 		},
 
 		_removeBoundResponse: function (bound) {
 			var nthBind = bound.nthBind;
-			var responder = this._responders.boundMap[nthBind];
+			var responder = bound.responder;
 			this.removeResizeListener(responder, bound.element);
-			this._responders.boundMap[nthBind] = null;
 		},
 
 		_rebaseTransform: function () {

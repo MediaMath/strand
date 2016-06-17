@@ -1,0 +1,119 @@
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+(function (scope) {
+
+	var Pool = function () {
+		this.filled = 0;
+		this.volume = [];
+	};
+
+	function handleDraining (pool) {
+		var volume;
+		if (pool &&
+			Array.isArray(pool.volume)) {
+			volume = pool.volume;
+			pool.volume = [];
+			pool.filled = 0;
+			return volume;
+		} else {
+			return null;
+		}
+	}
+
+	function handleSupply (pool, reference) {
+		var filled = 0;
+		if (pool &&
+			Array.isArray(pool.volume)) {
+			filled = 0|pool.filled;
+			pool.volume[filled] = reference;
+			pool.filled = 1 + filled;
+			return 0|true;
+		} else {
+			return 0|false;
+		}
+	}
+
+	function handleDemand (pool, sentinal) {
+		var filled = 0;
+		var reference;
+		if (pool &&
+			Array.isArray(pool.volume)) {
+			filled = -1 + (0|pool.filled);
+			if (filled > -1 &&
+				filled < pool.volume.length) {
+				reference = pool.volume[filled];
+				pool.volume[filled] = null;
+				pool.filled = filled;
+				return reference;
+			} else {
+				return sentinal;
+			}
+		} else {
+			return sentinal;
+		}
+	}
+
+	var PoolUsable = scope.PoolUsable = {
+
+		properties: {
+			// _globalPool: reservedProperty,
+
+			_localPool: {
+				type: Object,
+				value: function () {
+					return new Pool();
+				},
+			},
+		},
+
+		registered: function () {
+			var prototype = this;
+			prototype.properties = prototype.properties || {};
+
+			if (prototype.properties.hasOwnProperty("_globalPool")) {
+				console.warn("_globalPool propery not assigned by StrandTraits.PoolUsable because it already exists");
+			} else {
+				prototype.properties._globalPool = {
+					type: Object,
+					value: new Pool(),
+				};
+			}
+		},
+
+		poolDemand: function (sentinal) {
+			var reference = handleDemand(this._localPool, sentinal);
+			if (reference === sentinal) {
+				reference = handleDemand(this._globalPool, sentinal);
+			}
+			return reference;
+		},
+
+		poolSupply: function (reference) {
+			return handleSupply(this._localPool, reference);
+		},
+
+		poolDrainLocal: function (reuse) {
+			var volume = handleDraining(this._localPool);
+			var count = 0|(volume && volume.length);
+			var index = 0;
+			if (reuse) {
+				for (index; index < count; index++) {
+					handleSupply(this._globalPool, volume[index]);
+				}
+			}
+			return 0|!!volume;
+		},
+
+		poolDrainGlobal: function () {
+			var volume = handleDraining(this._globalPool);
+			return 0|!!volume;
+		},
+	};
+
+})(window.StrandTraits = window.StrandTraits || {}); 
+</script>
