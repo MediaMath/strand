@@ -36,7 +36,7 @@
 				<strand-grid-item model="{{model}}" scope="{{scope}}"></strand-grid-item>
 			</template>
 		</strand-item-recycler>
-		<template is="dom-if" if="{{ _showLoader(isLoading, _measuring) }}">
+		<template is="dom-if" if="{{ _showLoader(_indications, isLoading, _measuring) }}">
 			<strand-loader id="loader"><label>Loading...</label></strand-loader>
 		</template>
 		<div id="separator"></div>

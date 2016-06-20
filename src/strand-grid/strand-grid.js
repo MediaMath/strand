@@ -40,6 +40,15 @@
 				type: Number,
 				value: 1
 			},
+			indicate: {
+				type: String,
+				value: "loading  measuring",
+			},
+			_indications: {
+				type: Object,
+				value: null,
+				computed: "_computeIndications(indicate)",
+			},
 			isLoading: {
 				type: Boolean,
 				value: false
@@ -272,8 +281,17 @@
 			}
 		},
 
-		_showLoader: function (isLoading, _measuring) {
-			return isLoading || _measuring;
+		_computeIndications: function () {
+			var list = (this.indicate || "").split(/\s+/);
+
+			return list.reduce(function (indications, key) {
+				indications[key] = 0|true;
+				return indications;
+			}, {});
+		},
+
+		_showLoader: function (_indications, isLoading, _measuring) {
+			return (isLoading && _indications.loading) || (_measuring && _indications.measuring);
 		},
 
 		requestInitialization: function () {
