@@ -10,7 +10,7 @@
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
 	scope.InlineEdit = Polymer({
-		is: 'mm-inline-edit',
+		is: 'strand-inline-edit',
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -152,8 +152,8 @@
 		},
 
 		// _valueChanged: function(newVal, oldVal) {
-		// 	console.log('mm-inline-edit :: _valueChanged :: newVal: ', newVal);
-		// 	console.log('mm-inline-edit :: _valueChanged :: oldVal: ', oldVal);
+		// 	console.log('strand-inline-edit :: _valueChanged :: newVal: ', newVal);
+		// 	console.log('strand-inline-edit :: _valueChanged :: oldVal: ', oldVal);
 		// },
 
 		_dateSaved: function(e) {

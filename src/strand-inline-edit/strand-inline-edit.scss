@@ -57,20 +57,20 @@
 	justify-content: center;
 	cursor: pointer;
 
-	mm-icon {
+	strand-icon {
 		pointer-events: none;
 		color: $color-F0;
 	}
 }
 
 #cancel:hover {
-	mm-icon {
+	strand-icon {
 		color: $color-C2;
 	}
 }
 
 #save:hover {
-	mm-icon {
+	strand-icon {
 		color: $color-B4;
 	}
 }

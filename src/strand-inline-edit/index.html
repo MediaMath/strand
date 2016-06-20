@@ -2,11 +2,11 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="mm-inline-edit.html"/>
-		<link rel="import" href="../mm-grid/mm-grid.html"/>
-		<link rel="import" href="../mm-grid-column/mm-grid-column.html"/>
-		<link rel="import" href="../mm-grid-item/mm-grid-item.html"/>
-		<link rel="import" href="../mm-dropdown/mm-dropdown.html"/>
+		<link rel="import" href="strand-inline-edit.html"/>
+		<link rel="import" href="../strand-grid/strand-grid.html"/>
+		<link rel="import" href="../strand-grid-column/strand-grid-column.html"/>
+		<link rel="import" href="../strand-grid-item/strand-grid-item.html"/>
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html"/>
 		<style type="text/css">
 			body, html {
 				height: 100%;
@@ -88,11 +88,11 @@
 				float: left;
 			}
 
-			mm-checkbox:not(:last-child) {
+			strand-checkbox:not(:last-child) {
 				margin-right: 20px;
 			}
 
-			mm-checkbox[unresolved] {
+			strand-checkbox[unresolved] {
 				display: none;
 			}
 
@@ -104,41 +104,41 @@
 	<body>
 
 		<!-- A default grid item example -->
-		<mm-grid id="grid" selectable style="width: 100%; height: 900px;">
-			<mm-grid-column editable field="first_name">First Name</mm-grid-column>
-			<mm-grid-column field="last_name">Last Name</mm-grid-column>
-			<mm-grid-column field="email">Email</mm-grid-column>
-			<mm-grid-column field="start_date">Start Date</mm-grid-column>
-			<mm-grid-column field="end_date">End Date</mm-grid-column>
+		<strand-grid id="grid" selectable style="width: 100%; height: 900px;">
+			<strand-grid-column editable field="first_name">First Name</strand-grid-column>
+			<strand-grid-column field="last_name">Last Name</strand-grid-column>
+			<strand-grid-column field="email">Email</strand-grid-column>
+			<strand-grid-column field="start_date">Start Date</strand-grid-column>
+			<strand-grid-column field="end_date">End Date</strand-grid-column>
 			
 			<template preserve-content>
-				<mm-grid-item model="{{model}}" scope="{{scope}}">
+				<strand-grid-item model="{{model}}" scope="{{scope}}">
 					
 					<div field="first_name">
-						<mm-inline-edit type="collection" value="{{model.first_name}}" collection="{{model.collection}}" model="{{model}}">{{model.first_name}}</mm-inline-edit>
+						<strand-inline-edit type="collection" value="{{model.first_name}}" collection="{{model.collection}}" model="{{model}}">{{model.first_name}}</strand-inline-edit>
 					</div>
 
 					<div field="last_name">
-						<mm-inline-edit type="primitive" value="{{model.last_name}}" model="{{model}}">{{model.last_name}}</mm-inline-edit>
+						<strand-inline-edit type="primitive" value="{{model.last_name}}" model="{{model}}">{{model.last_name}}</strand-inline-edit>
 					</div>
 
 					<div field="start_date">
-						<mm-inline-edit type="date" value="{{model.start_date}}" model="{{model}}">{{model.start_date}}</mm-inline-edit>
+						<strand-inline-edit type="date" value="{{model.start_date}}" model="{{model}}">{{model.start_date}}</strand-inline-edit>
 					</div>
 
 					<div field="end_date">
-						<mm-inline-edit type="date" value="{{model.end_date}}" model="{{model}}">{{model.end_date}}</mm-inline-edit>
+						<strand-inline-edit type="date" value="{{model.end_date}}" model="{{model}}">{{model.end_date}}</strand-inline-edit>
 					</div>
 					
-				</mm-grid-item>
+				</strand-grid-item>
 			</template>
 
-		</mm-grid>
+		</strand-grid>
 	
 
 		<!--
 		<div style="padding:50px;">
-			<mm-inline-edit id="single" type="collection">SOME_BOUND_VALUE</mm-inline-edit>
+			<strand-inline-edit id="single" type="collection">SOME_BOUND_VALUE</strand-inline-edit>
 		</div>
 		-->
 
