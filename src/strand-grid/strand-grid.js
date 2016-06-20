@@ -273,7 +273,7 @@
 		},
 
 		_showLoader: function (isLoading, _measuring) {
-			return isLoading;
+			return isLoading || _measuring;
 		},
 
 		requestInitialization: function () {

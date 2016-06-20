@@ -38,7 +38,9 @@ found here: https://github.com/Polymer/core-list
 		var change = 0;
 		var initialization = true;
 
-		if (delta > 0 ||
+		if (!itemRecycler) {
+			return;
+		} else if (delta > 0 ||
 			itemRecycler._itemHeight <= 0 ||
 			itemRecycler._itemHeight && delta < 0) {
 			bound.height += delta;
@@ -853,6 +855,8 @@ found here: https://github.com/Polymer/core-list
 				this._addBoundResponse(bound);
 			}
 
+			bound.itemRecycler = this;
+
 			return bound;
 		},
 
@@ -989,6 +993,7 @@ found here: https://github.com/Polymer/core-list
 			index = 0|--count;
 
 			bound.nthDOM = -1;
+			bound.itemRecycler = null;
 			//this._removeBoundResponse(bound);
 			Polymer.dom(Polymer.dom(bound.element).parentNode).removeChild(bound.element);
 			this._supplyBound(bound);
