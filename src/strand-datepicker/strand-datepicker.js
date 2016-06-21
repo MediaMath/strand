@@ -12,11 +12,11 @@
 		return s.split('-').reduce(function(prev,curr,index,arr) {
 			return (index > 0) ? prev+curr[0].toUpperCase()+curr.substring(1) : prev+curr;
 		});
-	};
+	}
 
 	function _undef(a) {
 		return a !== null && a !== undefined && a !== '';
-	};
+	}
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
@@ -405,15 +405,19 @@
 		},
 
 		_save: function(e,_,silent) {
+			var s = moment(this.start);
 			var sd = moment(this.startDate);
 			var st = moment(this.startTime + ' ' + this.startTimePeriod, this.timeFormat);
 			sd.set({'hours': st.hours(), 'minutes': st.minutes()});
 
+			var e = moment(this.end);
 			var ed = moment(this.endDate);
 			var et = moment(this.endTime + ' ' + this.endTimePeriod, this.timeFormat);
 			ed.set({'hours': et.hours(), 'minutes': et.minutes()});
 
+			if (s.isValid() && !s.isSame(sd))
 			this.start = sd.toDate();
+			if (e.isValid() && !e.isSame(ed))
 			this.end = ed.toDate();
 
 			if(!silent) {
