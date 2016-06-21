@@ -9,6 +9,7 @@
 	var hogan = require('hogan.js');
 	var serveStatic = require('serve-static');
 	var connect = require('connect');
+	var run = require('run-sequence');
 
 	//stream/gulp related
 	var merge = require('merge-stream');
@@ -19,19 +20,28 @@
 	module.exports = function(gulp, plugins, C) {
 
 		gulp.task('watch', function () {
-			gulp.watch(j(C.SRC, C.MODULE_MASK, '/*.scss'), ['sass']);
-			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_HTML), ['copy']);
-			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_JS), ['copy']);
-			gulp.watch(j(C.SRC, C.MODULE_MASK, 'index.html'), ['copy']);
-			gulp.watch(j(C.SRC, C.SHARED, '**'), ['copy']);
+			var sassCallback = function(events, done) { run('sass', done); };
+			plugins.watch(j(C.SRC, C.MODULE_MASK, '/*.scss'), plugins.batch(sassCallback));
+
+			var copyCallback = function(events, done) { run('copy', done); };
+			plugins.watch([
+				j(C.SRC, C.MODULE_MASK, C.MODULE_HTML),
+				j(C.SRC, C.MODULE_MASK, C.MODULE_JS),
+				j(C.SRC, C.MODULE_MASK, 'index.html'),
+				j(C.SRC, C.SHARED, '**')
+			], plugins.batch(copyCallback));
 		});
 
 		gulp.task('debugwatch', function () {
-			gulp.watch(j(C.SRC, C.MODULE_MASK, '/*.scss'), ['debug']);
-			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_HTML), ['debug']);
-			gulp.watch(j(C.SRC, C.MODULE_MASK, C.MODULE_JS), ['debug']);
-			gulp.watch(j(C.SRC, C.MODULE_MASK, 'index.html'), ['debug']);
-			gulp.watch(j(C.SRC, C.SHARED, '**'), ['debug']);
+			var debugCallback = function(events, done) { run('debug', done); };
+
+			plugins.watch([
+				j(C.SRC, C.MODULE_MASK, '/*.scss'),
+				j(C.SRC, C.MODULE_MASK, C.MODULE_HTML),
+				j(C.SRC, C.MODULE_MASK, C.MODULE_JS),
+				j(C.SRC, C.MODULE_MASK, 'index.html'),
+				j(C.SRC, C.SHARED, '**')
+			], plugins.batch(debugCallback));
 		});
 
 		gulp.task('index', function() {
@@ -67,7 +77,12 @@
 		gulp.task('debug:live', ['debug', 'debugwatch']);
 
 		gulp.task('watch:docs', function() {
-			gulp.watch([j(C.DOCS,'/**/*.md'), C.SRC + '**/doc.json'], ['docs:templates']);
+			var docsCallback = function(events, done) { run('docs:templates', done); };
+
+			plugins.watch([
+				j(C.DOCS,'/**/*.md'),
+				C.SRC + '**/doc.json'
+			], plugins.batch(docsCallback));
 		});
 
 		gulp.task('server:docs', function() {
