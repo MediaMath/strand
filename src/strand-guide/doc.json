@@ -23,7 +23,7 @@
 			"description":"Instructs the component not to be shown, or do any of it's setup. Suppots the case wherein the user has dismissed this guide (see the 'useLocalStorage' property), or developer would like to bind to the value of their own flag to dismiss the guide.",
 			"optional":true,
 			"default":"none",
-			"attribute":"supress-guide"
+			"attribute":"suppress-guide"
 		},
 		{
 			"name":"scope",
@@ -45,7 +45,8 @@
 			"type":"Boolean",
 			"description":"Instructs the component to display a semi-transparent overlay onto the window, with a spotlight on the desired target component being described. The focus overlay will block clicks until the guide tooltip is dismissed.",
 			"optional":true,
-			"default":"true"
+			"default":"true",
+			"attribute": "show-focus"
 		},
 		{
 			"name":"autoDismiss",

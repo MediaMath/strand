@@ -38,7 +38,9 @@
 				computed: '_computeStorageName(name)'
 			},
 			suppressGuide: {
-				type: Boolean
+				type: Boolean,
+				observer: '_suppressGuideChanged',
+				notify: true
 			},
 			scope: {
 				type: Object,
@@ -95,62 +97,96 @@
 				type: Array,
 				notify: true
 			},
+			_isAttached: {
+				type: Boolean,
+				notify: true
+			},
 			data: {
 				type: Array,
 				notify: true,
 				observer: '_dataChanged'
 			},
+			_initializable: {
+				type: Boolean,
+				computed: '_computeInitializable(_isAttached, data, suppressGuide)',
+				observer: '_initializableChanged'
+			}
 		},
 
 		_bodyOverflow: null,
-		_isAttached: false,
+
+		_queueShow: false,
+		_queueGetTargets: false,
 
 		domObjectChanged: function(domObject) {
-			if (!this.data && !this.suppressGuide) {
+			if (!this.data) {
 				this.data = domObject['guide'];
 			}
 		},
 
 		attached: function() {
 			// Attempt to ensure that the DOM has settled before doing any layout
-			this.async(function() {
-				if (this.data) this._init();
-				this._isAttached = true;
-			});
+			this._isAttached = true;
 		},
 
-		_dataChanged: function(newVal, oldVal) {
-			if (!this.suppressGuide) {
-				// Collect object references for all of the targets
-				newVal.forEach(function(item) {
-					var target = Polymer.dom(this.scope).querySelector('#' + item.target);
-					item.targetRef = target;
-				}, this);
-
-				if (this._isAttached) this._init();
+		_suppressGuideChanged: function(newVal, oldVal) {
+			if (newVal === null || newVal === undefined) {
+				this.set('suppressGuide', false);
 			}
 		},
 
+		_dataChanged: function(newVal, oldVal) {
+			// Collect object references for all of the targets
+			if (this._isAttached) {
+				this._getTargets();
+			} else {
+				this._queueGetTargets = true;
+			}
+		},
+
+		_getTargets: function() {
+			this.data.forEach(function(item) {
+				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
+				item.targetRef = target;
+			}, this);
+		},
+
 		_init: function() {
+			// Make sure we are attached before attempting to get targets
+			if (this._queueGetTargets) {
+				this._getTargets();
+				this._queueGetTargets = false;
+			}
+
 			// Trigger tooltip and canvas setup
 			this._tooltipData = this.data;
 			this._currentStep = 0;
+
+			if (this._queueShow) {
+				this.show();
+				this._queueShow = false;
+			}
 		},
 
 		show: function() {
-			if (!this.suppressGuide) {
-				this._setHidden(false);
-				this.$.tooltip.open();
-				if (this.showFocus) this.$$('#focus')._updateCanvas();
+			if (this._initializable) {
+				// Show the tooltip only if suppress was not set via localStorage
+				if (!this.suppressGuide) {
+					this._setHidden(false);
+					this.$.tooltip.open();
+					if (this.showFocus) this.$$('#focus')._updateCanvas();
+				}
+			} else {
+				this._queueShow = true;
 			}
 		},
 
 		hide: function(e) {
-			if (!this.suppressGuide) {
+			if (this._initializable) {
 				this._setHidden(true);
 				this.$.tooltip.close();
 
-				// If the user has dismissed - suppress via local storage
+				// If the user has dismissed - suppress via localStorage
 				if (this.useLocalStorage) this.suppressGuide = true;
 			}
 		},
@@ -195,6 +231,24 @@
 
 		_computeStorageName: function(name) {
 			return 'guide-' + name;
+		},
+
+		_computeInitializable: function(attached, data, suppressGuide) {
+			// TODO: What about condition where uselocalstorage is false
+			// but suppressGuide is true!? Need more checking here:
+			// TODO: needs condition for if NOT uselocalstorage
+			var suppressGuideIsBool = typeof suppressGuide === 'boolean';
+			var dataIsArray = data.length > 0;
+			var isAttached = attached === true;
+			return suppressGuideIsBool && dataIsArray && isAttached;
+		},
+
+		_initializableChanged: function(newVal, oldVal) {
+			if (!newVal) {
+				return;
+			} else {
+				this._init();
+			}
 		}
 
 	});
