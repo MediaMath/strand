@@ -105,11 +105,11 @@
 
 		<!-- A default grid item example -->
 		<strand-grid id="grid" selectable style="width: 100%; height: 900px;">
-			<strand-grid-column editable field="first_name">First Name</strand-grid-column>
-			<strand-grid-column field="last_name">Last Name</strand-grid-column>
-			<strand-grid-column field="email">Email</strand-grid-column>
-			<strand-grid-column field="start_date">Start Date</strand-grid-column>
-			<strand-grid-column field="end_date">End Date</strand-grid-column>
+			<strand-grid-column resize field="first_name">First Name</strand-grid-column>
+			<strand-grid-column resize field="last_name">Last Name</strand-grid-column>
+			<strand-grid-column resize field="email">Email</strand-grid-column>
+			<strand-grid-column resize field="start_date">Start Date</strand-grid-column>
+			<strand-grid-column resize field="end_date">End Date</strand-grid-column>
 			
 			<template preserve-content>
 				<strand-grid-item model="{{model}}" scope="{{scope}}">

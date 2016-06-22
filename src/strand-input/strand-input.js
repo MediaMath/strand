@@ -7,7 +7,7 @@
 (function (scope) {
 
 	scope.Input = Polymer({
-		is: 'mm-input',
+		is: 'strand-input',
 
 		behaviors: [
 			StrandTraits.Resolvable,
