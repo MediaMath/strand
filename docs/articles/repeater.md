@@ -65,18 +65,18 @@ myRepeater.value = [
 	{
 		first_name: "Jerry",
 		last_name: "Seinfeld",
-		address: "2880 Broadway",
+		address: "129 W. 81st Street",
 		city: "New York",
 		state: "NY",
-		zip_code: "10025"
+		zip_code: "10024"
 	},
 	{
 		first_name: "George",
 		last_name: "Costanza",
-		address: "2880 Broadway",
-		city: "New York",
+		address: "1344 Queens Blvd.",
+		city: "Queens",
 		state: "NY",
-		zip_code: "10025"
+		zip_code: "11374"
 	}
 ];
 ```
