@@ -59,7 +59,7 @@
 				type:Boolean,
 				notify: true,
 				value: false
-			},			
+			},
 			index: {
 				type:Number,
 				notify:true,
@@ -76,9 +76,9 @@
 				type: Boolean,
 				value: false
 			},
-			layout: { 
+			layout: {
 				type: String,
-				reflectToAttribute: true 
+				reflectToAttribute: true
 			},
 			data: {
 				type: Array,
@@ -154,7 +154,7 @@
 		},
 
 		_selectItemByValue: function(value) {
-			this.async(function(){
+			Polymer.RenderStatus.afterNextRender(this, function(){
 				var item = null;
 				var valueStr = value.toString();
 
@@ -264,6 +264,7 @@
 				var name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
 
 				this.value = value;
+				this.error = false;
 
 				if (this.data) {
 					this.set('data.' + newIndex + '.selected', true);
