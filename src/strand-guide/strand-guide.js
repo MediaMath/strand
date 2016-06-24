@@ -27,7 +27,8 @@
 			},
 			useLocalStorage: {
 				type: Boolean,
-				value: false
+				value: false,
+				notify: true
 			},
 			name: {
 				type: String,
@@ -39,8 +40,7 @@
 			},
 			suppressGuide: {
 				type: Boolean,
-				observer: '_suppressGuideChanged',
-				notify: true
+				observer: '_suppressGuideChanged'
 			},
 			scope: {
 				type: Object,
@@ -97,24 +97,35 @@
 				type: Array,
 				notify: true
 			},
-			_isAttached: {
-				type: Boolean,
-				notify: true
-			},
 			data: {
 				type: Array,
-				notify: true,
 				observer: '_dataChanged'
 			},
 			_initializable: {
 				type: Boolean,
-				computed: '_computeInitializable(_isAttached, data, suppressGuide)',
+				computed: '_computeInitializable(_attachedInit, _dataInit, _suppressInit, useLocalStorage)',
 				observer: '_initializableChanged'
+			},
+
+			// initialization helpers
+			_dataInit: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			_suppressInit: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			_attachedInit: {
+				type: Boolean,
+				value: false,
+				notify: true
 			}
 		},
 
 		_bodyOverflow: null,
-
 		_queueShow: false,
 		_queueGetTargets: false,
 
@@ -126,25 +137,26 @@
 
 		attached: function() {
 			// Attempt to ensure that the DOM has settled before doing any layout
-			this._isAttached = true;
+			this._attachedInit = true;
 		},
 
 		_suppressGuideChanged: function(newVal, oldVal) {
-			if (newVal === null || newVal === undefined) {
-				this.set('suppressGuide', false);
-			}
+			this._suppressInit = true;
 		},
 
 		_dataChanged: function(newVal, oldVal) {
-			// Collect object references for all of the targets
-			if (this._isAttached) {
-				this._getTargets();
-			} else {
-				this._queueGetTargets = true;
+			if (newVal && newVal.length > 0) {
+				if (this._attachedInit) {
+					this._getTargets();
+				} else {
+					this._queueGetTargets = true;
+				}
+				this._dataInit = true;
 			}
 		},
 
 		_getTargets: function() {
+			// Collect object references for all of the targets
 			this.data.forEach(function(item) {
 				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
 				item.targetRef = target;
@@ -186,8 +198,10 @@
 				this._setHidden(true);
 				this.$.tooltip.close();
 
-				// If the user has dismissed - suppress via localStorage
-				if (this.useLocalStorage) this.suppressGuide = true;
+				// User dismissal === suppress guide
+				if (this.useLocalStorage) {
+					this.set('suppressGuide', true);
+				}
 			}
 		},
 
@@ -213,7 +227,7 @@
 		_nextHandler: function(e) {
 			this._currentStep++;
 			
-			// use this handler to trigger close and cleanup - the final step is 'Done'
+			// Used to trigger close and cleanup at the final step
 			if (this._currentStep === this.data.length) {
 				this._dismissHandler();
 			}
@@ -233,22 +247,16 @@
 			return 'guide-' + name;
 		},
 
-		_computeInitializable: function(attached, data, suppressGuide) {
-			// TODO: What about condition where uselocalstorage is false
-			// but suppressGuide is true!? Need more checking here:
-			// TODO: needs condition for if NOT uselocalstorage
-			var suppressGuideIsBool = typeof suppressGuide === 'boolean';
-			var dataIsArray = data.length > 0;
-			var isAttached = attached === true;
-			return suppressGuideIsBool && dataIsArray && isAttached;
+		_computeInitializable: function(_attachedInit, _dataInit, _suppressInit, useLocalStorage) {
+			if (useLocalStorage) {
+				return _suppressInit && _dataInit && _suppressInit;
+			} else {
+				return _dataInit && _attachedInit;
+			}
 		},
 
 		_initializableChanged: function(newVal, oldVal) {
-			if (!newVal) {
-				return;
-			} else {
-				this._init();
-			}
+			if (newVal === true) this._init();
 		}
 
 	});
