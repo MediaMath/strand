@@ -84,6 +84,11 @@
 					return this.$.columnContainer;
 				},
 			},
+			icon: {
+				type:String,
+				value:null,
+				notify: true
+			}
 		},
 
 		behaviors: [

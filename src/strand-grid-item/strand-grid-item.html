@@ -15,7 +15,7 @@
 	<template>
 		<div class="_mm_item" hidden$="{{!model}}">
 			<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
-				<strand-checkbox on-tap="_onItemSelected" checked="{{model.selected}}"></strand-checkbox>
+				<strand-checkbox on-tap="_onItemSelected" checked="{{model.selected}}" icon="{{scope.icon}}"></strand-checkbox>
 			</div>
 			<div id="carat" class="_mm_column toggle" hidden$="{{!scope.expandable}}">
 				<strand-icon width="10" height="10" type="carat" on-tap="_onItemExpanded"></strand-icon>

@@ -98,6 +98,11 @@
 			"type":"Integer",
 			"description":"The current first visible item's index at the top of the grid.",
 			"default":""
+		},
+		{
+			"name":"icon",
+			"type":"String",
+			"description":"A valid icon name to use instead of checkboxes if desired. This will replace the existing selected checkbox behavior in each grid-item"
 		}
 	],
 	"methods": [
