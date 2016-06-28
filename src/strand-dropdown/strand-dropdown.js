@@ -171,7 +171,10 @@
 				targetIndex = this.items.indexOf(target);
 			}
 
-			if(targetIndex >= 0) this.selectedIndex = targetIndex;
+			if(targetIndex >= 0) {
+				this.selectedIndex = targetIndex;
+				if (this.state === this.STATE_OPENED) this.close();
+			}
 		},
 
 		// Dom handling
