@@ -296,7 +296,11 @@
 				}
 			}
 			if (typeof oldIndex === 'number' && oldIndex >=0) {
-				this.set('data.' + oldIndex + '.highlighted', false);
+				if (this.data) {
+					this.set('data.' + oldIndex + '.highlighted', false);
+				} else {
+					this.items[oldIndex].removeAttribute('highlighted');
+				}
 			}
 			inherited.apply(this, [newIndex, oldIndex]);
 		},
