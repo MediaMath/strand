@@ -105,10 +105,9 @@
 	
 	<strand-guide 
 		id="guide"
-		noscroll
 		use-local-storage
-		name="example">
-		 
+		name="index-example">
+		
 		<guide 
 			target="button1" 
 			header="Some Header 1"
@@ -132,7 +131,6 @@
 			<label>Save &amp; Add Another</label>
 		</strand-button>
 	</strand-footer>
-
 
 	<script>
 		// var data = [
@@ -159,9 +157,13 @@
 
 		window.addEventListener("WebComponentsReady", function() {
 			var guide = document.querySelector('#guide');
+
+			// guide.data = data;
 			// guide.showFocus = false;
 			// guide.autoDismiss = true;
-			// guide.data = data;
+			// guide.closeBtn = false;
+			// guide.useLocalStorage = true;
+
 			guide.show();
 
 			guide.addEventListener('guide-dismiss', function(){

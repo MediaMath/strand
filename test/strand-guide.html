@@ -67,7 +67,7 @@
 				a.data.length.should.equal(4);
 			});
 
-			it("should initalize when a data array is provided", function(done) {
+			it("should initalize only when a data, suppress, and attached conditions are met", function(done) {
 				var a = new Strand.Guide();
 				var data = [{
 					target: 'button1',
@@ -75,13 +75,14 @@
 					message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
 					dismiss: 'Thanks, I\'ve got it.'
 				}];
+
 				var s = sinon.spy(a, "_init");
 				a.should.exist;
-				Polymer.dom(document.body).appendChild(a);
 				a.data = data;
 
 				flush(function() {
-					s.calledOnce.should.be.true;
+					a._attachedInit.should.be.false;
+					s.calledOnce.should.be.false;
 					done();
 				});
 			});
