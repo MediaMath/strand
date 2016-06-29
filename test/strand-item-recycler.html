@@ -168,7 +168,11 @@
 					var rect = recycler.getBoundingClientRect();
 					var lower = +rect.top; // Firefox carries floating-point numbers
 					var upper = +rect.bottom; // Firefox carries floating-point numbers
-
+					
+					if(!!once != false) {
+						console.log("LOOOOOK HEEEEERE!");
+						console.log(new Error().stack);
+					}
 					(!!once).should.equal(false);
 					once = true;
 
@@ -199,7 +203,7 @@
 
 						done();
 
-					}, 1000);
+					}, 0);
 
 				});
 
