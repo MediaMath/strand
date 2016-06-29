@@ -169,10 +169,9 @@
 					var lower = +rect.top; // Firefox carries floating-point numbers
 					var upper = +rect.bottom; // Firefox carries floating-point numbers
 					
-					if(!!once != false) {
-						console.log("LOOOOOK HEEEEERE!");
-						console.log(new Error().stack);
-					}
+					console.log("LOOOOOK HEEEEERE!", !!once != false);
+					console.log(new Error().stack);
+
 					(!!once).should.equal(false);
 					once = true;
 
