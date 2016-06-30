@@ -6,7 +6,7 @@
 */
 (function (scope) {
 
-	scope.Button = Polymer({
+	scope.Componentizer = Polymer({
 		is: 'strand-componentizer',
 
 		behaviors: [
