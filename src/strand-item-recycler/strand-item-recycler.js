@@ -71,6 +71,7 @@ found here: https://github.com/Polymer/core-list
 			}
 			itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 		} else if (bound.pendingResponse) {
+			itemRecycler._measurements.setHeight(bound.young, bound.height);
 			itemRecycler.debounce("settle-down", itemRecycler._settleDown, 1);
 		}
 
@@ -347,6 +348,7 @@ found here: https://github.com/Polymer/core-list
 				}
 
 				binds[index].instance.notifyPath("model", this.data[young]);
+				binds[index].instance.notifyPath("index", young);
 
 				if (2 > added--) {
 					break;
@@ -804,6 +806,7 @@ found here: https://github.com/Polymer/core-list
 				if (old !== young || spliced) {
 					bound.value.model = this.data[young];
 					bound.instance.set("model", bound.value.model);
+					bound.instance.set("index", young);
 				}
 
 				if (this._measurements.isHeightKnown(young)) {
@@ -844,6 +847,7 @@ found here: https://github.com/Polymer/core-list
 				bound.instance = this.instantiateTemplate(this._templateFound, 0|!useLightDom, this);
 				bound.instance.set("scope", this.scope);
 				bound.instance.set("model", bound.value.model);
+				bound.instance.set("index", young);
 		},
 
 		_demandBound: function () {
