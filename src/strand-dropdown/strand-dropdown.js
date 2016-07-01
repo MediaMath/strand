@@ -113,9 +113,7 @@
 
 		created: function() {
 			// Flag to suppress change events if an initial value is provided
-			if (this.hasAttribute("value")) {
-				this.initialValue = true;
-			}
+			this.initialValue = this.hasAttribute('value');
 		},
 
 		ready: function() {
