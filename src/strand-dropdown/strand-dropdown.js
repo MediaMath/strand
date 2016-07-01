@@ -72,6 +72,10 @@
 				type: Boolean,
 				reflectToAttribute: true
 			},
+			initialValue: {
+				type: Boolean,
+				value: false
+			},
 			layout: { 
 				type: String,
 				reflectToAttribute: true 
@@ -106,6 +110,13 @@
 
 		_widthLocked: false,
 		LAYOUT_TYPE: 'dropdown',
+
+		created: function() {
+			// Flag to suppress change events if an initial value is provided
+			if (this.hasAttribute("value")) {
+				this.initialValue = true;
+			}
+		},
 
 		ready: function() {
 			if(!this.toggleTrigger) {
@@ -270,7 +281,11 @@
 					selected: newSelected.selected
 				});
 
-				this.fire('changed', { value: value });
+				if (this.initialValue) {
+					this.initialValue = false;
+				} else {
+					this.fire("changed", { value:this.value });
+				}
 			}
 
 			if (typeof oldIndex === 'number') {
