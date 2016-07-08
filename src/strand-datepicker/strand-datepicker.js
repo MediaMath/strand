@@ -288,6 +288,11 @@
 						this.startDate = allowedStart.format(this.dateFormat);
 					});
 				}
+				else if (sd.isAfter(moment(this.endDate))) {
+					this.async(function() {
+						this.startDate = this.endDate;
+					});
+				}
 			}
 		},
 
@@ -302,6 +307,10 @@
 				if (allowedEnd && allowedEnd.isValid() && ed.isAfter(allowedEnd)) {
 					this.async(function() {
 						this.endDate = allowedEnd.format(this.dateFormat);
+					});
+				} else if (ed.isBefore(moment(this.startDate))) {
+					this.async(function() {
+						this.endDate = this.startDate;
 					});
 				}
 			}
