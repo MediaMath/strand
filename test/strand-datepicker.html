@@ -113,6 +113,7 @@ describe("strand-datepicker", function() {
 		t4.endDate = ed.format(t4.dateFormat);
 		flush(function() {
 			t4.endDate.should.equal(t4.startDate);
+			done();
 		});
 	});
 });
