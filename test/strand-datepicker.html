@@ -16,9 +16,13 @@
 <strand-button id="target1"><label>Open Datepicker</label></strand-button>
 <strand-button id="target2"><label>Open Datepicker</label></strand-button>
 <strand-button id="target3"><label>Open Datepicker</label></strand-button>
+<strand-button id="target4"><label>Open Datepicker</label></strand-button>
+<strand-button id="target5"><label>Open Datepicker</label></strand-button>
 <strand-datepicker id="test1" target="#target1"></strand-datepicker>
 <strand-datepicker id="test2" target="#target2"></strand-datepicker>
 <strand-datepicker id="test3" target="#target3"></strand-datepicker>
+<strand-datepicker id="test4" target="#target4"></strand-datepicker>
+<strand-datepicker id="test5" target="#target5"></strand-datepicker>
 <script>
 describe("strand-datepicker", function() {
 
@@ -103,6 +107,28 @@ describe("strand-datepicker", function() {
 		});
 	});
 
+	it("should not allow a manually entered end date to be before a start date", function(done) {
+		var t4 = document.querySelector("#test4");
+		var sd = moment();
+		var ed = moment().subtract(3, 'days');
+		t4.startDate = sd.format(t4.dateFormat);
+		t4.endDate = ed.format(t4.dateFormat);
+		flush(function() {
+			t4.endDate.should.equal(t4.startDate);
+			done();
+		});
+	});
+
+	it("should not allow a manually entered but badly formatted end date to be before a start date", function(done) {
+		var t5 = document.querySelector("#test5");
+		var sd = moment('7/10/2016');
+		t5.startDate = sd.format(t5.dateFormat);
+		t5.endDate = "7/1 /2016";
+		flush(function() {
+			t5.endDate.should.equal(t5.startDate);
+			done();
+		});
+	});
 });
 </script>
 </body>
