@@ -1,3 +1,30 @@
+<a name="v4.0.4"></a>
+## v4.0.4 (2016-07-11)
+
+* .travis.yml lock down firefox version ([252bf8b](https://github.com/MediaMath/strand/commit/252bf8b))
+* Add componentizer and other enhancements (#92) ([d10b23c](https://github.com/MediaMath/strand/commit/d10b23c))
+* add initialValue back to dropdown ([cad378e](https://github.com/MediaMath/strand/commit/cad378e))
+* Addresses critical issue in repeater documentation ([b8896ef](https://github.com/MediaMath/strand/commit/b8896ef))
+* annnnd 1.6.0 ([b6c5a72](https://github.com/MediaMath/strand/commit/b6c5a72))
+* Delay item-recycler initialization by a tick ([345493b](https://github.com/MediaMath/strand/commit/345493b))
+* Dev/guide fixes (#90) ([c68d090](https://github.com/MediaMath/strand/commit/c68d090)), closes [#90](https://github.com/MediaMath/strand/issues/90)
+* example fix for strand-autocomplete ([2aa58c6](https://github.com/MediaMath/strand/commit/2aa58c6))
+* Fix FF recycler obsolete event issue ([77ae586](https://github.com/MediaMath/strand/commit/77ae586))
+* fix for upstream gulp issue ([d8daae4](https://github.com/MediaMath/strand/commit/d8daae4))
+* fixes an issue with datepicker where useCommit = false would cause an infinite event loop ([73ed297](https://github.com/MediaMath/strand/commit/73ed297))
+* Make grid measuring/loading spinner optional ([761fb12](https://github.com/MediaMath/strand/commit/761fb12))
+* match dropdown closing behavior to .5 version ([28b8770](https://github.com/MediaMath/strand/commit/28b8770))
+* more succinct if ([c8504a2](https://github.com/MediaMath/strand/commit/c8504a2))
+* Pool recycler-panels for improved performance ([1250052](https://github.com/MediaMath/strand/commit/1250052))
+* re-added basic icon support to grid ([5d171af](https://github.com/MediaMath/strand/commit/5d171af))
+* remove highlighting after close fix ([3e888ac](https://github.com/MediaMath/strand/commit/3e888ac))
+* Replace gulp.watch with gulp-watch for better performance ([30b5b54](https://github.com/MediaMath/strand/commit/30b5b54))
+* Revert to non-iframe resize notifier ([25783ca](https://github.com/MediaMath/strand/commit/25783ca))
+* update to polymer 1.5 ([0ad2ada](https://github.com/MediaMath/strand/commit/0ad2ada))
+* Use iframes for sizeresponsible ([2c467ea](https://github.com/MediaMath/strand/commit/2c467ea))
+
+
+
 <a name="v4.0.3"></a>
 ## v4.0.3 (2016-06-08)
 
