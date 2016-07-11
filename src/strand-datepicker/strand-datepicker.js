@@ -420,22 +420,20 @@
 		},
 
 		_save: function(e,_,silent) {
-			var s = moment(this.start, this.dateFormat, true);
-			var sd = moment(this.startDate, this.dateFormat, true);
+			var s = moment(this.start);
+			var sd = moment(this.startDate);
 			var st = moment(this.startTime + ' ' + this.startTimePeriod, this.timeFormat);
 			sd.set({'hours': st.hours(), 'minutes': st.minutes()});
 
-			if(_datesValid) {
-				var e = moment(this.end, this.dateFormat, true);
-				var ed = moment(this.endDate, this.dateFormat, true);
-				var et = moment(this.endTime + ' ' + this.endTimePeriod, this.timeFormat);
-				ed.set({'hours': et.hours(), 'minutes': et.minutes()});
+			var e = moment(this.end);
+			var ed = moment(this.endDate);
+			var et = moment(this.endTime + ' ' + this.endTimePeriod, this.timeFormat);
+			ed.set({'hours': et.hours(), 'minutes': et.minutes()});
 
-				if (s.isValid() && !s.isSame(sd))
-				this.start = sd.toDate();
-				if (e.isValid() && !e.isSame(ed))
-				this.end = ed.toDate();
-			}
+			if (s.isValid() && !s.isSame(sd))
+			this.start = sd.toDate();
+			if (e.isValid() && !e.isSame(ed))
+			this.end = ed.toDate();
 
 			if(!silent) {
 				this.fire('saved', { start:this.start, end:this.end });
