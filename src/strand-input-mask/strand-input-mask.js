@@ -300,8 +300,8 @@
 						var rng = _groupRange(node.attributes.size.value),
 							rule = this.rules[node.attributes.rule.value],
 							restrict = this.restrict[node.attributes.restrict.value],
-							// auto = node.attributes.autofill.value,
-							auto = false,
+							auto = node.attributes.autofill ? node.attributes.autofill.value : false,
+							// auto = false,
 							args = node.textContent.trim(),
 							style = {
 								width:"auto"
@@ -312,10 +312,10 @@
 							index: i,
 							id:"mini"+i,
 							max:rng[1],
-							min:rng[0], 
-							rule:rule, 
+							min:rng[0],
+							rule:rule,
 							restrict:restrict,
-							args:args, 
+							args:args,
 							auto:auto,
 							type:_types.GROUP,
 							style:style,
@@ -332,10 +332,10 @@
 						var chars = node.attributes.chars.value;
 						this._sepsLen += chars.length;
 						var s = {
-							type:_types.SEP, 
-							value:chars, 
+							type:_types.SEP,
+							value:chars,
 							style: this.classBlock({
-								sep: true, 
+								sep: true,
 								placeholder: true
 							})
 						};
@@ -402,7 +402,7 @@
 
 		_handleFocus: function(e) {
 			this._updateGroups();
-			this._handleInputFocus();       
+			this._handleInputFocus();
 		},
 
 		_handleInputFocus: function(e) {
@@ -411,6 +411,7 @@
 
 		_handleBlur: function(e) {
 			this.$.input.$$("input").removeAttribute("forceFocus");
+			this._handleFill(e.target);
 		},
 
 		_handleCut: function(e) {
@@ -445,7 +446,7 @@
 		},
 
 		_validateGroup: function(e,target) {
-			var val = (e instanceof ClipboardEvent) ? e.clipboardData.getData('text/plain') : 
+			var val = (e instanceof ClipboardEvent) ? e.clipboardData.getData('text/plain') :
 				String.fromCharCode(e.keyCode);
 			var group = this._getGroup(target);
 
@@ -502,9 +503,9 @@
 			if(this._isKeyboardShortcut(e)) return;
 			var max = this._getGroup(e.target).max,
 				selLength = e.target.selectionEnd - e.target.selectionStart;
-			if(!this._validateGroup(e,e.target)) { 
+			if(!this._validateGroup(e,e.target)) {
 				e.preventDefault();
-			} else if(e.target.value.length === max && selLength === 0) { 
+			} else if(e.target.value.length === max && selLength === 0) {
 				this._validateGroup(e,this._focusRight(e.target));
 			}
 		},
@@ -519,7 +520,7 @@
 				if(oldTarget !== newTarget) newTarget.selectionStart = newTarget.selectionEnd = newTarget.value.length;
 			}
 		},
-		
+
 		_onRight: function(e) {
 			var max = this._getGroup(e.target).max,
 				selLength = e.target.selectionEnd - e.target.selectionStart;
@@ -529,7 +530,7 @@
 				if(oldTarget !== newTarget) newTarget.selectionStart = newTarget.selectionEnd = 0;
 			}
 		},
-		
+
 		_onTab: function(e) {
 			this._handleFill(e.target);
 		},
