@@ -275,7 +275,10 @@
 			return sd.isValid() && (!this.dual || ed.isValid());
 		},
 
-		_validateStart: function() {
+		_validateStart: function(startDate) {
+			if(startDate && startDate.length !== 10) {
+				this.startDate = moment(new Date(startDate)).format(this.dateFormat);
+			}
 			if(this.startDate instanceof Date) {
 				this.startDate = this._calendarFilter(this.startDate);
 				return;
@@ -298,7 +301,10 @@
 			}
 		},
 
-		_validateEnd: function() {
+		_validateEnd: function(endDate) {
+			if(endDate && endDate.length !== 10) {
+				this.endDate = moment(new Date(endDate)).format(this.dateFormat);
+			}
 			if(this.endDate instanceof Date) {
 				this.endDate = this._calendarFilter(this.endDate);
 				return;
