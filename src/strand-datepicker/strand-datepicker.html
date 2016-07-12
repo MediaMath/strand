@@ -94,7 +94,7 @@
 								<group rule="range" restrict="numeric" size="4"></group>
 							</strand-input-mask>
 						</div>
-						<strand-calendar id="endCalendar" date="{{endDate}}" pair-date="{{startDate}}" disable-past="{{startDate}}" disable-future="{{allowedEnd}}" on-calendar-select="_handleTap" disabled$="{{!endEnabled}}" date-format="{{dateFormat}}"></strand-calendar>
+						<strand-calendar id="endCalendar" date="{{endDate}}" pair-date="{{startDate}}" disable-past="{{_disableFuture(dual,startDate,allowedStart)}}" disable-future="{{allowedEnd}}" on-calendar-select="_handleTap" disabled$="{{!endEnabled}}" date-format="{{dateFormat}}"></strand-calendar>
 						<template is="dom-if" if="{{useTime}}">
 							<div class="input-bottom">
 								<strand-group>

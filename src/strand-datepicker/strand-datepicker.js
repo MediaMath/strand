@@ -275,33 +275,52 @@
 			return sd.isValid() && (!this.dual || ed.isValid());
 		},
 
-		_validateStart: function() {
+		_validateStart: function(startDate) {
+			if(startDate && startDate.length !== 10) {
+				this.startDate = moment(new Date(startDate)).format(this.dateFormat);
+			}
 			if(this.startDate instanceof Date) {
 				this.startDate = this._calendarFilter(this.startDate);
 				return;
 			}
 			var sd = moment(this.startDate, this.dateFormat, true);
 			var allowedStart = _undef(this.allowedStart) && moment(this.allowedStart);
-			if (sd.isValid()) {
+			if (sd.isValid() && !this._resetStart) {
+				var ed = moment(this.endDate, this.dateFormat, true);
+
 				if (allowedStart && allowedStart.isValid() && sd.isBefore(allowedStart)) {
 					this.async(function() {
 						this.startDate = allowedStart.format(this.dateFormat);
 					});
 				}
+				else if (ed.isValid() && sd.isAfter(ed)) {
+					this.async(function() {
+						this.startDate = this.endDate;
+					});
+				}
 			}
 		},
 
-		_validateEnd: function() {
+		_validateEnd: function(endDate) {
+			if(endDate && endDate.length !== 10) {
+				this.endDate = moment(new Date(endDate)).format(this.dateFormat);
+			}
 			if(this.endDate instanceof Date) {
 				this.endDate = this._calendarFilter(this.endDate);
 				return;
 			}
 			var ed = moment(this.endDate, this.dateFormat, true);
 			var allowedEnd = _undef(this.allowedEnd) && moment(this.allowedEnd);
-			if (ed.isValid()) {
+			if (ed.isValid() && !this._resetEnd) {
+				var sd = moment(this.startDate, this.dateFormat, true);
+
 				if (allowedEnd && allowedEnd.isValid() && ed.isAfter(allowedEnd)) {
 					this.async(function() {
 						this.endDate = allowedEnd.format(this.dateFormat);
+					});
+				} else if (sd.isValid() && ed.isBefore(sd)) {
+					this.async(function() {
+						this.endDate = this.startDate;
 					});
 				}
 			}
@@ -338,12 +357,14 @@
 			var e = moment(end);
 
 			if (s.isValid()) {
+				this._resetStart = true;
 				this.startDate = s.format(this.dateFormat);
 				this.startTime = s.format(this.timeOnlyFormat);
 				this.startTimePeriod = s.format('a');
 			}
 
 			if (e.isValid()) {
+				this.resetEnd = true;
 				this.endDate = e.format(this.dateFormat);
 				this.endTime = e.format(this.timeOnlyFormat);
 				this.endTimePeriod = e.format('a');
