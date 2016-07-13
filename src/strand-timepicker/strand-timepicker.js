@@ -11,8 +11,8 @@
 
 		properties: {
 			value: {
-				type: String,
-				value: '',
+				type: Number,
+				value: null,
 				notify: true,
 				observer: '_valueChanged'
 			},
@@ -34,6 +34,19 @@
 				type: String,
 				value: 'AM',
 				notify: true
+			},
+
+			_timeOnlyFormat: {
+				type: String,
+				computed: '_computeTimeOnlyFormat(timeFormat)'
+			},
+			_24HourFormat: {
+				type: String,
+				computed: '_compute24HourFormat(_timeOnlyFormat)'
+			},
+			_UTCTimeFormat: {
+				type: String,
+				computed: '_computeUTCTimeFormat(timeFormat)'
 			}
 		},
 
@@ -47,24 +60,36 @@
 			'_computeValue(use24HourTime, _time, _timePeriod)'
 		],
 
-		_computeValue: function(use24HourTime, time, timePeriod) {
-			time = time && time.trim();
-			timePeriod = timePeriod && timePeriod.trim();
-
-			var newValue = use24HourTime ? time : time + ' ' + timePeriod;
-			if(this.value !== newValue) this.set('value', newValue);
+		_computeTimeOnlyFormat: function(timeFormat) {
+			return timeFormat.replace(' a', '');
+		},
+		_compute24HourFormat: function(timeOnlyFormat) {
+			return timeOnlyFormat.replace(/h/g, 'H');
+		},
+		_computeUTCTimeFormat: function(timeFormat) {
+			return timeFormat + ' Z';
 		},
 
+		// Computes UNIX timestring from user input
+		_computeValue: function(use24HourTime, time, timePeriod) {
+			var secondsPerDay = 86400;
+			var timeString = (use24HourTime ? time : time+' '+timePeriod) + " +0000";
+			var wrappedTime = moment(timeString, this._UTCTimeFormat, true);
+
+			if(wrappedTime.isValid()) {
+				this.value = wrappedTime.unix() % secondsPerDay;
+			}
+		},
+
+		// Updates display to reflect new value
 		_valueChanged: function(newValue, oldValue) {
-			var newTime = moment(newValue, this._timeFormat, true);
+			if(Number.isInteger(newValue) && newValue !== oldValue) {
+				var newTime = moment.unix(newValue).utc();
+				var time = newTime.format(this.use24HourTime ? this._24HourFormat : this._timeOnlyFormat);
+				var timePeriod = newTime.format('a');
 
-			if(newTime.isValid()) {
-				var hours = newTime.hours();
-				var clockHours = hours % 12;
-				var minutes = newTime.minutes();
-
-				this._time = this.use24HourTime ? hours+':'+minutes : clockHours+':'+minutes;
-				this._timePeriod = (clockHours > 11) ? 'AM' : 'PM';
+				this._time = time;
+				this._timePeriod = timePeriod;
 			};
 		}
 	});
