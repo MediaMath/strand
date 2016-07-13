@@ -113,7 +113,7 @@
 			p = path.split(".");
 		}
 		return p.reduce(function(prev, curr) {
-			if (!_isType(prev, "object") || !(curr in prev)) return null;
+			if (!prev || typeof prev !== 'object' || !(curr in prev)) return null;
 			return prev[curr];
 		}, object);
 	}
