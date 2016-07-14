@@ -25,12 +25,12 @@
 				value: false
 			},
 
-			_time: {
+			timeString: {
 				type: String,
 				value: null,
 				notify: true
 			},
-			_timePeriod: {
+			timePeriod: {
 				type: String,
 				value: 'am',
 				notify: true
@@ -57,7 +57,7 @@
 		],
 
 		observers: [
-			'_computeValue(use24HourTime, _time, _timePeriod)'
+			'_computeValue(use24HourTime, timeString, timePeriod)'
 		],
 
 		_computeTimeOnlyFormat: function(timeFormat) {
@@ -88,19 +88,19 @@
 				var time = newTime.format(this.use24HourTime ? this._24HourFormat : this._timeOnlyFormat);
 				var timePeriod = newTime.format('a');
 
-				this._time = time;
-				this._timePeriod = timePeriod;
+				this.timeString = time;
+				this.timePeriod = timePeriod;
 			};
 		},
 
 		_keyHandler: function(e) {
-			var wrappedTime = moment(this._time, this._timeOnlyFormat, true);
+			var wrappedTime = moment(this.timeString, this._timeOnlyFormat, true);
 			if(wrappedTime.isValid()) {
 				var c = String.fromCharCode(e.keyCode),
 					normalized = Polymer.dom(e);
 				if (c === 'A' || c === 'P') {
 					e.preventDefault();
-					this.set('_timePeriod', c+'m');
+					this.set('timePeriod', c+'m');
 				}
 			}
 		}

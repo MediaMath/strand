@@ -301,7 +301,7 @@
 		},
 
 		_boundStart: function(newStart, oldStart) {
-			if(newStart !== oldStart) {
+			if(exists(newStart) && newStart !== oldStart) {
 				this.startUnix = clamp(
 					newStart,
 					ensureMoment(this.allowedStart).unix(),
@@ -311,7 +311,7 @@
 		},
 
 		_boundEnd: function(newEnd, oldEnd) {
-			if(newEnd !== oldEnd) {
+			if(exists(newEnd) && newEnd !== oldEnd) {
 				this.endUnix = clamp(
 					newEnd,
 					ensureMoment(this._compositeAllowedStart).unix(),

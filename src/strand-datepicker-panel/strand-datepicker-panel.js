@@ -66,10 +66,19 @@
 				notify: true,
 				observer: '_dateStringChanged'
 			},
+
 			time: { // Seconds since midnight
 				type: Number,
 				value: null,
 				notify: true,
+			},
+			timeString: {
+				type: String,
+				notify: true
+			},
+			timePeriod: {
+				type: String,
+				notify: true
 			},
 
 			// Pass through for strand-calendar

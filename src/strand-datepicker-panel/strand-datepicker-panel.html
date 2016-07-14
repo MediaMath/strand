@@ -43,7 +43,7 @@
 		<strand-calendar date="{{date}}" pair-date="{{pairDate}}" disable-past="{{disablePast}}" disable-future="{{disableFuture}}" disabled$="{{!enabled}}" date-format="{{dateFormat}}"></strand-calendar>
 
 		<template is="dom-if" if="{{useTime}}">
-			<strand-timepicker value="{{time}}" time-format="{{timeFormat}}" disabled$="{{!enabled}}"></strand-timepicker>
+			<strand-timepicker value="{{time}}" time-string="{{timeString}}" time-period="{{timePeriod}}" time-format="{{timeFormat}}" disabled$="{{!enabled}}"></strand-timepicker>
 		</template>
 	</template>
 
