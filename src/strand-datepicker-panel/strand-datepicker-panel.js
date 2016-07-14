@@ -8,8 +8,8 @@
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
-	var exists = function(value) {
-		return !(value === undefined || value === null);
+	var exists = function(a) {
+		return !(a === undefined || a === null);
 	}
 
 	scope.DatepickerPanel = Polymer({

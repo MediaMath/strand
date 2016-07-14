@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../shared/js/moment.html">
+		<link rel="import" href="strand-datepicker-alt.html">
+		<style type="text/css">
+
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				background: #eee;
+				font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+				color: #333;
+			}
+
+			/*#dpb {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -65px;
+				margin-top: -15px;
+			}*/
+
+			#container {
+				margin: auto;
+				width: 800px;
+			}
+
+			pre {
+				background-color: #ddd;
+				display: inline-block;
+				min-height: 1em;
+				width: 100%;
+			}
+
+			table {
+				margin: 16px 0;
+				width: 100%;
+			}
+
+			tr {
+				margin: 8px 0;
+			}
+
+			td:nth-of-type(2n) {
+				width: 310px;
+			}
+
+			td:nth-of-type(2n-1) {
+				font-size: 12px;
+				font-weight: bold;
+				width: 90px;
+			}
+
+			strand-datepicker-alt {}
+
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<template is="dom-bind" id="ctx">
+				<strand-dropdown id="ddl" value="{{direction}}" unresolved>
+					<strand-list-item>n</strand-list-item>
+					<strand-list-item>e</strand-list-item>
+					<strand-list-item>s</strand-list-item>
+					<strand-list-item>w</strand-list-item>
+					<strand-list-item>c</strand-list-item>
+				</strand-dropdown>
+
+				<strand-button id="dpb" unresolved>
+					<label>datepicker target</label>
+				</strand-button>
+				<strand-datepicker-alt
+					start="{{start}}"
+					end="{{end}}"
+					start-date="{{startDate}}"
+					end-date="{{endDate}}"
+					start-time="{{startTime}}"
+					end-time="{{endTime}}"
+					start-unix="{{startUnix}}"
+					end-unix="{{endUnix}}"
+					start-enabled
+					end-enabled
+					start-enabled-label="Start"
+					direction="{{direction}}"
+					end-enabled-label="End"
+					id="dp"
+					target="#dpb"
+					unresolved
+					></strand-datepicker-alt>
+
+				<table>
+					<tr>
+						<td>start</td>
+						<td><pre>{{start}}</pre></td>
+						<td>end</td>
+						<td><pre>{{end}}</pre></td>
+					</tr>
+					<tr>
+						<td>startDate</td>
+						<td><pre>{{startDate}}</pre></td>
+						<td>endDate</td>
+						<td><pre>{{endDate}}</pre></td>
+					</tr>
+					<tr>
+						<td>startTime</td>
+						<td><pre>{{startTime}}</pre></td>
+						<td>endTime</td>
+						<td><pre>{{endTime}}</pre></td>
+					</tr>
+					<tr>
+						<td>startUnix</td>
+						<td><pre>{{startUnix}}</pre></td>
+						<td>endUnix</td>
+						<td><pre>{{endUnix}}</pre></td>
+					</tr>
+				</table>
+			</template>
+		</div>
+
+		<script>
+			var dp,
+				dpb,
+				tmp,
+				rangePresets,
+				drag = false;
+
+			window.addEventListener("WebComponentsReady", function() {
+				document.querySelector('#ctx').direction = 's';
+
+				rangePresets = [
+					{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+					{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+					{name:"Last 30 Days", value:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+					{name:"Month to Date", value:"Month to Date", start:moment().startOf('month'), end:moment()}
+				];
+				dp = document.querySelector("#dp");
+				dp.rangePresets = rangePresets;
+				dp.timezones = [
+					{name:"(GMT-05:00) Eastern Time (US & Canada)", value:"America/New_York"},
+					{name:"(GMT-06:00) Central Time (US & Canada)", value:"America/Chicago"}
+				];
+				dpb = document.querySelector("#dpb");
+				// dp.useCommit = false;
+				dp.target = dpb;
+				// dp.dual = false;
+
+				dp.allowedStart = moment().subtract(14, 'days');
+				dp.allowedEnd = moment().add(14, 'days');
+
+				// tmp = document.querySelector("#tmp");
+				// tmp.op = function() {
+				// 	this.$.dp2.open();
+				// };
+
+				// var dp3 = document.querySelector("#dp3");
+				// dp3.start = moment("Fri Jun 12 2015 00:00:00");
+				// dp3.end = moment("Thu Sep 10 2015 00:00:00");
+				// dp3.allowedStart = dp3.start;
+				// dp3.allowedEnd = dp3.end;
+				// dp3.async(function() {
+
+				// dp3.open();
+
+				dp.addEventListener('saved', function(e) {
+					console.info('start');
+					console.log(e.detail.start);
+					console.info('end');
+					console.log(e.detail.end);
+				})
+			});
+
+			// 	init();
+			// });
+
+			function init() {
+				dpb.addEventListener("mouseup", handleDpb);
+				dpb.addEventListener("mousedown", handleDpbMouseDown);
+			}
+
+			function handleDpb(e) {
+				dp.open();
+			}
+
+			function handleDpbMouseDown(e) {
+				drag = true;
+				document.addEventListener("mouseup", handleMouseUp);
+				document.addEventListener("mousemove", handleDrag);
+			}
+
+			function handleMouseUp(e) {
+				drag = false;
+				document.removeEventListener("mouseup", handleMouseUp);
+				document.removeEventListener("mousemove", handleDrag);
+			}
+
+			function handleDrag(e) {
+				if (drag === true) {
+					dpb.style.left = e.pageX + "px";
+					dpb.style.top = e.pageY + "px";
+				}
+			}
+		</script>
+	</body>
+</html>

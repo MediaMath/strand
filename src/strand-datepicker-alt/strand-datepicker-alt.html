@@ -1,0 +1,95 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../strand-action/strand-action.html">
+<link rel="import" href="../strand-button/strand-button.html">
+<link rel="import" href="../strand-datepicker-panel/strand-datepicker-panel.html">
+<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+<link rel="import" href="../strand-footer/strand-footer.html">
+<link rel="import" href="../strand-list-item/strand-list-item.html">
+<link rel="import" href="../shared/js/measure.html">
+<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/moment.html">
+<link rel="import" href="../shared/js/momentrange.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/stackable.html"/>
+<link rel="import" href="../shared/behaviors/autotogglable.html"/>
+<link rel="import" href="../shared/behaviors/positionable-panel.html"/>
+<link rel="import" href="../shared/behaviors/debouncable.html"/>
+<link rel="import" href="../shared/behaviors/falsifiable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-datepicker-alt">
+	<link rel="import" type="css" href="strand-datepicker-alt.css">
+	<template>
+		<div id="container" style$="{{_containerStyle}}">
+			<div class="body">
+				<template is="dom-if" if="{{dual}}">
+				<template is="dom-if" if="{{useRange}}">
+					<div class="range-presets">
+						<strand-dropdown id="rangeDropdown" placeholder="{{rangeDescription}}" max-items="{{rangePresets.length}}" fitparent overflow="hidden" value="{{rangeValue}}" data="{{rangePresets}}"></strand-dropdown>
+					</div>
+				</template>
+				</template>
+
+				<strand-datepicker-panel id="start"
+					value="{{startUnix}}"
+					date-format="{{dateFormat}}"
+					time-format="{{timeFormat}}"
+					date="{{startJSDate}}"
+					date-string="{{startDate}}"
+					label="{{startLabel}}"
+					enabled="{{startEnabled}}"
+					user-enabled="{{startUserEnabled}}"
+					user-enabled-label="{{startEnabledLabel}}"
+					use-time="{{useTime}}"
+					pair-date="{{endJSDate}}"
+					disable-past="{{allowedStart}}"
+					disable-future="{{_compositeAllowedEnd}}"
+					></strand-datepicker-panel>
+
+				<template is="dom-if" if="{{dual}}">
+					<strand-datepicker-panel id="end"
+						value="{{endUnix}}"
+						date-format="{{dateFormat}}"
+						time-format="{{timeFormat}}"
+						date="{{endJSDate}}"
+						date-string="{{endDate}}"
+						label="{{endLabel}}"
+						enabled="{{endEnabled}}"
+						user-enabled="{{endUserEnabled}}"
+						user-enabled-label="{{endEnabledLabel}}"
+						use-time="{{useTime}}"
+						pair-date="{{startJSDate}}"
+						disable-past="{{_compositeAllowedStart}}"
+						disable-future="{{allowedEnd}}"
+					></strand-datepicker-panel>
+				</template>
+
+				<template is="dom-if" if="{{useTimezone}}">
+					<div class="range-presets">
+						<strand-dropdown id="timezoneDropdown" placeholder="{{timezoneDescription}}" max-items="10" fitparent overflow="hidden" value="{{timezone}}" data="{{timezones}}">
+							<strand-input id="timezoneSearch" search="" clear="" value="{{timezoneSearch}}"></strand-input>
+						</strand-dropdown>
+					</div>
+				</template>
+
+				<template is="dom-if" if="{{useCommit}}">
+					<strand-footer id="footer" fitparent="true" message="{{_duration}}">
+						<strand-action underline="true" on-click="_closeLinkHandler">
+							<label>{{closeLabel}}</label>
+						</strand-action>
+						<strand-button on-click="_saveButtonHandler" disabled$="{{!_areDateStringsValid(startDate,endDate)}}">
+							<label>{{saveLabel}}</label>
+						</strand-button>
+					</strand-footer>
+				</template>
+			</div>
+		</div>
+	</template>
+	<script src="strand-datepicker-alt.js"></script>
+</dom-module>
