@@ -32,7 +32,7 @@
 			},
 			_timePeriod: {
 				type: String,
-				value: 'AM',
+				value: 'am',
 				notify: true
 			},
 
@@ -91,6 +91,18 @@
 				this._time = time;
 				this._timePeriod = timePeriod;
 			};
+		},
+
+		_keyHandler: function(e) {
+			var wrappedTime = moment(this._time, this._timeOnlyFormat, true);
+			if(wrappedTime.isValid()) {
+				var c = String.fromCharCode(e.keyCode),
+					normalized = Polymer.dom(e);
+				if (c === 'A' || c === 'P') {
+					e.preventDefault();
+					this.set('_timePeriod', c+'m');
+				}
+			}
 		}
 	});
 

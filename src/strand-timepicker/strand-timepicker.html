@@ -19,7 +19,7 @@
 	<template>
 		<template is="dom-if" if="{{!use24HourTime}}">
 			<strand-group>
-				<strand-input-mask icon="clock" value="{{_time}}" style="width:119px;">
+				<strand-input-mask icon="clock" value="{{_time}}" on-keydown="_keyHandler" style="width:119px;">
 					<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
 					<sep chars=":"></sep>
 					<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
