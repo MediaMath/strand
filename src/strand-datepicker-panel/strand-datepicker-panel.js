@@ -43,6 +43,9 @@
 				type: String,
 				value: 'MM/DD/YYYY'
 			},
+			timeFormat: {
+				type: String
+			},
 
 			// Values
 			value: { // datetime as unix timestamp
@@ -67,6 +70,20 @@
 				type: Number,
 				value: null,
 				notify: true,
+			},
+
+			// Pass through for strand-calendar
+			pairDate: {
+				type: Object,
+				notify: true
+			},
+			disablePast: {
+				type: Object,
+				notify: true
+			},
+			disableFuture: {
+				type: Object,
+				notify: true
 			}
 		},
 
