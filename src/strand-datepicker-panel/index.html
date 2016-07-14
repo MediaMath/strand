@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-input-mask/strand-input-mask.html">
+		<link rel="import" href="../strand-popover/strand-popover.html">
+		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../shared/js/moment.html">
+		<link rel="import" href="strand-datepicker-panel.html">
+		<style type="text/css">
+
+			body, html {
+				height: 100%;
+				min-height: 100%;
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				background: #eee;
+				font-family: sans-serif;
+				color: #333;
+			}
+
+			#dpb {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -65px;
+				margin-top: -15px;
+			}
+		</style>
+	</head>
+	<body>
+		<template is="dom-bind">
+			<strand-datepicker-panel label="Date" user-enabled user-enabled-label="Toggle"></strand-datepicker-panel>
+			<strand-datepicker-panel enabled="false"></strand-datepicker-panel>
+		</template>
+	</body>
+</html>
