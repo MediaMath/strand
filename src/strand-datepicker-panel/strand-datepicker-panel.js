@@ -45,7 +45,7 @@
 			},
 
 			// Values
-			value: { //
+			value: { // datetime as unix timestamp
 				type: Number,
 				value: null,
 				notify: true,
@@ -63,7 +63,7 @@
 				notify: true,
 				observer: '_dateStringChanged'
 			},
-			time: { // Seconds since midnight UTC
+			time: { // Seconds since midnight
 				type: Number,
 				value: null,
 				notify: true,
@@ -82,8 +82,9 @@
 				var wrappedOld = moment(oldDate);
 
 				if(!wrappedNew.isSame(wrappedOld)) {
-					this.dateString = wrappedNew.format(this.dateFormat).toString();
-					this.value = wrappedNew.unix();
+					var dateOnly = wrappedNew.startOf('day');
+					this.dateString = dateOnly.format(this.dateFormat).toString();
+					this.value = dateOnly.unix() + this.time;
 				}
 			}
 		},
@@ -102,8 +103,9 @@
 					}
 					// Don't do anything if the date didn't actually change
 					else if(!wrappedNew.isSame(wrappedOld)) {
-						this.date = wrappedNew.toDate();
-						this.value = wrappedNew.unix();
+						var dateOnly = wrappedNew.startOf('day');
+						this.date = dateOnly.toDate();
+						this.value = dateOnly.unix() + this.time;
 					}
 				}
 			}
@@ -113,8 +115,11 @@
 			if(exists(newValue) && newValue !== oldValue) {
 				var wrappedUnix = moment.unix(newValue);
 				var secondsPerDay = 86400;
+				// dateString change handler will change Date object
 				this.dateString = wrappedUnix.format(this.dateFormat).toString();
-				// this.time = wrappedUnix.diff(wrappedUnix.startOf('day'), 'seconds');
+				// get seconds since midnight
+				var startOfDay = wrappedUnix.clone().startOf('day');
+				this.time = wrappedUnix.diff(startOfDay, 'seconds');
 			}
 		}
 
