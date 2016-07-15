@@ -8,13 +8,6 @@
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 
-	var clamp = function(value, lower, upper) {
-		var tmp = value;
-		if(lower) tmp = Math.max(lower, tmp);
-		if(upper) tmp = Math.min(upper, tmp);
-		return tmp;
-	}
-
 	var exists = function(a) {
 		return !(a === undefined || a === null);
 	}
@@ -44,6 +37,13 @@
 			// If all else fails return an invalid moment
 			return moment('Invalid date','Invalid date',true);
 		}
+	}
+
+	var clampDates = function(value, lower, upper) {
+		var tmp = ensureMoment(value);
+		if(lower) tmp = moment.max(ensureMoment(lower), tmp);
+		if(upper) tmp = moment.min(ensureMoment(upper), tmp);
+		return tmp;
 	}
 
 	scope.Datepicker = Polymer({
@@ -141,7 +141,8 @@
 				value: true
 			},
 			allowedStart: {
-				type: Object
+				type: Object,
+				value: null
 			},
 			startLabel: {
 				type: String,
@@ -302,21 +303,15 @@
 
 		_boundStart: function(newStart, oldStart) {
 			if(exists(newStart) && newStart !== oldStart) {
-				this.startUnix = clamp(
-					newStart,
-					ensureMoment(this.allowedStart).unix(),
-					ensureMoment(this._compositeAllowedEnd).unix()
-				);
+				this.startUnix = clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
+				if(!this.useCommit) this.save();
 			}
 		},
 
 		_boundEnd: function(newEnd, oldEnd) {
 			if(exists(newEnd) && newEnd !== oldEnd) {
-				this.endUnix = clamp(
-					newEnd,
-					ensureMoment(this._compositeAllowedStart).unix(),
-					ensureMoment(this.allowedEnd).unix()
-				);
+				this.endUnix = clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
+				if(!this.useCommit) this.save();
 			}
 		},
 
@@ -377,14 +372,16 @@
 		},
 
 		save: function(silent) {
+			var oldStart = ensureMoment(this.start);
+			var oldEnd = ensureMoment(this.end);
 			var wrappedStart = ensureMoment(this.startUnix);
 			var wrappedEnd = ensureMoment(this.endUnix);
 
-			if (wrappedStart.isValid()) {
+			if (wrappedStart.isValid() && !wrappedStart.isSame(oldStart)) {
 				this.start = wrappedStart.toDate();
 			}
 
-			if (wrappedEnd.isValid()) {
+			if (wrappedEnd.isValid() && !wrappedEnd.isSame(oldEnd)) {
 				this.end = wrappedEnd.toDate();
 			}
 

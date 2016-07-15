@@ -69,7 +69,7 @@
 
 			time: { // Seconds since midnight
 				type: Number,
-				value: null,
+				value: 0,
 				notify: true,
 			},
 			timeString: {

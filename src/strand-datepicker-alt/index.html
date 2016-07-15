@@ -3,6 +3,7 @@
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../strand-button/strand-button.html">
+		<link rel="import" href="../strand-input/strand-input.html">
 		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
 		<link rel="import" href="../shared/js/moment.html">
 		<link rel="import" href="strand-datepicker-alt.html">
@@ -67,6 +68,7 @@
 	<body>
 		<div id="container">
 			<template is="dom-bind" id="ctx">
+				<h5 style="display: inline-block;">Direction</h5>
 				<strand-dropdown id="ddl" value="{{direction}}" unresolved>
 					<strand-list-item>n</strand-list-item>
 					<strand-list-item>e</strand-list-item>
@@ -74,6 +76,20 @@
 					<strand-list-item>w</strand-list-item>
 					<strand-list-item>c</strand-list-item>
 				</strand-dropdown>
+
+				<span>&nbsp;</span>
+
+				<strand-checkbox checked onclick="toggleUseCommit()">
+					<label>Use Commit</label>
+				</strand-checkbox>
+
+				<span>&nbsp;</span>
+
+				<strand-button type="secondary" onclick="resetDatepicker()">
+					<label>Reset</label>
+				</strand-button>
+
+				<span>&nbsp;</span>
 
 				<strand-button id="dpb" unresolved>
 					<label>datepicker target</label>
@@ -85,6 +101,8 @@
 					end-date="{{endDate}}"
 					start-time="{{startTime}}"
 					end-time="{{endTime}}"
+					start-time-period="{{startTimePeriod}}"
+					end-time-period="{{endTimePeriod}}"
 					start-unix="{{startUnix}}"
 					end-unix="{{endUnix}}"
 					start-enabled
@@ -100,27 +118,33 @@
 				<table>
 					<tr>
 						<td>start</td>
-						<td><pre>{{start}}</pre></td>
+						<td><strand-input value="{{start}}"></strand-input></td>
 						<td>end</td>
-						<td><pre>{{end}}</pre></td>
+						<td><strand-input value="{{end}}"></strand-input></td>
 					</tr>
 					<tr>
 						<td>startDate</td>
-						<td><pre>{{startDate}}</pre></td>
+						<td><strand-input value="{{startDate}}"></strand-input></td>
 						<td>endDate</td>
-						<td><pre>{{endDate}}</pre></td>
+						<td><strand-input value="{{endDate}}"></strand-input></td>
 					</tr>
 					<tr>
 						<td>startTime</td>
-						<td><pre>{{startTime}}</pre></td>
+						<td><strand-input value="{{startTime}}"></strand-input></td>
 						<td>endTime</td>
-						<td><pre>{{endTime}}</pre></td>
+						<td><strand-input value="{{endTime}}"></strand-input></td>
+					</tr>
+					<tr>
+						<td>startTimePeriod</td>
+						<td><strand-input value="{{startTimePeriod}}"></strand-input></td>
+						<td>endTimePeriod</td>
+						<td><strand-input value="{{endTimePeriod}}"></strand-input></td>
 					</tr>
 					<tr>
 						<td>startUnix</td>
-						<td><pre>{{startUnix}}</pre></td>
+						<td><strand-input value="{{startUnix}}"></strand-input></td>
 						<td>endUnix</td>
-						<td><pre>{{endUnix}}</pre></td>
+						<td><strand-input value="{{endUnix}}"></strand-input></td>
 					</tr>
 				</table>
 			</template>
@@ -188,6 +212,14 @@
 
 			function handleDpb(e) {
 				dp.open();
+			}
+
+			function resetDatepicker() {
+				dp.reset();
+			}
+
+			function toggleUseCommit() {
+				dp.useCommit = !dp.useCommit;
 			}
 
 			function handleDpbMouseDown(e) {
