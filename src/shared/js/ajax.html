@@ -164,7 +164,7 @@
 			//ignores for GET requests
 			if (method.match(/(POST|PUT|DELETE)/i)) {
 				if (contentType === "application/json") {
-					data = input;
+					data = JSON.stringify(input);
 				} else if(contentType === "multipart/form-data") {
 					if (input instanceof FormData) {
 						data = input;
