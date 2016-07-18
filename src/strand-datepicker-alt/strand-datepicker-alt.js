@@ -131,6 +131,7 @@
 			start: {
 				type: Object,
 				notify: true,
+				observer: '_startChanged'
 			},
 			startEnabled: {
 				type: Boolean,
@@ -176,8 +177,8 @@
 			// End
 			end: {
 				type: Object,
-				value: null,
-				notify: true
+				notify: true,
+				observer: '_endChanged'
 			},
 			endEnabled: {
 				type: Boolean,
@@ -327,6 +328,15 @@
 					return t.label.toLowerCase().includes(newTimezoneSearch.toLowerCase());
 				});
 			}
+		},
+
+
+		_startChanged: function() {
+			this.reset();
+		},
+
+		_endChanged: function() {
+			this.reset();
 		},
 
 		// Footer
