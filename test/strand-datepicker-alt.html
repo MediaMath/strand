@@ -19,11 +19,13 @@
 <strand-button id="target3"><label>Open Datepicker</label></strand-button>
 <strand-button id="target4"><label>Open Datepicker</label></strand-button>
 <strand-button id="target5"><label>Open Datepicker</label></strand-button>
+<strand-button id="target6"><label>Open Datepicker</label></strand-button>
 <strand-datepicker-alt id="test1" target="#target1"></strand-datepicker-alt>
 <strand-datepicker-alt id="test2" target="#target2"></strand-datepicker-alt>
 <strand-datepicker-alt id="test3" target="#target3"></strand-datepicker-alt>
 <strand-datepicker-alt id="test4" target="#target4"></strand-datepicker-alt>
 <strand-datepicker-alt id="test5" target="#target5"></strand-datepicker-alt>
+<strand-datepicker-alt id="test6" target="#target6"></strand-datepicker-alt>
 <script>
 describe("strand-datepicker", function() {
 
@@ -54,15 +56,16 @@ describe("strand-datepicker", function() {
 	it("should reset to original values when reset is called", function(done) {
 
 		var t2 = document.querySelector("#test2");
-		var start = moment("1/1/2001").toDate();
-		var end = moment("1/1/2001").toDate();
+		var dateFormat = "MM/DD/YYYY";
+		var start = moment("1/1/2001", dateFormat, false).toDate();
+		var end = moment("1/10/2001", dateFormat, false).toDate();
 		t2.start = start;
 		t2.end = end;
 
 		flush(function() {
 
-			var interimStart = moment();
-			var interimEnd = moment().add(1,'day');
+			var interimStart = moment("1/5/2001", dateFormat, false);
+			var interimEnd = interimStart.clone().add(1,'day');
 
 			t2.open();
 
@@ -117,6 +120,18 @@ describe("strand-datepicker", function() {
 		t4.endDate = ed.format(t4.dateFormat);
 		flush(function() {
 			t4.endDate.should.equal(t4.startDate);
+			done();
+		});
+	});
+
+	it("should not allow a end time before start time", function(done) {
+		var t6 = document.querySelector("#test6");
+		var sd = moment().hours('17').minutes('0');
+		var ed = moment().hours('12').minutes('0');
+		t6.start = sd;
+		t6.end = ed;
+		flush(function() {
+			expect(t6.startTime).to.equal(t6.endTime);
 			done();
 		});
 	});
