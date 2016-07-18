@@ -29,11 +29,16 @@
 			<div id="constrainer">
 				<div id="middle"></div>
 				<div id="header">
-					<content select=":not([recycler=footer])"></content>
+					<content select="[recycler=header]"></content>
 				</div>
 				<div id="footer">
 					<content select="[recycler=footer]"></content>
 				</div>
+			</div>
+		</div>
+		<div id="overlay">
+			<div id="fixes-flicker">
+				<content select="[recycler=overlay]"></content>
 			</div>
 		</div>
 	</template>

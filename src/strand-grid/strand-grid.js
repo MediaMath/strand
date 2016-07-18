@@ -49,6 +49,10 @@
 				value: null,
 				computed: "_computeIndications(indicate)",
 			},
+			_loaderStyle: {
+				type: String,
+				computed: "_styleLoader(_indications, isLoading, _measuring)",
+			},
 			isLoading: {
 				type: Boolean,
 				value: false
@@ -293,6 +297,18 @@
 				indications[key] = 0|true;
 				return indications;
 			}, {});
+		},
+
+		_styleLoader: function (_indications, isLoading, _measuring, _deferring, _initializing) {
+			var show = "";
+			var hide = "display: none;";
+			var style = (isLoading && _indications.loading) ?
+				show : (_measuring && _indications.measuring) ?
+				show : (_deferring && _indications.deferring) ?
+				show : (_initializing && _indications.initializing) ?
+				show : hide;
+
+			return style;
 		},
 
 		_showLoader: function (_indications, isLoading, _measuring) {
