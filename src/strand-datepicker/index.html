@@ -4,8 +4,6 @@
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../strand-button/strand-button.html">
 		<link rel="import" href="../strand-input/strand-input.html">
-		<link rel="import" href="../strand-input-mask/strand-input-mask.html">
-		<link rel="import" href="../strand-popover/strand-popover.html">
 		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
 		<link rel="import" href="../shared/js/moment.html">
 		<link rel="import" href="strand-datepicker.html">
@@ -16,104 +14,139 @@
 				min-height: 100%;
 			}
 
-			body {  
+			body {
 				margin: 0;
 				padding: 0;
 				background: #eee;
-				font-family: sans-serif;
+				font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 				color: #333;
 			}
 
-			#dpb {
+			/*#dpb {
 				position: absolute;
 				top: 50%;
 				left: 50%;
 				margin-left: -65px;
 				margin-top: -15px;
+			}*/
+
+			#container {
+				margin: auto;
+				width: 800px;
 			}
 
-			strand-datepicker[unresolved],
-			strand-button[unresolved],
-			strand-dropdown[unresolved] {
-				display: none;
+			pre {
+				background-color: #ddd;
+				display: inline-block;
+				min-height: 1em;
+				width: 100%;
 			}
 
-			strand-datepicker {}
-
-			.controller {
-				width: 500px;
-				border: 1px dashed #999;
-				margin:10px 10px;
-				padding: 10px 10px;
+			table {
+				margin: 16px 0;
+				width: 100%;
 			}
 
-			.controller span {
-				padding: 5px 5px;
-				margin-bottom: 10px;
+			tr {
+				margin: 8px 0;
 			}
 
-			.controller strand-dropdown {
-				margin-top: 10px;
+			td:nth-of-type(2n) {
+				width: 310px;
 			}
 
-			#show {
-				border: 1px solid #CCC;
+			td:nth-of-type(2n-1) {
+				font-size: 12px;
+				font-weight: bold;
+				width: 90px;
 			}
 
 		</style>
 	</head>
 	<body>
-		<template is="dom-bind">
-			<strand-dropdown id="ddl" value="{{direction}}" unresolved>
-				<strand-list-item>n</strand-list-item>
-				<strand-list-item>e</strand-list-item>
-				<strand-list-item>s</strand-list-item>
-				<strand-list-item>w</strand-list-item>
-				<strand-list-item>c</strand-list-item>
-			</strand-dropdown>
-
-			<strand-button id="dpb" unresolved>
-				<label>datepicker target</label>
-			</strand-button>
-			<strand-datepicker start-enabled end-enabled start-enabled-label="Start" direction="{{direction}}" end-enabled-label="End" id="dp" target="#dpb" unresolved></strand-datepicker>
-		</template>
-
-		<!-- <template id="tmp" is="auto-binding">
-			<div vertical layout class="controller">
-				<span id="show" on-tap="{{op}}"><b>Start:</b>{{$.dp2.start}} <b>End:</b>{{$.dp2.end}}</span>
-				<div layout horizontal>
-					<div>
-						<strand-header>Start Allowed</strand-header>
-						<strand-calendar id="allowedStart" date="{{ast}}"></strand-calendar>
-					</div>
-					<div>
-						<strand-header>End Allowed</strand-header>
-						<strand-calendar id="allowedEnd" date="{{aet}}"></strand-calendar>
-					</div>
-				</div>
-				<strand-dropdown placeholder="Click behavior" value="{{clickType}}">
-					<strand-list-item value="constrainTap">T1 Limited</strand-list-item>
-					<strand-list-item value="lazyTap">Lazy Selection</strand-list-item>
-					<strand-list-item value="selectTap">DoubleTap (alpha)</strand-list-item>
+		<div id="container">
+			<template is="dom-bind" id="ctx">
+				<h5 style="display: inline-block;">Direction</h5>
+				<strand-dropdown id="ddl" value="{{direction}}" unresolved>
+					<strand-list-item>n</strand-list-item>
+					<strand-list-item>e</strand-list-item>
+					<strand-list-item>s</strand-list-item>
+					<strand-list-item>w</strand-list-item>
+					<strand-list-item>c</strand-list-item>
 				</strand-dropdown>
-				<strand-checkbox checked="{{userStartEnabled}}">
-					<label>User Enableable Start</label>
-				</strand-checkbox>
-				<strand-checkbox checked="{{userEndEnabled}}">
-					<label>User Enableable End</label>
-				</strand-checkbox>
-				<strand-datepicker id="dp2" unresolved target="{{$.show}}" clickType="{{clickType}}" useTimezone="false" useRange="false" allowedStart="{{ast}}" allowedEnd="{{aet}}" startEnabledLabel="Parent Start" endEnabledLabel="Parent End" startUserEnabled="{{userStartEnabled}}" endUserEnabled="{{userEndEnabled}}"></strand-datepicker>
-			</div>
-		</template> -->
-		<!-- <strand-datepicker id="dp3" unresolved useTimezone="false" useRange="false" startEnabledLabel="Parent Start" endEnabledLabel="Parent End"></strand-datepicker> -->
 
-		<!-- <template is="dom-bind" id="t">
-			<strand-button id="btn">
-				<label>Select a Date</label>
-			</strand-button>
-			<strand-datepicker id="dp" target="#btn" start-enabled end-enabled use-timezone="false" use-range="false">
-			</strand-datepicker>
-		</template> -->
+				<span>&nbsp;</span>
+
+				<strand-checkbox checked onclick="toggleUseCommit()">
+					<label>Use Commit</label>
+				</strand-checkbox>
+
+				<span>&nbsp;</span>
+
+				<strand-button type="secondary" onclick="resetDatepicker()">
+					<label>Reset</label>
+				</strand-button>
+
+				<span>&nbsp;</span>
+
+				<strand-button id="dpb" unresolved>
+					<label>datepicker target</label>
+				</strand-button>
+				<strand-datepicker
+					start="{{start}}"
+					end="{{end}}"
+					start-date="{{startDate}}"
+					end-date="{{endDate}}"
+					start-time="{{startTime}}"
+					end-time="{{endTime}}"
+					start-time-period="{{startTimePeriod}}"
+					end-time-period="{{endTimePeriod}}"
+					start-unix="{{startUnix}}"
+					end-unix="{{endUnix}}"
+					start-enabled
+					end-enabled
+					start-enabled-label="Start"
+					direction="{{direction}}"
+					end-enabled-label="End"
+					id="dp"
+					target="#dpb"
+					unresolved
+					></strand-datepicker>
+
+				<table>
+					<tr>
+						<td>start</td>
+						<td><strand-input value="{{start}}"></strand-input></td>
+						<td>end</td>
+						<td><strand-input value="{{end}}"></strand-input></td>
+					</tr>
+					<tr>
+						<td>startDate</td>
+						<td><strand-input value="{{startDate}}"></strand-input></td>
+						<td>endDate</td>
+						<td><strand-input value="{{endDate}}"></strand-input></td>
+					</tr>
+					<tr>
+						<td>startTime</td>
+						<td><strand-input value="{{startTime}}"></strand-input></td>
+						<td>endTime</td>
+						<td><strand-input value="{{endTime}}"></strand-input></td>
+					</tr>
+					<tr>
+						<td>startTimePeriod</td>
+						<td><strand-input value="{{startTimePeriod}}"></strand-input></td>
+						<td>endTimePeriod</td>
+						<td><strand-input value="{{endTimePeriod}}"></strand-input></td>
+					</tr>
+					<tr>
+						<td>startUnix</td>
+						<td><strand-input value="{{startUnix}}"></strand-input></td>
+						<td>endUnix</td>
+						<td><strand-input value="{{endUnix}}"></strand-input></td>
+					</tr>
+				</table>
+			</template>
+		</div>
 
 		<script>
 			var dp,
@@ -123,6 +156,8 @@
 				drag = false;
 
 			window.addEventListener("WebComponentsReady", function() {
+				document.querySelector('#ctx').direction = 's';
+
 				rangePresets = [
 					{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
 					{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
@@ -134,7 +169,7 @@
 				dp.timezones = [
 					{name:"(GMT-05:00) Eastern Time (US & Canada)", value:"America/New_York"},
 					{name:"(GMT-06:00) Central Time (US & Canada)", value:"America/Chicago"}
-				]; 
+				];
 				dpb = document.querySelector("#dpb");
 				// dp.useCommit = false;
 				dp.target = dpb;
@@ -142,7 +177,6 @@
 
 				dp.allowedStart = moment().subtract(14, 'days');
 				dp.allowedEnd = moment().add(14, 'days');
-
 
 				// tmp = document.querySelector("#tmp");
 				// tmp.op = function() {
@@ -176,6 +210,14 @@
 
 			function handleDpb(e) {
 				dp.open();
+			}
+
+			function resetDatepicker() {
+				dp.reset();
+			}
+
+			function toggleUseCommit() {
+				dp.useCommit = !dp.useCommit;
 			}
 
 			function handleDpbMouseDown(e) {
