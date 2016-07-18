@@ -232,7 +232,7 @@
 			},
 
 			_duration: {
-				computed: '_getDuration(startJSDate, endJSDate)'
+				computed: '_getDuration(startUnix, endUnix)'
 			}
 		},
 
@@ -330,8 +330,10 @@
 		},
 
 		// Footer
-		_getDuration: function(date1, date2) {
+		_getDuration: function(startUnix, endUnix) {
 			var footer = this.$$('#footer');
+			var date1 = moment.unix(startUnix);
+			var date2 = moment.unix(endUnix);
 			if (footer && this.useDuration) footer.showMessage();
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
 			if (duration === 'a few seconds') {
