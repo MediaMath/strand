@@ -224,11 +224,11 @@
 
 			_compositeAllowedStart: {
 				type: Object,
-				computed: '_computeStartBound(startJSDate, allowedStart)'
+				computed: '_computeStartBound(startUnix, allowedStart)'
 			},
 			_compositeAllowedEnd: {
 				type: Object,
-				computed: '_computeEndBound(endJSDate, allowedEnd)'
+				computed: '_computeEndBound(endUnix, allowedEnd)'
 			},
 
 			_duration: {

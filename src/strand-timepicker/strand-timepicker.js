@@ -6,6 +6,12 @@
 */
 (function (scope) {
 
+	var allExist = function() {
+		return Array.prototype.slice.call(arguments)
+			.map(function(value) { return value !== null && value !== undefined })
+			.reduce(function(sum, current) { return sum && current; });
+	}
+
 	scope.TimePicker = Polymer({
 		is: 'strand-timepicker',
 
@@ -28,12 +34,14 @@
 			timeString: {
 				type: String,
 				value: null,
-				notify: true
+				notify: true,
+				observer: '_timeStringChanged'
 			},
 			timePeriod: {
 				type: String,
 				value: 'am',
-				notify: true
+				notify: true,
+				observer: '_timePeriodChanged'
 			},
 
 			_timeOnlyFormat: {
@@ -56,10 +64,6 @@
 			StrandTraits.Refable
 		],
 
-		observers: [
-			'_computeValue(use24HourTime, timeString, timePeriod)'
-		],
-
 		_computeTimeOnlyFormat: function(timeFormat) {
 			return timeFormat.replace(' a', '');
 		},
@@ -71,13 +75,33 @@
 		},
 
 		// Computes UNIX timestring from user input
-		_computeValue: function(use24HourTime, time, timePeriod) {
-			var secondsPerDay = 86400;
-			var timeString = (use24HourTime ? time : time+' '+timePeriod) + " +0000";
-			var wrappedTime = moment(timeString, this._UTCTimeFormat, true);
+		_computeValue: function(use24HourTime, timeString, timePeriod) {
+			if(allExist(use24HourTime, timeString, timePeriod)) {
+				var secondsPerDay = 86400;
+				var time = (use24HourTime ? timeString : timeString+' '+timePeriod) + " +0000";
+				var wrappedTime = moment(time, this._UTCTimeFormat, true);
 
-			if(wrappedTime.isValid()) {
-				this.value = wrappedTime.unix() % secondsPerDay;
+				if(wrappedTime.isValid()) {
+					this.value = wrappedTime.unix() % secondsPerDay;
+				}
+			}
+		},
+
+		_use24Changed: function(newUse24, oldUse24) {
+			if(newUse24 && newUse24 !== oldUse24) {
+				this._computeValue(newUse24, this.timeString, this.timePeriod);
+			}
+		},
+
+		_timeStringChanged: function(newTimeString, oldTimeString) {
+			if(newTimeString && newTimeString !== oldTimeString) {
+				this._computeValue(this.use24HourTime, newTimeString, this.timePeriod);
+			}
+		},
+
+		_timePeriodChanged: function(newTimePeriod, oldTimePeriod) {
+			if(newTimePeriod && newTimePeriod !== oldTimePeriod) {
+				this._computeValue(this.use24HourTime, this.timeString, newTimePeriod);
 			}
 		},
 
@@ -88,8 +112,8 @@
 				var time = newTime.format(this.use24HourTime ? this._24HourFormat : this._timeOnlyFormat);
 				var timePeriod = newTime.format('a');
 
-				this.timeString = time;
-				this.timePeriod = timePeriod;
+				if(this.timeString !== time) this.timeString = time;
+				if(this.timePeriod !== timePeriod) this.timePeriod = timePeriod;
 			};
 		},
 

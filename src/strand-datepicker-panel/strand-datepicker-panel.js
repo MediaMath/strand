@@ -71,6 +71,7 @@
 				type: Number,
 				value: 0,
 				notify: true,
+				observer: '_timeChanged'
 			},
 			timeString: {
 				type: String,
@@ -147,7 +148,14 @@
 				var startOfDay = wrappedUnix.clone().startOf('day');
 				this.time = wrappedUnix.diff(startOfDay, 'seconds');
 			}
-		}
+		},
+
+		_timeChanged: function(newTime, oldTime) {
+			if(newTime && newTime !== oldTime) {
+				var dateOnly = moment.unix(this.value).startOf('day');
+				this.value = dateOnly.unix() + newTime;
+			}
+		},
 
 	});
 
