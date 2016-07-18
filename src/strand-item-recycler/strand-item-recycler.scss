@@ -10,6 +10,7 @@
 :host {
 	display: block;
 	overflow: auto;
+	position: relative;
 }
 
 :host([x-scroll="none"]) #constrainer {
