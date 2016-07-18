@@ -69,7 +69,6 @@
 
 			time: { // Seconds since midnight
 				type: Number,
-				value: 0,
 				notify: true,
 				observer: '_timeChanged'
 			},
