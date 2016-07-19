@@ -12,6 +12,7 @@
 <link rel="import" href="../strand-footer/strand-footer.html">
 <link rel="import" href="../strand-list-item/strand-list-item.html">
 <link rel="import" href="../shared/js/measure.html">
+<link rel="import" href="../shared/js/behaviorutils.html">
 <link rel="import" href="../shared/js/datautils.html">
 <link rel="import" href="../shared/js/moment.html">
 <link rel="import" href="../shared/js/momentrange.html">
@@ -37,10 +38,10 @@
 				</template>
 
 				<strand-datepicker-panel id="start"
-					value="{{startUnix}}"
+					value="{{_startUnix}}"
 					date-format="{{dateFormat}}"
 					time-format="{{timeFormat}}"
-					date="{{startJSDate}}"
+					date="{{_startJSDate}}"
 					date-string="{{startDate}}"
 					time-string="{{startTime}}"
 					time-period="{{startTimePeriod}}"
@@ -49,17 +50,17 @@
 					user-enabled="{{startUserEnabled}}"
 					user-enabled-label="{{startEnabledLabel}}"
 					use-time="{{useTime}}"
-					pair-date="{{endJSDate}}"
+					pair-date="{{_endJSDate}}"
 					disable-past="{{allowedStart}}"
 					disable-future="{{_compositeAllowedEnd}}"
 					></strand-datepicker-panel>
 
 				<template is="dom-if" if="{{dual}}">
 					<strand-datepicker-panel id="end"
-						value="{{endUnix}}"
+						value="{{_endUnix}}"
 						date-format="{{dateFormat}}"
 						time-format="{{timeFormat}}"
-						date="{{endJSDate}}"
+						date="{{_endJSDate}}"
 						date-string="{{endDate}}"
 						time-string="{{endTime}}"
 						time-period="{{endTimePeriod}}"
@@ -68,7 +69,7 @@
 						user-enabled="{{endUserEnabled}}"
 						user-enabled-label="{{endEnabledLabel}}"
 						use-time="{{useTime}}"
-						pair-date="{{startJSDate}}"
+						pair-date="{{_startJSDate}}"
 						disable-past="{{_compositeAllowedStart}}"
 						disable-future="{{allowedEnd}}"
 					></strand-datepicker-panel>

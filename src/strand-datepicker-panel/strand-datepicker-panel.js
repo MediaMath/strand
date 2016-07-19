@@ -6,11 +6,8 @@
 */
 (function (scope) {
 
+	var DataUtils = StrandLib.DataUtils;
 	var BehaviorUtils = StrandLib.BehaviorUtils;
-
-	var exists = function(a) {
-		return !(a === undefined || a === null);
-	}
 
 	scope.DatepickerPanel = Polymer({
 		is: 'strand-datepicker-panel',
@@ -103,7 +100,7 @@
 		],
 
 		_dateChanged: function(newDate, oldDate) {
-			if(exists(newDate)) {
+			if(DataUtils.isDef(newDate)) {
 				var wrappedNew = moment(newDate);
 				var wrappedOld = moment(oldDate);
 
@@ -116,7 +113,7 @@
 		},
 
 		_dateStringChanged: function(newDate, oldDate) {
-			if(exists(newDate) && newDate !== oldDate) {
+			if(DataUtils.isDef(newDate) && newDate !== oldDate) {
 				var wrappedNew = moment(newDate, this.dateFormat, true);
 				var wrappedOld = moment(oldDate, this.dateFormat, true);
 
@@ -138,9 +135,8 @@
 		},
 
 		_valueChanged: function(newValue, oldValue) {
-			if(exists(newValue) && newValue !== oldValue) {
+			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
 				var wrappedUnix = moment.unix(newValue);
-				var secondsPerDay = 86400;
 				// dateString change handler will change Date object
 				this.dateString = wrappedUnix.format(this.dateFormat).toString();
 				// get seconds since midnight

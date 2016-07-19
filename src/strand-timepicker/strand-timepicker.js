@@ -6,9 +6,10 @@
 */
 (function (scope) {
 
-	var allExist = function() {
+	var DataUtils = StrandLib.DataUtils;
+	function _allExist() {
 		return Array.prototype.slice.call(arguments)
-			.map(function(value) { return value !== null && value !== undefined })
+			.map(function(value) { return DataUtils.isDef(value); })
 			.reduce(function(sum, current) { return sum && current; });
 	}
 
@@ -76,7 +77,7 @@
 
 		// Computes UNIX timestring from user input
 		_computeValue: function(use24HourTime, timeString, timePeriod) {
-			if(allExist(use24HourTime, timeString, timePeriod)) {
+			if(_allExist(use24HourTime, timeString, timePeriod)) {
 				var secondsPerDay = 86400;
 				var time = (use24HourTime ? timeString : timeString+' '+timePeriod) + " +0000";
 				var wrappedTime = moment(time, this._UTCTimeFormat, true);

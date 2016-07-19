@@ -7,27 +7,16 @@
 (function (scope) {
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
+	var DataUtils = StrandLib.DataUtils;
 
-	var exists = function(a) {
-		return !(a === undefined || a === null);
-	}
-
-	var isDate = function(d) {
-		return d instanceof Date;
-	}
-
-	var isString = function(s) {
-		return s instanceof String;
-	}
-
-	var ensureMoment = function(d) {
+	function _ensureMoment(d) {
 		if(moment.isMoment(d)) {
 			// Already a moment object
 			return d;
-		} else if(isDate(d)) {
+		} else if(DataUtils.isType(d, 'date')) {
 			// Construct moment from date
 			return moment(d);
-		} else if(isString(d)) {
+		} else if(DataUtils.isType(d, 'string')) {
 			// Attempt to parse datestring
 			return moment(new Date(d));
 		} else if(Number.isFinite(d)) {
@@ -39,10 +28,10 @@
 		}
 	}
 
-	var clampDates = function(value, lower, upper) {
-		var tmp = ensureMoment(value);
-		if(lower) tmp = moment.max(ensureMoment(lower), tmp);
-		if(upper) tmp = moment.min(ensureMoment(upper), tmp);
+	function _clampDates(value, lower, upper) {
+		var tmp = _ensureMoment(value);
+		if(lower) tmp = moment.max(_ensureMoment(lower), tmp);
+		if(upper) tmp = moment.min(_ensureMoment(upper), tmp);
 		return tmp;
 	}
 
@@ -164,12 +153,12 @@
 				type: String,
 				notify: true
 			},
-			startUnix: {
+			_startUnix: {
 				type: Number,
 				notify: true,
 				observer: '_boundStart'
 			},
-			startJSDate: {
+			_startJSDate: {
 				type: Object,
 				notify: true
 			},
@@ -213,27 +202,27 @@
 				type: String,
 				notify: true
 			},
-			endUnix: {
+			_endUnix: {
 				type: Number,
 				notify: true,
 				observer: '_boundEnd'
 			},
-			endJSDate: {
+			_endJSDate: {
 				type: Object,
 				notify: true
 			},
 
 			_compositeAllowedStart: {
 				type: Object,
-				computed: '_computeStartBound(startUnix, allowedStart)'
+				computed: '_computeStartBound(_startUnix, allowedStart)'
 			},
 			_compositeAllowedEnd: {
 				type: Object,
-				computed: '_computeEndBound(endUnix, allowedEnd)'
+				computed: '_computeEndBound(_endUnix, allowedEnd)'
 			},
 
 			_duration: {
-				computed: '_getDuration(startUnix, endUnix)'
+				computed: '_getDuration(_startUnix, _endUnix)'
 			}
 		},
 
@@ -257,8 +246,8 @@
 			if(this._rangePresets)
 				range = this._rangePresets.filter(function(range) { return range.label === value })[0];
 			if (range) {
-				this.startUnix = ensureMoment(range.range.start).unix();
-				this.endUnix = ensureMoment(range.range.end).unix();
+				this._startUnix = _ensureMoment(range.range.start).unix();
+				this._endUnix = _ensureMoment(range.range.end).unix();
 				this.rangePresetsFlag = true;
 			}
 		},
@@ -277,8 +266,8 @@
 
 		// Date bounds
 		_computeStartBound: function(start, allowedStart) {
-			var wrappedStart = ensureMoment(start);
-			var wrappedAllowed = ensureMoment(allowedStart);
+			var wrappedStart = _ensureMoment(start);
+			var wrappedAllowed = _ensureMoment(allowedStart);
 
 			if(wrappedStart.isValid() && wrappedAllowed.isValid()) {
 				return moment.max(wrappedStart, wrappedAllowed);
@@ -290,8 +279,8 @@
 		},
 
 		_computeEndBound: function(end, allowedEnd) {
-			var wrappedEnd = ensureMoment(end);
-			var wrappedAllowed = ensureMoment(allowedEnd);
+			var wrappedEnd = _ensureMoment(end);
+			var wrappedAllowed = _ensureMoment(allowedEnd);
 
 			if(wrappedEnd.isValid() && wrappedAllowed.isValid()) {
 				return moment.min(wrappedEnd, wrappedAllowed);
@@ -303,15 +292,15 @@
 		},
 
 		_boundStart: function(newStart, oldStart) {
-			if(exists(newStart) && newStart !== oldStart) {
-				this.startUnix = clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
+			if(DataUtils.isDef(newStart) && newStart !== oldStart) {
+				this._startUnix = _clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
 				if(!this.useCommit) this.save();
 			}
 		},
 
 		_boundEnd: function(newEnd, oldEnd) {
-			if(exists(newEnd) && newEnd !== oldEnd) {
-				this.endUnix = clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
+			if(DataUtils.isDef(newEnd) && newEnd !== oldEnd) {
+				this._endUnix = _clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
 				if(!this.useCommit) this.save();
 			}
 		},
@@ -371,23 +360,23 @@
 
 		// Public
 		reset: function(start, end) {
-			var wrappedStart = ensureMoment(start || this.start);
-			var wrappedEnd = ensureMoment(end || this.end);
+			var wrappedStart = _ensureMoment(start || this.start);
+			var wrappedEnd = _ensureMoment(end || this.end);
 
-			if (wrappedStart.isValid() && wrappedStart.unix() !== this.startUnix) {
-				this.startUnix = wrappedStart.unix();
+			if (wrappedStart.isValid() && wrappedStart.unix() !== this._startUnix) {
+				this._startUnix = wrappedStart.unix();
 			}
 
-			if (wrappedEnd.isValid() && wrappedEnd.unix() !== this.endUnix) {
-				this.endUnix = wrappedEnd.unix();
+			if (wrappedEnd.isValid() && wrappedEnd.unix() !== this._endUnix) {
+				this._endUnix = wrappedEnd.unix();
 			}
 		},
 
 		save: function(silent) {
-			var oldStart = ensureMoment(this.start);
-			var oldEnd = ensureMoment(this.end);
-			var wrappedStart = ensureMoment(this.startUnix);
-			var wrappedEnd = ensureMoment(this.endUnix);
+			var oldStart = _ensureMoment(this.start);
+			var oldEnd = _ensureMoment(this.end);
+			var wrappedStart = _ensureMoment(this._startUnix);
+			var wrappedEnd = _ensureMoment(this._endUnix);
 
 			if (wrappedStart.isValid() && !wrappedStart.isSame(oldStart)) {
 				this.start = wrappedStart.toDate();
