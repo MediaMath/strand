@@ -72,6 +72,14 @@
 			"default":"false"
 		},
 		{
+			"name":"indicate",
+			"type":"String",
+			"description":"Indicates whether to show the grid's loader for 'loading' (data) and/or 'measuring' (its internal elements). Use in combination with 'isLoading' property. Set to empty string ' ' if neither scenario is needed.",
+			"optional":true,
+			"default":"'loading  measuring'",
+			"options":["'loading'", "'measuring'", "'loading  measuring'", "' ' (empty string)"]
+		},
+		{
 			"name":"isLoading",
 			"type":"Boolean",
 			"description":"Whether or not the grid should indicate that it is globally waiting for data to load.",
