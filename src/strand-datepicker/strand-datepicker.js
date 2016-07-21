@@ -386,8 +386,9 @@
 				this.end = wrappedEnd.toDate();
 			}
 
-			if(!silent) {
-				this.fire('saved', { start:this.start, end:this.end });
+			this.fire('saved', { start:this.start, end:this.end });
+
+			if(this.useCommit) {
 				this.close();
 			}
 		},
