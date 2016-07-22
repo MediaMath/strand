@@ -1,0 +1,30 @@
+{
+	"name":"strand-timepicker",
+	"description":"A 12/24 hour time input field",
+	"attributes": [
+		{
+			"name": "value",
+			"type": "Integer",
+			"description": "Selected time represented as seconds from midnight"
+		},
+		{
+			"name": "use24HourTime",
+			"type": "Boolean",
+			"description": "Setting indication whether this component will display and take user input in 24-hour time (0-23) or 12-hour time (AM/PM)",
+			"default": "false",
+			"attribute": "use24-hour-time"
+		},
+		{
+			"name": "timeString",
+			"type": "String",
+			"description": "Hours and minutes represented as a string (i.e. the hh:mm) component of the time. "
+		},
+		{
+			"name": "timePeriod",
+			"type": "String",
+			"description": "AM or PM, if this element instance is using 12-hour time."
+		}
+	],
+	"methods": [
+	]
+}

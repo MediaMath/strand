@@ -31,7 +31,7 @@
 						on-paste="_handlePaste"
 						placeholder="{{item.placeholder}}"></input></template><template is="dom-if" if="{{!item.type}}"><span class$="{{ _sepClass(value) }}">{{item.value}}</span></template></template>
 		</div>
-		<strand-input icon$="{{icon}}" id="input"></strand-input>
+		<strand-input icon$="{{icon}}" error="{{error}}" id="input"></strand-input>
 		<content id="content" select="group,sep"></content>
 	</template>
 </dom-module>
