@@ -40,15 +40,14 @@
 	}
 
 	li[active] {
-		background: #fff;
-		color: #000;
+		background: $color-F0;
+		color: $color-A2;
 		cursor: default;
 	}
 }
 
 #tabBar.top {
 	border-bottom: 1px solid darken($color-A12, 10%);
-	// padding-left: 20px;
 
 	li {
 		border-bottom: 0;

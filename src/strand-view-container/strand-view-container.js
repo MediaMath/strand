@@ -15,6 +15,14 @@
 		],
 
 		properties: {
+			subheader: {
+				type: String,
+				// observer: '_updateSubHeader'
+			},
+			header: {
+				type: String,
+				// observer: '_updateHeader'
+			},
 			
 		},
 

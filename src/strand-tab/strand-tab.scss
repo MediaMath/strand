@@ -10,7 +10,8 @@
 @import "_mixins";
 
 :host {
-	background-color: #fff;
+	background-color: $color-F0;
+	color: $color-A2;
 	display: none;
 	overflow: hidden;
 }

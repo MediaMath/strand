@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../strand.html"/>
 		<link rel="import" href="strand-view-container.html"/>
 		<style type="text/css">
 			
@@ -15,6 +16,10 @@
 				padding: 0;
 			}
 
+			.tab-content {
+				padding: 15px;
+			}
+
 		</style>
 	</head>
 	<body>
@@ -22,6 +27,24 @@
 			subheader="Some longer sub &raquo; header and &raquo; some other here"
 			header="Some Longer Header Here"
 			header-icon="creatives">
+
+			<strand-tabs tab-bar-offset="15">
+				<strand-tab tab-label="First" icon="info" active>
+					<div class="tab-content">
+						<p>This is the first tab content.</p>
+					</div>
+				</strand-tab>
+				<strand-tab tab-label="Second">
+					<div class="tab-content">
+						<p>This is the second tab content.</p>
+					</div>
+				</strand-tab>
+				<strand-tab tab-label="Third">
+					<div class="tab-content">
+						<p>This is the third tab content.</p>
+					</div>
+				</strand-tab>
+			</strand-tabs>
 			
 		</strand-view-container>
 	</body>
