@@ -20,12 +20,12 @@
 	<template>
 		<template is="dom-if" if="{{!use24HourTime}}">
 			<strand-group>
-				<strand-input-mask icon="clock" value="{{timeString}}" on-keydown="_keyHandler" style="width:119px;">
+				<strand-input-mask disabled$="{{disabled}}" icon="clock" value="{{timeString}}" on-keydown="_keyHandler" style="width:119px;">
 					<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
 					<sep chars=":"></sep>
 					<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
 				</strand-input-mask>
-				<strand-dropdown value="{{timePeriod}}" fitparent style="width:64px;">
+				<strand-dropdown disabled$="{{disabled}}" value="{{timePeriod}}" fitparent style="width:64px;">
 					<strand-list-item value="am">AM</strand-list-item>
 					<strand-list-item value="pm">PM</strand-list-item>
 				</strand-dropdown>
@@ -33,7 +33,7 @@
 		</template>
 
 		<template is="dom-if" if="{{use24HourTime}}">
-			<strand-input-mask icon="clock" value="{{timeString}}">
+			<strand-input-mask disabled$="{{disabled}}" icon="clock" value="{{timeString}}">
 				<group rule="hour24" restrict="numeric" size="2" autofill="0"></group>
 				<sep chars=":"></sep>
 				<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
