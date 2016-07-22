@@ -4,7 +4,10 @@
  * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 
 */
-:host([disabled]) {
-	pointer-events:none;
-	opacity: 0.5;
+
+@mixin disabled {
+	&[disabled] {
+		pointer-events:none;
+		opacity: 0.5;
+	}
 }

@@ -10,6 +10,7 @@
 @import "_disable";
 
 :host {
+	@include disabled;
 	display: block;
 	box-sizing: border-box;
 	width: 100%;
