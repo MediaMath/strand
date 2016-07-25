@@ -81,7 +81,8 @@
 		updateTitle: function() {
 			var m = StrandLib.Measure;
 			var computed = m.textWidth(this, this.textContent);
-			var actual = m.getBoundingClientRect(this).width;
+			var padding = parseInt(getComputedStyle(this).paddingLeft.split('px')[0]) + parseInt(getComputedStyle(this).paddingRight.split('px')[0]);
+			var actual = m.getBoundingClientRect(this).width - padding;
 			if (computed > actual) {
 				var txt = this.textContent.trim();
 				if (this.title !== txt)
