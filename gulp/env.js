@@ -35,7 +35,9 @@
 		PATCH_LIST: [
 			'bower_components/moment/min/moment.min.js'
 		],
-
+		TEST_SUITES: {
+			default: ["test/*.html"]
+		},
 		dbg: dbg,
 		getPkgInfo: getPkgInfo
 	};
