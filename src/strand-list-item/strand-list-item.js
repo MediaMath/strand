@@ -6,6 +6,8 @@
 */
 
 (function (scope) {
+	var Measure = StrandLib.Measure;
+
 	scope.ListItem = Polymer({
 
 		is: "strand-list-item",
@@ -81,8 +83,7 @@
 		updateTitle: function() {
 			var m = StrandLib.Measure;
 			var computed = m.textWidth(this, this.textContent);
-			var padding = parseInt(getComputedStyle(this).paddingLeft.split('px')[0]) + parseInt(getComputedStyle(this).paddingRight.split('px')[0]);
-			var actual = m.getBoundingClientRect(this).width - padding;
+			var actual = m.getBoundingClientRect(this).width - Measure.getPaddingWidth(this);
 			if (computed > actual) {
 				var txt = this.textContent.trim();
 				if (this.title !== txt)
