@@ -126,7 +126,6 @@ This code may only be used under the BSD style license found at http://mediamath
 					element.__resizeTriggers__.className = 'resize-triggers' + nameSpace;
 					element.__resizeTriggers__.innerHTML = '<div class="expand-trigger' + nameSpace + '"><div></div></div>' + '<div class="contract-trigger' + nameSpace + '"></div>';
 					Polymer.dom(element).appendChild(element.__resizeTriggers__);
-					Polymer.dom.flush();
 
 					resetTriggers(element);
 
