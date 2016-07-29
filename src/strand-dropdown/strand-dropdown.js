@@ -282,7 +282,9 @@
 				if (this.initialValue) {
 					this.initialValue = false;
 				} else {
-					this.fire("changed", { value:this.value });
+					this.async(function() {
+						this.fire("changed", { value:this.value });
+					});
 				}
 			}
 
