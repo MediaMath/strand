@@ -1,21 +1,16 @@
 {
 	"name":"strand-repeater",
 	"description":"A component for duplicating a set of form fields from a template",
-	"experimental" : [
-		{
-			"message" : "This component contains experimental features. The configuration and API are subject to change. Please use at your own risk."
-		}
-	],
 	"attributes": [
 		{
-			"name":"value",
+			"name":"data",
 			"type":"Array",
 			"description":"An array containing key:value maps of the strand-repeater data, one per row"
 		},
 		{
-			"name":"config",
-			"type":"Object",
-			"description":"An configuration object used to provide validation rules and error messaging"
+			"name":"maxRows",
+			"type":"Integer",
+			"description":"Maximum number of rows before user can no longer add more (setting this <= 0 means no limit)"
 		},
 		{
 			"name":"addRowLabel",
@@ -30,7 +25,7 @@
 			"description":"A read-only array of key:value maps of rows that have been added by the user"
 		},
 		{
-			"name":"changed",
+			"name":"modified",
 			"type":"Array",
 			"readOnly":"true",
 			"description":"A read-only array of key:value maps of rows that have been modified by the user"

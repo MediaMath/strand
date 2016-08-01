@@ -99,7 +99,7 @@
 				var ddl = document.getElementById('ddl');
 
 				ddl.value = 2;
-				flush(function() {
+				Polymer.RenderStatus.afterNextRender(ddl, function() {
 					ddl.selectedIndex.should.equal(1);
 					done();
 				});
@@ -109,7 +109,7 @@
 				var ddl = document.getElementById('ddl');
 
 				ddl.value = "3";
-				flush(function() {
+				Polymer.RenderStatus.afterNextRender(ddl, function() {
 					ddl.selectedIndex.should.equal(2);
 					done();
 				});

@@ -1,0 +1,58 @@
+@import 'color';
+
+.container {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.has-bottom-margin {
+	margin-bottom: 6px;
+}
+
+.row-wrapper {
+	display: flex;
+	align-content: space-between;
+	position: relative;
+	width: 100%;
+}
+
+:host ::content,
+.content-wrapper {
+	display: flex;
+	align-content: flex-start;
+	align-items: center;
+	flex: 1;
+}
+
+.content-wrapper ::content > :not(:last-child) {
+	margin-right: 8px;
+}
+
+.hidden {
+	display: none;
+	pointer-events: none;
+}
+
+.control {
+	width: auto;
+}
+
+.add-row {
+	cursor: pointer;
+	margin: 0 10px;
+}
+
+.remove-row {
+	color: $color-A6;
+	cursor: pointer;
+}
+
+.error-container {
+	position: relative;
+}
+
+[hidden] {
+	display: none;
+	pointer-events: none;
+}

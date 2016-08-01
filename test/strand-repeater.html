@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-repeater id="repeater">
+		<template preserve-content>
+			<strand-repeater-row model="{{model}}" scope="{{scope}}">
+				<strand-input name="value" value="{{model.value}}"></strand-input>
+			</strand-repeater-row>
+		</template>
+	</strand-repeater>
+
+	<script>
+		describe("strand-repeater", function() {
+
+			it("should exist", function() {
+				var a = new Strand.Repeater();
+				a.nodeName.should.equal("STRAND-REPEATER");
+			});
+
+			it("should respect max-rows", function() {
+				var a = new Strand.Repeater();
+				a.maxRows = 3;
+				a.data = [{},{},{}];
+				a.add({});
+				expect(a.data.length).to.equal(3);
+			});
+
+			it("should validate", function(done) {
+				var a = document.querySelector('#repeater');
+				a.data = [{value: 7}, {value: 8}, {value: 'Soda'}];
+				a.validation = function(data) {
+					return data.map(function(model) {
+						return {
+							cId: model.cId,
+							value: typeof model.value === 'number' ? null : 'Invalid'
+						}
+					});
+				};
+				flush(function() {
+					var isValid = a.validate();
+					expect(isValid).to.equal(false);
+					done();
+				});
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

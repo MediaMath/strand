@@ -22,8 +22,13 @@
 				value: false
 			},
 			validation: {
-				type: String,
+				type: Object,
 				observer: "_validationChanged"
+			},
+
+			_customValidation: {
+				type: Boolean,
+				value: false
 			}
 		},
 
@@ -31,8 +36,10 @@
 		testSet: null,
 
 		_validationChanged: function(newVal, oldVal) {
-			if (newVal) {
+			if (typeof newVal === 'string') {
 				this.testSet = newVal.replace(/\s/g, '').split("|");
+			} else if(typeof newVal === 'function') {
+				this.set('_customValidation', true);
 			}
 		},
 
@@ -46,7 +53,9 @@
 		},
 
 		validate: function(value) {
-			if(this.validation) {
+			if(this._customValidation) {
+				return this.validation(value);
+			} else if(this.validation) {
 				var result = this.testSet.map(function(item) {
 					return Validator.rules[item](value);
 				}, this).filter(function(item) {

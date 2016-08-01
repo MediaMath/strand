@@ -6,28 +6,30 @@
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/behaviors/collection.html"/>
+<link rel="import" href="../shared/behaviors/dommutable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/mixinfindable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
 <link rel="import" href="../shared/behaviors/validatable.html"/>
 <link rel="import" href="../shared/js/validator.html"/>
 <link rel="import" href="../shared/js/datautils.html"/>
-<link rel="import" href="../strand-action/strand-action.html"/>
-<link rel="import" href="../strand-box/strand-box.html"/>
-<link rel="import" href="../strand-icon/strand-icon.html"/>
-<link rel="import" href="../strand-form-message/strand-form-message.html"/>
+<link rel="import" href="../strand-repeater-row/strand-repeater-row.html"/>
+<link rel="import" href="../strand-template-finder/strand-template-finder.html"/>
+<link rel="import" href="../strand-componentizer/strand-componentizer.html"/>
 
 <dom-module id="strand-repeater">
 	<link rel="import" type="css" href="strand-repeater.css"/>
 	<template>
-		<template is="dom-repeat" items="{{data}}" id="repeater">
-			<strand-box ref="{{item._ref}}" align="stretch" justify="space-between" on-selected="_updateModel" on-changed="_updateModel">
-				<div class="fields" align="center" inner-h-t-m-l="{{template}}"></div>
-				<strand-box class="control" align="center">
-					<strand-action on-tap="_addRow"><label>{{addRowLabel}}</label></strand-action>
-					<strand-icon type="delete" on-tap="_removeRow" height="12" width="12"></strand-icon>
-				</strand-box>
-			</strand-box>
-			<strand-form-message type="error" visible="{{item.error}}" message="{{item.errorMessage}}"></strand-form-message>
+		<strand-template-finder template-finder="{{templateFinder}}" template-findable="{{templateFindable}}">
+			<content select="template:not([is])"></content>
+		</strand-template-finder>
+
+		<template is="dom-if" if="{{_templateFound}}">
+			<template is="dom-repeat" items="{{data}}" id="repeat">
+				<strand-componentizer scope="{{ref}}" model="{{item}}" index="{{index}}" mixin-findable="{{mixinFindable}}" template-finder="{{templateFinder}}" template-findable="{{templateFindable}}"></strand-componentizer>
+			</template>
 		</template>
 	</template>
 </dom-module>
