@@ -11,7 +11,8 @@
 		is: "strand-view-container",
 
 		behaviors: [
-			StrandTraits.Refable
+			StrandTraits.Refable,
+			StrandTraits.Resolvable
 		],
 
 		properties: {

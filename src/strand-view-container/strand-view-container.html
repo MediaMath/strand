@@ -15,6 +15,7 @@
 		<div class="view-container">
 			<div class="header-area">
 				<!-- TODO: Needs actual links, like the breadcrumbs bar -->
+				<!-- ...or not if this is stupid and redundant, which it kinda is (in compass) -->
 				<template is="dom-if" if="{{subheader}}">
 					<strand-header class="subheader" size="normal">{{subheader}}</strand-header>
 				</template>
@@ -25,6 +26,7 @@
 				
 				<strand-header size="medium">{{header}}</strand-header>
 			</div>
+
 			<div class="content-container">
 				<content></content>
 			</div>

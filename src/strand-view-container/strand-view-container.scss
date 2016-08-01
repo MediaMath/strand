@@ -20,13 +20,16 @@
 	display: flex;
 	flex-direction: column;
 	background: $color-A19;
-	width: 100%;
-	height: 100%;
-	min-height: 100%;
+	// width: 100%;
+	// height: 100%;
+	// min-height: 100%;
 }
 
-.content-container {
-	flex: 1;
+.header-area {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 15px;
+	flex: 0;
 }
 
 .subheader {
@@ -34,8 +37,13 @@
 	margin-bottom: 3px;
 }
 
-.header-area {
-	box-sizing: border-box;
-	width: 100%;
-	padding: 15px;
+.content-container {
+	flex: 1;
 }
+
+.content-container ::content > strand-tabs {
+	height: 100%;
+	min-height: 100%;
+}
+
+
