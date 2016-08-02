@@ -1,6 +1,6 @@
 {
 	"verbose": false,
-	"suites": ["test/*.html"],
+	"suites": ["test/index.html"],
 	"root": ".",
 	"plugins": {
 		"local": {

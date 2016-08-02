@@ -2,26 +2,32 @@
 	'use strict';
 	var fs = require('fs');
 	var path = require('path');
+	var hogan = require('hogan.js');
+	var glob = require('glob');
 
 	module.exports = function(gulp, plugins, C) {
 
+		gulp.task('list', function() {
+		});
+
 		// Generates wct.config.json on the fly based on env variables
 		gulp.task('test:config', function() {
-			var newCfg = JSON.parse( fs.readFileSync(path.join(C.TEMPLATES,'wct_conf_base.json')) );
+			var templateString = fs.readFileSync(path.join(C.TEMPLATES,'test_index_template.html')).toString('utf8');
+			var template = hogan.compile(templateString);
+			var data = {
+				environmentScripts: [],
+				suites: []
+			};
 
 			// Add js to turn on shadow DOM at the top of the test
 			if(process.env.SHADOW) {
-				newCfg.clientOptions.environmentScripts.push('strand/test/useShadow.js');
+				data.environmentScripts.push('useShadow.js');
 			}
 
-			// Overwrites suites setting if using a suite configured in env.js
-			if(process.env.TEST_SUITE) {
-				newCfg.suites = C.TEST_SUITES[process.env.TEST_SUITE];
-			}
-
-			var contents = JSON.stringify(newCfg);
-
-			fs.writeFileSync(path.join(C.ROOT, 'wct.conf.json'), contents);
+			var suites = C.TEST_SUITES[process.env.TEST_SUITE || 'default'];
+			data.suites = glob.sync(suites, {cwd: C.TEST, ignore: 'index.html'});
+			var contents = template.render(data);
+			fs.writeFileSync(path.join(C.TEST, 'index.html'), contents);
 		});
 
 		// Adds wct tasks
