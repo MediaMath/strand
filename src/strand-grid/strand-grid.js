@@ -30,7 +30,10 @@
 					return this;
 				}
 			},
-			index: Number,
+			index: {
+				type: Number,
+				notify: true
+			},
 			_selectAllState: {
 				type: String,
 				value: 'unchecked'
