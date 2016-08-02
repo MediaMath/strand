@@ -1,4 +1,0 @@
-{
-	"name": "strand-datepicker-panel",
-	"description": "Used internally in strand-datepicker to manage a single datetime. This component should not be used outside of strand-datepicker"
-}
