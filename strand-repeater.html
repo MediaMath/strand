@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.0.4" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.1.0" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -37,7 +37,7 @@
 				<strand-list-item id="grid_data_integration" value="article_grid_data_integration.html" class="child"> Data Integration with strand-grid</strand-list-item>
 				<strand-list-item id="grid_custom_grid_item" value="article_grid_custom_grid_item.html" class="child"> Creating Custom Grid Items</strand-list-item>
 				<strand-list-item id="migration_guide" value="article_migration_guide.html">Migration Guide</strand-list-item>
-				<strand-list-item id="repeater" value="article_repeater.html">Using strand-repeater</strand-list-item>
+				<strand-list-item id="repeater" value="article_repeater.html">Working with strand-repeater</strand-list-item>
 			</strand-docs-nav>
 			<strand-docs-nav id="componentsNav">
 				<strand-header size="medium">Components</strand-header>
@@ -49,6 +49,7 @@
 				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
 				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
 				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-datepicker-panel" value="strand-datepicker-panel.html">strand-datepicker-panel</strand-list-item>
 				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
 				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
 				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
@@ -83,13 +84,14 @@
 				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
 				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
 				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-timepicker" value="strand-timepicker.html">strand-timepicker</strand-list-item>
 				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
 			</strand-docs-nav>
 			<div class="docs-logo">
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.0.4</p>
+				<p class="mini-subhead version">v4.1.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -107,7 +109,6 @@
 				<div class="docs-content">
 					<h1>strand-repeater</h1>
 					<p>A component for duplicating a set of form fields from a template</p>
-					<strand-inline-box type="warning" fitparent>This component contains experimental features. The configuration and API are subject to change. Please use at your own risk.</strand-inline-box>
 					<hr/>
 					<section>
 						<h3>Example HTML Editor</h3>
@@ -161,9 +162,9 @@
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">value : </span><span class="italic">Array&nbsp;&nbsp;</span><br/>
+									<span class="bold">data : </span><span class="italic">Array&nbsp;&nbsp;</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">value</span><br/>
+									attribute : <span class="italic">data</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
@@ -172,13 +173,13 @@
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">config : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									<span class="bold">maxRows : </span><span class="italic">Integer&nbsp;&nbsp;</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">config</span><br/>
+									attribute : <span class="italic">maxRows</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
-									<span class="desc">An configuration object used to provide validation rules and error messaging</span>
+									<span class="desc">Maximum number of rows before user can no longer add more (setting this &lt;= 0 means no limit)</span>
 								</td>
 							</tr>
 							<tr>
@@ -206,9 +207,9 @@
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">changed : </span><span class="italic">Array&nbsp;&nbsp;(read-only)</span><br/>
+									<span class="bold">modified : </span><span class="italic">Array&nbsp;&nbsp;(read-only)</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">changed</span><br/>
+									attribute : <span class="italic">modified</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>

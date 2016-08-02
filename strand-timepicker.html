@@ -107,22 +107,24 @@
 				</div>
 			</footer>			<article class="layout-article">
 				<div class="docs-content">
-					<h1>strand-progress-bar</h1>
-					<p>A fully-styled progress bar.</p>
+					<h1>strand-timepicker</h1>
+					<p>A 12/24 hour time input field</p>
 					<hr/>
 					<section>
 						<h3>Example HTML Editor</h3>
 						<div class="editor-wrapper">
-							<div id="editor">&lt;strand-progress-bar percent-complete=&quot;100&quot;&gt;&lt;/strand-progress-bar&gt;
-&lt;strand-progress-bar fill-color=&quot;hotpink&quot; percent-complete=&quot;25&quot;&gt;&lt;/strand-progress-bar&gt;
-&lt;strand-progress-bar indeterminate height=&quot;8&quot; width=&quot;62&quot; percent-complete=&quot;50&quot;&gt;&lt;/strand-progress-bar&gt;</div>
+							<div id="editor">&lt;strand-timepicker&gt;&lt;/strand-timepicker&gt;
+
+&lt;strand-timepicker use24-hour-time&gt;&lt;/strand-timepicker&gt;
+</div>
 						</div>
 					</section>
 					<section>
 						<h3>Example Output</h3>
-						<div class="content-box example" id="example-strand-progress-bar"><strand-progress-bar percent-complete="100"></strand-progress-bar>
-<strand-progress-bar fill-color="hotpink" percent-complete="25"></strand-progress-bar>
-<strand-progress-bar indeterminate height="8" width="62" percent-complete="50"></strand-progress-bar></div>
+						<div class="content-box example" id="example-strand-timepicker"><strand-timepicker></strand-timepicker>
+
+<strand-timepicker use24-hour-time></strand-timepicker>
+</div>
 					</section>
 
 					<section>
@@ -134,137 +136,47 @@
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">ref : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									<span class="bold">value : </span><span class="italic">Integer&nbsp;&nbsp;</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">ref</span><br/>
+									attribute : <span class="italic">value</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
-									<span class="desc">Returns a referece to the component itself.</span>
+									<span class="desc">Selected time represented as seconds from midnight</span>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">backgroundColor : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
-									default : <span class="italic">#131313</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">background-color</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">The background color of the progress bar, as hex code or named color.</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">fillColor : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
-									default : <span class="italic">#367ABE</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">fill-color</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">The color of the progress bar, as hex code or named color.</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">height : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
-									default : <span class="italic">null</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">height</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">Height of progress bar, in px</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">indeterminate : </span><span class="italic">Boolean&nbsp;&nbsp;</span><br/>
+									<span class="bold">use24HourTime : </span><span class="italic">Boolean&nbsp;&nbsp;</span><br/>
 									default : <span class="italic">false</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">indeterminate</span><br/>
+									attribute : <span class="italic">use24-hour-time</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
-									<span class="desc">Whether the progress bar is in an indeterminate state.</span>
+									<span class="desc">Setting indication whether this component will display and take user input in 24-hour time (0-23) or 12-hour time (AM/PM)</span>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">percentComplete : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
-									default : <span class="italic">0</span><br/>
+									<span class="bold">timeString : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">percent-complete</span><br/>
+									attribute : <span class="italic">timeString</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
-									<span class="desc">How full the progress bar is. 0 is empty, 100 is full.</span>
+									<span class="desc">Hours and minutes represented as a string (i.e. the hh:mm) component of the time. </span>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">secondaryFillColor : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
-									default : <span class="italic">#66ADF2</span><br/>
+									<span class="bold">timePeriod : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">secondary-fill-color</span><br/>
+									attribute : <span class="italic">timePeriod</span><br/>
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
-									<span class="desc">The secondary color for the striped progress bar, as hex code or named color.</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">width : </span><span class="italic">Number&nbsp;&nbsp;</span><br/>
-									default : <span class="italic">null</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">width</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">Width of progress bar, in px (fits to container by default)</span>
-								</td>
-							</tr>
-						</table>
-					</section>
-					<section>
-						<h3>Public Methods</h3>
-						<table>
-							<tr>
-								<th>Method</th>
-								<th>Arguements</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">findById</span>(<span><span class="italic option">id</span></span>)<br/>
-									<span class="desc">Returns a reference to an element within the scope of this element. Intended for complex nested circumstances where the components scope could be changed (like custom strand-grid items).</span>
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">id : </span><span class="italic">String</span><br/>
-										default : <span class="italic">none</span><br/>
-										<span class="desc">The id of the component to find.</span>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">styleBlock</span>(<span></span>)<br/>
-									<span class="desc">Returns an array of styles to be used in attribute binding.</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">classBlock</span>(<span></span>)<br/>
-									<span class="desc">Returns an array of classes to be used in attribute binding.</span>
-								</td>
-								<td>
-									none
+									<span class="desc">AM or PM, if this element instance is using 12-hour time.</span>
 								</td>
 							</tr>
 						</table>
@@ -275,7 +187,7 @@
 			</article>
 		</strand-docs-shell>
 		<script>
-			var name = "strand-progress-bar",
+			var name = "strand-timepicker",
 				articlesNav,
 				componentsNav,
 				docsShell,
