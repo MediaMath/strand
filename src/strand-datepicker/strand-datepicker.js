@@ -87,7 +87,7 @@
 			},
 			rangeValue: {
 				type: String,
-				observer: '_displayRange',
+				observer: '_displayRange'
 			},
 			rangePresets: {
 				type: Array,
@@ -237,18 +237,40 @@
 
 		// Lifecycle
 		attached: function() {
-			if (this.useCommit) this.classList.add('has-footer');
+			if(this.useCommit) this.classList.add('has-footer');
 		},
 
 		// Range methods
-		_displayRange: function(value) {
-			var range;
-			if(this._rangePresets)
-				range = this._rangePresets.filter(function(range) { return range.label === value })[0];
-			if (range) {
-				this._startUnix = _ensureMoment(range.range.start).unix();
-				this._endUnix = _ensureMoment(range.range.end).unix();
-				this.rangePresetsFlag = true;
+		_findRange: function(startUnix, endUnix) {
+			if(this.useRange && this._rangePresets) {
+				var found = "";
+				var wrappedStart = _ensureMoment(startUnix);
+				var wrappedEnd = _ensureMoment(endUnix);
+
+				if(wrappedStart.isValid() && wrappedEnd.isValid()) {
+					for(var i=this._rangePresets.length-1; i>=0; i--) {
+						var preset = this._rangePresets[i];
+						if(preset.range.start.isSame(wrappedStart, "day") && preset.range.end.isSame(wrappedEnd, "day")) {
+							found = String(preset.label);
+							break;
+						}
+					}
+				}
+				return found;
+			}
+		},
+
+		_displayRange: function(newRange, oldRange) {
+			if(newRange !== oldRange) {
+				var range;
+				if(this._rangePresets)
+					range = this._rangePresets.filter(function(range) { return range.label === newRange })[0];
+				if (range) {
+					this._rangeValueFlag = true;
+					this._startUnix = _ensureMoment(range.range.start).unix();
+					this._endUnix = _ensureMoment(range.range.end).unix();
+					this._rangeValueFlag = false;
+				}
 			}
 		},
 
@@ -294,6 +316,7 @@
 		_boundStart: function(newStart, oldStart) {
 			if(DataUtils.isDef(newStart) && newStart !== oldStart) {
 				this._startUnix = _clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
+				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
 				if(!this.useCommit) this.save();
 			}
 		},
@@ -301,6 +324,7 @@
 		_boundEnd: function(newEnd, oldEnd) {
 			if(DataUtils.isDef(newEnd) && newEnd !== oldEnd) {
 				this._endUnix = _clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
+				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
 				if(!this.useCommit) this.save();
 			}
 		},
