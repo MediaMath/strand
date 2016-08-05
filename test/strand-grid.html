@@ -68,6 +68,49 @@
 				grid.data.every(function(item){ return item.selected === true; }).should.equal(true);
 			});
 
+			it("should support sorting", function(done) {
+				var grid = document.querySelector('#testgrid3');
+				grid.sortBy('foo', 1);
+
+				flush(function() {
+					//should have an up arrow
+					var asc = grid.$.viewport.$.header.querySelector('strand-icon.asc');
+					should.exist(asc);
+
+					grid.sortBy('foo', -1);
+
+					flush(function() {
+						//should have a down arrow
+						var des = grid.$.viewport.$.header.querySelector('strand-icon.des');
+						should.exist(des);
+						grid.sortBy('bar', 1);
+
+						flush(function() {
+							//should have an up arrow with a parent of foo
+							var asc = grid.$.viewport.$.header.querySelector('strand-icon.asc');
+							var des = grid.$.viewport.$.header.querySelector('strand-icon.des');
+							should.exist(asc);
+							should.exist(des);
+							des.style.display.should.equal('none');
+							var pName = asc.parentNode.textContent.trim();
+							pName.should.equal('Bar');
+
+							done();
+						});
+					});
+
+					
+				});
+				// grid.sortBy('foo', -1);
+				// var asc = grid.$.viewport.$.header.querySelector('strand-icon.asc');
+				// should.exist(asc);
+				// grid.sortBy('bar', 1);
+				// var des = grid.$.viewport.$.header.querySelector('strand-icon.des');
+				// var asc = grid.$.viewport.$.header.querySelector('strand-icon.asc');
+				// should.not.exist(des);
+				// should.not.exist(asc);
+			});
+
 		});
 	</script>
 	<strand-grid id="testgrid" selectable>
@@ -80,6 +123,10 @@
 		<template id="customTemplate">
 			<strand-grid-item></strand-grid-item>
 		</template>
+	</strand-grid>
+	<strand-grid id="testgrid3">
+		<strand-grid-column field="foo" sort>Foo</strand-grid-column>
+		<strand-grid-column field="bar" sort>Bar</strand-grid-column>
 	</strand-grid>
 </body>
 </html>
