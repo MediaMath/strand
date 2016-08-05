@@ -38,10 +38,14 @@
 				type: String,
 				value: 'unchecked'
 			},
-			sortField: String,
+			sortField: {
+				type: String,
+				notify:true
+			},
 			sortOrder: {
 				type: Number,
-				value: 1
+				value: 1,
+				notify:true
 			},
 			indicate: {
 				type: String,
