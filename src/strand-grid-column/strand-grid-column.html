@@ -24,7 +24,7 @@
 					</strand-tooltip>
 				</template>
 			</div>
-			<template is="dom-if" if="{{sort}}">
+			<template is="dom-if" if="{{_isSorted(sortOrder)}}">
 				<strand-icon id="sort" width="10" height="10" type="sort" class$="{{_computeSortClass(sortOrder)}}"></strand-icon>
 			</template>
 		</div>

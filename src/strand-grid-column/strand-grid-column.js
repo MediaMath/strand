@@ -85,6 +85,10 @@
 			this.sortOrder = this.sortOrder === this.SORT_ASCENDING ? this.SORT_DESCENDING : this.SORT_ASCENDING;
 		},
 
+		_isSorted: function() {
+			return this.sort && this.sortOrder !== this.SORT_DEFAULT;
+		},
+
 		_computeSortClass: function(sortOrder) {
 			return sortOrder === this.SORT_ASCENDING ? 'asc' : 'des';
 		},
