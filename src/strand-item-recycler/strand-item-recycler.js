@@ -392,7 +392,7 @@ found here: https://github.com/Polymer/core-list
 
 							if (bound &&
 								bound.value &&
-								bound.value.model === model) {
+								this.data[bound.young] === model) {
 								bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
 							}
 						}
