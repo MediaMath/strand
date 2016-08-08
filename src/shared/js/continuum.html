@@ -338,6 +338,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		var limit = at + count;
 		var delta = 0;
 
+		this._fill(at);
 		if (this._items.add(at, count)) {
 			this._lowerBoundEagerRange(at);
 
@@ -448,6 +449,22 @@ This code may only be used under the BSD style license found at http://mediamath
 		var item = at < this._items.length() ? this._items.get(at) : null;
 
 		return 0|!!(item && item.knowsHeight());
+	};
+
+	Continuum.prototype.areHeightsKnown = function (index, amount) {
+		var at = 0|index;
+		var count = 0|amount;
+		var place = at;
+		var limit = at + count - this.calculateOverflow(at, count);
+		var delta = 0;
+
+		for (place; place < limit; place++) {
+			if (this._items.get(place).knowsHeight()) {
+				delta++;
+			}
+		}
+
+		return delta;
 	};
 
 	Continuum.prototype.terminate = function (index) {
