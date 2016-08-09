@@ -34,11 +34,13 @@
 					</template>
 				</strand-box>
 			</div>
-			<div class="error-container row-wrapper">
-				<template is="dom-repeat" id="errorRepeat" items="{{errors}}">
-					<strand-form-message class="error-message" type="error" visible$="{{item.message}}" message="{{item.message}}" style$="{{_computeErrorMessageStyle(item)}}"></strand-form-message>
-				</template>
-			</div>
+			<template is="dom-if" if="{{!suppressMessages}}">
+				<div class="error-container row-wrapper">
+					<template is="dom-repeat" id="errorRepeat" items="{{errors}}">
+						<strand-form-message class="error-message" type="error" visible$="{{item.message}}" message="{{item.message}}" style$="{{_computeErrorMessageStyle(item)}}"></strand-form-message>
+					</template>
+				</div>
+			</template>
 		</div>
 	</template>
 </dom-module>

@@ -80,7 +80,7 @@
 
 				<strand-repeater mixin-findable="{{mixinFindable}}" added="{{myAdded}}" removed="{{myRemoved}}" modified="{{myModified}}" data="{{myData}}" id="repeater" add-row-label="+Custom Add Row Label">
 					<template preserve-content>
-						<strand-repeater-row model="{{model}}" scope="{{scope}}" index="{{index}}">
+						<strand-repeater-row suppress-messages model="{{model}}" scope="{{scope}}" index="{{index}}">
 							<strand-input name="name" validation="blank" value="{{model.name}}" disabled="{{model.disabled}}"></strand-input>
 							<strand-dropdown placeholder="Select a Test Item" name="firstOption" value="{{model.firstOption}}" overflow="visible" disabled="{{model.disabled}}" width="150px">
 								<strand-list-item>Test Item 1</strand-list-item>

@@ -23,6 +23,10 @@
 				type: Number
 			},
 
+			suppressMessages: {
+				type: Boolean,
+				value: false
+			},
 			errors: {
 				type: Array,
 				value: false,

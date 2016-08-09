@@ -24,7 +24,6 @@
 				value: '+Add Item'
 			},
 
-			// new
 			maxRows: {
 				type: Number,
 				value: 0,
