@@ -99,7 +99,30 @@
 				});
 			});
 
-			it('should not show messages if suppress-messages flag is set', function() {
+			it('should show small error messages under elements below a certain threshold', function(done) {
+				var width = row.smallMessages;
+				rowInput.style.width = width+1+"px";
+				rowDdl.style.width = width-1+"px";
+				rowInput.value = '';
+				rowDdl.value = '';
+				row._validate({
+					cId: 1,
+					name: "This is an error",
+					favColor: "This is an error"
+				});
+
+				flush(function() {
+					var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
+						areMsgsSmall = Array.prototype.slice.call(messages)
+							.map(function(node) { return node.layout === 'small' });
+
+					expect(areMsgsSmall).to.contain(true);
+					expect(areMsgsSmall).to.contain(false);
+					done();
+				});
+			});
+
+			it('should not show messages if suppress-messages flag is set', function(done) {
 				row.suppressMessages = true;
 				rowInput.value = '';
 				rowDdl.value = '';
@@ -109,12 +132,15 @@
 					favColor: "This is an error"
 				});
 
-				var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
-					allHidden = Array.prototype.slice.call(messages)
-						.map(function(node) { return node.offsetParent === null; })
-						.reduce(function(prev, current) { return prev && current }, true);
+				flush(function() {
+					var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
+						allHidden = Array.prototype.slice.call(messages)
+							.map(function(node) { return node.offsetParent === null; })
+							.reduce(function(prev, current) { return prev && current }, true);
 
-				expect(allHidden).to.equal(true);
+					expect(allHidden).to.equal(true);
+					done();
+				});
 			});
 
 			afterEach(function() {

@@ -23,6 +23,14 @@
 				type: Number
 			},
 
+			_layout: {
+				type: String
+			},
+
+			smallMessages: {
+				type: Number,
+				value: 100
+			},
 			suppressMessages: {
 				type: Boolean,
 				value: false
@@ -68,7 +76,7 @@
 		},
 
 		_computeErrorMessageStyle: function(record) {
-			if(record.elt && record.elt instanceof HTMLElement) {
+			if(record.elt instanceof HTMLElement) {
 				var current = record.elt,
 					prev = Polymer.dom(current).previousElementSibling,
 
@@ -86,6 +94,13 @@
 					};
 
 				return this.styleBlock(s);
+			}
+		},
+
+		_computeLayout: function(record) {
+			if(record.elt instanceof HTMLElement) {
+				var width = record.elt.getBoundingClientRect().width;
+				return width <= this.smallMessages ? 'small' : null;
 			}
 		},
 

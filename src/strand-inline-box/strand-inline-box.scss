@@ -87,11 +87,11 @@
 	font-weight: 400;
 	font-size: 13px;
 	line-height: 18px;
-	overflow: auto;
+	overflow: visible;
 	margin-left: 25px;
 }
 
-:host([layout=message]) {
+:host([layout="message"]) {
 	.container {
 		border: none;
 		background: none;
@@ -100,5 +100,17 @@
 
 	#icon {
 		margin: 0;
+	}
+}
+
+:host([layout="small"]) {
+	strand-icon {
+		display:none;
+	}
+
+	#content {
+		font-size: 11px;
+		line-height: 13px;
+		margin-left: 0px;
 	}
 }

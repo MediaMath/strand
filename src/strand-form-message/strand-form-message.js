@@ -24,6 +24,9 @@
 			visible: {
 				type: Boolean,
 				value: false
+			},
+			layout: {
+				type: String
 			}
 		},
 
