@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+	<test-fixture id="rowFixture">
+		<template>
+			<strand-repeater-row id="row">
+				<strand-input id="rowInput" name="name" validation="blank"></strand-input>
+				<strand-dropdown id="rowDdl" name="favColor">
+					<strand-list-item>Red</strand-list-item>
+					<strand-list-item>Blue</strand-list-item>
+					<strand-list-item>Yellow</strand-list-item>
+				</strand-dropdown>
+			</strand-repeater-row>
+		</template>
+	</test-fixture>
+
+	<script>
+		describe('<strand-repeater-row>', function() {
+			var rowFixture = document.getElementById('rowFixture');
+
+			describe('_validate()', function() {
+				var row;
+				var rowInput;
+				var rowDdl;
+
+				beforeEach(function() {
+					rowFixture.create();
+					row = document.getElementById('row');
+					rowInput = document.getElementById('rowInput');
+					rowDdl = document.getElementById('rowDdl');
+
+					row.scope = {
+						_notifyModelChanged: sinon.stub(),
+						_validation: {}
+					};
+					row.model = {
+						cId: 1
+					};
+				});
+
+				it('should accept valid input according to custom validation', function() {
+					rowInput.value = 'Bart';
+					rowDdl.value = 'Red';
+					var validated = row._validate({
+						cId: 1,
+						name: rowInput.value === 'Bart' ? null : 'Invalid name',
+						favColor: rowDdl.value === 'Red' ? null : 'Invalid color',
+					});
+
+					expect(validated).to.equal(true);
+					expect(row.errors.length).to.equal(2);
+					expect(rowInput.error).to.equal(false);
+					expect(rowDdl.error).to.equal(false);
+				});
+
+				it('should reject invalid input according to custom validation', function() {
+					rowInput.value = 'Bart';
+					rowDdl.value = 'Red';
+					var validated = row._validate({
+						cId: 1,
+						name: rowInput.value === 'Bort' ? null : 'Invalid name',
+						favColor: rowDdl.value === 'Blue' ? null : 'Invalid color',
+					});
+
+					expect(validated).to.equal(false);
+					expect(rowInput.error).to.equal(true);
+					expect(rowDdl.error).to.equal(true);
+				});
+
+				it('should fall back to inline validation and accept valid input', function() {
+					sinon.spy(rowInput, 'validate');
+					rowInput.value = 'Bart';
+					rowDdl.value = 'Red';
+					var error = row._validate();
+					expect(rowInput.error).to.equal(false);
+					expect(rowDdl.error).to.equal(false);
+					expect(rowInput.validate).to.have.been.called;
+					expect(error).to.equal(true);
+				});
+
+				it('should fall back to inline validation and reject invalid input', function() {
+					sinon.spy(rowInput, 'validate');
+					rowInput.value = '';
+					rowDdl.value = '';
+					var error = row._validate();
+					expect(rowInput.error).to.equal(true);
+					expect(rowDdl.error).to.equal(false);
+					expect(rowInput.validate).to.have.been.called;
+					expect(error).to.equal(false);
+				});
+
+				afterEach(function() {
+					rowFixture.restore();
+				});
+			});
+		});
+	</script>
+</body>
+</html>
