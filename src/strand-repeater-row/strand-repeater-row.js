@@ -90,9 +90,10 @@
 			var elems = Array.prototype.slice.call( Polymer.dom(this).querySelectorAll('[name],[error]') )
 			this.errors = elems
 				.map(function(node) {
+					var validate = DataUtils.getPathValue('validate', node) || function() { return !node.error };
 					var name = node.getAttribute('name');
-					var message = custom ? record[name] : '';
-					var error = node.error || !!message; // validatable has set the error state, or error message is present
+					var message = custom ? record[name] : null;
+					var error = !validate.call(node, node.value) || !!message; // validatable has set the error state, or error message is present
 					node.error = error;
 
 					return {
@@ -103,7 +104,7 @@
 					};
 				})
 				.filter(DataUtils.isDef);
-				
+
 			return this.errors.filter(function(o) { return o.error; }).length === 0;
 		},
 
