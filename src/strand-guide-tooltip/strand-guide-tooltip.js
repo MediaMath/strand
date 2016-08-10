@@ -64,6 +64,18 @@
 			_message: {
 				type: String
 			},
+			_link: {
+				type: Boolean,
+				value: false
+			},
+			_linkText: {
+				type: String,
+				value: null
+			},
+			_linkUrl: {
+				type: String,
+				value: null
+			},
 			data: {
 				type: Array
 			},
@@ -98,6 +110,14 @@
 			this._message = data[step].hasOwnProperty('message') ? data[step].message : null;
 			this._dismiss = data[step].hasOwnProperty('dismiss') ? data[step].dismiss : null;
 
+			// Handle the link - if necessary
+			if (data[step].hasOwnProperty('linktext') && 
+				data[step].hasOwnProperty('linkurl')) {
+				this._linkText = data[step].linktext;
+				this._linkUrl = data[step].linkurl;
+				this._link = true;
+			}
+
 			// Compute next, back, and do labeling
 			this._next = data.length > 1;
 			this._back = data.length > 1 && step > 0;
@@ -109,7 +129,7 @@
 			if (this._back && step > 0) {
 				this._backLabel = 'Back';
 			}
-			
+
 			if (!this.hidden) this.open();
 		},
 

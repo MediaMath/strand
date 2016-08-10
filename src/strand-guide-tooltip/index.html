@@ -85,11 +85,40 @@
   </head>
   <body>
 
-	<strand-guide-tooltip></strand-guide-tooltip>
+  	<div style="margin:50px;">
+		<strand-guide-tooltip id="tt1"></strand-guide-tooltip>
+		<button id="button1">button 1</button>
+	</div>
+
+	<div style="margin:375px 50px 50px 50px;">
+		<strand-guide-tooltip id="tt2"></strand-guide-tooltip>
+		<button id="button2">button 2</button>
+	</div>
 
 	<script>
 		window.addEventListener("WebComponentsReady", function() {
-			//
+			var tt1 = document.querySelector('#tt1');
+			var tt2 = document.querySelector('#tt2');
+
+			tt1.data = [{
+				targetRef: document.querySelector('#button1'),
+				header: 'Some Header 1',
+				message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
+				dismiss: 'Thanks, I\'ve got it.',
+				linktext: 'Some Link 1',
+				linkurl: 'http://www.example.com'
+			}];
+
+			tt2.data = [{
+				targetRef: document.querySelector('#button2'),
+				header: 'Some Header 2',
+				message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
+				linktext: 'Some Link 2',
+				linkurl: 'http://www.example.com'
+			}];
+
+			tt1.currentStep = 0;
+			tt2.currentStep = 0;
 		});
 	</script>
 
