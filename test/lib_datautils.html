@@ -124,6 +124,22 @@ describe("DataUtils", function() {
 		o.a.b.d.should.equal("three");
 	});
 
+	it('should pluck keys from a complex structure', function() {
+		var o = {
+			a:[1,2,3],
+			b:{c:{d:1,c:{e:1}}},
+			e:2,
+			f:{z:"aces"}
+		};
+		StrandLib.DataUtils.pluck(o, ['a']).should.deep.equal({a:[1,2,3]});
+		StrandLib.DataUtils.pluck(o, ['z']).should.deep.equal({z:'aces'});
+		StrandLib.DataUtils.pluck(o, ['e']).should.deep.equal({e:2});
+		StrandLib.DataUtils.pluck(o, ['c']).should.deep.equal({c:{e:1}});
+		o = [{a:1,b:'worst'},{a:2,b:'worst'},{a:3,b:'worst'},{a:4,b:'worst'}];
+		StrandLib.DataUtils.pluck(o, ['a']).should.deep.equal([{a:1},{a:2},{a:3},{a:4}]);
+
+	});
+
 });
 </script>
 	<div id="obj1">

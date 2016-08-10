@@ -171,6 +171,27 @@
 		return observer;
 	}
 
+	function _pluck(target, keys) {
+		if ( _isType(target,'Array') ) {
+			return target.map(function(t) { return _objPluck(t, keys) });
+		} else {
+			return _objPluck(target, keys);
+		}
+	}
+
+	function _objPluck(obj, keys, o) {
+		o = o || {};
+		Object.keys(obj).forEach(function(key) {
+			if (keys.indexOf(key) !== -1) {
+				o[key] = obj[key];
+			}
+			if (_isType(obj[key],'object')) {
+				_objPluck(obj[key], keys, o);
+			}
+		});
+		return o;
+	}
+
 	var DataUtils  = {
 
 		clone: _clone,
@@ -246,7 +267,8 @@
 		},
 
 		getPathValue:_getPathValue,
-		setPathValue:_setPathValue
+		setPathValue:_setPathValue,
+		pluck:_pluck
 	};
 
 	scope.DataUtils = DataUtils;
