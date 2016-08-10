@@ -94,7 +94,7 @@
 			if(DataUtils.isType(validation, 'function')) {
 				this._errorModels = validation.call(this, this.data, this.added, this.modified, this.removed);
 
-				var cIds = this.data.map(function(o) { return o.cId });
+				var cIds = this._errorModels.map(function(o) { return o.cId });
 
 				// Call the error state setting method on each row
 				errors = cIds.map(function(key) {
