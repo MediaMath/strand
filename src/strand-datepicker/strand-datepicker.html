@@ -36,7 +36,7 @@
 					</div>
 				</template>
 				</template>
-
+				<div class="date-panel-container">
 				<strand-datepicker-panel id="start"
 					value="{{_startUnix}}"
 					date-format="{{dateFormat}}"
@@ -56,6 +56,7 @@
 					></strand-datepicker-panel>
 
 				<template is="dom-if" if="{{dual}}">
+					<div class="vert-stroke"></div>
 					<strand-datepicker-panel id="end"
 						value="{{_endUnix}}"
 						date-format="{{dateFormat}}"
@@ -74,7 +75,7 @@
 						disable-future="{{allowedEnd}}"
 					></strand-datepicker-panel>
 				</template>
-
+				</div>
 				<template is="dom-if" if="{{useTimezone}}">
 					<div class="range-presets">
 						<strand-dropdown id="timezoneDropdown" placeholder="{{timezoneDescription}}" max-items="10" fitparent overflow="hidden" value="{{timezone}}" data="{{timezones}}">
