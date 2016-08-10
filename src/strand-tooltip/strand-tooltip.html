@@ -20,7 +20,7 @@
 		<div id="container" class$="{{_updateClass(auto)}}" style$="{{_containerStyle}}">
 			<content select="label"></content>
 			<template is="dom-if" if="{{!auto}}">
-				<strand-icon type="delete" class="close-icon" width="8" height="8"></strand-icon>
+				<strand-icon type="delete" class="close-icon" width="8" height="8" on-click="_closeIconHandler"></strand-icon>
 			</template>
 		</div>
 	</template>

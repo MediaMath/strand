@@ -35,6 +35,11 @@ $bg-color: $color-A1;
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.18);
 
+	
+	& > ::content label {
+		white-space: normal !important;
+	}
+
 	&.auto {
 		padding: 16px;
 

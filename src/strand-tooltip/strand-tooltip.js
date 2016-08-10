@@ -29,7 +29,7 @@
 			},
 			stackType:{
 				type: String,
-				value: "tooltip"
+				value: 'tooltip'
 			},
 			tipWidth: {
 				type: Number,
@@ -85,9 +85,14 @@
 			return this.classBlock(o);
 		},
 
+		_closeIconHandler: function(e) {
+			this.close();
+		},
+
 		_closeFilter: function(instance, e, original) {
-			var closeIcon = instance.$$('.close-icon');
-			if(e.path.indexOf(closeIcon) > -1){
+			if(e.path.indexOf(instance) > -1 || e.path.indexOf(instance._target) > -1){
+				original.stopImmediatePropagation();
+			} else {
 				instance.close();
 			}
 		}
