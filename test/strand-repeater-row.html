@@ -101,23 +101,29 @@
 
 			it('should show small error messages under elements below a certain threshold', function(done) {
 				var width = row.smallMessages;
+				var rowInputErr = "name error";
+				var rowDdlErr = "favColor error";
 				rowInput.style.width = width+1+"px";
 				rowDdl.style.width = width-1+"px";
 				rowInput.value = '';
 				rowDdl.value = '';
 				row._validate({
 					cId: 1,
-					name: "This is an error",
-					favColor: "This is an error"
+					name: rowInputErr,
+					favColor: rowDdlErr
 				});
 
 				flush(function() {
 					var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
 						areMsgsSmall = Array.prototype.slice.call(messages)
-							.map(function(node) { return node.layout === 'small' });
+							.map(function(node) {
+								if(node.message === rowInputErr) return node.layout !== 'small';
+								else if(node.message === rowDdlErr) return node.layout === 'small';
+								else return false;
+							})
+							.reduce(function(sum, current) { return sum && current; }, true);
 
-					expect(areMsgsSmall).to.contain(true);
-					expect(areMsgsSmall).to.contain(false);
+					expect(areMsgsSmall).to.equal(true);
 					done();
 				});
 			});
