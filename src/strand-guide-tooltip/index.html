@@ -100,22 +100,28 @@
 			var tt1 = document.querySelector('#tt1');
 			var tt2 = document.querySelector('#tt2');
 
-			tt1.data = [{
-				targetRef: document.querySelector('#button1'),
-				header: 'Some Header 1',
-				message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
+			var data1 = [{
+				target: 'button1',
+				header: 'IP Targeting Now Available!',
+				message: 'You can now target/anti-target IP addresses. For more information, please visit the',
 				dismiss: 'Thanks, I\'ve got it.',
-				linktext: 'Some Link 1',
+				linktext: 'Knowledge Base',
 				linkurl: 'http://www.example.com'
 			}];
 
-			tt2.data = [{
-				targetRef: document.querySelector('#button2'),
-				header: 'Some Header 2',
-				message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
-				linktext: 'Some Link 2',
+			var data2 = [{
+				target: 'button2',
+				header: 'IP Targeting Now Available!',
+				message: 'You can now target/anti-target IP addresses. For more information, please visit the',
+				linktext: 'KB',
 				linkurl: 'http://www.example.com'
 			}];
+
+			data1[0].targetRef = document.querySelector('#button1');
+			data2[0].targetRef = document.querySelector('#button2');
+
+			tt1.data = data1;
+			tt2.data = data2;
 
 			tt1.currentStep = 0;
 			tt2.currentStep = 0;

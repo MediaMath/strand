@@ -55,12 +55,20 @@
 
 :host[external] {
 	.action {
-		& > ::content label {
-			font-size:12px !important;
-		}
+		// & > ::content label {
+		// 	font-size:12px !important;
+		// }
 
 		strand-icon {
 			margin: 0 0 0 3px;
+		}
+	}
+}
+
+:host-context(strand-guide-tooltip) {
+	.action {
+		& > ::content label {
+			font-size:12px !important;
 		}
 	}
 }
