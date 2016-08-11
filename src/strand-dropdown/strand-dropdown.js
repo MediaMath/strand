@@ -100,7 +100,8 @@
 			},
 			highlight: {
 				type:String,
-				notify: true
+				notify: true,
+				observer:'_highlightChanged'
 			},
 			maxItems: {
 				type: Number,
@@ -330,6 +331,10 @@
 				}
 			}
 			inherited.apply(this, [newIndex, oldIndex]);
+		},
+
+		_highlightChanged: function() {
+			this.notifyPath("scope.highlight", this.highlight);
 		},
 
 		_updateLabelText: function(selectedIndex, placeholder) {
