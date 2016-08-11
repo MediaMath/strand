@@ -91,6 +91,17 @@
 				notify: true,
 				observer: '_valueChanged'
 			},
+			scope: {
+				type: Object,
+				notify: true,
+				value: function() {
+					return this;
+				}
+			},
+			highlight: {
+				type:String,
+				notify: true
+			},
 			maxItems: {
 				type: Number,
 				observer: '_maxItemsChanged'
@@ -194,7 +205,7 @@
 		},
 
 		_getValueFromDom: function(node) {
-			return node.getAttribute('value') || node.textContent.trim();
+			return node.getAttribute('value') || Polymer.dom(node).textContent.trim();
 		},
 
 		_getDataIndexFromDom: function(value) {

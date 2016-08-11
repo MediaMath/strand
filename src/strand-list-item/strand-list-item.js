@@ -51,6 +51,11 @@
 			value: {
 				type: String,
 				value: false
+			},
+			name: {
+				type:String,
+				value: '',
+				observer:'_nameChanged'
 			}
 		},
 
@@ -61,6 +66,12 @@
 			"mouseover":"_updateTitleHandler"
 		},
 
+		ready: function() {
+			if (!this.name) {
+				this.name = this.getEffectiveChildNodes().map(function(n) { return n.textContent }).join('');
+			}
+		},
+
 		attached: function () {
 			this.debounce("update-title",this.updateTitle,0);
 		},
@@ -69,16 +80,43 @@
 			this.debounce("update-title",this.updateTitle,0);
 		},
 
+		_nameChanged: function() {
+			this.debounce('update-name', this._updateTextItems, 0);
+		},
+
 		_highlightChanged: function() {
-			if (this.highlight && this.highlight.length > 0) {
-				var s = this.innerText;
-				Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
-					return '<span class="strand-list-item highlight">'+orig+'</span>';
-				},'ig');
-			} else if (this.innerText && this.innerText.trim()){
-				Polymer.dom(this).innerHTML = this.innerText.trim(); //strip any formatting
+			// var s = Polymer.dom(this).textContent;
+			// if (this.highlight && this.highlight.length > 0 && s) {
+			// 	Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
+			// 		return '<mark class="strand-list-item highlight">'+orig+'</mark>';
+			// 	},'ig');
+			// } 
+			// else if (this.innerText && this.innerText.trim()){
+			// 	Polymer.dom(this).innerHTML = this.innerText.trim(); //strip any formatting
+			// }
+			this.debounce('update-name', this._updateTextItems, 0);
+		},
+
+		_updateTextItems: function() {
+			if (!this.name) return;
+			if (this.highlight) {
+				var reg = new RegExp(this.highlight.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'ig');
+				var stamp = '\uE000';
+				this._textItems = this.name.replace(reg, function(o) { 
+					return stamp + o + stamp;
+				})
+				.split(stamp)
+				.map(function(input, i) {
+					return {
+						highlight: i%2!=0,
+						text: input
+					};
+				});
+			} else {
+				this._textItems = [{text:this.name}];
 			}
 		},
+
 
 		updateTitle: function() {
 			var m = StrandLib.Measure;

@@ -50,14 +50,16 @@
 					<strand-item-recycler
 						id="itemRecycler"
 						data="{{data}}"
+						scope="{{scope}}"
 						hidden$="{{!_hideInsertionPoints(data)}}"
 						index="{{index}}">
 						<template preserve-content>
 							<strand-list-item
 								value$="{{model.value}}"
 								selected$="{{model.selected}}"
-								highlight$="{{model.highlight}}"
-								highlighted$="{{model.highlighted}}">{{model.name}}</strand-list-item>
+								highlight$="{{scope.highlight}}"
+								name="{{model.name}}"
+								highlighted$="{{model.highlighted}}"></strand-list-item>
 						</template>
 					</strand-item-recycler>
 				</div>
