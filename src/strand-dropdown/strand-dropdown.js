@@ -343,7 +343,7 @@
 			if (typeof selectedIndex === 'number') {
 				var selectedItem = this.items[selectedIndex];
 
-				label = this.data ? selectedItem.name : selectedItem.textContent.trim();
+				label = this.data ? selectedItem.name : Polymer.dom(selectedItem).textContent.trim();
 			}
 			return label;
 		},
