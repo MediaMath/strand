@@ -59,6 +59,14 @@
 			}
 		},
 
+		focus: function() {
+			this.$.input.focus();
+		},
+
+		blur: function() {
+			this.$.input.blur();
+		},
+ 
 		_valueChanged: function(newVal, oldVal) {
 			if (newVal) {
 				this.fire("changed", { value: newVal });
