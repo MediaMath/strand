@@ -84,7 +84,7 @@ found here: https://github.com/Polymer/core-list
 
 	function BoundReference (itemRecycler, nthBind) {
 		this.itemRecycler = itemRecycler;
-		this.nthBind = nthBind;
+		this.nthBind = nthBind; // deprecated
 		this.nthDOM = -1;
 		this.young = -1;
 		this.height = 0;
@@ -269,11 +269,16 @@ found here: https://github.com/Polymer/core-list
 			var mutation = null;
 			var added = 0;
 			var removed = 0;
+			var deltaHeight = 0;
+			var knownHeights = 0;
 
 			for (index; index < count; index++) {
 				mutation = splices[index];
 				if (removed = 0|mutation.removed.length) {
-					itemRecycler._measurements.removeHeights(mutation.index, removed);
+					knownHeights = itemRecycler._measurements.areHeightsKnown(mutation.index, removed);
+					deltaHeight -= itemRecycler._getItemHeight() * (removed - knownHeights);
+					deltaHeight -= itemRecycler._measurements.removeHeights(mutation.index, removed);
+
 					transactor.removeHeightsAtIndex(mutation.index, removed);
 				}
 				if (added = 0|mutation.addedCount) {
@@ -282,6 +287,8 @@ found here: https://github.com/Polymer/core-list
 					transactor.addHeightsAtIndex(mutation.index, added, new Array(added));
 				}
 			}
+
+			itemRecycler._deltaMiddleHeight(deltaHeight);
 		},
 
 		_dataSpliced: function(record) {
@@ -393,6 +400,7 @@ found here: https://github.com/Polymer/core-list
 							if (bound &&
 								bound.value &&
 								this.data[bound.young] === model) {
+								bound.value.model = model;
 								bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
 							}
 						}
@@ -402,6 +410,7 @@ found here: https://github.com/Polymer/core-list
 
 							if (bound &&
 								bound.young === num) {
+								bound.value.model = this.data[num];
 								bound.instance.notifyPath("model" + change.path.slice(delimiter), change.value);
 							}
 						}
@@ -785,12 +794,8 @@ found here: https://github.com/Polymer/core-list
 				if (count !== index) {
 					throw new Error("Recycler constraints broken -- count !== index: "+ count + " / " + index);
 				}
-				bound = this._demandBound();
-				count = binds.push(bound);
-				this._retrofitBound(bound, count - 1, young, useLightDom);
-
-				Polymer.dom(bound.element).appendChild(bound.instance);
-				Polymer.dom(this.$.middle).appendChild(bound.element);
+				bound = this._includeBoundAtIndex(index, young, spliced, useLightDom);
+				count++;
 			} else if (young < 0) {
 				bound = this._excludeBoundAtIndex(index, old, spliced);
 				bound = null;
@@ -932,16 +937,30 @@ found here: https://github.com/Polymer/core-list
 						}
 					}
 				}
+			} else {
+				for (index = 0; index < count; index++) {
+					bound = binds[index];
+					if (bound) {
+						if (replaced.young > bound.young ||
+							replaced === included) {
+							replaced = bound;
+						}
+					}
+				}
+
+				if (replaced.nthDOM === 0) {
+					replaced = included;
+				}
 			}
 
 			if (replaced === included) {
 				replaced = null;
 				limit = count;
 			} else {
-				limit = replaced.nthDOM - 1;
+				limit = replaced.nthDOM;
 			}
 
-			this._adjustNthDOM(limit, 1);
+			this._adjustNthDOM(limit - 1, 1);
 
 			bound = included;
 			index = 0|nthBind;
@@ -952,7 +971,7 @@ found here: https://github.com/Polymer/core-list
 
 			binds[index] = bound;
 
-			this._retrofitBound(bound, limit + 1, young, useLightDom);
+			this._retrofitBound(bound, limit, young, useLightDom);
 
 			Polymer.dom(bound.element).appendChild(bound.instance);
 			if (replaced) {
