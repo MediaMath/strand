@@ -21,6 +21,10 @@
 				type: Boolean,
 				value: false
 			},
+			isValid: {
+				type: Boolean,
+				computed: '_computeIsValid(error)'
+			},
 			validation: {
 				type: Object,
 				observer: "_validationChanged"
@@ -34,6 +38,10 @@
 
 		// items to validate against
 		testSet: null,
+
+		_computeIsValid: function(error) {
+			return !error;	
+		},
 
 		_validationChanged: function(newVal, oldVal) {
 			if (typeof newVal === 'string') {
