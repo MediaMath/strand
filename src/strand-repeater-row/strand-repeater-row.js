@@ -97,11 +97,11 @@
 			}
 		},
 
-		_computeLayout: function(record) {
-			if(record.elt instanceof HTMLElement) {
-				var width = record.elt.getBoundingClientRect().width;
-				return width <= this.smallMessages ? 'small' : null;
-			}
+		_computeLayout: function(errors, smallMessages) {
+			var small = errors.reduce(function(total, err) {
+				return total || (err.elt && err.elt.width <= smallMessages);
+			}, false);
+			return small ? 'small' : '';
 		},
 
 		_validate: function(record) {

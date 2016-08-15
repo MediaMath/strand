@@ -117,7 +117,7 @@
 					var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
 						areMsgsSmall = Array.prototype.slice.call(messages)
 							.map(function(node) {
-								if(node.message === rowInputErr) return node.layout !== 'small';
+								if(node.message === rowInputErr) return node.layout == 'small';
 								else if(node.message === rowDdlErr) return node.layout === 'small';
 								else return false;
 							})
