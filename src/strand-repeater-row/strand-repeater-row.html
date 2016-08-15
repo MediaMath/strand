@@ -37,7 +37,7 @@
 			<template is="dom-if" if="{{!suppressMessages}}">
 				<div class="error-container row-wrapper">
 					<template is="dom-repeat" id="errorRepeat" items="{{errors}}">
-						<strand-form-message class="error-message" type="error" visible$="{{item.message}}" message="{{item.message}}" layout="{{_computeLayout(errors, smallMessages)}}" style$="{{_computeErrorMessageStyle(item)}}"></strand-form-message>
+						<strand-form-message class="error-message" type="error" visible$="{{item.message}}" message="{{item.message}}" layout="{{_layout}}" style$="{{_computeErrorMessageStyle(item)}}"></strand-form-message>
 					</template>
 				</div>
 			</template>

@@ -24,7 +24,8 @@
 			},
 
 			_layout: {
-				type: String
+				type: String,
+				computed: '_computeLayout(errors, smallMessages)'
 			},
 
 			smallMessages: {
@@ -98,9 +99,11 @@
 		},
 
 		_computeLayout: function(errors, smallMessages) {
-			var small = errors.reduce(function(total, err) {
-				return total || (err.elt && err.elt.width <= smallMessages);
-			}, false);
+			var small = Array.isArray(errors) &&
+				smallMessages &&
+				errors.reduce(function(total, err) {
+					return total || (err.elt && err.elt.width <= smallMessages);
+				}, false);
 			return small ? 'small' : '';
 		},
 
