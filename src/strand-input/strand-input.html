@@ -25,8 +25,9 @@
 			value="{{value::input}}" 
 			maxlength$="{{maxlength}}" 
 			disabled="{{disabled}}"
-			readonly$="{{readonly}}" 
-			style$="{{ _updateStyle(width, fitparent) }}" />
+			readonly$="{{readonly}}"
+			style$="{{ _updateStyle(width, fitparent) }}" 
+			autocomplete$="{{autocomplete}}" />
 		<div id="icon" class="icon-holder" style$="{{ _updateIcon(icon, _clearVisible) }}">
 			<strand-icon type="{{icon}}" width="{{_iconSize(size)}}" height="{{_iconSize(size)}}"></strand-icon>
 		</div>
