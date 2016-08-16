@@ -91,7 +91,7 @@
 			},
 			autocomplete: {
 				type: String,
-				value: null
+				value: "off"
 			},
 			_clearVisible: {
 				type: Boolean,
