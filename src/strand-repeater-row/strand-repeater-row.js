@@ -51,7 +51,7 @@
 			_isInvalid: {
 				type: Boolean,
 				value: false,
-				computed: '_errorsExist(errors)'
+				notify: true
 			}
 		},
 
@@ -133,15 +133,14 @@
 				})
 				.filter(DataUtils.isDef);
 
-			return this.errors.filter(function(o) { return o.error; }).length === 0;
+		 	var passed = this.errors.filter(function(o) { return o.error; }).length === 0;
+			this._isInvalid = passed ? '' : 'visible';
+
+			return passed;
 		},
 
 		_modelChanged: function(newModel) {
 			this.scope._validation[newModel.cId] = this._validate.bind(this);
-		},
-
-		_errorsExist: function(errors) {
-			return errors.length > 0 ? 'visible' : '';
 		}
 	});
 })(window.Strand = window.Strand || {});
