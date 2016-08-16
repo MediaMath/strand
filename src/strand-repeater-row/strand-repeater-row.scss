@@ -50,22 +50,32 @@
 
 .error-container {
 	position: relative;
+	overflow: hidden;
+	max-height: 0;
+	opacity: 0;
+	transition: opacity .8s ease-out, max-height 2s ease-out;
+	// transition: max-height 2s ease-out;
 }
 
-@keyframes rollDown {
-	from { max-height: 0; }
-	to { max-height: 512px; }
+.error-container.visible {
+	max-height: 200px;
+	opacity: 1;
 }
 
-@keyframes fadeIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
-}
+// @keyframes rollDown {
+// 	from { max-height: 0; }
+// 	to { max-height: 512px; }
+// }
 
-.error-message[visible] {
-	animation: 5s rollDown ease-out, 300ms fadeIn ease-out;
-	will-change: max-height;
-}
+// @keyframes fadeIn {
+// 	from { opacity: 0; }
+// 	to { opacity: 1; }
+// }
+
+// .error-message[visible] {
+// 	animation: 5s rollDown ease-out, 300ms fadeIn ease-out;
+// 	will-change: max-height;
+// }
 
 [hidden] {
 	display: none;

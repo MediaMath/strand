@@ -46,6 +46,12 @@
 				type: Boolean,
 				computed: '_computeShouldShowAddRow(index, scope._last, scope.maxRows)',
 				notify: true
+			},
+
+			_isInvalid: {
+				type: Boolean,
+				value: false,
+				computed: '_errorsExist(errors)'
 			}
 		},
 
@@ -132,6 +138,10 @@
 
 		_modelChanged: function(newModel) {
 			this.scope._validation[newModel.cId] = this._validate.bind(this);
+		},
+
+		_errorsExist: function(errors) {
+			return errors.length > 0 ? 'visible' : '';
 		}
 	});
 })(window.Strand = window.Strand || {});
