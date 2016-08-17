@@ -82,7 +82,7 @@
 					<template preserve-content>
 						<strand-repeater-row model="{{model}}" scope="{{scope}}" index="{{index}}">
 							<strand-input name="name" validation="blank" value="{{model.name}}" disabled="{{model.disabled}}"></strand-input>
-							<strand-dropdown placeholder="Select a Test Item" name="firstOption" value="{{model.firstOption}}" overflow="visible" disabled="{{model.disabled}}" width="150px">
+							<strand-dropdown placeholder="Select a Test Item" name="firstOption" value="{{model.firstOption}}" overflow="visible" disabled="{{model.disabled}}" style="width: 100px">
 								<strand-list-item>Test Item 1</strand-list-item>
 								<strand-list-item>Test Item 2</strand-list-item>
 								<strand-list-item>Test Item 3</strand-list-item>
@@ -107,7 +107,6 @@
 					<strand-header size="small">Removed</strand-header>
 					<div class="data-display">{{formatData(myRemoved.*, _refresh)}}</div>
 				</div>
-
 
 				<strand-button type="secondary" on-tap="refreshData"><label>Refresh Arrays</label></strand-button>
 				<strand-button id="addBunchBtn" on-tap="addABunchOfRows"><label>Add a Bunch of Rows</label></strand-button>
@@ -192,7 +191,7 @@
 					},
 
 					addABunchOfRows: function() {
-						for(let i=0; i<25; i++) this.$.repeater.add();
+						for(var i=0; i<25; i++) this.$.repeater.add();
 					},
 
 					formatData: function(record) {

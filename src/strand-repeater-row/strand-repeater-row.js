@@ -23,6 +23,19 @@
 				type: Number
 			},
 
+			_layout: {
+				type: String,
+				computed: '_computeLayout(errors, smallMessages)'
+			},
+
+			smallMessages: {
+				type: Number,
+				value: 100
+			},
+			suppressMessages: {
+				type: Boolean,
+				value: false
+			},
 			errors: {
 				type: Array,
 				value: false,
@@ -32,6 +45,12 @@
 			_shouldShowAddRow: {
 				type: Boolean,
 				computed: '_computeShouldShowAddRow(index, scope._last, scope.maxRows)',
+				notify: true
+			},
+
+			_isInvalid: {
+				type: Boolean,
+				value: false,
 				notify: true
 			}
 		},
@@ -64,7 +83,7 @@
 		},
 
 		_computeErrorMessageStyle: function(record) {
-			if(record.elt && record.elt instanceof HTMLElement) {
+			if(record.elt instanceof HTMLElement) {
 				var current = record.elt,
 					prev = Polymer.dom(current).previousElementSibling,
 
@@ -85,14 +104,24 @@
 			}
 		},
 
+		_computeLayout: function(errors, smallMessages) {
+			var small = Array.isArray(errors) &&
+				smallMessages &&
+				errors.reduce(function(total, err) {
+					return total || (err.elt && err.elt.width <= smallMessages);
+				}, false);
+			return small ? 'small' : '';
+		},
+
 		_validate: function(record) {
 			var custom = DataUtils.isDef(record) && record.cId === this.model.cId;
 			var elems = Array.prototype.slice.call( Polymer.dom(this).querySelectorAll('[name],[error]') )
 			this.errors = elems
 				.map(function(node) {
+					var validate = DataUtils.getPathValue('validate', node) || function() { return !node.error };
 					var name = node.getAttribute('name');
-					var message = custom ? record[name] : '';
-					var error = node.error || !!message; // validatable has set the error state, or error message is present
+					var message = custom ? record[name] : null;
+					var error = !validate.call(node, node.value) || !!message; // validatable has set the error state, or error message is present
 					node.error = error;
 
 					return {
@@ -103,8 +132,11 @@
 					};
 				})
 				.filter(DataUtils.isDef);
-				
-			return this.errors.filter(function(o) { return o.error; }).length === 0;
+
+		 	var passed = this.errors.filter(function(o) { return o.error; }).length === 0;
+			this._isInvalid = passed ? '' : 'visible';
+
+			return passed;
 		},
 
 		_modelChanged: function(newModel) {
