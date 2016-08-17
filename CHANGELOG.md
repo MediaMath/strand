@@ -1,3 +1,43 @@
+<a name="v4.1.1"></a>
+## v4.1.1 (2016-08-17)
+
+* Add isValid computed prop ([64239c8](https://github.com/MediaMath/strand/commit/64239c8))
+* add repeater row validation test ([47ed527](https://github.com/MediaMath/strand/commit/47ed527))
+* add suppress-messages flag ([94f9914](https://github.com/MediaMath/strand/commit/94f9914))
+* Add vertical stroke, get rid of unneeded scss ([58231c7](https://github.com/MediaMath/strand/commit/58231c7))
+* added notify to the sort fields on grid so outer binds can grab the values ([70a0cb7](https://github.com/MediaMath/strand/commit/70a0cb7))
+* added test for sorting UI ([904e565](https://github.com/MediaMath/strand/commit/904e565))
+* adjust error message size for narrow elems ([d07b0f7](https://github.com/MediaMath/strand/commit/d07b0f7))
+* all small ([eb8d046](https://github.com/MediaMath/strand/commit/eb8d046))
+* allow custom validation to override inline validation ([c486445](https://github.com/MediaMath/strand/commit/c486445))
+* Allow for setting autocomplete on the internal native input ([33e6c7b](https://github.com/MediaMath/strand/commit/33e6c7b))
+* animations ([95db38f](https://github.com/MediaMath/strand/commit/95db38f))
+* announce highlight changes on scope path ([0809f39](https://github.com/MediaMath/strand/commit/0809f39))
+* check small messages against expectation per message ([c759027](https://github.com/MediaMath/strand/commit/c759027))
+* cleanup ([0153d60](https://github.com/MediaMath/strand/commit/0153d60))
+* cleanup ([93bcef8](https://github.com/MediaMath/strand/commit/93bcef8))
+* Default autocomplete to off ([66142a5](https://github.com/MediaMath/strand/commit/66142a5))
+* default validate() to true if no rules given ([9727f81](https://github.com/MediaMath/strand/commit/9727f81))
+* don't validate everything if custom validation skips over models ([53242b7](https://github.com/MediaMath/strand/commit/53242b7))
+* fix an issue where grid.set wouldn't update binds if the entire model was swapped ([db8f104](https://github.com/MediaMath/strand/commit/db8f104))
+* fix for doubletext on jQuery ([11cc75b](https://github.com/MediaMath/strand/commit/11cc75b))
+* fix unintentional scroll bar, restore desired scrolling behavior ([c6b3b3f](https://github.com/MediaMath/strand/commit/c6b3b3f))
+* fix up test ([2b61bd8](https://github.com/MediaMath/strand/commit/2b61bd8))
+* Improve recycler splicing support ([fbb21e4](https://github.com/MediaMath/strand/commit/fbb21e4))
+* match inputs focus support ([b7b9141](https://github.com/MediaMath/strand/commit/b7b9141))
+* messing around with animation ([c637901](https://github.com/MediaMath/strand/commit/c637901))
+* pluck wip ([d464aa4](https://github.com/MediaMath/strand/commit/d464aa4))
+* Remove computed prop ([5f70913](https://github.com/MediaMath/strand/commit/5f70913))
+* removed unneeded doc for private component ([6e20d20](https://github.com/MediaMath/strand/commit/6e20d20))
+* resolve a UI issue in grid where sort arrows were appearing when the column's sort state was default ([e76278a](https://github.com/MediaMath/strand/commit/e76278a))
+* Restores range autoselection in datepicker ([d1bbaca](https://github.com/MediaMath/strand/commit/d1bbaca))
+* tick polymer version ([ae57212](https://github.com/MediaMath/strand/commit/ae57212))
+* Tooltip close handling for auto scenario (#112) ([8897159](https://github.com/MediaMath/strand/commit/8897159)), closes [#112](https://github.com/MediaMath/strand/issues/112)
+* use polymer dom in pulldown button ([0e069a7](https://github.com/MediaMath/strand/commit/0e069a7))
+* wip towards non innerHTML based highlight mechanism ([c3a4ca3](https://github.com/MediaMath/strand/commit/c3a4ca3))
+
+
+
 <a name="v4.1.0"></a>
 # v4.1.0 (2016-08-02)
 
