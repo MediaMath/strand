@@ -100,6 +100,14 @@
 			"optional":true,
 			"default":"none",
 			"reflect":true
+		},
+		{
+			"name":"highlight",
+			"type":"String",
+			"description":"Instructs the list items to show the passed string as highlighted text",
+			"optional":true,
+			"default":"''",
+			"reflect":false
 		}
 	],
 	"methods": [

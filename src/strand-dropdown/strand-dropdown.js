@@ -91,6 +91,18 @@
 				notify: true,
 				observer: '_valueChanged'
 			},
+			scope: {
+				type: Object,
+				notify: true,
+				value: function() {
+					return this;
+				}
+			},
+			highlight: {
+				type:String,
+				notify: true,
+				observer:'_highlightChanged'
+			},
 			maxItems: {
 				type: Number,
 				observer: '_maxItemsChanged'
@@ -194,7 +206,7 @@
 		},
 
 		_getValueFromDom: function(node) {
-			return node.getAttribute('value') || node.textContent.trim();
+			return node.getAttribute('value') || Polymer.dom(node).textContent.trim();
 		},
 
 		_getDataIndexFromDom: function(value) {
@@ -321,13 +333,17 @@
 			inherited.apply(this, [newIndex, oldIndex]);
 		},
 
+		_highlightChanged: function() {
+			this.notifyPath("scope.highlight", this.highlight);
+		},
+
 		_updateLabelText: function(selectedIndex, placeholder) {
 			var label = this.placeholder;
 
 			if (typeof selectedIndex === 'number') {
 				var selectedItem = this.items[selectedIndex];
 
-				label = this.data ? selectedItem.name : selectedItem.textContent.trim();
+				label = this.data ? selectedItem.name : Polymer.dom(selectedItem).textContent.trim();
 			}
 			return label;
 		},

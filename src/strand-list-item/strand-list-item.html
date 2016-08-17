@@ -13,8 +13,14 @@
 
 <dom-module id="strand-list-item">
 	<link rel="import" type="css" href="strand-list-item.css"/>
-	<template>
-		<content></content>
+	<template strip-whitespace>
+		<div style="display:none">
+			<content id="content"></content>
+		</div>
+		<template is="dom-repeat" strip-whitespace items="{{_textItems}}">
+			<template is="dom-if" if="{{item.highlight}}"><mark>{{item.text}}</mark></template>
+			<template is="dom-if" if="{{!item.highlight}}">{{item.text}}</template>
+		</template>
 	</template>
 </dom-module>
 <script src="strand-list-item.js"></script>
