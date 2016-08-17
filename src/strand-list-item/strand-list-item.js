@@ -85,15 +85,6 @@
 		},
 
 		_highlightChanged: function() {
-			// var s = Polymer.dom(this).textContent;
-			// if (this.highlight && this.highlight.length > 0 && s) {
-			// 	Polymer.dom(this).innerHTML = s.replace(new RegExp(this.highlight,"ig"),function(orig) {
-			// 		return '<mark class="strand-list-item highlight">'+orig+'</mark>';
-			// 	},'ig');
-			// } 
-			// else if (this.innerText && this.innerText.trim()){
-			// 	Polymer.dom(this).innerHTML = this.innerText.trim(); //strip any formatting
-			// }
 			this.debounce('update-name', this._updateTextItems, 0);
 		},
 
@@ -108,7 +99,7 @@
 				.split(stamp)
 				.map(function(input, i) {
 					return {
-						highlight: i%2!=0,
+						highlight: i%2!==0,
 						text: input
 					};
 				});
