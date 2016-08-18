@@ -1,3 +1,18 @@
+<a name="v4.1.2"></a>
+## v4.1.2 (2016-08-18)
+
+* adding examples to the watched files for docs:live ([435be8c](https://github.com/MediaMath/strand/commit/435be8c))
+* Document new features ([2b468e8](https://github.com/MediaMath/strand/commit/2b468e8))
+* drop ff for now ([e5315f8](https://github.com/MediaMath/strand/commit/e5315f8))
+* fix double value double title issues ([f1e499b](https://github.com/MediaMath/strand/commit/f1e499b))
+* guide action ([f0c9e1f](https://github.com/MediaMath/strand/commit/f0c9e1f))
+* guide link complete ([652dff9](https://github.com/MediaMath/strand/commit/652dff9))
+* Make sure link appears on specified step only ([790188b](https://github.com/MediaMath/strand/commit/790188b))
+* more ddl coverage ([e530499](https://github.com/MediaMath/strand/commit/e530499))
+* remove comment ([8e6c0fe](https://github.com/MediaMath/strand/commit/8e6c0fe))
+
+
+
 <a name="v4.1.1"></a>
 ## v4.1.1 (2016-08-17)
 
