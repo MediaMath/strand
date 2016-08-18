@@ -21,7 +21,7 @@
 			<span class="message">
 				{{_message}}
 				<template is="dom-if" if="{{_link}}" strip-whitespace>
-					&nbsp;
+					<span class="space"></span>
 					<strand-action external href$="{{_linkUrl}}" target="_blank">
 						<label>{{_linkText}}</label>
 					</strand-action>
