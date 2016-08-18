@@ -114,7 +114,7 @@
 			var computed = m.textWidth(this, this.textContent);
 			var actual = m.getBoundingClientRect(this).width - Measure.getPaddingWidth(this);
 			if (computed > actual) {
-				var txt = this.textContent.trim();
+				var txt = Polymer.dom(this).textContent.trim();
 				if (this.title !== txt)
 					this.title = txt;
 			} else {

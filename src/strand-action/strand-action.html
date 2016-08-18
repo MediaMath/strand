@@ -10,13 +10,21 @@
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/behaviors/stylable.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
 
 <dom-module id="strand-action">
 	<link rel="import" type="css" href="strand-action.css"/>
 	<template>
-		<a href="{{href}}" target="{{target}}" rel="noopener noreferrer" class$="{{ updateClass(underline) }}">
+		<a 
+			href="{{href}}" 
+			target="{{target}}" 
+			rel="noopener noreferrer" 
+			class$="{{ updateClass(underline, external) }}">
 			<content select="strand-icon" id="icon"></content>
 			<content select="label"></content>
+			<template is="dom-if" if="{{external}}">
+				<strand-icon type="jump-to" width="13" height="13"></strand-icon>
+			</template>
 		</a>
 	</template>
 </dom-module>

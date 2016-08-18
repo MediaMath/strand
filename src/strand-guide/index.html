@@ -107,12 +107,15 @@
 		id="guide"
 		use-local-storage
 		name="index-example">
-		
+		 
 		<guide 
 			target="button1" 
-			header="Some Header 1"
-			message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra."
-			dismiss="Thanks, I've got it."></guide>
+			header="IP Targeting Now Available!"
+			message="You can now target/anti-target IP addresses. For more information, please visit the"
+			dismiss="Thanks, I've got it."
+			linktext="KB"
+			linkurl="http://www.example.com"></guide>
+		
 		<guide 
 			target="button2"
 			header="Some Header 2"
@@ -123,7 +126,7 @@
 		<guide
 			target="footerBtn"
 			message="Some Message Here 4"></guide>
-
+		
 	</strand-guide>
 
 	<strand-footer id="footer" fitparent>
@@ -138,7 +141,9 @@
 		// 		target: 'button1',
 		// 		header: 'Some Header 1',
 		// 		message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
-		// 		dismiss: 'Thanks, I\'ve got it.'
+		// 		dismiss: 'Thanks, I\'ve got it.',
+		// 		linktext: 'Knowledge Base',
+		// 		linkurl: 'http://www.example.com'
 		// 	},
 		// 	{
 		// 		target: 'button2',

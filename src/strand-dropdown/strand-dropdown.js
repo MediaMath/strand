@@ -201,7 +201,7 @@
 		// Dom handling
 		_getDomByValue: function(value) {
 			return this.items.filter(function(node) {
-				return node.getAttribute('value') === value || node.textContent.trim() === value;
+				return node.getAttribute('value') === value || Polymer.dom(node).textContent.trim() === value;
 			})[0];
 		},
 
@@ -272,8 +272,8 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if (typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex];
-				var value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim();
-				var name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
+				var value = newSelected.value ? newSelected.value.toString() : Polymer.dom(newSelected).textContent.trim();
+				var name = newSelected.name ? newSelected.name : Polymer.dom(newSelected).textContent.trim();
 
 				this.value = value;
 				this.error = false;
@@ -358,7 +358,7 @@
 						textBounds = Measure.getTextBounds(this.$.label);
 
 					if(textBounds.width >= availableArea) {
-						title = this.data ? selectedItem.name : selectedItem.textContent.trim();
+						title = this.data ? selectedItem.name : Polymer.dom(selectedItem).textContent.trim();
 					}
 				}
 				return title;
