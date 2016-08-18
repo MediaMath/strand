@@ -66,7 +66,7 @@
 			},
 			_link: {
 				type: Boolean,
-				value: false
+				computed: '_hasLink(_linkText, _linkUrl)'
 			},
 			_linkText: {
 				type: String,
@@ -109,14 +109,8 @@
 			this._header = data[step].hasOwnProperty('header') ? data[step].header : null;
 			this._message = data[step].hasOwnProperty('message') ? data[step].message : null;
 			this._dismiss = data[step].hasOwnProperty('dismiss') ? data[step].dismiss : null;
-
-			// Handle the link - if necessary
-			if (data[step].hasOwnProperty('linktext') && 
-				data[step].hasOwnProperty('linkurl')) {
-				this._linkText = data[step].linktext;
-				this._linkUrl = data[step].linkurl;
-				this._link = true;
-			}
+			this._linkText = data[step].hasOwnProperty('linktext') ? data[step].linktext : null;
+			this._linkUrl = data[step].hasOwnProperty('linkurl') ? data[step].linkurl : null;
 
 			// Compute next, back, and do labeling
 			this._next = data.length > 1;
@@ -152,6 +146,10 @@
 		_backHandler: function(e) {
 			this.fire('guide-back');
 		},
+
+		_hasLink: function(_linkText, _linkUrl) {
+			return _linkText && _linkUrl;
+		}
 
 	});
 

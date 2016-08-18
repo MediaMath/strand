@@ -20,11 +20,12 @@
 			<span class="header">{{_header}}</span>
 			<span class="message">
 				{{_message}}
-				<!-- <template is="dom-if" if="{{_link}}"> -->
+				<template is="dom-if" if="{{_link}}" strip-whitespace>
+					&nbsp;
 					<strand-action external href$="{{_linkUrl}}" target="_blank">
 						<label>{{_linkText}}</label>
 					</strand-action>
-				<!-- </template> -->
+				</template>
 			</span>
 			<template is="dom-if" if="{{_dismiss}}">
 				<strand-action class="dismiss-action" on-tap="_dismissHandler" underline>
