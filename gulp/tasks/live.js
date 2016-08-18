@@ -81,6 +81,7 @@
 
 			plugins.watch([
 				j(C.DOCS,'/**/*.md'),
+				j(C.SRC,'**/example.html'),
 				C.SRC + '**/doc.json'
 			], plugins.batch(docsCallback));
 		});
