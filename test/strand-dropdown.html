@@ -59,6 +59,14 @@
 
 	<strand-dropdown id="ddlData" max-items="10" placeholder="Some Longer Label"></strand-dropdown>
 
+	<strand-dropdown id="ddlFit1" placeholder="some longer label" value="item01" max-items="4">
+		<strand-list-item value="item01">strand-list-item 01 and things and stuff and whatnot what yes no what</strand-list-item>
+		<strand-list-item value="item02">strand-list-item 02</strand-list-item>
+		<strand-list-item value="item03">strand-list-item 03</strand-list-item>
+		<strand-list-item value="item04">strand-list-item 04</strand-list-item>
+		<strand-list-item value="item05">strand-list-item 05</strand-list-item>
+	</strand-dropdown>
+
 	<script type="text/javascript">
 
 		describe("strand-dropdown", function() {
@@ -247,6 +255,22 @@
 					evt.item.should.be.an('object');
 					evt.item.should.equal(ddl.items[4]);
 
+					done();
+				});
+			});
+
+			it("should set the title attribute for long names", function(done) {
+				var ddl = document.querySelector('#ddlFit1');
+				Polymer.RenderStatus.afterNextRender(ddl, function() {
+					ddl.$.target.getAttribute('title').should.equal('strand-list-item 01 and things and stuff and whatnot what yes no what');
+					done();
+				});
+			});
+
+			it("should return the value correctly", function(done) {
+				var ddl = document.querySelector('#ddlFit1');
+				Polymer.RenderStatus.afterNextRender(ddl, function() {
+					ddl.value.should.equal('item01');
 					done();
 				});
 			});
