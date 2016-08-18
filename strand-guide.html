@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.1.1" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.1.2" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -90,7 +90,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.1.1</p>
+				<p class="mini-subhead version">v4.1.2</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -117,10 +117,12 @@
 &lt;strand-guide id=&quot;guide&quot; name=&quot;exampleGuide&quot;&gt;
 	&lt;guide target=&quot;guideAction&quot; 
 		header=&quot;First Guide Tip&quot;
-		message=&quot;This is the standard guide format, it includes a header, message and optional dismiss action.&quot;
-		dismiss=&quot;Thanks, I&#39;ve got it.&quot;&gt;&lt;/guide&gt;
+		message=&quot;This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this&quot;
+		dismiss=&quot;Thanks, I&#39;ve got it.&quot;
+		linktext=&quot;External link&quot;
+		linkurl=&quot;http://www.github.com&quot;&gt;&lt;/guide&gt;
 	&lt;guide target=&quot;footerBtn&quot;
-		message=&quot;You can create a guide with no header or dismiss message!&quot;&gt;&lt;/guide&gt;
+		message=&quot;You can create a guide with no header or dismiss message!&quot;&gt;&lt;/guide&gt;	
 &lt;/strand-guide&gt;
 
 &lt;strand-footer id=&quot;footer&quot; fitparent&gt;
@@ -136,8 +138,10 @@
 		{
 			target: &#39;guideAction&#39;,
 			header: &#39;First Guide Tip&#39;,
-			message: &#39;This is the standard guide format, it includes a header, message and optional dismiss action.&#39;,
-			dismiss: &#39;Thanks, I\&#39;ve got it.&#39;
+			message: &#39;This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this&#39;,
+			dismiss: &#39;Thanks, I\&#39;ve got it.&#39;,
+			linktext: &#39;External link&#39;,
+			linkurl: &#39;http://www.github.com&#39;
 		},
 		{
 			target: &#39;footerBtn&#39;,
@@ -161,10 +165,12 @@
 <strand-guide id="guide" name="exampleGuide">
 	<guide target="guideAction" 
 		header="First Guide Tip"
-		message="This is the standard guide format, it includes a header, message and optional dismiss action."
-		dismiss="Thanks, I've got it."></guide>
+		message="This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this"
+		dismiss="Thanks, I've got it."
+		linktext="External link"
+		linkurl="http://www.github.com"></guide>
 	<guide target="footerBtn"
-		message="You can create a guide with no header or dismiss message!"></guide>
+		message="You can create a guide with no header or dismiss message!"></guide>	
 </strand-guide>
 
 <strand-footer id="footer" fitparent>
@@ -180,8 +186,10 @@
 		{
 			target: 'guideAction',
 			header: 'First Guide Tip',
-			message: 'This is the standard guide format, it includes a header, message and optional dismiss action.',
-			dismiss: 'Thanks, I\'ve got it.'
+			message: 'This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this',
+			dismiss: 'Thanks, I\'ve got it.',
+			linktext: 'External link',
+			linkurl: 'http://www.github.com'
 		},
 		{
 			target: 'footerBtn',
