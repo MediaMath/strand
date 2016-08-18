@@ -93,6 +93,11 @@ $bg-color: $color-D12;
 	display: block;
 	color: $color-F0;
 	margin: 15px 0 !important;
+
+}
+
+.space:after {
+	content: " ";
 }
 
 .header {

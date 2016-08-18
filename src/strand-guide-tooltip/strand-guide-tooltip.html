@@ -16,10 +16,17 @@
 <dom-module id="strand-guide-tooltip">
 	<link rel="import" type="css" href="strand-guide-tooltip.css"/>
 	<template>
-		<!-- <content></content> -->
 		<div id="container" style$="{{_containerStyle}}">
 			<span class="header">{{_header}}</span>
-			<span class="message">{{_message}}</span>
+			<span class="message">
+				{{_message}}
+				<template is="dom-if" if="{{_link}}" strip-whitespace>
+					<span class="space"></span>
+					<strand-action external href$="{{_linkUrl}}" target="_blank">
+						<label>{{_linkText}}</label>
+					</strand-action>
+				</template>
+			</span>
 			<template is="dom-if" if="{{_dismiss}}">
 				<strand-action class="dismiss-action" on-tap="_dismissHandler" underline>
 					<label>{{_dismiss}}</label>

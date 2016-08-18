@@ -33,6 +33,14 @@
 			"optional":true,
 			"default":"false",
 			"reflect":true
+		},
+		{
+			"name":"external",
+			"type":"Boolean",
+			"description":"Sets the visual state of the component to include an underline and icon, indicating the link will lead the user to an external page.",
+			"optional":true,
+			"default":"false",
+			"reflect":false
 		}
 	],
 	"behaviors" : [

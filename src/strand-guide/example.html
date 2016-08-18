@@ -3,10 +3,12 @@
 <strand-guide id="guide" name="exampleGuide">
 	<guide target="guideAction" 
 		header="First Guide Tip"
-		message="This is the standard guide format, it includes a header, message and optional dismiss action."
-		dismiss="Thanks, I've got it."></guide>
+		message="This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this"
+		dismiss="Thanks, I've got it."
+		linktext="External link"
+		linkurl="http://www.github.com"></guide>
 	<guide target="footerBtn"
-		message="You can create a guide with no header or dismiss message!"></guide>
+		message="You can create a guide with no header or dismiss message!"></guide>	
 </strand-guide>
 
 <strand-footer id="footer" fitparent>
@@ -22,8 +24,10 @@
 		{
 			target: 'guideAction',
 			header: 'First Guide Tip',
-			message: 'This is the standard guide format, it includes a header, message and optional dismiss action.',
-			dismiss: 'Thanks, I\'ve got it.'
+			message: 'This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this',
+			dismiss: 'Thanks, I\'ve got it.',
+			linktext: 'External link',
+			linkurl: 'http://www.github.com'
 		},
 		{
 			target: 'footerBtn',
