@@ -25,18 +25,41 @@
 					return {};
 				},
 			},
+			_isAttached: {
+				type: Boolean,
+				value: false,
+			},
 		},
 
 		observers: [
 			"_expansionChanged(model.expanded)",
 		],
 
+		attached: function () {
+			this._isAttached = true;
+		},
+
+		detached: function () {
+			this._isAttached = false;
+		},
+
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
+		_interceptColumns: function (columns, _isAttached) {
+			if (_isAttached) {
+				this.async(this.distributeContent);
+				return columns;
+			} else {
+				return null;
+			}
+		},
+
 		_checkDistributedNodesAsync: function(e) {
-			this.debounce("checkDistributedNodes", this._checkDistributedNodes);
+			if (this._isAttached) {
+				this.debounce("checkDistributedNodes", this._checkDistributedNodes);
+			}
 		},
 
 		_checkDistributedNodes: function () {
