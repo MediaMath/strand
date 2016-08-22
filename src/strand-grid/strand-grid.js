@@ -138,29 +138,12 @@
 		attached: function() {
 			this.async(this._initialize);
 
-			this._observer = Polymer.dom(this.$.columns).observeNodes(function(info) {
-				var mod = false;
-				if (info.addedNodes) {
-					mod = true;
-					this._columnCount += info.addedNodes.length;
-				}
-				if (info.removedNodes) {
-					mod = true;
-					this._columnCount -= info.removedNodes.length;
-				}
-				if (mod) {
-					this._initialize();
-				}
-			}.bind(this));
-		},
-
-		detached: function() {
-			Polymer.dom(this.$.columns).unobserveNodes(this._observer);
 		},
 
 		_initialize: function() {
 			this._initializeColumns();
 			this._setInitialColumnWidth();
+			this._columnCount++;
 		},
 
 		_initializeColumns: function() {
