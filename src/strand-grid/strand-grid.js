@@ -89,6 +89,11 @@
 				notify: true,
 				observer: "_columnsChanged",
 			},
+			_columnCount: {
+				type:Number,
+				value:0,
+				notify:true
+			},
 			mutationTarget: {
 				type: Object,
 				value: function () {
@@ -123,7 +128,7 @@
 
 		observers: [
 			"_expansionChanged(expanded)",
-			"_onSortChanged(sortField, sortOrder)",
+			"_onSortChanged(sortField, sortOrder, _columnCount)",
 		],
 
 		_expansionChanged: function (expanded) {
@@ -132,6 +137,25 @@
 
 		attached: function() {
 			this.async(this._initialize);
+
+			this._observer = Polymer.dom(this.$.contentNode).observeNodes(function(info) {
+				var mod = false;
+				if (info.addedNodes) {
+					mod = true;
+					this._columnCount += info.addedNodes.length;
+				}
+				if (info.removedNodes) {
+					mod = true;
+					this._columnCount -= info.removedNodes.length;
+				}
+				if (mod) {
+					this._initialize();
+				}
+			}.bind(this));
+		},
+
+		detached: function() {
+			Polymer.dom(this.$.contentNode).unobserveNodes(this._observer);
 		},
 
 		_initialize: function() {
