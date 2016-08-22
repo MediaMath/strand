@@ -138,7 +138,7 @@
 		attached: function() {
 			this.async(this._initialize);
 
-			this._observer = Polymer.dom(this.$.contentNode).observeNodes(function(info) {
+			this._observer = Polymer.dom(this.$.columns).observeNodes(function(info) {
 				var mod = false;
 				if (info.addedNodes) {
 					mod = true;
@@ -155,7 +155,7 @@
 		},
 
 		detached: function() {
-			Polymer.dom(this.$.contentNode).unobserveNodes(this._observer);
+			Polymer.dom(this.$.columns).unobserveNodes(this._observer);
 		},
 
 		_initialize: function() {
