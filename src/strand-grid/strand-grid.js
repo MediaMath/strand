@@ -336,7 +336,23 @@
 		////// Util //////
 		createId: function(string, id) {
 			return string + id;
-		}
+		},
+
+		getAllColumns: function () {
+			return Array.apply(null, Polymer.dom(this).querySelectorAll("strand-grid-column"));
+		},
+
+		getColumnByField: function (field) {
+			return Polymer.dom(this).querySelector("strand-grid-column[field="+field+"]") || null;
+		},
+
+		insertBeforeColumn: function (column, referenceColumn) {
+			return Polymer.dom(this).insertBefore(column, referenceColumn);
+		},
+
+		removeColumn: function (column) {
+			return Polymer.dom(this).removeChild(column);
+		},
 	});
 
 })(window.Strand = window.Strand || {});
