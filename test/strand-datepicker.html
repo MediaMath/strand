@@ -19,12 +19,14 @@
 <strand-button id="target4"><label>Open Datepicker</label></strand-button>
 <strand-button id="target5"><label>Open Datepicker</label></strand-button>
 <strand-button id="target6"><label>Open Datepicker</label></strand-button>
+<strand-button id="target7"><label>Open Datepicker</label></strand-button>
 <strand-datepicker id="test1" target="#target1"></strand-datepicker>
 <strand-datepicker id="test2" target="#target2"></strand-datepicker>
 <strand-datepicker id="test3" target="#target3"></strand-datepicker>
 <strand-datepicker id="test4" target="#target4"></strand-datepicker>
 <strand-datepicker id="test5" target="#target5"></strand-datepicker>
 <strand-datepicker id="test6" target="#target6"></strand-datepicker>
+<strand-datepicker id="test7" target="#target7"></strand-datepicker>
 <script>
 describe("strand-datepicker", function() {
 
@@ -147,6 +149,28 @@ describe("strand-datepicker", function() {
 		flush(function() {
 			expect(t5.endJSDate).to.equal(originalEndDate);
 			expect(t5.endUnix).to.equal(originalEndUnix);
+			done();
+		});
+	});
+
+	it("should update rangeValue if you swap presets for some reason after initialization", function(done) {
+		var t7 = document.querySelector("#test7");
+		var origPresets = [
+			{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+			{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+			{name:"Last 30 Days", value:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+			{name:"Month to Date", value:"Month to Date", start:moment().startOf('month'), end:moment()}
+		];
+		t7.rangePresets = origPresets;
+		t7.start = moment().subtract(2,'days');
+		t7.end = moment();
+		var newPresets = [
+			{name:"Last 2 Days", value:"Last 2 Days", start:moment().subtract(2, 'days'), end:moment()},
+			{name:"Last 3 Days", value:"Last 3 Days", start:moment().subtract(3, 'days'), end:moment()}
+		];
+		t7.rangePresets = newPresets;
+		flush(function() {
+			expect(t7.rangeValue).to.equal("Last 2 Days");
 			done();
 		});
 	});

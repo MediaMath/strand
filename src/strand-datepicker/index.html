@@ -82,7 +82,9 @@
 				</strand-checkbox>
 
 				<span>&nbsp;</span>
-
+				<strand-button type="secondary" onclick="differentPresets()">
+					<label>Swap Preset Sets</label>
+				</strand-button>
 				<strand-button type="secondary" onclick="resetDatepicker()">
 					<label>Reset</label>
 				</strand-button>
@@ -200,8 +202,22 @@
 				})
 			});
 
-			// 	init();
-			// });
+			function differentPresets() {
+				window._whichDpPreset = !window._whichDpPreset;
+				if(window._whichDpPreset) {
+					dp.rangePresets = [
+						{name:"Last 2 Days", value:"Last 7 Days", start:moment().subtract(2, 'days'), end:moment()},
+						{name:"Last 3 Days", value:"Last 14 Days", start:moment().subtract(3, 'days'), end:moment()}
+					];
+				} else {
+					dp.rangePresets = [
+						{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+						{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+						{name:"Last 30 Days", value:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+						{name:"Month to Date", value:"Month to Date", start:moment().startOf('month'), end:moment()}
+					];
+				}
+			};
 
 			function init() {
 				dpb.addEventListener("mouseup", handleDpb);

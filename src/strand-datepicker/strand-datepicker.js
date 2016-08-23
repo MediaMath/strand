@@ -275,15 +275,19 @@
 		},
 
 		_rangePresetsChanged: function(newRangePresets, oldRangePresets) {
-			if(newRangePresets) this._rangePresets = newRangePresets.map(function(range, i) {
-				var start = moment(range.start, this.dateFormat, true);
-				var end = moment(range.end, this.dateFormat, true);
-				return {
-					index: i,
-					range: moment.range(start, end),
-					label: range.name
-				};
-			});
+			if(newRangePresets) {
+				this._rangePresets = newRangePresets.map(function(range, i) {
+					var start = moment(range.start, this.dateFormat, true);
+					var end = moment(range.end, this.dateFormat, true);
+					return {
+						index: i,
+						range: moment.range(start, end),
+						label: range.name
+					};
+				});
+
+				if(this._startUnix && this._endUnix) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
+			}
 		},
 
 		// Date bounds
@@ -345,11 +349,11 @@
 
 
 		_startChanged: function() {
-			this.reset();
+			this.debounce('reset', this.reset);
 		},
 
 		_endChanged: function() {
-			this.reset();
+			this.debounce('reset', this.reset);
 		},
 
 		// Footer
