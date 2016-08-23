@@ -47,7 +47,7 @@
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
-		_interceptColumns: function (columns, _isAttached) {
+		_attachedFilter: function (columns, _isAttached) {
 			if (_isAttached) {
 				this.async(this.distributeContent);
 				return columns;
