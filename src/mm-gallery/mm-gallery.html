@@ -1,0 +1,35 @@
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<dom-module id="mm-gallery" scope="{{scope}}">
+    <link rel="import" type="css" href="mm-gallery.css" />
+
+    <template>
+        <div id="sliderpanel" class="slides">
+            <div class="slider left" on-tap="_slideLeft"> </div>
+            <div id="imglinks" name="imglinks">
+                <div class="img-slider" id="imgslider">
+                    <template is="dom-repeat" items="[[data]]" as="item">
+                        <img on-click="_handleActiveClass" selectedimg$="{{item}}" class$="{{_updateClass(index)}}" src$="{{item.thumb_src}}" height="100" id$="{{item.id}}" />
+                    </template>
+                </div>
+            </div>
+            <div class="slider right" on-tap="_slideRight"> </div>
+        </div>
+        <div id="modal" class="img-modal">
+            <div id="header" class="header">
+            <template is="dom-if" if="{{_hasheader}}">
+                 {{selectedImg.caption}}
+            </template>  </div>
+
+            <img id="fullimg" class="img-align" src="{{_checkIfEmpty(selectedImg.img_src)}}"> </img>
+            <div id="footer" class="footer"> <template is="dom-if" if="{{_hasfooter}}">
+                 {{selectedImg.caption}}
+            </template> </div>
+
+        </div>
+    </template>
+</dom-module>
+<script src="mm-gallery.js"> 	</script>
+
+
+
+

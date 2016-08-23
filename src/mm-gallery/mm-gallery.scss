@@ -1,0 +1,110 @@
+@import "_color";
+
+@-webkit-keyframes leftmove {
+    from {left: 0px;}
+    to {left: -100px;}
+  }
+
+  @keyframes leftmove {
+    from {left: 0px;}
+    to {left: -100px;}
+  }
+  @-webkit-keyframes rightmove {
+    from {left: -100px;}
+    to {left: 0px;}
+  }
+
+  @keyframes rightmove {
+    from {left: -100px;}
+    to {left: 0px;}
+  }
+  .img-slider .slide_left {
+    position: relative;
+    -webkit-animation: rightmove 0s 1;
+    animation: rightmove 0s 1;
+  }
+  .img-slider .slide_right {
+    position: absolute;
+    left: 100px;
+    visibility: hidden;
+    -webkit-animation: leftmove 0.5s 1;
+    animation: leftmove 0.5s 1;
+  }
+  .hidden {
+    visibility: hidden;
+  }
+  .visible {
+    visibility: visible;
+  }
+  .img-slider img.blur {
+    opacity: 0.5;
+    display: inline-block;
+  }
+  .img-slider img.active {
+    opacity: 1;
+  }
+  .slides {
+    width: 72%;
+    padding: 5px;
+    border: 5px solid $color-A8;
+    display: table;
+    position: relative;
+    height: 100px;
+    margin: auto;
+  }
+  .mm-gallery div#imglinks {
+    width: 94%;
+    overflow: hidden;
+    height: 110px;
+    left: 20px;
+    overflow: hidden;
+    position: absolute;
+  }
+  .img-modal {
+    display: block !important;
+    margin: 0 13%;
+    width: auto;
+    padding: 5px;
+    border: 10px solid $color-A0;
+    background: $color-A8;
+    min-height: 500px;
+    height: auto;
+  }
+  .img-align {
+    position: relative;
+    width: 100%;
+  }
+  .slider {
+    cursor: pointer;
+    display: table-cell;
+    width: 25px;
+    height: 80px;
+    position: relative;
+    top: 35px;
+  }
+
+  .left {
+    background: url('../../docs/images/gallery/left-arrow.png') no-repeat;
+    display: table-cell;
+    left: -5px;
+  }
+  .img-slider {
+    height: 100px;
+    left: 0;
+    margin: 0 auto;
+    width: 180%;
+    display: -webkit-box;
+    white-space: nowrap;
+  }
+  .right {
+    background: url('../../docs/images/gallery/right-arrow.png') no-repeat;
+    cursor: pointer;
+    right: 12px;
+    display: table-cell;
+  }
+  div#header, div#footer {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    height: 20px;
+  }

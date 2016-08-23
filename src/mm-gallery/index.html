@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<title> Image Gallery </title>
+	<script src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../../bower_components/polymer/polymer.html">
+	<link rel="import" href="mm-gallery.html">
+
+	<script>
+		var imgdata = [{
+			"id": "1",
+			"thumb_src": "../../docs/images/gallery/thumbnails/01.JPG",
+			"img_src": "../../docs/images/gallery/01.JPG",
+			"caption": "Image 1",
+			"caption_position": "bottom"
+		}, {
+			"id": "2",
+			"thumb_src": "../../docs/images/gallery/thumbnails/02.JPG",
+			"img_src": "../../docs/images/gallery/02.JPG",
+			"caption": "Image 2",
+			"caption_position": ""
+		}, {
+			"id": "3",
+			"thumb_src": "../../docs/images/gallery/thumbnails/03.JPG",
+			"img_src": "../../docs/images/gallery/03.JPG",
+			"caption": "Image 3",
+			"caption_position": "bottom"
+		}, {
+			"id": "4",
+			"thumb_src": "../../docs/images/gallery/thumbnails/04.JPG",
+			"img_src": "../../docs/images/gallery/04.JPG",
+			"caption": "Image 4",
+			"caption_position": "top"
+		}, {
+			"id": "5",
+			"thumb_src": "../../docs/images/gallery/thumbnails/05.JPG",
+			"img_src": "../../docs/images/gallery/05.JPG",
+			"caption": "Image 5",
+			"caption_position": "top"
+		}, {
+			"id": "6",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img01.jpg",
+			"img_src": "../../docs/images/gallery/img01.jpg",
+			"caption": "Image 6",
+			"caption_position": "top"
+		}, {
+			"id": "7",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img02.jpg",
+			"img_src": "../../docs/images/gallery/img02.jpg",
+			"caption": "Image 7",
+			"caption_position": "bottom"
+		}, {
+			"id": "8",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img03.jpg",
+			"img_src": "../../docs/images/gallery/img03.jpg",
+			"caption": "Image 8",
+			"caption_position": "top"
+		}, {
+			"id": "9",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img05.jpg",
+			"img_src": "../../docs/images/gallery/img05.jpg",
+			"caption": "Image 9",
+			"caption_position": "bottom"
+		}, {
+			"id": "10",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img06.jpg",
+			"img_src": "../../docs/images/gallery/img06.jpg",
+			"caption": "Image 10",
+			"caption_position": "top"
+		},
+		{
+			"id": "11",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img07.jpg",
+			"img_src": "../../docs/images/gallery/img07.jpg",
+			"caption": "Image 11",
+			"caption_position": "bottom"
+		}, {
+			"id": "12",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img08.jpg",
+			"img_src": "../../docs/images/gallery/img08.jpg",
+			"caption": "Image 12",
+			"caption_position": "top"
+		}, {
+			"id": "13",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img09.jpg",
+			"img_src": "../../docs/images/gallery/img09.jpg",
+			"caption": "Image 13",
+			"caption_position": "bottom"
+		}, {
+			"id": "14",
+			"thumb_src": "../../docs/images/gallery/thumbnails/img10.jpg",
+			"img_src": "../../docs/images/gallery/img10.jpg",
+			"caption": "Image 14",
+			"caption_position": "bottom"
+		}];
+
+		window.addEventListener('HTMLImportsLoaded', function() {
+			var imgGallery = document.querySelector('#imggallery');
+			var data = JSON.stringify(imgdata);
+			imgGallery.setAttribute('data', data);
+		});
+	</script>
+</head>
+<body>
+<mm-gallery id="imggallery">
+</mm-gallery>
+
+</body>
+</html>
