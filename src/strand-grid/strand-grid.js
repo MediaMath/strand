@@ -89,6 +89,11 @@
 				notify: true,
 				observer: "_columnsChanged",
 			},
+			_columnCount: {
+				type:Number,
+				value:0,
+				notify:true
+			},
 			mutationTarget: {
 				type: Object,
 				value: function () {
@@ -123,7 +128,7 @@
 
 		observers: [
 			"_expansionChanged(expanded)",
-			"_onSortChanged(sortField, sortOrder)",
+			"_onSortChanged(sortField, sortOrder, _columnCount)",
 		],
 
 		_expansionChanged: function (expanded) {
@@ -132,11 +137,13 @@
 
 		attached: function() {
 			this.async(this._initialize);
+
 		},
 
 		_initialize: function() {
 			this._initializeColumns();
 			this._setInitialColumnWidth();
+			this._columnCount++;
 		},
 
 		_initializeColumns: function() {
