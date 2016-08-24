@@ -189,12 +189,12 @@
 		// Dom handling
 		_getDomByValue: function(value) {
 			return this.items.filter(function(node) {
-				return node.getAttribute('value') === value || Polymer.dom(node).textContent.trim() === value;
+				return node.getAttribute('value') === value || node.textContent.trim() === value;
 			})[0];
 		},
 
 		_getValueFromDom: function(node) {
-			return node.getAttribute('value') || Polymer.dom(node).textContent.trim();
+			return node.getAttribute('value') || node.textContent.trim();
 		},
 
 		_getDataIndexFromDom: function(value) {
@@ -260,8 +260,8 @@
 		_selectedIndexChanged: function(newIndex, oldIndex) {
 			if (typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex];
-				var value = newSelected.value ? newSelected.value.toString() : Polymer.dom(newSelected).textContent.trim();
-				var name = newSelected.name ? newSelected.name : Polymer.dom(newSelected).textContent.trim();
+				var value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim();
+				var name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
 
 				this.value = value;
 				this.error = false;
@@ -321,17 +321,13 @@
 			inherited.apply(this, [newIndex, oldIndex]);
 		},
 
-		_highlightChanged: function() {
-			this.notifyPath("scope.highlight", this.highlight);
-		},
-
 		_updateLabelText: function(selectedIndex, placeholder) {
 			var label = this.placeholder;
 
 			if (typeof selectedIndex === 'number') {
 				var selectedItem = this.items[selectedIndex];
 
-				label = this.data ? selectedItem.name : Polymer.dom(selectedItem).textContent.trim();
+				label = this.data ? selectedItem.name : selectedItem.textContent.trim();
 			}
 			return label;
 		},
@@ -346,7 +342,7 @@
 						textBounds = Measure.getTextBounds(this.$.label);
 
 					if(textBounds.width >= availableArea) {
-						title = this.data ? selectedItem.name : Polymer.dom(selectedItem).textContent.trim();
+						title = this.data ? selectedItem.name : selectedItem.textContent.trim();
 					}
 				}
 				return title;
