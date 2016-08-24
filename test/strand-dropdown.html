@@ -132,8 +132,8 @@
 				ddl.selectedIndex = 2;
 				flush(function() {
 					selectedItem = ddl.items[ddl.selectedIndex];
-					selectedItemName = Polymer.dom(selectedItem).textContent.trim();
-					label = Polymer.dom(ddl._target.querySelector('label')).textContent.trim();
+					selectedItemName = selectedItem.textContent.trim();
+					label = ddl._target.querySelector('label').textContent.trim();
 					label.should.equal(selectedItemName);
 					done();
 				});

@@ -51,11 +51,6 @@
 			value: {
 				type: String,
 				value: false
-			},
-			name: {
-				type:String,
-				value: '',
-				observer:'_nameChanged'
 			}
 		},
 

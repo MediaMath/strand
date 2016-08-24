@@ -91,18 +91,6 @@
 				notify: true,
 				observer: '_valueChanged'
 			},
-			scope: {
-				type: Object,
-				notify: true,
-				value: function() {
-					return this;
-				}
-			},
-			highlight: {
-				type:String,
-				notify: true,
-				observer:'_highlightChanged'
-			},
 			maxItems: {
 				type: Number,
 				observer: '_maxItemsChanged'

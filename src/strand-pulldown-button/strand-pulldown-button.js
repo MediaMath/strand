@@ -87,7 +87,7 @@
 			if(typeof newIndex === 'number') {
 				var newSelected = this.items[newIndex],
 					oldSelected = this.items[oldIndex],
-					value = newSelected.value ? newSelected.value.toString() : Polymer.dom(newSelected).textContent.trim();
+					value = newSelected.value ? newSelected.value.toString() : newSelected.textContent.trim();
 
 				this.fire('selected', {
 					item: newSelected,
