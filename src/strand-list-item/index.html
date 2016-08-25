@@ -4,6 +4,7 @@
 	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="strand-list-item.html">
 		<link rel="import" href="../strand-input/strand-input.html">
+		<link rel="import" href="../strand-highlight/strand-highlight.html">
 		<link rel="import" href="../shared/behaviors/resizable.html"/>
 	</head>
 	<body>
@@ -41,14 +42,18 @@
 		</dom-module>
 		-->
 
-		<strand-list-item size="small">Item here that is small</strand-list-item>
+		<strand-list-item size="small"><strand-highlight text="Item here that is small"></strand-highlight></strand-list-item>
+		<strand-list-item size="small" highlight="Item"><strand-highlight text="Item here that is small &lt;a href='test.html'&gt;test&lt;/a&gt;" highlight="item"></strand-highlight></strand-list-item>
 		<strand-list-item>Item here 00</strand-list-item>
 		<strand-list-item>I am a moderate amount of text. Just a bit but not too much</strand-list-item>
 		<strand-list-item >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strand-list-item>
 		<strand-list-item highlight="Lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strand-list-item>
 		<template is="dom-bind">
 				<strand-input value="{{hl}}"></strand-input>
-				<strand-list-item highlight="{{hl}}">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</strand-list-item>
+				<strand-list-item>
+					<strand-highlight text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." highlight="{{hl}}">
+					</strand-highlight>
+				</strand-list-item>
 		</template>
 
 		<!--
