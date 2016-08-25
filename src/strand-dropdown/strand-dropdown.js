@@ -91,6 +91,12 @@
 				notify: true,
 				observer: '_valueChanged'
 			},
+			highlight:{
+				type:String,
+				notify:true,
+				value:"",
+				observer: '_highlightChanged'
+			},
 			maxItems: {
 				type: Number,
 				observer: '_maxItemsChanged'
@@ -219,6 +225,10 @@
 			} else {
 				this.reset();
 			}
+		},
+
+		_highlightChanged: function() {
+			this.notifyPath('ref.highlight', this.highlight);
 		},
 
 		// Getters

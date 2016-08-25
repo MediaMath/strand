@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-highlight></strand-highlight>
+
+	<script>
+
+		describe("strand-highlight", function() {
+
+			it("should exist", function() {
+				var a = new Strand.Highlight();
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>
