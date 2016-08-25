@@ -113,12 +113,24 @@
 					<section>
 						<h3>Example HTML Editor</h3>
 						<div class="editor-wrapper">
-							<div id="editor"></div>
+							<div id="editor">&lt;template is=&quot;dom-bind&quot;&gt;
+	&lt;strand-input value=&quot;{{hl}}&quot;&gt;&lt;/strand-input&gt;
+	&lt;strand-list-item&gt;
+		&lt;strand-highlight text=&quot;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&quot; highlight=&quot;{{hl}}&quot;&gt;
+		&lt;/strand-highlight&gt;
+	&lt;/strand-list-item&gt;
+&lt;/template&gt;</div>
 						</div>
 					</section>
 					<section>
 						<h3>Example Output</h3>
-						<div class="content-box example" id="example-strand-highlight"></div>
+						<div class="content-box example" id="example-strand-highlight"><template is="dom-bind">
+	<strand-input value="{{hl}}"></strand-input>
+	<strand-list-item>
+		<strand-highlight text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." highlight="{{hl}}">
+		</strand-highlight>
+	</strand-list-item>
+</template></div>
 					</section>
 
 					<section>
