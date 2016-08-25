@@ -107,112 +107,18 @@
 				</div>
 			</footer>			<article class="layout-article">
 				<div class="docs-content">
-					<h1>strand-input-mask</h1>
-					<p>A fully-styled input mask component.</p>
+					<h1>strand-highlight</h1>
+					<p>A simple text component that allows its text content to be highlighted. Hilight matching is not case sensitive.</p>
 					<hr/>
 					<section>
 						<h3>Example HTML Editor</h3>
 						<div class="editor-wrapper">
-							<div id="editor">&lt;strand-input-mask placeholder=&quot;(123) 123-1234&quot;&gt;
-  &lt;sep chars=&quot;(&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; restrict=&quot;numeric&quot; size=&quot;3&quot;&gt;100-999&lt;/group&gt;
-  &lt;sep chars=&quot;) &quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; restrict=&quot;numeric&quot; size=&quot;3&quot;&gt;100-999&lt;/group&gt;
-  &lt;sep chars=&quot;-&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; restrict=&quot;numeric&quot; size=&quot;4&quot;&gt;1000-9999&lt;/group&gt;
-&lt;/strand-input-mask&gt;
-
-&lt;strand-input-mask placeholder=&quot;(ABC) DEF-GHIJ&quot;&gt;
-  &lt;sep chars=&quot;(&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;all&quot; restrict=&quot;alphaNumeric&quot; size=&quot;3&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;) &quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;all&quot; restrict=&quot;alphaNumeric&quot; size=&quot;3&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;-&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;all&quot; restrict=&quot;alphaNumeric&quot; size=&quot;4&quot;&gt;&lt;/group&gt;
-&lt;/strand-input-mask&gt;
-
-&lt;strand-input-mask value=&quot;(123) 123-1234&quot;&gt;
-  &lt;sep chars=&quot;(&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; restrict=&quot;numeric&quot; size=&quot;3&quot;&gt;100-999&lt;/group&gt;
-  &lt;sep chars=&quot;) &quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; restrict=&quot;numeric&quot; size=&quot;3&quot;&gt;100-999&lt;/group&gt;
-  &lt;sep chars=&quot;-&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; restrict=&quot;numeric&quot; size=&quot;4&quot;&gt;1000-9999&lt;/group&gt;
-&lt;/strand-input-mask&gt;
-
-&lt;strand-input-mask value=&quot;12:12&quot;&gt;
-  &lt;group rule=&quot;hour12&quot; size=&quot;2&quot; autofill=&quot;0&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;:&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;minutes&quot; size=&quot;2&quot; autofill=&quot;0&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-&lt;/strand-input-mask&gt;
-
-&lt;strand-input-mask value=&quot;03/12/1992&quot;&gt;
-  &lt;group rule=&quot;range&quot; size=&quot;2&quot; autofill=&quot;0&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;/&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; size=&quot;2&quot; autofill=&quot;0&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;/&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; size=&quot;4&quot; autofill=&quot;20&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-&lt;/strand-input-mask&gt;
-
-&lt;strand-input-mask placeholder=&quot;MM/DD/YYYY&quot;&gt;
-  &lt;group rule=&quot;range&quot; size=&quot;2&quot; autofill=&quot;0&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;/&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; size=&quot;2&quot; autofill=&quot;0&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-  &lt;sep chars=&quot;/&quot;&gt;&lt;/sep&gt;
-  &lt;group rule=&quot;range&quot; size=&quot;4&quot; autofill=&quot;20&quot; restrict=&quot;numeric&quot;&gt;&lt;/group&gt;
-&lt;/strand-input-mask&gt;</div>
+							<div id="editor"></div>
 						</div>
 					</section>
 					<section>
 						<h3>Example Output</h3>
-						<div class="content-box example" id="example-strand-input-mask"><strand-input-mask placeholder="(123) 123-1234">
-  <sep chars="("></sep>
-  <group rule="range" restrict="numeric" size="3">100-999</group>
-  <sep chars=") "></sep>
-  <group rule="range" restrict="numeric" size="3">100-999</group>
-  <sep chars="-"></sep>
-  <group rule="range" restrict="numeric" size="4">1000-9999</group>
-</strand-input-mask>
-
-<strand-input-mask placeholder="(ABC) DEF-GHIJ">
-  <sep chars="("></sep>
-  <group rule="all" restrict="alphaNumeric" size="3"></group>
-  <sep chars=") "></sep>
-  <group rule="all" restrict="alphaNumeric" size="3"></group>
-  <sep chars="-"></sep>
-  <group rule="all" restrict="alphaNumeric" size="4"></group>
-</strand-input-mask>
-
-<strand-input-mask value="(123) 123-1234">
-  <sep chars="("></sep>
-  <group rule="range" restrict="numeric" size="3">100-999</group>
-  <sep chars=") "></sep>
-  <group rule="range" restrict="numeric" size="3">100-999</group>
-  <sep chars="-"></sep>
-  <group rule="range" restrict="numeric" size="4">1000-9999</group>
-</strand-input-mask>
-
-<strand-input-mask value="12:12">
-  <group rule="hour12" size="2" autofill="0" restrict="numeric"></group>
-  <sep chars=":"></sep>
-  <group rule="minutes" size="2" autofill="0" restrict="numeric"></group>
-</strand-input-mask>
-
-<strand-input-mask value="03/12/1992">
-  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
-  <sep chars="/"></sep>
-  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
-  <sep chars="/"></sep>
-  <group rule="range" size="4" autofill="20" restrict="numeric"></group>
-</strand-input-mask>
-
-<strand-input-mask placeholder="MM/DD/YYYY">
-  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
-  <sep chars="/"></sep>
-  <group rule="range" size="2" autofill="0" restrict="numeric"></group>
-  <sep chars="/"></sep>
-  <group rule="range" size="4" autofill="20" restrict="numeric"></group>
-</strand-input-mask></div>
+						<div class="content-box example" id="example-strand-highlight"></div>
 					</section>
 
 					<section>
@@ -235,68 +141,26 @@
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">value : </span><span class="italic">string&nbsp;(optional)&nbsp;</span><br/>
+									<span class="bold">text : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">&#39;&#39;</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">value</span><br/>
-									reflected to attribute : <span class="italic">no</span>
+									attribute : <span class="italic">text</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
 								</td>
 								<td>
-									<span class="desc">The value of the field (including any separator characters)</span>
+									<span class="desc">The string to display as the text content for this element</span>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<span class="bold">placeholder : </span><span class="italic">string&nbsp;&nbsp;</span><br/>
+									<span class="bold">highlight : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">false</span><br/>
 									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">placeholder</span><br/>
-									reflected to attribute : <span class="italic">no</span>
+									attribute : <span class="italic">highlight</span><br/>
+									reflected to attribute : <span class="italic">yes</span>
 								</td>
 								<td>
-									<span class="desc">Placeholder value. Should contain separator chars as well so it can be properly chunked into individual inputs.</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">disabled : </span><span class="italic">boolean&nbsp;(optional)&nbsp;</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">disabled</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">Whether the field will accept user input</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">icon : </span><span class="italic">String&nbsp;(optional)&nbsp;</span><br/>
-									options : <span class="italic"><span class="option">*see strand-icon for options</span></span><br/>
-									attribute : <span class="italic">icon</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">Adds a custom icon glyph to the input field, using icons found in strand-icon.</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">rules : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">N/A</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">An object containing a set of named functions used for validation. Method signature is (String char, String input, Object group, HTMLInputElement field) where char is the latest character a user has typed, and input is the full string the user has entered for a given group.</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">restrict : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
-									options : <span class="italic">none</span><br/>
-									attribute : <span class="italic">N/A</span><br/>
-									reflected to attribute : <span class="italic">no</span>
-								</td>
-								<td>
-									<span class="desc">An object containing a set of regexes used to test input. If input does not test true, it is not allowed in the field.</span>
+									<span class="desc">The search string used to highlight matched substrings from the &#39;text&#39; property&#39;s value.</span>
 								</td>
 							</tr>
 						</table>
@@ -321,63 +185,15 @@
 									</span>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<span class="bold">styleBlock</span>(<span></span>)<br/>
-									<span class="desc">Returns an array of styles to be used in attribute binding.</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">classBlock</span>(<span></span>)<br/>
-									<span class="desc">Returns an array of classes to be used in attribute binding.</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">clear</span>(<span></span>)<br/>
-									<span class="desc">Clears the input mask field, resetting its value to empty string</span>
-								</td>
-								<td>
-									none
-								</td>
-							</tr>
 						</table>
 					</section>
 
-					<section>
-						<h3>Events</h3>
-						<table>
-							<tr>
-								<th>Event</th>
-								<th>Event Detail</th>
-							</tr>
-							<tr>
-								<td>
-									<span class="bold">Type</span> : 'changed'</span>
-									
-								</td>
-								<td>
-									<span class="arg">
-										<span class="bold">value</span> : <span class="italic">String</span><br/>
-										<span class="desc">Value of the selected item, usually it&#39;s label</span>
-									</span>
-								</td>
-							</tr>
-						</table>
-					</section>
 				</div>
 				<div class="layout-push"></div>
 			</article>
 		</strand-docs-shell>
 		<script>
-			var name = "strand-input-mask",
+			var name = "strand-highlight",
 				articlesNav,
 				componentsNav,
 				docsShell,
