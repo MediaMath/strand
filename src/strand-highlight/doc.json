@@ -19,7 +19,7 @@
 			"optional":"true",
 			"description":"The search string used to highlight matched substrings from the 'text' property's value.",
 			"attribute":"highlight"
-		},
+		}
 	],
 	"behaviors" : [
 		"refable"
