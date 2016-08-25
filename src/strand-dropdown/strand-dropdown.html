@@ -21,6 +21,7 @@
 <link rel="import" href="../strand-item-recycler/strand-item-recycler.html">
 <link rel="import" href="../strand-icon/strand-icon.html"/>
 <link rel="import" href="../strand-list-item/strand-list-item.html"/>
+<link rel="import" href="../strand-highlight/strand-highlight.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 
 <dom-module id="strand-dropdown">
@@ -51,13 +52,18 @@
 						id="itemRecycler"
 						data="{{data}}"
 						hidden$="{{!_hideInsertionPoints(data)}}"
+						scope="{{scope}}"
 						index="{{index}}">
 						<template preserve-content>
 							<strand-list-item
 								value$="{{model.value}}"
 								selected$="{{model.selected}}"
-								highlight$="{{model.highlight}}"
-								highlighted$="{{model.highlighted}}">{{model.name}}</strand-list-item>
+								highlighted$="{{model.highlighted}}">
+									<strand-highlight 
+										text="{{model.name}}" 
+										highlight="{{scope.highlight}}">
+									</strand-highlight>
+								</strand-list-item>
 						</template>
 					</strand-item-recycler>
 				</div>
