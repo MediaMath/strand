@@ -1,3 +1,21 @@
+<a name="v4.1.3"></a>
+## v4.1.3 (2016-08-25)
+
+* abstract highlight to its own component ([89cca72](https://github.com/MediaMath/strand/commit/89cca72))
+* add firefox back to wct ([2472a33](https://github.com/MediaMath/strand/commit/2472a33))
+* autocomplete ([28fec19](https://github.com/MediaMath/strand/commit/28fec19))
+* dropdown support ([a3770a2](https://github.com/MediaMath/strand/commit/a3770a2))
+* fix sorting display when initial sort values are set via dom ([898a7f4](https://github.com/MediaMath/strand/commit/898a7f4))
+* now with less stupid ([06e909e](https://github.com/MediaMath/strand/commit/06e909e))
+* patch for justin's comment ([7ad631b](https://github.com/MediaMath/strand/commit/7ad631b))
+* revert older commits from previous ([2d3aabd](https://github.com/MediaMath/strand/commit/2d3aabd))
+* revert the highlight changes ([30137b5](https://github.com/MediaMath/strand/commit/30137b5))
+* Support modifying grid's column-children (#118) ([b891bb6](https://github.com/MediaMath/strand/commit/b891bb6))
+* update datepicker range value if you swap out range presets for some reason ([c2d1e47](https://github.com/MediaMath/strand/commit/c2d1e47))
+* use existing mutation observer ([1a25fee](https://github.com/MediaMath/strand/commit/1a25fee))
+
+
+
 <a name="v4.1.2"></a>
 ## v4.1.2 (2016-08-18)
 
