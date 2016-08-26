@@ -25,41 +25,23 @@
 					return {};
 				},
 			},
-			_isAttached: {
-				type: Boolean,
-				value: false,
-			},
 		},
 
 		observers: [
 			"_expansionChanged(model.expanded)",
+			"_redistributeColumns(scope._columns)",
 		],
-
-		attached: function () {
-			this._isAttached = true;
-		},
-
-		detached: function () {
-			this._isAttached = false;
-		},
 
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);
 		},
 
-		_attachedFilter: function (columns, _isAttached) {
-			if (_isAttached) {
-				this.async(this.distributeContent);
-				return columns;
-			} else {
-				return null;
-			}
+		_redistributeColumns: function (columns) {
+			this.distributeContent();
 		},
 
 		_checkDistributedNodesAsync: function(e) {
-			if (this._isAttached) {
-				this.debounce("checkDistributedNodes", this._checkDistributedNodes);
-			}
+			this.debounce("checkDistributedNodes", this._checkDistributedNodes);
 		},
 
 		_checkDistributedNodes: function () {
