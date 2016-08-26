@@ -1,3 +1,12 @@
+<a name="v4.1.4"></a>
+## v4.1.4 (2016-08-26)
+
+* Address column resize bug introduced by premature-opt (#120) ([b15321b](https://github.com/MediaMath/strand/commit/b15321b))
+* fix highlight docs ([33a1cc7](https://github.com/MediaMath/strand/commit/33a1cc7))
+* linter for docs JSON ([6bd0669](https://github.com/MediaMath/strand/commit/6bd0669))
+
+
+
 <a name="v4.1.3"></a>
 ## v4.1.3 (2016-08-25)
 
