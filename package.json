@@ -41,6 +41,7 @@
     "gulp-header": "^1.7.1",
     "gulp-if": "^2.0.0",
     "gulp-inline-assets": "^0.1.1",
+    "gulp-jsonlint": "^1.1.2",
     "gulp-load-plugins": "^1.2.0",
     "gulp-marked": "^1.0.0",
     "gulp-minify-html": "^1.0.5",
