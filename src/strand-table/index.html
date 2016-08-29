@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="../strand.html">
+	<link rel="import" href="strand-table.html">
+	<style type="text/css">
+		html, body {
+			padding: 0;
+			margin: 0;
+			background: #eee;
+			width: 100%;
+			height: 100%;
+			min-height: 100%;
+		}
+
+		*[unresolved] {
+			display: none;
+		}
+
+		/** {
+			flex-shrink: 0;
+		}*/
+
+		.container {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<strand-table id="mmTestGrid" selectable unresolved>
+		<strand-grid-column width="50%" field="name" sort resize>Name</strand-grid-column>
+		<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
+		<strand-grid-column width="10%" field="advertiser" sort resize>Advertiser</strand-grid-column>
+		<strand-grid-column width="10%" field="concept" sort resize>Concept</strand-grid-column>
+		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff and stuff" align-column="right" sort resize>Longer Name</strand-grid-column>
+		<strand-grid-column width="10%" field="dimensions">Dimensions</strand-grid-column>
+	</strand-table>
+
+	<script type="text/javascript">
+		var data = [],
+			columns = [
+				{field: "id", label:"id", width:"10%"},
+				{field: "name", label: "Name Here", width: "25%", resize: true, info: true},
+				{field: "advertiser", label: "Advertiser", width: "20%", resize: true, align:"right"},
+				{field: "concept", label: "Concept", width: "15%", resize: true, align:"right"},
+				{field: "type", label: "Type", width: "15%", resize: true, align:"right"},
+				{field: "dimensions", label: "Dimensions", width: "15%", align:"right"}
+			],
+			app,
+			NUM_ITEMS = 30;
+
+		for(var i=0; i<NUM_ITEMS; i++) {
+			generateItem();
+		}
+
+		if (data.length) {
+			data[0].content = new Array(100).join(" "+data[0].name);
+			data[0|(data.length / 2)].content = new Array(100).join(" "+data[0|(data.length / 2)].name);
+			data[data.length - 1].content = new Array(100).join(" "+data[data.length - 1].name);
+		}
+
+		function generateItem() {
+			data.push({
+				id: i,
+				name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio justo, vulputate eu consequat quis, ullamcorper sed ipsum. Nullam molestie, urna sed facilisis suscipit, leo urna molestie lorem, nec tincidunt ipsum tellus sit amet velit. Nulla pulvinar mi et commodo blandit.',
+				content: Math.random().toString(36).substring(7),
+				advertiser: "Advertiser No. " + i,
+				concept: "Concept No. " + i,
+				type: "swf",
+				file: "Creative_File_" + i + ".swf",
+				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
+				selected: false,
+				expanded: false,
+				// style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
+				// style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
+				subdata: [{
+					id: 0,
+					name: Math.random().toString(36).substring(7),
+					advertiser: "Advertiser No. " + 0,
+					concept: "Concept No. " + 0,
+				}, {
+					id: 1,
+					name: Math.random().toString(36).substring(7),
+					advertiser: "Advertiser No. " + 1,
+					concept: "Concept No. " + 1,
+				}],
+			});
+		}
+
+		window.addEventListener("WebComponentsReady", function() {
+			app = document.querySelector("#mmTestGrid");
+			app.data = data;
+
+			app.addEventListener('grid-item-clicked', function(e) {
+				console.log('grid-item-clicked: ', e.detail);
+			});
+
+			// setTimeout(function () {
+			// 	app.data = data.slice(data.length >> 2, data.length >> 1);
+			// }, 3000);
+		});
+	</script>
+</body>
+</html>

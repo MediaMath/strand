@@ -1,0 +1,43 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/mixinfindable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
+<link rel="import" href="../strand-grid-column/strand-grid-column.html">
+<link rel="import" href="../strand-grid-item/strand-grid-item.html">
+<link rel="import" href="../strand-checkbox/strand-checkbox.html">
+<link rel="import" href="../strand-icon/strand-icon.html">
+<link rel="import" href="../strand-loader/strand-loader.html">
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-table">
+	<link rel="import" type="css" href="strand-table.css"/>
+	<template>
+		<div id="_constrainer">
+			<div id="header">
+				<div class="_mm_column checkbox" hidden$="{{!selectable}}">
+					<strand-checkbox id="selectAll" on-tap="_toggleAllSelections" state="{{_selectAllState}}"></strand-checkbox>
+				</div>
+				<div id="carat" class="_mm_column toggle" hidden$="{{!expandable}}">
+					<strand-icon width="10" height="10" type="expand-all"></strand-icon>
+				</div>
+				<div id="columnContainer">
+					<content id="columns" select="strand-grid-column"></content>
+				</div>
+			</div>
+			<div id="viewport">
+				<template is="dom-repeat" items="{{data}}">
+					<strand-grid-item model="{{item}}" scope="{{scope}}"></strand-grid-item>
+				</template>
+			</div>
+		</div>
+		<div id="separator"></div>
+	</template>
+</dom-module>
+
+<script src="strand-table.js"></script>
