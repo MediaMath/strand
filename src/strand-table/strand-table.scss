@@ -22,8 +22,6 @@
 	position: static;
 	background: $color-A16;
 	user-select: none;
-	white-space: nowrap;
-	flex-wrap: nowrap;
 }
 
 #viewport {
@@ -68,11 +66,34 @@
 #columnContainer {
 	display: flex;
 	flex: 1;
-	width: 100%;
 }
 
 #_constrainer {
 	display: inline-block;
 	min-width: 100%;
-	position: relative;
+}
+
+#_overlay {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: absolute;
+	pointer-events: none;
+
+	#fixes-flicker {
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		pointer-events: none;
+	}
+}
+
+#_overlay > #fixes-flicker > *,
+#_overlay > * {
+	pointer-events: all;
 }

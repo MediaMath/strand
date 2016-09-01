@@ -92,8 +92,8 @@
 				},
 			},
 			icon: {
-				type:String,
-				value:null,
+				type: String,
+				value: null,
 				notify: true
 			}
 		},
@@ -101,8 +101,6 @@
 		behaviors: [
 			StrandTraits.Falsifiable,
 			StrandTraits.Resolvable,
-			StrandTraits.MixinFindable,
-			StrandTraits.TemplateFindable,
 			StrandTraits.Refable,
 			StrandTraits.DomMutable,
 		],
@@ -296,9 +294,6 @@
 			return (isLoading && _indications.loading) || (_measuring && _indications.measuring);
 		},
 
-		requestInitialization: function () {
-			return this.$.viewport.initialize();
-		},
 
 		////// Util //////
 		createId: function(string, id) {

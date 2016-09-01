@@ -14,6 +14,10 @@
 			min-height: 100%;
 		}
 
+		*{
+			box-sizing: border-box;
+		}
+
 		*[unresolved] {
 			display: none;
 		}
@@ -23,11 +27,25 @@
 		}*/
 
 		.container {
+			position: relative;
+			margin: auto;
+			width: 800px;
 			height: 100%;
+		}
+
+		#mmTestGrid {
+			/*width: 800px;*/
+		}
+
+		.aaa {
+			width: 100%;
 		}
 	</style>
 </head>
 <body>
+	<div class="aaa"></div>
+
+	<div class="container">
 	<strand-table id="mmTestGrid" selectable unresolved>
 		<strand-grid-column width="50%" field="name" sort resize>Name</strand-grid-column>
 		<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
@@ -36,7 +54,7 @@
 		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff and stuff" align-column="right" sort resize>Longer Name</strand-grid-column>
 		<strand-grid-column width="10%" field="dimensions">Dimensions</strand-grid-column>
 	</strand-table>
-
+	</div>
 	<script type="text/javascript">
 		var data = [],
 			columns = [
@@ -63,6 +81,7 @@
 		function generateItem() {
 			data.push({
 				id: i,
+				// name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio justo, vulputate eu consequat quis, ullamcorper sed ipsum.',
 				name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio justo, vulputate eu consequat quis, ullamcorper sed ipsum. Nullam molestie, urna sed facilisis suscipit, leo urna molestie lorem, nec tincidunt ipsum tellus sit amet velit. Nulla pulvinar mi et commodo blandit.',
 				content: Math.random().toString(36).substring(7),
 				advertiser: "Advertiser No. " + i,
@@ -71,26 +90,17 @@
 				file: "Creative_File_" + i + ".swf",
 				dimensions: String(Math.floor(Math.random()*300) + " x " + Math.floor(Math.random()*300)),
 				selected: false,
-				expanded: false,
+				expanded: false
 				// style: "min-height: "+(30 + (0|(70 * Math.random()))) + "px",
 				// style: "min-height: "+(30 + 10 * (0|(i % 10))) + "px",
-				subdata: [{
-					id: 0,
-					name: Math.random().toString(36).substring(7),
-					advertiser: "Advertiser No. " + 0,
-					concept: "Concept No. " + 0,
-				}, {
-					id: 1,
-					name: Math.random().toString(36).substring(7),
-					advertiser: "Advertiser No. " + 1,
-					concept: "Concept No. " + 1,
-				}],
 			});
 		}
 
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
-			app.data = data;
+			window.setTimeout(function() {
+				app.data = data;
+			}, 1000);
 
 			app.addEventListener('grid-item-clicked', function(e) {
 				console.log('grid-item-clicked: ', e.detail);
