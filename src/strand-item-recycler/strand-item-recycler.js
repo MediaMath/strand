@@ -816,6 +816,8 @@ found here: https://github.com/Polymer/core-list
 
 				if (this._measurements.isHeightKnown(young)) {
 					height = this._measurements.getHeight(young);
+					// note: necessary because of bound-pooling's effect on size-responsible
+					this.debounce(young, this._getBoundResponse(bound));
 				} else {
 					height = recycler.getHeightAtIndex(young);
 					bound.pendingResponse = 0|true;
