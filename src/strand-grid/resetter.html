@@ -12,17 +12,23 @@
 			height: 100%;
 			min-height: 100%;
 		}
+
 		*[unresolved] {
 			display: none;
 		}
+
+
 		.container {
-			width: 800px;
+			width: 100%;
 			height: 317px;
 		}
+
 		strand-grid {
+			width: 100%;
 			width: 800px;
 			height: 317px;
 		}
+
 		strand-grid[unresolved] {
 			display: none;
 		}
@@ -30,14 +36,14 @@
 </head>
 <body>
 	<div class="container">
-		<strand-grid id="mmTestGrid" selectable expandable="false" unresolved>
-			<strand-grid-column field="id">Id</strand-grid-column>
-			<strand-grid-column field="name" >Name</strand-grid-column>
-			<strand-grid-column field="advertiser">Advertiser</strand-grid-column>
+		<strand-grid id="testGrid" selectable expandable unresolved>
+			<strand-grid-column width="50%" field="index">Index</strand-grid-column>
+			<strand-grid-column width="25%" field="name">Name</strand-grid-column>
+			<strand-grid-column width="25%" field="advertiser">Advertiser</strand-grid-column>
 			<template preserve-content>
-				<strand-grid-item model="{{model}}" scope="{{scope}}" on-click="rowClickHandler">
-					<div field="id">
-						{{model.id}}
+				<strand-grid-item model="{{model}}" scope="{{scope}}" index="{{index}}" on-click="rowClickHandler">
+					<div field="index">
+						{{model.new}}{{index}}
 					</div>
 					<div field="name">
 						{{model.name}}
@@ -49,11 +55,13 @@
 			</template>
 		</strand-grid>
 	</div>
+
 	<script type="text/javascript">
 		var bigData = null,
 			grid, 
 			NUM_ITEMS = 333,
 			scrollTop = 0;
+
 		function randomString() {
 			var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 			var string_length = 16;
@@ -64,54 +72,67 @@
 			}
 			return randomString;
 		}
+
 		function initRndData() {
 			var data = [];
 			for (var i=0; i<NUM_ITEMS; i++) {
 				var rndStr = randomString();
-				data.push(generateItem(rndStr, i));
+				data.push(generateItem(rndStr, '', i));
 			}
 			return data;
 		}
-		function generateItem(rndStr, i) {
+
+		function generateItem(rndStr, newStr) {
 			return {
-				id: i,
-				name: rndStr,
-				advertiser: rndStr
+				new: newStr + ' ',
+				name: newStr + ' ' + rndStr,
+				advertiser: newStr + ' ' + rndStr
 			};
 		}
+
 		function setGridData(data) {
 			var recycler = grid.querySelector('#viewport');
-			//grid.set("index", 0);
+			//grid.set('index', 0);
 			grid.set('data', data);
 			recycler.addEventListener('presentation-settled', function fn(e) {
-				var parentView = window;
 				recycler.removeEventListener('presentation-settled', fn);
-				recycler.$.pane.scrollTop = parentView.scrollTop;
+				recycler.$.pane.scrollTop = scrollTop;
 			});
+
+			// keep the old big data
+			bigData = data;
 		}
+
 		function addedGridData(index) {
 			var newData = bigData.slice();
 			var newItem = generateItem(randomString(), 'NEW');
-			// var rndNumNewItems = 10; // should be an actual rnd num
-			newData.splice(index+1, 0, newItem);
+			newData.splice(index, 0, newItem);
+
 			return newData;
 		}
+
 		function rowClickHandler(e) {
 			var parentView = this.scope.parentView;
 			var event = Polymer.dom(e);
-			var clickedRow = event.rootTarget.offsetParent;
-			var index = clickedRow.model.id;
+			var clickedRow = event.path.filter(function(item) {
+				return item.nodeName && item.nodeName.toLowerCase() === 'strand-grid-item';
+			})[0];
+			var index = clickedRow.index;
 			parentView.scrollTop = clickedRow.scope.$.viewport.$.pane.scrollTop;
+
 			// add some random data in there:
 			setGridData(addedGridData(index));
 		}
+
 		window.addEventListener("WebComponentsReady", function() {
 			var parentView = window;
 			var rowClickHandler = window.rowClickHandler;
+
 			bigData = initRndData();
 			
-			grid = document.querySelector("#mmTestGrid");
+			grid = document.querySelector("#testGrid");
 			grid.parentView = parentView;
+
 			grid.mixinFindable = {
 				mixinsForValuePath: function () {
 					return null;
@@ -122,7 +143,9 @@
 					}
 				}
 			};
+
 			setGridData(bigData);
+
 		});
 	</script>
 </body>
