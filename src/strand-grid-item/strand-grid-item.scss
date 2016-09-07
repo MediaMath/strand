@@ -24,8 +24,22 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 }
 
 #columnContainer {
+	position: relative;
 	overflow: hidden;
-	white-space: nowrap;
+}
+
+.columnContentWrapper {
+	display: inline-block;
+	width: 0;
+	min-width: 100%;
+	position: relative;
+}
+
+.columnContent:not([hidden]) {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #loader {

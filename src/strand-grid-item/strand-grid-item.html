@@ -23,8 +23,12 @@
 			<div id="columnContainer">
 				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
 					<div class$="{{_computeColumnClass(column.alignColumn)}}" style$="{{_computeColumnStyle(column.width)}}" id="{{column.field}}">
-						<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
-						<span hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+						<div class="columnContentWrapper">
+						<span class="columnContent">
+							<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
+						</span>
+						<span class="columnContent" hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+						</div>
 					</div>
 				</template>
 			</div>
