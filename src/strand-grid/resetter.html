@@ -91,7 +91,7 @@
 		}
 
 		function setGridData(data) {
-			var recycler = grid.querySelector('#viewport');
+			var recycler = grid.querySelector('#viewport') || grid.shadowRoot.querySelector('#viewport');
 			//grid.set('index', 0);
 			grid.set('data', data);
 			recycler.addEventListener('presentation-settled', function fn(e) {
