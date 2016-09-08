@@ -1,3 +1,13 @@
+<a name="v4.1.5"></a>
+## v4.1.5 (2016-09-08)
+
+* Constrain extremely long text in column content ([c144f6b](https://github.com/MediaMath/strand/commit/c144f6b))
+* Patch pooling issue in item recycler (#121) ([63785c8](https://github.com/MediaMath/strand/commit/63785c8))
+* release notes ([cc4cb54](https://github.com/MediaMath/strand/commit/cc4cb54))
+* release notes edit ([159105c](https://github.com/MediaMath/strand/commit/159105c))
+
+
+
 <a name="v4.1.4"></a>
 ## v4.1.4 (2016-08-26)
 
