@@ -52,7 +52,7 @@ found here: https://github.com/Polymer/core-list
 					itemRecycler.async(itemRecycler._modifyPadding, 1);
 					if (itemRecycler._desiredIndex > -1) {
 						//Initialize scrollTop to supplied index
-						itemRecycler.async(itemRecycler.scrollToIndex);
+						itemRecycler.async(itemRecycler._scrollToIndex);
 					}
 					if (itemRecycler._initialized) {
 						itemRecycler._setMeasuring(false);
@@ -540,6 +540,8 @@ found here: https://github.com/Polymer/core-list
 			var index = 0;
 			var bound = null;
 			var offset = 0;
+			var height = 0;
+			var extra = 0;
 
 			for (index = 0; index < count; index++) {
 				bound = sorted[index];
@@ -551,8 +553,12 @@ found here: https://github.com/Polymer/core-list
 				offset += bound.height;
 			}
 
+			height = roundMaybe(this._itemHeight);
+			extra = 3 * height;
+
 			if (this._itemHeight > 0) {
-				this._recycler.repadFrame(roundMaybe(this._itemHeight), roundMaybe(this._itemHeight));
+				this._recycler.repadFrame(height + extra, height + extra);
+				this._recycler.repadFrame(height, height);
 			}
 		},
 
@@ -633,13 +639,19 @@ found here: https://github.com/Polymer/core-list
 			this._repositionFooter();
 			this._repositionMiddle();
 
+			var index = 0|this.index;
 			var padding = roundMaybe(this._itemHeight);
 
+			this.index = 0;
 			this._recycler.setFrame(0, this._middleHeight, padding, padding);
 
 			if (this._desiredIndex < 0) {
-				this._desiredIndex = 0|this.index;
+				this._desiredIndex = index;
 			}
+		},
+
+		_scrollToIndex: function () {
+			this.scrollToIndex(this._desiredIndex, -1);
 		},
 
 		scrollToIndex: function(value, force) {
@@ -704,11 +716,13 @@ found here: https://github.com/Polymer/core-list
 				this._recycler.translateFrame(delta);
 			}
 
+			//this._recycler.repositionFrame(this._scrollTop);
+
 			this._determineIndex();
 
 			if (this._desiredIndex > -1 &&
 				this.hasMeasuredAnItem()) {
-				this.debounce("seek", this.scrollToIndex);
+				this.debounce("seek", this._scrollToIndex);
 			}
 		},
 
@@ -816,6 +830,8 @@ found here: https://github.com/Polymer/core-list
 
 				if (this._measurements.isHeightKnown(young)) {
 					height = this._measurements.getHeight(young);
+					// note: necessary because of bound-pooling's effect on size-responsible
+					this.debounce(young, this._getBoundResponse(bound));
 				} else {
 					height = recycler.getHeightAtIndex(young);
 					bound.pendingResponse = 0|true;
@@ -880,6 +896,9 @@ found here: https://github.com/Polymer/core-list
 			} while (child = child.previousElementSibling)
 
 			this.value = null;
+			bound.offset = 0;
+			bound.position = 0;
+			this._setTranslation(0, bound.element);
 			this.poolSupply(bound);
 		},
 

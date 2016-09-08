@@ -19,6 +19,9 @@
 				value: null
 			},
 			scope: Object,
+			index: {
+				type: Number,
+			},
 			_overridden: {
 				type: Object,
 				value: function () {
