@@ -108,7 +108,7 @@ describe("Ajax", function() {
 		should.equal(result, undefined);
 
 		result = a.setRequestData("POST", "application/json", data);
-		result.should.deep.equal(data);
+		result.should.equal(JSON.stringify(data));
 
 		result = a.setRequestData("PUT", "application/x-www-form-urlencoded", data);
 		result.should.equal("test=1&test2=tester");
@@ -124,15 +124,13 @@ describe("Ajax", function() {
 
 		//test override scenarios
 		result = a.setRequestData("POST", "application/json", data, "string body");
-		result.should.deep.equal(data);
+		result.should.equal(JSON.stringify(data));
 
 		result = a.setRequestData("POST", "application/json", "string body", data);
 		result.should.deep.equal("string body");
 
 		result = a.setRequestData("POST", "application/json", data, {test:2, nonover:"aces"});
-		result.test.should.equal(1);
-		result.nonover.should.equal("aces");
-
+		result.should.equal(JSON.stringify({test:1, nonover:"aces", test2:"tester"}));
 	});
 
 	it("should preflight requests via factory", function() {
@@ -145,7 +143,7 @@ describe("Ajax", function() {
 		req.body.should.equal("a=1");
 
 		req = a._requestFactory({a:1},{method:StrandLib.Ajax.POST, contentType:"application/json"});
-		req.body.should.deep.equal({a:1});
+		req.body.should.equal(JSON.stringify({a:1}));
 
 		req = a._requestFactory(null,{
 			method:StrandLib.Ajax.GET,

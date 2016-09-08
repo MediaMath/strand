@@ -1,0 +1,48 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/behaviors/resolvable.html"/>
+<link rel="import" href="../shared/behaviors/templatefindable.html"/>
+<link rel="import" href="../shared/behaviors/stylable.html"/>
+<link rel="import" href="../shared/behaviors/validatable.html"/>
+<link rel="import" href="../shared/js/validator.html"/>
+<link rel="import" href="../shared/js/datautils.html"/>
+<link rel="import" href="../strand-action/strand-action.html"/>
+<link rel="import" href="../strand-box/strand-box.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
+<link rel="import" href="../strand-form-message/strand-form-message.html"/>
+
+<dom-module id="strand-repeater-row">
+	<link rel="import" type="css" href="strand-repeater-row.css" />
+	<template>
+		<div class$="{{_computeContainerClass(index, scope._last)}}">
+			<div class="row-wrapper">
+				<div class="content-wrapper">
+					<content id="content"></content>
+				</div>
+				<strand-box class="control" align="center">
+					<strand-action class="add-row" on-tap="_addRow" hidden$="{{!_shouldShowAddRow}}"><label>{{scope.addRowLabel}}</label></strand-action>
+					<template is="dom-if" if="{{scope._showRemove}}">
+						<strand-icon class="remove-row" type="delete" on-tap="_removeRow" height="12" width="12"></strand-icon>
+					</template>
+				</strand-box>
+			</div>
+			<template is="dom-if" if="{{!suppressMessages}}">
+				<div class$="error-container row-wrapper {{_isInvalid}}">
+					<template is="dom-repeat" id="errorRepeat" items="{{errors}}">
+						<strand-form-message class="error-message" type="error" visible$="{{item.message}}" message="{{item.message}}" layout="{{_layout}}" style$="{{_computeErrorMessageStyle(item)}}"></strand-form-message>
+					</template>
+				</div>
+			</template>
+		</div>
+	</template>
+</dom-module>
+
+<script src="strand-repeater-row.js"></script>

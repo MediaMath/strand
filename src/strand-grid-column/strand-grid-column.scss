@@ -9,8 +9,6 @@
 @import "_mixins";
 
 :host {
-	display: flex;
-	vertical-align: middle;
 	position: relative;
 	padding: 6px 10px;
 	cursor: default;
@@ -27,16 +25,25 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin: auto 0;
-	width: 100%;
-
-	&.right {
-		justify-content: flex-end;
+	
+	#info {
+		margin-top: -2px;
 	}
 
 	.left-items {
 		display: flex;
 		align-items: center;
+		width: calc(100% - 12px);
+	}
+
+	&.right {
+		.left-items {
+			justify-content: flex-end;
+		}
+
+		#label {
+			direction: rtl;
+		}
 	}
 }
 
@@ -47,6 +54,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	direction: ltr;
 }
 
 #info, #sort {

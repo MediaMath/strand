@@ -30,19 +30,42 @@
 					return this;
 				}
 			},
-			index: Number,
+			index: {
+				type: Number,
+				notify: true
+			},
 			_selectAllState: {
 				type: String,
 				value: 'unchecked'
 			},
-			sortField: String,
+			sortField: {
+				type: String,
+				notify:true
+			},
 			sortOrder: {
 				type: Number,
-				value: 1
+				value: 1,
+				notify:true
+			},
+			indicate: {
+				type: String,
+				value: "loading  measuring",
+			},
+			_indications: {
+				type: Object,
+				value: null,
+				computed: "_computeIndications(indicate)",
+			},
+			_loaderStyle: {
+				type: String,
+				computed: "_styleLoader(_indications, isLoading, _measuring)",
 			},
 			isLoading: {
 				type: Boolean,
 				value: false
+			},
+			_measuring: {
+				type: Boolean,
 			},
 			expanded: {
 				type: Boolean,
@@ -66,12 +89,22 @@
 				notify: true,
 				observer: "_columnsChanged",
 			},
+			_columnCount: {
+				type:Number,
+				value:0,
+				notify:true
+			},
 			mutationTarget: {
 				type: Object,
 				value: function () {
 					return this.$.columnContainer;
 				},
 			},
+			icon: {
+				type:String,
+				value:null,
+				notify: true
+			}
 		},
 
 		behaviors: [
@@ -95,7 +128,7 @@
 
 		observers: [
 			"_expansionChanged(expanded)",
-			"_onSortChanged(sortField, sortOrder)",
+			"_onSortChanged(sortField, sortOrder, _columnCount)",
 		],
 
 		_expansionChanged: function (expanded) {
@@ -104,11 +137,13 @@
 
 		attached: function() {
 			this.async(this._initialize);
+
 		},
 
 		_initialize: function() {
 			this._initializeColumns();
 			this._setInitialColumnWidth();
+			this._columnCount++;
 		},
 
 		_initializeColumns: function() {
@@ -269,6 +304,31 @@
 			}
 		},
 
+		_computeIndications: function () {
+			var list = (this.indicate || "").split(/\s+/);
+
+			return list.reduce(function (indications, key) {
+				indications[key] = 0|true;
+				return indications;
+			}, {});
+		},
+
+		_styleLoader: function (_indications, isLoading, _measuring, _deferring, _initializing) {
+			var show = "";
+			var hide = "display: none;";
+			var style = (isLoading && _indications.loading) ?
+				show : (_measuring && _indications.measuring) ?
+				show : (_deferring && _indications.deferring) ?
+				show : (_initializing && _indications.initializing) ?
+				show : hide;
+
+			return style;
+		},
+
+		_showLoader: function (_indications, isLoading, _measuring) {
+			return (isLoading && _indications.loading) || (_measuring && _indications.measuring);
+		},
+
 		requestInitialization: function () {
 			return this.$.viewport.initialize();
 		},
@@ -276,7 +336,23 @@
 		////// Util //////
 		createId: function(string, id) {
 			return string + id;
-		}
+		},
+
+		getAllColumns: function () {
+			return Array.apply(null, Polymer.dom(this).querySelectorAll("strand-grid-column"));
+		},
+
+		getColumnByField: function (field) {
+			return Polymer.dom(this).querySelector("strand-grid-column[field="+field+"]") || null;
+		},
+
+		insertBeforeColumn: function (column, referenceColumn) {
+			return Polymer.dom(this).insertBefore(column, referenceColumn);
+		},
+
+		removeColumn: function (column) {
+			return Polymer.dom(this).removeChild(column);
+		},
 	});
 
 })(window.Strand = window.Strand || {});

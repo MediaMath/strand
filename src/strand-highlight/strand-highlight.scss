@@ -1,0 +1,19 @@
+/**
+ * @license
+ * Copyright (c) 2016 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+
+}
+
+mark {
+	color: $color-A2;
+	background: $color-E13;
+}

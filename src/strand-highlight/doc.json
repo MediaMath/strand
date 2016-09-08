@@ -1,0 +1,27 @@
+{
+	"name":"strand-highlight",
+	"description":"A simple text component that allows its text content to be highlighted. Hilight matching is not case sensitive.",
+	"attributes": [
+		{
+			"name":"text",
+			"type":"String",
+			"reflect":"false",
+			"default":"''",
+			"optional":"true",
+			"description":"The string to display as the text content for this element",
+			"attribute":"text"
+		},
+		{
+			"name":"highlight",
+			"type":"String",
+			"reflect":"true",
+			"default":"false",
+			"optional":"true",
+			"description":"The search string used to highlight matched substrings from the 'text' property's value.",
+			"attribute":"highlight"
+		}
+	],
+	"behaviors" : [
+		"refable"
+	]
+}

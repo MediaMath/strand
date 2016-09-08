@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script src="TestHelper.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+	<test-fixture id="rowFixture">
+		<template is="dom-template">
+			<strand-repeater-row scope="{{scope}}" model="{{model}}" id="row">
+				<strand-input id="rowInput" name="name" validation="blank"></strand-input>
+				<strand-dropdown id="rowDdl" name="favColor">
+					<strand-list-item>Red</strand-list-item>
+					<strand-list-item>Blue</strand-list-item>
+					<strand-list-item>Yellow</strand-list-item>
+				</strand-dropdown>
+			</strand-repeater-row>
+		</template>
+	</test-fixture>
+
+	<script>
+		describe('<strand-repeater-row>', function() {
+			var rowFixture = document.getElementById('rowFixture');
+			var row;
+			var rowInput;
+			var rowDdl;
+
+			beforeEach(function() {
+				rowFixture.create({
+					scope: {
+						_notifyModelChanged: sinon.stub(),
+						_validation: {}
+					},
+					model: { cId: 1 }
+				});
+
+				row = document.getElementById('row');
+				rowInput = document.getElementById('rowInput');
+				rowDdl = document.getElementById('rowDdl');
+			});
+
+			describe('_validate()', function() {
+
+				it('should accept valid input according to custom validation', function() {
+					rowInput.value = 'Bart';
+					rowDdl.value = 'Red';
+					var validated = row._validate({
+						cId: 1,
+						name: rowInput.value === 'Bart' ? null : 'Invalid name',
+						favColor: rowDdl.value === 'Red' ? null : 'Invalid color',
+					});
+
+					expect(validated).to.equal(true);
+					expect(row.errors.length).to.equal(2);
+					expect(rowInput.error).to.equal(false);
+					expect(rowDdl.error).to.equal(false);
+				});
+
+				it('should reject invalid input according to custom validation', function() {
+					rowInput.value = 'Bart';
+					rowDdl.value = 'Red';
+					var validated = row._validate({
+						cId: 1,
+						name: rowInput.value === 'Bort' ? null : 'Invalid name',
+						favColor: rowDdl.value === 'Blue' ? null : 'Invalid color',
+					});
+
+					expect(validated).to.equal(false);
+					expect(rowInput.error).to.equal(true);
+					expect(rowDdl.error).to.equal(true);
+				});
+
+				it('should fall back to inline validation and accept valid input', function() {
+					sinon.spy(rowInput, 'validate');
+					rowInput.value = 'Bart';
+					rowDdl.value = 'Red';
+					var error = row._validate();
+					expect(rowInput.error).to.equal(false);
+					expect(rowDdl.error).to.equal(false);
+					expect(rowInput.validate).to.have.been.called;
+					expect(error).to.equal(true);
+				});
+
+				it('should fall back to inline validation and reject invalid input', function() {
+					sinon.spy(rowInput, 'validate');
+					rowInput.value = '';
+					rowDdl.value = '';
+					var error = row._validate();
+					expect(rowInput.error).to.equal(true);
+					expect(rowDdl.error).to.equal(false);
+					expect(rowInput.validate).to.have.been.called;
+					expect(error).to.equal(false);
+				});
+			});
+
+			it('should show small error messages under elements below a certain threshold', function(done) {
+				var width = row.smallMessages;
+				var rowInputErr = "name error";
+				var rowDdlErr = "favColor error";
+				rowInput.style.width = width+1+"px";
+				rowDdl.style.width = width-1+"px";
+				rowInput.value = '';
+				rowDdl.value = '';
+				row._validate({
+					cId: 1,
+					name: rowInputErr,
+					favColor: rowDdlErr
+				});
+
+				flush(function() {
+					var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
+						areMsgsSmall = Array.prototype.slice.call(messages)
+							.map(function(node) {
+								if(node.message === rowInputErr) return node.layout == 'small';
+								else if(node.message === rowDdlErr) return node.layout === 'small';
+								else return false;
+							})
+							.reduce(function(sum, current) { return sum && current; }, true);
+
+					expect(areMsgsSmall).to.equal(true);
+					done();
+				});
+			});
+
+			it('should not show messages if suppress-messages flag is set', function(done) {
+				row.suppressMessages = true;
+				rowInput.value = '';
+				rowDdl.value = '';
+				row._validate({
+					cId: 1,
+					name: "This is an error",
+					favColor: "This is an error"
+				});
+
+				flush(function() {
+					var messages = Polymer.dom(row.root).querySelectorAll('strand-form-message'),
+						allHidden = Array.prototype.slice.call(messages)
+							.map(function(node) { return node.offsetParent === null; })
+							.reduce(function(prev, current) { return prev && current }, true);
+
+					expect(allHidden).to.equal(true);
+					done();
+				});
+			});
+
+			afterEach(function() {
+				rowFixture.restore();
+			});
+		});
+	</script>
+</body>
+</html>

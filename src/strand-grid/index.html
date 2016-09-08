@@ -23,6 +23,10 @@
 			display: none;
 		}
 
+		[hidden] {
+			display: none;
+		}
+
 
 		.container {
 			height: 100%;
@@ -43,7 +47,7 @@
 		<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
 		<strand-grid-column width="10%" field="advertiser" sort resize>Advertiser</strand-grid-column>
 		<strand-grid-column width="10%" field="concept" sort resize>Concept</strand-grid-column>
-		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff" align="right" sort resize>Type</strand-grid-column>
+		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff and stuff" align-column="right" sort resize>Longer Name</strand-grid-column>
 		<strand-grid-column width="10%" field="dimensions">Dimensions</strand-grid-column>
 		<strand-grid-column width="30%" field="actions"></strand-grid-column>
 
@@ -85,8 +89,8 @@
 					</strand-dropdown>
 					-->
 					<strand-grid selectable expandable style="height: 100px; min-height: 20px;" data="{{model.subdata}}">
-						<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
-						<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
+						<strand-grid-column width="50%" field="name" sort resize>Name</strand-grid-column>
+						<strand-grid-column width="50%" field="id" sort>Id</strand-grid-column>
 						<template preserve-content>
 							<strand-grid-item model="{{model}}" scope="{{scope}}">
 								<div class="expansion">

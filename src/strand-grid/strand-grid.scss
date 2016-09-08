@@ -73,13 +73,10 @@
 }
 
 #loader {
-	top: 50%;
-	left: 50%;
-	right: 50%;
 	width: 130px;
 	height: 28px;
-	margin-top: -14px;
-	margin-left: -75px;
+	margin: auto;
+	position: relative;
 }
 
 #columnContainer {

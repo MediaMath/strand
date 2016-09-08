@@ -5,11 +5,12 @@
 
 */
 (function (scope) {
-	
+
 	scope.FormMessage = Polymer({
 		is: 'strand-form-message',
 
 		behaviors: [
+			StrandTraits.Refable,
 			StrandTraits.Resolvable
 		],
 
@@ -23,9 +24,12 @@
 			visible: {
 				type: Boolean,
 				value: false
+			},
+			layout: {
+				type: String
 			}
 		},
-	
+
 	});
 
 })(window.Strand = window.Strand || {});

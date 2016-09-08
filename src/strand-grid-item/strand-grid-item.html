@@ -15,16 +15,20 @@
 	<template>
 		<div class="_mm_item" hidden$="{{!model}}">
 			<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
-				<strand-checkbox on-tap="_onItemSelected" checked="{{model.selected}}"></strand-checkbox>
+				<strand-checkbox on-tap="_onItemSelected" checked="{{model.selected}}" icon="{{scope.icon}}"></strand-checkbox>
 			</div>
 			<div id="carat" class="_mm_column toggle" hidden$="{{!scope.expandable}}">
 				<strand-icon width="10" height="10" type="carat" on-tap="_onItemExpanded"></strand-icon>
 			</div>
 			<div id="columnContainer">
 				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
-					<div class$="{{_computeColumnClass(column.align)}}" style$="{{_computeColumnStyle(column.width)}}">
-						<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
-						<span hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+					<div class$="{{_computeColumnClass(column.alignColumn)}}" style$="{{_computeColumnStyle(column.width)}}" id="{{column.field}}">
+						<div class="columnContentWrapper">
+						<span class="columnContent">
+							<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
+						</span>
+						<span class="columnContent" hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+						</div>
 					</div>
 				</template>
 			</div>

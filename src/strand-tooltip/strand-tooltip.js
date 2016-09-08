@@ -29,7 +29,7 @@
 			},
 			stackType:{
 				type: String,
-				value: "tooltip"
+				value: 'tooltip'
 			},
 			tipWidth: {
 				type: Number,
@@ -48,7 +48,7 @@
 			this._boundOutHandler = this._outHandler.bind(this);
 
 			this.async(function() {
-				if (this._target) {
+				if (this._target && typeof this._target === "object") {
 					this._target.addEventListener('mouseover', this._boundOverHandler);
 					this._target.addEventListener('mouseout', this._boundOutHandler);
 					this._prevTargetCursor = this._target.style.cursor;
@@ -58,7 +58,7 @@
 		},
 
 		detached: function() {
-			if (this._target) {
+			if (this._target && typeof this._target === "object") {
 				this._target.removeEventListener('mouseover', this._boundOverHandler);
 				this._target.removeEventListener('mouseout', this._boundOutHandler);
 				this._target.style.cursor = this._prevTargetCursor;
@@ -85,9 +85,14 @@
 			return this.classBlock(o);
 		},
 
+		_closeIconHandler: function(e) {
+			this.close();
+		},
+
 		_closeFilter: function(instance, e, original) {
-			var closeIcon = instance.$$('.close-icon');
-			if(e.path.indexOf(closeIcon) > -1){
+			if(e.path.indexOf(instance) > -1 || e.path.indexOf(instance._target) > -1){
+				original.stopImmediatePropagation();
+			} else {
 				instance.close();
 			}
 		}

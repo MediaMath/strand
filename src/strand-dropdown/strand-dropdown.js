@@ -59,7 +59,7 @@
 				type:Boolean,
 				notify: true,
 				value: false
-			},			
+			},
 			index: {
 				type:Number,
 				notify:true,
@@ -72,9 +72,13 @@
 				type: Boolean,
 				reflectToAttribute: true
 			},
-			layout: { 
+			initialValue: {
+				type: Boolean,
+				value: false
+			},
+			layout: {
 				type: String,
-				reflectToAttribute: true 
+				reflectToAttribute: true
 			},
 			data: {
 				type: Array,
@@ -86,6 +90,12 @@
 				reflectToAttribute: true,
 				notify: true,
 				observer: '_valueChanged'
+			},
+			highlight:{
+				type:String,
+				notify:true,
+				value:"",
+				observer: '_highlightChanged'
 			},
 			maxItems: {
 				type: Number,
@@ -106,6 +116,11 @@
 
 		_widthLocked: false,
 		LAYOUT_TYPE: 'dropdown',
+
+		created: function() {
+			// Flag to suppress change events if an initial value is provided
+			this.initialValue = this.hasAttribute('value');
+		},
 
 		ready: function() {
 			if(!this.toggleTrigger) {
@@ -145,7 +160,7 @@
 		},
 
 		_selectItemByValue: function(value) {
-			this.async(function(){
+			Polymer.RenderStatus.afterNextRender(this, function(){
 				var item = null;
 				var valueStr = value.toString();
 
@@ -171,7 +186,10 @@
 				targetIndex = this.items.indexOf(target);
 			}
 
-			if(targetIndex >= 0) this.selectedIndex = targetIndex;
+			if(targetIndex >= 0) {
+				this.selectedIndex = targetIndex;
+				if (this.state === this.STATE_OPENED) this.close();
+			}
 		},
 
 		// Dom handling
@@ -203,9 +221,14 @@
 				}
 				// reset selectedIndex for recycler scenarios
 				this.selectedIndex = null;
+				this._setMaxHeight(this.maxItems);
 			} else {
 				this.reset();
 			}
+		},
+
+		_highlightChanged: function() {
+			this.notifyPath('ref.highlight', this.highlight);
 		},
 
 		// Getters
@@ -214,10 +237,10 @@
 			var items = this.items;
 
 			if (this.items.length > 0) {
-				if (this.data) {
-					itemHeight = 0|this._itemRecycler.getHeightAtIndex(0);
-				} else {
+				if (!this.data) {
 					itemHeight = this.items[0].offsetHeight;
+				} else if (this._itemRecycler) {
+					itemHeight = 0|this._itemRecycler.getHeightAtIndex(0);
 				}
 			}
 	 		return itemHeight;
@@ -251,6 +274,7 @@
 				var name = newSelected.name ? newSelected.name : newSelected.textContent.trim();
 
 				this.value = value;
+				this.error = false;
 
 				if (this.data) {
 					this.set('data.' + newIndex + '.selected', true);
@@ -266,7 +290,13 @@
 					selected: newSelected.selected
 				});
 
-				this.fire('changed', { value: value });
+				if (this.initialValue) {
+					this.initialValue = false;
+				} else {
+					this.async(function() {
+						this.fire("changed", { value:this.value });
+					});
+				}
 			}
 
 			if (typeof oldIndex === 'number') {
@@ -292,7 +322,11 @@
 				}
 			}
 			if (typeof oldIndex === 'number' && oldIndex >=0) {
-				this.set('data.' + oldIndex + '.highlighted', false);
+				if (this.data) {
+					this.set('data.' + oldIndex + '.highlighted', false);
+				} else {
+					this.items[oldIndex].removeAttribute('highlighted');
+				}
 			}
 			inherited.apply(this, [newIndex, oldIndex]);
 		},
@@ -349,11 +383,12 @@
 
 	 	_setMaxHeight: function(maxItems) {
 			var actualMax = Math.min(this.items.length, maxItems);
+			var itemHeight = this.itemHeight || 0;
 
-			this.$.list.style.height = this.itemHeight * actualMax + 'px';
+			this.$.list.style.height = itemHeight * actualMax + 'px';
 
 			if (this.data) {
-				this._itemRecycler.style.height = this.itemHeight * actualMax + 'px';
+				this._itemRecycler.style.height = itemHeight * actualMax + 'px';
 				this.$.list.style.overflowY = "hidden";
 			}
 	 	},

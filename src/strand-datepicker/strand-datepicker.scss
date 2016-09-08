@@ -21,46 +21,14 @@
 	}
 }
 
-._strand-start, ._strand-end {
-	box-sizing: border-box;
-	background: $color-F0;
-	position: relative;
-	float: left;
-	width: 212px;
+.date-panel-container {
+	display: flex;
+	align-items: stretch;
 
-	strand-calendar {
-		padding: 5px 12px 12px 12px;
-	}
-
-	.input-top,
-	.input-bottom {
-		box-sizing: border-box;
-		width: 100%;
-		padding: 15px;
-	}
-
-	.input-bottom {
-		padding-top: 0;
-	}
-
-	.input-top {
-		strand-header, strand-input, strand-checkbox {
-			display: block;
-			margin-bottom: 10px;
-		}
-
-		strand-input:last-child {
-			margin: 0;
-		}
-	}
-}
-
-._strand-end {
 	.vert-stroke {
-		position: absolute;
-		width:0px;
-		top: 15px;
-		bottom: 15px;
+		width: 0px;
+		margin-top: 15px;
+		margin-bottom: 15px;
 		border-left: 1px solid $color-A9;
 	}
 }
@@ -78,15 +46,6 @@
 
 .range-presets:last-of-type {
 	padding-top: 0;
-	clear: left;
-}
-
-strand-footer {
-	clear: left;
-}
-
-.body-content {
-	margin: 15px;
 }
 
 #container {

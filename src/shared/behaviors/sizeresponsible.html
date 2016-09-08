@@ -19,14 +19,14 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	var attachEvent = document.attachEvent,
 		stylesCreated = false;
-	
+
 	if (!attachEvent) {
 		var requestFrame = (function(){
 			var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame ||
 								function(fn){ return window.setTimeout(fn, 20); };
 			return function(fn){ return raf(fn); };
 		})();
-		
+
 		var cancelFrame = (function(){
 			var cancel = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame ||
 								   window.clearTimeout;
@@ -52,7 +52,7 @@ This code may only be used under the BSD style license found at http://mediamath
 			return element.offsetWidth != element.__resizeLast__.width ||
 						 element.offsetHeight != element.__resizeLast__.height;
 		}
-		
+
 		function scrollListener(e){
 			var element = this;
 			resetTriggers(this);
@@ -67,7 +67,7 @@ This code may only be used under the BSD style license found at http://mediamath
 				}
 			});
 		};
-		
+
 		/* Detect CSS Animations support to detect element display/re-attach */
 		var animation = false,
 			animationstring = 'animation',
@@ -79,7 +79,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		{
 
 			var elm = document.createElement('fakeelement');
-			if( elm.style.animationName !== undefined ) { animation = true; }    
+			if( elm.style.animationName !== undefined ) { animation = true; }
 			if( animation === false ) {
 				for( var i = 0; i < domPrefixes.length; i++ ) {
 					if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
@@ -94,12 +94,12 @@ This code may only be used under the BSD style license found at http://mediamath
 			}
 
 		}
-		
+
 		var animationName = 'resizeanim';
 		var animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
 		var animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
 	}
-	
+
 	scope.SizeResponsible = {
 
 		properties: {
@@ -126,14 +126,13 @@ This code may only be used under the BSD style license found at http://mediamath
 					element.__resizeTriggers__.className = 'resize-triggers' + nameSpace;
 					element.__resizeTriggers__.innerHTML = '<div class="expand-trigger' + nameSpace + '"><div></div></div>' + '<div class="contract-trigger' + nameSpace + '"></div>';
 					Polymer.dom(element).appendChild(element.__resizeTriggers__);
-					Polymer.dom.flush();
 
 					resetTriggers(element);
 
 					element.addEventListener('scroll', scrollListener, true);
 
 					/* Listen for a css animation to detect element display/re-attach */
-					animationstartevent && 
+					animationstartevent &&
 					element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
 						if(e.animationName == animationName) resetTriggers(element);
 					});

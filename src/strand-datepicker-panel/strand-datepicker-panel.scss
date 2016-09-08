@@ -1,0 +1,39 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+
+:host {
+	box-sizing: border-box;
+	background: $color-F0;
+	position: relative;
+	float: left;
+	width: 212px;
+}
+
+strand-calendar {
+	padding: 5px 12px 12px 12px;
+}
+
+.top {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 15px;
+
+	strand-header {
+		display: block;
+	}
+
+	:not(:last-child) {
+		margin-bottom: 10px;
+	}
+}
+
+strand-timepicker {
+	padding: 0 15px 15px;
+}

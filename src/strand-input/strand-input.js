@@ -89,6 +89,10 @@
 				value: false, 
 				reflectToAttribute: true 
 			},
+			autocomplete: {
+				type: String,
+				value: "off"
+			},
 			_clearVisible: {
 				type: Boolean,
 				value: false

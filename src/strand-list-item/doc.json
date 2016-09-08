@@ -21,15 +21,6 @@
 			"attribute":"N/A"
 		},
 		{
-			"name":"highlight",
-			"type":"String",
-			"reflect":"false",
-			"default":"''",
-			"optional":"true",
-			"description":"A string used for highlighting search text within the list-item. If the value is found (case insensitive) it will be wrapped in a yellow span.",
-			"attribute":"N/A"
-		},
-		{
 			"name":"observeSubtree",
 			"type":"Boolean",
 			"description":"Passed through to the internal mutation observer - set to true if mutations to not just target, but also target's descendants are to be observed.",

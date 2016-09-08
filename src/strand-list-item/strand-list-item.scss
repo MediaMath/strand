@@ -36,6 +36,12 @@
 	}
 }
 
+:host-context(strand-dropdown[size='small']),
+:host([size='small']) {
+	font-size: 11px !important;
+	line-height: 13px !important;
+}
+
 :host(:active) {
 	background: $color-D23;
 	color: $color-D2;
@@ -55,6 +61,6 @@
 	overflow: visible;
 }
 
-.highlight {
+:host > ::content .highlight {
 	background: $color-E13;
 }

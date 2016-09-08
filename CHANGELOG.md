@@ -1,3 +1,195 @@
+<a name="v4.1.4"></a>
+## v4.1.4 (2016-08-26)
+
+* Address column resize bug introduced by premature-opt (#120) ([b15321b](https://github.com/MediaMath/strand/commit/b15321b))
+* fix highlight docs ([33a1cc7](https://github.com/MediaMath/strand/commit/33a1cc7))
+* linter for docs JSON ([6bd0669](https://github.com/MediaMath/strand/commit/6bd0669))
+
+
+
+<a name="v4.1.3"></a>
+## v4.1.3 (2016-08-25)
+
+* abstract highlight to its own component ([89cca72](https://github.com/MediaMath/strand/commit/89cca72))
+* add firefox back to wct ([2472a33](https://github.com/MediaMath/strand/commit/2472a33))
+* autocomplete ([28fec19](https://github.com/MediaMath/strand/commit/28fec19))
+* dropdown support ([a3770a2](https://github.com/MediaMath/strand/commit/a3770a2))
+* fix sorting display when initial sort values are set via dom ([898a7f4](https://github.com/MediaMath/strand/commit/898a7f4))
+* now with less stupid ([06e909e](https://github.com/MediaMath/strand/commit/06e909e))
+* patch for justin's comment ([7ad631b](https://github.com/MediaMath/strand/commit/7ad631b))
+* revert older commits from previous ([2d3aabd](https://github.com/MediaMath/strand/commit/2d3aabd))
+* revert the highlight changes ([30137b5](https://github.com/MediaMath/strand/commit/30137b5))
+* Support modifying grid's column-children (#118) ([b891bb6](https://github.com/MediaMath/strand/commit/b891bb6))
+* update datepicker range value if you swap out range presets for some reason ([c2d1e47](https://github.com/MediaMath/strand/commit/c2d1e47))
+* use existing mutation observer ([1a25fee](https://github.com/MediaMath/strand/commit/1a25fee))
+
+
+
+<a name="v4.1.2"></a>
+## v4.1.2 (2016-08-18)
+
+* adding examples to the watched files for docs:live ([435be8c](https://github.com/MediaMath/strand/commit/435be8c))
+* Document new features ([2b468e8](https://github.com/MediaMath/strand/commit/2b468e8))
+* drop ff for now ([e5315f8](https://github.com/MediaMath/strand/commit/e5315f8))
+* fix double value double title issues ([f1e499b](https://github.com/MediaMath/strand/commit/f1e499b))
+* guide action ([f0c9e1f](https://github.com/MediaMath/strand/commit/f0c9e1f))
+* guide link complete ([652dff9](https://github.com/MediaMath/strand/commit/652dff9))
+* Make sure link appears on specified step only ([790188b](https://github.com/MediaMath/strand/commit/790188b))
+* more ddl coverage ([e530499](https://github.com/MediaMath/strand/commit/e530499))
+* remove comment ([8e6c0fe](https://github.com/MediaMath/strand/commit/8e6c0fe))
+
+
+
+<a name="v4.1.1"></a>
+## v4.1.1 (2016-08-17)
+
+* Add isValid computed prop ([64239c8](https://github.com/MediaMath/strand/commit/64239c8))
+* add repeater row validation test ([47ed527](https://github.com/MediaMath/strand/commit/47ed527))
+* add suppress-messages flag ([94f9914](https://github.com/MediaMath/strand/commit/94f9914))
+* Add vertical stroke, get rid of unneeded scss ([58231c7](https://github.com/MediaMath/strand/commit/58231c7))
+* added notify to the sort fields on grid so outer binds can grab the values ([70a0cb7](https://github.com/MediaMath/strand/commit/70a0cb7))
+* added test for sorting UI ([904e565](https://github.com/MediaMath/strand/commit/904e565))
+* adjust error message size for narrow elems ([d07b0f7](https://github.com/MediaMath/strand/commit/d07b0f7))
+* all small ([eb8d046](https://github.com/MediaMath/strand/commit/eb8d046))
+* allow custom validation to override inline validation ([c486445](https://github.com/MediaMath/strand/commit/c486445))
+* Allow for setting autocomplete on the internal native input ([33e6c7b](https://github.com/MediaMath/strand/commit/33e6c7b))
+* animations ([95db38f](https://github.com/MediaMath/strand/commit/95db38f))
+* announce highlight changes on scope path ([0809f39](https://github.com/MediaMath/strand/commit/0809f39))
+* check small messages against expectation per message ([c759027](https://github.com/MediaMath/strand/commit/c759027))
+* cleanup ([0153d60](https://github.com/MediaMath/strand/commit/0153d60))
+* cleanup ([93bcef8](https://github.com/MediaMath/strand/commit/93bcef8))
+* Default autocomplete to off ([66142a5](https://github.com/MediaMath/strand/commit/66142a5))
+* default validate() to true if no rules given ([9727f81](https://github.com/MediaMath/strand/commit/9727f81))
+* don't validate everything if custom validation skips over models ([53242b7](https://github.com/MediaMath/strand/commit/53242b7))
+* fix an issue where grid.set wouldn't update binds if the entire model was swapped ([db8f104](https://github.com/MediaMath/strand/commit/db8f104))
+* fix for doubletext on jQuery ([11cc75b](https://github.com/MediaMath/strand/commit/11cc75b))
+* fix unintentional scroll bar, restore desired scrolling behavior ([c6b3b3f](https://github.com/MediaMath/strand/commit/c6b3b3f))
+* fix up test ([2b61bd8](https://github.com/MediaMath/strand/commit/2b61bd8))
+* Improve recycler splicing support ([fbb21e4](https://github.com/MediaMath/strand/commit/fbb21e4))
+* match inputs focus support ([b7b9141](https://github.com/MediaMath/strand/commit/b7b9141))
+* messing around with animation ([c637901](https://github.com/MediaMath/strand/commit/c637901))
+* pluck wip ([d464aa4](https://github.com/MediaMath/strand/commit/d464aa4))
+* Remove computed prop ([5f70913](https://github.com/MediaMath/strand/commit/5f70913))
+* removed unneeded doc for private component ([6e20d20](https://github.com/MediaMath/strand/commit/6e20d20))
+* resolve a UI issue in grid where sort arrows were appearing when the column's sort state was default ([e76278a](https://github.com/MediaMath/strand/commit/e76278a))
+* Restores range autoselection in datepicker ([d1bbaca](https://github.com/MediaMath/strand/commit/d1bbaca))
+* tick polymer version ([ae57212](https://github.com/MediaMath/strand/commit/ae57212))
+* Tooltip close handling for auto scenario (#112) ([8897159](https://github.com/MediaMath/strand/commit/8897159)), closes [#112](https://github.com/MediaMath/strand/issues/112)
+* use polymer dom in pulldown button ([0e069a7](https://github.com/MediaMath/strand/commit/0e069a7))
+* wip towards non innerHTML based highlight mechanism ([c3a4ca3](https://github.com/MediaMath/strand/commit/c3a4ca3))
+
+
+
+<a name="v4.1.0"></a>
+# v4.1.0 (2016-08-02)
+
+* Add datepicker-alt test suite ([9fcdebd](https://github.com/MediaMath/strand/commit/9fcdebd))
+* Add disable-element mixin ([7e14e81](https://github.com/MediaMath/strand/commit/7e14e81))
+* Added ability for sync to still process normal result when http status !== 200 ([9c0f528](https://github.com/MediaMath/strand/commit/9c0f528))
+* Addt'l passthrough props ([3495892](https://github.com/MediaMath/strand/commit/3495892))
+* better storage deletion (doesn't leave a value) ([f2aa18a](https://github.com/MediaMath/strand/commit/f2aa18a))
+* Bind disabled attribute into timepicker fields ([ce3ed03](https://github.com/MediaMath/strand/commit/ce3ed03))
+* Break time selection out into simple timepicker ([f022bd3](https://github.com/MediaMath/strand/commit/f022bd3))
+* DataUtils getPathValue support for array keys as 'a.0.b.c' ([0a6857d](https://github.com/MediaMath/strand/commit/0a6857d))
+* datepicker-panel handles single date and format validation ([3656b25](https://github.com/MediaMath/strand/commit/3656b25))
+* Decopypasta ([54edd1e](https://github.com/MediaMath/strand/commit/54edd1e))
+* disabled as mixin ([fe0bb46](https://github.com/MediaMath/strand/commit/fe0bb46))
+* Don't close panel if use-commit=false ([4a910a8](https://github.com/MediaMath/strand/commit/4a910a8))
+* Don't initialize time ([e010fbe](https://github.com/MediaMath/strand/commit/e010fbe))
+* Duration respects time ([698529f](https://github.com/MediaMath/strand/commit/698529f))
+* expose grid index to binding ([844fa13](https://github.com/MediaMath/strand/commit/844fa13))
+* Fix grid scrolling flicker on chrome ([14eb691](https://github.com/MediaMath/strand/commit/14eb691))
+* Fix grid tests in FF for travis ([9d2ae91](https://github.com/MediaMath/strand/commit/9d2ae91))
+* Fix issues around date contraining ([6e6b8d6](https://github.com/MediaMath/strand/commit/6e6b8d6))
+* Fix the json post serialization ([d64de2b](https://github.com/MediaMath/strand/commit/d64de2b))
+* Fixes issue where date selection resets time to midnight ([182d305](https://github.com/MediaMath/strand/commit/182d305))
+* Hover over strand-list-item to account for L/R padding ([1a78357](https://github.com/MediaMath/strand/commit/1a78357))
+* Just use reset to propagate start/end changed ([fe33ddb](https://github.com/MediaMath/strand/commit/fe33ddb))
+* Make a strand-datepicker-alt for now ([d0bd192](https://github.com/MediaMath/strand/commit/d0bd192))
+* Make adhoc mixinFindable implementation more forgiving (#108) ([74f0c23](https://github.com/MediaMath/strand/commit/74f0c23))
+* Make grid test more forgiving time-wise (#101) ([d2a7c97](https://github.com/MediaMath/strand/commit/d2a7c97))
+* Modify reset test to not break because of date boundaries ([91c5763](https://github.com/MediaMath/strand/commit/91c5763))
+* Move -alt back into datepicker ([612f987](https://github.com/MediaMath/strand/commit/612f987))
+* Move keyhandler into timepicker ([f97d740](https://github.com/MediaMath/strand/commit/f97d740))
+* Pass error state through input-mask ([cb541da](https://github.com/MediaMath/strand/commit/cb541da))
+* Pass timestring through to timepicker ([c06cd35](https://github.com/MediaMath/strand/commit/c06cd35))
+* Position recycler overlay relatively ([dca704d](https://github.com/MediaMath/strand/commit/dca704d))
+* Prevent stack overflow when adding many recyclers ([5a33cfb](https://github.com/MediaMath/strand/commit/5a33cfb))
+* Put change firing event in async ([3be81f2](https://github.com/MediaMath/strand/commit/3be81f2))
+* Replace padding width calculation ([05a947d](https://github.com/MediaMath/strand/commit/05a947d))
+* resolve a case where changing the value on an external change listener could result in an infinite l ([9f21928](https://github.com/MediaMath/strand/commit/9f21928))
+* Respect time when bounding dates ([00cc618](https://github.com/MediaMath/strand/commit/00cc618))
+* Standardise conventions ([71b457a](https://github.com/MediaMath/strand/commit/71b457a))
+* strand-repeater rewrite ([d6d0520](https://github.com/MediaMath/strand/commit/d6d0520))
+* Timepicker value as seconds since midnight ([dd9d402](https://github.com/MediaMath/strand/commit/dd9d402))
+* Update CONTRIBUTING.md ([36b3a4a](https://github.com/MediaMath/strand/commit/36b3a4a))
+* Update grid docs with 'indicate' property (#100) ([46b935b](https://github.com/MediaMath/strand/commit/46b935b))
+* updated test with a new case. ([7f87d46](https://github.com/MediaMath/strand/commit/7f87d46))
+
+
+
+<a name="v4.0.4"></a>
+## v4.0.4 (2016-07-11)
+
+* .travis.yml lock down firefox version ([252bf8b](https://github.com/MediaMath/strand/commit/252bf8b))
+* Add componentizer and other enhancements (#92) ([d10b23c](https://github.com/MediaMath/strand/commit/d10b23c))
+* add initialValue back to dropdown ([cad378e](https://github.com/MediaMath/strand/commit/cad378e))
+* Addresses critical issue in repeater documentation ([b8896ef](https://github.com/MediaMath/strand/commit/b8896ef))
+* annnnd 1.6.0 ([b6c5a72](https://github.com/MediaMath/strand/commit/b6c5a72))
+* Delay item-recycler initialization by a tick ([345493b](https://github.com/MediaMath/strand/commit/345493b))
+* Dev/guide fixes (#90) ([c68d090](https://github.com/MediaMath/strand/commit/c68d090)), closes [#90](https://github.com/MediaMath/strand/issues/90)
+* example fix for strand-autocomplete ([2aa58c6](https://github.com/MediaMath/strand/commit/2aa58c6))
+* Fix FF recycler obsolete event issue ([77ae586](https://github.com/MediaMath/strand/commit/77ae586))
+* fix for upstream gulp issue ([d8daae4](https://github.com/MediaMath/strand/commit/d8daae4))
+* fixes an issue with datepicker where useCommit = false would cause an infinite event loop ([73ed297](https://github.com/MediaMath/strand/commit/73ed297))
+* Make grid measuring/loading spinner optional ([761fb12](https://github.com/MediaMath/strand/commit/761fb12))
+* match dropdown closing behavior to .5 version ([28b8770](https://github.com/MediaMath/strand/commit/28b8770))
+* more succinct if ([c8504a2](https://github.com/MediaMath/strand/commit/c8504a2))
+* Pool recycler-panels for improved performance ([1250052](https://github.com/MediaMath/strand/commit/1250052))
+* re-added basic icon support to grid ([5d171af](https://github.com/MediaMath/strand/commit/5d171af))
+* remove highlighting after close fix ([3e888ac](https://github.com/MediaMath/strand/commit/3e888ac))
+* Replace gulp.watch with gulp-watch for better performance ([30b5b54](https://github.com/MediaMath/strand/commit/30b5b54))
+* Revert to non-iframe resize notifier ([25783ca](https://github.com/MediaMath/strand/commit/25783ca))
+* update to polymer 1.5 ([0ad2ada](https://github.com/MediaMath/strand/commit/0ad2ada))
+* Use iframes for sizeresponsible ([2c467ea](https://github.com/MediaMath/strand/commit/2c467ea))
+
+
+
+<a name="v4.0.3"></a>
+## v4.0.3 (2016-06-08)
+
+* Don't check for a target unless attached to the dom ([58e0605](https://github.com/MediaMath/strand/commit/58e0605))
+* Fix post single-item grid rendering issue ([a3883ce](https://github.com/MediaMath/strand/commit/a3883ce))
+
+
+
+<a name="v4.0.2"></a>
+## v4.0.2 (2016-06-06)
+
+* Address grid header truncation and alignment issues ([18fd5e7](https://github.com/MediaMath/strand/commit/18fd5e7))
+* don't hold onto selectedIndex in pulldown button ([473d2f2](https://github.com/MediaMath/strand/commit/473d2f2))
+* fix an issue where the target is a string and the actual target doesn't exist on the page, then the  ([a1d6b4d](https://github.com/MediaMath/strand/commit/a1d6b4d))
+* fix gh-pages for realzies ([9c4c5cb](https://github.com/MediaMath/strand/commit/9c4c5cb))
+* Fixes FWRK-311 -- address dropdown size issue ([9361082](https://github.com/MediaMath/strand/commit/9361082))
+* Namespace strand-checkbox internal classes ([f7a9925](https://github.com/MediaMath/strand/commit/f7a9925))
+* strand-wizard-ribbon fix for bound content ([a6490ab](https://github.com/MediaMath/strand/commit/a6490ab))
+* Streamline icon naming to avoid style leakage ([dc54e81](https://github.com/MediaMath/strand/commit/dc54e81))
+* Various corrections to dropdown list items ([7dd10b6](https://github.com/MediaMath/strand/commit/7dd10b6))
+
+
+
+<a name="v4.0.1"></a>
+## v4.0.1 (2016-05-19)
+
+* Don't wreck strand-drawer by changing the 'upload' icon ([3c69794](https://github.com/MediaMath/strand/commit/3c69794))
+* Fix bower conflict for non DS versions ([7984c64](https://github.com/MediaMath/strand/commit/7984c64))
+* fix patch ([7b76002](https://github.com/MediaMath/strand/commit/7b76002))
+* making docs push work for standard config ([409bda6](https://github.com/MediaMath/strand/commit/409bda6))
+* Tooltip and guide fine tuning ([2632ad1](https://github.com/MediaMath/strand/commit/2632ad1))
+* Update README.md ([f979dda](https://github.com/MediaMath/strand/commit/f979dda))
+
+
+
 <a name="v4.0.0"></a>
 # v4.0.0 (2016-05-13)
 

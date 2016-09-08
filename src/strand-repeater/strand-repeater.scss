@@ -9,46 +9,6 @@
 @import "_color";
 @import "_mixins";
 
-strand-box:first-of-type:last-of-type {
-    .control strand-icon {
-        display: none;
-        pointer-events: none;
-    }
-}
-
-strand-box:not(:last-of-type) {
-    margin-bottom: 10px;
-
-    .control strand-action {
-        display: none;
-        pointer-events: none;
-    }
-}
-
-strand-icon[type="delete"] {
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-// strand-inline-box[type="error"] {
-//     display: block;
-//     margin: 10px 0;
-//     width: 100%;
-// }
-
-strand-form-message {
-    margin-bottom: 10px;
-}
-
-.fields,
-::content .fields {
-    font-size: 0em;
-
-    & > :not(:last-child) {
-        margin-right: 10px;
-    }
-}
-
-.control strand-icon {
-    color: $color-A6;
+:host {
+    display: block;
 }

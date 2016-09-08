@@ -14,7 +14,8 @@
 <dom-module id="strand-textarea">
 	<link rel="import" type="css" href="strand-textarea.css"/>
 	<template>
-		<textarea 
+		<textarea
+			id="input" 
 			rows="{{rows}}" 
 			class$="{{ _updateClass(error, mono) }}" 
 			placeholder="{{placeholder}}" 

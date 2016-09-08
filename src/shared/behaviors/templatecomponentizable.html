@@ -250,8 +250,8 @@
 				assignFromObjects.apply(archetype, asArray(primaryMixins));
 			}
 		}(mixinFindable ?
-			mixinFindable.mixinsForValue(lookupValue) ||
-			mixinFindable.mixinsForValuePath(lookupValue, []) : null));
+			(mixinFindable.mixinsForValue && mixinFindable.mixinsForValue(lookupValue)) ||
+			(mixinFindable.mixinsForValuePath && mixinFindable.mixinsForValuePath(lookupValue, [])) : null));
 
 		archetype.is = is;
 		archetype.extends = "div";
@@ -262,7 +262,8 @@
 			if (behaviorMixins) {
 				archetype.behaviors.push.apply(archetype.behaviors, asArray(behaviorMixins));
 			}
-		}(mixinFindable && mixinFindable.mixinsForValuePath(lookupValue, ["behaviors"])));
+		}(mixinFindable && mixinFindable.mixinsForValuePath ?
+			mixinFindable.mixinsForValuePath(lookupValue, ["behaviors"]) : null));
 
 		archetype.behaviors.push(StrandTraits.Refable);
 
@@ -272,7 +273,8 @@
 			if (propertyMixins) {
 				assignFromObjects.apply(archetype.properties, asArray(propertyMixins));
 			}
-		}(mixinFindable && mixinFindable.mixinsForValuePath(lookupValue, ["properties"])));
+		}(mixinFindable && mixinFindable.mixinsForValuePath ?
+			mixinFindable.mixinsForValuePath(lookupValue, ["properties"]) : null));
 
 
 
@@ -282,6 +284,14 @@
 		};
 		archetype.properties.scope = {
 			type: Object,
+			notify: true,
+		};
+		archetype.properties.index = {
+			type: Number,
+			notify: true,
+		};
+		archetype.properties.key = {
+			type: String,
 			notify: true,
 		};
 		archetype.properties[field] = {

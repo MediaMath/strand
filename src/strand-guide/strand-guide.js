@@ -27,7 +27,8 @@
 			},
 			useLocalStorage: {
 				type: Boolean,
-				value: false
+				value: false,
+				notify: true
 			},
 			name: {
 				type: String,
@@ -38,7 +39,8 @@
 				computed: '_computeStorageName(name)'
 			},
 			suppressGuide: {
-				type: Boolean
+				type: Boolean,
+				observer: '_suppressGuideChanged'
 			},
 			scope: {
 				type: Object,
@@ -97,61 +99,109 @@
 			},
 			data: {
 				type: Array,
-				notify: true,
 				observer: '_dataChanged'
 			},
+			_initializable: {
+				type: Boolean,
+				computed: '_computeInitializable(_attachedInit, _dataInit, _suppressInit, useLocalStorage)',
+				observer: '_initializableChanged'
+			},
+
+			// initialization helpers
+			_dataInit: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			_suppressInit: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			_attachedInit: {
+				type: Boolean,
+				value: false,
+				notify: true
+			}
 		},
 
 		_bodyOverflow: null,
-		_isAttached: false,
+		_queueShow: false,
+		_queueGetTargets: false,
 
 		domObjectChanged: function(domObject) {
-			if (!this.data && !this.suppressGuide) {
+			if (!this.data) {
 				this.data = domObject['guide'];
 			}
 		},
 
 		attached: function() {
 			// Attempt to ensure that the DOM has settled before doing any layout
-			this.async(function() {
-				if (this.data) this._init();
-				this._isAttached = true;
-			});
+			this._attachedInit = true;
+		},
+
+		_suppressGuideChanged: function(newVal, oldVal) {
+			this._suppressInit = true;
 		},
 
 		_dataChanged: function(newVal, oldVal) {
-			if (!this.suppressGuide) {
-				// Collect object references for all of the targets
-				newVal.forEach(function(item) {
-					var target = Polymer.dom(this.scope).querySelector('#' + item.target);
-					item.targetRef = target;
-				}, this);
-
-				if (this._isAttached) this._init();
+			if (newVal && newVal.length > 0) {
+				if (this._attachedInit) {
+					this._getTargets();
+				} else {
+					this._queueGetTargets = true;
+				}
+				this._dataInit = true;
 			}
 		},
 
+		_getTargets: function() {
+			// Collect object references for all of the targets
+			this.data.forEach(function(item) {
+				var target = Polymer.dom(this.scope).querySelector('#' + item.target);
+				item.targetRef = target;
+			}, this);
+		},
+
 		_init: function() {
+			// Make sure we are attached before attempting to get targets
+			if (this._queueGetTargets) {
+				this._getTargets();
+				this._queueGetTargets = false;
+			}
+
 			// Trigger tooltip and canvas setup
 			this._tooltipData = this.data;
 			this._currentStep = 0;
+
+			if (this._queueShow) {
+				this.show();
+				this._queueShow = false;
+			}
 		},
 
 		show: function() {
-			if (!this.suppressGuide) {
-				this._setHidden(false);
-				this.$.tooltip.open();
-				if (this.showFocus) this.$$('#focus')._updateCanvas();
+			if (this._initializable) {
+				// Show the tooltip only if suppress was not set via localStorage
+				if (!this.suppressGuide) {
+					this._setHidden(false);
+					this.$.tooltip.open();
+					if (this.showFocus) this.$$('#focus')._updateCanvas();
+				}
+			} else {
+				this._queueShow = true;
 			}
 		},
 
 		hide: function(e) {
-			if (!this.suppressGuide) {
+			if (this._initializable) {
 				this._setHidden(true);
 				this.$.tooltip.close();
 
-				// If the user has dismissed - suppress via local storage
-				if (this.useLocalStorage) this.suppressGuide = true;
+				// User dismissal === suppress guide
+				if (this.useLocalStorage) {
+					this.set('suppressGuide', true);
+				}
 			}
 		},
 
@@ -177,7 +227,7 @@
 		_nextHandler: function(e) {
 			this._currentStep++;
 			
-			// use this handler to trigger close and cleanup - the final step is 'Done'
+			// Used to trigger close and cleanup at the final step
 			if (this._currentStep === this.data.length) {
 				this._dismissHandler();
 			}
@@ -195,6 +245,18 @@
 
 		_computeStorageName: function(name) {
 			return 'guide-' + name;
+		},
+
+		_computeInitializable: function(_attachedInit, _dataInit, _suppressInit, useLocalStorage) {
+			if (useLocalStorage) {
+				return _suppressInit && _dataInit && _suppressInit;
+			} else {
+				return _dataInit && _attachedInit;
+			}
+		},
+
+		_initializableChanged: function(newVal, oldVal) {
+			if (newVal === true) this._init();
 		}
 
 	});

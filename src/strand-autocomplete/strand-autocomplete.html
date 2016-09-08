@@ -19,6 +19,7 @@
 <link rel="import" href="../shared/behaviors/refable.html"/>
 <link rel="import" href="../strand-input/strand-input.html"/>
 <link rel="import" href="../strand-list-item/strand-list-item.html"/>
+<link rel="import" href="../strand-highlight/strand-highlight.html"/>
 
 <dom-module id="strand-autocomplete">
 	<link href="strand-autocomplete.css" rel="import" type="css"/>
@@ -40,7 +41,12 @@
 						<strand-list-item 
 							value$="{{item.value}}" 
 							selected$={{item.selected}}
-							highlighted$="{{item.highlighted}}">{{item.name}}</strand-list-item>
+							highlighted$="{{item.highlighted}}">
+							<strand-highlight 
+								text="{{item.name}}" 
+								highlight="{{_name}}">
+								</strand-highlight>
+							</strand-list-item>
 					</template>
 				</div>
 			</div>

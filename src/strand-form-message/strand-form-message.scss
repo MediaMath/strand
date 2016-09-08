@@ -20,3 +20,9 @@ strand-inline-box[visible] {
 	display: block;
 	margin-top: 10px;
 }
+
+:host-context(strand-repeater) {
+	strand-inline-box[visible] {
+		margin-top: 4px;
+	}
+}

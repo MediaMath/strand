@@ -39,11 +39,11 @@
 
 :host(:active) .checkbox {
 	border-color: $color-A17;
-	box-shadow: inset 1px 1px 0 $color-A18; 
+	box-shadow: inset 1px 1px 0 $color-A18;
 	background-image: linear-gradient(to top, $color-A15 0%, $color-A16 100%);
 
-	&.partial,
-	&.selected {
+	&._strand_partial,
+	&._strand_checked {
 		border-color: $color-D18;
 		box-shadow: inset 1px 1px 0 $color-D19;
 		background-image: linear-gradient(to top, $color-D16 0%, $color-D17 100%);
@@ -51,7 +51,7 @@
 }
 
 :host(:active) .checkbox-icon {
-	&.selected {
+	&._strand_checked {
 		.icon {
 			opacity: 0.8;
 		}
@@ -92,8 +92,8 @@
 		height: 10px;
 	}
 
-	&.partial,
-	&.selected {
+	&._strand_partial,
+	&._strand_checked {
 		border-color: $color-D13;
 		box-shadow: inset 1px 1px 0 rgba(255,255,255,.2);
 		background-image: linear-gradient(to top, $color-D14 0%, $color-D15 100%);
@@ -113,7 +113,7 @@
 		opacity: 0.3;
 	}
 
-	&.selected {
+	&._strand_checked {
 		.icon {
 			opacity: 1.0;
 		}
@@ -144,5 +144,5 @@
 
 :host ::content strand-header {
 	margin-top: 0;
-	margin-bottom: 0; 
+	margin-bottom: 0;
 }

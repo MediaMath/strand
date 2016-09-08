@@ -14,17 +14,17 @@
 <dom-module id="strand-grid-column">
 	<link rel="import" type="css" href="strand-grid-column.css">
 	<template>
-		<div class$="{{_computeColumnClass(align)}}">
+		<div class$="{{_computeColumnClass(alignColumn)}}">
 			<div class="left-items">
-				<div id="label"></div>
-				<!-- <template is="dom-if" if="{{info}}"> -->
-				<strand-icon id="info" hidden$="{{_hasInfoTip(info)}}" width="14" height="14" type="info"></strand-icon>
-				<strand-tooltip id="infoTip" tip-width="{{tipWidth}}" hidden$="{{_hasInfoTip(info)}}" target="{{findById('info')}}" _scope="{{ref}}">
-					<label>{{info}}</label>
-				</strand-tooltip>
-				<!-- </template> -->
+				<span id="label"></span>
+				<template is="dom-if" if="{{info}}">
+					<strand-icon id="info" width="12" height="12" type="info"></strand-icon>
+					<strand-tooltip id="infoTip" tip-width="{{tipWidth}}" target="{{findById('info')}}" _scope="{{ref}}">
+						<label>{{info}}</label>
+					</strand-tooltip>
+				</template>
 			</div>
-			<template is="dom-if" if="{{sort}}">
+			<template is="dom-if" if="{{_isSorted(sortOrder)}}">
 				<strand-icon id="sort" width="10" height="10" type="sort" class$="{{_computeSortClass(sortOrder)}}"></strand-icon>
 			</template>
 		</div>

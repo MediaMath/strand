@@ -49,9 +49,9 @@
 				type: String,
 				value: null,
 				notify: true,
-				// observer: "_infoChanged"
+				observer: '_infoChanged'
 			},
-			align: {
+			alignColumn: {
 				type: String,
 				value: "left"
 			},
@@ -65,7 +65,8 @@
 				value: 75
 			},
 			tipWidth: {
-				type: Number
+				type: Number,
+				value: 150
 			}
 		},
 
@@ -84,16 +85,31 @@
 			this.sortOrder = this.sortOrder === this.SORT_ASCENDING ? this.SORT_DESCENDING : this.SORT_ASCENDING;
 		},
 
+		_isSorted: function() {
+			return this.sort && this.sortOrder !== this.SORT_DEFAULT;
+		},
+
 		_computeSortClass: function(sortOrder) {
 			return sortOrder === this.SORT_ASCENDING ? 'asc' : 'des';
 		},
 
-		_computeColumnClass: function (align) {
-			return "_mm_container " + (align || "");
+		_computeColumnClass: function (alignColumn) {
+			return "_mm_container " + (alignColumn || "");
 		},
 
 		_widthChanged: function(newVal, oldVal) {
 			this.style.width = newVal;
+		},
+
+		_infoChanged: function(newVal, oldVal) {
+			if (newVal) {
+				this.async(function() {
+					// Set up the tooltip once the dom has settled
+					// Otherwise, the tip may not be able to find it's target
+					var tooltip = this.$$('#infoTip');
+					tooltip.target = this.findById('info');
+				});
+			}
 		},
 
 		_handleTap: function(e) {
@@ -137,14 +153,6 @@
 		_onTrackEnd: function(e) {
 			this.set('width', this.desiredWidth + 'px');
 			this.fire(this.RESIZE_END_EVENT, { field: this.field, val: this.desiredWidth - this.startWidth });
-		},
-
-		_hasInfoTip: function(info) {
-			if (info && info.length > 0) {
-				return false;
-			} else {
-				return true;
-			}
 		}
 
 	});

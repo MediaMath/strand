@@ -3,6 +3,7 @@
   <head>
 		<script language="javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
         <link rel="import" href="../strand-button/strand-button.html">
+        <link rel="import" href="../strand-input/strand-input.html">
         <link rel="import" href="../strand-footer/strand-footer.html">
         <link rel="import" href="../strand-modal/strand-modal.html">
         <link rel="import" href="../strand-wizard-ribbon/strand-wizard-ribbon.html">
@@ -115,10 +116,12 @@
         	}*/
         </style>
         <template>
-            <strand-modal id="modal" dismiss="false">
+            <!-- <strand-modal id="modal" dismiss="false"> -->
+            <strand-input value="{{computedLabel}}"></strand-input>
+            <br><br>
     		<strand-wizard id="wizza" selected-index="{{selectedIndex}}" allow-skip unresolved>
                 <strand-wizard-ribbon selected-index="{{selectedIndex}}" allow-skip>
-                    <step>Step 1</step>
+                    <step>{{computedLabel}} Step</step>
                     <step>Step 2</step>
                     <step>Step 3</step>
         		</strand-wizard-ribbon>
@@ -160,9 +163,9 @@
                     </strand-footer>
                 </strand-tab>
     		</strand-wizard>
-            </strand-modal>
+            <!-- </strand-modal> -->
 
-            <strand-button on-tap="_openWizard"><label>Open Wizard</label></strand-button>
+            <!-- <strand-button on-tap="_openWizard"><label>Open Wizard</label></strand-button> -->
         </template>
     </dom-module>
 
@@ -171,7 +174,18 @@
             is: 'test-wizard-view',
 
             properties: {
-                selectedIndex: Number
+                selectedIndex: Number,
+                computedLabel: {
+                    type: String,
+                    value: "Test",
+                    notify: true
+                }
+            },
+
+            ready: function() {
+                window.setTimeout(() => {
+                    this.set('computedLabel', 'Modified');
+                }, 2500);
             },
 
             _nextHandler: function() {

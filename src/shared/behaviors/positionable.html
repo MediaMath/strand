@@ -38,12 +38,23 @@
 			}
 		},
 
+		_isAttached: false,
+
 		ready: function() {
 			this.async(function() {
 				if(!this.toggleTrigger) {
 					this.toggleTrigger = this._target;
 				}
 			});
+		},
+
+		attached: function() {
+			this._isAttached = true;
+			this._updateTarget(this._target);
+		},
+
+		detached: function() {
+			this._isAttached = false;
 		},
 
 		resize: function() {
@@ -74,15 +85,16 @@
 			return new Rectangle(0, 0, doc.clientWidth, doc.clientHeight);
 		},
 
-		_panelChanged: function(panel, oldPanel) {
-		},
+		_panelChanged: function(panel, oldPanel) {},
 
 		_targetChanged: function(target, oldTarget) {
-			if(typeof target === 'string') {
-				this.async(function() {
-					this._target = this._scope === document ? 
-					document.querySelector(target) : Polymer.dom(this._scope).querySelector(target);
-				});
+			this._updateTarget(target);
+		},
+
+		_updateTarget: function(target) {
+			if (this._isAttached && typeof target === 'string') {
+				this._target = this._scope === document ? 
+				document.querySelector(target) : Polymer.dom(this._scope).querySelector(target);
 			}
 		},
 
@@ -102,7 +114,6 @@
 				this._panel.style.padding = boundaryOffset + 'px';				
 			});
 		}
-
 	};
 
 	scope.Positionable = [

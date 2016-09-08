@@ -53,8 +53,30 @@ describe("DataUtils", function() {
 		};
 		var path = ["a","b","c"];
 		var pathString = "a.b.d";
-		StrandLib.DataUtils.getPathValue(path, o).should.equal(1)
+		StrandLib.DataUtils.getPathValue(path, o).should.equal(1);
 		StrandLib.DataUtils.getPathValue(pathString, o).should.equal("two");
+	});
+
+	it("should get a key from an array using ints in path", function() {
+		var o = [{a:[1,2,3]}];
+		StrandLib.DataUtils.getPathValue('0.a.0', o).should.equal(1);
+		should.equal(StrandLib.DataUtils.getPathValue('a.3', o), null);
+		StrandLib.DataUtils.getPathValue('0.a.2', o).should.equal(3);
+	});
+
+	it("should get a key from an object using an int key", function() {
+		var o = {
+			1:{
+				2:{
+					c:1,
+					d:"two"
+				}
+			}
+		};
+		StrandLib.DataUtils.getPathValue('1.2.c',o).should.equal(1);
+		StrandLib.DataUtils.getPathValue('1.2.d',o).should.equal('two');
+		should.equal(StrandLib.DataUtils.getPathValue('1.2.3',o), null);
+		should.equal(StrandLib.DataUtils.getPathValue('1.2.0',o), null);
 	});
 
 	it("it should fail gracefully to get/set a value from an undefined obj", function() {
@@ -100,6 +122,22 @@ describe("DataUtils", function() {
 		//shouldn't have stepped on previous
 		o.a.b.c.should.equal(2);
 		o.a.b.d.should.equal("three");
+	});
+
+	it('should pluck keys from a complex structure', function() {
+		var o = {
+			a:[1,2,3],
+			b:{c:{d:1,c:{e:1}}},
+			e:2,
+			f:{z:"aces"}
+		};
+		StrandLib.DataUtils.pluck(o, ['a']).should.deep.equal({a:[1,2,3]});
+		StrandLib.DataUtils.pluck(o, ['z']).should.deep.equal({z:'aces'});
+		StrandLib.DataUtils.pluck(o, ['e']).should.deep.equal({e:2});
+		StrandLib.DataUtils.pluck(o, ['c']).should.deep.equal({c:{e:1}});
+		o = [{a:1,b:'worst'},{a:2,b:'worst'},{a:3,b:'worst'},{a:4,b:'worst'}];
+		StrandLib.DataUtils.pluck(o, ['a']).should.deep.equal([{a:1},{a:2},{a:3},{a:4}]);
+
 	});
 
 });

@@ -18,7 +18,7 @@
 
 		gulp.task('bump:major', function() { return inc('major'); });
 		gulp.task('bump:minor', function() { return inc('minor'); });
-		gulp.task('bump:patch', function() { return inc('major'); });
+		gulp.task('bump:patch', function() { return inc('patch'); });
 
 		gulp.task('release:major', function() {
 			run('bump:major', 'build:dist', 'changelog', 'stage-release', 'tag-release');

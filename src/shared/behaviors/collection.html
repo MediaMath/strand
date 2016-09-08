@@ -164,9 +164,8 @@
 		_deepChanged:function(change) {
 			if (change && change.path) {
 				var path = change.path.split(".");
-				if (path.length > 1) {
-					var idx = parseInt(path[1].substr(1));
-					var model = this.data[idx];
+				if (path.length > 1 && path[1].charAt(0) === '#') {
+					var model = Polymer.Base.get('data.'+path[1], this);
 					this.fire('added-changed');
 					this.fire('removed-changed');
 					this.fire('modified-changed');
@@ -174,9 +173,9 @@
 					if (model && this.getIndexOfCid(model.cId,'added') === -1
 						&& this.getIndexOfCid(model.cId, 'modified') === -1) {
 
-						this.push('modified', this.data[idx]);
-						this._cleanHelperArrays('added',this.data[idx]);
-						this._cleanHelperArrays('removed',this.data[idx]);
+						this.push('modified', model);
+						this._cleanHelperArrays('added', model);
+						this._cleanHelperArrays('removed', model);
 					}
 				} else if (change.path === 'data' && this.data) {
 					this._resetHelperArrays();

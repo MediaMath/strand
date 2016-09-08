@@ -1,0 +1,44 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+<link rel="import" href="../strand-list-item/strand-list-item.html">
+<link rel="import" href="../strand-group/strand-group.html">
+<link rel="import" href="../strand-input-mask/strand-input-mask.html">
+<link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/moment.html">
+<link rel="import" href="../shared/behaviors/resolvable.html">
+<link rel="import" href="../shared/behaviors/falsifiable.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-timepicker">
+	<link rel="import" type="css" href="strand-timepicker.css">
+	<template>
+		<template is="dom-if" if="{{!use24HourTime}}">
+			<strand-group>
+				<strand-input-mask disabled$="{{disabled}}" icon="clock" value="{{timeString}}" on-keydown="_keyHandler" style="width:119px;">
+					<group rule="hour12" restrict="numeric" size="2" autofill="0"></group>
+					<sep chars=":"></sep>
+					<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+				</strand-input-mask>
+				<strand-dropdown disabled$="{{disabled}}" value="{{timePeriod}}" fitparent style="width:64px;">
+					<strand-list-item value="am">AM</strand-list-item>
+					<strand-list-item value="pm">PM</strand-list-item>
+				</strand-dropdown>
+			</strand-group>
+		</template>
+
+		<template is="dom-if" if="{{use24HourTime}}">
+			<strand-input-mask disabled$="{{disabled}}" icon="clock" value="{{timeString}}">
+				<group rule="hour24" restrict="numeric" size="2" autofill="0"></group>
+				<sep chars=":"></sep>
+				<group rule="minutes" restrict="numeric" size="2" autofill="0"></group>
+			</strand-input-mask>
+		</template>
+	</template>
+  <script src="strand-timepicker.js"></script>
+</dom-module>

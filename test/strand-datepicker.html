@@ -16,9 +16,17 @@
 <strand-button id="target1"><label>Open Datepicker</label></strand-button>
 <strand-button id="target2"><label>Open Datepicker</label></strand-button>
 <strand-button id="target3"><label>Open Datepicker</label></strand-button>
+<strand-button id="target4"><label>Open Datepicker</label></strand-button>
+<strand-button id="target5"><label>Open Datepicker</label></strand-button>
+<strand-button id="target6"><label>Open Datepicker</label></strand-button>
+<strand-button id="target7"><label>Open Datepicker</label></strand-button>
 <strand-datepicker id="test1" target="#target1"></strand-datepicker>
 <strand-datepicker id="test2" target="#target2"></strand-datepicker>
 <strand-datepicker id="test3" target="#target3"></strand-datepicker>
+<strand-datepicker id="test4" target="#target4"></strand-datepicker>
+<strand-datepicker id="test5" target="#target5"></strand-datepicker>
+<strand-datepicker id="test6" target="#target6"></strand-datepicker>
+<strand-datepicker id="test7" target="#target7"></strand-datepicker>
 <script>
 describe("strand-datepicker", function() {
 
@@ -49,15 +57,16 @@ describe("strand-datepicker", function() {
 	it("should reset to original values when reset is called", function(done) {
 
 		var t2 = document.querySelector("#test2");
-		var start = moment("1/1/2001").toDate();
-		var end = moment("1/1/2001").toDate();
+		var dateFormat = "MM/DD/YYYY";
+		var start = moment("1/1/2001", dateFormat, false).toDate();
+		var end = moment("1/10/2001", dateFormat, false).toDate();
 		t2.start = start;
 		t2.end = end;
 
 		flush(function() {
 
-			var interimStart = moment();
-			var interimEnd = moment().add(1,'day');
+			var interimStart = moment("1/5/2001", dateFormat, false);
+			var interimEnd = interimStart.clone().add(1,'day');
 
 			t2.open();
 
@@ -68,6 +77,7 @@ describe("strand-datepicker", function() {
 				t2.startDate.should.equal(interimStart.format(t2.dateFormat));
 				t2.endDate.should.equal(interimEnd.format(t2.dateFormat));
 				t2.reset();
+
 				flush(function() {
 					moment(t2.start).isSame(start,'day').should.be.true;
 					moment(t2.end).isSame(end,'day').should.be.true;
@@ -103,6 +113,67 @@ describe("strand-datepicker", function() {
 		});
 	});
 
+	it("should not allow a manually entered end date to be before a start date", function(done) {
+		var t4 = document.querySelector("#test4");
+		var sd = moment();
+		var ed = moment().subtract(3, 'days');
+		t4.startDate = sd.format(t4.dateFormat);
+		t4.endDate = ed.format(t4.dateFormat);
+		flush(function() {
+			t4.endDate.should.equal(t4.startDate);
+			done();
+		});
+	});
+
+	it("should not allow a end time before start time", function(done) {
+		var t6 = document.querySelector("#test6");
+		var sd = moment().hours('17').minutes('0');
+		var ed = moment().hours('12').minutes('0');
+		t6.start = sd;
+		t6.end = ed;
+		flush(function() {
+			expect(t6.startTime).to.equal(t6.endTime);
+			done();
+		});
+	});
+
+	it("should not allow a manually entered but badly formatted end date to be before a start date", function(done) {
+		var t5 = document.querySelector("#test5");
+		var sd = moment(new Date('7/10/2016'));
+
+		var originalEndDate = t5.endJSDate;
+		var originalEndUnix = t5.endUnix;
+
+		t5.startDate = sd.format(t5.dateFormat);
+		t5.endDate = "7/1 /2016";
+		flush(function() {
+			expect(t5.endJSDate).to.equal(originalEndDate);
+			expect(t5.endUnix).to.equal(originalEndUnix);
+			done();
+		});
+	});
+
+	it("should update rangeValue if you swap presets for some reason after initialization", function(done) {
+		var t7 = document.querySelector("#test7");
+		var origPresets = [
+			{name:"Last 7 Days", value:"Last 7 Days", start:moment().subtract(7, 'days'), end:moment()},
+			{name:"Last 14 Days", value:"Last 14 Days", start:moment().subtract(14, 'days'), end:moment()},
+			{name:"Last 30 Days", value:"Last 30 Days", start:moment().subtract(30, 'days'), end:moment()},
+			{name:"Month to Date", value:"Month to Date", start:moment().startOf('month'), end:moment()}
+		];
+		t7.rangePresets = origPresets;
+		t7.start = moment().subtract(2,'days');
+		t7.end = moment();
+		var newPresets = [
+			{name:"Last 2 Days", value:"Last 2 Days", start:moment().subtract(2, 'days'), end:moment()},
+			{name:"Last 3 Days", value:"Last 3 Days", start:moment().subtract(3, 'days'), end:moment()}
+		];
+		t7.rangePresets = newPresets;
+		flush(function() {
+			expect(t7.rangeValue).to.equal("Last 2 Days");
+			done();
+		});
+	});
 });
 </script>
 </body>

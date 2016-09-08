@@ -35,13 +35,17 @@
 				type: Boolean,
 				value: false,
 				reflectToAttribute: true
+			},
+			external: {
+				type: Boolean,
+				value: false
 			}
 		},
 
-		updateClass: function(underline) {
+		updateClass: function(underline, external) {
 			var o = {};
 			o.action = true;
-			o.underline = underline;
+			o.underline = underline || external;
 			return this.classBlock(o);
 		}
 

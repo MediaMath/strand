@@ -91,6 +91,7 @@
 			timeout:10000,
 			withCredentials:false,
 			concurrency:4,
+			resultOnError:false
 		}, this.options, options);
 
 		if (this.set) {
@@ -150,6 +151,9 @@
 			this.isLoading = true;
 
 			promise.then(this._handleResult.bind(this), this._handleError.bind(this));
+			if (options.resultOnError) {
+				promise.then(null, this._handleResult.bind(this));
+			}
 
 			return promise;
 		},

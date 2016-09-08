@@ -95,6 +95,10 @@
 					value: value,
 					selected: true
 				});
+
+				// do not hold onto the selected index, or no more 
+				// 'selected' events will be fired for that index
+				this.selectedIndex = false;
 			}
 			
 			if (this.state === this.STATE_OPENED) this.close();

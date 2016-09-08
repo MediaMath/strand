@@ -19,7 +19,7 @@
 		},
 
 		findById: function(id) {
-			return this.$[id];
+			return this.$[id] || this.$$('#' + id);
 		}
 		
 	 };

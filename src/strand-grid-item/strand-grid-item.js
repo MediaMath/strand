@@ -19,6 +19,9 @@
 				value: null
 			},
 			scope: Object,
+			index: {
+				type: Number,
+			},
 			_overridden: {
 				type: Object,
 				value: function () {
@@ -29,10 +32,15 @@
 
 		observers: [
 			"_expansionChanged(model.expanded)",
+			"_redistributeColumns(scope._columns)",
 		],
 
 		_expansionChanged: function (expanded) {
 			this.toggleClass("expanded", !!expanded, this.$.carat);
+		},
+
+		_redistributeColumns: function (columns) {
+			this.distributeContent();
 		},
 
 		_checkDistributedNodesAsync: function(e) {
@@ -65,8 +73,8 @@
 			return model ? model[field] : "";
 		},
 
-		_computeColumnClass: function (align) {
-			return "_mm_column " + (align || "");
+		_computeColumnClass: function (alignColumn) {
+			return "_mm_column " + (alignColumn || "");
 		},
 
 		_computeColumnStyle: function(value) {

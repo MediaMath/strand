@@ -213,8 +213,8 @@
 				if (this._type === 'strand-radio') {
 					this._selectRadioByValue(newVal);
 				}
+				this.fire("changed", { value: newVal });
 			});
-			this.fire("changed", { value: newVal });
 		},
 
 		_createId: function() {

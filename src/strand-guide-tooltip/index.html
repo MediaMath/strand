@@ -85,11 +85,46 @@
   </head>
   <body>
 
-	<strand-guide-tooltip></strand-guide-tooltip>
+  	<div style="margin:50px;">
+		<strand-guide-tooltip id="tt1"></strand-guide-tooltip>
+		<button id="button1">button 1</button>
+	</div>
+
+	<div style="margin:375px 50px 50px 50px;">
+		<strand-guide-tooltip id="tt2"></strand-guide-tooltip>
+		<button id="button2">button 2</button>
+	</div>
 
 	<script>
 		window.addEventListener("WebComponentsReady", function() {
-			//
+			var tt1 = document.querySelector('#tt1');
+			var tt2 = document.querySelector('#tt2');
+
+			var data1 = [{
+				target: 'button1',
+				header: 'IP Targeting Now Available!',
+				message: 'You can now target/anti-target IP addresses. For more information, please visit the',
+				dismiss: 'Thanks, I\'ve got it.',
+				linktext: 'Knowledge Base',
+				linkurl: 'http://www.example.com'
+			}];
+
+			var data2 = [{
+				target: 'button2',
+				header: 'IP Targeting Now Available!',
+				message: 'You can now target/anti-target IP addresses. For more information, please visit the',
+				linktext: 'KB',
+				linkurl: 'http://www.example.com'
+			}];
+
+			data1[0].targetRef = document.querySelector('#button1');
+			data2[0].targetRef = document.querySelector('#button2');
+
+			tt1.data = data1;
+			tt2.data = data2;
+
+			tt1.currentStep = 0;
+			tt2.currentStep = 0;
 		});
 	</script>
 

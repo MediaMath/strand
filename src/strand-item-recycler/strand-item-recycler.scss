@@ -10,6 +10,7 @@
 :host {
 	display: block;
 	overflow: auto;
+	position: relative;
 }
 
 :host([x-scroll="none"]) #constrainer {
@@ -34,19 +35,46 @@
 	overflow: hidden;
 }
 
+#overlay {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: absolute;
+	pointer-events: none;
+
+	#fixes-flicker {
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		pointer-events: none;
+	}
+}
+
+#overlay > #fixes-flicker > ::content > *,
+#overlay > ::content > * {
+	pointer-events: all;
+}
+
 #constrainer {
 	display: inline-block;
 }
 
-#header, #footer, #middle, #extent, #constrainer {
+#header, #footer, #middle, #constrainer {
 	min-width: 100%;
 	position: relative;
 }
 
-#extent {
-	height: 1px;
-	margin-top: -1px;
-	z-index: -1;
+.recycler-panel {
+	position: relative;
+}
+
+:host([measuring]) #middle {
+	visibility: hidden;
 }
 
 
