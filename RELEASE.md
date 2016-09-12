@@ -36,5 +36,3 @@ Bug Fixes: (a condensed, readable version fixes derived from changelog.md)
 https://github.com/MediaMath/strand/blob/master/CHANGELOG.md
 ```
 
-Send email to "Release Notes Mailing List", which can be found here:
-https://wiki.mediamath.com/display/mmEngineering/Strand
