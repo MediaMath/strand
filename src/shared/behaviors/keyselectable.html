@@ -20,16 +20,10 @@
 			maxItems: {
 				type: Number,
 				value: 10
-			},
-
-			_mouseoverEnabled: {
-				type: Boolean,
-				value: true
 			}
 		},
 
 		_handleKeydown: function(e) {
-			this._mouseoverEnabled = false;
 			if(!this._maxIndex)
 				this._maxIndex = this.items ? this.items.length-1 : 0;
 			this._routeKeyEvent(e);
@@ -102,16 +96,10 @@
 		},
 
 		_handleMouseover: function(e) {
-			document.addEventListener('mousemove', function() {
-				this._mouseoverEnabled = true;
-			}.bind(this));
-
-			if(this._mouseoverEnabled) {
-				var target = Polymer.dom(e).path[0];
-				var targetIndex = this.items.indexOf(target);
-				if(targetIndex >= 0) {
-					this._highlightedIndex = targetIndex;
-				}
+			var target = Polymer.dom(e).path[0];
+			var targetIndex = this.items.indexOf(target);
+			if(targetIndex >= 0) {
+				this._highlightedIndex = targetIndex;
 			}
 		},
 
