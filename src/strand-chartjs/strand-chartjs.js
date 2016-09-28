@@ -6,7 +6,7 @@
 */
 (function(scope) {
 
-	scope.Checkbox = Polymer({
+	scope.ChartJs = Polymer({
 		is: 'strand-chartjs',
 
 		behaviors: [
