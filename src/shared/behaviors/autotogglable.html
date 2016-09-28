@@ -28,7 +28,7 @@
 		_triggerChanged: function(trigger, oldTrigger) {
 			var scope = this._scope || document;
 
-			this._removeListener(oldTrigger);
+			this.unlisten(oldTrigger, 'tap', '_toggle');
 
 			if(typeof trigger === 'string') {
 				this.async(function() {
