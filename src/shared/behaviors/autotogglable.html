@@ -18,17 +18,29 @@
 		},
 
 		attached: function() {
-			this.listen(this.toggleTrigger, 'tap', '_toggle');
+			this._addListener(this.toggleTrigger);
 		},
 
 		detached: function() {
-			this.unlisten(this.toggleTrigger, 'tap', '_toggle');
+			this._removeListener(this.toggleTrigger);
+		},
+
+		_addListener: function(trigger) {
+			if (trigger && typeof trigger === 'object') {
+				this.listen(trigger, 'tap', '_toggle');
+			}
+		},
+
+		_removeListener: function(trigger) {
+			if (trigger && typeof trigger === 'object') {
+				this.unlisten(trigger, 'tap', '_toggle');
+			}
 		},
 
 		_triggerChanged: function(trigger, oldTrigger) {
 			var scope = this._scope || document;
 
-			this.unlisten(oldTrigger, 'tap', '_toggle');
+			this._removeListener(oldTrigger);
 
 			if(typeof trigger === 'string') {
 				this.async(function() {
@@ -36,7 +48,8 @@
 					document.querySelector(trigger) : Polymer.dom(scope).querySelector(trigger);
 				});
 			}
-			this.listen(this.toggleTrigger, 'tap', '_toggle');
+
+			this._addListener(trigger);
 		}
 	};
 
