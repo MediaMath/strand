@@ -17,28 +17,12 @@
 			}
 		},
 
-		created: function() {
-			this._boundToggle = this._toggle.bind(this);
-		},
-
 		attached: function() {
-			this._addListener(this.toggleTrigger);
+			this.listen(this.toggleTrigger, 'tap', '_toggle');
 		},
 
 		detached: function() {
-			this._removeListener(this.toggleTrigger);
-		},
-
-		_addListener: function(trigger) {
-			if(trigger && trigger.addEventListener) {
-				trigger.addEventListener('click', this._boundToggle);
-			}
-		},
-
-		_removeListener: function(trigger) {
-			if(trigger && trigger.removeEventListener) {
-				trigger.removeEventListener('click', this._boundToggle);
-			}
+			this.unlisten(this.toggleTrigger, 'tap', '_toggle');
 		},
 
 		_triggerChanged: function(trigger, oldTrigger) {
@@ -52,8 +36,7 @@
 					document.querySelector(trigger) : Polymer.dom(scope).querySelector(trigger);
 				});
 			}
-
-			this._addListener(trigger);
+			this.listen(this.toggleTrigger, 'tap', '_toggle');
 		}
 	};
 
