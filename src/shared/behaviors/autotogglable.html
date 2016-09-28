@@ -21,6 +21,10 @@
 			this._boundToggle = this._toggle.bind(this);
 		},
 
+		attached: function() {
+			this._addListener(this.toggleTrigger);
+		},
+
 		detached: function() {
 			this._removeListener(this.toggleTrigger);
 		},
