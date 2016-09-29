@@ -7,7 +7,18 @@
 		"autotogglable",
 		"positionable-panel",
 		"stackable",
+		"lightdomgettable",
 		"refable"
+	],
+	"attributes": [
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"An array of menu configuration objects to pass of the format name, value, icon where icon is the icon type to use. If icon is omitted no icon will be shown.",
+			"optional":true,
+			"default":"null",
+			"reflect":false
+		}
 	],
 	"articles": ["grid_custom_grid_item"]
 }
