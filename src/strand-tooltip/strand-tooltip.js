@@ -42,8 +42,6 @@
 		_prevTargetCursor: null,
 
 		attached: function() {
-			this._boundOverHandler = this._overHandler.bind(this);
-			this._boundOutHandler = this._outHandler.bind(this);
 
 			this.async(function() {
 				if (this._target && typeof this._target === "object") {
