@@ -317,7 +317,6 @@
 			if (typeof newIndex === 'number' && newIndex >= 0) {
 				if (this.data) {
 					this.set('data.' + newIndex + '.highlighted', true);
-					this.set('data.' + newIndex + '._keyselectable', true);
 				} else {
 					this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
 					this.items[newIndex].setAttribute('_keyselectable', true);
