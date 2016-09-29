@@ -108,6 +108,7 @@
 			var inherited = BehaviorUtils.findSuper(StrandTraits.KeySelectable, '_highlightedIndexChanged');
 			
 			this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+			this.items[newIndex].setAttribute('_keyselectable', true);
 			inherited.apply(this, [newIndex, oldIndex]);
 		},
 
