@@ -319,7 +319,7 @@
 					this.set('data.' + newIndex + '.highlighted', true);
 				} else {
 					this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
-					this.items[newIndex].setAttribute('_keyselectable', true);
+					if(this.items[newIndex]) this.items[newIndex].setAttribute('_keyselectable', true);
 				}
 			}
 			if (typeof oldIndex === 'number' && oldIndex >=0) {
