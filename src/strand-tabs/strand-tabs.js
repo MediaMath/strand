@@ -51,19 +51,38 @@
 			}
 		},
 
+		_activeChanged: function(e) {
+			if(e.detail.value) this.selectedIndex = this._tabs.indexOf(e.target);
+		},
+
+		_addListeners: function () {
+			if (this._tabs && this._tabs.length) {
+				this._tabs.forEach(function(tab) {
+					this.listen(tab, "active-changed", "_activeChanged");
+				}, this);
+			}
+		},
+
+		_removeListeners: function () {
+			if (this._tabs && this._tabs.length) {
+				this._tabs.forEach(function(tab) {
+					this.unlisten(tab, "active-changed", "_activeChanged");
+				}, this);
+			}
+		},
+
+		detached: function () {
+			this._removeListeners();
+		},
+
 		attached: function() {
 			if(!this._tabs || this._tabs.length <= 0 || this._forceUpdate) {
+				this._removeListeners();
 				this._tabs = this.items;
-				this._tabs.forEach(function(tab) {
-
-					tab.addEventListener('active-changed', function(e) {
-						if(e.detail.value) this.selectedIndex = this._tabs.indexOf(tab);
-					}.bind(this));
-
-				}, this);
 			}
 
 			if (this._tabs.length > 0) {
+				this._addListeners();
 				var activeTabs = Polymer.dom(this).querySelectorAll('strand-tab[active]'),
 					active = activeTabs.shift();
 				for(var i=0; i<activeTabs.length; i++) {
