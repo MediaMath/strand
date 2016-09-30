@@ -1,3 +1,16 @@
+<a name="v4.1.6"></a>
+## v4.1.6 (2016-09-30)
+
+* add data support and selected event to menu (#127) ([b8b2770](https://github.com/MediaMath/strand/commit/b8b2770))
+* Add markets icon to strand-icon ([f02d190](https://github.com/MediaMath/strand/commit/f02d190))
+* Leak fixes (#126) ([07de4d0](https://github.com/MediaMath/strand/commit/07de4d0)), closes [#126](https://github.com/MediaMath/strand/issues/126)
+* Resolve a safari/FF issue where a DDL inside a drawer will lose its event listener ([1272fc3](https://github.com/MediaMath/strand/commit/1272fc3))
+* Resolves an edge case where if target is set before attached an event… (#125) ([4e434a0](https://github.com/MediaMath/strand/commit/4e434a0)), closes [#125](https://github.com/MediaMath/strand/issues/125)
+* Update release instructions ([db875e9](https://github.com/MediaMath/strand/commit/db875e9))
+* Update release instructions ([736a4e2](https://github.com/MediaMath/strand/commit/736a4e2))
+
+
+
 <a name="v4.1.5"></a>
 ## v4.1.5 (2016-09-08)
 
