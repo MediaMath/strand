@@ -7,7 +7,35 @@
 		"autotogglable",
 		"positionable-panel",
 		"stackable",
+		"lightdomgettable",
 		"refable"
+	],
+	"attributes": [
+		{
+			"name":"data",
+			"type":"Array",
+			"description":"An array of menu configuration objects to pass of the format name, value, icon where icon is the icon type to use. If icon is omitted no icon will be shown.",
+			"optional":true,
+			"default":"null",
+			"reflect":false
+		}
+	],
+	"events": [
+		{
+			"type": "selected",
+			"detail": [
+				{
+					"name":"item",
+					"type":"HTMLElement",
+					"description":"The htmlElement (generally a strand-list-item) that the user has clicked"
+				},
+				{
+					"name":"value",
+					"type":"String",
+					"description":"The value of the selected strand-list-item. If no value was supplied, it will return the text content of the list item."
+				}
+			]
+		}
 	],
 	"articles": ["grid_custom_grid_item"]
 }
