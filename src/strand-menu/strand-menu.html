@@ -5,7 +5,6 @@
 <link rel="import" href="../shared/behaviors/stackable.html">
 <link rel="import" href="../shared/behaviors/positionable-panel.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
-<link rel="import" href="../shared/behaviors/lightdomgettable.html"/>
 <link rel="import" href="../strand-icon/strand-icon.html"/>
 <link rel="import" href="../strand-list-item/strand-list-item.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
@@ -18,7 +17,7 @@
 			<content id="content"></content>
 			<template is="dom-repeat" items="{{data}}">
 				<strand-list-item value="{{item.value}}">
-				<template is="dom-if" if="{{item.icon}}">
+				<template is="dom-if" if="{{item.icon}}" id="repeat">
 					<strand-icon height="15" width="15" type="{{item.icon}}"></strand-icon>
 				</template>
 					{{item.name}}

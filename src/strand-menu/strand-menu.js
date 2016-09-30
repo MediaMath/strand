@@ -9,7 +9,6 @@
 			StrandTraits.AutoTogglable,
 			StrandTraits.PositionablePanel,
 			StrandTraits.Stackable,
-			StrandTraits.LightDomGettable,
 			StrandTraits.Refable
 		],
 
@@ -24,11 +23,11 @@
 		},
 
 		_handleSelect: function(e) {
+
 			if (e.target !== this.$.container) {
 				this.fire('selected',{
 					item: e.target,
-					index: this.getLightDOM().indexOf(e.target),
-					value: e.target.getAttribute('value') || e.target.textContent.trim()
+					value: e.target.getAttribute('value') || Polymer.dom(e.target).textContent.trim()
 				});
 			}
 		}
