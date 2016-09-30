@@ -26,8 +26,8 @@
 	user-select: none;
 }
 
-:host(:hover),
-:host-context([highlighted]) {
+:host(:hover:not([_keyselectable])),
+:host([highlighted]) {
 	background: $color-D12;
 	color: $color-F0;
 	.highlight {
