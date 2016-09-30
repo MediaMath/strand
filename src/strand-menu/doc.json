@@ -20,5 +20,26 @@
 			"reflect":false
 		}
 	],
+	"events": [
+		{
+			"type": "selected",
+			"detail": [
+				{
+					"name":"item",
+					"type":"HTMLElement",
+					"description":"The htmlElement (generally a strand-list-item) that the user has clicked"
+				},
+				{
+					"name":"index",
+					"type":"Number",
+					"description":"The position of the clicked item in the list of items"
+				},{
+					"name":"value",
+					"type":"String",
+					"description":"The value of the selected strand-list-item. If no value was supplied, it will return the text content of the list item."
+				}
+			]
+		}
+	]
 	"articles": ["grid_custom_grid_item"]
 }
