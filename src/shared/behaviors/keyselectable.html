@@ -107,7 +107,10 @@
 			}
 
 			if(listItem) {
-				var targetIndex = this.data ? this._getDataIndexFromDom(listItem.value) : this.items.indexOf(listItem);
+				var targetIndex = 
+					this._searchData ? this.domItems.indexOf(listItem) :
+					this.data ? this._getDataIndexFromDom(listItem.value) :
+					this.items.indexOf(listItem);
 				if(targetIndex >= 0) {
 					this._highlightedIndex = targetIndex;
 				}
