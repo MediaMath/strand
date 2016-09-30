@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.1.5" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.1.6" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -91,7 +91,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.1.5</p>
+				<p class="mini-subhead version">v4.1.6</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -151,6 +151,18 @@
 								</td>
 								<td>
 									<span class="desc">Returns a referece to the component itself.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">contentTarget : </span><span class="italic">Object&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">this</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The target element to query for light dom children. Usually the component itself.</span>
 								</td>
 							</tr>
 							<tr>
@@ -224,6 +236,18 @@
 									<span class="desc">If set to true, instructs the element to close if the user clicks outside of the component or it&#39;s target element.</span>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<span class="bold">data : </span><span class="italic">Array&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">null</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">data</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">An array of menu configuration objects to pass of the format name, value, icon where icon is the icon type to use. If icon is omitted no icon will be shown.</span>
+								</td>
+							</tr>
 						</table>
 					</section>
 					<section>
@@ -248,6 +272,15 @@
 							</tr>
 							<tr>
 								<td>
+									<span class="bold">getLightDOM</span>(<span></span>)<br/>
+									<span class="desc">Returns the distributed light dom children of the element specified by the contentTarget property.</span>
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
 									<span class="bold">moveToTop</span>(<span></span>)<br/>
 									<span class="desc">Instructs the element to move to the top index of it&#39;s stacking type.</span>
 								</td>
@@ -258,6 +291,31 @@
 						</table>
 					</section>
 
+					<section>
+						<h3>Events</h3>
+						<table>
+							<tr>
+								<th>Event</th>
+								<th>Event Detail</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'selected'</span>
+									
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">item</span> : <span class="italic">HTMLElement</span><br/>
+										<span class="desc">The htmlElement (generally a strand-list-item) that the user has clicked</span>
+									</span>
+									<span class="arg">
+										<span class="bold">value</span> : <span class="italic">String</span><br/>
+										<span class="desc">The value of the selected strand-list-item. If no value was supplied, it will return the text content of the list item.</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</section>
 					<section>
 						<h3>Related Articles</h3>
 						<ul>
