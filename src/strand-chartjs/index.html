@@ -99,6 +99,59 @@
 
 			window.addEventListener("WebComponentsReady", function() {
 				chartjs = document.querySelector('#chartjs');
+				chartjs.config = {
+	                type: 'bar',
+	                data: {
+	                    labels: ["stuff", "goods", "junk", "things"],
+	                    datasets: [{
+	                        label: "# of objects",
+	                        data: [500, 60, 327, 298],
+	                        backgroundColor: [
+	                            'rgba(255,0,0,1)', 
+	                            'rgba(0,255,0,1)', 
+	                            'rgba(0,0,255,1)', 
+	                            'rgba(255,128,64,1)'
+	                        ],
+	                        borderColor: [
+	                            'rgba(0,0,0,1)', 
+	                            'rgba(0,0,0,1)', 
+	                            'rgba(0,0,0,1)', 
+	                            'rgba(0,0,0,1)'
+	                        ],
+	                        borderWidth:1
+	                    }]
+	                },
+	                options: {
+	                    responsive: false,
+	                    scales: {
+	                        yAxes: [{
+	                            ticks: {
+	                                beginAtZero:true
+	                            }
+	                        }]
+	                    }
+	                }
+	            };
+
+				// chartjs.set('datasets', [{
+				// 	label: "# of objects",
+    //                 data: [500, 60, 327, 298],
+    //                 backgroundColor: [
+    //                     'rgba(255,0,0,1)', 
+    //                     'rgba(0,255,0,1)', 
+    //                     'rgba(0,0,255,1)', 
+    //                     'rgba(255,128,64,1)'
+    //                 ],
+    //                 borderColor: [
+    //                     'rgba(0,0,0,1)', 
+    //                     'rgba(0,0,0,1)', 
+    //                     'rgba(0,0,0,1)', 
+    //                     'rgba(0,0,0,1)'
+    //                 ],
+    //                 borderWidth:1
+				// }]);
+				// chartjs.set('labels', ["stuff", "goods", "junk", "things"]);
+				// chartjs.
 
 				// TODO - stuff!
 
