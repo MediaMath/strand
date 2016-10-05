@@ -16,144 +16,88 @@
 				background: #eee;
 			}
 
-			.col {
-				-webkit-box-sizing: border-box;
-				-moz-box-sizing: border-box;
-				box-sizing: border-box;
-				display: block;
-				float: left;
-				padding: 0 20px;
-				font-size: 0;
-			}
-
-			.col.c0 {
-				width:400px;
-			}
-
-			.col.c1 {
-				width:300px;
-			}
-
-			.col.c2 {
-				width:200px;
-			}
-
-			.col.c3 {
-				width:500px;
-			}
-
-			.col.c4 {
-				width:50%;
-			}
-
-			.col:after {
-				visibility: hidden;
-				display: block;
-				font-size: 0;
-				content: " ";
-				clear: both;
-				height: 0;
-			}
-
-			p {
-				font-family: sans-serif;
-				color: #333;
-				font-size: 12px;
-				line-height: 18px;
-				margin: 20px 0;
-			}
-
-			.bold { font-weight: bold; }
-
-			hr {
-				border: 0;
-				display: block;
-					border-bottom: 1px solid #fff;
-					border-top: 1px solid #ccc;
-					height: 0px;
-					margin-top: 20px;
-			}
-
-			.vr {
-				width:0px;
-				height: 100%;
-				border-right: 1px solid #fff;
-				border-left: 1px solid #ccc;
-				display: block;
-				float: left;
-			}
-
 			strand-chartjs[unresolved] {
 				display: none;
+			}
+
+			strand-chartjs {
+				margin-bottom: 20px;
 			}
 
 		</style>
 	</head>
 	<body>
 		
-		<strand-chartjs id="chartjs" unresolved></strand-chartjs>
+		<strand-chartjs id="chartBar" unresolved></strand-chartjs>
+
+		<strand-chartjs id="chartLine" unresolved></strand-chartjs>
+
+		<strand-chartjs id="chart" unresolved></strand-chartjs>
+
 			
 		<script>
-			var chartjs,
-				config;
+			var chartBar,
+				chartLine;
 
 			window.addEventListener("WebComponentsReady", function() {
-				chartjs = document.querySelector('#chartjs');
-				chartjs.config = {
-	                type: 'bar',
-	                data: {
-	                    labels: ["stuff", "goods", "junk", "things"],
-	                    datasets: [{
-	                        label: "# of objects",
-	                        data: [500, 60, 327, 298],
-	                        backgroundColor: [
-	                            'rgba(255,0,0,1)', 
-	                            'rgba(0,255,0,1)', 
-	                            'rgba(0,0,255,1)', 
-	                            'rgba(255,128,64,1)'
-	                        ],
-	                        borderColor: [
-	                            'rgba(0,0,0,1)', 
-	                            'rgba(0,0,0,1)', 
-	                            'rgba(0,0,0,1)', 
-	                            'rgba(0,0,0,1)'
-	                        ],
-	                        borderWidth:1
-	                    }]
-	                },
-	                options: {
-	                    responsive: false,
-	                    scales: {
-	                        yAxes: [{
-	                            ticks: {
-	                                beginAtZero:true
-	                            }
-	                        }]
-	                    }
-	                }
-	            };
+				chartBar = document.querySelector('#chartBar');
+				chartBar.type = chartBar.TYPE_BAR;
+				chartBar.data = {
+				    labels: ["January", "February", "March", "April", "May", "June", "July"],
+				    datasets: [
+				        {
+				            label: "My First dataset",
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255,99,132,1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1,
+				            data: [65, 59, 80, 81, 56, 55, 40]
+				        }
+				    ]
+				};
 
-				// chartjs.set('datasets', [{
-				// 	label: "# of objects",
-    //                 data: [500, 60, 327, 298],
-    //                 backgroundColor: [
-    //                     'rgba(255,0,0,1)', 
-    //                     'rgba(0,255,0,1)', 
-    //                     'rgba(0,0,255,1)', 
-    //                     'rgba(255,128,64,1)'
-    //                 ],
-    //                 borderColor: [
-    //                     'rgba(0,0,0,1)', 
-    //                     'rgba(0,0,0,1)', 
-    //                     'rgba(0,0,0,1)', 
-    //                     'rgba(0,0,0,1)'
-    //                 ],
-    //                 borderWidth:1
-				// }]);
-				// chartjs.set('labels', ["stuff", "goods", "junk", "things"]);
-				// chartjs.
-
-				// TODO - stuff!
+	            chartLine = document.querySelector('#chartLine');
+	            chartLine.type = chartLine.TYPE_LINE;
+				chartLine.data = {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+				    datasets: [
+				        {
+				            label: "My First dataset",
+				            fill: false,
+				            lineTension: 0.1,
+				            backgroundColor: "rgba(75,192,192,0.4)",
+				            borderColor: "rgba(75,192,192,1)",
+				            borderCapStyle: 'butt',
+				            borderDash: [],
+				            borderDashOffset: 0.0,
+				            borderJoinStyle: 'miter',
+				            pointBorderColor: "rgba(75,192,192,1)",
+				            pointBackgroundColor: "#fff",
+				            pointBorderWidth: 1,
+				            pointHoverRadius: 5,
+				            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+				            pointHoverBorderColor: "rgba(220,220,220,1)",
+				            pointHoverBorderWidth: 2,
+				            pointRadius: 1,
+				            pointHitRadius: 10,
+				            data: [65, 59, 80, 81, 56, 55, 40],
+				            spanGaps: false,
+				        }
+				    ]
+				};
 
 			});
 		</script>

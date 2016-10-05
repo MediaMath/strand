@@ -6,12 +6,15 @@
 */
 (function(scope) {
 
+	var DataUtils = StrandLib.DataUtils;
+	var Chart = window.Chart;
+
 	scope.ChartJs = Polymer({
 		is: 'strand-chartjs',
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Stylable,
+			// StrandTraits.Stylable,
 			StrandTraits.Refable
 		],
 
@@ -25,137 +28,98 @@
 		TYPE_BUBBLE: 'bubble',
 
 		properties: {
-			// strand specific
-			// type: {
-			// 	type: String,
-			// 	value: function() {
-			// 		return this.TYPE_LINE;
-			// 	}
+			// fitparent: { 
+			// 	type: Boolean,
+			// 	value: true, 
+			// 	reflectToAttribute: true
 			// },
-
-			globalFont: {
-				type: Object,
-				value: {
-					defaultFontColor: '#666',
-					defaultFontFamily: '"Arimo", sans-serif',
-					defaultFontSize: 12,
-					defaultFontStyle: 'normal',
-					responsive: false
-				}
-			},
-
 			width: {
-				type: Number,
-				value: 500
+				type: Number
 			},
-
 			height: {
-				type: Number,
-				value: 500
+				type: Number
 			},
-
 			context: {
 				type: Object,
 				value: function() {
 					return this.$.context
 				}
 			},
-
 			chart: {
 				type: Object
 			},
-
-			config: {
+			data: {
+				type: Object
+			},
+			globalSettings: {
 				type: Object,
-				observer: '_configChanged'
+				value: {
+					defaultFontColor: '#333',
+					defaultFontFamily: '"Arimo", sans-serif',
+					defaultFontSize: 13,
+					defaultFontStyle: 'normal',
+					// responsive: false
+					maintainAspectRatio: false
+				},
+				observer: '_updateGlobals'
+			},
+			options: {
+				type: Object,
+				// TODO: optionsDefaults prop?
+				value: {
+					scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+				}
+			},
+			type: {
+				type: String,
+				value: function() {
+					return this.TYPE_BAR;
+				}
 			}
-
-			// _configuration: {
-			// 	type: Object,
-			// 	value: {
-			// 		type: '',
-			// 		labels: [],
-			// 		datasets: [],
-			// 		options: {}
-			// 	}
-			// },
-
-
-			// chartjs 
-			// datasets: {
-			// 	type: Array,
-			// 	value: [],
-			// 	notify: true
-			// },
-			// labels: {
-			// 	type: Array,
-			// 	value: [],
-			// 	notify: true
-			// },
-			// xLabels: {
-			// 	type: Array,
-			// 	value: [],
-			// 	notify: true
-			// },
-			// yLabels: {
-			// 	type: Array,
-			// 	value: [],
-			// 	notify: true
-			// },
-			// options: {
-			// 	type: Object,
-			// 	value: {},
-			// 	notify: true
-			// },
-
-
-
 		},
 
-		// observers: [
-		// 	'_updateChart(type, labels, datasets, options)'
-		// ],
+		observers: [
+			'_updateChart(data, options, type)'
+		],
 
-		// TODO - actually useful stuff:
-		// ready: function() {
-		// 	if (this.config) {
-		// 		this._updateChart();
-		// 	}
+		_updateGlobals: function() {
+			var newGlobalSettings = DataUtils.copy(Chart.defaults.global, this.globalSettings);
+			Chart.defaults.global = newGlobalSettings;
+
+			this.debounce('updateChart', this.updateChart);
+		},
+
+		_updateChart: function(data, options, type) {
+			this.debounce('updateChart', this.updateChart);
+		},
+
+		updateChart: function() {
+			var config = {};
+			config.type = this.type;
+			config.data = this.data;
+			config.options = this.options;
+
+			if (this.data) {
+				this.chart = !this.chart ? new Chart(this.context, config) : 
+					this.chart.update();
+			}
+		},
+
+		// _updateStyle: function(width, height, fitparent) {
+		// 	var f = fitparent ? this.root.getBoundingClientRect.width : false;
+		// 	var w = width ? width + 'px' : false;
+		// 	var h = height ? height + 'px' : false;
+		// 	var style = {};
+
+		// 	if(w) style.width = f ? f : w;
+		// 	return this.styleBlock(style);
 		// },
-
-		_configChanged: function(newVal, oldVal) {
-			if (newVal) this._updateChart();
-		},
-
-
-		_updateChart: function() {
-			// this._configuration.type = this.type;
-			// this._configuration.data = {};
-			// this._configuration.data.datasets = this.datasets;
-			// this._configuration.data.labels = this.labels;
-			// this._configuration.options = this.options;
-
-			// if (this.chart) {
-			// 	this.chart.update();
-			// } else {
-			// 	this.chart = new Chart(this.context, this._configuration);
-			// }
-
-			if (!this.chart) {
-				this.chart = new Chart(this.context, this.config);
-			} else {
-				this.chart.update();
-			}
-
-		},
-
-
-		_updateStyle: function(width, height, fitparent) {
-			return this.styleBlock({
-				width: width + "px",
-				height: height + "px"
-			});
-		}
 	});
 
 })(window.Strand = window.Strand || {});
