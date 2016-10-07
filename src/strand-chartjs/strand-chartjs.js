@@ -14,7 +14,6 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			// StrandTraits.Stylable,
 			StrandTraits.Refable,
 			StrandTraits.Resizable
 		],
@@ -32,15 +31,14 @@
 
 			// TODO: Remove the legend
 
-			// TODO: Make tooltips look more like the strand tooltips
+			// TODO: Make tooltips look more like the strand tooltips (?)
 
 			// TODO: test date ranges and moment dep
 
 			height: {
 				type: Number,
-				value: 300
+				value: 500
 			},
-
 			context: {
 				type: Object,
 				value: function() {
