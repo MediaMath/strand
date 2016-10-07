@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html"/>
 <link rel="import" href="../shared/behaviors/refable.html"/>
 <!-- <link rel="import" href="../shared/behaviors/stylable.html"/> -->
+<link rel="import" href="../shared/behaviors/resizable.html"/>
 <link rel="import" href="../shared/behaviors/resolvable.html"/>
 <link rel="import" href="../shared/fonts/fonts.html"/>
 <link rel="import" href="../shared/js/colors.html"/>
@@ -16,7 +17,9 @@
 <dom-module id="strand-chartjs">
 	<link rel="import" type="css" href="strand-chartjs.css"/>
 	<template>
-		<canvas id="context"></canvas>
+		<div class="chart-container">
+			<canvas id="context" height="{{height}}"></canvas>
+		</div>
 		<content></content>
 	</template>
 </dom-module>

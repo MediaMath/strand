@@ -15,7 +15,8 @@
 		behaviors: [
 			StrandTraits.Resolvable,
 			// StrandTraits.Stylable,
-			StrandTraits.Refable
+			StrandTraits.Refable,
+			StrandTraits.Resizable
 		],
 
 		TYPE_LINE: 'line',
@@ -28,17 +29,18 @@
 		TYPE_BUBBLE: 'bubble',
 
 		properties: {
-			// fitparent: { 
-			// 	type: Boolean,
-			// 	value: true, 
-			// 	reflectToAttribute: true
-			// },
-			width: {
-				type: Number
-			},
+
+			// TODO: Remove the legend
+
+			// TODO: Make tooltips look more like the strand tooltips
+
+			// TODO: test date ranges and moment dep
+
 			height: {
-				type: Number
+				type: Number,
+				value: 300
 			},
+
 			context: {
 				type: Object,
 				value: function() {
@@ -58,22 +60,17 @@
 					defaultFontFamily: '"Arimo", sans-serif',
 					defaultFontSize: 13,
 					defaultFontStyle: 'normal',
-					// responsive: false
-					maintainAspectRatio: false
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
 				},
 				observer: '_updateGlobals'
 			},
 			options: {
 				type: Object,
-				// TODO: optionsDefaults prop?
-				value: {
-					scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
+				value: function() {
+					return {};
 				}
 			},
 			type: {
@@ -106,8 +103,12 @@
 			config.options = this.options;
 
 			if (this.data) {
-				this.chart = !this.chart ? new Chart(this.context, config) : 
+				if (!this.chart) {
+					this.chart = new Chart(this.context, config);
+				} else {
 					this.chart.update();
+				}
+				this.chart.resize();
 			}
 		},
 
