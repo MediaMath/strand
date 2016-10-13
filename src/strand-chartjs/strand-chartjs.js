@@ -29,11 +29,8 @@
 
 		properties: {
 
-			// TODO: Remove the legend
-
 			// TODO: Make tooltips look more like the strand tooltips (?)
-
-			// TODO: test date ranges and moment dep
+			// TODO: tooltips heavy on top padding (exmples don't look like this)?
 
 			height: {
 				type: Number,
@@ -54,10 +51,10 @@
 			globalSettings: {
 				type: Object,
 				value: {
-					defaultFontColor: '#333',
-					defaultFontFamily: '"Arimo", sans-serif',
-					defaultFontSize: 13,
-					defaultFontStyle: 'normal',
+					// defaultFontColor: '#333',
+					// defaultFontFamily: '"Arimo", sans-serif',
+					// defaultFontSize: 12,
+					// defaultFontStyle: 'normal',
 					maintainAspectRatio: false,
 					legend: {
 						display: false
@@ -83,6 +80,10 @@
 			'_updateChart(data, options, type)'
 		],
 
+		// TODO: Globals probably not even necessary, as the 
+		// same settings can be passed in options...and since
+		// we are wrapped in a component won't have multiples
+		// using these same settings...
 		_updateGlobals: function() {
 			var newGlobalSettings = DataUtils.copy(Chart.defaults.global, this.globalSettings);
 			Chart.defaults.global = newGlobalSettings;
