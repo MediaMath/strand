@@ -3,6 +3,7 @@
 	"description":"A popover menu",
 	"behaviors": [
 		"resolvable",
+		"closable",
 		"autoclosable",
 		"autotogglable",
 		"positionable-panel",
