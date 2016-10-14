@@ -323,6 +323,9 @@ found here: https://github.com/Polymer/core-list
 
 			if (delta) {
 				this._recycler.transactHeightMutations(this._spliceTxn, this, splices);
+				this._provideMarginOfError();
+				this._recycler.cull();
+				this._denyMarginOfError();
 			}
 
 			at = this._recycler.getLowestIndex();
@@ -540,8 +543,6 @@ found here: https://github.com/Polymer/core-list
 			var index = 0;
 			var bound = null;
 			var offset = 0;
-			var height = 0;
-			var extra = 0;
 
 			for (index = 0; index < count; index++) {
 				bound = sorted[index];
@@ -553,13 +554,21 @@ found here: https://github.com/Polymer/core-list
 				offset += bound.height;
 			}
 
-			height = roundMaybe(this._itemHeight);
-			extra = 3 * height;
-
 			if (this._itemHeight > 0) {
-				this._recycler.repadFrame(height + extra, height + extra);
-				this._recycler.repadFrame(height, height);
+				this._provideMarginOfError();
+				this._denyMarginOfError();
 			}
+		},
+
+		_provideMarginOfError: function () {
+			var height = roundMaybe(this._itemHeight);
+			var extra = 3 * height;
+			this._recycler.repadFrame(height + extra, height + extra);
+		},
+
+		_denyMarginOfError: function () {
+			var height = roundMaybe(this._itemHeight);
+			this._recycler.repadFrame(height, height);
 		},
 
 		_changeOffsetsAfter: function (nthDOM, delta) {

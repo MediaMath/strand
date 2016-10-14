@@ -177,6 +177,8 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		if (elevation > position) {
 			return this._getUnknownIndexAtElevation(elevation, continuum, count, recycler, ceiling);
+		} else if (elevation < 0) {
+			return -1;
 		} else {
 			return this._getKnownIndexAtElevation(elevation, continuum, count, 0, ceiling);
 		}
@@ -193,6 +195,9 @@ This code may only be used under the BSD style license found at http://mediamath
 			index = (lower + upper) >> 1;
 			position = +continuum.getElevation(index) || 0;
 			if (elevation < position) {
+				if (upper === lower) {
+					break;
+				}
 				upper = index;
 			} else if (index > lower) {
 				lower = index;
@@ -244,7 +249,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		if (delta) {
 			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, ceiling);
 		} else {
-			return -1;
+			return -1 - count;
 		}
 	};
 
@@ -881,7 +886,12 @@ This code may only be used under the BSD style license found at http://mediamath
 		var ceiling = true;
 
 		if (!arguments.length || limit < 0) {
-			limit = 1 + iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|ceiling);
+			limit = iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|ceiling);
+			if (limit < 0) {
+				limit = -limit - 1;
+			} else {
+				limit += 1;
+			}
 			clamp = 0|(amount > limit);
 		}
 
@@ -968,7 +978,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 			this._solver.propagateHeightChangeAtIndex(index, this._continuumInterface, this);
 
-			this._process(spliced ? DESTRUCTIVE : NONDESTRUCTIVE);
+			this._process(NONDESTRUCTIVE); // NOTE: users of this interface will likely want to this.cull()
 		}
 	};
 
