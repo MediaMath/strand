@@ -48,6 +48,10 @@ found here: https://github.com/Polymer/core-list
 
 			if (bound.height) {
 				if (!itemRecycler._itemHeight) {
+					if (!height) {
+						// resulted from an initializing splice
+						itemRecycler._deltaMiddleHeight(-itemRecycler._viewportHeight);
+					}
 					change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
 					itemRecycler.async(itemRecycler._modifyPadding, 1);
 					if (itemRecycler._desiredIndex > -1) {
@@ -323,9 +327,7 @@ found here: https://github.com/Polymer/core-list
 
 			if (delta) {
 				this._recycler.transactHeightMutations(this._spliceTxn, this, splices);
-				this._provideMarginOfError();
-				this._recycler.cull();
-				this._denyMarginOfError();
+				this.cull();
 			}
 
 			at = this._recycler.getLowestIndex();
@@ -569,6 +571,12 @@ found here: https://github.com/Polymer/core-list
 		_denyMarginOfError: function () {
 			var height = roundMaybe(this._itemHeight);
 			this._recycler.repadFrame(height, height);
+		},
+
+		cull: function () {
+			this._provideMarginOfError();
+			this._recycler.cull();
+			this._denyMarginOfError();
 		},
 
 		_changeOffsetsAfter: function (nthDOM, delta) {
@@ -865,6 +873,8 @@ found here: https://github.com/Polymer/core-list
 				} else {
 					this._rebaseTransform();
 				}
+			} else if (spliced) {
+				this.async(this._applyTransform);
 			}
 
 			this.debounce("settle-down", this._settleDown, 1);
