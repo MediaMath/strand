@@ -76,9 +76,7 @@
 
 		ready: function() {
 			this.sortField = this.sortField || this.field;
-			this.label = this.label || Polymer.dom(this).innerText || Polymer.dom(this).textContent;
-			this.$.label.innerHTML = this.label.split("\n").join("<br/>");
-			this.$.label.setAttribute("title", this.label);
+			this.label = Polymer.dom(this).innerHTML.replace(/<\/?[^>]+(>|$)/g, " ");
 		},
 
 		_toggleSort: function() {
