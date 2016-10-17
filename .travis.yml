@@ -12,8 +12,8 @@ addons:
     - google-chrome-stable
     - g++-4.8
 before_script:
-- npm install -g bower web-component-tester
-- npm install
+- npm install -g bower yarn web-component-tester
+- yarn
 - bower install
 - gulp clean
 - gulp build
