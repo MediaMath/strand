@@ -38,9 +38,11 @@
 			<template preserve-content>
 				<strand-grid-item model="{{model}}" scope="{{scope}}" index="{{index}}"></strand-grid-item>
 			</template>
+			<div recycler="footer">
+				<content select="footer"></content>
+			</div>
 		</strand-item-recycler>
 		<div id="separator"></div>
 	</template>
 </dom-module>
-
 <script src="strand-grid.js"></script>
