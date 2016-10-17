@@ -338,7 +338,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		var limit = at + count;
 		var delta = 0;
 
-		this._fill(at);
+		this._fill(at - 1);
 		if (this._items.add(at, count)) {
 			this._lowerBoundEagerRange(at);
 

@@ -10,6 +10,7 @@
 
 :host {
 	position: relative;
+	display: flex;
 	padding: 6px 10px;
 	cursor: default;
 	box-sizing: border-box;
@@ -25,6 +26,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	width: 100%;
 	
 	#info {
 		margin-top: -2px;
@@ -33,6 +35,7 @@
 	.left-items {
 		display: flex;
 		align-items: center;
+		align-self: stretch;
 		width: calc(100% - 12px);
 	}
 
@@ -64,6 +67,7 @@
 
 #sort {
 	color: $color-A2;
+	height: 10px;
 
 	&.asc {
 		transform: scaleY(1);

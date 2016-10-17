@@ -177,6 +177,8 @@ This code may only be used under the BSD style license found at http://mediamath
 
 		if (elevation > position) {
 			return this._getUnknownIndexAtElevation(elevation, continuum, count, recycler, ceiling);
+		} else if (elevation < 0) {
+			return -1;
 		} else {
 			return this._getKnownIndexAtElevation(elevation, continuum, count, 0, ceiling);
 		}
@@ -193,6 +195,9 @@ This code may only be used under the BSD style license found at http://mediamath
 			index = (lower + upper) >> 1;
 			position = +continuum.getElevation(index) || 0;
 			if (elevation < position) {
+				if (upper === lower) {
+					break;
+				}
 				upper = index;
 			} else if (index > lower) {
 				lower = index;
@@ -244,7 +249,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		if (delta) {
 			return this._getKnownIndexAtElevation(elevation, continuum, upper, lower, ceiling);
 		} else {
-			return -1;
+			return -1 - count;
 		}
 	};
 
@@ -373,9 +378,9 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Ledger.prototype.track = function (young) {
-		var handled = this._handled,
-			before = this._greatestNotOverHandled(young, handled),
-			after = before ? before.getTail(0) : handled.getHead(0);
+		var handled = this._handled;
+		var before = this._greatestNotOverHandled(young, handled);
+		var after = before ? before.getTail(0) : handled.getHead(0);
 
 		if (before && before.body.end(young)) {
 			if (after && after.body.begin(young)) {
@@ -392,11 +397,11 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Ledger.prototype._greatestNotOverHandled = function (young, handled) {
-		var iterator = handled.getHead(0),
-			indexRange = iterator.body,
-			start = indexRange.getIndex(),
-			limit = indexRange.getRange() + start,
-			result = null;
+		var iterator = handled.getHead(0);
+		var indexRange = iterator.body;
+		var start = indexRange.getIndex();
+		var limit = indexRange.getRange() + start;
+		var result = null;
 
 		while (limit < young) {
 			result = iterator;
@@ -413,8 +418,8 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Ledger.prototype.wasTracked = function (index) {
-		var value = 0|index,
-			iterator = this._greatestNotOverHandled(value, this._handled);
+		var value = 0|index;
+		var iterator = this._greatestNotOverHandled(value, this._handled);
 		return 0|(iterator && iterator.body.contains(value));
 	};
 
@@ -642,8 +647,8 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Solver.prototype._snakeWithOuterGreaterThanOrEqualToIndex = function (outer) {
-		var at = 0|outer,
-			snake = this._placeholders.getHead(0);
+		var at = 0|outer;
+		var snake = this._placeholders.getHead(0);
 
 		while (snake && at > snake.body.getOuterIndex()) {
 			snake = snake.getTail();
@@ -654,7 +659,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 	Solver.prototype.propagateHeightChangeAtIndex = function (outer, iface, recycler) {
 		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(0|outer);
-			unchanged = 0;
+		var unchanged = 0;
 
 		while (snake) {
 			unchanged = snake.body.getOuterIndex();
@@ -664,9 +669,9 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Solver.prototype.spliceOut = function (outer, iface, recycler) {
-		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
-			inner = 0,
-			index = (0|this._placeholders.getCount()) - 1;
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer);
+		var inner = 0;
+		var index = (0|this._placeholders.getCount()) - 1;
 
 		if (snake &&
 			snake.body.getOuterIndex() === outer) {
@@ -689,9 +694,9 @@ This code may only be used under the BSD style license found at http://mediamath
 	};
 
 	Solver.prototype.spliceIn = function (outer, iface, recycler) {
-		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer),
-			inner = 0,
-			index = 0|this._placeholders.getCount();
+		var snake = this._snakeWithOuterGreaterThanOrEqualToIndex(outer);
+		var inner = 0;
+		var index = 0|this._placeholders.getCount();
 
 		if (snake &&
 			snake.body.getOuterIndex() === outer) {
@@ -881,7 +886,12 @@ This code may only be used under the BSD style license found at http://mediamath
 		var ceiling = true;
 
 		if (!arguments.length || limit < 0) {
-			limit = 1 + iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|ceiling);
+			limit = iface.getIndexAtElevation(this.getFrameUpperBound(), this, 0|ceiling);
+			if (limit < 0) {
+				limit = -limit - 1;
+			} else {
+				limit += 1;
+			}
 			clamp = 0|(amount > limit);
 		}
 
@@ -968,7 +978,7 @@ This code may only be used under the BSD style license found at http://mediamath
 
 			this._solver.propagateHeightChangeAtIndex(index, this._continuumInterface, this);
 
-			this._process(spliced ? DESTRUCTIVE : NONDESTRUCTIVE);
+			this._process(NONDESTRUCTIVE); // NOTE: users of this interface will likely want to this.cull()
 		}
 	};
 
@@ -1093,7 +1103,6 @@ This code may only be used under the BSD style license found at http://mediamath
 		var omega = this.getHighestIndex();
 		var solver = this._solver;
 		var span = 0;
-
 
 		if (lower < 0 &&
 			upper < 0) {
