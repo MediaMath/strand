@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-currency id="test" currency="GBP" locale="en-US" value="1000"></strand-currency>
+
+	<script>
+
+		describe("strand-currency", function() {
+
+			it("should exist", function() {
+				var a = new Strand.Currency();
+			});
+
+			it('should format a number as currency', function() {
+				var t = document.getElementById('test');
+				t.textContent.should.equal('£1,000.00');
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>
