@@ -311,6 +311,7 @@
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
+			// app.data = new Array(NUM_ITEMS);
 
 			app.addEventListener('grid-item-clicked', function(e) {
 				console.log('grid-item-clicked: ', e.detail);

@@ -81,6 +81,12 @@
 			return 'width: ' + value;
 		},
 
+		_setRandomWidth: function(field) {
+			var n = 0.5;
+			var width = Math.random() * (1.0 - n) + n;
+			return String(width*100 + "%");
+		},
+
 		_onItemSelected: function(e, detail, sender) {
 			e.stopImmediatePropagation();
 			this.fire("item-selected", this.model);
@@ -88,10 +94,12 @@
 
 		_onItemExpanded: function(e, detail, sender) {
 			e.stopImmediatePropagation();
-			this.set("model.expanded", !this.model.expanded);
-			this.async(function () {
-				this.fire("item-resized", this.model.expanded);
-			});
+			if (this.model) {
+				this.set("model.expanded", !this.model.expanded);
+				this.async(function () {
+					this.fire("item-resized", this.model.expanded);
+				});
+			}
 		}
 	});
 

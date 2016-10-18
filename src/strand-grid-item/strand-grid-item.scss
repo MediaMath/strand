@@ -51,6 +51,12 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 	margin: auto;
 }
 
+.fake-content {
+	display: block;
+	margin: 2px 0;
+	background: $color-A10;
+}
+
 ::content [field] {
 	overflow: inherit;
 	text-overflow: inherit;
