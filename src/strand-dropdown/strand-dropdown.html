@@ -56,15 +56,16 @@
 						index="{{index}}">
 						<template preserve-content>
 							<strand-list-item
+								model="{{model}}"
 								value$="{{model.value}}"
 								_keyselectable
 								selected$="{{model.selected}}"
 								highlighted$="{{model.highlighted}}">
-									<strand-highlight 
-										text="{{model.name}}" 
-										highlight="{{scope.highlight}}">
-									</strand-highlight>
-								</strand-list-item>
+								<strand-highlight 
+									text="{{model.name}}" 
+									highlight="{{scope.highlight}}">
+								</strand-highlight>
+							</strand-list-item>
 						</template>
 					</strand-item-recycler>
 				</div>

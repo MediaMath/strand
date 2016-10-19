@@ -50,10 +50,7 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 	margin: auto;
 }
 
-.fake-content {
-	display: block;
-	background: $color-A10;
-}
+@include fake-content();
 
 .right .fake-content {
 	float: right;

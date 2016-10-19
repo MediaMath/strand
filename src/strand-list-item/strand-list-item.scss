@@ -64,3 +64,5 @@
 :host > ::content .highlight {
 	background: $color-E13;
 }
+
+@include fake-content();
