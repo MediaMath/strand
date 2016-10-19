@@ -84,7 +84,7 @@
 		_setRandomWidth: function(field) {
 			var n = 0.5;
 			var width = Math.random() * (1.0 - n) + n;
-			return String(width*100 + "%");
+			return String(Math.round(width*100) + "%");
 		},
 
 		_onItemSelected: function(e, detail, sender) {
