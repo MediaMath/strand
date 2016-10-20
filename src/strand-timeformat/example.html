@@ -1,0 +1,9 @@
+	<template is="dom-bind" id="tmp">
+		<strand-timeformat value="{{date}}" format="L"></strand-timeformat><br/>
+		<strand-timeformat value="{{date}}" format="LL"></strand-timeformat><br/>
+		<strand-timeformat value="{{date}}" format="LLL"></strand-timeformat><br/>
+		<strand-timeformat value="{{date}}" format="LLLL"></strand-timeformat><br/>
+	</template>
+	<script>
+		document.getElementById('tmp').date = new Date();
+	</script>

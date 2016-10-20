@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<strand-timeformat id="test" value="1/1/2010"></strand-timeformat>
+
+	<script>
+
+		describe("strand-timeformat", function() {
+
+			it("should exist", function() {
+				var a = new Strand.Timeformat();
+			});
+
+			it("should format time", function() {
+				var t = document.querySelector('#test');
+				t.textContent.should.equal('01/01/2010');
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

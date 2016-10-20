@@ -1,0 +1,15 @@
+<!--
+ * @license
+ * Copyright (c) 2016 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../shared/js/moment.html"/>
+
+<dom-module id="strand-timeformat">
+	<link rel="import" type="css" href="strand-timeformat.css"/>
+	<template>{{_formatDateTime(value, format)}}</template>
+</dom-module>
+<script src="strand-timeformat.js"></script>
