@@ -56,11 +56,11 @@
 						index="{{index}}">
 						<template preserve-content>
 							<strand-list-item
-								model="{{model}}"
 								value$="{{model.value}}"
 								_keyselectable
 								selected$="{{model.selected}}"
-								highlighted$="{{model.highlighted}}">
+								highlighted$="{{model.highlighted}}"
+								show-placeholder="{{!model}}">
 								<strand-highlight 
 									text="{{model.name}}" 
 									highlight="{{scope.highlight}}">

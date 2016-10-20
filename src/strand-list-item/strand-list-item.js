@@ -46,9 +46,9 @@
 				type: String,
 				value: false
 			},
-			model: {
-				type: Object,
-				value: null
+			showPlaceholder: {
+				type: Boolean,
+				value: false
 			},
 			randomWidth: {
 				type: String,
