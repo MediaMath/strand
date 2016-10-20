@@ -60,7 +60,7 @@
 		],
 
 		_notifyModelChanged: function(changeRecord) {
-			this.scope._notifyModelChanged(changeRecord);
+			if (this.scope) this.scope._notifyModelChanged(changeRecord);
 		},
 
 		_addRow: function() {
@@ -140,7 +140,7 @@
 		},
 
 		_modelChanged: function(newModel) {
-			this.scope._validation[newModel.cId] = this._validate.bind(this);
+			if (newModel && this.scope) this.scope._validation[newModel.cId] = this._validate.bind(this);
 		}
 	});
 })(window.Strand = window.Strand || {});
