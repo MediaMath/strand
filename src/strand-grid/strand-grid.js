@@ -258,15 +258,16 @@
 		_resizeColumns: function(field, val) {
 			var target = this._columnsMap[field];
 			var targetIndex = this._columns.indexOf(target);
-			var colsDom = this.getAllColumns();
+
 			////// Overflow Resizing //////
 			this._columns.forEach(function(column, index) {
-				var domCol = colsDom[index];
-				console.log(column, domCol.field, domCol.width, domCol.offsetWidth);
-				// if(column.width.indexOf("%") !== -1){
-					column.width = domCol.offsetWidth + 'px'; //for the binds
-					domCol.set('width', column.offsetWidth + 'px');
-				// }
+				if (!column.width) {
+					column.width = column.minWidth;
+				}
+
+				if(column.width.indexOf("%") !== -1){
+					column.set('width', column.offsetWidth + 'px');
+				}
 				this.notifyPath("scope._columns."+index+".width", column.width);
 			}, this);
 		},
