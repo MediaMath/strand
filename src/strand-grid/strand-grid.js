@@ -156,7 +156,13 @@
 
 		_columnsChanged: function() {
 			this._columnsMap = arrayToMap(this._columns, "field");
-			this.notifyPath("scope._columns", this._columns);
+			this.notifyPath("scope._columns", this._columns.map(function(node) {
+					return {
+						field:node.field,
+						width:node.width,
+						alignColumn:node.alignColumn
+					};
+				}) );
 		},
 
 		_selectableChanged: function () {
@@ -252,12 +258,15 @@
 		_resizeColumns: function(field, val) {
 			var target = this._columnsMap[field];
 			var targetIndex = this._columns.indexOf(target);
-
+			var colsDom = this.getAllColumns();
 			////// Overflow Resizing //////
 			this._columns.forEach(function(column, index) {
-				if(column.width.indexOf("%") !== -1){
-					column.set('width', column.offsetWidth + 'px');
-				}
+				var domCol = colsDom[index];
+				console.log(column, domCol.field, domCol.width, domCol.offsetWidth);
+				// if(column.width.indexOf("%") !== -1){
+					column.width = domCol.offsetWidth + 'px'; //for the binds
+					domCol.set('width', column.offsetWidth + 'px');
+				// }
 				this.notifyPath("scope._columns."+index+".width", column.width);
 			}, this);
 		},
