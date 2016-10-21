@@ -10,7 +10,7 @@
 	var Chart = window.Chart;
 
 	scope.ChartJs = Polymer({
-		is: 'strand-chartjs',
+		is: 'strand-chartjs-base',
 
 		behaviors: [
 			StrandTraits.Resolvable,
@@ -34,7 +34,7 @@
 
 			height: {
 				type: Number,
-				value: 500
+				value: 250
 			},
 			context: {
 				type: Object,
@@ -51,10 +51,6 @@
 			globalSettings: {
 				type: Object,
 				value: {
-					// defaultFontColor: '#333',
-					// defaultFontFamily: '"Arimo", sans-serif',
-					// defaultFontSize: 12,
-					// defaultFontStyle: 'normal',
 					maintainAspectRatio: false,
 					legend: {
 						display: false
@@ -109,17 +105,7 @@
 				}
 				this.chart.resize();
 			}
-		},
-
-		// _updateStyle: function(width, height, fitparent) {
-		// 	var f = fitparent ? this.root.getBoundingClientRect.width : false;
-		// 	var w = width ? width + 'px' : false;
-		// 	var h = height ? height + 'px' : false;
-		// 	var style = {};
-
-		// 	if(w) style.width = f ? f : w;
-		// 	return this.styleBlock(style);
-		// },
+		}
 	});
 
 })(window.Strand = window.Strand || {});
