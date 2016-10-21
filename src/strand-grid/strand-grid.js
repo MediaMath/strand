@@ -148,10 +148,8 @@
 
 		_initializeColumns: function() {
 			var nodes = Polymer.dom(this.$.columns).getDistributedNodes();
-			if(nodes.length > 0) {
-				this._columns = Array.prototype.slice.call(nodes);
-				this._columnsMap = arrayToMap(this._columns, "field");
-			}
+			this._columns = Array.prototype.slice.call(nodes);
+			this._columnsMap = arrayToMap(this._columns, "field");
 		},
 
 		_columnsChanged: function() {

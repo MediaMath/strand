@@ -21,7 +21,7 @@
 				<strand-icon width="10" height="10" type="carat" on-tap="_onItemExpanded"></strand-icon>
 			</div>
 			<div id="columnContainer">
-				<template is="dom-repeat" items="{{scope._columns}}" as="column">
+				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
 					<div class$="{{_computeColumnClass(column.alignColumn)}}" style$="{{_computeColumnStyle(column.width)}}" id="{{column.field}}">
 						<div class="columnContentWrapper">
 							<template is="dom-if" if="{{model}}" on-dom-change="_checkDistributedNodesAsync">
