@@ -28,6 +28,11 @@
 					return {};
 				},
 			},
+			inactive: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			}
 		},
 
 		observers: [

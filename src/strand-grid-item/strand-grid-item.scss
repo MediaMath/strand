@@ -56,6 +56,10 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 	float: right;
 }
 
+:host([inactive]) {
+	opacity: 0.5;
+}
+
 ::content [field] {
 	overflow: inherit;
 	text-overflow: inherit;
