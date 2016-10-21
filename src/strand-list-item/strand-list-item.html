@@ -15,6 +15,9 @@
 	<link rel="import" type="css" href="strand-list-item.css"/>
 	<template>
 		<content id="content"></content>
+		<template is="dom-if" if="{{showPlaceholder}}">
+			<span class="fake-content" style$="width:[[randomWidth]];">&nbsp;</span>
+		</template>
 	</template>
 </dom-module>
 <script src="strand-list-item.js"></script>

@@ -59,12 +59,13 @@
 								value$="{{model.value}}"
 								_keyselectable
 								selected$="{{model.selected}}"
-								highlighted$="{{model.highlighted}}">
-									<strand-highlight 
-										text="{{model.name}}" 
-										highlight="{{scope.highlight}}">
-									</strand-highlight>
-								</strand-list-item>
+								highlighted$="{{model.highlighted}}"
+								show-placeholder="{{!model}}">
+								<strand-highlight 
+									text="{{model.name}}" 
+									highlight="{{scope.highlight}}">
+								</strand-highlight>
+							</strand-list-item>
 						</template>
 					</strand-item-recycler>
 				</div>

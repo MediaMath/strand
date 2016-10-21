@@ -29,7 +29,6 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 }
 
 .columnContentWrapper {
-	display: inline-block;
 	width: 0;
 	min-width: 100%;
 	position: relative;
@@ -51,10 +50,10 @@ polyfill-next-selector { content: ':host ._mm_item'; }
 	margin: auto;
 }
 
-.fake-content {
-	display: block;
-	margin: 2px 0;
-	background: $color-A10;
+@include fake-content();
+
+.right .fake-content {
+	float: right;
 }
 
 ::content [field] {
