@@ -24,19 +24,49 @@
 		</div>
 	</strand-view-manager>
 
+	<strand-view-manager id="test2">
+		<div class="view1">
+		v1
+		</div>
+		<div class="view2">
+		v2
+		</div>
+		<div class="view3">
+		v3
+		</div>
+	</strand-view-manager>
+
+	<strand-view-manager id="test3">
+		<div class="view1">
+		v1
+		</div>
+		<div class="view2">
+		v2
+		</div>
+		<div class="view3">
+		v3
+		</div>
+	</strand-view-manager>
+
 	<script>
 
 		describe("strand-view-manager", function() {
 
 			before(function(done) {
 				var test = document.querySelector('#test');
-				test.views = [{
+				var test2 = document.querySelector('#test2');
+				var test3 = document.querySelector('#test3');
+				var config = [{
 					name:"view1"
 				},{
 					name:"view2"
 				},{
-					name:"view2"
+					name:"view3"
 				}];
+				test.views = config.slice();
+				test2.views = config.slice();
+				test3.views = config.slice();
+
 				flush(done);
 			});
 
@@ -49,15 +79,33 @@
 				var test = document.querySelector('#test');
 				test.index.should.equal(0);
 				test.index = 1;
-				flush(function() {
+				test.addEventListener('selected', function(e) {
 					test.index.should.equal(1);
-					Polymer.dom(test).textContent.trim().should.equal('v1');
+					test.textContent.trim().should.equal('v2');
 					done();
 				});
 			});
 
-			it("should switch views by method", function(done) {
+			it("should switch views by method (string)", function(done) {
+				var test2 = document.querySelector('#test2');
+				test2.index.should.equal(0);
+				test2.addEventListener('selected', function(e) {
+					test2.index.should.equal(2);
+					test2.textContent.trim().should.equal('v3');
+					done();
+				});
+				test2.switchView('view3');
+			});
 
+			it("should switch views by method (num)", function(done) {
+				var test3 = document.querySelector('#test3');
+				test3.index.should.equal(0);
+				test3.addEventListener('selected', function(e) {
+					test3.index.should.equal(1);
+					test3.textContent.trim().should.equal('v2');
+					done();
+				});
+				test3.switchView(1);
 			});
 
 		});

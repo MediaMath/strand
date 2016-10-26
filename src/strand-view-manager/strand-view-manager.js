@@ -50,7 +50,8 @@
 		},
 
 		_domChanged: function(e) {
-			if (e.target && e.target.id.indexOf('view-') !== -1) {
+			var name = this.get('views.' + this.index + '.name');
+			if (e.target && e.target.id.indexOf('view-'+ name) !== -1) {
 				this.async(function() {
 					this.fire('selected', {index:this.index});
 				});
@@ -69,7 +70,7 @@
 			if (typeof numOrString === 'string') {
 				this.index = this.views.map(function(v) { return v.name; }).indexOf(numOrString);
 			} else if (typeof numOrString === 'number') {
-				this.index = num;
+				this.index = numOrString;
 			}
 		}
 
