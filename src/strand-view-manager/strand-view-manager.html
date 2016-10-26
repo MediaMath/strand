@@ -13,8 +13,9 @@
 	<link rel="import" type="css" href="strand-view-manager.css"/>
 	<template>
 		<template is="dom-repeat" items="{{views}}">
+		<span>{{_getSelector(item, item.*)}}</span>
 			<template id="view-{{item.name}}" is="dom-if" if="{{item.selected}}" restamp>
-				<content select="{{_getSelector(item.name, item.selector)}}">
+				<content select="{{_getSelector(item, item.*)}}">
 				</content>
 			</template>
 		</template>

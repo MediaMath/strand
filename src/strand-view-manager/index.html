@@ -110,6 +110,12 @@
 					</strand-grid>
 				</div>
 			</strand-view-manager>
+
+			<strand-view-manager id="vmm2">
+				<div class="view1">a</div>
+				<div class="view2">b</div>
+				<div class="view3">c</div>
+			</strand-view-manager>
 		</template>
 	</div>
 
@@ -122,7 +128,6 @@
 			{name:'view3', selector:".v3", selected:false},
 			{name:'view4', selector:".v4",selected:false}
 		];
-
 
 		vmm.addEventListener('selected', function(e) {
 			if(e.detail.index===3) {
@@ -141,6 +146,12 @@
 
 		});
 		
+		var vmm2 = document.querySelector("#vmm2");
+		vmm2.views = [
+			{name:'view1'},
+			{name:'view2'},
+			{name:'view3'}
+		];
 
 	});
 	</script>

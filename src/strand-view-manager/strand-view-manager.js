@@ -26,7 +26,8 @@
 				value: function() {
 					return [];
 				},
-				notify:true
+				notify:true,
+				observer:'_viewsChanged'
 			}
 		},
 
@@ -37,6 +38,15 @@
 		_indexChanged: function(index, old) {
 			this.set('views.'+old+".selected",false);
 			this.set('views.'+index+".selected",true);
+		},
+
+		_viewsChanged: function() {
+			var sel = this.views.some(function(v) {
+				return v.selected;
+			});
+			if (!sel) {
+				this.set('views.0.selected',true);
+			}
 		},
 
 		_domChanged: function(e) {
@@ -51,8 +61,8 @@
 			return this.get(name);
 		},
 
-		_getSelector: function(name, selector) {
-			return selector || '.' + name;
+		_getSelector: function(item, splices) {
+			return item.selector || '.' + item.name;
 		},
 
 		switchView: function(numOrString) {
