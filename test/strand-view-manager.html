@@ -4,22 +4,60 @@
 	<meta charset="utf-8">
 	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
 	<script src="../bower_components/web-component-tester/browser.js"></script>
-	<script src="TestHelper.js"></script>
 	<script>
 		var should = chai.should();
 	</script>
 	<link rel="import" href="../build/strand.html">
+	<!-- <link rel="import" href="/strand-view-manager/strand-view-manager.html"> -->
 </head>
 <body>
 
-	<strand-view-manager></strand-view-manager>
+	<strand-view-manager id="test">
+		<div class="view1">
+		v1
+		</div>
+		<div class="view2">
+		v2
+		</div>
+		<div class="view3">
+		v3
+		</div>
+	</strand-view-manager>
 
 	<script>
 
 		describe("strand-view-manager", function() {
 
+			before(function(done) {
+				var test = document.querySelector('#test');
+				test.views = [{
+					name:"view1"
+				},{
+					name:"view2"
+				},{
+					name:"view2"
+				}];
+				flush(done);
+			});
+
 			it("should exist", function() {
-				var a = new Strand.View-manager();
+				var a = new Strand.ViewManager();
+				should.exist(a);
+			});
+
+			it("should switch views by index", function(done) {
+				var test = document.querySelector('#test');
+				test.index.should.equal(0);
+				test.index = 1;
+				flush(function() {
+					test.index.should.equal(1);
+					Polymer.dom(test).textContent.trim().should.equal('v1');
+					done();
+				});
+			});
+
+			it("should switch views by method", function(done) {
+
 			});
 
 		});
