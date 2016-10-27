@@ -22,16 +22,16 @@
 			</div>
 			<div id="columnContainer">
 				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
-					<div class$="{{_computeColumnClass(column.alignColumn)}}" style$="{{_computeColumnStyle(column.width)}}" id="{{column.field}}">
+					<div class$="{{_computeColumnClass(column.node.alignColumn)}}" style$="{{_computeColumnStyle(column.node.width)}}" id="{{column.node.field}}">
 						<div class="columnContentWrapper">
 							<template is="dom-if" if="{{model}}" on-dom-change="_checkDistributedNodesAsync">
 								<span class="columnContent">
-									<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
+									<content id="{{column.node.field}}" select$="{{_columnContentSelector(column.node.field)}}"></content>
 								</span>
-								<span class="columnContent" hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+								<span class="columnContent" hidden$="{{_isOverridden(column.node.field, _overridden.*)}}">[[_computeColumnValue(column.node.field, model, model.*)]]</span>
 							</template>
 							<template is="dom-if" if="{{!model}}">
-								<span class="columnContent fake-content" style$="width:[[_setRandomWidth(column.field)]];">&nbsp;</span>
+								<span class="columnContent fake-content" style$="width:[[_setRandomWidth(column.node.field)]];">&nbsp;</span>
 							</template>
 						</div>
 					</div>
