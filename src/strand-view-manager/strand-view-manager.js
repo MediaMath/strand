@@ -51,7 +51,7 @@
 
 		_domChanged: function(e) {
 			var name = this.get('views.' + this.index + '.name');
-			if (e.target && e.target.id.indexOf('view-'+ name) !== -1) {
+			if (e.target && e.target.id === 'view-'+ name) {
 				this.async(function() {
 					this.fire('selected', {index:this.index});
 				});
