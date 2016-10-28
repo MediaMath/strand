@@ -30,7 +30,7 @@
 								</span>
 								<span class="columnContent" hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
 							</template>
-							<template is="dom-if" if="{{!model}}">
+							<template is="dom-if" if="{{!model}}" restamp>
 								<span class="columnContent fake-content" style$="width:[[_setRandomWidth(column.field)]];">&nbsp;</span>
 							</template>
 						</div>
