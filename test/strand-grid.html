@@ -34,7 +34,7 @@
 			it("should have columns with initial width", function() {
 				var grid = document.querySelector("#testgrid");
 				grid._columns.forEach(function(column){
-					column.width.should.equal("50%");
+					column.node.width.should.equal("50%");
 				});
 			});
 

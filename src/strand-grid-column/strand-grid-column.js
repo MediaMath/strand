@@ -23,7 +23,9 @@
 
 		properties: {
 			field: {
-				type: String
+				type: String,
+				reflectToAttribute: true,
+				notify: true,
 			},
 			label: {
 				type: String
