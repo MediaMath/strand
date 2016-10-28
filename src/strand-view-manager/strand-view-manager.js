@@ -18,16 +18,14 @@
 			index: {
 				type:Number,
 				value: 0,
-				notify:true,
-				observer:'_indexChanged'
+				notify:true
 			},
 			views:{
 				type:Array,
 				value: function() {
 					return [];
 				},
-				notify:true,
-				observer:'_viewsChanged'
+				notify:true
 			}
 		},
 
@@ -35,27 +33,18 @@
 			'dom-change':'_domChanged'
 		},
 
-		_indexChanged: function(index, old) {
-			this.set('views.'+old+".selected",false);
-			this.set('views.'+index+".selected",true);
-		},
-
-		_viewsChanged: function() {
-			var sel = this.views.some(function(v) {
-				return v.selected;
-			});
-			if (!sel) {
-				this.set('views.0.selected',true);
-			}
-		},
-
 		_domChanged: function(e) {
-			var name = this.get('views.' + this.index + '.name');
+			var idx = this.index;
+			var name = this.get('views.' + idx + '.name');
 			if (e.target && e.target.id === 'view-'+ name) {
 				this.async(function() {
-					this.fire('selected', {index:this.index});
+					this.fire('selected', {index:idx});
 				});
 			}
+		},
+
+		_getSelected: function(idx, index) {
+			return idx === index;
 		},
 
 		_getValue: function(name) {
