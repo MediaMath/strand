@@ -1,0 +1,23 @@
+<!--
+ * @license
+ * Copyright (c) 2016 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/fonts/fonts.html"/>
+<link rel="import" href="../shared/js/colors.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+
+<dom-module id="strand-view-manager">
+	<link rel="import" type="css" href="strand-view-manager.css"/>
+	<template>
+		<template is="dom-repeat" items="{{views}}" index-as="idx">
+			<template id="view-{{item.name}}" is="dom-if" if="{{_getSelected(idx, index)}}" restamp>
+				<content select="{{_getSelector(item, item.*)}}">
+				</content>
+			</template>
+		</template>
+	</template>
+</dom-module>
+<script src="strand-view-manager.js"></script>
