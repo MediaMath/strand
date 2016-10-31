@@ -46,7 +46,7 @@
 
 		_formatCurrency: function(value, format) {
 			if (format) {
-				return format.format(value);
+				return format.format(value === 0 ? Math.abs(value) : value);
 			}
 			return value;
 		}
