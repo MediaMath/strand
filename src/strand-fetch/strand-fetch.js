@@ -6,6 +6,8 @@
 */
 (function (scope) {
 
+	var DataUtils = StrandLib.DataUtils;
+
 	scope.Fetch = Polymer({
 		is: "strand-fetch",
 
@@ -18,11 +20,19 @@
 		properties: {
 			url:{
 				type:String,
-				notify:true
+				notify:true,
+				observer:'_urlChanged'
 			},
 			auto:{
 				type:Boolean,
-				value:true
+				value: function () {
+					this.async(function () {
+						if (this.auto === undefined) {
+							this.auto = true;
+						}
+					});
+					return;
+				},
 			},
 			//see https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch
 			fetchOptions:{
@@ -47,23 +57,31 @@
 
 		domObjectChanged: function(domObject) {
 			if (this.auto) {
-				this.url = domObject.url[0].inner;
-				this.debounce('action', this.get, 200);
+				var url = DataUtils.getPathValue('url.0.inner', domObject);
+				if (url)
+					this.set('url', url);
 			}
+		},
+
+		_urlChanged: function() {
+			if (this.url)
+				this.debounce('action', this.get, 200);
 		},
 
 		_bodyChanged: function() {
 			if (this.auto) {
-				this.url = domObject.url[0].inner;
-				this.debounce('action', this.post, 200);
+				var url = DataUtils.getPathValue('url.0.inner', domObject);
+				this.url = url;
+				if (this.url && this.body)
+					this.debounce('action', this.post, 200);
 			}
 		},
 
 		_responseHandler: function(response) {
 			this.fire('fetch-success', response);
 			response.json().then(function(data) {
-				this.fire('fetch-data', data);
 				this.set('data', data);
+				this.fire('fetch-data', data);
 			}.bind(this), function(err) {
 				this.fire('fetch-parse-error', err);
 			}.bind(this));
