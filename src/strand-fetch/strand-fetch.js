@@ -29,7 +29,7 @@
 				type:Object,
 				value: function() {
 					return {
-						mode:'cors',//mode:'same-origin',
+						mode:'same-origin',
 						credentials:'same-origin',
 						redirect:'follow'
 					};
@@ -38,6 +38,10 @@
 			data: {
 				type:Object,
 				notify:true
+			},
+			body:{
+				type:String,
+				observer:'_bodyChanged'
 			}
 		},
 
@@ -48,6 +52,13 @@
 			}
 		},
 
+		_bodyChanged: function() {
+			if (this.auto) {
+				this.url = domObject.url[0].inner;
+				this.debounce('action', this.post, 200);
+			}
+		},
+
 		_responseHandler: function(response) {
 			this.fire('fetch-success', response);
 			response.json().then(function(data) {
@@ -55,7 +66,7 @@
 				this.set('data', data);
 			}.bind(this), function(err) {
 				this.fire('fetch-parse-error', err);
-			});
+			}.bind(this));
 		},
 
 		_errorHandler: function(response) {
@@ -64,8 +75,9 @@
 
 		fetch: function(url, method, opts) {
 			var m = {method:method || 'GET'};
+			if (this.body) m.body = this.body;
 			return fetch(url || this.url, Object.assign(m, opts, this.fetchOptions))
-				.then(this._responseHandler.bind(this),this._errorHandler.bind(this));
+				.then(this._responseHandler.bind(this), this._errorHandler.bind(this));
 		},
 
 		get: function(url, opts) {

@@ -82,18 +82,41 @@
 				display: block;
 				float: left;
 			}
+
+			pre {
+				background-color: #ccc;
+				border: 1px solid #fff;
+				padding: 20px 20px;
+				margin: 20px 20px;
+				border-radius: 5px;
+			}
+
 		</style>
 	</head>
 	<body>
 	<div>
-		<template is="dom-bind">
+		<template is="dom-bind" id="db">
 			<strand-input value="{{url}}"></strand-input>
 			<strand-fetch data="{{data}}">
 				<url>{{url}}</url>
 			</strand-fetch>
-			<pre>
-			{{data}}
-			</pre>
+			<pre>{{out(data)}}</pre>
+		</template>
+		<script>
+		document.addEventListener('WebComponentsReady', function() {
+			var db = document.querySelector('#db');
+			db.out = function(o) { console.log(o); return JSON.stringify(o, null, 4);}
+		});
+		</script>
+
+		<template is="dom-bind">
+			<strand-input value="{{url1}}"></strand-input>
+			<strand-input value="{{url2}}"></strand-input>
+			<strand-input value="{{url3}}"></strand-input>
+			<strand-fetch data="{{data}}">
+				<url>{{url1}}{{url2}}{{url3}}</url>
+			</strand-fetch>
+			<pre>{{out(data)}}</pre>
 		</template>
 	</div>
 	</body>
