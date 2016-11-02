@@ -39,18 +39,14 @@
 			}
 		},
 
-		_boundOverHandler: null,
-		_boundOutHandler: null,
 		_prevTargetCursor: null,
 
 		attached: function() {
-			this._boundOverHandler = this._overHandler.bind(this);
-			this._boundOutHandler = this._outHandler.bind(this);
 
 			this.async(function() {
 				if (this._target && typeof this._target === "object") {
-					this._target.addEventListener('mouseover', this._boundOverHandler);
-					this._target.addEventListener('mouseout', this._boundOutHandler);
+					this.listen(this._target, 'mouseover', '_overHandler');
+					this.listen(this._target, 'mouseout', '_outHandler');
 					this._prevTargetCursor = this._target.style.cursor;
 					this._target.style.cursor = 'pointer';
 				}
@@ -59,8 +55,8 @@
 
 		detached: function() {
 			if (this._target && typeof this._target === "object") {
-				this._target.removeEventListener('mouseover', this._boundOverHandler);
-				this._target.removeEventListener('mouseout', this._boundOutHandler);
+				this.unlisten(this._target, 'mouseover', '_overHandler');
+				this.unlisten(this._target, 'mouseout', '_outHandler');
 				this._target.style.cursor = this._prevTargetCursor;
 			}
 		},

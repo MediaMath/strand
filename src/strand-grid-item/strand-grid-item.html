@@ -13,7 +13,7 @@
 <dom-module id="strand-grid-item">
 	<link rel="import" type="css" href="strand-grid-item.css"/>
 	<template>
-		<div class="_mm_item" hidden$="{{!model}}">
+		<div class="_mm_item">
 			<div class="_mm_column checkbox" hidden$="{{!scope.selectable}}">
 				<strand-checkbox on-tap="_onItemSelected" checked="{{model.selected}}" icon="{{scope.icon}}"></strand-checkbox>
 			</div>
@@ -22,20 +22,22 @@
 			</div>
 			<div id="columnContainer">
 				<template is="dom-repeat" items="{{scope._columns}}" as="column" on-dom-change="_checkDistributedNodesAsync">
-					<div class$="{{_computeColumnClass(column.alignColumn)}}" style$="{{_computeColumnStyle(column.width)}}" id="{{column.field}}">
+					<div class$="{{_computeColumnClass(column.node.alignColumn)}}" style$="{{_computeColumnStyle(column.node.width)}}" id="{{column.node.field}}">
 						<div class="columnContentWrapper">
-						<span class="columnContent">
-							<content id="{{column.field}}" select$="{{_columnContentSelector(column.field)}}"></content>
-						</span>
-						<span class="columnContent" hidden$="{{_isOverridden(column.field, _overridden.*)}}">[[_computeColumnValue(column.field, model, model.*)]]</span>
+							<template is="dom-if" if="{{model}}" on-dom-change="_checkDistributedNodesAsync">
+								<span class="columnContent">
+									<content id="{{column.node.field}}" select$="{{_columnContentSelector(column.node.field)}}"></content>
+								</span>
+								<span class="columnContent" hidden$="{{_isOverridden(column.node.field, _overridden.*)}}">[[_computeColumnValue(column.node.field, model, model.*)]]</span>
+							</template>
+							<template is="dom-if" if="{{!model}}" restamp>
+								<span class="columnContent fake-content" style$="width:[[_setRandomWidth(column.node.field)]];">&nbsp;</span>
+							</template>
 						</div>
 					</div>
 				</template>
 			</div>
 		</div>
-		<template is="dom-if" if="{{!model}}">
-			<strand-spinner id="loader" radius="12" fill-color="#333333"></strand-spinner>
-		</template>
 		<template is="dom-if" if="{{model.expanded}}" restamp="true">
 			<content id="expansion" select=".expansion"></content>
 		</template>

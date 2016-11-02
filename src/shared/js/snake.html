@@ -208,6 +208,9 @@ This code may only be used under the BSD style license found at http://mediamath
 
 			if (!swapped) {
 				this._inject(snake, head, tail);
+			} else if (this !== leader) {
+				this._inject(snake, head, tail);
+				swapped._swap();
 			} else {
 				this._inject(snake, tail, head);
 				snake._swap();

@@ -67,6 +67,7 @@
 			this.xhr.onreadystatechange = this.readyStateChange.bind(this);
 			this.xhr.addEventListener("abort", this.handleAbort.bind(this));
 			this.xhr.addEventListener("progress", this.handleProgress.bind(this));
+			this.xhr.addEventListener("timeout", this.handleTimeout.bind(this));
 
 			if (this.contentType) {
 				this.xhr.setRequestHeader("content-type", this.contentType);
@@ -124,6 +125,17 @@
 				this.progress(detail);
 			}
 			this.fire('progress', detail);
+		},
+
+		handleTimeout: function(e) {
+			if (this.promise) {
+				var detail = {
+					error:'timeout',
+					instance:this,
+					response:null
+				};
+				this.defer.reject(detail);
+			}	
 		},
 
 		_getProgressDetail: function(e) {

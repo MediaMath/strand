@@ -220,6 +220,20 @@
 
 			});
 
+			it("should add only the expected number of segments", function () {
+
+				var TALLNESS = 33;
+				var getter = function (index) { return TALLNESS; };
+
+				var cont = new Continuum(getter);
+
+				cont.getDiscreteCount().should.equal(0);
+
+				cont.addHeights(0, 1);
+
+				cont.getDiscreteCount().should.equal(1);
+			});
+
 		});
 	</script>
 

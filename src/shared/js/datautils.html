@@ -192,6 +192,41 @@
 		return o;
 	}
 
+	function _cloneObj(obj) {
+		var result = {};
+		Object.keys(obj).forEach(function(key) {
+			result[key] = obj[key];
+		});
+		return result;
+	}
+
+	function _mergeObj(fst, snd) {
+		var merged = _cloneObj(fst);	
+		Object.keys(snd).forEach(function(key) {
+			merged[key] = snd[key]
+		});
+		return merged;
+	}
+
+	function _indexByProp(data, prop) {
+		var o = {};
+		for(var i=data.length-1; i>=0; i--) {
+			var key = data[i][prop];
+			o[key] = data[i];
+		}
+		return o;
+	}
+
+	function _indexAllByProp(data, prop) {
+		var o = {};
+		for(var i=data.length-1; i>=0; i--) {
+			var key = data[i][prop];
+			if(!o[key]) o[key] = [];
+			o[key].push(data[i]);
+		}
+		return o;
+	}
+
 	var DataUtils  = {
 
 		clone: _clone,
@@ -268,7 +303,12 @@
 
 		getPathValue:_getPathValue,
 		setPathValue:_setPathValue,
-		pluck:_pluck
+		pluck:_pluck,
+		cloneObj: _cloneObj,
+		mergeObj: _mergeObj,
+
+		indexByProp: _indexByProp,
+		indexAllByProp: _indexAllByProp
 	};
 
 	scope.DataUtils = DataUtils;

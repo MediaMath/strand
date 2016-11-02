@@ -22,6 +22,7 @@
 				type: String,
 				value: "2d",
 			},
+			controller: Object,
 			data: Array,
 			scope: {
 				type: Object,
@@ -87,7 +88,6 @@
 					return [];
 				},
 				notify: true,
-				observer: "_columnsChanged",
 			},
 			_columnCount: {
 				type:Number,
@@ -148,15 +148,12 @@
 
 		_initializeColumns: function() {
 			var nodes = Polymer.dom(this.$.columns).getDistributedNodes();
-			if(nodes.length > 0) {
-				this._columns = Array.prototype.slice.call(nodes);
-				this._columnsMap = arrayToMap(this._columns, "field");
-			}
-		},
-
-		_columnsChanged: function() {
-			this._columnsMap = arrayToMap(this._columns, "field");
-			this.notifyPath("scope._columns", this._columns);
+			this._columns = Array.prototype.slice.call(nodes).map(function (node) {
+				return {
+					node: node,
+				};
+			});
+			this.notifyPath("scope._columns");
 		},
 
 		_selectableChanged: function () {
@@ -169,14 +166,15 @@
 
 		_setInitialColumnWidth: function() {
 			var setInitialWidth = this._columns.every(function(column){
-				return column.width === null || column.width === undefined;
+				return column.node.width === null || column.node.width === undefined;
 			});
 
 			if(setInitialWidth) {
 				var initialWidth = 100 / this._columns.length;
-				this._columns.forEach(function(column) {
-					column.width = initialWidth + "%";
-				});
+				this._columns.forEach(function(column, index) {
+					column.node.width = initialWidth + "%";
+					this.set("_columns."+index+".node.width", column.node.width);
+				}, this);
 			}
 		},
 
@@ -250,15 +248,21 @@
 		},
 
 		_resizeColumns: function(field, val) {
-			var target = this._columnsMap[field];
-			var targetIndex = this._columns.indexOf(target);
-
 			////// Overflow Resizing //////
-			this._columns.forEach(function(column, index) {
-				if(column.width.indexOf("%") !== -1){
-					column.set('width', column.offsetWidth + 'px');
+			this._columns.map(function(column, index) {
+				var width = column.node.width;
+				if (!width) {
+					width = column.node.minWidth;
 				}
-				this.notifyPath("scope._columns."+index+".width", column.width);
+
+				if(width.indexOf("%") !== -1){
+					width = column.node.offsetWidth + 'px';
+				}
+				return width;
+			}, this).forEach(function (width, index) {
+				var column = this._columns[index];
+				column.node.set("width", width);
+				this.notifyPath("scope._columns."+index+".node.width", width);
 			}, this);
 		},
 
@@ -275,14 +279,14 @@
 		sortBy: function(field, order) {
 			var sortOrder = arguments.length > 1 ? order : null;
 			this._columns.forEach(function(column){
-				column.sortOrder = column.SORT_DEFAULT;
+				column.node.sortOrder = column.node.SORT_DEFAULT;
 
-				if (column.sortField === field) {
-					if (sortOrder === column.SORT_ASCENDING ||
-						sortOrder === column.SORT_DESCENDING) {
-						column.sortOrder = sortOrder;
+				if (column.node.sortField === field) {
+					if (sortOrder === column.node.SORT_ASCENDING ||
+						sortOrder === column.node.SORT_DESCENDING) {
+						column.node.sortOrder = sortOrder;
 					} else if (sortOrder === null) {
-						column.sortOrder = column.SORT_ASCENDING;
+						column.node.sortOrder = column.node.SORT_ASCENDING;
 					}
 				}
 			});

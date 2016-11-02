@@ -1,0 +1,22 @@
+{
+	"name":"strand-timeformat",
+	"description":"",
+	"attributes": [
+		{
+			"name":"value",
+			"type":"Date",
+			"description":"A javascript date object to pass for formatting",
+			"optional":true,
+			"default":"null"
+		},
+		{
+			"name":"format",
+			"type":"String",
+			"description":"A moment format string to use. Note that locale based strings should be used where possible: L, LL, LLL, LLLL etc",
+			"optional":false,
+			"default":"LL"
+		}
+	],
+	"behaviors" : [
+	]
+}

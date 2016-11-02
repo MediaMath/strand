@@ -39,7 +39,8 @@
 				<div id="list">
 					<template id="domRepeat" is="dom-repeat" items="{{_searchData}}">
 						<strand-list-item 
-							value$="{{item.value}}" 
+							value$="{{item.value}}"
+							_keyselectable
 							selected$={{item.selected}}
 							highlighted$="{{item.highlighted}}">
 							<strand-highlight 

@@ -1,0 +1,36 @@
+{
+	"name":"strand-currency",
+	"description":"Numeric currency formatting. Defaults to locale for decimal format.",
+	"attributes": [
+		{
+			"name":"currency",
+			"type":"String",
+			"description":"The 3 letter currency code to use for conversion.",
+			"default":"USD",
+			"attribute":"currency"
+		},
+		{
+			"name":"precision",
+			"type":"Number",
+			"description":"The number of decimals to use for the fractional part of represented value",
+			"default":"2",
+			"attribute":"precision"
+		},
+		{
+			"name":"value",
+			"type":"Number",
+			"description":"The raw number to format for a given currency",
+			"default":"0",
+			"attribute":"value"
+		},
+		{
+			"name":"locale",
+			"type":"String",
+			"description":"The locale to use for decimal formatting. Defaults to navigator.language.",
+			"default":"navigator.language value",
+			"attribute":"locale"
+		},
+	],
+	"behaviors" : [
+	]
+}

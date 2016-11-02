@@ -17,8 +17,8 @@
 			}
 		},
 
-		created: function() {
-			this._boundToggle = this._toggle.bind(this);
+		attached: function() {
+			this._addListener(this.toggleTrigger);
 		},
 
 		detached: function() {
@@ -26,14 +26,14 @@
 		},
 
 		_addListener: function(trigger) {
-			if(trigger && trigger.addEventListener) {
-				trigger.addEventListener('click', this._boundToggle);
+			if (trigger && typeof trigger === 'object') {
+				this.listen(trigger, 'tap', '_toggle');
 			}
 		},
 
 		_removeListener: function(trigger) {
-			if(trigger && trigger.removeEventListener) {
-				trigger.removeEventListener('click', this._boundToggle);
+			if (trigger && typeof trigger === 'object') {
+				this.unlisten(trigger, 'tap', '_toggle');
 			}
 		},
 

@@ -43,11 +43,11 @@
 </head>
 <body>
 	<strand-grid id="mmTestGrid" gpu="4d" selectable expandable="false" unresolved>
-		<strand-grid-column width="20%" field="name" sort resize>Name</strand-grid-column>
-		<strand-grid-column width="10%" field="id" sort resize>Id</strand-grid-column>
+		<strand-grid-column width="20%" field="name" sort resize>Long<br/>Name</strand-grid-column>
+		<strand-grid-column width="10%" field="id" sort resize>Id<br/>Here</strand-grid-column>
 		<strand-grid-column width="10%" field="advertiser" sort resize>Advertiser</strand-grid-column>
 		<strand-grid-column width="10%" field="concept" sort resize>Concept</strand-grid-column>
-		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff and stuff" align-column="right" sort resize>Longer Name</strand-grid-column>
+		<strand-grid-column width="10%" field="type" info="Hey bro, I heard you like stuff and stuff" align-column="right" sort resize>Some<br/>Longer<br/>Name Here</strand-grid-column>
 		<strand-grid-column width="10%" field="dimensions">Dimensions</strand-grid-column>
 		<strand-grid-column width="30%" field="actions"></strand-grid-column>
 
@@ -311,6 +311,7 @@
 		window.addEventListener("WebComponentsReady", function() {
 			app = document.querySelector("#mmTestGrid");
 			app.data = data;
+			// app.data = new Array(NUM_ITEMS);
 
 			app.addEventListener('grid-item-clicked', function(e) {
 				console.log('grid-item-clicked: ', e.detail);

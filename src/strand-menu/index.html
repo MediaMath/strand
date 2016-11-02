@@ -99,7 +99,7 @@
 			<p>
 				<span class="bold">Menu:</span> Button Target
 				<strand-button id="cpb" unresolved><label>Open Menu</label></strand-button>
-				<strand-menu id="testMenu" direction="s" offset="5" target="#cpb" unresolved>
+				<strand-menu id="testMenu1" direction="s" offset="5" target="#cpb" unresolved>
 					<strand-list-item value="m1"><strand-icon width="15" height="15" type="info"></strand-icon> menu item 1</strand-list-item>
 					<strand-list-item value="m2">menu item 2</strand-list-item>
 					<strand-list-item value="m3">menu item 3</strand-list-item>
@@ -111,7 +111,7 @@
 			<p>
 				<span class="bold">Menu:</span> Icon Target
 				<strand-icon type="actions" id="cpb2" unresolved></strand-icon>
-				<strand-menu id="testMenu" direction="e" offset="15" target="#cpb2" unresolved>
+				<strand-menu id="testMenu2" direction="e" offset="15" target="#cpb2" unresolved>
 					<strand-list-item value="m1">menu item 1</strand-list-item>
 					<strand-list-item value="m2">menu item 2</strand-list-item>
 					<strand-list-item value="m3">menu item 3</strand-list-item>
@@ -119,7 +119,27 @@
 					<strand-list-item value="m5">menu item 5</strand-list-item>
 				</strand-menu>
 			</p>
+			<hr/>
+			<p>
+				<span class="bold">Menu:</span> Icon Target
+				<strand-icon type="actions" id="cpb3" unresolved></strand-icon>
+				<strand-menu id="testMenu3" direction="e" offset="15" target="#cpb3" unresolved>
+				</strand-menu>
+			</p>
 		</div>
 		<div class="vr"></div>
+		<script>
+		document.addEventListener('WebComponentsReady', function() {
+			var tm3 = document.querySelector('#testMenu3');
+			tm3.data = [
+				{icon:'alerts', name:'menu 1', value:'m1'},
+				{icon:'alerts', name:'menu 2', value:'m1'},
+				{icon:'alerts', name:'menu 3', value:'m1'},
+				{icon:'alerts', name:'menu 4', value:'m1'},
+				{icon:'alerts', name:'menu 5', value:'m1'},
+				{icon:'alerts', name:'menu 6', value:'m1'}
+			];
+		});
+		</script>
 	</body>
 </html>

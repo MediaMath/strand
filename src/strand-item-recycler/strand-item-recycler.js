@@ -48,6 +48,10 @@ found here: https://github.com/Polymer/core-list
 
 			if (bound.height) {
 				if (!itemRecycler._itemHeight) {
+					if (!height) {
+						// resulted from an initializing splice
+						itemRecycler._deltaMiddleHeight(-itemRecycler._viewportHeight);
+					}
 					change = itemRecycler._accommodateGlobalHeightAdjustment(0|initialization, bound, delta);
 					itemRecycler.async(itemRecycler._modifyPadding, 1);
 					if (itemRecycler._desiredIndex > -1) {
@@ -322,7 +326,11 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if (delta) {
+				if (this.data.length - delta === 0) {
+					this._setMeasuring(true);
+				}
 				this._recycler.transactHeightMutations(this._spliceTxn, this, splices);
+				this.cull();
 			}
 
 			at = this._recycler.getLowestIndex();
@@ -510,6 +518,9 @@ found here: https://github.com/Polymer/core-list
 
 			if (initialization) {
 				change = (this._getDataLength() - 1) * adjustment;
+				if (this._viewportHeight <= 0) {
+					change -= 1; // accounting for enforced minimum from _initializeViewport()
+				}
 				this._deltaMiddleHeight(change);
 			} else {
 				this._measurements.terminate(0);
@@ -540,8 +551,6 @@ found here: https://github.com/Polymer/core-list
 			var index = 0;
 			var bound = null;
 			var offset = 0;
-			var height = 0;
-			var extra = 0;
 
 			for (index = 0; index < count; index++) {
 				bound = sorted[index];
@@ -553,13 +562,27 @@ found here: https://github.com/Polymer/core-list
 				offset += bound.height;
 			}
 
-			height = roundMaybe(this._itemHeight);
-			extra = 3 * height;
-
 			if (this._itemHeight > 0) {
-				this._recycler.repadFrame(height + extra, height + extra);
-				this._recycler.repadFrame(height, height);
+				this._provideMarginOfError();
+				this._denyMarginOfError();
 			}
+		},
+
+		_provideMarginOfError: function () {
+			var height = roundMaybe(this._itemHeight);
+			var extra = 3 * height;
+			this._recycler.repadFrame(height + extra, height + extra);
+		},
+
+		_denyMarginOfError: function () {
+			var height = roundMaybe(this._itemHeight);
+			this._recycler.repadFrame(height, height);
+		},
+
+		cull: function () {
+			this._provideMarginOfError();
+			this._recycler.cull();
+			this._denyMarginOfError();
 		},
 
 		_changeOffsetsAfter: function (nthDOM, delta) {
@@ -634,7 +657,11 @@ found here: https://github.com/Polymer/core-list
 			viewportHeight -= (this._headerHeight + this._footerHeight);
 			this._viewportHeight = viewportHeight;
 
-			this._assignMiddleHeight(this._viewportHeight || 1);
+			if (this._viewportHeight > 0) {
+				this._assignMiddleHeight(this._viewportHeight);
+			} else {
+				this._assignMiddleHeight(1); // accounted for in _accommodateGlobalHeightAdjustment()
+			}
 			this._repositionHeader();
 			this._repositionFooter();
 			this._repositionMiddle();
@@ -856,6 +883,8 @@ found here: https://github.com/Polymer/core-list
 				} else {
 					this._rebaseTransform();
 				}
+			} else if (spliced) {
+				this.async(this._applyTransform);
 			}
 
 			this.debounce("settle-down", this._settleDown, 1);

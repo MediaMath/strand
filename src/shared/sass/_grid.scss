@@ -38,12 +38,12 @@
 
 		strand-icon {
 			cursor: pointer;
-			transform: rotate(-90deg);
+			transform: translateY(-1px) rotate(-90deg);
 		}
 
 		&.expanded {
 			strand-icon {
-				transform: rotate(0deg);
+				transform: translateY(-1px) rotate(0deg);
 			}
 		}
 	}

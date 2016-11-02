@@ -20,16 +20,10 @@
 			maxItems: {
 				type: Number,
 				value: 10
-			},
-
-			_mouseoverEnabled: {
-				type: Boolean,
-				value: true
 			}
 		},
 
 		_handleKeydown: function(e) {
-			this._mouseoverEnabled = false;
 			if(!this._maxIndex)
 				this._maxIndex = this.items ? this.items.length-1 : 0;
 			this._routeKeyEvent(e);
@@ -102,13 +96,21 @@
 		},
 
 		_handleMouseover: function(e) {
-			document.addEventListener('mousemove', function() {
-				this._mouseoverEnabled = true;
-			}.bind(this));
+			var eventPath = Polymer.dom(e).path;
+			var eventTarget, listItem;
 
-			if(this._mouseoverEnabled) {
-				var target = Polymer.dom(e).path[0];
-				var targetIndex = this.items.indexOf(target);
+			for(var i=0; !listItem && eventTarget !== this; i++) {
+				eventTarget = eventPath[i];
+				if(eventTarget instanceof HTMLElement && eventTarget.matches('strand-list-item')) {
+					listItem = eventTarget;
+				}
+			}
+
+			if(listItem) {
+				var targetIndex = 
+					this._searchData ? this.domItems.indexOf(listItem) :
+					this.data ? this._getDataIndexFromDom(listItem.value) :
+					this.items.indexOf(listItem);
 				if(targetIndex >= 0) {
 					this._highlightedIndex = targetIndex;
 				}

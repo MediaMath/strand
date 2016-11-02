@@ -45,6 +45,16 @@
 			value: {
 				type: String,
 				value: false
+			},
+			showPlaceholder: {
+				type: Boolean,
+				value: false
+			},
+			randomWidth: {
+				type: String,
+				value: function(){
+					return this._setRandomWidth();
+				}
 			}
 		},
 
@@ -61,6 +71,12 @@
 
 		_updateTitleHandler: function() {
 			this.debounce("update-title",this.updateTitle,0);
+		},
+
+		_setRandomWidth: function() {
+			var n = 0.5;
+			var width = Math.random() * (1.0 - n) + n;
+			return String(Math.round(width*100) + "%");
 		},
 
 		updateTitle: function() {

@@ -114,6 +114,14 @@
 			StrandTraits.Refable
 		],
 
+		observers: [
+			"_checkSizing(data.length)",
+		],
+
+		listeners: {
+			"itemRecycler.measuring-changed": "_checkSizing",
+		},
+
 		_widthLocked: false,
 		LAYOUT_TYPE: 'dropdown',
 
@@ -227,6 +235,14 @@
 			}
 		},
 
+		_checkSizing: function () {
+			if (this.data && this.data.length) {
+				this.async(function () {
+					this._setMaxHeight(this.maxItems);
+				}, 1);
+			}
+		},
+
 		_highlightChanged: function() {
 			this.notifyPath('ref.highlight', this.highlight);
 		},
@@ -319,6 +335,7 @@
 					this.set('data.' + newIndex + '.highlighted', true);
 				} else {
 					this.attributeFollows('highlighted', this.items[newIndex], this.items[oldIndex]);
+					if(this.items[newIndex]) this.items[newIndex].setAttribute('_keyselectable', true);
 				}
 			}
 			if (typeof oldIndex === 'number' && oldIndex >=0) {

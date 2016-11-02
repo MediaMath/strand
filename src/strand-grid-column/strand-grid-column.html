@@ -16,7 +16,9 @@
 	<template>
 		<div class$="{{_computeColumnClass(alignColumn)}}">
 			<div class="left-items">
-				<span id="label"></span>
+				<span id="label" title="{{label}}">
+					<content></content>
+				</span>
 				<template is="dom-if" if="{{info}}">
 					<strand-icon id="info" width="12" height="12" type="info"></strand-icon>
 					<strand-tooltip id="infoTip" tip-width="{{tipWidth}}" target="{{findById('info')}}" _scope="{{ref}}">

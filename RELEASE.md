@@ -2,13 +2,21 @@
 
 ## code release
 * merge develop into master
+  * `git checkout master`
+  * `git fetch origin master`
+  * `git pull origin master`
+  * `git merge origin develop`
 * then: `gulp release:[major|minor|patch]`
 * push tags: `git push --tags`
 * merge master back into develop
+  * `git checkout develop`
+  * `git fetch origin develop`
+  * `git pull origin develop`
+  * `git merge origin master`
 
 ## docs release
 * `gulp docs`
-* verify via `gulp docs:live`
+* verify via `gulp live:docs`
 * push via `gulp gh-pages`
 
 ## notify interested parties
@@ -28,5 +36,3 @@ Bug Fixes: (a condensed, readable version fixes derived from changelog.md)
 https://github.com/MediaMath/strand/blob/master/CHANGELOG.md
 ```
 
-Send email to "Release Notes Mailing List", which can be found here:
-https://wiki.mediamath.com/display/mmEngineering/Strand
