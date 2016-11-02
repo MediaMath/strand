@@ -64,7 +64,7 @@
 		},
 
 		_urlChanged: function() {
-			if (this.url)
+			if (this.url && this.auto)
 				this.debounce('action', this.get, 200);
 		},
 

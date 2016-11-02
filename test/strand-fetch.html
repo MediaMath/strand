@@ -41,6 +41,7 @@
 
 			it("should make a call when given a url", function(done) {
 				var test = new Strand.Fetch();
+				test.set('auto',true);
 
 				test.addEventListener('fetch-data', function(e) {
 					var expected = {hello:'world'};
