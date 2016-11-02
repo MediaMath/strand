@@ -326,6 +326,9 @@ found here: https://github.com/Polymer/core-list
 			}
 
 			if (delta) {
+				if (this.data.length - delta === 0) {
+					this._setMeasuring(true);
+				}
 				this._recycler.transactHeightMutations(this._spliceTxn, this, splices);
 				this.cull();
 			}
@@ -515,6 +518,9 @@ found here: https://github.com/Polymer/core-list
 
 			if (initialization) {
 				change = (this._getDataLength() - 1) * adjustment;
+				if (this._viewportHeight <= 0) {
+					change -= 1; // accounting for enforced minimum from _initializeViewport()
+				}
 				this._deltaMiddleHeight(change);
 			} else {
 				this._measurements.terminate(0);
@@ -651,7 +657,11 @@ found here: https://github.com/Polymer/core-list
 			viewportHeight -= (this._headerHeight + this._footerHeight);
 			this._viewportHeight = viewportHeight;
 
-			this._assignMiddleHeight(this._viewportHeight || 1);
+			if (this._viewportHeight > 0) {
+				this._assignMiddleHeight(this._viewportHeight);
+			} else {
+				this._assignMiddleHeight(1); // accounted for in _accommodateGlobalHeightAdjustment()
+			}
 			this._repositionHeader();
 			this._repositionFooter();
 			this._repositionMiddle();

@@ -114,6 +114,14 @@
 			StrandTraits.Refable
 		],
 
+		observers: [
+			"_checkSizing(data.length)",
+		],
+
+		listeners: {
+			"itemRecycler.measuring-changed": "_checkSizing",
+		},
+
 		_widthLocked: false,
 		LAYOUT_TYPE: 'dropdown',
 
@@ -224,6 +232,14 @@
 				this._setMaxHeight(this.maxItems);
 			} else {
 				this.reset();
+			}
+		},
+
+		_checkSizing: function () {
+			if (this.data && this.data.length) {
+				this.async(function () {
+					this._setMaxHeight(this.maxItems);
+				}, 1);
 			}
 		},
 

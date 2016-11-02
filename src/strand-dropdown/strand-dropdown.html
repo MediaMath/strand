@@ -45,13 +45,13 @@
 		</div>
 		<div id="panel" on-tap="_updateSelectedItem">
 			<div id="container" class$="{{_containerClass(state, _placement)}}">
-				<content hidden$="{{_hideInsertionPoints(data)}}" id="search" select="strand-input"></content>
+				<content hidden$="{{_hideInsertionPoints(data, data.length)}}" id="search" select="strand-input"></content>
 				<div id="list">
-					<content hidden$="{{_hideInsertionPoints(data)}}" id="content" select="strand-list-item"></content>
+					<content hidden$="{{_hideInsertionPoints(data, data.length)}}" id="content" select="strand-list-item"></content>
 					<strand-item-recycler
 						id="itemRecycler"
 						data="{{data}}"
-						hidden$="{{!_hideInsertionPoints(data)}}"
+						hidden$="{{!_hideInsertionPoints(data, data.length)}}"
 						scope="{{ref}}"
 						index="{{index}}">
 						<template preserve-content>
