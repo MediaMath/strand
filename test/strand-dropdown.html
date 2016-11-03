@@ -67,6 +67,8 @@
 		<strand-list-item value="item05">strand-list-item 05</strand-list-item>
 	</strand-dropdown>
 
+	<strand-dropdown id="ddlData2" max-items="10" placeholder="Some Longer Label" value="1"></strand-dropdown>
+
 	<script type="text/javascript">
 
 		describe("strand-dropdown", function() {
@@ -125,7 +127,7 @@
 
 			it("should update label when selected", function(done) {
 				var ddl = document.getElementById('ddl'),
-					selectedItem = null
+					selectedItem = null,
 					selectedItemName = null,
 					label = null;
 
@@ -272,6 +274,19 @@
 				Polymer.RenderStatus.afterNextRender(ddl, function() {
 					ddl.value.should.equal('item01');
 					done();
+				});
+			});
+
+			it("should show the proper item when data comes in late for an initial value", function(done) {
+				var ddl = document.querySelector('#ddlData2');
+				should.not.exist(ddl.selectedIndex);
+				flush(function() {
+					ddl.data = dataItems.map(function(o) { return {name:o.name, value:o.value}; });
+					should.not.exist(ddl.selectedIndex);
+					ddl.addEventListener('selected', function() {
+						ddl.selectedIndex.should.equal(1);
+						done();
+					});
 				});
 			});
 
