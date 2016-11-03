@@ -231,7 +231,8 @@
 				this.selectedIndex = null;
 				this._setMaxHeight(this.maxItems);
 			} else {
-				this.reset();
+				//reset the GUI selection state but leave 'value' alone
+				this.selectedIndex = null;
 			}
 		},
 
@@ -240,6 +241,10 @@
 				this.async(function () {
 					this._setMaxHeight(this.maxItems);
 				}, 1);
+				//check to see if our value now has a match on the data array
+				if (this.value) {
+					this._selectItemByValue(this.value);
+				}
 			}
 		},
 
@@ -276,6 +281,7 @@
 
 		// General
 		_valueChanged: function(newVal, oldVal) {
+			console.log(this, oldVal, '->', newVal);
 			if (newVal) {
 				this._selectItemByValue(newVal);
 			} else {
