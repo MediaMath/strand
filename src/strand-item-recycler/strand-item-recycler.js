@@ -1314,6 +1314,22 @@ found here: https://github.com/Polymer/core-list
 			return this.$.footer.getBoundingClientRect();
 		},
 
+		getPaneScrollTop: function () {
+			return this.$.pane.scrollTop;
+		},
+
+		getPaneScrollLeft: function () {
+			return this.$.pane.scrollLeft;
+		},
+
+		getPaneScrollWidth: function () {
+			return this.$.pane.scrollWidth;
+		},
+
+		getPaneScrollHeight: function () {
+			return this.$.pane.scrollHeight;
+		},
+
 	});
 
 })(window.Strand = window.Strand || {});

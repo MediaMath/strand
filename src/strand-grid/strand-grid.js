@@ -227,7 +227,7 @@
 		},
 
 		_onColumnResize: function(e){
-			var x = this._columnOffset + e.detail.val - this.$.viewport.scrollLeft;
+			var x = this._columnOffset + e.detail.val - this.$.viewport.getPaneScrollLeft();
 			this.translate3d(x + "px", 0, 0, this.$.separator);
 			this._showSeparator();
 		},
