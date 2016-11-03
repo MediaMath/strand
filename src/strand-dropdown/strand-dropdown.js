@@ -281,7 +281,6 @@
 
 		// General
 		_valueChanged: function(newVal, oldVal) {
-			console.log(this, oldVal, '->', newVal);
 			if (newVal) {
 				this._selectItemByValue(newVal);
 			} else {
