@@ -213,6 +213,7 @@
 					this.set(path, value);
 				}, this);
 			}
+			this.fire('select-all', {selected:value});
 		},
 
 		get selected() {
