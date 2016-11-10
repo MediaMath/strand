@@ -100,6 +100,10 @@
 			maxItems: {
 				type: Number,
 				observer: '_maxItemsChanged'
+			},
+			updateSelection:{
+				type:Boolean,
+				value:false
 			}
 		},
 
@@ -228,7 +232,11 @@
 					this.maxItems = 10;
 				}
 				// reset selectedIndex for recycler scenarios
-				this.selectedIndex = null;
+				if (this.updateSelection) {
+					this.selectedIndex = null;
+				} else {
+					this.reset();
+				}
 				this._setMaxHeight(this.maxItems);
 			} else {
 				//reset the GUI selection state but leave 'value' alone
@@ -242,7 +250,7 @@
 					this._setMaxHeight(this.maxItems);
 				}, 1);
 				//check to see if our value now has a match on the data array
-				if (this.value) {
+				if (this.value && this.updateSelection) {
 					this._selectItemByValue(this.value);
 				}
 			}
