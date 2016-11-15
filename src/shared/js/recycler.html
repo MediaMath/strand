@@ -464,7 +464,9 @@ This code may only be used under the BSD style license found at http://mediamath
 						this._jump(iface, placeholders, lower, currentCount, recycler);
 					}
 
-					this._pushUp(iface, placeholders, deltaCount, available, recycler);
+					if (!destructive) {
+						this._pushUp(iface, placeholders, deltaCount, available, recycler);
+					}
 				} else {
 					if (deltaCount < 0) {
 						this._cutUp(iface, placeholders, -deltaCount, available, recycler);
@@ -479,8 +481,8 @@ This code may only be used under the BSD style license found at http://mediamath
 					}
 				}
 			} else if (deltaCount < 0) {
-				this._cutUp(iface, placeholders, deltaUpper, available, recycler);
-				this._cutDown(iface, placeholders, -deltaLower, available, recycler);
+				this._cutUp(iface, placeholders, -deltaUpper, available, recycler);
+				this._cutDown(iface, placeholders, deltaLower, available, recycler);
 			}
 		} else {
 			if (deltaUpper < 0) {
@@ -491,7 +493,9 @@ This code may only be used under the BSD style license found at http://mediamath
 						this._jump(iface, placeholders, lower, currentCount, recycler);
 					}
 
-					this._pushDown(iface, placeholders, deltaCount, available, recycler);
+					if (!destructive) {
+						this._pushDown(iface, placeholders, deltaCount, available, recycler);
+					}
 				} else {
 					if (deltaCount < 0) {
 						this._cutDown(iface, placeholders, -deltaCount, available, recycler);
@@ -506,8 +510,10 @@ This code may only be used under the BSD style license found at http://mediamath
 					}
 				}
 			} else if (deltaCount > 0) {
-				this._pushUp(iface, placeholders, deltaUpper, available, recycler);
-				this._pushDown(iface, placeholders, -deltaLower, available, recycler);
+				if (!destructive) {
+					this._pushUp(iface, placeholders, deltaUpper, available, recycler);
+					this._pushDown(iface, placeholders, -deltaLower, available, recycler);
+				}
 			}
 		}
 	};
