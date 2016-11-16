@@ -61,10 +61,12 @@
 								selected$="{{model.selected}}"
 								highlighted$="{{model.highlighted}}"
 								show-placeholder="{{!model}}">
-								<strand-highlight 
-									text="{{model.name}}" 
-									highlight="{{scope.highlight}}">
-								</strand-highlight>
+								<template is="dom-if" if="{{model}}">
+									<strand-highlight 
+										text="{{model.name}}" 
+										highlight="{{scope.highlight}}">
+									</strand-highlight>
+								</template>
 							</strand-list-item>
 						</template>
 					</strand-item-recycler>
