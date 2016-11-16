@@ -37,7 +37,10 @@
 		],
 
 		_updateInternals: function(text, highlight) {
-			if (!this.text) return;
+			if (!this.text) {
+				this._textItems = [];
+				return;
+			}
 			if (this.highlight) {
 				var reg = new RegExp(this.highlight.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'ig');
 				var stamp = '\uE000';
