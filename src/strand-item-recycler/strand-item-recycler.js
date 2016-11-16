@@ -288,11 +288,28 @@ found here: https://github.com/Polymer/core-list
 				if (added = 0|mutation.addedCount) {
 					itemRecycler._measurements.addHeights(mutation.index, added);
 					// height initialization array required to keep _middleHeight accurate
-					transactor.addHeightsAtIndex(mutation.index, added, new Array(added));
+					if (itemRecycler._itemHeight) {
+						deltaHeight += itemRecycler._getItemHeight() * added;
+					}
+					transactor.addHeightsAtIndex(mutation.index, added, itemRecycler._spliceHeights(added));
 				}
 			}
 
 			itemRecycler._deltaMiddleHeight(deltaHeight);
+			itemRecycler._applyTransform();
+		},
+
+		_spliceHeights: function (amount) {
+			var count = 0|amount;
+			var index = 0;
+			var list = new Array(count);
+			var size = this._itemHeight ? this._getItemHeight() : 0;
+
+			for (index; index < count; index++) {
+				list[index] = size;
+			}
+
+			return list;
 		},
 
 		_dataSpliced: function(record) {
@@ -330,7 +347,7 @@ found here: https://github.com/Polymer/core-list
 					this._setMeasuring(true);
 				}
 				this._recycler.transactHeightMutations(this._spliceTxn, this, splices);
-				this.cull();
+				this.async(this.cull);
 			}
 
 			at = this._recycler.getLowestIndex();
@@ -517,7 +534,7 @@ found here: https://github.com/Polymer/core-list
 			this._itemHeight = roundMaybe(bound.height);
 
 			if (initialization) {
-				change = (this._getDataLength() - 1) * adjustment;
+				change = (this._getDataLength() - this._measurements.getDiscreteCount()) * adjustment;
 				if (this._viewportHeight <= 0) {
 					change -= 1; // accounting for enforced minimum from _initializeViewport()
 				}
@@ -583,6 +600,8 @@ found here: https://github.com/Polymer/core-list
 			this._provideMarginOfError();
 			this._recycler.cull();
 			this._denyMarginOfError();
+
+			this.async(this._modifyPadding, 1);
 		},
 
 		_changeOffsetsAfter: function (nthDOM, delta) {
@@ -822,6 +841,7 @@ found here: https://github.com/Polymer/core-list
 					bound = this._includeBoundAtIndex(-1 - index, young, spliced, useLightDom);
 					count++;
 				} else if (young < 0) {
+					this.debounce("offset-removal", this._modifyPadding);
 					bound = this._excludeBoundAtIndex(-1 - index, old, spliced);
 					bound = null;
 					while (count-- > 0 && !binds[count]) {
@@ -838,6 +858,7 @@ found here: https://github.com/Polymer/core-list
 				bound = this._includeBoundAtIndex(index, young, spliced, useLightDom);
 				count++;
 			} else if (young < 0) {
+				this.debounce("offset-removal", this._modifyPadding);
 				bound = this._excludeBoundAtIndex(index, old, spliced);
 				bound = null;
 				while (count-- > 0 && !binds[count]) {
@@ -1312,6 +1333,22 @@ found here: https://github.com/Polymer/core-list
 
 		getBoundingClientRectOfFooter: function () {
 			return this.$.footer.getBoundingClientRect();
+		},
+
+		getPaneScrollTop: function () {
+			return this.$.pane.scrollTop;
+		},
+
+		getPaneScrollLeft: function () {
+			return this.$.pane.scrollLeft;
+		},
+
+		getPaneScrollWidth: function () {
+			return this.$.pane.scrollWidth;
+		},
+
+		getPaneScrollHeight: function () {
+			return this.$.pane.scrollHeight;
 		},
 
 	});
