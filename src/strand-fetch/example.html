@@ -1,0 +1,13 @@
+<template is="dom-bind" id="db">
+	<strand-input value="{{url}}"></strand-input>
+	<strand-fetch data="{{data}}">
+		<url>{{url}}</url>
+	</strand-fetch>
+	<pre>{{out(data)}}</pre>
+</template>
+<script>
+document.addEventListener('WebComponentsReady', function() {
+	var db = document.querySelector('#db');
+	db.out = function(o) { return JSON.stringify(o, null, 4);}
+});
+</script>

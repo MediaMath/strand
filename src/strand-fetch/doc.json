@@ -1,0 +1,78 @@
+{
+	"name":"strand-fetch",
+	"description":"A simple web component wrapper around the Fetch API. Note at authortime fetch is currently unsupported in Safari.",
+	"attributes": [
+		{
+			"name":"url",
+			"type":"String",
+			"description":"The url to request -- note this should typically be set via the internal dom element <url></url>",
+			"default":"none",
+			"optional":false,
+			"attribute":"url"
+		},
+		{
+			"name":"auto",
+			"type":"Boolean",
+			"description":"When auto is true the component will automatically fetch data whenever the URL dom element changes value. (ie filter or sort has changed)",
+			"default":"none",
+			"optional":true,
+			"attribute":"auto"
+		},
+		{
+			"name":"fetchOptions",
+			"type":"Object",
+			"description":"Passthrough for the default fetch config object. Details can be founnd at: https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch",
+			"default":"none",
+			"optional":true,
+			"attribute":"fetch-options"
+		},
+		{
+			"name":"data",
+			"type":"Object",
+			"description":"JSON marshalled response from the server",
+			"default":"none",
+			"optional":true,
+			"attribute":"data"
+		},
+		{
+			"name":"body",
+			"type":"String",
+			"description":"Body contents to send to the server for non GET calls. If auto is true changing this will trigger a POST.",
+			"default":"none",
+			"optional":true,
+			"attribute":"body"
+		}
+	],
+	"methods": [
+		{
+			"name":"get",
+			"description":"perform a default fetch with a method of GET",
+			"arguments":[]
+		},
+		{
+			"name":"post",
+			"description":"perform a default fetch with a method of POST",
+			"arguments":[]
+		},
+		{
+			"name":"put",
+			"description":"perform a default fetch with a method of PUT",
+			"arguments":[]
+		},
+		{
+			"name":"delete",
+			"description":"perform a default fetch with a method of DELETE",
+			"arguments":[]
+		},
+		{
+			"name":"fetch",
+			"description":"perform a default fetch with the method specified manually",
+			"arguments":[]
+		}
+	],
+	"behaviors": [
+		"falsifiable",
+		"domgettable",
+		"refable"
+	]
+}

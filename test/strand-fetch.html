@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="../bower_components/web-component-tester/browser.js"></script>
+	<script>
+		var should = chai.should();
+	</script>
+	<link rel="import" href="../build/strand.html">
+</head>
+<body>
+
+	<script>
+
+		describe("strand-fetch", function() {
+			beforeEach(function() {
+				sinon.stub(window, 'fetch');
+				var res = new window.Response('{"hello":"world"}', {
+					status: 200,
+					headers: {
+						'Content-type': 'application/json'
+					}
+				});
+				window.fetch.returns(Promise.resolve(res));
+				console.log(window.fetch);
+			});
+
+			afterEach(function() {
+				window.fetch.restore();
+			});
+
+			it("should exist", function() {
+				var a = new Strand.Fetch();
+			});
+
+			it("should make a call when get is called", function(done) {
+				var test = new Strand.Fetch();
+				test.get('/').then(done,done);
+			});
+
+			it("should make a call when given a url", function(done) {
+				var test = new Strand.Fetch();
+				test.set('auto',true);
+
+				test.addEventListener('fetch-data', function(e) {
+					var expected = {hello:'world'};
+					expected.should.deep.equal(e.detail);
+					expected.should.deep.equal(test.data);
+					done();
+				});
+				test.set('url', 'http://test.com');
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>
