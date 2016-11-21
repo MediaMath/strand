@@ -23,6 +23,11 @@
 				type:Array,
 				notify:true
 			},
+			selected:{
+				type:Object,
+				notify:true,
+				value:null
+			},
 			output:{
 				type:Array,
 				notify:true
@@ -40,7 +45,7 @@
 		},
 
 		observers:[
-			'_handleInputUpdate(input.*, _parsedRules)',
+			'_handleInputUpdate(input.*, _parsedRules, selected)',
 			'_handleInputUpdate(input.slices)',
 		],
 
@@ -69,6 +74,9 @@
 			}
 			if (this.input && this.input.length) {
 				var o = this.input.map(this._generateModel,this);
+				if (this.selected) {
+					o.unshift(this._generateModel(this.selected));
+				}
 				this.set('output', o);
 			}
 		},
