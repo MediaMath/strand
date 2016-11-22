@@ -26,9 +26,6 @@
 				type: Boolean,
 				value: false
 			},
-			direction: {
-				value: 'n'
-			},
 			hidden: {
 				type: Boolean
 			},
@@ -104,6 +101,9 @@
 
 			var data = this.data;
 			var step = this.currentStep;
+
+			// set direction for the tip - position 'n' by default
+			this.direction = data[step].hasOwnProperty('direction') ? data[step].direction : 'n';
 
 			this._target = data[step].targetRef;
 			this._header = data[step].hasOwnProperty('header') ? data[step].header : null;

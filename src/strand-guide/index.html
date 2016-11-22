@@ -107,25 +107,29 @@
 		id="guide"
 		use-local-storage
 		name="index-example">
-		 
+		
 		<guide 
 			target="button1" 
 			header="IP Targeting Now Available!"
 			message="You can now target/anti-target IP addresses. For more information, please visit the"
 			dismiss="Thanks, I've got it."
 			linktext="KB"
+			direction="e"
 			linkurl="http://www.example.com"></guide>
 		
 		<guide 
 			target="button2"
 			header="Some Header 2"
-			message="Some Message Here 2"></guide>
+			message="Some Message Here 2"
+			direction="w"></guide>
 		<guide 
 			target="button3"
-			message="Some Message Here 3"></guide>
+			message="Some Message Here 3"
+			direction="s"></guide>
 		<guide
 			target="footerBtn"
-			message="Some Message Here 4"></guide>
+			message="Some Message Here 4"
+			direction="n"></guide>
 		
 	</strand-guide>
 
@@ -143,20 +147,24 @@
 		// 		message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor ipsum vel leo rutrum, eu rhoncus sem volutpat. Vestibulum convallis urna vel tristique pharetra.',
 		// 		dismiss: 'Thanks, I\'ve got it.',
 		// 		linktext: 'Knowledge Base',
-		// 		linkurl: 'http://www.example.com'
+		// 		linkurl: 'http://www.example.com',
+		// 		direction: 'e'
 		// 	},
 		// 	{
 		// 		target: 'button2',
 		// 		header: 'Some Header 2',
-		// 		message: 'Some Message Here 2'
+		// 		message: 'Some Message Here 2',
+		// 		direction: 'w'
 		// 	},
 		// 	{
 		// 		target: 'button3',
-		// 		message: 'Some Message Here 3'
+		// 		message: 'Some Message Here 3',
+		// 		direction:'s'
 		// 	},
 		// 	{
 		// 		target: 'footerBtn',
-		// 		message: 'Some Message Here 4'
+		// 		message: 'Some Message Here 4',
+		// 		direction: 'n'
 		// 	}
 		// ];
 
