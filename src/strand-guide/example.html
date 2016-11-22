@@ -6,9 +6,11 @@
 		message="This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this"
 		dismiss="Thanks, I've got it."
 		linktext="External link"
-		linkurl="http://www.github.com"></guide>
+		linkurl="http://www.github.com"
+		direction="n"></guide>
 	<guide target="footerBtn"
-		message="You can create a guide with no header or dismiss message!"></guide>	
+		message="You can create a guide with no header or dismiss message!"
+		direction="w"></guide>	
 </strand-guide>
 
 <strand-footer id="footer" fitparent>
@@ -27,11 +29,13 @@
 			message: 'This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this',
 			dismiss: 'Thanks, I\'ve got it.',
 			linktext: 'External link',
-			linkurl: 'http://www.github.com'
+			linkurl: 'http://www.github.com',
+			direction: 'n'
 		},
 		{
 			target: 'footerBtn',
-			message: 'You can create a guide with no header or dismiss message!'
+			message: 'You can create a guide with no header or dismiss message!',
+			direction: 'w'
 		}
 	];
 	*/

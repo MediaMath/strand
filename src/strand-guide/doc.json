@@ -106,7 +106,7 @@
 		{
 			"name":"data",
 			"type":"Array",
-			"description":"The data array which drives the component. I configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String, direction: String }]. Note: for the 'direction' configuration option, please see strand-popover."
+			"description":"The data array which drives the component. If configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String, direction: String }]. Note: for 'direction' configuration options please see strand-popover."
 		}
 	],
 	"methods": [
