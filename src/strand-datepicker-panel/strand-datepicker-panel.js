@@ -138,7 +138,6 @@
 		},
 
 		_valueChanged: function(newValue, oldValue) {
-			console.log('valuechanged', newValue, oldValue)
 			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
 				var wrappedUnix = moment.unix(newValue).utc();
 				// dateString change handler will change Date object
@@ -148,7 +147,6 @@
 		},
 
 		_timeChanged: function(newTime, oldTime) {
-			console.log('timechanged', newTime, oldTime)
 			if(newTime && newTime !== oldTime) {
 				this.value = _startOfDay(this.value) + newTime;
 			}
