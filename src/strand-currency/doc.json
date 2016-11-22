@@ -29,7 +29,7 @@
 			"description":"The locale to use for decimal formatting. Defaults to navigator.language.",
 			"default":"navigator.language value",
 			"attribute":"locale"
-		},
+		}
 	],
 	"behaviors" : [
 	]
