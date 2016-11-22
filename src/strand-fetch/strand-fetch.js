@@ -31,7 +31,7 @@
 							this.auto = true;
 						}
 					});
-					return;
+					return undefined;
 				},
 			},
 			//see https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch
