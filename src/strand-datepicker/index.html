@@ -151,6 +151,13 @@
 		</div>
 
 		<script>
+			window.d = new Date('11/11/2016 20:00:00 GMT-0600');
+			window.n = new Date('11/11/2016 21:00:00 GMT-0500');
+
+			window.md = moment(d);
+			window.mn = moment(n);
+			window.g = moment.utc(d);
+
 			var dp,
 				dpb,
 				tmp,
@@ -177,8 +184,8 @@
 				dp.target = dpb;
 				// dp.dual = false;
 
-				dp.allowedStart = moment().subtract(14, 'days');
-				dp.allowedEnd = moment().add(14, 'days');
+				// dp.allowedStart = moment().subtract(14, 'days');
+				// dp.allowedEnd = moment().add(14, 'days');
 
 				// tmp = document.querySelector("#tmp");
 				// tmp.op = function() {

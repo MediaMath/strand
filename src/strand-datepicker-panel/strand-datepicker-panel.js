@@ -6,8 +6,13 @@
 */
 (function (scope) {
 
+	var SECONDS_PER_DAY = 60*60*24;
 	var DataUtils = StrandLib.DataUtils;
 	var BehaviorUtils = StrandLib.BehaviorUtils;
+
+	function _startOfDay(timestamp) {
+		return Math.floor(timestamp/SECONDS_PER_DAY) * SECONDS_PER_DAY;
+	}
 
 	scope.DatepickerPanel = Polymer({
 		is: 'strand-datepicker-panel',
@@ -105,9 +110,8 @@
 				var wrappedOld = moment(oldDate);
 
 				if(!wrappedNew.isSame(wrappedOld)) {
-					var dateOnly = wrappedNew.startOf('day');
-					this.dateString = dateOnly.format(this.dateFormat).toString();
-					this.value = dateOnly.unix() + this.time;
+					this.dateString = wrappedNew.format(this.dateFormat).toString();
+					this.value = _startOfDay(wrappedNew.unix()) + this.time;
 				}
 			}
 		},
@@ -126,29 +130,27 @@
 					}
 					// Don't do anything if the date didn't actually change
 					else if(!wrappedNew.isSame(wrappedOld)) {
-						var dateOnly = wrappedNew.startOf('day');
-						this.date = dateOnly.toDate();
-						this.value = dateOnly.unix() + this.time;
+						this.date = wrappedNew.toDate();
+						this.value = _startOfDay(wrappedNew.unix()) + this.time;
 					}
 				}
 			}
 		},
 
 		_valueChanged: function(newValue, oldValue) {
+			console.log('valuechanged', newValue, oldValue)
 			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
-				var wrappedUnix = moment.unix(newValue);
+				var wrappedUnix = moment.unix(newValue).utc();
 				// dateString change handler will change Date object
 				this.dateString = wrappedUnix.format(this.dateFormat).toString();
-				// get seconds since midnight
-				var startOfDay = wrappedUnix.clone().startOf('day');
-				this.time = wrappedUnix.diff(startOfDay, 'seconds');
+				this.time = newValue % SECONDS_PER_DAY;
 			}
 		},
 
 		_timeChanged: function(newTime, oldTime) {
+			console.log('timechanged', newTime, oldTime)
 			if(newTime && newTime !== oldTime) {
-				var dateOnly = moment.unix(this.value).startOf('day');
-				this.value = dateOnly.unix() + newTime;
+				this.value = _startOfDay(this.value) + newTime;
 			}
 		},
 
