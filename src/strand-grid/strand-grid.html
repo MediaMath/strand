@@ -42,6 +42,9 @@
 				<content select="footer"></content>
 			</div>
 		</strand-item-recycler>
+		<template is="dom-if" if="{{_showNoResults(noResultsMessage, data)}}" restamp>
+			<div class="no-results-msg">{{noResultsMessage}}</div>
+		</template>
 		<div id="separator"></div>
 	</template>
 </dom-module>
