@@ -90,6 +90,6 @@
 	position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-50%);
     @include defaultFont(15px, normal);
 }

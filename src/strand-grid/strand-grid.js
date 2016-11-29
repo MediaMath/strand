@@ -368,8 +368,10 @@
 		},
 
 		_showNoResults(noResultsMessage, data) {
-			if (noResultsMessage && data) {
-				return !data.length;
+			if (noResultsMessage) {
+				return !data || data && !data.length;
+			} else {
+				return false;
 			}
 		}
 	});
