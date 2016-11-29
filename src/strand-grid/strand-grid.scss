@@ -8,6 +8,7 @@
 @import "_color";
 @import "_mixins";
 @import "_grid";
+@import "_text";
 
 :host {
 	display: block;
@@ -83,4 +84,12 @@
 	display: flex;
 	flex: 1;
 	width: 100%;
+}
+
+.no-results-msg {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    @include defaultFont(15px, normal);
 }

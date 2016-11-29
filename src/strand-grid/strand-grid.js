@@ -50,7 +50,7 @@
 			},
 			indicate: {
 				type: String,
-				value: "loading  measuring",
+				value: "loading measuring",
 			},
 			_indications: {
 				type: Object,
@@ -104,6 +104,14 @@
 				type:String,
 				value:null,
 				notify: true
+			},
+			noResultsMessage: {
+				type: String,
+				value: null
+			},
+			_noResults: {
+				type: Boolean,
+				value: false
 			}
 		},
 
@@ -358,6 +366,14 @@
 		removeColumn: function (column) {
 			return Polymer.dom(this).removeChild(column);
 		},
+
+		_showNoResults(noResultsMessage, data) {
+			if (noResultsMessage) {
+				return !data || data && !data.length;
+			} else {
+				return false;
+			}
+		}
 	});
 
 })(window.Strand = window.Strand || {});
