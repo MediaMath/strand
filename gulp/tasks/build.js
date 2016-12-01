@@ -9,6 +9,8 @@
 	var autoprefixer = require('autoprefixer');
 	var hogan = require('hogan.js');
 	var Vulcanize = require('vulcanize');
+	var cheerio = require('cheerio');
+	var babel = require('babel-core');
 
 	//stream/gulp related
 	var merge = require('merge-stream');
@@ -107,6 +109,25 @@
 		    });
 		}
 
+		function inlineBabel(opts) {
+			opts = opts || {};
+			return through.obj(function (file, enc, cb) {
+				var fileContent = file.contents.toString("utf8");
+				var ch = cheerio.load(fileContent, {
+					withStartIndices: true
+				});
+				ch('script').each(function(index, el) {
+					var script = cheerio(this).text();
+					var o = babel.transform(script, opts.babel || {
+						presets:['babili']
+					});
+					cheerio(this).text(o.code);
+				});
+				file.contents = new Buffer(ch.html());
+				cb(null, file);
+			});
+		}
+
 		gulp.task('vulcanize', function() {
 			var moduleGlob = j(C.BUILD,C.MODULE_MASK, C.MODULE_HTML);
 		    var excludes = glob.sync(moduleGlob);
@@ -184,7 +205,8 @@
 					empty: true,
 					spare: true
 				}))
-				.pipe(plugins.inlinemin())
+				.pipe(inlineBabel())
+				.pipe(plugins.inlinemin({js:false}))
 				.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 				.pipe(C.dbg('vulcanize-modules'))
 				.pipe(gulp.dest(C.DIST));
@@ -201,7 +223,8 @@
 					empty: true,
 					spare: true
 				}))
-				.pipe(plugins.inlinemin())
+				.pipe(inlineBabel())
+				.pipe(plugins.inlinemin({js:false}))
 				.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 				.pipe(C.dbg('vulcanize-lib'))
 				.pipe(gulp.dest(C.DIST));
