@@ -11,6 +11,9 @@ addons:
     packages:
     - google-chrome-stable
     - g++-4.8
+before_install:
+- source /opt/jdk_switcher/jdk_switcher.sh
+- jdk_switcher use oraclejdk8
 before_script:
 - npm install -g bower web-component-tester
 - npm install
