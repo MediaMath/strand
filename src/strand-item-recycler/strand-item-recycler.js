@@ -563,11 +563,19 @@ found here: https://github.com/Polymer/core-list
 
 		_modifyPadding: function () {
 			var binds = this._bindingList;
-			var sorted = !binds ? null : binds.filter(_identity).sort(_orderBindsByDOM)
-			var count = 0|(sorted && sorted.length);
+			var sorted = binds;
+			var count = 0;
 			var index = 0;
 			var bound = null;
 			var offset = 0;
+
+			if (this._itemHeight > 0) {
+				this._provideMarginOfError();
+				this._denyMarginOfError();
+			}
+
+			sorted = !binds ? null : binds.filter(_identity).sort(_orderBindsByDOM);
+			count = 0|(sorted && sorted.length);
 
 			for (index = 0; index < count; index++) {
 				bound = sorted[index];
@@ -577,11 +585,6 @@ found here: https://github.com/Polymer/core-list
 					this._repositionBound(bound);
 				}
 				offset += bound.height;
-			}
-
-			if (this._itemHeight > 0) {
-				this._provideMarginOfError();
-				this._denyMarginOfError();
 			}
 		},
 
@@ -717,12 +720,12 @@ found here: https://github.com/Polymer/core-list
 
 					if (direction < 0 || (!direction && this._scrollTop >= lower)) {
 						this.$.pane.scrollTop = lower;
-						change = this._scrollTop - lower;
+						change = this._scrollTop - this.$.pane.scrollTop;
 					} else {
 						upper = this._recycler.getElevationAtIndex(index + 1);
 						if (direction > 0 || this._scrollTop < upper - this._viewportHeight) {
 							this.$.pane.scrollTop = upper - this._viewportHeight;
-							change = this._scrollTop - (upper - this._viewportHeight);
+							change = this._scrollTop - this.$.pane.scrollTop;
 						}
 					}
 
