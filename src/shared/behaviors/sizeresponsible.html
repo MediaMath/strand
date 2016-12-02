@@ -4,7 +4,7 @@ Copyright (c) 2015 MediaMath Inc. All rights reserved.
 This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
 -->
 
-<script type="text/javascript">
+<script>
 // adapted from https://github.com/sdecima/javascript-detect-element-resize/blob/3d9563692e169eb54f7c4fb96f4866aebc17cb4e/detect-element-resize.js
 /**
 * Detect Element Resize
@@ -33,7 +33,7 @@ This code may only be used under the BSD style license found at http://mediamath
 		  return function(id){ return cancel(id); };
 		})();
 
-		function resetTriggers(element){
+		var resetTriggers = function resetTriggers(element){
 			if (!element.__resizeTriggers__) { return; } // diverges from 3d9563692e169eb54f7c4fb96f4866aebc17cb4e
 			var triggers = element.__resizeTriggers__,
 				expand = triggers.firstElementChild,
@@ -48,12 +48,12 @@ This code may only be used under the BSD style license found at http://mediamath
 			expand.scrollTop = expand.scrollHeight;
 		};
 
-		function checkTriggers(element){
+		var checkTriggers = function checkTriggers(element){
 			return element.offsetWidth != element.__resizeLast__.width ||
 						 element.offsetHeight != element.__resizeLast__.height;
-		}
+		};
 
-		function scrollListener(e){
+		var scrollListener = function scrollListener(e){
 			var element = this;
 			resetTriggers(this);
 			if (this.__resizeRAF__) cancelFrame(this.__resizeRAF__);
