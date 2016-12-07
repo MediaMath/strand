@@ -11,6 +11,19 @@
 		<link rel="import" href="../build/shared/behaviors/sizeresponsible.html"/>
 		<link rel="import" href="../build/shared/js/datautils.html"/>
 		<link rel="import" href="../bower_components/polymer/polymer.html"/>
+		<style id="global">
+			#parent,#child,#test1 {
+				width: 90%;
+			}
+
+			.tall {
+				height: 512px;
+			}
+
+			.short {
+				height: 32px;
+			}
+		</style>
 	</head>
 	<body>
 		<dom-module id="test-sizeresponsible">
@@ -18,22 +31,101 @@
 				<content id="content"></content>
 			</template>
 			<style>
+
 				#unused {
 					display: none;
 				}
+
+				:host {
+					display: block;
+				}
+
+
+
+				@keyframes resizeanim {
+					from { opacity: 0; } to { opacity: 0; }
+				}
+
+				.resize-triggers {
+					animation: 1ms resizeanim;
+					visibility: hidden;
+					opacity: 0;
+				}
+
+				.resize-triggers,
+				.resize-triggers > div,
+				.contract-trigger:before {
+					content: " ";
+					display: block;
+					position: absolute;
+					top: 0;
+					left: 0;
+					height: 100%;
+					width: 100%;
+					overflow: hidden;
+				}
+
+				.resize-triggers > div {
+					background: #eee;
+					/*
+					overflow: auto;
+					*/
+				}
+
+				.contract-trigger:before {
+					width: 200%;
+					height: 200%;
+				}
+
 			</style>
 			<script>
 				HTMLImports.whenReady(function() {
 					Polymer({
 						is:"test-sizeresponsible",
-						behaviors:[StrandTraits.SizeResponsible]
+						behaviors:[StrandTraits.SizeResponsible],
+
+						properties: {
+							target: {
+								type: Object,
+								value: function () {
+									return this;
+								},
+							},
+							delegate: {
+								type: Function,
+								value: function () {
+									return function () {
+
+									};
+								},
+							},
+							_handler: {
+								type: Function,
+								value: function () {
+									var test = this;
+									return function () {
+										if (test.delegate) {
+											return test.delegate.apply(test, arguments);
+										}
+									};
+								},
+							},
+						},
+
+						attached: function () {
+							this.addResizeListener(this._handler, this.target);
+						},
 					});
 				});
 			</script>
 		</dom-module>
 
-		<test-sizeresponsible id="test1"></test-sizeresponsible>
-		
+		<div id="parent" style="height: 128px;">
+			<test-sizeresponsible id="test1" style="height: 100%;">
+				<div id="child" style="height: 64px;"></div>
+			</test-sizeresponsible>
+		</div>
+
 		<script>
 			describe("SizeResponsible", function() {
 				
@@ -97,6 +189,255 @@
 
 						return result;
 					}
+				});
+
+			});
+
+			describe("SizeResponsible detection", function() {
+
+				it("should detect resize from stlye/class change on self", function(done) {
+					var elem = document.querySelector("#test1");
+					var child = document.querySelector("#child");
+					var parent = document.querySelector("#parent");
+					var width = -1;
+					var height = -1;
+
+					elem.style.width = "";
+					child.style.width = "";
+					parent.style.width = "";
+					elem.style.height = "100%";
+					child.style.height = "64px";
+					parent.style.height = "128px";
+					elem.className = "";
+					child.className = "";
+					parent.className = "";
+
+					elem.delegate = function () {
+						width = this.target.offsetWidth;
+						height = this.target.offsetHeight;
+					};
+
+					function match () {
+						if (width !== elem.target.offsetWidth ||
+							height !== elem.target.offsetHeight) {
+							throw new Error("Callback failed to fire");
+						}
+					}
+
+
+
+					elem.style.height = "256px";
+
+					waitFor(function () {
+						match();
+					}, function () {
+
+						elem.className = "tall";
+						elem.style.height = "";
+
+						waitFor(match, function () {
+
+							done();
+
+						});
+
+					});
+				});
+
+				it("should detect resize from stlye/class change on parent", function(done) {
+					var elem = document.querySelector("#test1");
+					var child = document.querySelector("#child");
+					var parent = document.querySelector("#parent");
+					var width = -1;
+					var height = -1;
+
+					elem.style.width = "";
+					child.style.width = "";
+					parent.style.width = "";
+					elem.style.height = "100%";
+					child.style.height = "64px";
+					parent.style.height = "128px";
+					elem.className = "";
+					child.className = "";
+					parent.className = "";
+
+					elem.delegate = function () {
+						width = this.target.offsetWidth;
+						height = this.target.offsetHeight;
+					};
+
+					function match () {
+						if (width !== elem.target.offsetWidth ||
+							height !== elem.target.offsetHeight) {
+							throw new Error("Callback failed to fire");
+						}
+					}
+
+
+
+					parent.style.width = "50%";
+
+					waitFor(function () {
+						match();
+					}, function () {
+
+						parent.className = "short";
+						parent.style.height = "";
+
+						waitFor(match, function () {
+
+							done();
+
+						});
+
+					});
+				});
+
+				it("should detect resize from stlye/class change on child", function(done) {
+					var elem = document.querySelector("#test1");
+					var child = document.querySelector("#child");
+					var parent = document.querySelector("#parent");
+					var width = -1;
+					var height = -1;
+
+					elem.style.width = "";
+					child.style.width = "";
+					parent.style.width = "";
+					elem.style.height = "";
+					child.style.height = "64px";
+					parent.style.height = "128px";
+					elem.className = "";
+					child.className = "";
+					parent.className = "";
+
+					elem.delegate = function () {
+						width = this.target.offsetWidth;
+						height = this.target.offsetHeight;
+					};
+
+					function match () {
+						if (width !== elem.target.offsetWidth ||
+							height !== elem.target.offsetHeight) {
+							throw new Error("Callback failed to fire");
+						}
+					}
+
+
+
+					child.style.height = "256px";
+
+					waitFor(function () {
+						match();
+					}, function () {
+
+						child.className = "tall";
+						child.style.height = "";
+
+						waitFor(match, function () {
+
+							done();
+
+						});
+
+					});
+				});
+
+				it("should detect resize from content expansion/contraction in child", function(done) {
+					var elem = document.querySelector("#test1");
+					var child = document.querySelector("#child");
+					var parent = document.querySelector("#parent");
+					var width = -1;
+					var height = -1;
+
+					elem.style.width = "";
+					child.style.width = "";
+					parent.style.width = "";
+					elem.style.height = "";
+					child.style.height = "";
+					parent.style.height = "128px";
+					elem.className = "";
+					child.className = "";
+					parent.className = "";
+
+					elem.delegate = function () {
+						width = this.target.offsetWidth;
+						height = this.target.offsetHeight;
+					};
+
+					function match () {
+						if (width !== elem.target.offsetWidth ||
+							height !== elem.target.offsetHeight) {
+							throw new Error("Callback failed to fire");
+						}
+					}
+
+
+
+					child.innerHTML = new Array(4).join("alright<br/>");
+
+					waitFor(function () {
+						match();
+					}, function () {
+
+						child.innerHTML = "";
+
+						waitFor(match, function () {
+
+							done();
+
+						});
+
+					});
+				});
+
+				it("should detect resize from <style/> tag modification and inclusion", function(done) {
+					var elem = document.querySelector("#test1");
+					var child = document.querySelector("#child");
+					var parent = document.querySelector("#parent");
+					var width = -1;
+					var height = -1;
+
+					elem.style.width = "";
+					child.style.width = "";
+					parent.style.width = "";
+					elem.style.height = "100%";
+					child.style.height = "64px";
+					parent.style.height = "128px";
+					elem.className = "";
+					child.className = "";
+					parent.className = "";
+
+					elem.delegate = function () {
+						width = this.target.offsetWidth;
+						height = this.target.offsetHeight;
+					};
+
+					function match () {
+						if (width !== elem.target.offsetWidth ||
+							height !== elem.target.offsetHeight) {
+							throw new Error("Callback failed to fire");
+						}
+					}
+
+
+
+					document.querySelector("#global").innerHTML = "";
+
+					waitFor(function () {
+						match();
+					}, function () {
+
+						var style = document.createElement("style");
+						style.innerHTML = " #test1,child,parent { width: 110%; }";
+						document.head.appendChild(style);
+
+						waitFor(match, function () {
+
+							done();
+
+						});
+
+					});
 				});
 
 			});
