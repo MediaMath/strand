@@ -205,8 +205,8 @@
 					empty: true,
 					spare: true
 				}))
-				.pipe(inlineBabel())
-				.pipe(plugins.inlinemin({js:false}))
+				// .pipe(inlineBabel())
+				.pipe(plugins.inlinemin())
 				.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 				.pipe(C.dbg('vulcanize-modules'))
 				.pipe(gulp.dest(C.DIST));
@@ -223,8 +223,8 @@
 					empty: true,
 					spare: true
 				}))
-				.pipe(inlineBabel())
-				.pipe(plugins.inlinemin({js:false}))
+				// .pipe(inlineBabel())
+				.pipe(plugins.inlinemin())
 				.pipe(plugins.header('<!--\n' + fs.readFileSync('BANNER.txt','utf8') + ' -->'))
 				.pipe(C.dbg('vulcanize-lib'))
 				.pipe(gulp.dest(C.DIST));
