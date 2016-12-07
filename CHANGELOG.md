@@ -1,3 +1,10 @@
+<a name="v4.2.1"></a>
+## v4.2.1 (2016-12-07)
+
+* remove babily for now (checkbox issue in grid) ([a0ff681](https://github.com/MediaMath/strand/commit/a0ff681))
+
+
+
 <a name="v4.2.0"></a>
 # v4.2.0 (2016-12-07)
 
