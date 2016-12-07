@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.1.6" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.2.0" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -49,10 +49,12 @@
 				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
 				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
 				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-currency" value="strand-currency.html">strand-currency</strand-list-item>
 				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
 				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
 				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
 				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-fetch" value="strand-fetch.html">strand-fetch</strand-list-item>
 				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
 				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
 				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
@@ -84,6 +86,7 @@
 				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
 				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
 				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-timeformat" value="strand-timeformat.html">strand-timeformat</strand-list-item>
 				<strand-list-item id="strand-timepicker" value="strand-timepicker.html">strand-timepicker</strand-list-item>
 				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
 			</strand-docs-nav>
@@ -91,7 +94,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.1.6</p>
+				<p class="mini-subhead version">v4.2.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -121,9 +124,11 @@
 		message=&quot;This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this&quot;
 		dismiss=&quot;Thanks, I&#39;ve got it.&quot;
 		linktext=&quot;External link&quot;
-		linkurl=&quot;http://www.github.com&quot;&gt;&lt;/guide&gt;
+		linkurl=&quot;http://www.github.com&quot;
+		direction=&quot;n&quot;&gt;&lt;/guide&gt;
 	&lt;guide target=&quot;footerBtn&quot;
-		message=&quot;You can create a guide with no header or dismiss message!&quot;&gt;&lt;/guide&gt;	
+		message=&quot;You can create a guide with no header or dismiss message!&quot;
+		direction=&quot;w&quot;&gt;&lt;/guide&gt;	
 &lt;/strand-guide&gt;
 
 &lt;strand-footer id=&quot;footer&quot; fitparent&gt;
@@ -142,11 +147,13 @@
 			message: &#39;This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this&#39;,
 			dismiss: &#39;Thanks, I\&#39;ve got it.&#39;,
 			linktext: &#39;External link&#39;,
-			linkurl: &#39;http://www.github.com&#39;
+			linkurl: &#39;http://www.github.com&#39;,
+			direction: &#39;n&#39;
 		},
 		{
 			target: &#39;footerBtn&#39;,
-			message: &#39;You can create a guide with no header or dismiss message!&#39;
+			message: &#39;You can create a guide with no header or dismiss message!&#39;,
+			direction: &#39;w&#39;
 		}
 	];
 	*/
@@ -169,9 +176,11 @@
 		message="This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this"
 		dismiss="Thanks, I've got it."
 		linktext="External link"
-		linkurl="http://www.github.com"></guide>
+		linkurl="http://www.github.com"
+		direction="n"></guide>
 	<guide target="footerBtn"
-		message="You can create a guide with no header or dismiss message!"></guide>	
+		message="You can create a guide with no header or dismiss message!"
+		direction="w"></guide>	
 </strand-guide>
 
 <strand-footer id="footer" fitparent>
@@ -190,11 +199,13 @@
 			message: 'This is the standard guide format, it includes a header, message and optional dismiss action. Or you can click this',
 			dismiss: 'Thanks, I\'ve got it.',
 			linktext: 'External link',
-			linkurl: 'http://www.github.com'
+			linkurl: 'http://www.github.com',
+			direction: 'n'
 		},
 		{
 			target: 'footerBtn',
-			message: 'You can create a guide with no header or dismiss message!'
+			message: 'You can create a guide with no header or dismiss message!',
+			direction: 'w'
 		}
 	];
 	*/
@@ -413,7 +424,7 @@
 									reflected to attribute : <span class="italic">no</span>
 								</td>
 								<td>
-									<span class="desc">The data array which drives the component. I configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String }].</span>
+									<span class="desc">The data array which drives the component. If configuration is provided as lightDOM, the data array will be derived from the lightDOM configuration, otherwise, the data can be provided to the component as an array of objects following the format: [{ target: String, header: String, message: String, dismiss: String, direction: String }]. Note: for &#39;direction&#39; configuration options please see strand-popover.</span>
 								</td>
 							</tr>
 						</table>

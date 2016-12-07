@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.1.6" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.2.0" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -49,10 +49,12 @@
 				<strand-list-item id="strand-calendar" value="strand-calendar.html">strand-calendar</strand-list-item>
 				<strand-list-item id="strand-checkbox" value="strand-checkbox.html">strand-checkbox</strand-list-item>
 				<strand-list-item id="strand-collection" value="strand-collection.html">strand-collection</strand-list-item>
+				<strand-list-item id="strand-currency" value="strand-currency.html">strand-currency</strand-list-item>
 				<strand-list-item id="strand-datepicker" value="strand-datepicker.html">strand-datepicker</strand-list-item>
 				<strand-list-item id="strand-dialog" value="strand-dialog.html">strand-dialog</strand-list-item>
 				<strand-list-item id="strand-drawer" value="strand-drawer.html">strand-drawer</strand-list-item>
 				<strand-list-item id="strand-dropdown" value="strand-dropdown.html">strand-dropdown</strand-list-item>
+				<strand-list-item id="strand-fetch" value="strand-fetch.html">strand-fetch</strand-list-item>
 				<strand-list-item id="strand-file-upload" value="strand-file-upload.html">strand-file-upload</strand-list-item>
 				<strand-list-item id="strand-footer" value="strand-footer.html">strand-footer</strand-list-item>
 				<strand-list-item id="strand-form" value="strand-form.html">strand-form</strand-list-item>
@@ -84,6 +86,7 @@
 				<strand-list-item id="strand-tab" value="strand-tab.html">strand-tab</strand-list-item>
 				<strand-list-item id="strand-tabs" value="strand-tabs.html">strand-tabs</strand-list-item>
 				<strand-list-item id="strand-textarea" value="strand-textarea.html">strand-textarea</strand-list-item>
+				<strand-list-item id="strand-timeformat" value="strand-timeformat.html">strand-timeformat</strand-list-item>
 				<strand-list-item id="strand-timepicker" value="strand-timepicker.html">strand-timepicker</strand-list-item>
 				<strand-list-item id="strand-tooltip" value="strand-tooltip.html">strand-tooltip</strand-list-item>
 			</strand-docs-nav>
@@ -91,7 +94,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.1.6</p>
+				<p class="mini-subhead version">v4.2.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -238,6 +241,54 @@
 							</tr>
 							<tr>
 								<td>
+									<span class="bold">state : </span><span class="italic">String&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">closed</span><br/>
+									options : <span class="italic"><span class="option">opened</span><span class="option">closed</span></span><br/>
+									attribute : <span class="italic">state</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Sets the visual state of the element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">isClosed : </span><span class="italic">Boolean&nbsp;&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Returns a boolean corresponding to the visual state of the element.</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">STATE_CLOSED : </span><span class="italic">String&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">opened</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The value of the state property when the element is closed</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">STATE_OPENED : </span><span class="italic">String&nbsp;&nbsp;(read-only)</span><br/>
+									default : <span class="italic">opened</span><br/>
+									options : <span class="italic">none</span><br/>
+									attribute : <span class="italic">N/A</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">The value of the state property when the element is opened</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
 									<span class="bold">data : </span><span class="italic">Array&nbsp;(optional)&nbsp;</span><br/>
 									default : <span class="italic">null</span><br/>
 									options : <span class="italic">none</span><br/>
@@ -288,6 +339,45 @@
 									none
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<span class="bold">open</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Instructs the component to open.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">String&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">Used to allow or suppress the firing of an &#39;open&#39; event (see &#39;events&#39; for more information).</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">close</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Instructs the component to close.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">String&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">Used to allow or suppress the firing of a &#39;close&#39; event (see &#39;events&#39; for more information).</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">toggle</span>(<span><span class="italic option">silent</span></span>)<br/>
+									<span class="desc">Toggles the visual state of the component between &#39;opened&#39; and &#39;closed&#39;.</span>
+								</td>
+								<td>
+									<span class="arg">
+										<span class="bold">silent : </span><span class="italic">String&nbsp;(optional)</span><br/>
+										default : <span class="italic">false</span><br/>
+										<span class="desc">Used to allow or suppress the firing of an &#39;open&#39; or &#39;close&#39; event, depending on the component&#39;s current state (see &#39;events&#39; for more information).</span>
+									</span>
+								</td>
+							</tr>
 						</table>
 					</section>
 
@@ -297,6 +387,24 @@
 							<tr>
 								<th>Event</th>
 								<th>Event Detail</th>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'open'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">Type</span> : 'close'</span>
+									
+								</td>
+								<td>
+									none
+								</td>
 							</tr>
 							<tr>
 								<td>

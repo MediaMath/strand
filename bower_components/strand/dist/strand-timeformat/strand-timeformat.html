@@ -1,0 +1,329 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+ --><html><head><meta charset="UTF-8"></head><body><div hidden by-vulcanize=""><link rel="import" href="../../bower_components/polymer/polymer.html"><script>(function(a){var b={properties:{ref:{type:Object,notify:!0,readOnly:!0,value:function(){return this}}},findById:function(c){return this.$[c]||this.$$('#'+c)}};a.Refable=b})(window.StrandTraits=window.StrandTraits||{});</script><script type="text/javascript">var ____CONCEALED____=____CONCEALED____||{};____CONCEALED____.define="function"==typeof define?define:void 0,____CONCEALED____.require="function"==typeof require?require:void 0,____CONCEALED____.define&&(define=void 0),____CONCEALED____.require&&(require=void 0);</script><script language="javascript">(function(sf,tf){!function(uf,vf){"object"==typeof exports&&"undefined"!=typeof module?module.exports=vf():"function"==typeof sf&&sf.amd?sf(vf):uf.moment=vf()}(this,function(){"use strict";function uf(){return Lh.apply(null,arguments)}// This is done to register the method called with moment()
+// without creating circular dependencies.
+function vf(Aj){return Aj instanceof Array||"[object Array]"===Object.prototype.toString.call(Aj)}function wf(Aj){// IE8 will treat undefined and null as object if it wasn't for
+// input != null
+return null!=Aj&&"[object Object]"===Object.prototype.toString.call(Aj)}function xf(Aj){for(var Bj in Aj)// even if its not own property I'd still call it non-empty
+return!1;return!0}function yf(Aj){return"number"==typeof Aj||"[object Number]"===Object.prototype.toString.call(Aj)}function zf(Aj){return Aj instanceof Date||"[object Date]"===Object.prototype.toString.call(Aj)}function Af(Aj,Bj){var Cj,Dj=[];for(Cj=0;Cj<Aj.length;++Cj)Dj.push(Bj(Aj[Cj],Cj));return Dj}function Bf(Aj,Bj){return Object.prototype.hasOwnProperty.call(Aj,Bj)}function Cf(Aj,Bj){for(var Cj in Bj)Bf(Bj,Cj)&&(Aj[Cj]=Bj[Cj]);return Bf(Bj,"toString")&&(Aj.toString=Bj.toString),Bf(Bj,"valueOf")&&(Aj.valueOf=Bj.valueOf),Aj}function Df(Aj,Bj,Cj,Dj){return ah(Aj,Bj,Cj,Dj,!0).utc()}function Ef(){// We need to deep clone this object.
+return{empty:!1,unusedTokens:[],unusedInput:[],overflow:-2,charsLeftOver:0,nullInput:!1,invalidMonth:null,invalidFormat:!1,userInvalidated:!1,iso:!1,parsedDateParts:[],meridiem:null}}function Ff(Aj){return null==Aj._pf&&(Aj._pf=Ef()),Aj._pf}function Gf(Aj){if(null==Aj._isValid){var Bj=Ff(Aj),Cj=Nh.call(Bj.parsedDateParts,function(Ej){return null!=Ej}),Dj=!isNaN(Aj._d.getTime())&&0>Bj.overflow&&!Bj.empty&&!Bj.invalidMonth&&!Bj.invalidWeekday&&!Bj.nullInput&&!Bj.invalidFormat&&!Bj.userInvalidated&&(!Bj.meridiem||Bj.meridiem&&Cj);if(Aj._strict&&(Dj=Dj&&0===Bj.charsLeftOver&&0===Bj.unusedTokens.length&&void 0===Bj.bigHour),null!=Object.isFrozen&&Object.isFrozen(Aj))return Dj;Aj._isValid=Dj}return Aj._isValid}function Hf(Aj){var Bj=Df(NaN);return null==Aj?Ff(Bj).userInvalidated=!0:Cf(Ff(Bj),Aj),Bj}function If(Aj){return void 0===Aj}function Jf(Aj,Bj){var Cj,Dj,Ej;if(If(Bj._isAMomentObject)||(Aj._isAMomentObject=Bj._isAMomentObject),If(Bj._i)||(Aj._i=Bj._i),If(Bj._f)||(Aj._f=Bj._f),If(Bj._l)||(Aj._l=Bj._l),If(Bj._strict)||(Aj._strict=Bj._strict),If(Bj._tzm)||(Aj._tzm=Bj._tzm),If(Bj._isUTC)||(Aj._isUTC=Bj._isUTC),If(Bj._offset)||(Aj._offset=Bj._offset),If(Bj._pf)||(Aj._pf=Ff(Bj)),If(Bj._locale)||(Aj._locale=Bj._locale),0<Oh.length)for(Cj in Oh)Dj=Oh[Cj],Ej=Bj[Dj],If(Ej)||(Aj[Dj]=Ej);return Aj}// Moment prototype object
+function Kf(Aj){Jf(this,Aj),this._d=new Date(null==Aj._d?NaN:Aj._d.getTime()),this.isValid()||(this._d=new Date(NaN)),// Prevent infinite loop in case updateOffset creates new moment
+// objects.
+!1==Ph&&(Ph=!0,uf.updateOffset(this),Ph=!1)}function Lf(Aj){return Aj instanceof Kf||null!=Aj&&null!=Aj._isAMomentObject}function Mf(Aj){return 0>Aj?Math.ceil(Aj)||0:Math.floor(Aj)}function Nf(Aj){var Bj=+Aj,Cj=0;return 0!=Bj&&isFinite(Bj)&&(Cj=Mf(Bj)),Cj}// compare two arrays, return the number of differences
+function Of(Aj,Bj,Cj){var Dj,Ej=Math.min(Aj.length,Bj.length),Fj=Math.abs(Aj.length-Bj.length),Gj=0;for(Dj=0;Dj<Ej;Dj++)(Cj&&Aj[Dj]!==Bj[Dj]||!Cj&&Nf(Aj[Dj])!==Nf(Bj[Dj]))&&Gj++;return Gj+Fj}function Pf(Aj){!1===uf.suppressDeprecationWarnings&&"undefined"!=typeof console&&console.warn&&console.warn("Deprecation warning: "+Aj)}function Qf(Aj,Bj){var Cj=!0;return Cf(function(){if(null!=uf.deprecationHandler&&uf.deprecationHandler(null,Aj),Cj){for(var Dj,Ej=[],Fj=0;Fj<arguments.length;Fj++){if(Dj="","object"==typeof arguments[Fj]){for(var Gj in Dj+="\n["+Fj+"] ",arguments[0])Dj+=Gj+": "+arguments[0][Gj]+", ";Dj=Dj.slice(0,-2)}else Dj=arguments[Fj];Ej.push(Dj)}Pf(Aj+"\nArguments: "+Array.prototype.slice.call(Ej).join("")+"\n"+new Error().stack),Cj=!1}return Bj.apply(this,arguments)},Bj)}function Rf(Aj,Bj){null!=uf.deprecationHandler&&uf.deprecationHandler(Aj,Bj),Qh[Aj]||(Pf(Bj),Qh[Aj]=!0)}function Sf(Aj){return Aj instanceof Function||"[object Function]"===Object.prototype.toString.call(Aj)}function Tf(Aj,Bj){var Cj,Dj=Cf({},Aj);for(Cj in Bj)Bf(Bj,Cj)&&(wf(Aj[Cj])&&wf(Bj[Cj])?(Dj[Cj]={},Cf(Dj[Cj],Aj[Cj]),Cf(Dj[Cj],Bj[Cj])):null==Bj[Cj]?delete Dj[Cj]:Dj[Cj]=Bj[Cj]);for(Cj in Aj)Bf(Aj,Cj)&&!Bf(Bj,Cj)&&wf(Aj[Cj])&&(// make sure changes to properties don't modify parent config
+Dj[Cj]=Cf({},Dj[Cj]));return Dj}function Uf(Aj){null!=Aj&&this.set(Aj)}function Vf(Aj,Bj){var Cj=Aj.toLowerCase();Vh[Cj]=Vh[Cj+"s"]=Vh[Bj]=Aj}function Wf(Aj){return"string"==typeof Aj?Vh[Aj]||Vh[Aj.toLowerCase()]:void 0}function Xf(Aj){var Bj,Cj,Dj={};for(Cj in Aj)Bf(Aj,Cj)&&(Bj=Wf(Cj),Bj&&(Dj[Bj]=Aj[Cj]));return Dj}function Yf(Aj,Bj){Wh[Aj]=Bj}function Zf(Aj){var Bj=[];for(var Cj in Aj)Bj.push({unit:Cj,priority:Wh[Cj]});return Bj.sort(function(Dj,Ej){return Dj.priority-Ej.priority}),Bj}function $f(Aj,Bj){return function(Cj){return null==Cj?_f(this,Aj):(ag(this,Aj,Cj),uf.updateOffset(this,Bj),this)}}function _f(Aj,Bj){return Aj.isValid()?Aj._d["get"+(Aj._isUTC?"UTC":"")+Bj]():NaN}function ag(Aj,Bj,Cj){Aj.isValid()&&Aj._d["set"+(Aj._isUTC?"UTC":"")+Bj](Cj)}// MOMENTS
+function bg(Aj,Bj,Cj){var Dj=""+Math.abs(Aj),Ej=Bj-Dj.length;return(0<=Aj?Cj?"+":"":"-")+Math.pow(10,Math.max(0,Ej)).toString().substr(1)+Dj}// token:    'M'
+// padded:   ['MM', 2]
+// ordinal:  'Mo'
+// callback: function () { this.month() + 1 }
+function cg(Aj,Bj,Cj,Dj){var Ej=Dj;"string"==typeof Dj&&(Ej=function(){return this[Dj]()}),Aj&&($h[Aj]=Ej),Bj&&($h[Bj[0]]=function(){return bg(Ej.apply(this,arguments),Bj[1],Bj[2])}),Cj&&($h[Cj]=function(){return this.localeData().ordinal(Ej.apply(this,arguments),Aj)})}function dg(Aj){return Aj.match(/\[[\s\S]/)?Aj.replace(/^\[|\]$/g,""):Aj.replace(/\\/g,"")}function eg(Aj){var Bj,Cj,Dj=Aj.match(Xh);for(Bj=0,Cj=Dj.length;Bj<Cj;Bj++)Dj[Bj]=$h[Dj[Bj]]?$h[Dj[Bj]]:dg(Dj[Bj]);return function(Ej){var Fj,Gj="";for(Fj=0;Fj<Cj;Fj++)Gj+=Dj[Fj]instanceof Function?Dj[Fj].call(Ej,Aj):Dj[Fj];return Gj}}// format date using native date object
+function fg(Aj,Bj){return Aj.isValid()?(Bj=gg(Bj,Aj.localeData()),Zh[Bj]=Zh[Bj]||eg(Bj),Zh[Bj](Aj)):Aj.localeData().invalidDate()}function gg(Aj,Bj){function Cj(Ej){return Bj.longDateFormat(Ej)||Ej}var Dj=5;for(Yh.lastIndex=0;0<=Dj&&Yh.test(Aj);)Aj=Aj.replace(Yh,Cj),Yh.lastIndex=0,Dj-=1;return Aj}function hg(Aj,Bj,Cj){qi[Aj]=Sf(Bj)?Bj:function(Dj){return Dj&&Cj?Cj:Bj}}function ig(Aj,Bj){return Bf(qi,Aj)?qi[Aj](Bj._strict,Bj._locale):new RegExp(jg(Aj))}// Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+function jg(Aj){return kg(Aj.replace("\\","").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,function(Bj,Cj,Dj,Ej,Fj){return Cj||Dj||Ej||Fj}))}function kg(Aj){return Aj.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&")}function lg(Aj,Bj){var Cj,Dj=Bj;for("string"==typeof Aj&&(Aj=[Aj]),yf(Bj)&&(Dj=function(Ej,Fj){Fj[Bj]=Nf(Ej)}),Cj=0;Cj<Aj.length;Cj++)ri[Aj[Cj]]=Dj}function mg(Aj,Bj){lg(Aj,function(Cj,Dj,Ej,Fj){Ej._w=Ej._w||{},Bj(Cj,Ej._w,Ej,Fj)})}function ng(Aj,Bj,Cj){null!=Bj&&Bf(ri,Aj)&&ri[Aj](Bj,Cj._a,Cj,Aj)}function og(Aj,Bj){return new Date(Date.UTC(Aj,Bj+1,0)).getUTCDate()}function pg(Aj,Bj,Cj){var Dj,Ej,Fj,Gj=Aj.toLocaleLowerCase();if(!this._monthsParse)for(// this is not used
+this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[],Dj=0;12>Dj;++Dj)Fj=Df([2e3,Dj]),this._shortMonthsParse[Dj]=this.monthsShort(Fj,"").toLocaleLowerCase(),this._longMonthsParse[Dj]=this.months(Fj,"").toLocaleLowerCase();return Cj?"MMM"===Bj?(Ej=zi.call(this._shortMonthsParse,Gj),-1===Ej?null:Ej):(Ej=zi.call(this._longMonthsParse,Gj),-1===Ej?null:Ej):"MMM"===Bj?(Ej=zi.call(this._shortMonthsParse,Gj),-1===Ej?(Ej=zi.call(this._longMonthsParse,Gj),-1===Ej?null:Ej):Ej):(Ej=zi.call(this._longMonthsParse,Gj),-1===Ej?(Ej=zi.call(this._shortMonthsParse,Gj),-1===Ej?null:Ej):Ej)}// MOMENTS
+function qg(Aj,Bj){var Cj;if(!Aj.isValid())// No op
+return Aj;if("string"==typeof Bj)if(/^\d+$/.test(Bj))Bj=Nf(Bj);else// TODO: Another silent failure?
+if(Bj=Aj.localeData().monthsParse(Bj),!yf(Bj))return Aj;return Cj=Math.min(Aj.date(),og(Aj.year(),Bj)),Aj._d["set"+(Aj._isUTC?"UTC":"")+"Month"](Bj,Cj),Aj}function rg(Aj){return null==Aj?_f(this,"Month"):(qg(this,Aj),uf.updateOffset(this,!0),this)}function sg(){function Aj(Gj,Hj){return Hj.length-Gj.length}var Bj,Cj,Dj=[],Ej=[],Fj=[];for(Bj=0;12>Bj;Bj++)// make the regex if we don't have it already
+Cj=Df([2e3,Bj]),Dj.push(this.monthsShort(Cj,"")),Ej.push(this.months(Cj,"")),Fj.push(this.months(Cj,"")),Fj.push(this.monthsShort(Cj,""));for(// Sorting makes sure if one month (or abbr) is a prefix of another it
+// will match the longer piece.
+Dj.sort(Aj),Ej.sort(Aj),Fj.sort(Aj),Bj=0;12>Bj;Bj++)Dj[Bj]=kg(Dj[Bj]),Ej[Bj]=kg(Ej[Bj]);for(Bj=0;24>Bj;Bj++)Fj[Bj]=kg(Fj[Bj]);this._monthsRegex=new RegExp("^("+Fj.join("|")+")","i"),this._monthsShortRegex=this._monthsRegex,this._monthsStrictRegex=new RegExp("^("+Ej.join("|")+")","i"),this._monthsShortStrictRegex=new RegExp("^("+Dj.join("|")+")","i")}// HELPERS
+function tg(Aj){return ug(Aj)?366:365}function ug(Aj){return 0==Aj%4&&0!=Aj%100||0==Aj%400}function vg(Aj,Bj,Cj,Dj,Ej,Fj,Gj){//can't just apply() to create a date:
+//http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
+var Hj=new Date(Aj,Bj,Cj,Dj,Ej,Fj,Gj);//the date constructor remaps years 0-99 to 1900-1999
+return 100>Aj&&0<=Aj&&isFinite(Hj.getFullYear())&&Hj.setFullYear(Aj),Hj}function wg(Aj){var Bj=new Date(Date.UTC.apply(null,arguments));//the Date.UTC function remaps years 0-99 to 1900-1999
+return 100>Aj&&0<=Aj&&isFinite(Bj.getUTCFullYear())&&Bj.setUTCFullYear(Aj),Bj}// start-of-first-week - start-of-year
+function xg(Aj,Bj,Cj){var// first-week day -- which january is always in the first week (4 for iso, 1 for other)
+Dj=7+Bj-Cj,// first-week day local weekday -- which local weekday is fwd
+Ej=(7+wg(Aj,0,Dj).getUTCDay()-Bj)%7;return-Ej+Dj-1}//http://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
+function yg(Aj,Bj,Cj,Dj,Ej){var Fj,Gj,Hj=xg(Aj,Dj,Ej),Ij=1+7*(Bj-1)+(7+Cj-Dj)%7+Hj;return 0>=Ij?(Fj=Aj-1,Gj=tg(Fj)+Ij):Ij>tg(Aj)?(Fj=Aj+1,Gj=Ij-tg(Aj)):(Fj=Aj,Gj=Ij),{year:Fj,dayOfYear:Gj}}function zg(Aj,Bj,Cj){var Dj,Ej,Fj=xg(Aj.year(),Bj,Cj),Gj=Math.floor((Aj.dayOfYear()-Fj-1)/7)+1;return 1>Gj?(Ej=Aj.year()-1,Dj=Gj+Ag(Ej,Bj,Cj)):Gj>Ag(Aj.year(),Bj,Cj)?(Dj=Gj-Ag(Aj.year(),Bj,Cj),Ej=Aj.year()+1):(Ej=Aj.year(),Dj=Gj),{week:Dj,year:Ej}}function Ag(Aj,Bj,Cj){var Dj=xg(Aj,Bj,Cj),Ej=xg(Aj+1,Bj,Cj);return(tg(Aj)-Dj+Ej)/7}// HELPERS
+// LOCALES
+// MOMENTS
+// HELPERS
+function Bg(Aj,Bj){return"string"==typeof Aj?isNaN(Aj)?(Aj=Bj.weekdaysParse(Aj),"number"==typeof Aj?Aj:null):parseInt(Aj,10):Aj}function Cg(Aj,Bj){return"string"==typeof Aj?Bj.weekdaysParse(Aj)%7||7:isNaN(Aj)?null:Aj}function Dg(Aj,Bj,Cj){var Dj,Ej,Fj,Gj=Aj.toLocaleLowerCase();if(!this._weekdaysParse)for(this._weekdaysParse=[],this._shortWeekdaysParse=[],this._minWeekdaysParse=[],Dj=0;7>Dj;++Dj)Fj=Df([2000,1]).day(Dj),this._minWeekdaysParse[Dj]=this.weekdaysMin(Fj,"").toLocaleLowerCase(),this._shortWeekdaysParse[Dj]=this.weekdaysShort(Fj,"").toLocaleLowerCase(),this._weekdaysParse[Dj]=this.weekdays(Fj,"").toLocaleLowerCase();return Cj?"dddd"===Bj?(Ej=zi.call(this._weekdaysParse,Gj),-1===Ej?null:Ej):"ddd"===Bj?(Ej=zi.call(this._shortWeekdaysParse,Gj),-1===Ej?null:Ej):(Ej=zi.call(this._minWeekdaysParse,Gj),-1===Ej?null:Ej):"dddd"===Bj?(Ej=zi.call(this._weekdaysParse,Gj),-1===Ej?(Ej=zi.call(this._shortWeekdaysParse,Gj),-1===Ej?(Ej=zi.call(this._minWeekdaysParse,Gj),-1===Ej?null:Ej):Ej):Ej):"ddd"===Bj?(Ej=zi.call(this._shortWeekdaysParse,Gj),-1===Ej?(Ej=zi.call(this._weekdaysParse,Gj),-1===Ej?(Ej=zi.call(this._minWeekdaysParse,Gj),-1===Ej?null:Ej):Ej):Ej):(Ej=zi.call(this._minWeekdaysParse,Gj),-1===Ej?(Ej=zi.call(this._weekdaysParse,Gj),-1===Ej?(Ej=zi.call(this._shortWeekdaysParse,Gj),-1===Ej?null:Ej):Ej):Ej)}// MOMENTS
+function Eg(){function Aj(Kj,Lj){return Lj.length-Kj.length}var Bj,Cj,Dj,Ej,Fj,Gj=[],Hj=[],Ij=[],Jj=[];for(Bj=0;7>Bj;Bj++)// make the regex if we don't have it already
+Cj=Df([2000,1]).day(Bj),Dj=this.weekdaysMin(Cj,""),Ej=this.weekdaysShort(Cj,""),Fj=this.weekdays(Cj,""),Gj.push(Dj),Hj.push(Ej),Ij.push(Fj),Jj.push(Dj),Jj.push(Ej),Jj.push(Fj);for(// Sorting makes sure if one weekday (or abbr) is a prefix of another it
+// will match the longer piece.
+Gj.sort(Aj),Hj.sort(Aj),Ij.sort(Aj),Jj.sort(Aj),Bj=0;7>Bj;Bj++)Hj[Bj]=kg(Hj[Bj]),Ij[Bj]=kg(Ij[Bj]),Jj[Bj]=kg(Jj[Bj]);this._weekdaysRegex=new RegExp("^("+Jj.join("|")+")","i"),this._weekdaysShortRegex=this._weekdaysRegex,this._weekdaysMinRegex=this._weekdaysRegex,this._weekdaysStrictRegex=new RegExp("^("+Ij.join("|")+")","i"),this._weekdaysShortStrictRegex=new RegExp("^("+Hj.join("|")+")","i"),this._weekdaysMinStrictRegex=new RegExp("^("+Gj.join("|")+")","i")}// FORMATTING
+function Fg(){return this.hours()%12||12}function Gg(Aj,Bj){cg(Aj,0,0,function(){return this.localeData().meridiem(this.hours(),this.minutes(),Bj)})}// PARSING
+function Hg(Aj,Bj){return Bj._meridiemParse}// LOCALES
+function Ig(Aj){return Aj?Aj.toLowerCase().replace("_","-"):Aj}// pick the locale from the array
+// try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
+// substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+function Jg(Aj){for(var Bj,Cj,Dj,Ej,Fj=0;Fj<Aj.length;){for(Ej=Ig(Aj[Fj]).split("-"),Bj=Ej.length,Cj=Ig(Aj[Fj+1]),Cj=Cj?Cj.split("-"):null;0<Bj;){if(Dj=Kg(Ej.slice(0,Bj).join("-")))return Dj;if(Cj&&Cj.length>=Bj&&Of(Ej,Cj,!0)>=Bj-1)//the next array item is better than a shallower substring of this one
+break;Bj--}Fj++}return null}function Kg(Aj){var Bj=null;// TODO: Find a better way to register and load all the locales in Node
+if(!Li[Aj]&&"undefined"!=typeof module&&module&&module.exports)try{Bj=Hi._abbr,tf("./locale/"+Aj),// because defineLocale currently also sets the global locale, we
+// want to undo that for lazy loaded locales
+Lg(Bj)}catch(Cj){}return Li[Aj]}// This function will load locale and then set the global locale.  If
+// no arguments are passed in, it will simply return the current global
+// locale key.
+function Lg(Aj,Bj){var Cj;// moment.duration._locale = moment._locale = data;
+return Aj&&(Cj=If(Bj)?Ng(Aj):Mg(Aj,Bj),Cj&&(Hi=Cj)),Hi._abbr}function Mg(Aj,Bj){if(null!==Bj){var Cj=Ki;if(Bj.abbr=Aj,null!=Li[Aj])Rf("defineLocaleOverride","use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."),Cj=Li[Aj]._config;else if(null!=Bj.parentLocale){if(null==Li[Bj.parentLocale])return Mi[Bj.parentLocale]||(Mi[Bj.parentLocale]=[]),Mi[Bj.parentLocale].push({name:Aj,config:Bj}),null;Cj=Li[Bj.parentLocale]._config}// backwards compat for now: also set the locale
+// make sure we set the locale AFTER all child locales have been
+// created, so we won't end up with the child locale set.
+return Li[Aj]=new Uf(Tf(Cj,Bj)),Mi[Aj]&&Mi[Aj].forEach(function(Dj){Mg(Dj.name,Dj.config)}),Lg(Aj),Li[Aj]}// useful for testing
+return delete Li[Aj],null}// returns locale data
+function Ng(Aj){var Bj;if(Aj&&Aj._locale&&Aj._locale._abbr&&(Aj=Aj._locale._abbr),!Aj)return Hi;if(!vf(Aj)){if(//short-circuit everything else
+Bj=Kg(Aj))return Bj;Aj=[Aj]}return Jg(Aj)}function Og(Aj){var Bj,Cj=Aj._a;return Cj&&-2===Ff(Aj).overflow&&(Bj=0>Cj[ti]||11<Cj[ti]?ti:1>Cj[ui]||Cj[ui]>og(Cj[si],Cj[ti])?ui:0>Cj[vi]||24<Cj[vi]||24===Cj[vi]&&(0!==Cj[wi]||0!==Cj[xi]||0!==Cj[yi])?vi:0>Cj[wi]||59<Cj[wi]?wi:0>Cj[xi]||59<Cj[xi]?xi:0>Cj[yi]||999<Cj[yi]?yi:-1,Ff(Aj)._overflowDayOfYear&&(Bj<si||Bj>ui)&&(Bj=ui),Ff(Aj)._overflowWeeks&&-1===Bj&&(Bj=7),Ff(Aj)._overflowWeekday&&-1===Bj&&(Bj=8),Ff(Aj).overflow=Bj),Aj}// date from iso format
+function Pg(Aj){var Bj,Cj,Dj,Ej,Fj,Gj,Hj=Aj._i,Ij=Ni.exec(Hj)||Oi.exec(Hj);if(Ij){for(Ff(Aj).iso=!0,Bj=0,Cj=Qi.length;Bj<Cj;Bj++)if(Qi[Bj][1].exec(Ij[1])){Ej=Qi[Bj][0],Dj=!1!==Qi[Bj][2];break}if(null==Ej)return void(Aj._isValid=!1);if(Ij[3]){for(Bj=0,Cj=Ri.length;Bj<Cj;Bj++)if(Ri[Bj][1].exec(Ij[3])){Fj=(Ij[2]||" ")+Ri[Bj][0];break}if(null==Fj)return void(Aj._isValid=!1)}if(!Dj&&null!=Fj)return void(Aj._isValid=!1);if(Ij[4]){if(!Pi.exec(Ij[4]))return void(Aj._isValid=!1);Gj="Z"}Aj._f=Ej+(Fj||"")+(Gj||""),Vg(Aj)}else Aj._isValid=!1}// date from iso format or fallback
+function Qg(Aj){var Bj=Si.exec(Aj._i);return null===Bj?(Pg(Aj),void(!1===Aj._isValid&&(delete Aj._isValid,uf.createFromInputFallback(Aj)))):void(Aj._d=new Date(+Bj[1]))}// Pick the first defined of two or three arguments.
+function Rg(Aj,Bj,Cj){return null==Aj?null==Bj?Cj:Bj:Aj}function Sg(Aj){// hooks is actually the exported moment object
+var Bj=new Date(uf.now());return Aj._useUTC?[Bj.getUTCFullYear(),Bj.getUTCMonth(),Bj.getUTCDate()]:[Bj.getFullYear(),Bj.getMonth(),Bj.getDate()]}// convert an array to a date.
+// the array should mirror the parameters below
+// note: all values past the year are optional and will default to the lowest possible value.
+// [year, month, day , hour, minute, second, millisecond]
+function Tg(Aj){var Bj,Cj,Dj,Ej,Fj=[];if(!Aj._d){// Default to current date.
+// * if no year, month, day of month are given, default to today
+// * if day of month is given, default month and year
+// * if month is given, default only year
+// * if year is given, don't default anything
+for(Dj=Sg(Aj),//compute day of the year from weeks and weekdays
+Aj._w&&null==Aj._a[ui]&&null==Aj._a[ti]&&Ug(Aj),//if the day of the year is set, figure out what it is
+Aj._dayOfYear&&(Ej=Rg(Aj._a[si],Dj[si]),Aj._dayOfYear>tg(Ej)&&(Ff(Aj)._overflowDayOfYear=!0),Cj=wg(Ej,0,Aj._dayOfYear),Aj._a[ti]=Cj.getUTCMonth(),Aj._a[ui]=Cj.getUTCDate()),Bj=0;3>Bj&&null==Aj._a[Bj];++Bj)Aj._a[Bj]=Fj[Bj]=Dj[Bj];// Zero out whatever was not defaulted, including time
+for(;7>Bj;Bj++)Aj._a[Bj]=Fj[Bj]=null==Aj._a[Bj]?2===Bj?1:0:Aj._a[Bj];// Check for 24:00:00.000
+24===Aj._a[vi]&&0===Aj._a[wi]&&0===Aj._a[xi]&&0===Aj._a[yi]&&(Aj._nextDay=!0,Aj._a[vi]=0),Aj._d=(Aj._useUTC?wg:vg).apply(null,Fj),// Apply timezone offset from input. The actual utcOffset can be changed
+// with parseZone.
+null!=Aj._tzm&&Aj._d.setUTCMinutes(Aj._d.getUTCMinutes()-Aj._tzm),Aj._nextDay&&(Aj._a[vi]=24)}}function Ug(Aj){var Bj,Cj,Dj,Ej,Fj,Gj,Hj,Ij;if(Bj=Aj._w,null!=Bj.GG||null!=Bj.W||null!=Bj.E)Fj=1,Gj=4,// TODO: We need to take the current isoWeekYear, but that depends on
+// how we interpret now (local, utc, fixed offset). So create
+// a now version of current config (take local/utc/offset flags, and
+// create now).
+Cj=Rg(Bj.GG,Aj._a[si],zg(bh(),1,4).year),Dj=Rg(Bj.W,1),Ej=Rg(Bj.E,1),(1>Ej||7<Ej)&&(Ij=!0);else{Fj=Aj._locale._week.dow,Gj=Aj._locale._week.doy;var Jj=zg(bh(),Fj,Gj);Cj=Rg(Bj.gg,Aj._a[si],Jj.year),// Default to current week.
+Dj=Rg(Bj.w,Jj.week),null==Bj.d?null==Bj.e?// default to begining of week
+Ej=Fj:(// local weekday -- counting starts from begining of week
+Ej=Bj.e+Fj,(0>Bj.e||6<Bj.e)&&(Ij=!0)):(// weekday -- low day numbers are considered next week
+Ej=Bj.d,(0>Ej||6<Ej)&&(Ij=!0))}1>Dj||Dj>Ag(Cj,Fj,Gj)?Ff(Aj)._overflowWeeks=!0:null==Ij?(Hj=yg(Cj,Dj,Ej,Fj,Gj),Aj._a[si]=Hj.year,Aj._dayOfYear=Hj.dayOfYear):Ff(Aj)._overflowWeekday=!0}// date from string and format string
+function Vg(Aj){// TODO: Move this to another part of the creation flow to prevent circular deps
+if(Aj._f===uf.ISO_8601)return void Pg(Aj);Aj._a=[],Ff(Aj).empty=!0;// This array is used to make a Date, either with `new Date` or `Date.UTC`
+var Bj,Cj,Dj,Ej,Fj,Gj=""+Aj._i,Hj=Gj.length,Ij=0;for(Dj=gg(Aj._f,Aj._locale).match(Xh)||[],Bj=0;Bj<Dj.length;Bj++)Ej=Dj[Bj],Cj=(Gj.match(ig(Ej,Aj))||[])[0],// console.log('token', token, 'parsedInput', parsedInput,
+//         'regex', getParseRegexForToken(token, config));
+Cj&&(Fj=Gj.substr(0,Gj.indexOf(Cj)),0<Fj.length&&Ff(Aj).unusedInput.push(Fj),Gj=Gj.slice(Gj.indexOf(Cj)+Cj.length),Ij+=Cj.length),// don't parse if it's not a known token
+$h[Ej]?(Cj?Ff(Aj).empty=!1:Ff(Aj).unusedTokens.push(Ej),ng(Ej,Cj,Aj)):Aj._strict&&!Cj&&Ff(Aj).unusedTokens.push(Ej);// add remaining unparsed input length to the string
+Ff(Aj).charsLeftOver=Hj-Ij,0<Gj.length&&Ff(Aj).unusedInput.push(Gj),// clear _12h flag if hour is <= 12
+12>=Aj._a[vi]&&!0===Ff(Aj).bigHour&&0<Aj._a[vi]&&(Ff(Aj).bigHour=void 0),Ff(Aj).parsedDateParts=Aj._a.slice(0),Ff(Aj).meridiem=Aj._meridiem,// handle meridiem
+Aj._a[vi]=Wg(Aj._locale,Aj._a[vi],Aj._meridiem),Tg(Aj),Og(Aj)}function Wg(Aj,Bj,Cj){var Dj;// Fallback
+return null==Cj?Bj:null==Aj.meridiemHour?null==Aj.isPM?Bj:(Dj=Aj.isPM(Cj),Dj&&12>Bj&&(Bj+=12),Dj||12!==Bj||(Bj=0),Bj):Aj.meridiemHour(Bj,Cj)}// date from string and array of format strings
+function Xg(Aj){var Bj,Cj,Dj,Ej,Fj;if(0===Aj._f.length)return Ff(Aj).invalidFormat=!0,void(Aj._d=new Date(NaN));for(Ej=0;Ej<Aj._f.length;Ej++)Fj=0,Bj=Jf({},Aj),null!=Aj._useUTC&&(Bj._useUTC=Aj._useUTC),Bj._f=Aj._f[Ej],Vg(Bj),Gf(Bj)&&(// if there is any input that was not parsed add a penalty for that format
+Fj+=Ff(Bj).charsLeftOver,//or tokens
+Fj+=10*Ff(Bj).unusedTokens.length,Ff(Bj).score=Fj,(null==Dj||Fj<Dj)&&(Dj=Fj,Cj=Bj));Cf(Aj,Cj||Bj)}function Yg(Aj){if(!Aj._d){var Bj=Xf(Aj._i);Aj._a=Af([Bj.year,Bj.month,Bj.day||Bj.date,Bj.hour,Bj.minute,Bj.second,Bj.millisecond],function(Cj){return Cj&&parseInt(Cj,10)}),Tg(Aj)}}function Zg(Aj){var Bj=new Kf(Og($g(Aj)));// Adding is smart enough around DST
+return Bj._nextDay&&(Bj.add(1,"d"),Bj._nextDay=void 0),Bj}function $g(Aj){var Bj=Aj._i,Cj=Aj._f;return Aj._locale=Aj._locale||Ng(Aj._l),null===Bj||void 0===Cj&&""===Bj?Hf({nullInput:!0}):("string"==typeof Bj&&(Aj._i=Bj=Aj._locale.preparse(Bj)),Lf(Bj)?new Kf(Og(Bj)):(zf(Bj)?Aj._d=Bj:vf(Cj)?Xg(Aj):Cj?Vg(Aj):_g(Aj),Gf(Aj)||(Aj._d=null),Aj))}function _g(Aj){var Bj=Aj._i;void 0===Bj?Aj._d=new Date(uf.now()):zf(Bj)?Aj._d=new Date(Bj.valueOf()):"string"==typeof Bj?Qg(Aj):vf(Bj)?(Aj._a=Af(Bj.slice(0),function(Cj){return parseInt(Cj,10)}),Tg(Aj)):"object"==typeof Bj?Yg(Aj):yf(Bj)?// from milliseconds
+Aj._d=new Date(Bj):uf.createFromInputFallback(Aj)}function ah(Aj,Bj,Cj,Dj,Ej){var Fj={};// object construction must be done this way.
+// https://github.com/moment/moment/issues/1423
+return!0!==Cj&&!1!==Cj||(Dj=Cj,Cj=void 0),(wf(Aj)&&xf(Aj)||vf(Aj)&&0===Aj.length)&&(Aj=void 0),Fj._isAMomentObject=!0,Fj._useUTC=Fj._isUTC=Ej,Fj._l=Cj,Fj._i=Aj,Fj._f=Bj,Fj._strict=Dj,Zg(Fj)}function bh(Aj,Bj,Cj,Dj){return ah(Aj,Bj,Cj,Dj,!1)}// Pick a moment m from moments so that m[fn](other) is true for all
+// other. This relies on the function fn to be transitive.
+//
+// moments should either be an array of moment objects or an array, whose
+// first element is an array of moment objects.
+function ch(Aj,Bj){var Cj,Dj;if(1===Bj.length&&vf(Bj[0])&&(Bj=Bj[0]),!Bj.length)return bh();for(Cj=Bj[0],Dj=1;Dj<Bj.length;++Dj)Bj[Dj].isValid()&&!Bj[Dj][Aj](Cj)||(Cj=Bj[Dj]);return Cj}// TODO: Use [].sort instead?
+function dh(Aj){var Bj=Xf(Aj),Cj=Bj.year||0,Dj=Bj.quarter||0,Ej=Bj.month||0,Fj=Bj.week||0,Gj=Bj.day||0,Hj=Bj.hour||0,Ij=Bj.minute||0,Jj=Bj.second||0,Kj=Bj.millisecond||0;// representation for dateAddRemove
+this._milliseconds=+Kj+1e3*Jj+// 1000
+6e4*Ij+// 1000 * 60
+60*(60*(1e3*Hj)),//using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
+// Because of dateAddRemove treats 24 hours as different from a
+// day when working around DST, we need to store them separately
+this._days=+Gj+7*Fj,// It is impossible translate months into days without knowing
+// which months you are are talking about, so we have to store
+// it separately.
+this._months=+Ej+3*Dj+12*Cj,this._data={},this._locale=Ng(),this._bubble()}function eh(Aj){return Aj instanceof dh}function fh(Aj){return 0>Aj?-1*Math.round(-1*Aj):Math.round(Aj)}// FORMATTING
+function gh(Aj,Bj){cg(Aj,0,0,function(){var Cj=this.utcOffset(),Dj="+";return 0>Cj&&(Cj=-Cj,Dj="-"),Dj+bg(~~(Cj/60),2)+Bj+bg(~~Cj%60,2)})}function hh(Aj,Bj){var Cj=(Bj||"").match(Aj);if(null===Cj)return null;var Dj=Cj[Cj.length-1]||[],Ej=(Dj+"").match(Vi)||["-",0,0],Fj=+(60*Ej[1])+Nf(Ej[2]);return 0===Fj?0:"+"===Ej[0]?Fj:-Fj}// Return a moment from input, that is local/utc/zone equivalent to model.
+function ih(Aj,Bj){var Cj,Dj;// Use low-level api, because this fn is low-level api.
+return Bj._isUTC?(Cj=Bj.clone(),Dj=(Lf(Aj)||zf(Aj)?Aj.valueOf():bh(Aj).valueOf())-Cj.valueOf(),Cj._d.setTime(Cj._d.valueOf()+Dj),uf.updateOffset(Cj,!1),Cj):bh(Aj).local()}function jh(Aj){// On Firefox.24 Date#getTimezoneOffset returns a floating point.
+// https://github.com/moment/moment/pull/1871
+return 15*-Math.round(Aj._d.getTimezoneOffset()/15)}// MOMENTS
+// keepLocalTime = true means only change the timezone, without
+// affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]--\x3e
+// 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
+// +0200, so we adjust the time as needed, to be valid.
+//
+// Keeping the time actually adds/subtracts (one hour)
+// from the actual represented time. That is why we call updateOffset
+// a second time. In case it wants us to change the offset again
+// _changeInProgress == true case, then we have to adjust, because
+// there is no such time in the given timezone.
+function kh(){return!!this.isValid()&&this._isUTC&&0===this._offset}function lh(Aj,Bj){var Cj,Dj,Ej,Fj=Aj,// matching against regexp is expensive, do it on demand
+Gj=null;// checks for null or undefined
+return eh(Aj)?Fj={ms:Aj._milliseconds,d:Aj._days,M:Aj._months}:yf(Aj)?(Fj={},Bj?Fj[Bj]=Aj:Fj.milliseconds=Aj):(Gj=Wi.exec(Aj))?(Cj="-"===Gj[1]?-1:1,Fj={y:0,d:Nf(Gj[ui])*Cj,h:Nf(Gj[vi])*Cj,m:Nf(Gj[wi])*Cj,s:Nf(Gj[xi])*Cj,ms:Nf(fh(1e3*Gj[yi]))*Cj}):(Gj=Xi.exec(Aj))?(Cj="-"===Gj[1]?-1:1,Fj={y:mh(Gj[2],Cj),M:mh(Gj[3],Cj),w:mh(Gj[4],Cj),d:mh(Gj[5],Cj),h:mh(Gj[6],Cj),m:mh(Gj[7],Cj),s:mh(Gj[8],Cj)}):null==Fj?Fj={}:"object"==typeof Fj&&("from"in Fj||"to"in Fj)&&(Ej=oh(bh(Fj.from),bh(Fj.to)),Fj={},Fj.ms=Ej.milliseconds,Fj.M=Ej.months),Dj=new dh(Fj),eh(Aj)&&Bf(Aj,"_locale")&&(Dj._locale=Aj._locale),Dj}function mh(Aj,Bj){// We'd normally use ~~inp for this, but unfortunately it also
+// converts floats to ints.
+// inp may be undefined, so careful calling replace on it.
+var Cj=Aj&&parseFloat(Aj.replace(",","."));// apply sign while we're at it
+return(isNaN(Cj)?0:Cj)*Bj}function nh(Aj,Bj){var Cj={milliseconds:0,months:0};return Cj.months=Bj.month()-Aj.month()+12*(Bj.year()-Aj.year()),Aj.clone().add(Cj.months,"M").isAfter(Bj)&&--Cj.months,Cj.milliseconds=+Bj-+Aj.clone().add(Cj.months,"M"),Cj}function oh(Aj,Bj){var Cj;return Aj.isValid()&&Bj.isValid()?(Bj=ih(Bj,Aj),Aj.isBefore(Bj)?Cj=nh(Aj,Bj):(Cj=nh(Bj,Aj),Cj.milliseconds=-Cj.milliseconds,Cj.months=-Cj.months),Cj):{milliseconds:0,months:0}}// TODO: remove 'name' arg after deprecation is removed
+function ph(Aj,Bj){return function(Cj,Dj){var Ej,Fj;//invert the arguments, but complain about it
+return null===Dj||isNaN(+Dj)||(Rf(Bj,"moment()."+Bj+"(period, number) is deprecated. Please use moment()."+Bj+"(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."),Fj=Cj,Cj=Dj,Dj=Fj),Cj="string"==typeof Cj?+Cj:Cj,Ej=lh(Cj,Dj),qh(this,Ej,Aj),this}}function qh(Aj,Bj,Cj,Dj){var Ej=Bj._milliseconds,Fj=fh(Bj._days),Gj=fh(Bj._months);Aj.isValid()&&(Dj=null==Dj||Dj,Ej&&Aj._d.setTime(Aj._d.valueOf()+Ej*Cj),Fj&&ag(Aj,"Date",_f(Aj,"Date")+Fj*Cj),Gj&&qg(Aj,_f(Aj,"Month")+Gj*Cj),Dj&&uf.updateOffset(Aj,Fj||Gj))}function rh(Aj,Bj){// difference in months
+var Cj,Dj,Ej=12*(Bj.year()-Aj.year())+(Bj.month()-Aj.month()),// b is in (anchor - 1 month, anchor + 1 month)
+Fj=Aj.clone().add(Ej,"months");//check for negative zero, return zero if negative zero
+// linear across the month
+// linear across the month
+return 0>Bj-Fj?(Cj=Aj.clone().add(Ej-1,"months"),Dj=(Bj-Fj)/(Fj-Cj)):(Cj=Aj.clone().add(Ej+1,"months"),Dj=(Bj-Fj)/(Cj-Fj)),-(Ej+Dj)||0}/**
+ * Return a human readable representation of a moment that can
+ * also be evaluated to get a new moment which is the same
+ *
+ * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
+ */// If passed a locale key, it will set the locale for this
+// instance.  Otherwise, it will return the locale configuration
+// variables for this instance.
+function sh(Aj){var Bj;return void 0===Aj?this._locale._abbr:(Bj=Ng(Aj),null!=Bj&&(this._locale=Bj),this)}function th(){return this._locale}function uh(Aj,Bj){cg(0,[Aj,Aj.length],0,Bj)}// MOMENTS
+function vh(Aj,Bj,Cj,Dj,Ej){var Fj;return null==Aj?zg(this,Dj,Ej).year:(Fj=Ag(Aj,Dj,Ej),Bj>Fj&&(Bj=Fj),wh.call(this,Aj,Bj,Cj,Dj,Ej))}function wh(Aj,Bj,Cj,Dj,Ej){var Fj=yg(Aj,Bj,Cj,Dj,Ej),Gj=wg(Fj.year,0,Fj.dayOfYear);return this.year(Gj.getUTCFullYear()),this.month(Gj.getUTCMonth()),this.date(Gj.getUTCDate()),this}// MOMENTS
+// HELPERS
+// MOMENTS
+function xh(Aj,Bj){Bj[yi]=Nf(1e3*("0."+Aj))}// MOMENTS
+function yh(Aj){return Aj}function zh(Aj,Bj,Cj,Dj){var Ej=Ng(),Fj=Df().set(Dj,Bj);return Ej[Cj](Fj,Aj)}function Ah(Aj,Bj,Cj){if(yf(Aj)&&(Bj=Aj,Aj=void 0),Aj=Aj||"",null!=Bj)return zh(Aj,Bj,Cj,"month");var Dj,Ej=[];for(Dj=0;12>Dj;Dj++)Ej[Dj]=zh(Aj,Dj,Cj,"month");return Ej}// ()
+// (5)
+// (fmt, 5)
+// (fmt)
+// (true)
+// (true, 5)
+// (true, fmt, 5)
+// (true, fmt)
+function Bh(Aj,Bj,Cj,Dj){"boolean"==typeof Aj?(yf(Bj)&&(Cj=Bj,Bj=void 0),Bj=Bj||""):(Bj=Aj,Cj=Bj,Aj=!1,yf(Bj)&&(Cj=Bj,Bj=void 0),Bj=Bj||"");var Ej=Ng(),Fj=Aj?Ej._week.dow:0;if(null!=Cj)return zh(Bj,(Cj+Fj)%7,Dj,"day");var Gj,Hj=[];for(Gj=0;7>Gj;Gj++)Hj[Gj]=zh(Bj,(Gj+Fj)%7,Dj,"day");return Hj}function Ch(Aj,Bj,Cj,Dj){var Ej=lh(Bj,Cj);return Aj._milliseconds+=Dj*Ej._milliseconds,Aj._days+=Dj*Ej._days,Aj._months+=Dj*Ej._months,Aj._bubble()}// supports only 2.0-style add(1, 's') or add(duration)
+// supports only 2.0-style subtract(1, 's') or subtract(duration)
+function Dh(Aj){return 0>Aj?Math.floor(Aj):Math.ceil(Aj)}function Eh(Aj){// 400 years have 146097 days (taking into account leap year rules)
+// 400 years have 12 months === 4800
+return 4800*Aj/146097}function Fh(Aj){// the reverse of daysToMonths
+return 146097*Aj/4800}// TODO: Use this.as('ms')?
+function Gh(Aj){return function(){return this.as(Aj)}}function Hh(Aj){return function(){return this._data[Aj]}}// helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+function Ih(Aj,Bj,Cj,Dj,Ej){return Ej.relativeTime(Bj||1,!!Cj,Aj,Dj)}function Jh(Aj,Bj,Cj){var Dj=lh(Aj).abs(),Ej=wj(Dj.as("s")),Fj=wj(Dj.as("m")),Gj=wj(Dj.as("h")),Hj=wj(Dj.as("d")),Ij=wj(Dj.as("M")),Jj=wj(Dj.as("y")),Kj=Ej<xj.s&&["s",Ej]||1>=Fj&&["m"]||Fj<xj.m&&["mm",Fj]||1>=Gj&&["h"]||Gj<xj.h&&["hh",Gj]||1>=Hj&&["d"]||Hj<xj.d&&["dd",Hj]||1>=Ij&&["M"]||Ij<xj.M&&["MM",Ij]||1>=Jj&&["y"]||["yy",Jj];return Kj[2]=Bj,Kj[3]=0<+Aj,Kj[4]=Cj,Ih.apply(null,Kj)}// This function allows you to set the rounding function for relative time strings
+// This function allows you to set a threshold for relative time strings
+function Kh(){// for ISO strings we do not use the normal bubbling rules:
+//  * milliseconds bubble up until they become hours
+//  * days do not bubble at all
+//  * months bubble up until they become years
+// This is because there is no context-free conversion between hours and days
+// (think of clock changes)
+// and also not between days and months (28-31 days per month)
+var Aj,Bj,Cj,Dj=yj(this._milliseconds)/1e3,Ej=yj(this._days),Fj=yj(this._months);// 3600 seconds -> 60 minutes -> 1 hour
+Aj=Mf(Dj/60),Bj=Mf(Aj/60),Dj%=60,Aj%=60,// 12 months -> 1 year
+Cj=Mf(Fj/12),Fj%=12;// inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
+var Gj=Cj,Hj=Fj,Ij=Ej,Jj=Bj,Kj=Aj,Lj=Dj,Mj=this.asSeconds();return Mj?(0>Mj?"-":"")+"P"+(Gj?Gj+"Y":"")+(Hj?Hj+"M":"")+(Ij?Ij+"D":"")+(Jj||Kj||Lj?"T":"")+(Jj?Jj+"H":"")+(Kj?Kj+"M":"")+(Lj?Lj+"S":""):"P0D"}var Lh,Mh;Mh=Array.prototype.some?Array.prototype.some:function(Aj){for(var Bj=Object(this),Cj=Bj.length>>>0,Dj=0;Dj<Cj;Dj++)if(Dj in Bj&&Aj.call(this,Bj[Dj],Dj,Bj))return!0;return!1};var Nh=Mh,Oh=uf.momentProperties=[],Ph=!1,Qh={};uf.suppressDeprecationWarnings=!1,uf.deprecationHandler=null;var Rh=Object.keys?Object.keys:function(Aj){var Bj,Cj=[];for(Bj in Aj)Bf(Aj,Bj)&&Cj.push(Bj);return Cj},Sh,Th=Rh,Uh=/\d{1,2}/,Vh={},Wh={},Xh=/(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,Yh=/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,Zh={},$h={},_h=/\d/,ai=/\d\d/,bi=/\d{3}/,ci=/\d{4}/,di=/[+-]?\d{6}/,ei=/\d\d?/,fi=/\d\d\d\d?/,gi=/\d\d\d\d\d\d?/,hi=/\d{1,3}/,ii=/\d{1,4}/,ji=/[+-]?\d{1,6}/,ki=/\d+/,li=/[+-]?\d+/,mi=/Z|[+-]\d\d:?\d\d/gi,ni=/Z|[+-]\d\d(?::?\d\d)?/gi,oi=/[+-]?\d+(\.\d{1,3})?/,pi=/[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i,qi={},ri={},si=0,ti=1,ui=2,vi=3,wi=4,xi=5,yi=6;Sh=Array.prototype.indexOf?Array.prototype.indexOf:function(Aj){// I know
+var Bj;for(Bj=0;Bj<this.length;++Bj)if(this[Bj]===Aj)return Bj;return-1};var zi=Sh;// FORMATTING
+cg("M",["MM",2],"Mo",function(){return this.month()+1}),cg("MMM",0,0,function(Aj){return this.localeData().monthsShort(this,Aj)}),cg("MMMM",0,0,function(Aj){return this.localeData().months(this,Aj)}),// ALIASES
+Vf("month","M"),// PRIORITY
+Yf("month",8),// PARSING
+hg("M",ei),hg("MM",ei,ai),hg("MMM",function(Aj,Bj){return Bj.monthsShortRegex(Aj)}),hg("MMMM",function(Aj,Bj){return Bj.monthsRegex(Aj)}),lg(["M","MM"],function(Aj,Bj){Bj[ti]=Nf(Aj)-1}),lg(["MMM","MMMM"],function(Aj,Bj,Cj,Dj){var Ej=Cj._locale.monthsParse(Aj,Dj,Cj._strict);// if we didn't find a month name, mark the date as invalid.
+null==Ej?Ff(Cj).invalidMonth=Aj:Bj[ti]=Ej});// LOCALES
+var Ai=/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,Bi="January_February_March_April_May_June_July_August_September_October_November_December".split("_"),Ci="Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_");// FORMATTING
+cg("Y",0,0,function(){var Aj=this.year();return 9999>=Aj?""+Aj:"+"+Aj}),cg(0,["YY",2],0,function(){return this.year()%100}),cg(0,["YYYY",4],0,"year"),cg(0,["YYYYY",5],0,"year"),cg(0,["YYYYYY",6,!0],0,"year"),// ALIASES
+Vf("year","y"),// PRIORITIES
+Yf("year",1),// PARSING
+hg("Y",li),hg("YY",ei,ai),hg("YYYY",ii,ci),hg("YYYYY",ji,di),hg("YYYYYY",ji,di),lg(["YYYYY","YYYYYY"],si),lg("YYYY",function(Aj,Bj){Bj[si]=2===Aj.length?uf.parseTwoDigitYear(Aj):Nf(Aj)}),lg("YY",function(Aj,Bj){Bj[si]=uf.parseTwoDigitYear(Aj)}),lg("Y",function(Aj,Bj){Bj[si]=parseInt(Aj,10)}),// HOOKS
+uf.parseTwoDigitYear=function(Aj){return Nf(Aj)+(68<Nf(Aj)?1900:2e3)};// MOMENTS
+var Di=$f("FullYear",!0);// FORMATTING
+cg("w",["ww",2],"wo","week"),cg("W",["WW",2],"Wo","isoWeek"),// ALIASES
+Vf("week","w"),Vf("isoWeek","W"),// PRIORITIES
+Yf("week",5),Yf("isoWeek",5),// PARSING
+hg("w",ei),hg("ww",ei,ai),hg("W",ei),hg("WW",ei,ai),mg(["w","ww","W","WW"],function(Aj,Bj,Cj,Dj){Bj[Dj.substr(0,1)]=Nf(Aj)}),cg("d",0,"do","day"),cg("dd",0,0,function(Aj){return this.localeData().weekdaysMin(this,Aj)}),cg("ddd",0,0,function(Aj){return this.localeData().weekdaysShort(this,Aj)}),cg("dddd",0,0,function(Aj){return this.localeData().weekdays(this,Aj)}),cg("e",0,0,"weekday"),cg("E",0,0,"isoWeekday"),// ALIASES
+Vf("day","d"),Vf("weekday","e"),Vf("isoWeekday","E"),// PRIORITY
+Yf("day",11),Yf("weekday",11),Yf("isoWeekday",11),// PARSING
+hg("d",ei),hg("e",ei),hg("E",ei),hg("dd",function(Aj,Bj){return Bj.weekdaysMinRegex(Aj)}),hg("ddd",function(Aj,Bj){return Bj.weekdaysShortRegex(Aj)}),hg("dddd",function(Aj,Bj){return Bj.weekdaysRegex(Aj)}),mg(["dd","ddd","dddd"],function(Aj,Bj,Cj,Dj){var Ej=Cj._locale.weekdaysParse(Aj,Dj,Cj._strict);// if we didn't get a weekday name, mark the date as invalid
+null==Ej?Ff(Cj).invalidWeekday=Aj:Bj.d=Ej}),mg(["d","e","E"],function(Aj,Bj,Cj,Dj){Bj[Dj]=Nf(Aj)});// LOCALES
+var Ei="Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),Fi="Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),Gi="Su_Mo_Tu_We_Th_Fr_Sa".split("_");cg("H",["HH",2],0,"hour"),cg("h",["hh",2],0,Fg),cg("k",["kk",2],0,function(){return this.hours()||24}),cg("hmm",0,0,function(){return""+Fg.apply(this)+bg(this.minutes(),2)}),cg("hmmss",0,0,function(){return""+Fg.apply(this)+bg(this.minutes(),2)+bg(this.seconds(),2)}),cg("Hmm",0,0,function(){return""+this.hours()+bg(this.minutes(),2)}),cg("Hmmss",0,0,function(){return""+this.hours()+bg(this.minutes(),2)+bg(this.seconds(),2)}),Gg("a",!0),Gg("A",!1),// ALIASES
+Vf("hour","h"),// PRIORITY
+Yf("hour",13),hg("a",Hg),hg("A",Hg),hg("H",ei),hg("h",ei),hg("HH",ei,ai),hg("hh",ei,ai),hg("hmm",fi),hg("hmmss",gi),hg("Hmm",fi),hg("Hmmss",gi),lg(["H","HH"],vi),lg(["a","A"],function(Aj,Bj,Cj){Cj._isPm=Cj._locale.isPM(Aj),Cj._meridiem=Aj}),lg(["h","hh"],function(Aj,Bj,Cj){Bj[vi]=Nf(Aj),Ff(Cj).bigHour=!0}),lg("hmm",function(Aj,Bj,Cj){var Dj=Aj.length-2;Bj[vi]=Nf(Aj.substr(0,Dj)),Bj[wi]=Nf(Aj.substr(Dj)),Ff(Cj).bigHour=!0}),lg("hmmss",function(Aj,Bj,Cj){var Dj=Aj.length-4,Ej=Aj.length-2;Bj[vi]=Nf(Aj.substr(0,Dj)),Bj[wi]=Nf(Aj.substr(Dj,2)),Bj[xi]=Nf(Aj.substr(Ej)),Ff(Cj).bigHour=!0}),lg("Hmm",function(Aj,Bj){var Cj=Aj.length-2;Bj[vi]=Nf(Aj.substr(0,Cj)),Bj[wi]=Nf(Aj.substr(Cj))}),lg("Hmmss",function(Aj,Bj){var Cj=Aj.length-4,Dj=Aj.length-2;Bj[vi]=Nf(Aj.substr(0,Cj)),Bj[wi]=Nf(Aj.substr(Cj,2)),Bj[xi]=Nf(Aj.substr(Dj))});var Hi,Ii=/[ap]\.?m?\.?/i,Ji=$f("Hours",!0),Ki={calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},longDateFormat:{LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},invalidDate:"Invalid date",ordinal:"%d",ordinalParse:Uh,relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},months:Bi,monthsShort:Ci,week:{dow:0,// Sunday is the first day of the week.
+doy:6},weekdays:Ei,weekdaysMin:Gi,weekdaysShort:Fi,meridiemParse:Ii},Li={},Mi={},Ni=/^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Oi=/^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Pi=/Z|[+-]\d\d(?::?\d\d)?/,Qi=[["YYYYYY-MM-DD",/[+-]\d{6}-\d\d-\d\d/],["YYYY-MM-DD",/\d{4}-\d\d-\d\d/],["GGGG-[W]WW-E",/\d{4}-W\d\d-\d/],["GGGG-[W]WW",/\d{4}-W\d\d/,!1],["YYYY-DDD",/\d{4}-\d{3}/],["YYYY-MM",/\d{4}-\d\d/,!1],["YYYYYYMMDD",/[+-]\d{10}/],["YYYYMMDD",/\d{8}/],// YYYYMM is NOT allowed by the standard
+["GGGG[W]WWE",/\d{4}W\d{3}/],["GGGG[W]WW",/\d{4}W\d{2}/,!1],["YYYYDDD",/\d{7}/]],Ri=[["HH:mm:ss.SSSS",/\d\d:\d\d:\d\d\.\d+/],["HH:mm:ss,SSSS",/\d\d:\d\d:\d\d,\d+/],["HH:mm:ss",/\d\d:\d\d:\d\d/],["HH:mm",/\d\d:\d\d/],["HHmmss.SSSS",/\d\d\d\d\d\d\.\d+/],["HHmmss,SSSS",/\d\d\d\d\d\d,\d+/],["HHmmss",/\d\d\d\d\d\d/],["HHmm",/\d\d\d\d/],["HH",/\d\d/]],Si=/^\/?Date\((\-?\d+)/i;uf.createFromInputFallback=Qf("value provided is not in a recognized ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",function(Aj){Aj._d=new Date(Aj._i+(Aj._useUTC?" UTC":""))}),// constant that refers to the ISO standard
+uf.ISO_8601=function(){};var Ti=Qf("moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var Aj=bh.apply(null,arguments);return this.isValid()&&Aj.isValid()?Aj<this?this:Aj:Hf()}),Ui=Qf("moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var Aj=bh.apply(null,arguments);return this.isValid()&&Aj.isValid()?Aj>this?this:Aj:Hf()});gh("Z",":"),gh("ZZ",""),// PARSING
+hg("Z",ni),hg("ZZ",ni),lg(["Z","ZZ"],function(Aj,Bj,Cj){Cj._useUTC=!0,Cj._tzm=hh(ni,Aj)});// HELPERS
+// timezone chunker
+// '+10:00' > ['10',  '00']
+// '-1530'  > ['-15', '30']
+var Vi=/([\+\-]|\d\d)/gi;// HOOKS
+// This function will be called whenever a moment is mutated.
+// It is intended to keep the offset in sync with the timezone.
+uf.updateOffset=function(){};// ASP.NET json date format regex
+var Wi=/^(\-)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/,Xi=/^(-)?P(?:(-?[0-9,.]*)Y)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)W)?(?:(-?[0-9,.]*)D)?(?:T(?:(-?[0-9,.]*)H)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)S)?)?$/;lh.fn=dh.prototype;var Yi=ph(1,"add"),Zi=ph(-1,"subtract");uf.defaultFormat="YYYY-MM-DDTHH:mm:ssZ",uf.defaultFormatUtc="YYYY-MM-DDTHH:mm:ss[Z]";var $i=Qf("moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.",function(Aj){return void 0===Aj?this.localeData():this.locale(Aj)});// FORMATTING
+cg(0,["gg",2],0,function(){return this.weekYear()%100}),cg(0,["GG",2],0,function(){return this.isoWeekYear()%100}),uh("gggg","weekYear"),uh("ggggg","weekYear"),uh("GGGG","isoWeekYear"),uh("GGGGG","isoWeekYear"),// ALIASES
+Vf("weekYear","gg"),Vf("isoWeekYear","GG"),// PRIORITY
+Yf("weekYear",1),Yf("isoWeekYear",1),// PARSING
+hg("G",li),hg("g",li),hg("GG",ei,ai),hg("gg",ei,ai),hg("GGGG",ii,ci),hg("gggg",ii,ci),hg("GGGGG",ji,di),hg("ggggg",ji,di),mg(["gggg","ggggg","GGGG","GGGGG"],function(Aj,Bj,Cj,Dj){Bj[Dj.substr(0,2)]=Nf(Aj)}),mg(["gg","GG"],function(Aj,Bj,Cj,Dj){Bj[Dj]=uf.parseTwoDigitYear(Aj)}),// FORMATTING
+cg("Q",0,"Qo","quarter"),// ALIASES
+Vf("quarter","Q"),// PRIORITY
+Yf("quarter",7),// PARSING
+hg("Q",_h),lg("Q",function(Aj,Bj){Bj[ti]=3*(Nf(Aj)-1)}),// FORMATTING
+cg("D",["DD",2],"Do","date"),// ALIASES
+Vf("date","D"),// PRIOROITY
+Yf("date",9),// PARSING
+hg("D",ei),hg("DD",ei,ai),hg("Do",function(Aj,Bj){return Aj?Bj._ordinalParse:Bj._ordinalParseLenient}),lg(["D","DD"],ui),lg("Do",function(Aj,Bj){Bj[ui]=Nf(Aj.match(ei)[0],10)});// MOMENTS
+var _i=$f("Date",!0);// FORMATTING
+cg("DDD",["DDDD",3],"DDDo","dayOfYear"),// ALIASES
+Vf("dayOfYear","DDD"),// PRIORITY
+Yf("dayOfYear",4),// PARSING
+hg("DDD",hi),hg("DDDD",bi),lg(["DDD","DDDD"],function(Aj,Bj,Cj){Cj._dayOfYear=Nf(Aj)}),// FORMATTING
+cg("m",["mm",2],0,"minute"),// ALIASES
+Vf("minute","m"),// PRIORITY
+Yf("minute",14),// PARSING
+hg("m",ei),hg("mm",ei,ai),lg(["m","mm"],wi);// MOMENTS
+var aj=$f("Minutes",!1);// FORMATTING
+cg("s",["ss",2],0,"second"),// ALIASES
+Vf("second","s"),// PRIORITY
+Yf("second",15),// PARSING
+hg("s",ei),hg("ss",ei,ai),lg(["s","ss"],xi);// MOMENTS
+var bj=$f("Seconds",!1);// FORMATTING
+cg("S",0,0,function(){return~~(this.millisecond()/100)}),cg(0,["SS",2],0,function(){return~~(this.millisecond()/10)}),cg(0,["SSS",3],0,"millisecond"),cg(0,["SSSS",4],0,function(){return 10*this.millisecond()}),cg(0,["SSSSS",5],0,function(){return 100*this.millisecond()}),cg(0,["SSSSSS",6],0,function(){return 1e3*this.millisecond()}),cg(0,["SSSSSSS",7],0,function(){return 1e4*this.millisecond()}),cg(0,["SSSSSSSS",8],0,function(){return 1e5*this.millisecond()}),cg(0,["SSSSSSSSS",9],0,function(){return 1e6*this.millisecond()}),// ALIASES
+Vf("millisecond","ms"),// PRIORITY
+Yf("millisecond",16),// PARSING
+hg("S",hi,_h),hg("SS",hi,ai),hg("SSS",hi,bi);var cj;for(cj="SSSS";9>=cj.length;cj+="S")hg(cj,ki);for(cj="S";9>=cj.length;cj+="S")lg(cj,xh);// MOMENTS
+var dj=$f("Milliseconds",!1);// FORMATTING
+cg("z",0,0,"zoneAbbr"),cg("zz",0,0,"zoneName");var ej=Kf.prototype;ej.add=Yi,ej.calendar=function(Bj,Cj){// We want to compare the start of today, vs this.
+// Getting start-of-today depends on whether we're local/utc/offset or not.
+var Dj=Bj||bh(),Ej=ih(Dj,this).startOf("day"),Fj=uf.calendarFormat(this,Ej)||"sameElse",Gj=Cj&&(Sf(Cj[Fj])?Cj[Fj].call(this,Dj):Cj[Fj]);return this.format(Gj||this.localeData().calendar(Fj,this,bh(Dj)))},ej.clone=function(){return new Kf(this)},ej.diff=function(Bj,Cj,Dj){var Ej,Fj,Gj,Hj;// 1000
+// 1000 * 60
+// 1000 * 60 * 60
+// 1000 * 60 * 60 * 24, negate dst
+// 1000 * 60 * 60 * 24 * 7, negate dst
+return this.isValid()?(Ej=ih(Bj,this),Ej.isValid()?(Fj=6e4*(Ej.utcOffset()-this.utcOffset()),Cj=Wf(Cj),"year"===Cj||"month"===Cj||"quarter"===Cj?(Hj=rh(this,Ej),"quarter"===Cj?Hj/=3:"year"==Cj&&(Hj/=12)):(Gj=this-Ej,Hj="second"===Cj?Gj/1e3:"minute"===Cj?Gj/6e4:"hour"===Cj?Gj/36e5:"day"===Cj?(Gj-Fj)/864e5:"week"===Cj?(Gj-Fj)/6048e5:Gj),Dj?Hj:Mf(Hj)):NaN):NaN},ej.endOf=function(Bj){// 'date' is an alias for 'day', so it should be considered as such.
+return Bj=Wf(Bj),void 0===Bj||"millisecond"===Bj?this:("date"===Bj&&(Bj="day"),this.startOf(Bj).add(1,"isoWeek"===Bj?"week":Bj).subtract(1,"ms"))},ej.format=function(Bj){Bj||(Bj=this.isUtc()?uf.defaultFormatUtc:uf.defaultFormat);var Cj=fg(this,Bj);return this.localeData().postformat(Cj)},ej.from=function(Bj,Cj){return this.isValid()&&(Lf(Bj)&&Bj.isValid()||bh(Bj).isValid())?lh({to:this,from:Bj}).locale(this.locale()).humanize(!Cj):this.localeData().invalidDate()},ej.fromNow=function(Bj){return this.from(bh(),Bj)},ej.to=function(Bj,Cj){return this.isValid()&&(Lf(Bj)&&Bj.isValid()||bh(Bj).isValid())?lh({from:this,to:Bj}).locale(this.locale()).humanize(!Cj):this.localeData().invalidDate()},ej.toNow=function(Bj){return this.to(bh(),Bj)},ej.get=function(Bj){return Bj=Wf(Bj),Sf(this[Bj])?this[Bj]():this},ej.invalidAt=function(){return Ff(this).overflow},ej.isAfter=function(Bj,Cj){var Dj=Lf(Bj)?Bj:bh(Bj);return this.isValid()&&Dj.isValid()&&(Cj=Wf(If(Cj)?"millisecond":Cj),"millisecond"===Cj?this.valueOf()>Dj.valueOf():Dj.valueOf()<this.clone().startOf(Cj).valueOf())},ej.isBefore=function(Bj,Cj){var Dj=Lf(Bj)?Bj:bh(Bj);return this.isValid()&&Dj.isValid()&&(Cj=Wf(If(Cj)?"millisecond":Cj),"millisecond"===Cj?this.valueOf()<Dj.valueOf():this.clone().endOf(Cj).valueOf()<Dj.valueOf())},ej.isBetween=function(Bj,Cj,Dj,Ej){return Ej=Ej||"()",("("===Ej[0]?this.isAfter(Bj,Dj):!this.isBefore(Bj,Dj))&&(")"===Ej[1]?this.isBefore(Cj,Dj):!this.isAfter(Cj,Dj))},ej.isSame=function(Bj,Cj){var Dj,Ej=Lf(Bj)?Bj:bh(Bj);return this.isValid()&&Ej.isValid()&&(Cj=Wf(Cj||"millisecond"),"millisecond"===Cj?this.valueOf()===Ej.valueOf():(Dj=Ej.valueOf(),this.clone().startOf(Cj).valueOf()<=Dj&&Dj<=this.clone().endOf(Cj).valueOf()))},ej.isSameOrAfter=function(Bj,Cj){return this.isSame(Bj,Cj)||this.isAfter(Bj,Cj)},ej.isSameOrBefore=function(Bj,Cj){return this.isSame(Bj,Cj)||this.isBefore(Bj,Cj)},ej.isValid=function(){return Gf(this)},ej.lang=$i,ej.locale=sh,ej.localeData=th,ej.max=Ui,ej.min=Ti,ej.parsingFlags=function(){return Cf({},Ff(this))},ej.set=function(Bj,Cj){if("object"==typeof Bj){Bj=Xf(Bj);for(var Dj=Zf(Bj),Ej=0;Ej<Dj.length;Ej++)this[Dj[Ej].unit](Bj[Dj[Ej].unit])}else if(Bj=Wf(Bj),Sf(this[Bj]))return this[Bj](Cj);return this},ej.startOf=function(Bj){// the following switch intentionally omits break keywords
+// to utilize falling through the cases.
+switch(Bj=Wf(Bj)){case"year":this.month(0);/* falls through */case"quarter":case"month":this.date(1);/* falls through */case"week":case"isoWeek":case"day":case"date":this.hours(0);/* falls through */case"hour":this.minutes(0);/* falls through */case"minute":this.seconds(0);/* falls through */case"second":this.milliseconds(0);}// weeks are a special case
+// quarters are also special
+return"week"===Bj&&this.weekday(0),"isoWeek"===Bj&&this.isoWeekday(1),"quarter"===Bj&&this.month(3*Math.floor(this.month()/3)),this},ej.subtract=Zi,ej.toArray=function(){var Bj=this;return[Bj.year(),Bj.month(),Bj.date(),Bj.hour(),Bj.minute(),Bj.second(),Bj.millisecond()]},ej.toObject=function(){var Bj=this;return{years:Bj.year(),months:Bj.month(),date:Bj.date(),hours:Bj.hours(),minutes:Bj.minutes(),seconds:Bj.seconds(),milliseconds:Bj.milliseconds()}},ej.toDate=function(){return new Date(this.valueOf())},ej.toISOString=function(){var Bj=this.clone().utc();return 0<Bj.year()&&9999>=Bj.year()?Sf(Date.prototype.toISOString)?this.toDate().toISOString():fg(Bj,"YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"):fg(Bj,"YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]")},ej.inspect=function(){if(!this.isValid())return"moment.invalid(/* "+this._i+" */)";var Bj="moment",Cj="";this.isLocal()||(Bj=0===this.utcOffset()?"moment.utc":"moment.parseZone",Cj="Z");var Dj="["+Bj+"(\"]",Ej=0<this.year()&&9999>=this.year()?"YYYY":"YYYYYY",Fj=Cj+"[\")]";return this.format(Dj+Ej+"-MM-DD[T]HH:mm:ss.SSS"+Fj)},ej.toJSON=function(){// new Date(NaN).toJSON() === null
+return this.isValid()?this.toISOString():null},ej.toString=function(){return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ")},ej.unix=function(){return Math.floor(this.valueOf()/1e3)},ej.valueOf=function(){return this._d.valueOf()-6e4*(this._offset||0)},ej.creationData=function(){return{input:this._i,format:this._f,locale:this._locale,isUTC:this._isUTC,strict:this._strict}},// Year
+ej.year=Di,ej.isLeapYear=function(){return ug(this.year())},// Week Year
+ej.weekYear=function(Bj){return vh.call(this,Bj,this.week(),this.weekday(),this.localeData()._week.dow,this.localeData()._week.doy)},ej.isoWeekYear=function(Bj){return vh.call(this,Bj,this.isoWeek(),this.isoWeekday(),1,4)},// Quarter
+ej.quarter=ej.quarters=function(Bj){return null==Bj?Math.ceil((this.month()+1)/3):this.month(3*(Bj-1)+this.month()%3)},// Month
+ej.month=rg,ej.daysInMonth=function(){return og(this.year(),this.month())},// Week
+ej.week=ej.weeks=function(Bj){var Cj=this.localeData().week(this);return null==Bj?Cj:this.add(7*(Bj-Cj),"d")},ej.isoWeek=ej.isoWeeks=function(Bj){var Cj=zg(this,1,4).week;return null==Bj?Cj:this.add(7*(Bj-Cj),"d")},ej.weeksInYear=function(){var Bj=this.localeData()._week;return Ag(this.year(),Bj.dow,Bj.doy)},ej.isoWeeksInYear=function(){return Ag(this.year(),1,4)},// Day
+ej.date=_i,ej.day=ej.days=function(Bj){if(!this.isValid())return null==Bj?NaN:this;var Cj=this._isUTC?this._d.getUTCDay():this._d.getDay();return null==Bj?Cj:(Bj=Bg(Bj,this.localeData()),this.add(Bj-Cj,"d"))},ej.weekday=function(Bj){if(!this.isValid())return null==Bj?NaN:this;var Cj=(this.day()+7-this.localeData()._week.dow)%7;return null==Bj?Cj:this.add(Bj-Cj,"d")},ej.isoWeekday=function(Bj){if(!this.isValid())return null==Bj?NaN:this;// behaves the same as moment#day except
+// as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
+// as a setter, sunday should belong to the previous week.
+if(null!=Bj){var Cj=Cg(Bj,this.localeData());return this.day(this.day()%7?Cj:Cj-7)}return this.day()||7},ej.dayOfYear=function(Bj){var Cj=Math.round((this.clone().startOf("day")-this.clone().startOf("year"))/864e5)+1;return null==Bj?Cj:this.add(Bj-Cj,"d")},// Hour
+ej.hour=ej.hours=Ji,// Minute
+ej.minute=ej.minutes=aj,// Second
+ej.second=ej.seconds=bj,// Millisecond
+ej.millisecond=ej.milliseconds=dj,// Offset
+ej.utcOffset=function(Bj,Cj){var Dj,Ej=this._offset||0;if(!this.isValid())return null==Bj?NaN:this;if(null!=Bj){if("string"!=typeof Bj)16>Math.abs(Bj)&&(Bj=60*Bj);else if(Bj=hh(ni,Bj),null===Bj)return this;return!this._isUTC&&Cj&&(Dj=jh(this)),this._offset=Bj,this._isUTC=!0,null!=Dj&&this.add(Dj,"m"),Ej!==Bj&&(!Cj||this._changeInProgress?qh(this,lh(Bj-Ej,"m"),1,!1):this._changeInProgress||(this._changeInProgress=!0,uf.updateOffset(this,!0),this._changeInProgress=null)),this}return this._isUTC?Ej:jh(this)},ej.utc=function(Bj){return this.utcOffset(0,Bj)},ej.local=function(Bj){return this._isUTC&&(this.utcOffset(0,Bj),this._isUTC=!1,Bj&&this.subtract(jh(this),"m")),this},ej.parseZone=function(){if(null!=this._tzm)this.utcOffset(this._tzm);else if("string"==typeof this._i){var Bj=hh(mi,this._i);null==Bj?this.utcOffset(0,!0):this.utcOffset(Bj)}return this},ej.hasAlignedHourOffset=function(Bj){return!!this.isValid()&&(Bj=Bj?bh(Bj).utcOffset():0,0==(this.utcOffset()-Bj)%60)},ej.isDST=function(){return this.utcOffset()>this.clone().month(0).utcOffset()||this.utcOffset()>this.clone().month(5).utcOffset()},ej.isLocal=function(){return!!this.isValid()&&!this._isUTC},ej.isUtcOffset=function(){return!!this.isValid()&&this._isUTC},ej.isUtc=kh,ej.isUTC=kh,// Timezone
+ej.zoneAbbr=function(){return this._isUTC?"UTC":""},ej.zoneName=function(){return this._isUTC?"Coordinated Universal Time":""},// Deprecations
+ej.dates=Qf("dates accessor is deprecated. Use date instead.",_i),ej.months=Qf("months accessor is deprecated. Use month instead",rg),ej.years=Qf("years accessor is deprecated. Use year instead",Di),ej.zone=Qf("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/",function(Bj,Cj){return null==Bj?-this.utcOffset():("string"!=typeof Bj&&(Bj=-Bj),this.utcOffset(Bj,Cj),this)}),ej.isDSTShifted=Qf("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information",function(){if(!If(this._isDSTShifted))return this._isDSTShifted;var Bj={};if(Jf(Bj,this),Bj=$g(Bj),Bj._a){var Cj=Bj._isUTC?Df(Bj._a):bh(Bj._a);this._isDSTShifted=this.isValid()&&0<Of(Bj._a,Cj.toArray())}else this._isDSTShifted=!1;return this._isDSTShifted});var fj=Uf.prototype;fj.calendar=function(Bj,Cj,Dj){var Ej=this._calendar[Bj]||this._calendar.sameElse;return Sf(Ej)?Ej.call(Cj,Dj):Ej},fj.longDateFormat=function(Bj){var Cj=this._longDateFormat[Bj],Dj=this._longDateFormat[Bj.toUpperCase()];return Cj||!Dj?Cj:(this._longDateFormat[Bj]=Dj.replace(/MMMM|MM|DD|dddd/g,function(Ej){return Ej.slice(1)}),this._longDateFormat[Bj])},fj.invalidDate=function(){return this._invalidDate},fj.ordinal=function(Bj){return this._ordinal.replace("%d",Bj)},fj.preparse=yh,fj.postformat=yh,fj.relativeTime=function(Bj,Cj,Dj,Ej){var Fj=this._relativeTime[Dj];return Sf(Fj)?Fj(Bj,Cj,Dj,Ej):Fj.replace(/%d/i,Bj)},fj.pastFuture=function(Bj,Cj){var Dj=this._relativeTime[0<Bj?"future":"past"];return Sf(Dj)?Dj(Cj):Dj.replace(/%s/i,Cj)},fj.set=function(Bj){var Cj,Dj;for(Dj in Bj)Cj=Bj[Dj],Sf(Cj)?this[Dj]=Cj:this["_"+Dj]=Cj;this._config=Bj,// Lenient ordinal parsing accepts just a number in addition to
+// number + (possibly) stuff coming from _ordinalParseLenient.
+this._ordinalParseLenient=new RegExp(this._ordinalParse.source+"|"+/\d{1,2}/.source)},// Month
+fj.months=function(Bj,Cj){return Bj?vf(this._months)?this._months[Bj.month()]:this._months[(this._months.isFormat||Ai).test(Cj)?"format":"standalone"][Bj.month()]:this._months},fj.monthsShort=function(Bj,Cj){return Bj?vf(this._monthsShort)?this._monthsShort[Bj.month()]:this._monthsShort[Ai.test(Cj)?"format":"standalone"][Bj.month()]:this._monthsShort},fj.monthsParse=function(Bj,Cj,Dj){var Ej,Fj,Gj;if(this._monthsParseExact)return pg.call(this,Bj,Cj,Dj);// TODO: add sorting
+// Sorting makes sure if one month (or abbr) is a prefix of another
+// see sorting in computeMonthsParse
+for(this._monthsParse||(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[]),Ej=0;12>Ej;Ej++){// test the regex
+if(// make the regex if we don't have it already
+Fj=Df([2e3,Ej]),Dj&&!this._longMonthsParse[Ej]&&(this._longMonthsParse[Ej]=new RegExp("^"+this.months(Fj,"").replace(".","")+"$","i"),this._shortMonthsParse[Ej]=new RegExp("^"+this.monthsShort(Fj,"").replace(".","")+"$","i")),Dj||this._monthsParse[Ej]||(Gj="^"+this.months(Fj,"")+"|^"+this.monthsShort(Fj,""),this._monthsParse[Ej]=new RegExp(Gj.replace(".",""),"i")),Dj&&"MMMM"===Cj&&this._longMonthsParse[Ej].test(Bj))return Ej;if(Dj&&"MMM"===Cj&&this._shortMonthsParse[Ej].test(Bj))return Ej;if(!Dj&&this._monthsParse[Ej].test(Bj))return Ej}},fj.monthsRegex=function(Bj){return this._monthsParseExact?(Bf(this,"_monthsRegex")||sg.call(this),Bj?this._monthsStrictRegex:this._monthsRegex):(Bf(this,"_monthsRegex")||(this._monthsRegex=pi),this._monthsStrictRegex&&Bj?this._monthsStrictRegex:this._monthsRegex)},fj.monthsShortRegex=function(Bj){return this._monthsParseExact?(Bf(this,"_monthsRegex")||sg.call(this),Bj?this._monthsShortStrictRegex:this._monthsShortRegex):(Bf(this,"_monthsShortRegex")||(this._monthsShortRegex=pi),this._monthsShortStrictRegex&&Bj?this._monthsShortStrictRegex:this._monthsShortRegex)},// Week
+fj.week=function(Bj){return zg(Bj,this._week.dow,this._week.doy).week},fj.firstDayOfYear=function(){return this._week.doy},fj.firstDayOfWeek=function(){return this._week.dow},// Day of Week
+fj.weekdays=function(Bj,Cj){return Bj?vf(this._weekdays)?this._weekdays[Bj.day()]:this._weekdays[this._weekdays.isFormat.test(Cj)?"format":"standalone"][Bj.day()]:this._weekdays},fj.weekdaysMin=function(Bj){return Bj?this._weekdaysMin[Bj.day()]:this._weekdaysMin},fj.weekdaysShort=function(Bj){return Bj?this._weekdaysShort[Bj.day()]:this._weekdaysShort},fj.weekdaysParse=function(Bj,Cj,Dj){var Ej,Fj,Gj;if(this._weekdaysParseExact)return Dg.call(this,Bj,Cj,Dj);for(this._weekdaysParse||(this._weekdaysParse=[],this._minWeekdaysParse=[],this._shortWeekdaysParse=[],this._fullWeekdaysParse=[]),Ej=0;7>Ej;Ej++){// test the regex
+if(// make the regex if we don't have it already
+Fj=Df([2000,1]).day(Ej),Dj&&!this._fullWeekdaysParse[Ej]&&(this._fullWeekdaysParse[Ej]=new RegExp("^"+this.weekdays(Fj,"").replace(".",".?")+"$","i"),this._shortWeekdaysParse[Ej]=new RegExp("^"+this.weekdaysShort(Fj,"").replace(".",".?")+"$","i"),this._minWeekdaysParse[Ej]=new RegExp("^"+this.weekdaysMin(Fj,"").replace(".",".?")+"$","i")),this._weekdaysParse[Ej]||(Gj="^"+this.weekdays(Fj,"")+"|^"+this.weekdaysShort(Fj,"")+"|^"+this.weekdaysMin(Fj,""),this._weekdaysParse[Ej]=new RegExp(Gj.replace(".",""),"i")),Dj&&"dddd"===Cj&&this._fullWeekdaysParse[Ej].test(Bj))return Ej;if(Dj&&"ddd"===Cj&&this._shortWeekdaysParse[Ej].test(Bj))return Ej;if(Dj&&"dd"===Cj&&this._minWeekdaysParse[Ej].test(Bj))return Ej;if(!Dj&&this._weekdaysParse[Ej].test(Bj))return Ej}},fj.weekdaysRegex=function(Bj){return this._weekdaysParseExact?(Bf(this,"_weekdaysRegex")||Eg.call(this),Bj?this._weekdaysStrictRegex:this._weekdaysRegex):(Bf(this,"_weekdaysRegex")||(this._weekdaysRegex=pi),this._weekdaysStrictRegex&&Bj?this._weekdaysStrictRegex:this._weekdaysRegex)},fj.weekdaysShortRegex=function(Bj){return this._weekdaysParseExact?(Bf(this,"_weekdaysRegex")||Eg.call(this),Bj?this._weekdaysShortStrictRegex:this._weekdaysShortRegex):(Bf(this,"_weekdaysShortRegex")||(this._weekdaysShortRegex=pi),this._weekdaysShortStrictRegex&&Bj?this._weekdaysShortStrictRegex:this._weekdaysShortRegex)},fj.weekdaysMinRegex=function(Bj){return this._weekdaysParseExact?(Bf(this,"_weekdaysRegex")||Eg.call(this),Bj?this._weekdaysMinStrictRegex:this._weekdaysMinRegex):(Bf(this,"_weekdaysMinRegex")||(this._weekdaysMinRegex=pi),this._weekdaysMinStrictRegex&&Bj?this._weekdaysMinStrictRegex:this._weekdaysMinRegex)},// Hours
+fj.isPM=function(Bj){// IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings like arrays
+// Using charAt should be more compatible.
+return"p"===(Bj+"").toLowerCase().charAt(0)},fj.meridiem=function(Bj,Cj,Dj){return 11<Bj?Dj?"pm":"PM":Dj?"am":"AM"},Lg("en",{ordinalParse:/\d{1,2}(th|st|nd|rd)/,ordinal:function(Aj){var Bj=Aj%10,Cj=1===Nf(Aj%100/10)?"th":1==Bj?"st":2==Bj?"nd":3==Bj?"rd":"th";return Aj+Cj}}),// Side effect imports
+uf.lang=Qf("moment.lang is deprecated. Use moment.locale instead.",Lg),uf.langData=Qf("moment.langData is deprecated. Use moment.localeData instead.",Ng);var gj=Math.abs,hj=Gh("ms"),ij=Gh("s"),jj=Gh("m"),kj=Gh("h"),lj=Gh("d"),mj=Gh("w"),nj=Gh("M"),oj=Gh("y"),pj=Hh("milliseconds"),qj=Hh("seconds"),rj=Hh("minutes"),sj=Hh("hours"),tj=Hh("days"),uj=Hh("months"),vj=Hh("years"),wj=Math.round,xj={s:45,// seconds to minute
+m:45,// minutes to hour
+h:22,// hours to day
+d:26,// days to month
+M:11},yj=Math.abs,zj=dh.prototype;// Deprecations
+// Side effect imports
+// FORMATTING
+// PARSING
+// Side effect imports
+return zj.abs=function(){var Bj=this._data;return this._milliseconds=gj(this._milliseconds),this._days=gj(this._days),this._months=gj(this._months),Bj.milliseconds=gj(Bj.milliseconds),Bj.seconds=gj(Bj.seconds),Bj.minutes=gj(Bj.minutes),Bj.hours=gj(Bj.hours),Bj.months=gj(Bj.months),Bj.years=gj(Bj.years),this},zj.add=function(Bj,Cj){return Ch(this,Bj,Cj,1)},zj.subtract=function(Bj,Cj){return Ch(this,Bj,Cj,-1)},zj.as=function(Bj){var Cj,Dj,Ej=this._milliseconds;if(Bj=Wf(Bj),"month"===Bj||"year"===Bj)return Cj=this._days+Ej/864e5,Dj=this._months+Eh(Cj),"month"===Bj?Dj:Dj/12;switch(// handle milliseconds separately because of floating point math errors (issue #1867)
+Cj=this._days+Math.round(Fh(this._months)),Bj){case"week":return Cj/7+Ej/6048e5;case"day":return Cj+Ej/864e5;case"hour":return 24*Cj+Ej/36e5;case"minute":return 1440*Cj+Ej/6e4;case"second":return 86400*Cj+Ej/1e3;// Math.floor prevents floating point math errors here
+case"millisecond":return Math.floor(864e5*Cj)+Ej;default:throw new Error("Unknown unit "+Bj);}},zj.asMilliseconds=hj,zj.asSeconds=ij,zj.asMinutes=jj,zj.asHours=kj,zj.asDays=lj,zj.asWeeks=mj,zj.asMonths=nj,zj.asYears=oj,zj.valueOf=function(){return this._milliseconds+864e5*this._days+2592e6*(this._months%12)+31536e6*Nf(this._months/12)},zj._bubble=function(){var Bj,Cj,Dj,Ej,Fj,Gj=this._milliseconds,Hj=this._days,Ij=this._months,Jj=this._data;// if we have a mix of positive and negative values, bubble down first
+// check: https://github.com/moment/moment/issues/2166
+// The following code bubbles up values, see the tests for
+// examples of what that means.
+// convert days to months
+// 12 months -> 1 year
+return 0<=Gj&&0<=Hj&&0<=Ij||0>=Gj&&0>=Hj&&0>=Ij||(Gj+=864e5*Dh(Fh(Ij)+Hj),Hj=0,Ij=0),Jj.milliseconds=Gj%1e3,Bj=Mf(Gj/1e3),Jj.seconds=Bj%60,Cj=Mf(Bj/60),Jj.minutes=Cj%60,Dj=Mf(Cj/60),Jj.hours=Dj%24,Hj+=Mf(Dj/24),Fj=Mf(Eh(Hj)),Ij+=Fj,Hj-=Dh(Fh(Fj)),Ej=Mf(Ij/12),Ij%=12,Jj.days=Hj,Jj.months=Ij,Jj.years=Ej,this},zj.get=function(Bj){return Bj=Wf(Bj),this[Bj+"s"]()},zj.milliseconds=pj,zj.seconds=qj,zj.minutes=rj,zj.hours=sj,zj.days=tj,zj.weeks=function(){return Mf(this.days()/7)},zj.months=uj,zj.years=vj,zj.humanize=function(Bj){var Cj=this.localeData(),Dj=Jh(this,!Bj,Cj);return Bj&&(Dj=Cj.pastFuture(+this,Dj)),Cj.postformat(Dj)},zj.toISOString=Kh,zj.toString=Kh,zj.toJSON=Kh,zj.locale=sh,zj.localeData=th,zj.toIsoString=Qf("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",Kh),zj.lang=$i,cg("X",0,0,"unix"),cg("x",0,0,"valueOf"),hg("x",li),hg("X",oi),lg("X",function(Aj,Bj,Cj){Cj._d=new Date(1e3*parseFloat(Aj,10))}),lg("x",function(Aj,Bj,Cj){Cj._d=new Date(Nf(Aj))}),uf.version="2.17.0",function(Bj){Lh=Bj}(bh),uf.fn=ej,uf.min=function(){var Bj=[].slice.call(arguments,0);return ch("isBefore",Bj)},uf.max=function(){var Bj=[].slice.call(arguments,0);return ch("isAfter",Bj)},uf.now=function(){return Date.now?Date.now():+new Date},uf.utc=Df,uf.unix=function(Bj){return bh(1e3*Bj)},uf.months=function(Bj,Cj){return Ah(Bj,Cj,"months")},uf.isDate=zf,uf.locale=Lg,uf.invalid=Hf,uf.duration=lh,uf.isMoment=Lf,uf.weekdays=function(Bj,Cj,Dj){return Bh(Bj,Cj,Dj,"weekdays")},uf.parseZone=function(){return bh.apply(null,arguments).parseZone()},uf.localeData=Ng,uf.isDuration=eh,uf.monthsShort=function(Bj,Cj){return Ah(Bj,Cj,"monthsShort")},uf.weekdaysMin=function(Bj,Cj,Dj){return Bh(Bj,Cj,Dj,"weekdaysMin")},uf.defineLocale=Mg,uf.updateLocale=function(Bj,Cj){if(null!=Cj){var Dj,Ej=Ki;// MERGE
+null!=Li[Bj]&&(Ej=Li[Bj]._config),Cj=Tf(Ej,Cj),Dj=new Uf(Cj),Dj.parentLocale=Li[Bj],Li[Bj]=Dj,// backwards compat for now: also set the locale
+Lg(Bj)}else// pass null for config to unupdate, useful for tests
+null!=Li[Bj]&&(null==Li[Bj].parentLocale?null!=Li[Bj]&&delete Li[Bj]:Li[Bj]=Li[Bj].parentLocale);return Li[Bj]},uf.locales=function(){return Th(Li)},uf.weekdaysShort=function(Bj,Cj,Dj){return Bh(Bj,Cj,Dj,"weekdaysShort")},uf.normalizeUnits=Wf,uf.relativeTimeRounding=function(Bj){return void 0===Bj?wj:"function"==typeof Bj&&(wj=Bj,!0)},uf.relativeTimeThreshold=function(Bj,Cj){return void 0!==xj[Bj]&&(void 0===Cj?xj[Bj]:(xj[Bj]=Cj,!0))},uf.calendarFormat=function(Bj,Cj){var Dj=Bj.diff(Cj,"days",!0);return-6>Dj?"sameElse":-1>Dj?"lastWeek":0>Dj?"lastDay":1>Dj?"sameDay":2>Dj?"nextDay":7>Dj?"nextWeek":"sameElse"},uf.prototype=ej,uf})})();</script><script type="text/javascript">____CONCEALED____.define&&(define=____CONCEALED____.define),____CONCEALED____.require&&(require=____CONCEALED____.require),____CONCEALED____.define=void 0,____CONCEALED____.require=void 0;</script></div><dom-module id="strand-timeformat"><template><style></style>{{_formatDateTime(value, format)}}</template></dom-module><script>(function(a){a.Timeformat=Polymer({is:"strand-timeformat",behaviors:[StrandTraits.Refable],properties:{value:{type:Date,value:null},format:{type:String,value:"L"}},_formatDateTime:function(b,c){return moment.locale(),moment(b).format(c)}})})(window.Strand=window.Strand||{});</script></body></html>

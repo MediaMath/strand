@@ -392,7 +392,6 @@ table {
     margin-bottom: -200px; }
   .intro-block .intro-content.top {
     -ms-flex-align: start;
-        -ms-grid-row-align: flex-start;
         align-items: flex-start;
     -ms-flex-direction: column;
         flex-direction: column; }
@@ -433,7 +432,6 @@ table {
     height: 360px; }
   .hp-header {
     -ms-flex-align: start;
-        -ms-grid-row-align: flex-start;
         align-items: flex-start;
     -ms-flex-pack: center;
         justify-content: center;
