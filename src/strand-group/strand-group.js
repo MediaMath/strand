@@ -11,7 +11,8 @@
 
 		behaviors: [
 			StrandTraits.Resolvable,
-			StrandTraits.Selectable
+			StrandTraits.Selectable,
+			StrandTraits.DomMutable
 		],
 
 		properties: {
@@ -36,11 +37,6 @@
 				notify: true,
 				observer: '_valueChanged'
 			},
-			// TODO: multiselectable
-			// multi: {
-			// 	type: Boolean,
-			// 	value: false
-			// },
 			_filter: {
 				type: Boolean,
 				value: false
@@ -70,7 +66,9 @@
 
 		listeners: {
 			'tap': '_updateSelectedItem',
-			'selected': '_radioSelected'
+			'selected': '_radioSelected',
+			'added': '_domModified',
+			'removed': '_domModified'
 		},
 
 		ready: function() {
@@ -121,13 +119,10 @@
 			if(this._type === 'strand-button') {
 				var target = Polymer.dom(e).localTarget,
 					targetIndex = this.items.indexOf(target);
-				// console.log("_updateSelectedItem: ", e, target);
+
 				if(targetIndex >= 0) {
 					this.selectedIndex = targetIndex;
 				}
-				// ***********************
-				// TODO: Multi-Select?
-				// ***********************
 			}
 		},
 
@@ -161,21 +156,29 @@
 		},
 
 		_alignChanged: function(newVal, oldVal){
-			this.items.forEach(this._setItemAlign.bind(this));
+			this.debounce('updateAlignments', this._updateAlignments);
 		},
 
-		_setItemAlign: function(item, index) {
-			var alignFirst	= (this.align !== this.HALIGN) ? this.VALIGN_TOP : this.HALIGN_LEFT,
-				alignCenter = (this.align !== this.HALIGN) ? this.VALIGN_CENTER : this.HALIGN_CENTER,
-				alignLast	= (this.align !== this.HALIGN) ? this.VALIGN_BOTTOM : this.HALIGN_RIGHT;
+		_domModified: function(e) {
+			this.debounce('updateAlignments', this._updateAlignments);
+		},
 
-			// set layout on all items
-			if (index === 0) {
-				item.setAttribute("layout", alignFirst);
-			} else if (index === this.items.length-1) {
-				item.setAttribute("layout", alignLast);
-			} else {
-				item.setAttribute("layout", alignCenter);
+		_updateAlignments: function() {
+			if (this.items) {
+				this.items.forEach(function(item, index) {
+					var alignFirst	= (this.align !== this.HALIGN) ? this.VALIGN_TOP : this.HALIGN_LEFT,
+						alignCenter = (this.align !== this.HALIGN) ? this.VALIGN_CENTER : this.HALIGN_CENTER,
+						alignLast	= (this.align !== this.HALIGN) ? this.VALIGN_BOTTOM : this.HALIGN_RIGHT;
+
+					// set layout on all items
+					if (index === 0) {
+						item.setAttribute("layout", alignFirst);
+					} else if (index === this.items.length-1) {
+						item.setAttribute("layout", alignLast);
+					} else {
+						item.setAttribute("layout", alignCenter);
+					}
+				}.bind(this));
 			}
 		},
 

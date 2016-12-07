@@ -6,6 +6,7 @@
 		<link rel="import" href="../strand-button/strand-button.html">
 		<link rel="import" href="../strand-radio/strand-radio.html">
 		<link rel="import" href="../strand-dropdown/strand-dropdown.html">
+		<link rel="import" href="../strand-checkbox/strand-checkbox.html">
 		<link rel="import" href="../strand-input/strand-input.html">
 		<link rel="import" href="../strand-autocomplete/strand-autocomplete.html">
 		<link rel="import" href="../strand-list-item/strand-list-item.html">
@@ -97,15 +98,23 @@
 	<body>
 		<div class="col c4">
 			<p><span class="bold">Button Group:</span> Horizontal (Secondary)</p>
-			<strand-group id="removeMe" unresolved>
-				<strand-button type="secondary"><label>S</label></strand-button>
-				<strand-button type="secondary"><label>M</label></strand-button>
-				<strand-button type="secondary"><label>T</label></strand-button>
-				<strand-button type="secondary"><label>W</label></strand-button>
-				<strand-button type="secondary"><label>T</label></strand-button>
-				<strand-button type="secondary"><label>F</label></strand-button>
-				<strand-button type="secondary"><label>S</label></strand-button>
-			</strand-group>
+			
+			<template is="dom-bind" id="testMe">
+				<strand-checkbox checked="{{addElement}}"></strand-checkbox>
+				<strand-group id="removeMe" unresolved>
+					<strand-button type="secondary"><label>S</label></strand-button>
+					<strand-button type="secondary"><label>M</label></strand-button>
+					<strand-button type="secondary"><label>T</label></strand-button>
+					<strand-button type="secondary"><label>W</label></strand-button>
+					<strand-button type="secondary"><label>T</label></strand-button>
+					<template is="dom-if" if="{{addElement}}">
+					<strand-button type="secondary"><label>Q</label></strand-button>
+					</template>
+					<strand-button type="secondary"><label>F</label></strand-button>
+					<strand-button type="secondary"><label>S</label></strand-button>
+				</strand-group>
+			</template>
+
 			<hr/>
 			<p><span class="bold">Button Group:</span> Horizontal (Primary)</p>
 			<strand-group align="horizontal" unresolved>
@@ -301,6 +310,9 @@
 				si1 = document.getElementById("si1");
 				si2 = document.getElementById("si2");
 				si3 = document.getElementById("si3");
+
+				// var removeMe = document.querySelector('#removeMe');
+				// var addMe = document.querySelector('#addMe'); 
 
 				si1.data = data;
 				si2.data = data;
