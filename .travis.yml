@@ -15,12 +15,16 @@ before_install:
 - source /opt/jdk_switcher/jdk_switcher.sh
 - jdk_switcher use oraclejdk8
 before_script:
+- gem install percy
 - npm install -g bower web-component-tester
 - npm install
 - bower install
 - gulp clean
 - gulp build
 script: xvfb-run wct
+after_success:
+- gulp docs
+- percy snapshot build_docs/
 env:
   global:
   - CXX=g++-4.8
