@@ -87,6 +87,15 @@
 			"default":"false"
 		},
 		{
+			"name":"noResultsMessage",
+			"type":"String",
+			"attribute":"no-results-message",
+			"description":"A message to display when the data array is null or contains no items",
+			"optional":true,
+			"default:":"''"
+
+		},
+		{
 			"name":"scope",
 			"type":"Object",
 			"description":"The content scope that is passed to the grid's items - typically the grid itself.",
