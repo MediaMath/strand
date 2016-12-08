@@ -367,7 +367,7 @@
 			return Polymer.dom(this).removeChild(column);
 		},
 
-		_showNoResults: function(noResultsMessage, data) {
+		_showNoResults(noResultsMessage, data) {
 			if (noResultsMessage) {
 				return !data || data && !data.length;
 			} else {
