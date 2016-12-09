@@ -112,7 +112,7 @@
 				if(!wrappedNew.isSame(wrappedOld)) {
 					this.dateString = wrappedNew.format(this.dateFormat).toString();
 					var unixTimestamp = _startOfDay(wrappedNew.unix());
-					if(this.useTime) unixTimestamp += this.time;
+					if(this.useTime && this.time) unixTimestamp += this.time;
 					this.value =  unixTimestamp;
 				}
 			}
@@ -135,7 +135,7 @@
 						this.date = wrappedNew.toDate();
 
 						var unixTimestamp = _startOfDay(wrappedNew.unix());
-						if(this.useTime) unixTimestamp += this.time;
+						if(this.useTime && this.time) unixTimestamp += this.time;
 						this.value =  unixTimestamp;
 					}
 				}
