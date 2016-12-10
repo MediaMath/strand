@@ -29,7 +29,9 @@
 			},
 			use24HourTime: {
 				type: Boolean,
-				value: false
+				value: false,
+				notify: true,
+				observer: '_use24Changed',
 			},
 
 			timeString: {
@@ -53,10 +55,6 @@
 				type: String,
 				computed: '_compute24HourFormat(_timeOnlyFormat)'
 			},
-			_UTCTimeFormat: {
-				type: String,
-				computed: '_computeUTCTimeFormat(timeFormat)'
-			}
 		},
 
 		behaviors: [
@@ -71,19 +69,16 @@
 		_compute24HourFormat: function(timeOnlyFormat) {
 			return timeOnlyFormat.replace(/h/g, 'H');
 		},
-		_computeUTCTimeFormat: function(timeFormat) {
-			return timeFormat + ' Z';
-		},
 
 		// Computes UNIX timestring from user input
 		_computeValue: function(use24HourTime, timeString, timePeriod) {
 			if(_allExist(use24HourTime, timeString, timePeriod)) {
 				var secondsPerDay = 86400;
-				var time = (use24HourTime ? timeString : timeString+' '+timePeriod) + " +0000";
-				var wrappedTime = moment(time, this._UTCTimeFormat, true);
+				var time = (use24HourTime ? timeString : timeString+' '+timePeriod);
+				var wrappedTime = moment(time, this.timeFormat, true);
 
 				if(wrappedTime.isValid()) {
-					this.value = wrappedTime.unix() % secondsPerDay;
+					this.value = (1 * wrappedTime.seconds()) + (60 * wrappedTime.minutes()) + (3600 * wrappedTime.hours());
 				}
 			}
 		},
@@ -109,7 +104,7 @@
 		// Updates display to reflect new value
 		_valueChanged: function(newValue, oldValue) {
 			if(Number.isInteger(newValue) && newValue !== oldValue) {
-				var newTime = moment.unix(newValue).utc();
+				var newTime = moment().startOf("day").seconds(newValue);
 				var time = newTime.format(this.use24HourTime ? this._24HourFormat : this._timeOnlyFormat);
 				var timePeriod = newTime.format('a');
 

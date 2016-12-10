@@ -111,9 +111,7 @@
 
 				if(!wrappedNew.isSame(wrappedOld)) {
 					this.dateString = wrappedNew.format(this.dateFormat).toString();
-					var unixTimestamp = _startOfDay(wrappedNew.unix());
-					if(this.useTime && this.time) unixTimestamp += this.time;
-					this.value =  unixTimestamp;
+					this.value = wrappedNew.startOf("day").seconds(this.time || 0).format();
 				}
 			}
 		},
@@ -133,10 +131,7 @@
 					// Don't do anything if the date didn't actually change
 					else if(!wrappedNew.isSame(wrappedOld)) {
 						this.date = wrappedNew.toDate();
-
-						var unixTimestamp = _startOfDay(wrappedNew.unix());
-						if(this.useTime && this.time) unixTimestamp += this.time;
-						this.value =  unixTimestamp;
+						this.value = wrappedNew.startOf("day").seconds(this.time || 0).format();
 					}
 				}
 			}
@@ -144,16 +139,16 @@
 
 		_valueChanged: function(newValue, oldValue) {
 			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
-				var wrappedUnix = moment.unix(newValue).utc();
+				var wrappedNew = moment(newValue);
 				// dateString change handler will change Date object
-				this.dateString = wrappedUnix.format(this.dateFormat).toString();
-				this.time = newValue % SECONDS_PER_DAY;
+				this.dateString = wrappedNew.format(this.dateFormat).toString();
+				this.time = (1 * wrappedNew.seconds()) + (60 * wrappedNew.minutes()) + (3600 * wrappedNew.hours());
 			}
 		},
 
 		_timeChanged: function(newTime, oldTime) {
 			if(newTime && newTime !== oldTime) {
-				this.value = _startOfDay(this.value) + newTime;
+				this.value = moment(this.value).startOf("day").seconds(newTime || 0).format();
 			}
 		},
 

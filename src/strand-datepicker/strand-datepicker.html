@@ -38,7 +38,7 @@
 				</template>
 				<div class="date-panel-container">
 				<strand-datepicker-panel id="start"
-					value="{{_startUnix}}"
+					value="{{_startString}}"
 					date-format="{{dateFormat}}"
 					time-format="{{timeFormat}}"
 					date="{{_startJSDate}}"
@@ -58,7 +58,7 @@
 				<template is="dom-if" if="{{dual}}">
 					<div class="vert-stroke"></div>
 					<strand-datepicker-panel id="end"
-						value="{{_endUnix}}"
+						value="{{_endString}}"
 						date-format="{{dateFormat}}"
 						time-format="{{timeFormat}}"
 						date="{{_endJSDate}}"

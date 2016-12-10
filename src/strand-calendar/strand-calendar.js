@@ -12,7 +12,7 @@
 	
 	_Day.prototype = {
 		get value() {
-			return this.moment.unix();
+			return this.moment.format();
 		},
 		get label() {
 			return this.moment.date();
@@ -125,7 +125,7 @@
 			if (this.date) {
 				this._month = moment(this.date).month();
 				this._year = moment(this.date).year();
-				this._day = moment(this.date).date();
+				//this._day = moment(this.date).date();
 			}
 		},
 
@@ -138,9 +138,9 @@
 		},
 
 		_updateSelection: function () {
-			var end = this.pairDate ? moment(this.pairDate) : moment(this.date).add(1, 'second');
-			var selStart = moment.min(this.date, end);
-			var selEnd = moment.max(this.date, end);
+			var paired = this.pairDate ? moment(this.pairDate) : moment(this.date).add(1, 'second');
+			var selStart = moment.min(this.date, paired);
+			var selEnd = moment.max(this.date, paired);
 			if (selStart)
 				selStart = moment(selStart).startOf('day');
 			if (selEnd)
@@ -155,9 +155,9 @@
 					day.class.last = day.moment.isSame(selEnd, 'day');
 				}
 				if (!this.date && this.pairDate) {
-					day.class.selected = day.moment.isSame(end, 'day');
+					day.class.selected = day.moment.isSame(paired, 'day');
 				}
-			}.bind(this));
+			}, this);
 		},
 
 		_boundaryDate: function (value) {
@@ -214,19 +214,19 @@
 			var val = e.target.getAttribute('value');
 			if (state && val) {
 				this.fire('calendar-select', {
-					date: moment.unix(val).toDate(),
+					date: moment(val).toDate(),
 					target: e.target,
-					unix: val
+					//unix: val
 				});
 				if(this.useTapSelect) {
-					this.date = moment.unix(val).toDate();
+					this.date = moment(val).toDate();
 					this._updateSelection();
 				}
 			}
 		},
 
 		_dayId: function(day) {
-			return 'day' + day.value;
+			return 'day' + day.moment.unix();
 		},
 
 		_dayClass: function(day) {
