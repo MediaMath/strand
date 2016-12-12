@@ -132,6 +132,7 @@
 			},
 			allowedStart: {
 				type: Object,
+				notify: true,
 				value: null
 			},
 			startLabel: {
@@ -179,6 +180,7 @@
 			},
 			allowedEnd: {
 				type: Object,
+				notify: true,
 				value: null
 			},
 			endLabel: {
@@ -214,10 +216,12 @@
 
 			_compositeAllowedStart: {
 				type: Object,
+				notify: true,
 				computed: '_computeStartBound(_startUnix, allowedStart)'
 			},
 			_compositeAllowedEnd: {
 				type: Object,
+				notify: true,
 				computed: '_computeEndBound(_endUnix, allowedEnd)'
 			},
 
@@ -238,6 +242,12 @@
 		// Lifecycle
 		attached: function() {
 			if(this.useCommit) this.classList.add('has-footer');
+		},
+
+		_calendarFilter: function(date) {
+			if(date && date !== date.toString()) {
+				return new Date(moment(date).utc().format(this.dateFormat));
+			}
 		},
 
 		// Range methods
