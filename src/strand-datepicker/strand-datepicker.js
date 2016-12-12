@@ -8,32 +8,7 @@
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 	var DataUtils = StrandLib.DataUtils;
-
-	function _ensureMoment(d) {
-		if(moment.isMoment(d)) {
-			// Already a moment object
-			return d;
-		} else if(DataUtils.isType(d, 'date')) {
-			// Construct moment from date
-			return moment(d);
-		} else if(DataUtils.isType(d, 'string')) {
-			// Attempt to parse datestring
-			return moment(new Date(d));
-		} else if(Number.isFinite(d)) {
-			// Construct moment from timestamp
-			return moment.unix(d);
-		} else {
-			// If all else fails return an invalid moment
-			return moment('Invalid date','Invalid date',true);
-		}
-	}
-
-	function _clampDates(value, lower, upper) {
-		var tmp = _ensureMoment(value);
-		if(lower) tmp = moment.max(_ensureMoment(lower), tmp);
-		if(upper) tmp = moment.min(_ensureMoment(upper), tmp);
-		return tmp;
-	}
+	var DateUtils = StrandLib.DateUtils;
 
 	scope.Datepicker = Polymer({
 		is: 'strand-datepicker',
@@ -245,8 +220,8 @@
 		},
 
 		_calendarFilter: function(date) {
-			if(date && date !== date.toString()) {
-				return new Date(moment(date).utc().format(this.dateFormat));
+			if(date) {
+				return moment(date).utc().format(this.dateFormat);
 			}
 		},
 
@@ -254,8 +229,8 @@
 		_findRange: function(startUnix, endUnix) {
 			if(this.useRange && this._rangePresets) {
 				var found = "";
-				var wrappedStart = _ensureMoment(startUnix);
-				var wrappedEnd = _ensureMoment(endUnix);
+				var wrappedStart = DateUtils.ensureMoment(startUnix);
+				var wrappedEnd = DateUtils.ensureMoment(endUnix);
 
 				if(wrappedStart.isValid() && wrappedEnd.isValid()) {
 					for(var i=this._rangePresets.length-1; i>=0; i--) {
@@ -277,8 +252,8 @@
 					range = this._rangePresets.filter(function(range) { return range.label === newRange })[0];
 				if (range) {
 					this._rangeValueFlag = true;
-					this._startUnix = _ensureMoment(range.range.start).unix();
-					this._endUnix = _ensureMoment(range.range.end).unix();
+					this._startUnix = DateUtils.ensureMoment(range.range.start).unix();
+					this._endUnix = DateUtils.ensureMoment(range.range.end).unix();
 					this._rangeValueFlag = false;
 				}
 			}
@@ -302,8 +277,8 @@
 
 		// Date bounds
 		_computeStartBound: function(start, allowedStart) {
-			var wrappedStart = _ensureMoment(start);
-			var wrappedAllowed = _ensureMoment(allowedStart);
+			var wrappedStart = DateUtils.ensureMoment(start);
+			var wrappedAllowed = DateUtils.ensureMoment(allowedStart);
 
 			if(wrappedStart.isValid() && wrappedAllowed.isValid()) {
 				return moment.max(wrappedStart, wrappedAllowed);
@@ -315,8 +290,8 @@
 		},
 
 		_computeEndBound: function(end, allowedEnd) {
-			var wrappedEnd = _ensureMoment(end);
-			var wrappedAllowed = _ensureMoment(allowedEnd);
+			var wrappedEnd = DateUtils.ensureMoment(end);
+			var wrappedAllowed = DateUtils.ensureMoment(allowedEnd);
 
 			if(wrappedEnd.isValid() && wrappedAllowed.isValid()) {
 				return moment.min(wrappedEnd, wrappedAllowed);
@@ -329,7 +304,7 @@
 
 		_boundStart: function(newStart, oldStart) {
 			if(DataUtils.isDef(newStart) && newStart !== oldStart) {
-				this._startUnix = _clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
+				this._startUnix = DateUtils.clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
 				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
 				if(!this.useCommit) this.save();
 			}
@@ -337,7 +312,7 @@
 
 		_boundEnd: function(newEnd, oldEnd) {
 			if(DataUtils.isDef(newEnd) && newEnd !== oldEnd) {
-				this._endUnix = _clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
+				this._endUnix = DateUtils.clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
 				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
 				if(!this.useCommit) this.save();
 			}
@@ -398,8 +373,8 @@
 
 		// Public
 		reset: function(start, end) {
-			var wrappedStart = _ensureMoment(start || this.start);
-			var wrappedEnd = _ensureMoment(end || this.end);
+			var wrappedStart = DateUtils.ensureMoment(start || this.start);
+			var wrappedEnd = DateUtils.ensureMoment(end || this.end);
 
 			if (wrappedStart.isValid() && wrappedStart.unix() !== this._startUnix) {
 				this._startUnix = wrappedStart.unix();
@@ -411,10 +386,10 @@
 		},
 
 		save: function(silent) {
-			var oldStart = _ensureMoment(this.start);
-			var oldEnd = _ensureMoment(this.end);
-			var wrappedStart = _ensureMoment(this._startUnix);
-			var wrappedEnd = _ensureMoment(this._endUnix);
+			var oldStart = DateUtils.ensureMoment(this.start);
+			var oldEnd = DateUtils.ensureMoment(this.end);
+			var wrappedStart = DateUtils.ensureMoment(this._startUnix);
+			var wrappedEnd = DateUtils.ensureMoment(this._endUnix);
 
 			if (wrappedStart.isValid() && !wrappedStart.isSame(oldStart)) {
 				this.start = wrappedStart.toDate();

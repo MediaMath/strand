@@ -5,6 +5,8 @@
 
 */
 (function (scope) {
+	var DateUtils = StrandLib.DateUtils;
+
 	var _Day = function (moment, flags) {
 		this.moment = moment;
 		this.class = flags;
@@ -123,28 +125,29 @@
 
 		ready: function () {
 			if (this.date) {
-				this._month = moment(this.date).month();
-				this._year = moment(this.date).year();
-				this._day = moment(this.date).date();
+				var date = DateUtils.ensureMoment(this.date);
+				this._month = date.month();
+				this._year = date.year();
+				this._day = date.date();
 			}
 		},
 
 		_incrMonth: function (e) {
-			this.viewDate = moment(this.viewDate).add(1, 'month').toDate();
+			this.viewDate = DateUtils.ensureMoment(this.viewDate).add(1, 'month').toDate();
 		},
 
 		_decrMonth: function (e) {
-			this.viewDate = moment(this.viewDate).subtract(1, 'month').toDate();
+			this.viewDate = DateUtils.ensureMoment(this.viewDate).subtract(1, 'month').toDate();
 		},
 
 		_updateSelection: function () {
-			var end = this.pairDate ? moment(this.pairDate) : moment(this.date).add(1, 'second');
+			var end = this.pairDate ? DateUtils.ensureMoment(this.pairDate) : DateUtils.ensureMoment(this.date).add(1, 'second');
 			var selStart = moment.min(this.date, end);
 			var selEnd = moment.max(this.date, end);
 			if (selStart)
-				selStart = moment(selStart).startOf('day');
+				selStart = DateUtils.ensureMoment(selStart).startOf('day');
 			if (selEnd)
-				selEnd = moment(selEnd).endOf('day');
+				selEnd = DateUtils.ensureMoment(selEnd).endOf('day');
 			var selectedRange = moment().range(selStart, selEnd);
 			this._days.forEach(function (day) {
 				day.class.selected = selectedRange.contains(day.moment);
@@ -164,7 +167,7 @@
 			if (typeof value === 'boolean') {
 				return moment().startOf('day');
 			} else {
-				var m = moment(value);
+				var m = DateUtils.ensureMoment(value);
 				if (m.isValid()) {
 					return m;
 				}
@@ -173,7 +176,7 @@
 		},
 
 		_updateMonthView: function () {
-			var mm = moment(this.viewDate).startOf('day');
+			var mm = DateUtils.ensureMoment(this.viewDate).startOf('day');
 			this._month = moment.months(mm.month());
 			this._year = mm.year();
 			this._days = [];
@@ -202,7 +205,7 @@
 		},
 
 		_dateChangeHandler: function () {
-			var m = moment(this.date);
+			var m = DateUtils.ensureMoment(this.date);
 			if (m.isValid()) {
 				this.viewDate = m.toDate();
 				this._changeHandler();
