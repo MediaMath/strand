@@ -184,13 +184,18 @@ describe("strand-datepicker", function() {
 		dp.end = end;
 
 		flush(function() {
-			var disableFuture = moment(dp.$$('#start').disableFuture);
-			var disablePast = moment(dp.$$('#end').disablePast);
-			start = moment(start);
-			end = moment(end);
+			var disableFuture = moment(dp.$$('#start').disableFuture).utc();
+			var disablePast = moment(dp.$$('#end').disablePast).utc();
+			start = moment(start).utc();
+			end = moment(end).utc();
 
-			expect(disableFuture.diff(end, 'days')).to.be.lessThan(1);
-			expect(disablePast.diff(start, 'days')).to.be.lessThan(1);
+			expect(disableFuture.month()).to.equal(end.month());
+			expect(disableFuture.date()).to.equal(end.date());
+			expect(disableFuture.year()).to.equal(end.year());
+
+			expect(disablePast.month()).to.equal(start.month());
+			expect(disablePast.date()).to.equal(start.date());
+			expect(disablePast.year()).to.equal(start.year());
 			done();
 		})
 	});
