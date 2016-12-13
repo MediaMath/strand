@@ -24,7 +24,7 @@ before_script:
 script: xvfb-run wct
 after_success:
 - gulp docs
-- percy snapshot build_docs/
+- percy snapshot build_docs/ --enable_javascript --snapshot_limit 10
 env:
   global:
   - CXX=g++-4.8
