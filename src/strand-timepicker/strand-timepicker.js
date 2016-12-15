@@ -6,32 +6,28 @@
 */
 (function (scope) {
 
-	var DataUtils = StrandLib.DataUtils;
-	function _allExist() {
-		return Array.prototype.slice.call(arguments)
-			.map(function(value) { return DataUtils.isDef(value); })
-			.reduce(function(sum, current) { return sum && current; });
-	}
+	var DataUtils = StrandLib.DataUtils;	
 
 	scope.TimePicker = Polymer({
 		is: 'strand-timepicker',
 
 		properties: {
 			value: {
-				type: Number,
-				value: null,
+				type: String,
+				value: '',
 				notify: true,
 				observer: '_valueChanged'
 			},
+
 			timeFormat: {
 				type: String,
 				value: 'hh:mm a'
 			},
+
 			use24HourTime: {
 				type: Boolean,
-				value: false,
-				notify: true,
-				observer: '_use24Changed',
+				computed: '_computeUse24HourTime(timeFormat)',
+				notify: true
 			},
 
 			timeString: {
@@ -40,6 +36,8 @@
 				notify: true,
 				observer: '_timeStringChanged'
 			},
+
+			// dropdown user selection only
 			timePeriod: {
 				type: String,
 				value: 'am',
@@ -50,11 +48,7 @@
 			_timeOnlyFormat: {
 				type: String,
 				computed: '_computeTimeOnlyFormat(timeFormat)'
-			},
-			_24HourFormat: {
-				type: String,
-				computed: '_compute24HourFormat(_timeOnlyFormat)'
-			},
+			}
 		},
 
 		behaviors: [
@@ -63,58 +57,44 @@
 			StrandTraits.Refable
 		],
 
+		_computeUse24HourTime: function(timeFormat) {
+			return timeFormat.indexOf('H') >= 0;
+		},
+
 		_computeTimeOnlyFormat: function(timeFormat) {
-			return timeFormat.replace(' a', '');
-		},
-		_compute24HourFormat: function(timeOnlyFormat) {
-			return timeOnlyFormat.replace(/h/g, 'H');
+			return timeFormat.replace(/a/i, '').trim();
 		},
 
-		// Computes UNIX timestring from user input
-		_computeValue: function(use24HourTime, timeString, timePeriod) {
-			if(_allExist(use24HourTime, timeString, timePeriod)) {
-				var secondsPerDay = 86400;
-				var time = (use24HourTime ? timeString : timeString+' '+timePeriod);
-				var wrappedTime = moment(time, this.timeFormat, true);
+		_computeValue: function(timeString, timePeriod, timeFormat) {
+			var mm = moment(timeString + timePeriod, timeFormat);
+			return mm.isValid() ? mm.format(timeFormat) : '';
+		},
 
-				if(wrappedTime.isValid()) {
-					this.value = (1 * wrappedTime.seconds()) + (60 * wrappedTime.minutes()) + (3600 * wrappedTime.hours());
+		_timeStringChanged: function(timeString, oldTimeString) {
+			if(timeString && timeString !== oldTimeString) {
+				var valid = timeString.split(':')[1].length === 2; // don't update value in the middle of typing
+				if(valid) {
+					this.value = this._computeValue(timeString, this.timePeriod, this.timeFormat);
 				}
 			}
 		},
 
-		_use24Changed: function(newUse24, oldUse24) {
-			if(newUse24 && newUse24 !== oldUse24) {
-				this._computeValue(newUse24, this.timeString, this.timePeriod);
+		_timePeriodChanged: function(timePeriod, oldTimePeriod) {
+			if(timePeriod && timePeriod !== oldTimePeriod) {
+				this.value = this._computeValue(this.timeString, timePeriod, this.timeFormat);
 			}
 		},
 
-		_timeStringChanged: function(newTimeString, oldTimeString) {
-			if(newTimeString && newTimeString !== oldTimeString) {
-				this._computeValue(this.use24HourTime, newTimeString, this.timePeriod);
+		_valueChanged: function(value, oldValue) {
+			if(value && value !== oldValue) {
+				var wrappedNew = moment(value, this.timeFormat);
+				this.timeString = wrappedNew.format(this._timeOnlyFormat);
+				this.timePeriod = wrappedNew.format('a');
 			}
-		},
-
-		_timePeriodChanged: function(newTimePeriod, oldTimePeriod) {
-			if(newTimePeriod && newTimePeriod !== oldTimePeriod) {
-				this._computeValue(this.use24HourTime, this.timeString, newTimePeriod);
-			}
-		},
-
-		// Updates display to reflect new value
-		_valueChanged: function(newValue, oldValue) {
-			if(Number.isInteger(newValue) && newValue !== oldValue) {
-				var newTime = moment().startOf("day").seconds(newValue);
-				var time = newTime.format(this.use24HourTime ? this._24HourFormat : this._timeOnlyFormat);
-				var timePeriod = newTime.format('a');
-
-				if(this.timeString !== time) this.timeString = time;
-				if(this.timePeriod !== timePeriod) this.timePeriod = timePeriod;
-			};
 		},
 
 		_keyHandler: function(e) {
-			var wrappedTime = moment(this.timeString, this._timeOnlyFormat, true);
+			var wrappedTime = moment(this.timeString, this.timeFormat, true);
 			if(wrappedTime.isValid()) {
 				var c = String.fromCharCode(e.keyCode),
 					normalized = Polymer.dom(e);

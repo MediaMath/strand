@@ -46,12 +46,13 @@
 				value: 'MM/DD/YYYY'
 			},
 			timeFormat: {
-				type: String
+				type: String,
+				value: 'hh:mm a'
 			},
 
 			// Values
 			value: { // datetime as unix timestamp
-				type: Number,
+				type: String,
 				value: null,
 				notify: true,
 				observer: '_valueChanged'
@@ -69,8 +70,8 @@
 				observer: '_dateStringChanged'
 			},
 
-			time: { // Seconds since midnight
-				type: Number,
+			time: {
+				type: String,
 				notify: true,
 				observer: '_timeChanged'
 			},
@@ -95,6 +96,11 @@
 			disableFuture: {
 				type: Object,
 				notify: true
+			},
+
+			_dateTimeFormat: {
+				type: String,
+				computed: '_computeDateTimeFormat(useTime, dateFormat, timeFormat)'
 			}
 		},
 
@@ -104,14 +110,18 @@
 			StrandTraits.Refable
 		],
 
+		_computeDateTimeFormat: function(useTime, dateFormat, timeFormat) {
+			return dateFormat + (useTime ? ' '+timeFormat : '');
+		},
+
 		_dateChanged: function(newDate, oldDate) {
 			if(DataUtils.isDef(newDate)) {
 				var wrappedNew = moment(newDate);
 				var wrappedOld = moment(oldDate);
 
 				if(!wrappedNew.isSame(wrappedOld)) {
-					this.dateString = wrappedNew.format(this.dateFormat).toString();
-					this.value = wrappedNew.startOf("day").seconds(this.time || 0).format();
+					this.dateString = wrappedNew.format(this.dateFormat);
+					this.value = this.dateString + ' ' + this.time;
 				}
 			}
 		},
@@ -124,14 +134,14 @@
 				// Wait until date is valid before doing anything
 				if(wrappedNew.isValid()) {
 					// Update String format if not consistent with this.dateFormat
-					var formatted = wrappedNew.format(this.dateFormat).toString();
+					var formatted = wrappedNew.format(this.dateFormat);
 					if(newDate !== formatted) {
 						this.dateString = formatted;
 					}
 					// Don't do anything if the date didn't actually change
 					else if(!wrappedNew.isSame(wrappedOld)) {
 						this.date = wrappedNew.toDate();
-						this.value = wrappedNew.startOf("day").seconds(this.time || 0).format();
+						this.value = formatted + ' ' + this.time;
 					}
 				}
 			}
@@ -140,15 +150,17 @@
 		_valueChanged: function(newValue, oldValue) {
 			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
 				var wrappedNew = moment(newValue);
-				// dateString change handler will change Date object
-				this.dateString = wrappedNew.format(this.dateFormat).toString();
-				this.time = (1 * wrappedNew.seconds()) + (60 * wrappedNew.minutes()) + (3600 * wrappedNew.hours());
+				this.dateString = wrappedNew.format(this.dateFormat);
+				this.time = wrappedNew.format(this.timeFormat);
 			}
 		},
 
 		_timeChanged: function(newTime, oldTime) {
 			if(newTime && newTime !== oldTime) {
-				this.value = moment(this.value).startOf("day").seconds(newTime || 0).format();
+				var wrappedNew = moment(newTime, this.timeFormat);
+				if(wrappedNew.isValid()) {
+					this.value = moment(this.value).format(this.dateFormat) + ' ' + newTime;
+				}
 			}
 		},
 
