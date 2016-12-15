@@ -244,8 +244,8 @@
 		_findRange: function(startString, endString) {
 			if(this.useRange && this._rangePresets) {
 				var found = "";
-				var wrappedStart = moment(startString);
-				var wrappedEnd = moment(endString);
+				var wrappedStart = _ensureMoment(startString);
+				var wrappedEnd = _ensureMoment(endString);
 
 				if(wrappedStart.isValid() && wrappedEnd.isValid()) {
 					for(var i=this._rangePresets.length-1; i>=0; i--) {
@@ -293,7 +293,7 @@
 		// Date bounds
 		_computeStartBound: function(startString, allowedStart) {
 			if(startString) {
-				var wrappedStart = moment(startString);//.add(new Date().getTimezoneOffset(), 'minutes');
+				var wrappedStart = _ensureMoment(startString);//.add(new Date().getTimezoneOffset(), 'minutes');
 				var wrappedAllowed = _ensureMoment(allowedStart);
 				if(wrappedStart.isValid() && wrappedAllowed.isValid()) {
 					return moment.max(wrappedStart, wrappedAllowed);
@@ -306,7 +306,7 @@
 		},
 		_computeEndBound: function(endString, allowedEnd) {
 			if(endString) {
-				var wrappedEnd = moment(endString);//.add(new Date().getTimezoneOffset(), 'minutes');
+				var wrappedEnd = _ensureMoment(endString);//.add(new Date().getTimezoneOffset(), 'minutes');
 				var wrappedAllowed = _ensureMoment(allowedEnd);
 				if(wrappedEnd.isValid() && wrappedAllowed.isValid()) {
 					return moment.min(wrappedEnd, wrappedAllowed);
@@ -360,8 +360,8 @@
 		// Footer
 		_getDuration: function(startString, endString) {
 			var footer = this.$$('#footer');
-			var date1 = moment(startString);
-			var date2 = moment(endString);
+			var date1 = _ensureMoment(startString);
+			var date2 = _ensureMoment(endString);
 			if (footer && this.useDuration) footer.showMessage();
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
 			if (duration === 'a few seconds') {
