@@ -126,6 +126,8 @@
 			</test-sizeresponsible>
 		</div>
 
+		<iframe id="iframe" src="./imports/test_sizeresponsible_iframe.html" style="width: 50%;"></iframe>
+
 		<script>
 			describe("SizeResponsible", function() {
 				
@@ -435,6 +437,36 @@
 
 							done();
 
+						});
+
+					});
+				});
+
+				it("should detect resize from window", function(done) {
+					var iframe = document.querySelector("#iframe");
+					var doc = iframe.contentDocument || iframe.contentWindow.document;
+					var resizes = 0;
+
+
+
+					document.querySelector("#global").innerHTML = "";
+
+					waitFor(function () {
+						if (doc.readyState !== "complete") {
+							throw new Error("iframe did not load");
+						}
+					}, function () {
+
+						resizes = 0|doc.title;
+
+						iframe.style.width = "100%";
+
+						waitFor(function () {
+							if (resizes === (0|doc.title)) {
+								throw new Error("callback did not fire");
+							}
+						}, function () {
+							done();
 						});
 
 					});
