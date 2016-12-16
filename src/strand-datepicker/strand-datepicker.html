@@ -14,6 +14,7 @@
 <link rel="import" href="../shared/js/measure.html">
 <link rel="import" href="../shared/js/behaviorutils.html">
 <link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/dateutils.html">
 <link rel="import" href="../shared/js/moment.html">
 <link rel="import" href="../shared/js/momentrange.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
@@ -51,8 +52,8 @@
 					user-enabled-label="{{startEnabledLabel}}"
 					use-time="{{useTime}}"
 					pair-date="{{_endJSDate}}"
-					disable-past="{{allowedStart}}"
-					disable-future="{{_compositeAllowedEnd}}"
+					disable-past="{{_calendarFilter(allowedStart)}}"
+					disable-future="{{_calendarFilter(_compositeAllowedEnd)}}"
 					></strand-datepicker-panel>
 
 				<template is="dom-if" if="{{dual}}">
@@ -71,8 +72,8 @@
 						user-enabled-label="{{endEnabledLabel}}"
 						use-time="{{useTime}}"
 						pair-date="{{_startJSDate}}"
-						disable-past="{{_compositeAllowedStart}}"
-						disable-future="{{allowedEnd}}"
+						disable-past="{{_calendarFilter(_compositeAllowedStart)}}"
+						disable-future="{{_calendarFilter(allowedEnd)}}"
 					></strand-datepicker-panel>
 				</template>
 				</div>
