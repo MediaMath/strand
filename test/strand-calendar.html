@@ -101,9 +101,52 @@ describe("strand-calendar", function() {
 		span.should.be.an.object;
 
 		var value = span.getAttribute("value");
-		var time = moment.unix(value);
+		var time = moment(value);
 		today.isSame(time,'day').should.be.true;
 		today.isSame(time,'month').should.be.true;
+	});
+
+	it("should(/will) convert any timezone-specific dates to the local timezone", function() {
+		var localToUTCDelta = new Date().getTimezoneOffset();
+		var cal = document.querySelector("#test1");
+		var num = 0;
+		var text = "";
+		var mmnt = moment();
+		var date = new Date();
+		var today = moment(); //available via lib
+
+		text = "2011-07-14T00:00:00-00:00";
+		num = Number(text.slice(8, 10));
+		mmnt = moment(text);
+		date = mmnt.toDate();
+		localToUTCDelta = date.getTimezoneOffset();
+
+		cal = document.createElement("strand-calendar");
+		cal.date = text;
+		cal.viewDate.getDate().should.equal(localToUTCDelta > 0 ? num - 1 : num);
+		cal = document.createElement("strand-calendar");
+		cal.date = mmnt;
+		cal.viewDate.getDate().should.equal(localToUTCDelta > 0 ? num - 1 : num);
+		cal = document.createElement("strand-calendar");
+		cal.date = date;
+		cal.viewDate.getDate().should.equal(localToUTCDelta > 0 ? num - 1 : num);
+
+		text = "2011-07-14T23:59:59-00:00";
+		num = Number(text.slice(8, 10));
+		mmnt = moment(text);
+		date = mmnt.toDate();
+		localToUTCDelta = date.getTimezoneOffset();
+
+		cal = document.createElement("strand-calendar");
+		cal.date = text;
+		cal.viewDate.getDate().should.equal(localToUTCDelta < 0 ? num + 1 : num);
+		cal = document.createElement("strand-calendar");
+		cal.date = mmnt;
+		cal.viewDate.getDate().should.equal(localToUTCDelta < 0 ? num + 1 : num);
+		cal = document.createElement("strand-calendar");
+		cal.date = date;
+		cal.viewDate.getDate().should.equal(localToUTCDelta < 0 ? num + 1 : num);
+
 	});
 
 });
