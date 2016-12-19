@@ -215,8 +215,7 @@
 			if (state && val) {
 				this.fire('calendar-select', {
 					date: moment(val).toDate(),
-					target: e.target,
-					unix: val
+					target: e.target
 				});
 				if(this.useTapSelect) {
 					this.date = moment(val).toDate();
