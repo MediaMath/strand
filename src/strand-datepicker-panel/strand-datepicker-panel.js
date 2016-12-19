@@ -6,13 +6,9 @@
 */
 (function (scope) {
 
-	var SECONDS_PER_DAY = 60*60*24;
 	var DataUtils = StrandLib.DataUtils;
+	var DateTimeUtils = StrandLib.DateTimeUtils;
 	var BehaviorUtils = StrandLib.BehaviorUtils;
-
-	function _startOfDay(timestamp) {
-		return Math.floor(timestamp/SECONDS_PER_DAY) * SECONDS_PER_DAY;
-	}
 
 	scope.DatepickerPanel = Polymer({
 		is: 'strand-datepicker-panel',
@@ -51,7 +47,7 @@
 			},
 
 			// Values
-			value: { // datetime as unix timestamp
+			value: {
 				type: String,
 				value: null,
 				notify: true,
@@ -149,7 +145,7 @@
 
 		_valueChanged: function(newValue, oldValue) {
 			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
-				var wrappedNew = moment(newValue);
+				var wrappedNew = DateTimeUtils.ensureMoment(newValue);
 				this.dateString = wrappedNew.format(this.dateFormat);
 				this.time = wrappedNew.format(this.timeFormat);
 			}

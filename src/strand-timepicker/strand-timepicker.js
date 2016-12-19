@@ -58,7 +58,7 @@
 		],
 
 		_computeUse24HourTime: function(timeFormat) {
-			return timeFormat.indexOf('H') >= 0;
+			return timeFormat.includes('H');
 		},
 
 		_computeTimeOnlyFormat: function(timeFormat) {

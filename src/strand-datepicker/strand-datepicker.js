@@ -8,30 +8,12 @@
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 	var DataUtils = StrandLib.DataUtils;
-
-	function _ensureMoment(d) {
-		if(moment.isMoment(d)) {
-			// Already a moment object
-			return d;
-		} else if(DataUtils.isType(d, 'date')) {
-			// Construct moment from date
-			return moment(d);
-		} else if(DataUtils.isType(d, 'string')) {
-			// Attempt to parse datestring
-			return moment(new Date(d));
-		} else if(Number.isFinite(d)) {
-			// Construct moment from timestamp
-			return moment.unix(d);
-		} else {
-			// If all else fails return an invalid moment
-			return moment('Invalid date','Invalid date',true);
-		}
-	}
+	var DateTimeUtils = StrandLib.DateTimeUtils;
 
 	function _clampDates(value, lower, upper) {
-		var tmp = _ensureMoment(value);
-		if(lower) tmp = moment.max(_ensureMoment(lower), tmp);
-		if(upper) tmp = moment.min(_ensureMoment(upper), tmp);
+		var tmp = DateTimeUtils.ensureMoment(value);
+		if(lower) tmp = moment.max(DateTimeUtils.ensureMoment(lower), tmp);
+		if(upper) tmp = moment.min(DateTimeUtils.ensureMoment(upper), tmp);
 		return tmp;
 	}
 
@@ -223,6 +205,10 @@
 
 			_duration: {
 				computed: '_getDuration(_startString, _endString)'
+			},
+			_dateTimeFormat: {
+				type: String,
+				computed: '_computeDateTimeFormat(useTime, dateFormat, timeFormat)'
 			}
 		},
 
@@ -235,17 +221,25 @@
 			StrandTraits.Refable
 		],
 
+		_computeDateTimeFormat: function(useTime, dateFormat, timeFormat) {
+			return dateFormat + (useTime ? ' '+timeFormat : '');
+		},
+
 		// Lifecycle
 		attached: function() {
 			if(this.useCommit) this.classList.add('has-footer');
+		},
+
+		_format: function(d, format) {
+			return DateTimeUtils.ensureMoment(d).format(format || this._dateTimeFormat);
 		},
 
 		// Range methods
 		_findRange: function(startString, endString) {
 			if(this.useRange && this._rangePresets) {
 				var found = "";
-				var wrappedStart = _ensureMoment(startString);
-				var wrappedEnd = _ensureMoment(endString);
+				var wrappedStart = DateTimeUtils.ensureMoment(startString);
+				var wrappedEnd = DateTimeUtils.ensureMoment(endString);
 
 				if(wrappedStart.isValid() && wrappedEnd.isValid()) {
 					for(var i=this._rangePresets.length-1; i>=0; i--) {
@@ -267,8 +261,8 @@
 					range = this._rangePresets.filter(function(range) { return range.label === newRange })[0];
 				if (range) {
 					this._rangeValueFlag = true;
-					this._startString = _ensureMoment(range.range.start).format();
-					this._endString = _ensureMoment(range.range.end).format();
+					this._startString = this._format(range.range.start);
+					this._endString = this._format(range.range.end);
 					this._rangeValueFlag = false;
 				}
 			}
@@ -293,8 +287,8 @@
 		// Date bounds
 		_computeStartBound: function(startString, allowedStart) {
 			if(startString) {
-				var wrappedStart = _ensureMoment(startString);//.add(new Date().getTimezoneOffset(), 'minutes');
-				var wrappedAllowed = _ensureMoment(allowedStart);
+				var wrappedStart = DateTimeUtils.ensureMoment(startString);
+				var wrappedAllowed = DateTimeUtils.ensureMoment(allowedStart);
 				if(wrappedStart.isValid() && wrappedAllowed.isValid()) {
 					return moment.max(wrappedStart, wrappedAllowed);
 				} else if(wrappedStart.isValid()) {
@@ -306,8 +300,8 @@
 		},
 		_computeEndBound: function(endString, allowedEnd) {
 			if(endString) {
-				var wrappedEnd = _ensureMoment(endString);//.add(new Date().getTimezoneOffset(), 'minutes');
-				var wrappedAllowed = _ensureMoment(allowedEnd);
+				var wrappedEnd = DateTimeUtils.ensureMoment(endString);
+				var wrappedAllowed = DateTimeUtils.ensureMoment(allowedEnd);
 				if(wrappedEnd.isValid() && wrappedAllowed.isValid()) {
 					return moment.min(wrappedEnd, wrappedAllowed);
 				} else if(wrappedEnd.isValid()) {
@@ -320,7 +314,7 @@
 
 		_boundStart: function(newStart, oldStart) {
 			if(DataUtils.isDef(newStart) && newStart !== oldStart) {
-				this._startString = _clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).format();
+				this._startString = this._format(_clampDates(newStart, this.allowedStart, this._compositeAllowedEnd))
 				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startString, this._endString);
 				if(!this.useCommit) this.save();
 			}
@@ -328,7 +322,7 @@
 
 		_boundEnd: function(newEnd, oldEnd) {
 			if(DataUtils.isDef(newEnd) && newEnd !== oldEnd) {
-				this._endString = _clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).format();
+				this._endString = this._format(_clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd));
 				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startString, this._endString);
 				if(!this.useCommit) this.save();
 			}
@@ -360,8 +354,8 @@
 		// Footer
 		_getDuration: function(startString, endString) {
 			var footer = this.$$('#footer');
-			var date1 = _ensureMoment(startString);
-			var date2 = _ensureMoment(endString);
+			var date1 = DateTimeUtils.ensureMoment(startString);
+			var date2 = DateTimeUtils.ensureMoment(endString);
 			if (footer && this.useDuration) footer.showMessage();
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
 			if (duration === 'a few seconds') {
@@ -389,21 +383,23 @@
 
 		// Public
 		reset: function(start, end) {
-			var wrappedStart = _ensureMoment(start || this.start);
-			var wrappedEnd = _ensureMoment(end || this.end);
+			var wrappedStart = DateTimeUtils.ensureMoment(start || this.start);
+			var wrappedEnd = DateTimeUtils.ensureMoment(end || this.end);
+			var formattedStart = this._format(wrappedStart);
+			var formattedEnd = this._format(wrappedEnd);
 
-			if (wrappedStart.isValid() && wrappedStart.format() !== this._startString) {
-				this._startString = wrappedStart.format();
+			if (wrappedStart.isValid() && formattedStart !== this._startString) {
+				this._startString = formattedStart;
 			}
 
-			if (wrappedEnd.isValid() && wrappedEnd.format() !== this._endString) {
-				this._endString = wrappedEnd.format();
+			if (wrappedEnd.isValid() && formattedEnd !== this._endString) {
+				this._endString = formattedEnd;
 			}
 		},
 
 		save: function(silent) {
-			var oldStart = _ensureMoment(this.start);
-			var oldEnd = _ensureMoment(this.end);
+			var oldStart = DateTimeUtils.ensureMoment(this.start);
+			var oldEnd = DateTimeUtils.ensureMoment(this.end);
 			var wrappedStart = moment(this._startString);
 			var wrappedEnd = moment(this._endString);
 
