@@ -125,7 +125,6 @@
 			if (this.date) {
 				this._month = moment(this.date).month();
 				this._year = moment(this.date).year();
-				//this._day = moment(this.date).date();
 			}
 		},
 
