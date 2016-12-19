@@ -4,8 +4,8 @@
 	"attributes": [
 		{
 			"name": "value",
-			"type": "Integer",
-			"description": "Selected time represented as seconds from midnight"
+			"type": "String",
+			"description": "String representing selected time (and meridiem, if applicable)"
 		},
 		{
 			"name": "use24HourTime",

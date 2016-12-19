@@ -8,30 +8,12 @@
 
 	var BehaviorUtils = StrandLib.BehaviorUtils;
 	var DataUtils = StrandLib.DataUtils;
-
-	function _ensureMoment(d) {
-		if(moment.isMoment(d)) {
-			// Already a moment object
-			return d;
-		} else if(DataUtils.isType(d, 'date')) {
-			// Construct moment from date
-			return moment(d);
-		} else if(DataUtils.isType(d, 'string')) {
-			// Attempt to parse datestring
-			return moment(new Date(d));
-		} else if(Number.isFinite(d)) {
-			// Construct moment from timestamp
-			return moment.unix(d);
-		} else {
-			// If all else fails return an invalid moment
-			return moment('Invalid date','Invalid date',true);
-		}
-	}
+	var DateTimeUtils = StrandLib.DateTimeUtils;
 
 	function _clampDates(value, lower, upper) {
-		var tmp = _ensureMoment(value);
-		if(lower) tmp = moment.max(_ensureMoment(lower), tmp);
-		if(upper) tmp = moment.min(_ensureMoment(upper), tmp);
+		var tmp = DateTimeUtils.ensureMoment(value);
+		if(lower) tmp = moment.max(DateTimeUtils.ensureMoment(lower), tmp);
+		if(upper) tmp = moment.min(DateTimeUtils.ensureMoment(upper), tmp);
 		return tmp;
 	}
 
@@ -153,8 +135,8 @@
 				type: String,
 				notify: true
 			},
-			_startUnix: {
-				type: Number,
+			_startString: {
+				type: String,
 				notify: true,
 				observer: '_boundStart'
 			},
@@ -202,8 +184,8 @@
 				type: String,
 				notify: true
 			},
-			_endUnix: {
-				type: Number,
+			_endString: {
+				type: String,
 				notify: true,
 				observer: '_boundEnd'
 			},
@@ -214,15 +196,19 @@
 
 			_compositeAllowedStart: {
 				type: Object,
-				computed: '_computeStartBound(_startUnix, allowedStart)'
+				computed: '_computeStartBound(_startString, allowedStart)'
 			},
 			_compositeAllowedEnd: {
 				type: Object,
-				computed: '_computeEndBound(_endUnix, allowedEnd)'
+				computed: '_computeEndBound(_endString, allowedEnd)'
 			},
 
 			_duration: {
-				computed: '_getDuration(_startUnix, _endUnix)'
+				computed: '_getDuration(_startString, _endString)'
+			},
+			_dateTimeFormat: {
+				type: String,
+				computed: '_computeDateTimeFormat(useTime, dateFormat, timeFormat)'
 			}
 		},
 
@@ -235,17 +221,25 @@
 			StrandTraits.Refable
 		],
 
+		_computeDateTimeFormat: function(useTime, dateFormat, timeFormat) {
+			return dateFormat + (useTime ? ' '+timeFormat : '');
+		},
+
 		// Lifecycle
 		attached: function() {
 			if(this.useCommit) this.classList.add('has-footer');
 		},
 
+		_format: function(d, format) {
+			return DateTimeUtils.ensureMoment(d).format(format || this._dateTimeFormat);
+		},
+
 		// Range methods
-		_findRange: function(startUnix, endUnix) {
+		_findRange: function(startString, endString) {
 			if(this.useRange && this._rangePresets) {
 				var found = "";
-				var wrappedStart = _ensureMoment(startUnix);
-				var wrappedEnd = _ensureMoment(endUnix);
+				var wrappedStart = DateTimeUtils.ensureMoment(startString);
+				var wrappedEnd = DateTimeUtils.ensureMoment(endString);
 
 				if(wrappedStart.isValid() && wrappedEnd.isValid()) {
 					for(var i=this._rangePresets.length-1; i>=0; i--) {
@@ -267,8 +261,8 @@
 					range = this._rangePresets.filter(function(range) { return range.label === newRange })[0];
 				if (range) {
 					this._rangeValueFlag = true;
-					this._startUnix = _ensureMoment(range.range.start).unix();
-					this._endUnix = _ensureMoment(range.range.end).unix();
+					this._startString = this._format(range.range.start);
+					this._endString = this._format(range.range.end);
 					this._rangeValueFlag = false;
 				}
 			}
@@ -286,49 +280,50 @@
 					};
 				});
 
-				if(this._startUnix && this._endUnix) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
+				if(this._startString && this._endString) this.rangeValue = this._findRange(this._startString, this._endString);
 			}
 		},
 
 		// Date bounds
-		_computeStartBound: function(start, allowedStart) {
-			var wrappedStart = _ensureMoment(start);
-			var wrappedAllowed = _ensureMoment(allowedStart);
-
-			if(wrappedStart.isValid() && wrappedAllowed.isValid()) {
-				return moment.max(wrappedStart, wrappedAllowed);
-			} else if(wrappedStart.isValid()) {
-				return wrappedStart;
-			} else {
-				return false;
+		_computeStartBound: function(startString, allowedStart) {
+			if(startString) {
+				var wrappedStart = DateTimeUtils.ensureMoment(startString);
+				var wrappedAllowed = DateTimeUtils.ensureMoment(allowedStart);
+				if(wrappedStart.isValid() && wrappedAllowed.isValid()) {
+					return moment.max(wrappedStart, wrappedAllowed);
+				} else if(wrappedStart.isValid()) {
+					return wrappedStart;
+				} else {
+					return false;
+				}
 			}
 		},
-
-		_computeEndBound: function(end, allowedEnd) {
-			var wrappedEnd = _ensureMoment(end);
-			var wrappedAllowed = _ensureMoment(allowedEnd);
-
-			if(wrappedEnd.isValid() && wrappedAllowed.isValid()) {
-				return moment.min(wrappedEnd, wrappedAllowed);
-			} else if(wrappedEnd.isValid()) {
-				return wrappedEnd;
-			} else {
-				return false;
+		_computeEndBound: function(endString, allowedEnd) {
+			if(endString) {
+				var wrappedEnd = DateTimeUtils.ensureMoment(endString);
+				var wrappedAllowed = DateTimeUtils.ensureMoment(allowedEnd);
+				if(wrappedEnd.isValid() && wrappedAllowed.isValid()) {
+					return moment.min(wrappedEnd, wrappedAllowed);
+				} else if(wrappedEnd.isValid()) {
+					return wrappedEnd;
+				} else {
+					return false;
+				}
 			}
 		},
 
 		_boundStart: function(newStart, oldStart) {
 			if(DataUtils.isDef(newStart) && newStart !== oldStart) {
-				this._startUnix = _clampDates(newStart, this.allowedStart, this._compositeAllowedEnd).unix();
-				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
+				this._startString = this._format(_clampDates(newStart, this.allowedStart, this._compositeAllowedEnd))
+				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startString, this._endString);
 				if(!this.useCommit) this.save();
 			}
 		},
 
 		_boundEnd: function(newEnd, oldEnd) {
 			if(DataUtils.isDef(newEnd) && newEnd !== oldEnd) {
-				this._endUnix = _clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd).unix();
-				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startUnix, this._endUnix);
+				this._endString = this._format(_clampDates(newEnd, this._compositeAllowedStart, this.allowedEnd));
+				if(!this._rangeValueFlag) this.rangeValue = this._findRange(this._startString, this._endString);
 				if(!this.useCommit) this.save();
 			}
 		},
@@ -357,10 +352,10 @@
 		},
 
 		// Footer
-		_getDuration: function(startUnix, endUnix) {
+		_getDuration: function(startString, endString) {
 			var footer = this.$$('#footer');
-			var date1 = moment.unix(startUnix);
-			var date2 = moment.unix(endUnix);
+			var date1 = DateTimeUtils.ensureMoment(startString);
+			var date2 = DateTimeUtils.ensureMoment(endString);
 			if (footer && this.useDuration) footer.showMessage();
 			var duration = moment.duration(moment.range(date1, date2).diff('second'), 'second').humanize();
 			if (duration === 'a few seconds') {
@@ -388,23 +383,25 @@
 
 		// Public
 		reset: function(start, end) {
-			var wrappedStart = _ensureMoment(start || this.start);
-			var wrappedEnd = _ensureMoment(end || this.end);
+			var wrappedStart = DateTimeUtils.ensureMoment(start || this.start);
+			var wrappedEnd = DateTimeUtils.ensureMoment(end || this.end);
+			var formattedStart = this._format(wrappedStart);
+			var formattedEnd = this._format(wrappedEnd);
 
-			if (wrappedStart.isValid() && wrappedStart.unix() !== this._startUnix) {
-				this._startUnix = wrappedStart.unix();
+			if (wrappedStart.isValid() && formattedStart !== this._startString) {
+				this._startString = formattedStart;
 			}
 
-			if (wrappedEnd.isValid() && wrappedEnd.unix() !== this._endUnix) {
-				this._endUnix = wrappedEnd.unix();
+			if (wrappedEnd.isValid() && formattedEnd !== this._endString) {
+				this._endString = formattedEnd;
 			}
 		},
 
 		save: function(silent) {
-			var oldStart = _ensureMoment(this.start);
-			var oldEnd = _ensureMoment(this.end);
-			var wrappedStart = _ensureMoment(this._startUnix);
-			var wrappedEnd = _ensureMoment(this._endUnix);
+			var oldStart = DateTimeUtils.ensureMoment(this.start);
+			var oldEnd = DateTimeUtils.ensureMoment(this.end);
+			var wrappedStart = DateTimeUtils.ensureMoment(this._startString);
+			var wrappedEnd = DateTimeUtils.ensureMoment(this._endString);
 
 			if (wrappedStart.isValid() && !wrappedStart.isSame(oldStart)) {
 				this.start = wrappedStart.toDate();

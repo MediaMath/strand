@@ -71,11 +71,6 @@
 					"name":"target",
 					"type":"HTMLElement",
 					"description":"The dom node which triggered the calendar selection."
-				},
-				{
-					"name":"unix",
-					"type":"Number",
-					"description":"The unix timestamp (in seconds, not milliseconds) for the selected date."
 				}
 			]
 		}

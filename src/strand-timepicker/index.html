@@ -41,10 +41,12 @@
 	<body>
 		<template is="dom-bind">
 			<div style="width: 250px;">
-				<strand-timepicker value="{{startTime}}"></strand-timepicker>
+				<strand-timepicker time-format="h:mm a" value="{{startTime}}"></strand-timepicker>
 				<pre>{{startTime}}</pre>
 			</div>
-			<div style="width: 120px;">
+			<div style="width: 250px;">
+				<strand-timepicker time-format="H:mm" value="{{endTime}}"></strand-timepicker>
+				<pre>{{endTime}}</pre>
 				<!-- <strand-timepicker use24-hour-time value="{{startTime}}"></strand-timepicker> -->
 			</div>
 		</template>

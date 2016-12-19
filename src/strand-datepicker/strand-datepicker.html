@@ -14,6 +14,7 @@
 <link rel="import" href="../shared/js/measure.html">
 <link rel="import" href="../shared/js/behaviorutils.html">
 <link rel="import" href="../shared/js/datautils.html">
+<link rel="import" href="../shared/js/datetimeutils.html">
 <link rel="import" href="../shared/js/moment.html">
 <link rel="import" href="../shared/js/momentrange.html">
 <link rel="import" href="../shared/behaviors/resolvable.html">
@@ -38,7 +39,7 @@
 				</template>
 				<div class="date-panel-container">
 				<strand-datepicker-panel id="start"
-					value="{{_startUnix}}"
+					value="{{_startString}}"
 					date-format="{{dateFormat}}"
 					time-format="{{timeFormat}}"
 					date="{{_startJSDate}}"
@@ -58,7 +59,7 @@
 				<template is="dom-if" if="{{dual}}">
 					<div class="vert-stroke"></div>
 					<strand-datepicker-panel id="end"
-						value="{{_endUnix}}"
+						value="{{_endString}}"
 						date-format="{{dateFormat}}"
 						time-format="{{timeFormat}}"
 						date="{{_endJSDate}}"

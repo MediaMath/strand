@@ -1,0 +1,31 @@
+<link rel="import" href="datautils.html">
+<link rel="import" href="moment.html">
+<script>
+	(function(scope) {
+
+		var DataUtils = StrandLib.DataUtils;
+		
+		scope.DateTimeUtils = {
+
+			ensureMoment: function (d) {
+				if(moment.isMoment(d)) {
+					// Already a moment object
+					return d;
+				} else if(DataUtils.isType(d, 'date')) {
+					// Construct moment from date
+					return moment(d);
+				} else if(DataUtils.isType(d, 'string')) {
+					// Attempt to parse datestring
+					return moment(new Date(d));
+				} else if(Number.isFinite(d)) {
+					// Construct moment from timestamp
+					return moment.unix(d);
+				} else {
+					// If all else fails return an invalid moment
+					return moment('Invalid date','Invalid date',true);
+				}
+			}
+			
+		}
+	}(window.StrandLib = window.StrandLib || {}));
+</script>

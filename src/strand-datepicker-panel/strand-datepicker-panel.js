@@ -6,13 +6,9 @@
 */
 (function (scope) {
 
-	var SECONDS_PER_DAY = 60*60*24;
 	var DataUtils = StrandLib.DataUtils;
+	var DateTimeUtils = StrandLib.DateTimeUtils;
 	var BehaviorUtils = StrandLib.BehaviorUtils;
-
-	function _startOfDay(timestamp) {
-		return Math.floor(timestamp/SECONDS_PER_DAY) * SECONDS_PER_DAY;
-	}
 
 	scope.DatepickerPanel = Polymer({
 		is: 'strand-datepicker-panel',
@@ -46,12 +42,13 @@
 				value: 'MM/DD/YYYY'
 			},
 			timeFormat: {
-				type: String
+				type: String,
+				value: 'hh:mm a'
 			},
 
 			// Values
-			value: { // datetime as unix timestamp
-				type: Number,
+			value: {
+				type: String,
 				value: null,
 				notify: true,
 				observer: '_valueChanged'
@@ -69,8 +66,8 @@
 				observer: '_dateStringChanged'
 			},
 
-			time: { // Seconds since midnight
-				type: Number,
+			time: {
+				type: String,
 				notify: true,
 				observer: '_timeChanged'
 			},
@@ -95,6 +92,11 @@
 			disableFuture: {
 				type: Object,
 				notify: true
+			},
+
+			_dateTimeFormat: {
+				type: String,
+				computed: '_computeDateTimeFormat(useTime, dateFormat, timeFormat)'
 			}
 		},
 
@@ -104,16 +106,18 @@
 			StrandTraits.Refable
 		],
 
+		_computeDateTimeFormat: function(useTime, dateFormat, timeFormat) {
+			return dateFormat + (useTime ? ' '+timeFormat : '');
+		},
+
 		_dateChanged: function(newDate, oldDate) {
 			if(DataUtils.isDef(newDate)) {
 				var wrappedNew = moment(newDate);
 				var wrappedOld = moment(oldDate);
 
 				if(!wrappedNew.isSame(wrappedOld)) {
-					this.dateString = wrappedNew.format(this.dateFormat).toString();
-					var unixTimestamp = _startOfDay(wrappedNew.unix());
-					if(this.useTime && this.time) unixTimestamp += this.time;
-					this.value =  unixTimestamp;
+					this.dateString = wrappedNew.format(this.dateFormat);
+					this.value = this.dateString + ' ' + this.time;
 				}
 			}
 		},
@@ -126,17 +130,14 @@
 				// Wait until date is valid before doing anything
 				if(wrappedNew.isValid()) {
 					// Update String format if not consistent with this.dateFormat
-					var formatted = wrappedNew.format(this.dateFormat).toString();
+					var formatted = wrappedNew.format(this.dateFormat);
 					if(newDate !== formatted) {
 						this.dateString = formatted;
 					}
 					// Don't do anything if the date didn't actually change
 					else if(!wrappedNew.isSame(wrappedOld)) {
 						this.date = wrappedNew.toDate();
-
-						var unixTimestamp = _startOfDay(wrappedNew.unix());
-						if(this.useTime && this.time) unixTimestamp += this.time;
-						this.value =  unixTimestamp;
+						this.value = formatted + ' ' + this.time;
 					}
 				}
 			}
@@ -144,16 +145,19 @@
 
 		_valueChanged: function(newValue, oldValue) {
 			if(DataUtils.isDef(newValue) && newValue !== oldValue) {
-				var wrappedUnix = moment.unix(newValue).utc();
-				// dateString change handler will change Date object
-				this.dateString = wrappedUnix.format(this.dateFormat).toString();
-				this.time = newValue % SECONDS_PER_DAY;
+				var wrappedNew = DateTimeUtils.ensureMoment(newValue);
+				this.dateString = wrappedNew.format(this.dateFormat);
+				this.time = wrappedNew.format(this.timeFormat);
 			}
 		},
 
 		_timeChanged: function(newTime, oldTime) {
 			if(newTime && newTime !== oldTime) {
-				this.value = _startOfDay(this.value) + newTime;
+				var wrappedDate = moment(this.dateString, this.dateFormat, true);
+				var wrappedNew = moment(newTime, this.timeFormat);
+				if(wrappedNew.isValid() && wrappedDate.isValid()) {
+					this.value = wrappedDate.format(this.dateFormat) + ' ' + newTime;
+				}
 			}
 		},
 
