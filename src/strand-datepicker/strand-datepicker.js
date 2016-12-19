@@ -231,7 +231,11 @@
 		},
 
 		_format: function(d, format) {
-			return DateTimeUtils.ensureMoment(d).format(format || this._dateTimeFormat);
+			if(!format) {
+				// if no format provided default to the format set per element instance
+				format = this.useTime ? this._dateTimeFormat : this.dateFormat;
+			}
+			return DateTimeUtils.ensureMoment(d).format(format);
 		},
 
 		// Range methods

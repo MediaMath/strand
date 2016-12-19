@@ -81,6 +81,10 @@
 					<label>Use Commit</label>
 				</strand-checkbox>
 
+				<strand-checkbox checked onclick="toggleUseTime()">
+					<label>Use Time</label>
+				</strand-checkbox>
+
 				<span>&nbsp;</span>
 				<strand-button type="secondary" onclick="differentPresets()">
 					<label>Swap Preset Sets</label>
@@ -241,6 +245,10 @@
 
 			function toggleUseCommit() {
 				dp.useCommit = !dp.useCommit;
+			}
+
+			function toggleUseTime() {
+				dp.useTime = !dp.useTime;
 			}
 
 			function handleDpbMouseDown(e) {
