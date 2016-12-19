@@ -400,8 +400,8 @@
 		save: function(silent) {
 			var oldStart = DateTimeUtils.ensureMoment(this.start);
 			var oldEnd = DateTimeUtils.ensureMoment(this.end);
-			var wrappedStart = moment(this._startString);
-			var wrappedEnd = moment(this._endString);
+			var wrappedStart = DateTimeUtils.ensureMoment(this._startString);
+			var wrappedEnd = DateTimeUtils.ensureMoment(this._endString);
 
 			if (wrappedStart.isValid() && !wrappedStart.isSame(oldStart)) {
 				this.start = wrappedStart.toDate();

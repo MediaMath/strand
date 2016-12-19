@@ -156,7 +156,7 @@
 				var wrappedDate = moment(this.dateString, this.dateFormat, true);
 				var wrappedNew = moment(newTime, this.timeFormat);
 				if(wrappedNew.isValid() && wrappedDate.isValid()) {
-					this.value = moment(this.value).format(this.dateFormat) + ' ' + newTime;
+					this.value = wrappedDate.format(this.dateFormat) + ' ' + newTime;
 				}
 			}
 		},
