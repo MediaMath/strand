@@ -157,8 +157,9 @@
 
 		_timeChanged: function(newTime, oldTime) {
 			if(newTime && newTime !== oldTime) {
+				var wrappedDate = moment(this.dateString, this.dateFormat, true);
 				var wrappedNew = moment(newTime, this.timeFormat);
-				if(wrappedNew.isValid()) {
+				if(wrappedNew.isValid() && wrappedDate.isValid()) {
 					this.value = moment(this.value).format(this.dateFormat) + ' ' + newTime;
 				}
 			}
