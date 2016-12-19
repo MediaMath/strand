@@ -1,3 +1,23 @@
+<a name="v4.2.2"></a>
+## v4.2.2 (2016-12-19)
+
+* Add and fix assertions about strand-calendar ([8fa0252](https://github.com/MediaMath/strand/commit/8fa0252))
+* Add size responsible test for window resizing (#149) ([6b2e80b](https://github.com/MediaMath/strand/commit/6b2e80b))
+* check that time exists before adding it ([9b82608](https://github.com/MediaMath/strand/commit/9b82608))
+* check that time is on before adding time to unix timestamp ([3db68a9](https://github.com/MediaMath/strand/commit/3db68a9))
+* don't pass only a string to moment constructor ([7316cc9](https://github.com/MediaMath/strand/commit/7316cc9))
+* Fix off-by-one calendar graphics (WIP) ([03231ef](https://github.com/MediaMath/strand/commit/03231ef))
+* fix timepicker ([365abef](https://github.com/MediaMath/strand/commit/365abef))
+* make sure we have a valid date before attempting to update value with new time. ([08683ca](https://github.com/MediaMath/strand/commit/08683ca))
+* no results docs ([640c8f5](https://github.com/MediaMath/strand/commit/640c8f5))
+* Remove deadcode/comment from calendar ([4616c7b](https://github.com/MediaMath/strand/commit/4616c7b))
+* remove unix timestamp from cal, update docs ([c7ea7f0](https://github.com/MediaMath/strand/commit/c7ea7f0))
+* upgrade polymer to 1.7.1 ([fef9cb4](https://github.com/MediaMath/strand/commit/fef9cb4))
+* wrap formatting & remove dead code/comments ([ec6aaef](https://github.com/MediaMath/strand/commit/ec6aaef))
+* wrap some constructors to avoid moment deprecation warning ([051bbaa](https://github.com/MediaMath/strand/commit/051bbaa))
+
+
+
 <a name="v4.2.1"></a>
 ## v4.2.1 (2016-12-07)
 
