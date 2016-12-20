@@ -1,3 +1,11 @@
+<a name="v4.2.3"></a>
+## v4.2.3 (2016-12-20)
+
+* account for useTime=false in string formatting ([e6c76ff](https://github.com/MediaMath/strand/commit/e6c76ff))
+* Resolves an issue where date picker won’t set a date when useTime is false (#151) ([c773c71](https://github.com/MediaMath/strand/commit/c773c71)), closes [#151](https://github.com/MediaMath/strand/issues/151)
+
+
+
 <a name="v4.2.2"></a>
 ## v4.2.2 (2016-12-19)
 
