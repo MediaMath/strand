@@ -110,6 +110,14 @@
 			return dateFormat + (useTime ? ' '+timeFormat : '');
 		},
 
+		_updateValue: function(dateString, timeString, useTime) {
+			dateString = dateString || this.dateString;
+			timeString = timeString || this.time;
+			useTime = useTime || this.useTime;
+			
+			this.value = dateString + (useTime ? ' ' + timeString : '');
+		},
+
 		_dateChanged: function(newDate, oldDate) {
 			if(DataUtils.isDef(newDate)) {
 				var wrappedNew = moment(newDate);
@@ -117,7 +125,7 @@
 
 				if(!wrappedNew.isSame(wrappedOld)) {
 					this.dateString = wrappedNew.format(this.dateFormat);
-					this.value = this.dateString + ' ' + this.time;
+					this._updateValue();
 				}
 			}
 		},
@@ -137,7 +145,7 @@
 					// Don't do anything if the date didn't actually change
 					else if(!wrappedNew.isSame(wrappedOld)) {
 						this.date = wrappedNew.toDate();
-						this.value = formatted + ' ' + this.time;
+						this._updateValue();
 					}
 				}
 			}
@@ -156,7 +164,7 @@
 				var wrappedDate = moment(this.dateString, this.dateFormat, true);
 				var wrappedNew = moment(newTime, this.timeFormat);
 				if(wrappedNew.isValid() && wrappedDate.isValid()) {
-					this.value = wrappedDate.format(this.dateFormat) + ' ' + newTime;
+					this._updateValue(wrappedDate.format(this.dateFormat), newTime);
 				}
 			}
 		},
