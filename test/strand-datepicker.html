@@ -20,6 +20,7 @@
 <strand-button id="target5"><label>Open Datepicker</label></strand-button>
 <strand-button id="target6"><label>Open Datepicker</label></strand-button>
 <strand-button id="target7"><label>Open Datepicker</label></strand-button>
+<strand-button id="target8"><label>Open Datepicker</label></strand-button>
 <strand-datepicker id="test1" target="#target1"></strand-datepicker>
 <strand-datepicker id="test2" target="#target2"></strand-datepicker>
 <strand-datepicker id="test3" target="#target3"></strand-datepicker>
@@ -27,6 +28,7 @@
 <strand-datepicker id="test5" target="#target5"></strand-datepicker>
 <strand-datepicker id="test6" target="#target6"></strand-datepicker>
 <strand-datepicker id="test7" target="#target7"></strand-datepicker>
+<strand-datepicker id="test8" target="#target8" use-time="false"></strand-datepicker>
 <script>
 describe("strand-datepicker", function() {
 
@@ -171,6 +173,18 @@ describe("strand-datepicker", function() {
 		t7.rangePresets = newPresets;
 		flush(function() {
 			expect(t7.rangeValue).to.equal("Last 2 Days");
+			done();
+		});
+	});
+
+	it("should work normally when use-time is false", function(done) {
+		var t8 = document.querySelector('#test8');
+		var todayCal = t8.querySelector('#day' + moment().startOf('day').unix() + ' span');
+		t8.open();
+		todayCal.click();
+		flush(function() {
+			expect(t8.startDate).to.equal(moment().startOf('day').format(t8.dateFormat));
+			t8.close();
 			done();
 		});
 	});
