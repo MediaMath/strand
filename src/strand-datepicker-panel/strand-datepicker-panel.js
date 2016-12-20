@@ -71,10 +71,6 @@
 				notify: true,
 				observer: '_timeChanged'
 			},
-			timeString: {
-				type: String,
-				notify: true
-			},
 			timePeriod: {
 				type: String,
 				notify: true
