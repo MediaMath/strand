@@ -402,8 +402,11 @@
 			}
 			
 			// show or hide messaging in the ui
-			errorMsgEleDOM.message = errorMsg;
-			field.error = errorMsgEleDOM.visible = !valid;
+			// 'pre-set' values can kick off validation
+			if (errorMsgEleDOM && field) {
+				errorMsgEleDOM.message = errorMsg;
+				field.error = errorMsgEleDOM.visible = !valid;
+			}
 
 			return valid;
 		},
