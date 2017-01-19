@@ -101,6 +101,18 @@
 				type: Boolean,
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			},
+			_dataInitialized: {
+				type: Boolean,
+				value: false
+			},
+			_configInitialized: {
+				type: Boolean,
+				value: false
+			},
+			_initialized: {
+				type: Boolean,
+				computed: '_computeInitalized(_dataInitialized, _configInitialized)'
+			},
 			// config/initial data & settings:
 			config: {
 				type: Object,
@@ -111,7 +123,7 @@
 				type: Object,
 				observer: '_dataChanged',
 				value: function() { return {}; }
-			}
+			},
 		},
 
 		_initialData: {},
@@ -135,12 +147,14 @@
 		_dataChanged: function(newVal, oldVal) {
 			if(!this._isEmpty(newVal)) {
 				this.debounce('initData', this._initData);
+				this._dataInitialized = false;
 			}
 		},
 
 		_configChanged: function(newVal, oldVal) {
 			if (!this._isEmpty(newVal)) {
 				this.debounce('initConfig', this._initConfig);
+				this._configInitialized = false;
 			}
 		},
 
@@ -205,6 +219,8 @@
 					this._createLabel(key, cfg[key].label, field, cfg[key].parentEleDOM);
 				}
 			}
+
+			this._configInitialized = true;
 		},
 
 		_initData: function() {
@@ -234,6 +250,12 @@
 					field.value = value;
 				}
 			}
+
+			this._dataInitialized = true;
+		},
+
+		_computeInitalized: function(_dataInitialized, _configInitialized) {
+			return _dataInitialized && _configInitialized;
 		},
 
 		_createErrorMsg:function(key, errorMsg, parentEleDOM) {
@@ -284,30 +306,32 @@
 
 		// handle changes within the form
 		_handleChanged: function(e) {
-			var field 			= e.target;
-			var key				= field.getAttribute('name');
-			var value 			= null;
-			var validation 		= null;
-			var exclude			= null;
-			var isFormElement 	= this.config.hasOwnProperty(key);
+			if (this._initialized) {
+				var field 			= e.target;
+				var key				= field.getAttribute('name');
+				var value 			= null;
+				var validation 		= null;
+				var exclude			= null;
+				var isFormElement 	= this.config.hasOwnProperty(key);
 
-			if (isFormElement) {
-				exclude 		= this.config[key].exclude ? this.config[key].exclude : false;
-				value 			= e.detail.value;
-				validation 		= this.config[key].validation;
+				if (isFormElement) {
+					exclude 		= this.config[key].exclude ? this.config[key].exclude : false;
+					value 			= e.detail.value;
+					validation 		= this.config[key].validation;
 
-				if (!exclude) {
-					this._updateData(key, value);
-					this._setUnsaved(this._diffData());
-				}
+					if (!exclude) {
+						this._updateData(key, value);
+						this._setUnsaved(this._diffData());
+					}
 
-				if (validation && this.autoValidate) this._validateField(key, value);
+					if (validation && this.autoValidate) this._validateField(key, value);
 
-				// show messaging in the footer
-				if (this.unsaved && this.showUnsavedMessage) {
-					this._handleFooter(this.footerMessages.warning, 'warning', true);
-				} else {
-					this._showFooterMessage = false;
+					// show messaging in the footer
+					if (this.unsaved && this.showUnsavedMessage) {
+						this._handleFooter(this.footerMessages.warning, 'warning', true);
+					} else {
+						this._showFooterMessage = false;
+					}
 				}
 			}
 		},
@@ -402,11 +426,8 @@
 			}
 			
 			// show or hide messaging in the ui
-			// 'pre-set' values can kick off validation
-			if (errorMsgEleDOM && field) {
-				errorMsgEleDOM.message = errorMsg;
-				field.error = errorMsgEleDOM.visible = !valid;
-			}
+			errorMsgEleDOM.message = errorMsg;
+			field.error = errorMsgEleDOM.visible = !valid;
 
 			return valid;
 		},

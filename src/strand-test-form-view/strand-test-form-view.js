@@ -59,7 +59,7 @@
 					},
 					'radio' : {
 						validation: function(name, value, data, view) {
-							return data[name] === 'Red' && value === 'Red';
+							return data[name] === '1' && value === '1';
 						},
 						errorMsg: 'You need to select \'Red\'',
 						label: 'Select a Color'

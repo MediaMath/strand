@@ -31,23 +31,23 @@
 			</div>
 
 			<div class="col" span="1">
-				<strand-dropdown fitparent name="dropdown" placeholder="Select an Item">
-					<strand-list-item>List Item 1</strand-list-item>
-					<strand-list-item>List Item 2</strand-list-item>
-					<strand-list-item>List Item 3</strand-list-item>
-					<strand-list-item>List Item 4</strand-list-item>
+				<strand-dropdown fitparent name="dropdown" placeholder="Select an Item" value="4">
+					<strand-list-item value="1">List Item 1</strand-list-item>
+					<strand-list-item value="2">List Item 2</strand-list-item>
+					<strand-list-item value="3">List Item 3</strand-list-item>
+					<strand-list-item value="4">List Item 4</strand-list-item>
 				</strand-dropdown>
 			</div>
 
 			<div class="col" span="2">
-				<strand-group fitparent unresolved name="radio">
-					<strand-radio>
+				<strand-group fitparent unresolved name="radio" value="1">
+					<strand-radio value="1">
 						<label>Red</label>
 					</strand-radio>
-					<strand-radio>
+					<strand-radio value="2">
 						<label>Green</label>
 					</strand-radio>	
-					<strand-radio>
+					<strand-radio value="3">
 						<label>Blue</label>
 					</strand-radio>			
 				</strand-group>
