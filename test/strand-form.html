@@ -146,6 +146,36 @@
 				parents.length.should.equal(objLength);
 			});
 
+			it("should have a specific object signature", function() {
+				
+				/* TODO: Test and document for all properties
+				{
+					thing: {
+						errorMsg: String, // the message to display
+						errorMsgEle: String || null, // the id of the element provided by the developer
+						errorMsgEleDOM: Object, // ref - error msg - generated or provided by the develper
+						exclude: Boolean, // exclude this field from the flattend form data
+						field: Object, // the field to act upon
+						label: String || null, // the label to display
+						labelEle: String || null, // the id of the element provided by the developer
+						labelEleDOM: Object, // ref - label - generated or provided by the developer 
+						noValidate: Boolean || null, // exclude this field from validation
+						parentEle: String || null, // the parent ele of the field, where label and msg added
+						parentEleDOM: Object, // ref - parent ele - parent of the field 
+						validation: String || null, pipe-delimited list of common validations (see validator lib)
+					},
+				}
+				*/
+
+				var a = document.querySelector('#testForm1');
+				var config = a.config;
+				var configObj = a.config.dropdown;
+
+				configObj.errorMsg.should.exist;
+				configObj.errorMsg.should.be.a.string;
+
+			});
+
 			it("should have created labels", function() {
 				var a = document.querySelector('#testForm1');
 				var config = a.config;

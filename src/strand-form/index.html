@@ -36,6 +36,7 @@
 	</head>
 
 	<body>
+		
 		<strand-form id="testForm" unresolved>
 			
 			<div class="col" span="1">
@@ -85,10 +86,15 @@
 			</div>
 
 		</strand-form>
+		
 
 		<!-- config via markup -->
-		<!-- 
-		<strand-form id="testForm" unresolved>
+		<!--
+		<strand-form 
+			id="testForm" 
+			columns="2"
+			v-space="20"
+			unresolved>
 			<div class="col" span="1">
 				<strand-input 
 					fitparent 
@@ -115,10 +121,15 @@
 				<strand-form-message id="special"></strand-form-message>
 			</div>
 			<div class="col" span="2">
+				<strand-header
+					id="radioDOMHead"
+					form-header
+					size="medium">Radio DOM Header</strand-header>
 				<strand-group 
 					fitparent 
 					name="radio"
-					label="Radio"
+					label="Gosh DOM It!"
+					label-ele="radioDOMHead"
 					error-msg="Choose a color"
 					validation="empty">
 					<strand-radio>
@@ -133,7 +144,7 @@
 				</strand-group>
 			</div>
 		</strand-form>
-		 -->
+		-->
 
 		<script>
 
