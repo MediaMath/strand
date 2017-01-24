@@ -111,8 +111,8 @@
 				<div class="custom-item freq-cap">
 					<strand-dropdown 
 						id="typeDdl" 
-						disabled$="{{!use_mm_freq}}"
-						no-validate$="{{!use_mm_freq}}"
+						disabled$="{{_useMMFreq(use_mm_freq)}}"
+						no-validate$="{{_useMMFreq(use_mm_freq)}}"
 						name="frequency_type"
 						on-changed="_freqTypeChanged"
 						value="{{frequency_type}}" 

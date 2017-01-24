@@ -360,7 +360,6 @@
 			for (var key in this.config) {
 				var exclude 		= this.config[key].exclude;
 				var validation 		= this.config[key].validation;
-				var noValidateFunc 	= typeof this.config[key].noValidate === 'function';
 				var noValidate  	= this.config[key].noValidate || false;
 				var field 			= this.config[key].field;
 				var tagName 		= this.config[key].field.tagName.toLowerCase();
@@ -369,20 +368,15 @@
 
 				// If the field is excluded, it's value will not be in the flat 'this.data' object
 				// and will need to be retrieved from the field itself
-				value = exclude ? this.config[key].field.value : this.data[key];
-				
-				if (noValidateFunc) {
-					// Call the function to derive true or false
-					noValidate = this.config[key].noValidate(key, value, this.data, this.view);
-				} else if (this.config[key].field.hasAttribute('no-validate')) {
-					// Need to check the field for 'no-validate' attr - as it may have a bind,
-					// which could be updated at any time... presence of the attr === true
-					noValidate = true;
-				}
+				value = exclude ? field.value : this.data[key];
+
+				// Need to check the field for 'no-validate' attr - as it may have a bind,
+				// which could be updated at any time... presence of the attr === true
+				if (field.hasAttribute('no-validate')) noValidate = true;
 
 				if (validation && !noValidate) {
 					valid = this._validateField(key, value);
-				} else if (tagName === 'strand-repeater') {
+				} else if (tagName === 'strand-repeater' && !noValidate) {
 					// special case - strand-repeater will handle it's own validation
 					valid = field.validate();
 				} else if (validation && noValidate) {
@@ -431,7 +425,6 @@
 			}
 			
 			// show or hide messaging in the ui
-			// it is possible that there may not be an errorMsgEleDOM
 			if (errorMsgEleDOM) {
 				errorMsgEleDOM.message = errorMsg;
 				errorMsgEleDOM.visible = !valid;
@@ -441,24 +434,6 @@
 
 			return valid;
 		},
-
-		// TODO - not really necessary since we can update data & config on-the-fly
-		// updateFieldErrors: function(data) {
-		// 	for (var key in data) {
-		// 		var field 			= this.config[key].field;
-		// 		var errorMsgEleDOM 	= this.config[key].errorMsgEleDOM;
-		// 		var errorMsg 		= data[key];
-
-		// 		// update the stored messaging
-		// 		this.config[key].errorMsg = errorMsg;
-
-		// 		// display the messaging
-		// 		errorMsgEleDOM.message = errorMsg;
-		// 		field.error = errorMsgEleDOM.visible = true;
-		// 	}
-
-		// 	this._handleFooter(this.footerMessages.error, 'error', true);
-		// },
 
 		resetFieldValidation: function(key) {
 			var field 			= this.config[key].field;

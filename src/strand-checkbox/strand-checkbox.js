@@ -80,7 +80,7 @@
 
 		_stateChanged: function(newVal, oldVal) {
 			this.debounce("stateChecked", this._handleStateChange);
-			this.fire("changed", { state: this.state }, true);
+			this.fire("changed", { state: this.state, value: this.value }, true);
 		},
 
 		_handleStateChange: function() {
