@@ -146,23 +146,45 @@
 				parents.length.should.equal(objLength);
 			});
 
-			it("should have a specific object signature", function() {
-				
-				/* TODO: Test and document for all properties
+			it("config object should have a specific data structure", function() {
+				/*
 				{
 					thing: {
-						errorMsg: String, // the message to display
-						errorMsgEle: String || null, // the id of the element provided by the developer
-						errorMsgEleDOM: Object, // ref - error msg - generated or provided by the develper
-						exclude: Boolean, // exclude this field from the flattend form data
-						field: Object, // the field to act upon
-						label: String || null, // the label to display
-						labelEle: String || null, // the id of the element provided by the developer
-						labelEleDOM: Object, // ref - label - generated or provided by the developer 
-						noValidate: Boolean || null, // exclude this field from validation
-						parentEle: String || null, // the parent ele of the field, where label and msg added
-						parentEleDOM: Object, // ref - parent ele - parent of the field 
-						validation: String || null, pipe-delimited list of common validations (see validator lib)
+						// the message to display
+						errorMsg: String, 
+
+						// the id of the element provided by the developer
+						errorMsgEle: String || null, 
+
+						// ref - error msg - generated or provided by the develper
+						errorMsgEleDOM: Object, 
+						
+						// exclude this field from the flattend form data when serialized
+						exclude: Boolean, 
+						
+						// the field to act upon
+						field: Object, 
+						
+						// the label to display
+						label: String || null, 
+
+						// the id of the element provided by the developer
+						labelEle: String || null, 
+
+						// ref - label - generated or provided by the developer 
+						labelEleDOM: Object,
+
+						// exclude this field from validation, can also be a function which returns Bool: function(name, value, data, view)
+						noValidate: Boolean / Function || null,
+						
+						// the parent ele of the field, where label and msg added
+						parentEle: String || null,
+
+						// ref - parent ele - parent of the field 
+						parentEleDOM: Object, 
+						
+						// pipe delimited list of common validations (see validator lib), can also be a function that returns Bool: function(name, value, data, view)
+						validation: String / Function || null, 
 					},
 				}
 				*/
@@ -174,6 +196,32 @@
 				configObj.errorMsg.should.exist;
 				configObj.errorMsg.should.be.a.string;
 
+				should.not.exist(configObj.errorMsgEle); // was never set in the config
+
+				configObj.errorMsgEleDOM.should.exist;
+				configObj.errorMsgEleDOM.should.be.an.object;
+
+				configObj.exclude.should.exist;
+				configObj.exclude.should.be.false;
+
+				configObj.field.should.exist;
+				configObj.field.should.be.an.object;
+
+				configObj.label.should.exist;
+				configObj.label.should.be.a.string;
+
+				should.not.exist(configObj.labelEle);
+
+				configObj.labelEleDOM.should.exist;
+				configObj.labelEleDOM.should.be.an.object;
+
+				configObj.noValidate.should.exist;
+				configObj.noValidate.should.be.false;
+
+				should.not.exist(configObj.parentEle);
+
+				configObj.parentEleDOM.should.exist;
+				configObj.parentEleDOM.should.be.an.object;
 			});
 
 			it("should have created labels", function() {

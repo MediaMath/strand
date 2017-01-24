@@ -182,7 +182,7 @@
 				domConfig[key] = {
 					field: 			field,
 					validation: 	attrs.validation || null,
-					noValidate: 	null,
+					noValidate: 	attrs.novalidate || false,
 					label: 			attrs.label || null,
 					labelEle: 		attrs['label-ele'] || null,
 					labelEleDOM: 	this._select('#'+attrs['label-ele']) || null,
@@ -191,7 +191,7 @@
 					errorMsgEleDOM: this._select('#'+attrs['error-msg-ele']) || null,
 					parentEle: 		attrs['parent-ele'] || null,
 					parentEleDOM: 	this._select('#'+attrs['parent-ele']) || Polymer.dom(field).parentNode,
-					exclude: 		attrs.exclude || null
+					exclude: 		attrs.exclude || false
 				};
 			}, this);
 			
@@ -231,8 +231,6 @@
 				}
 			}
 
-			this.clearValidationState();
-			this.clearFooterMsg();
 			this._configInitialized = true;
 		},
 
@@ -246,7 +244,7 @@
 					throw 'There must be a corresponding DOM element for data[\''+key+'\']';
 				}
 
-				var exclude	= this.config[key].exclude || null;
+				var exclude	= this.config[key].exclude || false;
 				var value = this.data[key] || null;
 				
 				// If there was an initial value set in markup, use it
@@ -264,8 +262,6 @@
 				}
 			}
 
-			this.clearValidationState();
-			this.clearFooterMsg();
 			this._dataInitialized = true;
 		},
 
@@ -387,8 +383,7 @@
 				if (validation && !noValidate) {
 					valid = this._validateField(key, value);
 				} else if (tagName === 'strand-repeater') {
-					// special case for strand-repeater
-					// strand-repeater will handle it's own validation
+					// special case - strand-repeater will handle it's own validation
 					valid = field.validate();
 				} else if (validation && noValidate) {
 					// clean up prior validations if they were there
@@ -447,22 +442,23 @@
 			return valid;
 		},
 
-		updateFieldErrors: function(data) {
-			for (var key in data) {
-				var field 			= this.config[key].field;
-				var errorMsgEleDOM 	= this.config[key].errorMsgEleDOM;
-				var errorMsg 		= data[key];
+		// TODO - not really necessary since we can update data & config on-the-fly
+		// updateFieldErrors: function(data) {
+		// 	for (var key in data) {
+		// 		var field 			= this.config[key].field;
+		// 		var errorMsgEleDOM 	= this.config[key].errorMsgEleDOM;
+		// 		var errorMsg 		= data[key];
 
-				// update the stored messaging
-				this.config[key].errorMsg = errorMsg;
+		// 		// update the stored messaging
+		// 		this.config[key].errorMsg = errorMsg;
 
-				// display the messaging
-				errorMsgEleDOM.message = errorMsg;
-				field.error = errorMsgEleDOM.visible = true;
-			}
+		// 		// display the messaging
+		// 		errorMsgEleDOM.message = errorMsg;
+		// 		field.error = errorMsgEleDOM.visible = true;
+		// 	}
 
-			this._handleFooter(this.footerMessages.error, 'error', true);
-		},
+		// 	this._handleFooter(this.footerMessages.error, 'error', true);
+		// },
 
 		resetFieldValidation: function(key) {
 			var field 			= this.config[key].field;
