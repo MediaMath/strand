@@ -140,8 +140,8 @@
 		},
 
 		attached: function() {
-			if (this._isEmpty(this.config)) this.debounce('initConfig', this._initConfig);
-			if (this._isEmpty(this.data)) this.debounce('initData', this._initData);
+			this.debounce('initConfig', this._initConfig);
+			this.debounce('initData', this._initData);
 		},
 
 		_dataChanged: function(newVal, oldVal) {
@@ -191,7 +191,7 @@
 					errorMsgEleDOM: this._select('#'+attrs['error-msg-ele']) || null,
 					parentEle: 		attrs['parent-ele'] || null,
 					parentEleDOM: 	this._select('#'+attrs['parent-ele']) || Polymer.dom(field).parentNode,
-					exclude: 		attrs.exclude || false
+					exclude: 		attrs.exclude || false,
 				};
 			}, this);
 			
@@ -245,12 +245,12 @@
 				}
 
 				var exclude	= this.config[key].exclude || false;
-				var value = this.data[key] || null;
+				var value = this.data[key] ? this.data[key] : field.value;
 				
 				// If there was an initial value set in markup, use it
-				if (field.value && value === null) {
-					value = field.value;
-				}
+				// if (field.value && value === null) {
+				// 	value = field.value;
+				// }
 
 				// Update data
 				if (!exclude) this._updateData(key, value);
@@ -360,7 +360,8 @@
 			for (var key in this.config) {
 				var exclude 		= this.config[key].exclude;
 				var validation 		= this.config[key].validation;
-				var noValidate  	= this.config[key].noValidate || false;
+				var noValidateFunc 	= typeof this.config[key].noValidate === 'function';
+				var noValidate 		= this.config[key].noValidate || false;
 				var field 			= this.config[key].field;
 				var tagName 		= this.config[key].field.tagName.toLowerCase();
 				var valid 			= false;
@@ -370,9 +371,14 @@
 				// and will need to be retrieved from the field itself
 				value = exclude ? field.value : this.data[key];
 
-				// Need to check the field for 'no-validate' attr - as it may have a bind,
-				// which could be updated at any time... presence of the attr === true
-				if (field.hasAttribute('no-validate')) noValidate = true;
+				if (noValidateFunc) {
+					// Call the function to derive true or false
+					noValidate = this.config[key].noValidate(key, value, this.data, this.view);
+				} else if (this.config[key].field.hasAttribute('no-validate')) {
+					// Need to check the field for 'no-validate' attr - as it may have a bind,
+					// which could be updated at any time... presence of the attr === true
+					noValidate = true;
+				}
 
 				if (validation && !noValidate) {
 					valid = this._validateField(key, value);
