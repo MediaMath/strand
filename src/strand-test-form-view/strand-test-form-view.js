@@ -40,8 +40,8 @@
 			},
 			use_mm_freq: {
 				type: Boolean,
-				value: 0,
-				observer: '_useMMFreqChanged'
+				value: false,
+				// observer: '_useMMFreqChanged'
 			},
 			// form data/config:
 			formConfig: {
@@ -100,6 +100,9 @@
 					'frequency_interval' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
+						noValidate: function(name, value, data, view) {
+							return !view.use_mm_freq;
+						},
 						errorMsg: 'Select an interval'
 					}
 				}
@@ -129,9 +132,9 @@
 		},
 
 		_standardSizeDdl: function(e) {
-			var dimensions = e.detail.value.split('x'),
-				width = parseInt(dimensions[0]),
-				height = parseInt(dimensions[1]);
+			var dimensions = e.detail.value.split('x');
+			var width = parseInt(dimensions[0]);
+			var height = parseInt(dimensions[1]);
 			this._dimensionsChanged(width, height);
 		},
 
@@ -157,10 +160,9 @@
 			this.frequency_interval = e.detail.value;
 		},
 
-		_useMMFreqOnChange: function(e) {
-			// transform true / false to the expected 0 or 1
-			this.$.testForm.data.use_mm_freq = e.detail.value | 0;
-		},
+		// _useMMFreqOnChange: function(e) {
+		// 	this.use_mm_freq = e.detail.value | 0;
+		// },
 
 		_useMMFreqChanged: function(newVal, oldVal) {
 			if (!newVal) {	

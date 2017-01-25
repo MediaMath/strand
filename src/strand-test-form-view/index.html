@@ -5,6 +5,20 @@
 		<link rel="import" href="strand-test-form-view.html"/>
 	</head>
 	<body>
-		<strand-test-form-view></strand-test-form-view>
+		<strand-test-form-view id="testForm"></strand-test-form-view>
+		<script type="text/javascript">
+			window.addEventListener('WebComponentsReady', function(e) {
+				var testForm = document.querySelector('#testForm');
+
+				testForm.addEventListener('serialize-form', function(e){
+					console.log('serialize-form', e.detail);
+					console.log(e.detail.data);
+				});
+
+				testForm.addEventListener('cancel-form', function(e){
+					console.log('cancel-form');
+				});
+			});
+		</script>
 	</body>
 </html>

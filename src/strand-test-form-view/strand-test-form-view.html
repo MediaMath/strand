@@ -104,7 +104,7 @@
 				<strand-checkbox 
 					form-header
 					name="use_mm_freq"
-					on-changed="_useMMFreqOnChange"
+					value="{{use_mm_freq}}"
 					checked="{{use_mm_freq}}">
 					<strand-header size="medium">Campaign Frequency Cap</strand-header>
 				</strand-checkbox>
@@ -130,7 +130,6 @@
 					<strand-dropdown 
 						id="standardSizeDdl" 
 						disabled$="{{!use_mm_freq}}"
-						no-validate$="{{!use_mm_freq}}"
 						name="frequency_interval"
 						on-changed="_freqIntervalChanged" 
 						value="{{frequency_interval}}" 
