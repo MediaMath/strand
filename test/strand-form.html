@@ -106,7 +106,7 @@
 		
 	<script>
 
-		var noValidateInput = false; 
+		var noValidateInput = true; 
 		var config = {
 			'input' : {
 				validation: 'int|empty',
@@ -131,7 +131,8 @@
 				label: 'Select a Color'
 			},
 			'no_validate' : {
-				noValidate: function(name, value, data) {
+				validation: 'alpha|empty',
+				noValidate: function(name, value, data, view) {
 					return noValidateInput;
 				}
 			}
