@@ -25,7 +25,7 @@
 					<strand-list-item>List Item 4</strand-list-item>
 				</strand-dropdown>
 			</div>
-			<div class="col" span="2">
+			<div class="col" span="1">
 				<strand-group fitparent unresolved name="radio">
 					<strand-radio>
 						<label>Red</label>
@@ -38,57 +38,75 @@
 					</strand-radio>
 				</strand-group>
 			</div>
+			<div class="col" span="1">
+				<strand-input 
+					fitparent 
+					name="no_validate"
+					label="Don't Validate Me"
+					value="some value"
+					placeholder="Don't even bother"></strand-input>
+			</div>
 		</strand-form>
 	</strand-form>
 
-	<strand-form id="testForm2" unresolved>
-		<div class="col" span="1">
-			<strand-input 
-				fitparent 
-				name="input"
-				label="Input"
-				error-msg="Type a number"
-				validation="int|empty"
-				placeholder="Type a Number"></strand-input>
-		</div>
-		<div class="col" span="1">
-			<strand-dropdown 
-				fitparent 
-				name="dropdown" 
-				label="Dropdown"
-				error-msg="Select an item"
-				error-msg-ele="special"
-				validation="empty"
-				placeholder="Select an Item">
-				<strand-list-item>List Item 1</strand-list-item>
-				<strand-list-item>List Item 2</strand-list-item>
-				<strand-list-item>List Item 3</strand-list-item>
-				<strand-list-item>List Item 4</strand-list-item>
-			</strand-dropdown>
-			<!-- <strand-form-message id="special"></strand-form-message> -->
-		</div>
-		<div class="col" span="2">
-			<strand-group 
-				fitparent 
-				name="radio"
-				label="Radio"
-				error-msg="Choose a color"
-				validation="empty">
-				<strand-radio>
-					<label>Red</label>
-				</strand-radio>
-				<strand-radio>
-					<label>Green</label>
-				</strand-radio>	
-				<strand-radio>
-					<label>Blue</label>
-				</strand-radio>
-			</strand-group>
-		</div>
-	</strand-form>
+	<template id="testDomBind" is="dom-bind">
+		<strand-form id="testForm2" unresolved>
+			<div class="col" span="1">
+				<strand-input 
+					fitparent 
+					name="input"
+					label="Input"
+					error-msg="Type a number"
+					validation="int|empty"
+					placeholder="Type a Number"></strand-input>
+			</div>
+			<div class="col" span="1">
+				<strand-dropdown 
+					fitparent 
+					name="dropdown" 
+					label="Dropdown"
+					error-msg="Select an item"
+					error-msg-ele="special"
+					validation="empty"
+					placeholder="Select an Item">
+					<strand-list-item>List Item 1</strand-list-item>
+					<strand-list-item>List Item 2</strand-list-item>
+					<strand-list-item>List Item 3</strand-list-item>
+					<strand-list-item>List Item 4</strand-list-item>
+				</strand-dropdown>
+				<!-- <strand-form-message id="special"></strand-form-message> -->
+			</div>
+			<div class="col" span="2">
+				<strand-checkbox
+					form-header
+					value="{{some_bool_val}}"
+					checked="{{some_bool_val}}">
+					<strand-header size="medium">Some Boolean Value</strand-header>
+				</strand-checkbox>
+				<strand-group 
+					fitparent 
+					name="radio"
+					error-msg="Choose a color"
+					validation="empty"
+					disabled$="{{!some_bool_val}}"
+					no-validate$="{{!some_bool_val}}">
+					<strand-radio>
+						<label>Red</label>
+					</strand-radio>
+					<strand-radio>
+						<label>Green</label>
+					</strand-radio>	
+					<strand-radio>
+						<label>Blue</label>
+					</strand-radio>
+				</strand-group>
+			</div>
+		</strand-form>
+	</template>
 		
 	<script>
 
+		var noValidateInput = false; 
 		var config = {
 			'input' : {
 				validation: 'int|empty',
@@ -111,197 +129,258 @@
 				errorMsgEle: null,
 				errorMsg: 'You need to select \'Red\'',
 				label: 'Select a Color'
+			},
+			'no_validate' : {
+				noValidate: function(name, value, data) {
+					return noValidateInput;
+				}
 			}
 		};
 
 		window.addEventListener('WebComponentsReady', function(e) {
 			var testForm1 = document.querySelector('#testForm1');
 			testForm1.config = config;
-		});
 
-		describe("strand-form", function() {
-	
-			it("should exist", function() {
-				var a = new Strand.Form();
-				a.nodeName.should.equal("STRAND-FORM");
-			});
+			var testDomBind = document.querySelector('#testDomBind');
+			testDomBind.some_bool_val = false;
 
-			it("should have updated config with DOM references to it's parent element and fields", function() {
-				var a = document.querySelector('#testForm1');
-				var config = a.config;
-				var fields = [];
-				var parents = [];
-				var objLength = Object.keys(config).length;
-
-				for (var item in config) {
-					fields.push(config[item].field);
-					parents.push(config[item].parentEleDOM);
-				}
-
-				fields[0].should.exist;
-				parents[0].should.exist;
-				fields[0].should.be.an.object;
-				parents[0].should.be.an.object;
-				fields.length.should.equal(objLength);
-				parents.length.should.equal(objLength);
-			});
-
-			it("config object should have a specific data structure", function() {
-				/*
-				{
-					thing: {
-						// the message to display
-						errorMsg: String, 
-
-						// the id of the element provided by the developer
-						errorMsgEle: String || null, 
-
-						// ref - error msg - generated or provided by the develper
-						errorMsgEleDOM: Object, 
-						
-						// exclude this field from the flattend form data when serialized
-						exclude: Boolean, 
-						
-						// the field to act upon
-						field: Object, 
-						
-						// the label to display
-						label: String || null, 
-
-						// the id of the element provided by the developer
-						labelEle: String || null, 
-
-						// ref - label - generated or provided by the developer 
-						labelEleDOM: Object,
-
-						// exclude this field from validation, can also be a function which returns Bool: function(name, value, data, view)
-						noValidate: Boolean / Function || null,
-						
-						// the parent ele of the field, where label and msg added
-						parentEle: String || null,
-
-						// ref - parent ele - parent of the field 
-						parentEleDOM: Object, 
-						
-						// pipe delimited list of common validations (see validator lib), can also be a function that returns Bool: function(name, value, data, view)
-						validation: String / Function || null, 
-					},
-				}
-				*/
-
-				var a = document.querySelector('#testForm1');
-				var config = a.config;
-				var configObj = a.config.dropdown;
-
-				configObj.errorMsg.should.exist;
-				configObj.errorMsg.should.be.a.string;
-
-				should.not.exist(configObj.errorMsgEle); // was never set in the config
-
-				configObj.errorMsgEleDOM.should.exist;
-				configObj.errorMsgEleDOM.should.be.an.object;
-
-				configObj.exclude.should.exist;
-				configObj.exclude.should.be.false;
-
-				configObj.field.should.exist;
-				configObj.field.should.be.an.object;
-
-				configObj.label.should.exist;
-				configObj.label.should.be.a.string;
-
-				should.not.exist(configObj.labelEle);
-
-				configObj.labelEleDOM.should.exist;
-				configObj.labelEleDOM.should.be.an.object;
-
-				configObj.noValidate.should.exist;
-				configObj.noValidate.should.be.false;
-
-				should.not.exist(configObj.parentEle);
-
-				configObj.parentEleDOM.should.exist;
-				configObj.parentEleDOM.should.be.an.object;
-			});
-
-			it("should have created labels", function() {
-				var a = document.querySelector('#testForm1');
-				var config = a.config;
-				var labels = [];
-				var objLength = Object.keys(config).length;
-
-				for (var item in config) {
-					labels.push(config[item].labelEleDOM);
-				}
-
-				labels[0].should.exist;
-				labels[0].should.be.an.object;
-				labels.length.should.equal(objLength);
-			});
-
-			it("should have created error messages", function() {
-				var a = document.querySelector('#testForm1');
-				var config = a.config;
-				var errors = [];
-				var objLength = Object.keys(config).length;
-
-				for (var item in config) {
-					errors.push(config[item].errorMsgEleDOM);
-				}
-
-				errors[0].should.exist;
-				errors[0].should.be.an.object;
-				errors.length.should.equal(objLength);
-			});
-
-			it("should have created a config from DOM", function() {
-				var a = document.querySelector('#testForm2');
-				var config = a.config;
-				var objLength = Object.keys(config).length;
-
-				a.config.should.exist;
-				objLength.should.equal(3);
-			});
-
-			it("should have updated the config from DOM with DOM references to it's parent element and fields", function() {
-				var a = document.querySelector('#testForm2');
-				var config = a.config;
-				var fields = [];
-				var parents = [];
-				var objLength = Object.keys(config).length;
-
-				for (var item in config) {
-					fields.push(config[item].field);
-					parents.push(config[item].parentEleDOM);
-				}
-
-				fields[0].should.exist;
-				parents[0].should.exist;
-				fields[0].should.be.an.object;
-				parents[0].should.be.an.object;
-				fields.length.should.equal(objLength);
-				parents.length.should.equal(objLength);
-			});
-
-			it("should dispatch a 'serialize-form' event with a detail containing flat data", function(done) {
-				var a = document.querySelector('#testForm1');
-				var s = sinon.spy();
-
-				a.addEventListener("serialize-form", s);
-				a.serializeForm();
-
-				flush(function() {
-					var evt = s.args[0][0];
-					var detail = evt.detail; // {input: null, dropdown: null, radio: null}
-
-					s.calledOnce.should.be.true;
-					s.returned(sinon.match.same(detail));
-					done();
+			describe("strand-form", function() {
+		
+				it("should exist", function() {
+					var a = new Strand.Form();
+					a.nodeName.should.equal("STRAND-FORM");
 				});
 
-			});
+				it("should have updated config with DOM references to it's parent element and fields", function() {
+					var a = document.querySelector('#testForm1');
+					var config = a.config;
+					var fields = [];
+					var parents = [];
+					var objLength = Object.keys(config).length;
 
+					for (var item in config) {
+						fields.push(config[item].field);
+						parents.push(config[item].parentEleDOM);
+					}
+
+					fields[0].should.exist;
+					parents[0].should.exist;
+					fields[0].should.be.an.object;
+					parents[0].should.be.an.object;
+					fields.length.should.equal(objLength);
+					parents.length.should.equal(objLength);
+				});
+
+				it("config object should have a specific data structure", function() {
+					/*
+					{
+						thing: {
+							// the message to display
+							errorMsg: String, 
+
+							// the id of the element provided by the developer
+							errorMsgEle: String || null, 
+
+							// ref - error msg - generated or provided by the develper
+							errorMsgEleDOM: Object, 
+							
+							// exclude this field from the flattend form data when serialized
+							exclude: Boolean, 
+							
+							// the field to act upon
+							field: Object, 
+							
+							// the label to display
+							label: String || null, 
+
+							// the id of the element provided by the developer
+							labelEle: String || null, 
+
+							// ref - label - generated or provided by the developer 
+							labelEleDOM: Object,
+
+							// exclude this field from validation, can also be a function which returns Bool: function(name, value, data, view)
+							noValidate: Boolean / Function || null,
+							
+							// the parent ele of the field, where label and msg added
+							parentEle: String || null,
+
+							// ref - parent ele - parent of the field 
+							parentEleDOM: Object, 
+							
+							// pipe delimited list of common validations (see validator lib), can also be a function that returns Bool: function(name, value, data, view)
+							validation: String / Function || null, 
+						},
+					}
+					*/
+
+					var a = document.querySelector('#testForm1');
+					var config = a.config;
+					var configObj = a.config.dropdown;
+
+					configObj.errorMsg.should.exist;
+					configObj.errorMsg.should.be.a.string;
+
+					should.not.exist(configObj.errorMsgEle); // was never set in the config
+
+					configObj.errorMsgEleDOM.should.exist;
+					configObj.errorMsgEleDOM.should.be.an.object;
+
+					configObj.exclude.should.exist;
+					configObj.exclude.should.be.false;
+
+					configObj.field.should.exist;
+					configObj.field.should.be.an.object;
+
+					configObj.label.should.exist;
+					configObj.label.should.be.a.string;
+
+					should.not.exist(configObj.labelEle);
+
+					configObj.labelEleDOM.should.exist;
+					configObj.labelEleDOM.should.be.an.object;
+
+					configObj.noValidate.should.exist;
+					configObj.noValidate.should.be.false;
+
+					should.not.exist(configObj.parentEle);
+
+					configObj.parentEleDOM.should.exist;
+					configObj.parentEleDOM.should.be.an.object;
+				});
+
+				it("should have created labels", function() {
+					var a = document.querySelector('#testForm1');
+					var config = a.config;
+					var labels = [];
+					var objLength = Object.keys(config).length;
+
+					for (var item in config) {
+						labels.push(config[item].labelEleDOM);
+					}
+
+					labels[0].should.exist;
+					labels[0].should.be.an.object;
+					labels.length.should.equal(objLength);
+				});
+
+				it("should have created error messages", function() {
+					var a = document.querySelector('#testForm1');
+					var config = a.config;
+					var errors = [];
+					var objLength = Object.keys(config).length;
+
+					for (var item in config) {
+						errors.push(config[item].errorMsgEleDOM);
+					}
+
+					errors[0].should.exist;
+					errors[0].should.be.an.object;
+					errors.length.should.equal(objLength);
+				});
+
+				it("should have created a config from DOM", function() {
+					var a = document.querySelector('#testForm2');
+					var config = a.config;
+					var objLength = Object.keys(config).length;
+
+					a.config.should.exist;
+					objLength.should.equal(3);
+				});
+
+				it("should dispatch a 'serialize-form' event with a detail containing flat data", function(done) {
+					var a = document.querySelector('#testForm1');
+					var s = sinon.spy();
+
+					a.addEventListener("serialize-form", s);
+					a.serializeForm();
+
+					flush(function() {
+						var evt = s.args[0][0];
+						var detail = evt.detail; // {input: null, dropdown: null, radio: null}
+
+						s.calledOnce.should.be.true;
+						s.returned(sinon.match.same(detail));
+						done();
+					});
+
+				});
+
+				it("should accept & call no validate method on serialize", function(done) {
+					var a = document.querySelector('#testForm1');
+					var s = sinon.spy();
+
+					a.addEventListener("serialize-form", s);
+					a.serializeForm();
+
+					flush(function() {
+						var evt = s.args[0][0];
+						var invalid = evt.detail.invalidFields;
+
+						// should have validated 3 out of 4 fields
+						s.calledOnce.should.be.true;
+						invalid.length.should.equal(3);
+						done();
+					});
+				});
+
+				it("should have updated the config from DOM with DOM references to it's parent element and fields", function() {
+					var a = document.querySelector('#testForm2');
+					var config = a.config;
+					var fields = [];
+					var parents = [];
+					var objLength = Object.keys(config).length;
+
+					for (var item in config) {
+						fields.push(config[item].field);
+						parents.push(config[item].parentEleDOM);
+					}
+
+					fields[0].should.exist;
+					parents[0].should.exist;
+					fields[0].should.be.an.object;
+					parents[0].should.be.an.object;
+					fields.length.should.equal(objLength);
+					parents.length.should.equal(objLength);
+				});
+
+				it("should validate all 2 out of 3 fields", function(done) {
+					var a = document.querySelector('#testForm2');
+					var s = sinon.spy();
+
+					a.addEventListener("serialize-form", s);
+					a.serializeForm();
+
+					flush(function() {
+						var evt = s.args[0][0];
+						var invalid = evt.detail.invalidFields;
+
+						s.calledOnce.should.be.true;
+						invalid.length.should.equal(2);
+						done();
+					});
+				});
+
+				it("should validate all 3 out of 3 fields", function(done) {
+					var a = document.querySelector('#testForm2');
+					var s = sinon.spy();
+
+					testDomBind.some_bool_val = true;
+					a.addEventListener("serialize-form", s);
+					a.serializeForm();
+
+					flush(function() {
+						var evt = s.args[0][0];
+						var invalid = evt.detail.invalidFields;
+
+						s.calledOnce.should.be.true;
+						invalid.length.should.equal(3);
+						done();
+					});
+				});
+			});
 		});
+
 
 	</script>
 
