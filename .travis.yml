@@ -14,13 +14,14 @@ addons:
 before_install:
 - source /opt/jdk_switcher/jdk_switcher.sh
 - jdk_switcher use oraclejdk8
-before_script:
-- npm install -g bower web-component-tester
+install:
 - npm install
+- npm install -g bower web-component-tester
 - bower install
+before_script:
 - gulp clean
 - gulp build
 script: xvfb-run wct
 env:
   global:
-    - CXX=g++-4.8
+  - CXX=g++-4.8
