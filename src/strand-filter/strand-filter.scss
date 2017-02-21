@@ -1,0 +1,76 @@
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+*/
+/* test.sass */
+@import "_bourbon";
+@import "_color";
+@import "_mixins";
+:host {
+	position: relative;
+	display: flex;
+
+	.green {
+		color: #079D35;
+	}
+
+	.red {
+		color: #EF4747;
+	}
+
+	.clear-fix {
+		clear: both;
+	}
+
+	.button {
+		cursor: pointer;
+		margin-top: 3px;
+	}
+
+	.filter-wrapper {
+		padding: 10px;
+	}
+
+	.filter-wrapper-conatainer {
+		width: 900px;
+	}
+
+	.add_operation {
+		margin-bottom: 10px;
+	}
+
+	.conditionConnector {
+		width: 15%;
+		float: left;
+	}
+
+	.condition {
+		width: 85%;
+		float: left;
+		margin-bottom: 10px;
+	}
+	.inclusiveLine {
+		width: 15%;
+		float: left;
+		margin-right: 5px;
+	}
+	.conditionLine {
+		width: 19%;
+		float: left;
+		margin-right: 5px;
+	}
+	.conditionGroup {
+		width: 5%;
+		float: left;
+		margin-right: 2px;
+		margin-top: 5px;
+	}
+	.conditionDelete {
+		width: 10%;
+		margin-top: 5px;
+		margin-left: 5px;
+		float: left;
+	}
+}

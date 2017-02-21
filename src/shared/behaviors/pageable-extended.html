@@ -1,0 +1,103 @@
+<link rel="import" href="../js/datautils.html" />
+<link rel="import" href="../js/sync.html" />
+<link rel="import" href="domsyncable.html" />
+<link rel="import" href="pageable.html">
+<script>
+    /**
+     * @license
+     * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+     * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+     */
+    (function (scope) {
+        "use strict";
+
+
+        var PageableExtended = {
+            properties: {
+                totalRows: {
+                    type: Number,
+                    value: 0
+                }
+            },
+            ready: function () {
+                this.parent = this.parentNode;
+                if ( !this.parent || typeof this.parent.page === "undefined") { return; }
+                this.page = this.parent.page;
+                this.pageSize = this.parent.pageSize;
+
+                //Fire already queued events before ready.
+                this.pageDataChangedEvents = this.pageDataChangedEvents || [];
+                for (var i = 0; i < this.pageDataChangedEvents.length; i++) {
+                    var evt = this.pageDataChangedEvents[i];
+                    this._firePageDataChangedEvent(evt);
+                }
+                this.pageDataChangedEvents = [];
+                this.isReady = true;
+                this.addEventListener('datachanged', this._dataChanged.bind(this))
+            },
+            _dataChanged:function(){
+                //Reset the page number to 0 after data is changed.
+                this.gotoFirst();
+                this._pageChangedExtended();
+
+            },
+            pageDisplayValue:function (pg) {
+                return +pg + 1;
+            },
+            nextPage: function () {
+                console.time('start nextpage');
+                var lastpage = this.getLastPageNumber();
+                if (this.page < lastpage){
+                    var pg = this.page + 1;
+                    this.set('page', pg);
+                    console.time('in if condition post increment.');
+
+                }
+
+                console.time('start nextpage', this.page);
+
+            },
+            prevPage: function () {
+                if (this.page > 0)
+                    this.page--;
+            },
+            goto: function (pageNum) {
+                this.set('page', pageNum);
+            },
+            gotoFirst: function () {
+                this.page = 0;
+            },
+            getLastPageNumber: function () {
+                return Math.ceil(this.totalRows / this.pageSize) - 1;
+            },
+            gotoLast: function () {
+
+                this.page = this.getLastPageNumber();
+            },
+            _pageChangedExtended: function () {
+                //console.log('page changed in _pageChangedExtended');
+                if (this.isReady) {
+                    this._firePageDataChangedEvent({ name: 'pagedata', page: this.page });
+                } else {
+                    this._enquePageDataChangedEvent({ name: 'pagedata', page: this.page });
+                }
+            },
+            _firePageDataChangedEvent: function (data) {
+                data.pageData = this._getPageData();
+                this.fire('pagedata', data);
+            },
+            _enquePageDataChangedEvent: function (data) {
+                this.pageDataChangedEvents = this.pageDataChangedEvents || [];
+                this.pageDataChangedEvents.push(data);
+            }
+        };
+
+        scope.PageableExtended = [
+            StrandLib.Sync.getBehavior(),
+            scope.DomSyncable,
+            scope.Pageable,
+            PageableExtended
+        ];
+    }(window.StrandTraits = window.StrandTraits || {}));
+</script>

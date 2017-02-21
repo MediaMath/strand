@@ -1,0 +1,52 @@
+{
+	"name":"mm-filter",
+	"description":"Filters designer for any json data.",
+	"attributes": [
+		{
+			"name":"data",
+			"type":"array",
+			"description":"Data on which you need to apply the search queries.",
+			"optional":false,
+			"options": [],
+			"default":[]
+		},
+		{
+			"name":"searchMode",
+			"type":"String",
+			"description":"Instructs the mm-filter open in advance mode or simple mode. Advance mode gives more flexibility to design the query.",
+			"optional":true,
+			"options": ["advance", "simple"],
+			"default":"simple",
+			"reflect": false
+		},
+		{
+			"name":"autoSearch",
+			"type":"String",
+			"description":"If autosearch is true, search event is fired each time, searchconfig is changed.",
+			"optional":true,
+			"default":"true",
+			"reflect": false
+		},
+		{
+			"name":"minLength",
+			"type":"Number",
+			"description":"This works only in simple mode. Search event won't be fired until the searchValue's length is atleast minLength.",
+			"optional":true,
+			"default":-1,
+			"reflect": false
+		},
+		{
+			"name":"debounceDelay",
+			"type":"Number",
+			"description":"This works only in simple mode. Waits for minimum milli-seconds of debounceDelay before it re-emit the search event.",
+			"optional":true,
+			"default":"0",
+			"reflect": false
+		}
+
+	],
+	"behaviors": [
+		"resolvable",
+		"injector"
+	]
+}

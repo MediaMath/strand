@@ -1,0 +1,116 @@
+/**
+ * Created by nemade_g on 4/27/2016.
+ */
+<script>
+/**
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+ */
+(function (scope) {
+    'use strict'
+
+    var comparisonRulesProvider = {
+        properties: {
+        },
+        addComparison:function(key, fn){
+            var injector = this.getInjector();
+            this.comparisonFunctions = injector.resolve('comparisonFunctions');
+            //initially, blank object is registered as a dependenccy for 'comparisonFunctions'.
+            !this.comparisonFunctions && (this.comparisonFunctions = injector.registerBlank('comparisonFunctions'));
+            var obj = {};
+            //User has flexibility to add function directly to be simple. For more control, he can provide other properties for the rule (comparison Function).
+            // such as validation, display name etc.
+            if(typeof fn === 'function'){
+                obj.func = fn;
+                obj.key = key;
+                obj.displayName = key;
+            }else{
+                fn.key = fn.key || key; //if key is not given  in the option , we set it manually here. key is imp to be in the object.
+                fn.displayName = fn.displayName || key;
+                obj = fn;
+            }
+            (this.comparisonFunctions || (this.comparisonFunctions = {$get:function(){}}))[key]  = obj;
+        },
+        created: function() {
+            this.addComparison('exactMatch', {
+                func: function(item, conf){
+                    var itemValue;
+                    if (conf.column == 'ALL') {
+                        itemValue = JSON.stringify(item);
+                    } else {
+                        itemValue = item[conf.column];
+                    }
+                    itemValue = (itemValue||'').toString();
+                    return itemValue === conf.searchValue;
+                },
+                displayName:'Exact Match',
+                validate:function(item){
+
+                    var errorMsg = '';
+                    if(!item.searchValue){
+                        errorMsg += 'SearchValue can not be empty';
+                    }
+                    if(item.column === 'ALL'){
+                        errorMsg += '\nExact Match can not be done on All columns, kindly select atleast one column';
+                    }
+                    return errorMsg;
+                }
+            });
+            this.addComparison('contains', {
+                func:function (item, config) {
+                    var itemValue;
+                    if (config.column && config.column == 'ALL') {
+                        itemValue = JSON.stringify(item);
+                    } else {
+                        itemValue = config.column ? item[config.column] : '';
+
+                    }
+                    itemValue = (itemValue||'').toString();
+                    return itemValue.search(config.searchValue || '') > -1;
+                },
+                displayName:'Contains'
+            });
+            this.addComparison('LessThan', function (item, config) {
+                var itemValue;
+                if (config.column && config.column == 'ALL') {
+                    itemValue = '';
+                } else {
+                    itemValue = config.column ? item[config.column] : '';
+
+                }
+                if(!isNaN(itemValue)){
+                    if(config.inclusive){
+                        return itemValue <= parseFloat(config.searchValue);
+                    }else{
+                        return itemValue < parseFloat(config.searchValue);
+                    }
+                }else{
+                    return false;
+                }
+
+            });
+            this.addComparison('GreaterThan', function (item, config) {
+                var itemValue;
+                if (config.column && config.column == 'ALL') {
+                    itemValue = '';
+                } else {
+                    itemValue = config.column ? item[config.column] : '';
+
+                }
+                if(!isNaN(itemValue)){
+                    if(config.inclusive){
+                        return itemValue >= parseFloat(config.searchValue);
+                    }else{
+                        return itemValue > parseFloat(config.searchValue);
+                    }
+                }else{
+                    return false;
+                }
+            });
+        }
+    };
+    scope.ComparisonRulesProvider = [scope.Injector, comparisonRulesProvider];
+})(window.StrandTraits = window.StrandTraits || {});
+</script>

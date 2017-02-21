@@ -1,0 +1,126 @@
+<link rel="import" href="injector.html">
+<link rel="import" href="comparisonrulesprovider.html">
+<script>
+    /**
+     * @license
+     * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+     * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+     */
+    (function (scope) {
+
+        "use strict";
+        var Searchable = {
+            properties: {
+                searchConfig: {
+                    type: Object,
+                    value:[],
+                    notify:true,
+                    reflectToAttribute: true
+                }
+            },
+            _getSearchFn: function (config) {
+                if(  !config.comparison.func){
+                    var injector = this.getInjector();
+                    var comparisonFunctions = injector.resolve('comparisonFunctions');
+                    return comparisonFunctions[config.comparison.key].func
+                }else{
+                    return    config.comparison.func ;
+                }
+            },
+            _evaluateFunction: function (func, item) {
+                var parentResult = true;
+                if (func.fn) {
+                    parentResult = func.fn.call(null, item, func.config);
+                }
+                var children = func.children;
+                if (children) {
+                    for (var i = 0; i < children.length; i++) {
+                        var child = children[i];
+                        var result = this._evaluateFunction(child, item, func.config);
+                        if (child.config.logicalOperator == 'AND') {
+                            parentResult = parentResult && result;
+                        } else {
+                            parentResult = parentResult || result;
+                        }
+
+                        // avoiding calling functions which are needed.
+                        var isAndOnNextRow = children[i+1] && children[i+1].config.logicalOperator == 'AND';
+                        if((isAndOnNextRow && !parentResult) || (!isAndOnNextRow && parentResult)){
+                            break;
+                        }
+                    }
+                }
+                return parentResult;
+            },
+            _applySearchFunctions: function (fnList, data) {
+                data.filter((function (item) {
+                    var toReturn = true;
+                    for (var i = 0; i < fnList.length; i++) {
+                        var func = fnList[i];
+                        var result = this._evaluateFunction(func, item);
+                        if (func.config.logicalOperator == 'AND') {
+                            toReturn = toReturn && result;
+                        } else {
+                            toReturn = toReturn || result;
+                        }
+                        // avoiding calling functions which are not needed such as next condition is AND and result is already false.
+                        var isAndOnNextRow = fnList[i+1] && fnList[i+1].config.logicalOperator == 'AND';
+                        if((isAndOnNextRow && !toReturn) || (!isAndOnNextRow && toReturn)){
+                            break;
+                        }
+                    }
+                    return toReturn;
+                }).bind(this));
+                return d;
+            },
+            _parseTree: function(list, idAttr, parentAttr, childrenAttr) {
+                if (!idAttr) idAttr = 'id';
+                if (!parentAttr) parentAttr = 'parent';
+                if (!childrenAttr) childrenAttr = 'children';
+                var treeList = [];
+                var lookup = {};
+                list.forEach(function (obj) {
+                    lookup[obj[idAttr]] = obj;
+                    obj[childrenAttr] = [];
+
+                });
+                list.forEach(function (obj) {
+                    if (obj[parentAttr] != null) {
+                        lookup[obj[parentAttr]][childrenAttr].push(obj);
+                    } else {
+                        treeList.push(obj);
+                    }
+                });
+                return treeList;
+            },
+            advanceSearch: function (data) {
+                var d = data || this.data;
+                if (!this.originalData) {
+                    this.originalData = d.slice();
+                } else {
+                    d = this.originalData.slice();
+                }
+                var fnList = [];
+                if (this.searchConfig) {
+                    for (var i = 0; i < this.searchConfig.length; i++) {
+                        var config = this.searchConfig[i];
+                        var fn = this._getSearchFn(config);
+                        fnList.push({ id: config.id, fn: fn, config: this.searchConfig[i], level: config.level, parent: config.parent, index: config.index });
+                    }
+                    var configHierarchy = this._parseTree(fnList);
+                    //config hierarchy with functions --> configHierarchy
+                }
+                // Hierarchy --> configHierarchy
+                d = this._applySearchFunctions(configHierarchy, d);
+                if (this.searchComplete) {
+                    this.searchComplete(d);
+                }
+                this.data = d;
+                return this.data;
+            }
+
+        };
+
+        scope.Searchable = [scope.ComparisonRulesProvider, Searchable];
+    })(window.StrandTraits = window.StrandTraits || {});
+</script>

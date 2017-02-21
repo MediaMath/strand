@@ -1,0 +1,14 @@
+{
+  "name":"ComparisonRulesProvider",
+  "description":"You can register the comparison rules, application wide through the injector.",
+  "attributes": [
+
+  ],
+  "methods": [
+    {
+      "name":"addComparison",
+      "description":"This method adds the comparison rule for a specified key. e.g. \"contains\"."
+    }
+  ],
+  "behaviors": ["syncable"]
+}

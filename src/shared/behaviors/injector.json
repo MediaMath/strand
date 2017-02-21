@@ -1,0 +1,14 @@
+{
+  "name":"Injector",
+  "description":"You can register providers which can be injected anywhere you need in the application.",
+  "attributes": [
+
+  ],
+  "methods": [
+    {
+      "name":"getInjector",
+      "description":"Returns injector object which has methods, register and resolve. Register method, registers the dependency and resolve method gives registered dependency whenever required. "
+    }
+  ],
+  "behaviors": ["syncable"]
+}
