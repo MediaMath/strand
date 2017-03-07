@@ -1,3 +1,10 @@
+<style>
+	#mmTestGrid2 strand-header { 
+		display: block;
+		margin-bottom: 5px;
+	}
+</style>
+
 <!-- A default grid item example -->
 <strand-grid id="mmTestGrid1" selectable style="width: 100%; height: 300px;">
 	<strand-grid-column field="first_name">First Name</strand-grid-column>
@@ -30,15 +37,15 @@
 			<div class="expansion">
 				<div class="expansion-row">
 					<div class="expansion-col">
-						<h4>Expanded Content</h4>
+						<strand-header size="small">Expanded Content</strand-header>
 						<span>{{model.name}}</span>
 					</div>
 					<div class="expansion-col">
-						<h4>Expanded Advertiser</h4>
+						<strand-header size="small">Expanded Advertiser</strand-header>
 						<span>{{model.advertiser}}</span>
 					</div>
 					<div class="expansion-col">
-						<h4>Expanded Concept</h4>
+						<strand-header size="small">Expanded Concept</strand-header>
 						<span>{{model.concept}}</span>
 					</div>
 				</div>
