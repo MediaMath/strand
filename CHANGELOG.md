@@ -1,3 +1,14 @@
+<a name="v4.3.0"></a>
+# v4.3.0 (2017-03-14)
+
+* Add charity icon to strand-icon ([5805e92](https://github.com/MediaMath/strand/commit/5805e92))
+* Docs edits ([761f8b2](https://github.com/MediaMath/strand/commit/761f8b2))
+* Docs example edits ([b865574](https://github.com/MediaMath/strand/commit/b865574))
+* FWRK-330 add 'quick-edit' icon ([1f74d2f](https://github.com/MediaMath/strand/commit/1f74d2f))
+* notify selection change ([6d2460f](https://github.com/MediaMath/strand/commit/6d2460f))
+
+
+
 <a name="v4.2.3"></a>
 ## v4.2.3 (2016-12-20)
 
