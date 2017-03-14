@@ -1,0 +1,15 @@
+{
+	"name":"NonScrollable",
+	"description":"Blocks scrolling while positionable components are displayed.",
+	"attributes":[
+		{
+			"name":"disableScroll",
+			"type":"Boolean",
+			"description":"Instructs the component to disable scrolling of the host page (or component) when a positionable panel has been opened by the user. Because Strand disables scrolling by capturing pointer events, if there is a desire to allow clicks outside of the positionable panel (such as a target strand-icon, in the case of a strand-tooltip) set this property to 'false'.",
+			"default":"true",
+			"attribute":"disable-scroll",
+			"optional":true,
+			"options":["true","false"]
+		}
+	]
+}

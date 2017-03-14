@@ -6,8 +6,8 @@
 </strand-footer>
 <!-- Display Message / Multiple Buttons Example -->
 <strand-footer id="tf1" unresolved fitparent>
-	<strand-action id="closeLink" underline="true">
-		<label>Close</label>
+	<strand-action id="cancelLink" underline="true">
+		<label>Cancel</label>
 	</strand-action>
 	<strand-button type="secondary" id="saveAndClose">
 		<label>Save &amp; Close</label>
@@ -29,7 +29,7 @@
 <script>
 	var tf1,
 		tf2,
-		closeLink,
+		cancelLink,
 		saveAndClose,
 		saveAndAdd;
 
@@ -37,37 +37,37 @@
 		tf1 = document.querySelector("#tf1");
 		tf2 = document.querySelector("#tf2");
 
-		closeLink = document.querySelector("#closeLink");
+		cancelLink = document.querySelector("#cancelLink");
 		saveAndClose = document.querySelector("#saveAndClose");
 		saveAndAdd = document.querySelector("#saveAndAdd");
 
-		closeLink.addEventListener("click", closeHandler);
+		cancelLink.addEventListener("click", cancelHandler);
 		saveAndClose.addEventListener("click", saveCloseHandler);
 		saveAndAdd.addEventListener("click", saveAddHandler);
 	});
 
-	function closeHandler(e) {
+	function cancelHandler(e) {
 		e.preventDefault();
-		console.log("closeHandler");
+		console.log("cancelHandler");
 		// Test messaging:
-		tf1.message = "This is a neat message.";
-		tf1.type = "success";
+		tf1.message = "The user clicked 'cancel'.";
+		tf1.type = "warning";
 		tf1.showMessage();
 	}
 
 	function saveCloseHandler(e) {
 		console.log("saveCloseHandler");
 		// Test messaging:
-		tf1.message = "This is a super message.";
-		tf1.type = "error";
+		tf1.message = "The user completed an action.";
+		tf1.type = "success";
 		tf1.showMessage();
 	}
 
 	function saveAddHandler(e) {
 		console.log("saveAddHandler");
 		// Test messaging:
-		tf1.message = "This is a test message.";
-		tf1.type = "warning";
+		tf1.message = "There was an error.";
+		tf1.type = "error";
 		tf1.showMessage();
 	}
 </script>
