@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.2.3" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.3.0" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -94,7 +94,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.2.3</p>
+				<p class="mini-subhead version">v4.3.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -338,6 +338,18 @@
 								</td>
 								<td>
 									<span class="desc">The value of the state property when the element is opened</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="bold">disableScroll : </span><span class="italic">Boolean&nbsp;(optional)&nbsp;</span><br/>
+									default : <span class="italic">true</span><br/>
+									options : <span class="italic"><span class="option">true</span><span class="option">false</span></span><br/>
+									attribute : <span class="italic">disable-scroll</span><br/>
+									reflected to attribute : <span class="italic">no</span>
+								</td>
+								<td>
+									<span class="desc">Instructs the component to disable scrolling of the host page (or component) when a positionable panel has been opened by the user. Because Strand disables scrolling by capturing pointer events, if there is a desire to allow clicks outside of the positionable panel (such as a target strand-icon, in the case of a strand-tooltip) set this property to &#39;false&#39;.</span>
 								</td>
 							</tr>
 							<tr>

@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.2.3" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.3.0" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -94,7 +94,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.2.3</p>
+				<p class="mini-subhead version">v4.3.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -116,7 +116,14 @@
 					<section>
 						<h3>Example HTML Editor</h3>
 						<div class="editor-wrapper">
-							<div id="editor">&lt;!-- A default grid item example --&gt;
+							<div id="editor">&lt;style&gt;
+	#mmTestGrid2 strand-header { 
+		display: block;
+		margin-bottom: 5px;
+	}
+&lt;/style&gt;
+
+&lt;!-- A default grid item example --&gt;
 &lt;strand-grid id=&quot;mmTestGrid1&quot; selectable style=&quot;width: 100%; height: 300px;&quot;&gt;
 	&lt;strand-grid-column field=&quot;first_name&quot;&gt;First Name&lt;/strand-grid-column&gt;
 	&lt;strand-grid-column field=&quot;last_name&quot;&gt;Last Name&lt;/strand-grid-column&gt;
@@ -148,15 +155,15 @@
 			&lt;div class=&quot;expansion&quot;&gt;
 				&lt;div class=&quot;expansion-row&quot;&gt;
 					&lt;div class=&quot;expansion-col&quot;&gt;
-						&lt;h4&gt;Expanded Content&lt;/h4&gt;
+						&lt;strand-header size=&quot;small&quot;&gt;Expanded Content&lt;/strand-header&gt;
 						&lt;span&gt;{{model.name}}&lt;/span&gt;
 					&lt;/div&gt;
 					&lt;div class=&quot;expansion-col&quot;&gt;
-						&lt;h4&gt;Expanded Advertiser&lt;/h4&gt;
+						&lt;strand-header size=&quot;small&quot;&gt;Expanded Advertiser&lt;/strand-header&gt;
 						&lt;span&gt;{{model.advertiser}}&lt;/span&gt;
 					&lt;/div&gt;
 					&lt;div class=&quot;expansion-col&quot;&gt;
-						&lt;h4&gt;Expanded Concept&lt;/h4&gt;
+						&lt;strand-header size=&quot;small&quot;&gt;Expanded Concept&lt;/strand-header&gt;
 						&lt;span&gt;{{model.concept}}&lt;/span&gt;
 					&lt;/div&gt;
 				&lt;/div&gt;
@@ -215,7 +222,14 @@
 					</section>
 					<section>
 						<h3>Example Output</h3>
-						<div class="content-box example" id="example-strand-grid"><!-- A default grid item example -->
+						<div class="content-box example" id="example-strand-grid"><style>
+	#mmTestGrid2 strand-header { 
+		display: block;
+		margin-bottom: 5px;
+	}
+</style>
+
+<!-- A default grid item example -->
 <strand-grid id="mmTestGrid1" selectable style="width: 100%; height: 300px;">
 	<strand-grid-column field="first_name">First Name</strand-grid-column>
 	<strand-grid-column field="last_name">Last Name</strand-grid-column>
@@ -247,15 +261,15 @@
 			<div class="expansion">
 				<div class="expansion-row">
 					<div class="expansion-col">
-						<h4>Expanded Content</h4>
+						<strand-header size="small">Expanded Content</strand-header>
 						<span>{{model.name}}</span>
 					</div>
 					<div class="expansion-col">
-						<h4>Expanded Advertiser</h4>
+						<strand-header size="small">Expanded Advertiser</strand-header>
 						<span>{{model.advertiser}}</span>
 					</div>
 					<div class="expansion-col">
-						<h4>Expanded Concept</h4>
+						<strand-header size="small">Expanded Concept</strand-header>
 						<span>{{model.concept}}</span>
 					</div>
 				</div>

@@ -25,7 +25,7 @@
 		<script language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	</head>
 	<body unresolved>
-		<strand-docs-shell id="docsShell" version="4.2.3" mobile-header="Strand Docs">
+		<strand-docs-shell id="docsShell" version="4.3.0" mobile-header="Strand Docs">
 			<strand-docs-nav id="articlesNav">
 				<strand-header size="medium">Articles</strand-header>
 				<strand-list-item id="getting_started" value="article_getting_started.html">Getting Started</strand-list-item>
@@ -94,7 +94,7 @@
 				<a class="strand-logo">
 					<img src="images/strand-logo.svg" />
 				</a>
-				<p class="mini-subhead version">v4.2.3</p>
+				<p class="mini-subhead version">v4.3.0</p>
 			</div>			<footer class="layout-footer">
 				<div class="docs-footer">
 					<div class="footer-logo-box">
@@ -124,10 +124,10 @@
 &lt;/strand-footer&gt;
 &lt;!-- Display Message / Multiple Buttons Example --&gt;
 &lt;strand-footer id=&quot;tf1&quot; unresolved fitparent&gt;
-	&lt;strand-action id=&quot;closeLink&quot; underline=&quot;true&quot;&gt;
-		&lt;label&gt;Close&lt;/label&gt;
+	&lt;strand-action id=&quot;cancelLink&quot; underline=&quot;true&quot;&gt;
+		&lt;label&gt;Cancel&lt;/label&gt;
 	&lt;/strand-action&gt;
-	&lt;strand-button id=&quot;saveAndClose&quot;&gt;
+	&lt;strand-button type=&quot;secondary&quot; id=&quot;saveAndClose&quot;&gt;
 		&lt;label&gt;Save &amp;amp; Close&lt;/label&gt;
 	&lt;/strand-button&gt;
 	&lt;strand-button id=&quot;saveAndAdd&quot;&gt;
@@ -147,7 +147,7 @@
 &lt;script&gt;
 	var tf1,
 		tf2,
-		closeLink,
+		cancelLink,
 		saveAndClose,
 		saveAndAdd;
 
@@ -155,37 +155,37 @@
 		tf1 = document.querySelector(&quot;#tf1&quot;);
 		tf2 = document.querySelector(&quot;#tf2&quot;);
 
-		closeLink = document.querySelector(&quot;#closeLink&quot;);
+		cancelLink = document.querySelector(&quot;#cancelLink&quot;);
 		saveAndClose = document.querySelector(&quot;#saveAndClose&quot;);
 		saveAndAdd = document.querySelector(&quot;#saveAndAdd&quot;);
 
-		closeLink.addEventListener(&quot;click&quot;, closeHandler);
+		cancelLink.addEventListener(&quot;click&quot;, cancelHandler);
 		saveAndClose.addEventListener(&quot;click&quot;, saveCloseHandler);
 		saveAndAdd.addEventListener(&quot;click&quot;, saveAddHandler);
 	});
 
-	function closeHandler(e) {
+	function cancelHandler(e) {
 		e.preventDefault();
-		console.log(&quot;closeHandler&quot;);
+		console.log(&quot;cancelHandler&quot;);
 		// Test messaging:
-		tf1.message = &quot;This is a neat message.&quot;;
-		tf1.type = &quot;success&quot;;
+		tf1.message = &quot;The user clicked &#39;cancel&#39;.&quot;;
+		tf1.type = &quot;warning&quot;;
 		tf1.showMessage();
 	}
 
 	function saveCloseHandler(e) {
 		console.log(&quot;saveCloseHandler&quot;);
 		// Test messaging:
-		tf1.message = &quot;This is a super message.&quot;;
-		tf1.type = &quot;error&quot;;
+		tf1.message = &quot;The user completed an action.&quot;;
+		tf1.type = &quot;success&quot;;
 		tf1.showMessage();
 	}
 
 	function saveAddHandler(e) {
 		console.log(&quot;saveAddHandler&quot;);
 		// Test messaging:
-		tf1.message = &quot;This is a test message.&quot;;
-		tf1.type = &quot;warning&quot;;
+		tf1.message = &quot;There was an error.&quot;;
+		tf1.type = &quot;error&quot;;
 		tf1.showMessage();
 	}
 &lt;/script&gt;
@@ -202,10 +202,10 @@
 </strand-footer>
 <!-- Display Message / Multiple Buttons Example -->
 <strand-footer id="tf1" unresolved fitparent>
-	<strand-action id="closeLink" underline="true">
-		<label>Close</label>
+	<strand-action id="cancelLink" underline="true">
+		<label>Cancel</label>
 	</strand-action>
-	<strand-button id="saveAndClose">
+	<strand-button type="secondary" id="saveAndClose">
 		<label>Save &amp; Close</label>
 	</strand-button>
 	<strand-button id="saveAndAdd">
@@ -225,7 +225,7 @@
 <script>
 	var tf1,
 		tf2,
-		closeLink,
+		cancelLink,
 		saveAndClose,
 		saveAndAdd;
 
@@ -233,37 +233,37 @@
 		tf1 = document.querySelector("#tf1");
 		tf2 = document.querySelector("#tf2");
 
-		closeLink = document.querySelector("#closeLink");
+		cancelLink = document.querySelector("#cancelLink");
 		saveAndClose = document.querySelector("#saveAndClose");
 		saveAndAdd = document.querySelector("#saveAndAdd");
 
-		closeLink.addEventListener("click", closeHandler);
+		cancelLink.addEventListener("click", cancelHandler);
 		saveAndClose.addEventListener("click", saveCloseHandler);
 		saveAndAdd.addEventListener("click", saveAddHandler);
 	});
 
-	function closeHandler(e) {
+	function cancelHandler(e) {
 		e.preventDefault();
-		console.log("closeHandler");
+		console.log("cancelHandler");
 		// Test messaging:
-		tf1.message = "This is a neat message.";
-		tf1.type = "success";
+		tf1.message = "The user clicked 'cancel'.";
+		tf1.type = "warning";
 		tf1.showMessage();
 	}
 
 	function saveCloseHandler(e) {
 		console.log("saveCloseHandler");
 		// Test messaging:
-		tf1.message = "This is a super message.";
-		tf1.type = "error";
+		tf1.message = "The user completed an action.";
+		tf1.type = "success";
 		tf1.showMessage();
 	}
 
 	function saveAddHandler(e) {
 		console.log("saveAddHandler");
 		// Test messaging:
-		tf1.message = "This is a test message.";
-		tf1.type = "warning";
+		tf1.message = "There was an error.";
+		tf1.type = "error";
 		tf1.showMessage();
 	}
 </script>
