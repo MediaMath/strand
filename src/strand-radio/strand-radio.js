@@ -49,7 +49,7 @@
 			disabled: { 
 				value:false,
 				type: Boolean,
-				reflect:true 
+				reflectToAttribute:true 
 			},
 			group: { 
 				type: String,
