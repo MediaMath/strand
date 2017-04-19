@@ -15,12 +15,25 @@ before_install:
 - source /opt/jdk_switcher/jdk_switcher.sh
 - jdk_switcher use oraclejdk8
 before_script:
-- npm install -g bower web-component-tester
+# start xvfb
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3
+# install dependencies
+- npm install -g bower
 - npm install
 - bower install
+# build library
 - gulp clean
 - gulp build
-script: xvfb-run wct
+script: gulp test
 env:
+  matrix:
+  - TEST_SUITE=default
+  - TEST_SUITE=default SHADOW=true
   global:
-    - CXX=g++-4.8
+  - CXX=g++-4.8
+cache:
+  directories:
+  - bower_comopnents/
+  - node_modules/

@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	{{#environmentScripts}}
+	<script src="{{.}}"></script>
+	{{/environmentScripts}}
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+  </head>
+  <body>
+    <script>
+      WCT.loadSuites([
+        {{#suites}}
+		'{{.}}',
+		{{/suites}}
+      ]);
+    </script>
+  </body>
+</html>

@@ -23,6 +23,7 @@
 		BUILD_DOCS: 'build_docs/',
 		DOCS: 'docs/',
 		DIST: 'dist/',
+		TEST: 'test/',
 		TEMPLATES: 'gulp/templates/',
 		MODULE_MASK: 'strand-*',
 		MODULE_HTML: 'strand-*.html',
@@ -35,7 +36,11 @@
 		PATCH_LIST: [
 			'bower_components/moment/min/moment.min.js'
 		],
-
+		TEST_SUITES: {
+			"behaviors": "behavior_*.html",
+			"libs": "lib_*.html",
+			"default": "*.html"
+		},
 		dbg: dbg,
 		getPkgInfo: getPkgInfo
 	};

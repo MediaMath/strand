@@ -25,3 +25,4 @@ var build = require(j(__dirname, 'gulp/tasks/build.js'))(gulp, plugins, C);
 var docs = require(j(__dirname, 'gulp/tasks/docs.js'))(gulp, plugins, C);
 var live = require(j(__dirname, 'gulp/tasks/live.js'))(gulp, plugins, C);
 var release = require(j(__dirname, 'gulp/tasks/release.js'))(gulp, plugins, C);
+var test = require(j(__dirname, 'gulp/tasks/test.js'))(gulp, plugins, C);

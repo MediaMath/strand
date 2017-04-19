@@ -5,3 +5,4 @@ build_docs/
 .grunt
 .idea
 .publish
+test/index.html
