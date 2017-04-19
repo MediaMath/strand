@@ -1,0 +1,37 @@
+<!--
+ * @license
+ * Copyright (c) 2015 MediaMath Inc. All rights reserved.
+ * This code may only be used under the BSD style license found at http://mediamath.github.io/strand/LICENSE.txt
+
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../shared/behaviors/refable.html"/>
+<link rel="import" href="../strand-header/strand-header.html"/>
+<link rel="import" href="../strand-icon/strand-icon.html"/>
+
+<dom-module id="strand-view-container">
+	<link rel="import" type="css" href="strand-view-container.css"/>
+	<template>
+		<div class="view-container">
+			<div class="header-area">
+				<!-- TODO: Needs actual links, like the breadcrumbs bar -->
+				<!-- ...or not if this is stupid and redundant, which it kinda is (in compass) -->
+				<template is="dom-if" if="{{subheader}}">
+					<strand-header class="subheader" size="normal">{{subheader}}</strand-header>
+				</template>
+
+				<template is="dom-if" if="{{header-icon}}">
+					<strand-icon type="{{header-icon}}" width="15" height="15"></strand-icon>
+				</template>
+				
+				<strand-header size="medium">{{header}}</strand-header>
+			</div>
+
+			<div class="content-container">
+				<content></content>
+			</div>
+		</div>
+	</template>
+</dom-module>
+
+<script src="strand-view-container.js"></script>
