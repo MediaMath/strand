@@ -1,3 +1,18 @@
+<a name="v4.4.0"></a>
+# v4.4.0 (2017-05-25)
+
+* Add charity icon to strand-icon ([5805e92](https://github.com/MediaMath/strand/commit/5805e92))
+* Add pending icon ([023ccc3](https://github.com/MediaMath/strand/commit/023ccc3))
+* added ‘modified’ listener to strand-scroll-panel to handle internal CSS updates resizing the scrollb ([ea4ccb5](https://github.com/MediaMath/strand/commit/ea4ccb5)), closes [#157](https://github.com/MediaMath/strand/issues/157)
+* Docs edits ([761f8b2](https://github.com/MediaMath/strand/commit/761f8b2))
+* Docs example edits ([b865574](https://github.com/MediaMath/strand/commit/b865574))
+* Fixes #155 (#156) ([27534a7](https://github.com/MediaMath/strand/commit/27534a7)), closes [#155](https://github.com/MediaMath/strand/issues/155) [#156](https://github.com/MediaMath/strand/issues/156)
+* FWRK-330 add 'quick-edit' icon ([1f74d2f](https://github.com/MediaMath/strand/commit/1f74d2f))
+* notify selection change ([6d2460f](https://github.com/MediaMath/strand/commit/6d2460f))
+* Release v4.3.0 ([f60fef6](https://github.com/MediaMath/strand/commit/f60fef6))
+
+
+
 <a name="v4.3.0"></a>
 # v4.3.0 (2017-03-14)
 
