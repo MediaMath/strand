@@ -47,6 +47,7 @@
 		listeners: {
 			"added" : "_onAdded",
 			"removed" : "_onRemoved",
+			"modified": "_onModified",
 			"mouseenter" : "_onFocus"
 		},
 
@@ -59,6 +60,10 @@
 		},
 
 		_onRemoved: function(e) {
+			this._updateScrollbarUI(0);
+		},
+
+		_onModified: function(e) {
 			this._updateScrollbarUI(0);
 		},
 
