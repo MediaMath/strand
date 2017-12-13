@@ -1,3 +1,10 @@
+<a name="v4.5.0"></a>
+# v4.5.0 (2017-12-13)
+
+* update polymer + wcjs to avoid chrome styling issue (#161) ([9a342d4](https://github.com/MediaMath/strand/commit/9a342d4))
+
+
+
 <a name="v4.4.0"></a>
 # v4.4.0 (2017-05-25)
 
