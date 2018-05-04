@@ -1,3 +1,10 @@
+<a name="v4.5.1"></a>
+## v4.5.1 (2018-05-04)
+
+* patch without reformatting the file (#164) ([ed7c7e2](https://github.com/MediaMath/strand/commit/ed7c7e2))
+
+
+
 <a name="v4.5.0"></a>
 # v4.5.0 (2017-12-13)
 
