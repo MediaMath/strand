@@ -40,8 +40,8 @@
 			},
 			use_mm_freq: {
 				type: Boolean,
-				value: 0,
-				observer: '_useMMFreqChanged'
+				value: false,
+				// observer: '_useMMFreqChanged'
 			},
 			// form data/config:
 			formConfig: {
@@ -59,7 +59,7 @@
 					},
 					'radio' : {
 						validation: function(name, value, data, view) {
-							return data[name] === 'Red' && value === 'Red';
+							return data[name] === '1' && value === '1';
 						},
 						errorMsg: 'You need to select \'Red\'',
 						label: 'Select a Color'
@@ -67,9 +67,6 @@
 					// first custom item
 					'widthHeight' : {
 						validation: 'empty',
-						// noValidate: function(name, value, data, view) {
-						// 	return !view.standardSize;
-						// },
 						errorMsg: 'You need to select a standard size',
 						errorMsgEle: 'heightWidthError',
 						exclude: true
@@ -78,9 +75,6 @@
 						validation: function(name, value, data, view) {
 							return parseInt(value) >= 0;
 						},
-						// noValidate: function(name, value, data, view) {
-						// 	return view.standardSize;
-						// },
 						errorMsg: 'Enter a width',
 						parentEle: 'widthHeightWrapper'
 					},
@@ -88,38 +82,27 @@
 						validation: function(name, value, data, view) {
 							return parseInt(value) >= 0;
 						},
-						// noValidate: function(name, value, data, view) {
-						// 	return view.standardSize;
-						// },
 						errorMsg: 'Enter a height',
 						parentEle: 'widthHeightWrapper'
 					},
 					// second custom item
-					'use_mm_freq' : {
-						// doesn't need anything
-					},
+					'use_mm_freq' : {},
 					'frequency_type' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
-						// noValidate: function(name, value, data, view) {
-						// 	return view.use_mm_freq;
-						// },
 						errorMsg: 'Select a type'
 					},
 					'frequency_amount' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'int|empty',
-						// noValidate: function(name, value, data, view) {
-						// 	return view.use_mm_freq;
-						// },
 						errorMsg: 'Enter an amount'
 					},
 					'frequency_interval' : {
 						parentEle: 'freqCapWrapper',
 						validation: 'empty',
-						// noValidate: function(name, value, data, view) {
-						// 	return view.use_mm_freq;
-						// },
+						noValidate: function(name, value, data, view) {
+							return !view.use_mm_freq;
+						},
 						errorMsg: 'Select an interval'
 					}
 				}
@@ -149,9 +132,9 @@
 		},
 
 		_standardSizeDdl: function(e) {
-			var dimensions = e.detail.value.split('x'),
-				width = parseInt(dimensions[0]),
-				height = parseInt(dimensions[1]);
+			var dimensions = e.detail.value.split('x');
+			var width = parseInt(dimensions[0]);
+			var height = parseInt(dimensions[1]);
 			this._dimensionsChanged(width, height);
 		},
 
@@ -177,13 +160,9 @@
 			this.frequency_interval = e.detail.value;
 		},
 
-		_useMMFreqOnChange: function(e) {
-			if (e.detail.state === 'checked') {
-				this.use_mm_freq = 1;
-			} else if (e.detail.state === 'unchecked') {
-				this.use_mm_freq = 0;
-			}
-		},
+		// _useMMFreqOnChange: function(e) {
+		// 	this.use_mm_freq = e.detail.value | 0;
+		// },
 
 		_useMMFreqChanged: function(newVal, oldVal) {
 			if (!newVal) {	
@@ -191,6 +170,10 @@
 				this.$.testForm.resetFieldValidation('frequency_interval');
 				this.$.testForm.resetFieldValidation('frequency_amount');
 			}
+		},
+
+		_useMMFreq: function(use_mm_freq) {
+			return !use_mm_freq;
 		}
 	});
 

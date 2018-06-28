@@ -102,6 +102,18 @@
 				computed: '_displayMessage(_showFooterMessage, showFooterMessages)'
 			},
 			// config/initial data & settings:
+			_dataInitialized: {
+				type: Boolean,
+				value: false
+			},
+			_configInitialized: {
+				type: Boolean,
+				value: false
+			},
+			_initialized: {
+				type: Boolean,
+				computed: '_computeInitalized(_dataInitialized, _configInitialized)'
+			},
 			config: {
 				type: Object,
 				observer: '_configChanged',
@@ -111,7 +123,7 @@
 				type: Object,
 				observer: '_dataChanged',
 				value: function() { return {}; }
-			}
+			},
 		},
 
 		_initialData: {},
@@ -128,19 +140,21 @@
 		},
 
 		attached: function() {
-			if (this._isEmpty(this.config)) this.debounce('initConfig', this._initConfig);
-			if (this._isEmpty(this.data)) this.debounce('initData', this._initData);
+			this.debounce('initConfig', this._initConfig);
+			this.debounce('initData', this._initData);
 		},
 
 		_dataChanged: function(newVal, oldVal) {
 			if(!this._isEmpty(newVal)) {
 				this.debounce('initData', this._initData);
+				this._dataInitialized = false;
 			}
 		},
 
 		_configChanged: function(newVal, oldVal) {
 			if (!this._isEmpty(newVal)) {
 				this.debounce('initConfig', this._initConfig);
+				this._configInitialized = false;
 			}
 		},
 
@@ -168,14 +182,16 @@
 				domConfig[key] = {
 					field: 			field,
 					validation: 	attrs.validation || null,
-					noValidate: 	null,
+					noValidate: 	attrs.novalidate || false,
 					label: 			attrs.label || null,
+					labelEle: 		attrs['label-ele'] || null,
+					labelEleDOM: 	this._select('#'+attrs['label-ele']) || null,
 					errorMsg: 		attrs['error-msg'] || null,
 					errorMsgEle: 	attrs['error-msg-ele'] || null,
 					errorMsgEleDOM: this._select('#'+attrs['error-msg-ele']) || null,
 					parentEle: 		attrs['parent-ele'] || null,
 					parentEleDOM: 	this._select('#'+attrs['parent-ele']) || Polymer.dom(field).parentNode,
-					exclude: 		attrs.exclude || null
+					exclude: 		attrs.exclude || false,
 				};
 			}, this);
 			
@@ -188,23 +204,34 @@
 			for (var key in config) {
 				var field = config[key].field || this._select('[name='+key+']');
 				var cfg = config;
+				var existingLblEle = this._select('._'+key+'-label') || null;
+				var existingMsgEle = this._select('._'+key+'-error-msg') || null;
+
 
 				if (!field) throw 'There must be a corresponding DOM element for config[\''+key+'\']';
 
 				cfg[key] = StrandLib.DataUtils.copy(domConfig[key], cfg[key]);
-				cfg[key].errorMsgEleDOM = this._select('#'+cfg[key].errorMsgEle) || null;
+				cfg[key].errorMsgEleDOM = this._select('#'+cfg[key].errorMsgEle) || existingMsgEle;
+				cfg[key].labelEleDOM = this._select('#'+cfg[key].labelEle) || existingLblEle;
 				cfg[key].parentEleDOM = this._select('#'+cfg[key].parentEle) || Polymer.dom(field).parentNode;
 
 				// Create error message element (if one was not specified already)
-				if (cfg[key].errorMsg && !cfg[key].errorMsgEleDOM) {
+				// or update the dev provided / existing error msg element:
+				if (cfg[key].errorMsg && !existingMsgEle && !cfg[key].errorMsgEleDOM) {
 					this._createErrorMsg(key, cfg[key].errorMsg, cfg[key].parentEleDOM);
+				} else if (cfg[key].errorMsg && cfg[key].errorMsgEleDOM) {
+					this._updateErrorMsg(key, cfg[key].errorMsg, cfg[key].errorMsgEleDOM);
 				}
 
-				// Create the field label
-				if (cfg[key].label) {
+				// Create or update label (same as errorMsg)
+				if (cfg[key].label && !existingLblEle && !cfg[key].labelEleDOM) {
 					this._createLabel(key, cfg[key].label, field, cfg[key].parentEleDOM);
+				} else if (cfg[key].label && cfg[key].labelEleDOM) {
+					this._updateLabel(key, cfg[key].label, cfg[key].labelEleDOM);
 				}
 			}
+
+			this._configInitialized = true;
 		},
 
 		_initData: function() {
@@ -217,13 +244,13 @@
 					throw 'There must be a corresponding DOM element for data[\''+key+'\']';
 				}
 
-				var exclude	= this.config[key].exclude || null;
-				var value = this.data[key] || null;
+				var exclude	= this.config[key].exclude || false;
+				var value = this.data[key] ? this.data[key] : field.value;
 				
 				// If there was an initial value set in markup, use it
-				if (field.value && value === null) {
-					value = field.value;
-				}
+				// if (field.value && value === null) {
+				// 	value = field.value;
+				// }
 
 				// Update data
 				if (!exclude) this._updateData(key, value);
@@ -234,80 +261,83 @@
 					field.value = value;
 				}
 			}
+
+			this._dataInitialized = true;
+		},
+
+		_computeInitalized: function(_dataInitialized, _configInitialized) {
+			return _dataInitialized && _configInitialized;
 		},
 
 		_createErrorMsg:function(key, errorMsg, parentEleDOM) {
-			var existingMsgEle = this._select('._'+key+'-error-msg') || null;
+			errorMsgEleDOM = new Strand.FormMessage();
+			errorMsgEleDOM.type = 'error';
 
-			if (!existingMsgEle) {
-				// create one:
-				errorMsgEleDOM = new Strand.FormMessage();
-				errorMsgEleDOM.type = 'error';
+			errorMsgEleDOM.message = errorMsg;
+			errorMsgEleDOM.classList.add('_'+key+'-error-msg');
+			Polymer.dom(parentEleDOM).appendChild(errorMsgEleDOM);
 
-				errorMsgEleDOM.message = errorMsg;
-				errorMsgEleDOM.classList.add('_'+key+'-error-msg');
-				Polymer.dom(parentEleDOM).appendChild(errorMsgEleDOM);
+			this.config[key].errorMsgEleDOM = errorMsgEleDOM;
+		},
 
-				this.config[key].errorMsgEleDOM = errorMsgEleDOM;		
-			} else {
-				existingMsgEle.message = errorMsg;
-				
-				this.config[key].errorMsgEleDOM = existingMsgEle;	
-			}
+		_updateErrorMsg:function(key, errorMsg, errorMsgEleDOM) {
+			if (errorMsgEleDOM) errorMsgEleDOM.message = errorMsg;
 		},
 
 		_createLabel:function(key, label, field, parentEleDOM) {
-			var existingLblEle 	= this._select('._'+key+'-label') || null;
-			var labelTxt 		= document.createTextNode(label);
-			var formLabel 		= null;
+			var labelTxt = document.createTextNode(label);
+			var labelEleDOM = null;
+			
+			labelEleDOM = new Strand.Header();
+			labelEleDOM.size = 'medium';
+			labelEleDOM.setAttribute('name', name);
+			labelEleDOM.classList.add('_'+key+'-label');
+			// TODO: strand-form-header element(?)
+			labelEleDOM.setAttribute('form-header', true);
 
-			if (!existingLblEle) {
-				// create a new label
-				formLabel = new Strand.Header();
+			Polymer.dom(labelEleDOM).appendChild(labelTxt);
+			Polymer.dom(parentEleDOM).insertBefore(labelEleDOM, field);
 
-				formLabel.size = 'medium';
-				formLabel.setAttribute('name', name);
-				formLabel.classList.add('_'+key+'-label');
-				formLabel.setAttribute('form-header', true);
+			this.config[key].labelEleDOM = labelEleDOM;
+		},
 
-				Polymer.dom(formLabel).appendChild(labelTxt);
-				Polymer.dom(parentEleDOM).insertBefore(formLabel, field);
+		_updateLabel: function(key, label, labelEleDOM) {
+			if (labelEleDOM) {
+				var labelTxt = document.createTextNode(label);
 
-				this.config[key].formLabel = formLabel;
-			} else {
-				Polymer.dom(existingLblEle).textContent = null;
-				Polymer.dom(existingLblEle).appendChild(labelTxt);
-
-				this.config[key].formLabel = existingLblEle;
+				Polymer.dom(labelEleDOM).textContent = null;
+				Polymer.dom(labelEleDOM).appendChild(labelTxt);
 			}
 		},
 
 		// handle changes within the form
 		_handleChanged: function(e) {
-			var field 			= e.target;
-			var key				= field.getAttribute('name');
-			var value 			= null;
-			var validation 		= null;
-			var exclude			= null;
-			var isFormElement 	= this.config.hasOwnProperty(key);
+			if (this._initialized) {
+				var field 			= e.target;
+				var key				= field.getAttribute('name');
+				var value 			= null;
+				var validation 		= null;
+				var exclude			= null;
+				var isFormElement 	= this.config.hasOwnProperty(key);
 
-			if (isFormElement) {
-				exclude 		= this.config[key].exclude ? this.config[key].exclude : false;
-				value 			= e.detail.value;
-				validation 		= this.config[key].validation;
+				if (isFormElement) {
+					exclude 		= this.config[key].exclude ? this.config[key].exclude : false;
+					value 			= e.detail.value;
+					validation 		= this.config[key].validation;
 
-				if (!exclude) {
-					this._updateData(key, value);
-					this._setUnsaved(this._diffData());
-				}
+					if (!exclude) {
+						this._updateData(key, value);
+						this._setUnsaved(this._diffData());
+					}
 
-				if (validation && this.autoValidate) this._validateField(key, value);
+					if (validation && this.autoValidate) this._validateField(key, value);
 
-				// show messaging in the footer
-				if (this.unsaved && this.showUnsavedMessage) {
-					this._handleFooter(this.footerMessages.warning, 'warning', true);
-				} else {
-					this._showFooterMessage = false;
+					// show messaging in the footer
+					if (this.unsaved && this.showUnsavedMessage) {
+						this._handleFooter(this.footerMessages.warning, 'warning', true);
+					} else {
+						this._showFooterMessage = false;
+					}
 				}
 			}
 		},
@@ -331,7 +361,7 @@
 				var exclude 		= this.config[key].exclude;
 				var validation 		= this.config[key].validation;
 				var noValidateFunc 	= typeof this.config[key].noValidate === 'function';
-				var noValidate  	= this.config[key].noValidate || false;
+				var noValidate 		= this.config[key].noValidate || false;
 				var field 			= this.config[key].field;
 				var tagName 		= this.config[key].field.tagName.toLowerCase();
 				var valid 			= false;
@@ -339,8 +369,8 @@
 
 				// If the field is excluded, it's value will not be in the flat 'this.data' object
 				// and will need to be retrieved from the field itself
-				value = exclude ? this.config[key].field.value : this.data[key];
-				
+				value = exclude ? field.value : this.data[key];
+
 				if (noValidateFunc) {
 					// Call the function to derive true or false
 					noValidate = this.config[key].noValidate(key, value, this.data, this.view);
@@ -352,9 +382,8 @@
 
 				if (validation && !noValidate) {
 					valid = this._validateField(key, value);
-				} else if (tagName === 'strand-repeater') {
-					// special case for strand-repeater
-					// strand-repeater will handle it's own validation
+				} else if (tagName === 'strand-repeater' && !noValidate) {
+					// special case - strand-repeater will handle it's own validation
 					valid = field.validate();
 				} else if (validation && noValidate) {
 					// clean up prior validations if they were there
@@ -402,27 +431,14 @@
 			}
 			
 			// show or hide messaging in the ui
-			errorMsgEleDOM.message = errorMsg;
-			field.error = errorMsgEleDOM.visible = !valid;
-
-			return valid;
-		},
-
-		updateFieldErrors: function(data) {
-			for (var key in data) {
-				var field 			= this.config[key].field;
-				var errorMsgEleDOM 	= this.config[key].errorMsgEleDOM;
-				var errorMsg 		= data[key];
-
-				// update the stored messaging
-				this.config[key].errorMsg = errorMsg;
-
-				// display the messaging
+			if (errorMsgEleDOM) {
 				errorMsgEleDOM.message = errorMsg;
-				field.error = errorMsgEleDOM.visible = true;
+				errorMsgEleDOM.visible = !valid;
 			}
 
-			this._handleFooter(this.footerMessages.error, 'error', true);
+			field.error = !valid;
+
+			return valid;
 		},
 
 		resetFieldValidation: function(key) {
@@ -451,7 +467,18 @@
 			this.fire('cancel-form');
 		},
 
+		// TODO: public - needs doc
+		clearValidationState: function() {
+			for (var key in this.config) {
+				this.resetFieldValidation(key);
+			}
+		},
+
 		// footer and footer actions:
+		clearFooterMsg: function() {
+			this._handleFooter(undefined, undefined, false);
+		},
+
 		_validType: function(type) {
 			return type === 'primary' || type === 'secondary';
 		},

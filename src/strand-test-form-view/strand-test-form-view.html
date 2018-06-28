@@ -31,23 +31,23 @@
 			</div>
 
 			<div class="col" span="1">
-				<strand-dropdown fitparent name="dropdown" placeholder="Select an Item">
-					<strand-list-item>List Item 1</strand-list-item>
-					<strand-list-item>List Item 2</strand-list-item>
-					<strand-list-item>List Item 3</strand-list-item>
-					<strand-list-item>List Item 4</strand-list-item>
+				<strand-dropdown fitparent name="dropdown" placeholder="Select an Item" value="4">
+					<strand-list-item value="1">List Item 1</strand-list-item>
+					<strand-list-item value="2">List Item 2</strand-list-item>
+					<strand-list-item value="3">List Item 3</strand-list-item>
+					<strand-list-item value="4">List Item 4</strand-list-item>
 				</strand-dropdown>
 			</div>
 
 			<div class="col" span="2">
-				<strand-group fitparent unresolved name="radio">
-					<strand-radio>
+				<strand-group fitparent unresolved name="radio" value="1">
+					<strand-radio value="1">
 						<label>Red</label>
 					</strand-radio>
-					<strand-radio>
+					<strand-radio value="2">
 						<label>Green</label>
 					</strand-radio>	
-					<strand-radio>
+					<strand-radio value="3">
 						<label>Blue</label>
 					</strand-radio>			
 				</strand-group>
@@ -104,15 +104,15 @@
 				<strand-checkbox 
 					form-header
 					name="use_mm_freq"
-					on-changed="_useMMFreqOnChange"
+					value="{{use_mm_freq}}"
 					checked="{{use_mm_freq}}">
 					<strand-header size="medium">Campaign Frequency Cap</strand-header>
 				</strand-checkbox>
 				<div class="custom-item freq-cap">
 					<strand-dropdown 
 						id="typeDdl" 
-						disabled$="{{!use_mm_freq}}"
-						no-validate$="{{!use_mm_freq}}"
+						disabled$="{{_useMMFreq(use_mm_freq)}}"
+						no-validate$="{{_useMMFreq(use_mm_freq)}}"
 						name="frequency_type"
 						on-changed="_freqTypeChanged"
 						value="{{frequency_type}}" 
@@ -130,7 +130,6 @@
 					<strand-dropdown 
 						id="standardSizeDdl" 
 						disabled$="{{!use_mm_freq}}"
-						no-validate$="{{!use_mm_freq}}"
 						name="frequency_interval"
 						on-changed="_freqIntervalChanged" 
 						value="{{frequency_interval}}" 

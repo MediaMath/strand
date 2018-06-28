@@ -36,8 +36,8 @@
 	</head>
 
 	<body>
+		
 		<strand-form id="testForm" unresolved>
-			
 			<div class="col" span="1">
 				<strand-input fitparent name="input" placeholder="Type a Number"></strand-input>
 			</div>
@@ -64,7 +64,7 @@
 					</strand-radio>
 				</strand-group>
 			</div>
-
+			 
 			<div class="col" span="4">
 				<strand-repeater id="repeater" name="repeater">
 					<template preserve-content>
@@ -83,12 +83,15 @@
 					</template>
 				</strand-repeater>
 			</div>
-
 		</strand-form>
 
 		<!-- config via markup -->
-		<!-- 
-		<strand-form id="testForm" unresolved>
+		<!--
+		<strand-form 
+			id="testForm" 
+			columns="2"
+			v-space="20"
+			unresolved>
 			<div class="col" span="1">
 				<strand-input 
 					fitparent 
@@ -115,10 +118,15 @@
 				<strand-form-message id="special"></strand-form-message>
 			</div>
 			<div class="col" span="2">
+				<strand-header
+					id="radioDOMHead"
+					form-header
+					size="medium">Radio DOM Header</strand-header>
 				<strand-group 
 					fitparent 
 					name="radio"
-					label="Radio"
+					label="Gosh DOM It!"
+					label-ele="radioDOMHead"
 					error-msg="Choose a color"
 					validation="empty">
 					<strand-radio>
@@ -133,7 +141,7 @@
 				</strand-group>
 			</div>
 		</strand-form>
-		 -->
+		-->
 
 		<script>
 
@@ -197,27 +205,19 @@
 			};
 
 			// data that holds any actual values
-			// var data = {
-			// 	'input' : '1',
-			// 	'dropdown' : 'List Item 1', 
-			// 	'radio' : 'Red'
-			// };
-
-			// returned from server-side validation
-			// the key plus the message
-			// var returnedData = {
-			// 	'input' : 'Type a number greater than 0',
-			// 	'dropdown' : 'Select a different item', 
-			// 	'radio' : 'Select Green'
-			// };
+			var data = {
+				'input' : '1',
+				'dropdown' : 'List Item 1', 
+				'radio' : 'Red'
+			};
 
 			window.addEventListener('WebComponentsReady', function(e) {
 				var testForm = document.querySelector('#testForm'),
 					repeater = document.querySelector('#repeater');
 
-				// Ordering!
+				// Ordering DOESN'T matter anymore!
+				testForm.data = data;
 				testForm.config = config;
-				// testForm.data = data;
 
 				testForm.addEventListener('serialize-form', function(e){
 					console.log('serialize-form', e.detail);
