@@ -1,3 +1,10 @@
+<a name="v4.5.2"></a>
+## v4.5.2 (2018-06-29)
+
+* Patch for ddl value set as attr (#165) ([7e659d0](https://github.com/MediaMath/strand/commit/7e659d0))
+
+
+
 <a name="v4.5.1"></a>
 ## v4.5.1 (2018-05-04)
 
