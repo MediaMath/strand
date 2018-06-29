@@ -171,10 +171,11 @@
 			if(this.state === this.STATE_OPENED) this.close();
 		},
 
-		_selectItemByValue: function() {
+		_selectItemByValue: function(value) {
 			Polymer.RenderStatus.afterNextRender(this, function(){
 				var item = null;
-				var valueStr = this.value.toString();
+				var val = this.value || value; // attr vs js setting of value
+				var valueStr = val.toString();
 
 				if (!this._widthLocked) this._lockWidth();
 
@@ -251,7 +252,7 @@
 				}, 1);
 				//check to see if our value now has a match on the data array
 				if (this.value && this.updateSelection) {
-					this._selectItemByValue();
+					this._selectItemByValue(this.value);
 				}
 			}
 		},
@@ -290,7 +291,7 @@
 		// General
 		_valueChanged: function(newVal, oldVal) {
 			if (newVal) {
-				this._selectItemByValue();
+				this._selectItemByValue(newVal);
 			} else {
 				this.reset();
 			}

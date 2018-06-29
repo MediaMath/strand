@@ -100,8 +100,8 @@
 	<body>
 		<div class="col c1">
 
-			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected", overflow visible, overflow width set</p>
-			<strand-dropdown id="dataTest" overflow="visible" max-items="10" overflow-width="200" placeholder="Some Longer Label" unresolved>
+			<p><span class="bold">Dropdown:</span> Dynamic data dropdown - first value "pre-selected", overflow visible, overflow width set. VALUE set as attr!</p>
+			<strand-dropdown id="dataTest" overflow="visible" max-items="10" overflow-width="200" value="3" placeholder="Some Longer Label" unresolved>
 			</strand-dropdown>
 			<hr/>
 
@@ -334,7 +334,7 @@
 				dataTest.data = dataTestHidden.data = dataTestShort.data = smallDataTest.data = dataItems;
 				// dataTest.data = new Array(100);
 				// dataTest.data = dataItems;
-				dataTest.value = dataTestHidden.value = 1;
+				dataTestHidden.value = 3;
 
 				// init jQuery test:
 				$d = $("#dynamic");
